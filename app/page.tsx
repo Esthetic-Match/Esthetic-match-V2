@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#061b3a] text-white">
@@ -26,46 +28,27 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="mt-14 flex w-full max-w-md justify-center lg:mt-0">
-          <div className="relative">
-            <div className="absolute inset-0 rounded-[2.5rem] bg-white/10 blur-2xl" />
-            <div className="relative w-[280px] rounded-[2.5rem] border border-white/10 bg-[#0b2144] p-3 shadow-2xl">
-              <div className="overflow-hidden rounded-[2rem] bg-[#f3e8df]">
-                <div className="flex items-center justify-between bg-[#0b2144] px-5 py-3 text-xs text-white/80">
-                  <span>9:41</span>
-                  <span>◦◦◦</span>
-                </div>
+<div className="flex flex-col items-center gap-4 lg:items-start">
+  <div className="flex gap-4">
+    <Link
+      href="/sign-in"
+      className="rounded-full border border-[#f1e3db]/40 px-6 py-3 text-sm font-medium tracking-[0.2em] text-[#f1e3db] uppercase transition hover:bg-white/10"
+    >
+      Sign In
+    </Link>
 
-                <div className="flex h-[260px] items-center justify-center bg-gradient-to-b from-[#15345f] to-[#0b2144]">
-                  <div className="text-center text-white/80">
-                    <div className="mb-3 text-6xl">✨</div>
-                    <p className="text-sm">Esthetic Match App Preview</p>
-                  </div>
-                </div>
+    <Link
+      href="/sign-up"
+      className="rounded-full bg-[#f1e3db] px-6 py-3 text-sm font-semibold tracking-[0.2em] text-[#061b3a] uppercase transition hover:opacity-90"
+    >
+      Sign Up
+    </Link>
+  </div>
 
-                <div className="space-y-4 px-5 py-6 text-[#1e2c3f]">
-                  <div>
-                    <h2 className="text-xl font-semibold leading-tight">
-                      Welcome to Esthetic Match
-                    </h2>
-                    <p className="mt-2 text-sm text-[#5f6b7a]">
-                      Our platform is currently being developed and will launch
-                      soon.
-                    </p>
-                  </div>
-
-                  <button className="w-full rounded-full bg-[#112f5c] px-4 py-3 text-sm font-medium text-white transition hover:opacity-90">
-                    Coming Soon
-                  </button>
-
-                  <p className="text-center text-xs text-[#7a8491]">
-                    Esthetic Match © 2026
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div className="text-xs tracking-[0.2em] text-[#f1e3db]/70 uppercase">
+    security testing
+  </div>
+</div>
       </section>
     </main>
   );
