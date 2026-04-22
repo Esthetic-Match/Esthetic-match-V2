@@ -1,0 +1,77 @@
+export const DoctorCatalog = {
+  specialties: [
+    { id: "aesthetic_doctor", label: "Aesthetic doctor" },
+    { id: "plastic_surgeon", label: "Plastic surgeon" },
+    { id: "reconstructive_surgeon", label: "Reconstructive surgeon" },
+    { id: "dermatologist", label: "Dermatologist" },
+    { id: "general_practitioner", label: "General practitioner" },
+    { id: "ophthalmologist", label: "Ophthalmologist" },
+    { id: "oculoplastic_surgeon", label: "Oculoplastic surgeon" },
+    { id: "dentist", label: "Dentist" },
+    { id: "maxillofacial_surgeon", label: "Maxillofacial surgeon" },
+    { id: "ent_surgeon", label: "ENT surgeon" },
+    { id: "orthodontist", label: "Orthodontist" },
+    { id: "other_specialty", label: "Other specialty" },
+  ],
+
+  serviceCategories: [
+    { id: "non_surgical_face", label: "Non-surgical Face" },
+    { id: "non_surgical_body", label: "Non-surgical Body" },
+    { id: "aesthetic_dentistry", label: "Aesthetic Dentistry" },
+    { id: "hair_medicine", label: "Hair Medicine" },
+    { id: "muscle_tone_ems", label: "Muscle Tone & EMS" },
+    { id: "slimming_body_contouring", label: "Slimming & Body Contouring" },
+    { id: "iv_therapy", label: "IV Therapy" },
+    { id: "wellness_drainage", label: "Wellness & Drainage" },
+    { id: "surgical_face", label: "Surgical Face" },
+    { id: "surgical_body", label: "Surgical Body" },
+  ],
+
+  services: [
+    {
+      id: "lip_filler",
+      label: "Lip filler",
+      categoryId: "non_surgical_face",
+      subzoneIds: ["lips"],
+    },
+    {
+      id: "jawline_filler",
+      label: "Jawline filler",
+      categoryId: "non_surgical_face",
+      subzoneIds: ["jawline"],
+    },
+    {
+      id: "hydrafacial",
+      label: "Hydrafacial",
+      categoryId: "non_surgical_face",
+      subzoneIds: ["overall_skin"],
+    },
+    {
+      id: "rhinoplasty",
+      label: "Rhinoplasty",
+      categoryId: "surgical_face",
+      subzoneIds: ["nose"],
+    },
+    {
+      id: "breast_augmentation",
+      label: "Breast Augmentation",
+      categoryId: "surgical_body",
+      subzoneIds: ["breasts"],
+    },
+  ],
+
+  subzones: [
+    { id: "cheeks", label: "Cheeks", group: "face_general" },
+    { id: "chin", label: "Chin", group: "face_general" },
+    { id: "forehead", label: "Forehead", group: "face_general" },
+    { id: "jawline", label: "Jawline", group: "face_general" },
+    { id: "lips", label: "Lips", group: "face_general" },
+    { id: "nose", label: "Nose", group: "face_general" },
+    { id: "teeth", label: "Teeth", group: "face_general" },
+    { id: "abdomen", label: "Abdomen (Belly)", group: "body" },
+    { id: "arms", label: "Arms", group: "body" },
+    { id: "breasts", label: "Breasts", group: "body" },
+    { id: "buttocks", label: "Buttocks", group: "body" },
+    { id: "thighs", label: "Thighs", group: "body" },
+  ],
+} as const;
