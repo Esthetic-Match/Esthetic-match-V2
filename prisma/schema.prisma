@@ -1,4 +1,3 @@
-
 generator client {
   provider   = "prisma-client-js"
   engineType = "client"
@@ -8,18 +7,56 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  emailVerified Boolean   @default(false)
-  image         String?
-  sessions      Session[]
-  accounts      Account[]
+enum UserRole {
+  PATIENT
+  DOCTOR
+}
 
+model User {
+  id             String          @id @default(cuid())
+  email          String          @unique
+  name           String?
+  role           UserRole
+  dateOfBirth    String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  emailVerified  Boolean         @default(false)
+  image          String?
+  sessions       Session[]
+  accounts       Account[]
+
+  patientProfile PatientProfile?
+  doctorProfile  DoctorProfile?
+
+  @@index([role])
   @@map("user")
+}
+
+model PatientProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("patient_profile")
+}
+
+model DoctorProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  specialties        String[]
+  serviceCategories  String[]
+  services           String[]
+  subzones           String[]
+  otherSpecialtyText String?
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("doctor_profile")
 }
 
 model Session {
