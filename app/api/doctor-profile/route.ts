@@ -4,45 +4,23 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 
-type SpecialtyId = (typeof DoctorCatalog.specialties)[number]["id"];
-type ServiceCategoryId = (typeof DoctorCatalog.serviceCategories)[number]["id"];
-type ServiceId = (typeof DoctorCatalog.services)[number]["id"];
-type SubzoneId = (typeof DoctorCatalog.subzones)[number]["id"];
+const allowedSpecialties = new Set<string>(DoctorCatalog.specialties.items);
 
-const allowedSpecialtyIds = new Set<string>(
-  DoctorCatalog.specialties.map((item) => item.id)
+const allowedServices = new Set<string>(
+  DoctorCatalog.categories.flatMap((category) => category.items)
 );
 
-const allowedServiceCategoryIds = new Set<string>(
-  DoctorCatalog.serviceCategories.map((item) => item.id)
-);
-
-const allowedServiceIds = new Set<string>(
-  DoctorCatalog.services.map((item) => item.id)
-);
-
-const allowedSubzoneIds = new Set<string>(
-  DoctorCatalog.subzones.map((item) => item.id)
-);
+const allowedSubzones = new Set<string>([
+  ...DoctorCatalog.subzones.faceAndGeneralAreas.items,
+  ...DoctorCatalog.subzones.bodySubzones.items,
+]);
 
 function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
 
-function isSpecialtyId(value: string): value is SpecialtyId {
-  return allowedSpecialtyIds.has(value);
-}
-
-function isServiceCategoryId(value: string): value is ServiceCategoryId {
-  return allowedServiceCategoryIds.has(value);
-}
-
-function isServiceId(value: string): value is ServiceId {
-  return allowedServiceIds.has(value);
-}
-
-function isSubzoneId(value: string): value is SubzoneId {
-  return allowedSubzoneIds.has(value);
+function getUniqueValues(values: string[]) {
+  return [...new Set(values)];
 }
 
 export async function POST(req: Request) {
@@ -63,10 +41,9 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const rawSpecialties: unknown = body.specialties;
-  const rawServiceCategories: unknown = body.serviceCategories;
-  const rawServices: unknown = body.services;
-  const rawSubzones: unknown = body.subzones;
+  const rawSpecialties: unknown = body.specialties ?? body.specialtyIds;
+  const rawServices: unknown = body.services ?? body.serviceIds;
+  const rawSubzones: unknown = body.subzones ?? body.subzoneIds;
 
   const otherSpecialtyText =
     typeof body.otherSpecialtyText === "string"
@@ -76,13 +53,6 @@ export async function POST(req: Request) {
   if (!isStringArray(rawSpecialties)) {
     return NextResponse.json(
       { error: "Specialties must be an array." },
-      { status: 400 }
-    );
-  }
-
-  if (!isStringArray(rawServiceCategories)) {
-    return NextResponse.json(
-      { error: "Service categories must be an array." },
       { status: 400 }
     );
   }
@@ -101,56 +71,53 @@ export async function POST(req: Request) {
     );
   }
 
-  const invalidSpecialties = rawSpecialties.filter(
-    (value) => !isSpecialtyId(value)
+  const specialtyIds = getUniqueValues(rawSpecialties);
+  const serviceIds = getUniqueValues(rawServices);
+  const subzoneIds = getUniqueValues(rawSubzones);
+
+  const invalidSpecialties = specialtyIds.filter(
+    (value) => !allowedSpecialties.has(value)
   );
 
   if (invalidSpecialties.length > 0) {
     return NextResponse.json(
-      { error: "One or more selected specialties are invalid." },
+      {
+        error: "One or more selected specialties are invalid.",
+        invalidValues: invalidSpecialties,
+      },
       { status: 400 }
     );
   }
 
-  const invalidServiceCategories = rawServiceCategories.filter(
-    (value) => !isServiceCategoryId(value)
-  );
-
-  if (invalidServiceCategories.length > 0) {
-    return NextResponse.json(
-      { error: "One or more selected service categories are invalid." },
-      { status: 400 }
-    );
-  }
-
-  const invalidServices = rawServices.filter(
-    (value) => !isServiceId(value)
+  const invalidServices = serviceIds.filter(
+    (value) => !allowedServices.has(value)
   );
 
   if (invalidServices.length > 0) {
     return NextResponse.json(
-      { error: "One or more selected services are invalid." },
+      {
+        error: "One or more selected services are invalid.",
+        invalidValues: invalidServices,
+      },
       { status: 400 }
     );
   }
 
-  const invalidSubzones = rawSubzones.filter(
-    (value) => !isSubzoneId(value)
+  const invalidSubzones = subzoneIds.filter(
+    (value) => !allowedSubzones.has(value)
   );
 
   if (invalidSubzones.length > 0) {
     return NextResponse.json(
-      { error: "One or more selected subzones are invalid." },
+      {
+        error: "One or more selected subzones are invalid.",
+        invalidValues: invalidSubzones,
+      },
       { status: 400 }
     );
   }
 
-  const specialties = rawSpecialties as SpecialtyId[];
-  const serviceCategories = rawServiceCategories as ServiceCategoryId[];
-  const services = rawServices as ServiceId[];
-  const subzones = rawSubzones as SubzoneId[];
-
-  if (specialties.length === 0) {
+  if (specialtyIds.length === 0) {
     return NextResponse.json(
       { error: "Please select at least one specialty." },
       { status: 400 }
@@ -158,7 +125,7 @@ export async function POST(req: Request) {
   }
 
   if (
-    specialties.includes("other_specialty") &&
+    specialtyIds.includes("other specialty") &&
     (!otherSpecialtyText || otherSpecialtyText.length === 0)
   ) {
     return NextResponse.json(
@@ -172,18 +139,16 @@ export async function POST(req: Request) {
       userId: session.user.id,
     },
     update: {
-      specialties,
-      serviceCategories,
-      services,
-      subzones,
+      specialtyIds,
+      serviceIds,
+      subzoneIds,
       otherSpecialtyText,
     },
     create: {
       userId: session.user.id,
-      specialties,
-      serviceCategories,
-      services,
-      subzones,
+      specialtyIds,
+      serviceIds,
+      subzoneIds,
       otherSpecialtyText,
     },
   });
