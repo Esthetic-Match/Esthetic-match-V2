@@ -7,9 +7,9 @@ import { DoctorCatalog } from "@/lib/doctorCatalogue";
 type MultiSelectDropdownProps = {
   label: string;
   summaryLabel: string;
-  items: readonly { id: string; label: string }[];
+  items: readonly string[];
   selectedItems: string[];
-  onToggle: (id: string) => void;
+  onToggle: (value: string) => void;
 };
 
 function MultiSelectDropdown({
@@ -32,19 +32,16 @@ function MultiSelectDropdown({
 
         <div className="max-h-64 space-y-3 overflow-y-auto border-t px-4 py-3">
           {items.map((item) => {
-            const checked = selectedItems.includes(item.id);
+            const checked = selectedItems.includes(item);
 
             return (
-              <label
-                key={item.id}
-                className="flex items-center gap-3 text-sm"
-              >
+              <label key={item} className="flex items-center gap-3 text-sm">
                 <input
                   type="checkbox"
                   checked={checked}
-                  onChange={() => onToggle(item.id)}
+                  onChange={() => onToggle(item)}
                 />
-                <span>{item.label}</span>
+                <span>{item}</span>
               </label>
             );
           })}
@@ -61,7 +58,6 @@ export default function DoctorSignUpForm({
   password,
 
   selectedSpecialties,
-  selectedServiceCategories,
   selectedServices,
   selectedSubzones,
 
@@ -79,13 +75,12 @@ export default function DoctorSignUpForm({
   onPasswordChange,
 
   onToggleSpecialty,
-  onToggleServiceCategory,
   onToggleService,
   onToggleSubzone,
 
   onOtherSpecialtyTextChange,
 }: DoctorSignUpProps) {
-  const hasOtherSpecialty = selectedSpecialties.includes("other_specialty");
+  const hasOtherSpecialty = selectedSpecialties.includes("other specialty");
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
@@ -95,11 +90,7 @@ export default function DoctorSignUpForm({
         <p className="mb-2 text-sm font-medium">Signing up as Doctor</p>
       </div>
 
-      <TextInput
-        placeholder="Name"
-        value={name}
-        onChange={onNameChange}
-      />
+      <TextInput placeholder="Name" value={name} onChange={onNameChange} />
 
       <TextInput
         placeholder="Date of Birth"
@@ -123,9 +114,9 @@ export default function DoctorSignUpForm({
       />
 
       <MultiSelectDropdown
-        label="Specialties"
+        label={DoctorCatalog.specialties.label}
         summaryLabel="Select specialties"
-        items={DoctorCatalog.specialties}
+        items={DoctorCatalog.specialties.items}
         selectedItems={selectedSpecialties}
         onToggle={onToggleSpecialty}
       />
@@ -138,32 +129,29 @@ export default function DoctorSignUpForm({
         />
       ) : null}
 
+      {DoctorCatalog.categories.map((category) => (
+        <MultiSelectDropdown
+          key={category.id}
+          label={`${category.number}) ${category.label}`}
+          summaryLabel={`Select ${category.label.toLowerCase()} services`}
+          items={category.items}
+          selectedItems={selectedServices}
+          onToggle={onToggleService}
+        />
+      ))}
+
       <MultiSelectDropdown
-        label="Service Categories"
-        summaryLabel="Select service categories"
-        items={DoctorCatalog.serviceCategories}
-        selectedItems={selectedServiceCategories}
-        onToggle={onToggleServiceCategory}
+        label={DoctorCatalog.subzones.faceAndGeneralAreas.label}
+        summaryLabel="Select face & general areas"
+        items={DoctorCatalog.subzones.faceAndGeneralAreas.items}
+        selectedItems={selectedSubzones}
+        onToggle={onToggleSubzone}
       />
 
       <MultiSelectDropdown
-        label="Services"
-        summaryLabel="Select services"
-        items={DoctorCatalog.services.map((service) => ({
-          id: service.id,
-          label: service.label,
-        }))}
-        selectedItems={selectedServices}
-        onToggle={onToggleService}
-      />
-
-      <MultiSelectDropdown
-        label="Subzones"
-        summaryLabel="Select subzones"
-        items={DoctorCatalog.subzones.map((subzone) => ({
-          id: subzone.id,
-          label: subzone.label,
-        }))}
+        label={DoctorCatalog.subzones.bodySubzones.label}
+        summaryLabel="Select body subzones"
+        items={DoctorCatalog.subzones.bodySubzones.items}
         selectedItems={selectedSubzones}
         onToggle={onToggleSubzone}
       />

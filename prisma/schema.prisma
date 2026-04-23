@@ -47,10 +47,9 @@ model DoctorProfile {
   userId             String   @unique
   user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  specialties        String[]
-  serviceCategories  String[]
-  services           String[]
-  subzones           String[]
+  specialtyIds       String[]
+  serviceIds         String[]
+  subzoneIds         String[]
   otherSpecialtyText String?
 
   createdAt          DateTime @default(now())
