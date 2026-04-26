@@ -261,7 +261,6 @@ export default function SignUpPage() {
         selectedSpecialties={selectedSpecialties}
         selectedServiceCategories={selectedServiceCategories}
         selectedServices={selectedServices}
-        selectedSubzones={selectedSubzones}
         otherSpecialtyText={otherSpecialtyText}
         errorMessage={errorMessage}
         isLoading={isLoading}
@@ -274,7 +273,6 @@ export default function SignUpPage() {
         onToggleSpecialty={handleToggleSpecialty}
         onToggleServiceCategory={handleToggleServiceCategory}
         onToggleService={handleToggleService}
-        onToggleSubzone={handleToggleSubzone}
         onOtherSpecialtyTextChange={setOtherSpecialtyText}
       />
     )}

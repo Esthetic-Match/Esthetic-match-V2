@@ -2,54 +2,11 @@ import BackButton from "@/components/UI/BackButton";
 import MessageText from "@/components/UI/MessageText";
 import TextInput from "@/components/UI/TextInput";
 import type { DoctorSignUpProps } from "@/app/sign-up/types";
-import { DoctorCatalog } from "@/lib/doctorCatalogue";
 
-type MultiSelectDropdownProps = {
-  label: string;
-  summaryLabel: string;
-  items: readonly string[];
-  selectedItems: string[];
-  onToggle: (value: string) => void;
-};
-
-function MultiSelectDropdown({
-  label,
-  summaryLabel,
-  items,
-  selectedItems,
-  onToggle,
-}: MultiSelectDropdownProps) {
-  return (
-    <div className="space-y-2">
-      <label className="block text-sm font-medium">{label}</label>
-
-      <details className="rounded border">
-        <summary className="cursor-pointer px-4 py-3 text-sm text-gray-700">
-          {selectedItems.length > 0
-            ? `${selectedItems.length} selected`
-            : summaryLabel}
-        </summary>
-
-        <div className="max-h-64 space-y-3 overflow-y-auto border-t px-4 py-3">
-          {items.map((item) => {
-            const checked = selectedItems.includes(item);
-
-            return (
-              <label key={item} className="flex items-center gap-3 text-sm">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={() => onToggle(item)}
-                />
-                <span>{item}</span>
-              </label>
-            );
-          })}
-        </div>
-      </details>
-    </div>
-  );
-}
+import SpecialtySelector from "./SpecialtySelector";
+import SpecialtyProcedureSection from "./SpecialtyProcedureSection";
+import VisibleCategorySelectors from "./VisibleCategorySelectors";
+import { getVisibleCategories } from "./util/utils";
 
 export default function DoctorSignUpForm({
   name,
@@ -58,8 +15,8 @@ export default function DoctorSignUpForm({
   password,
 
   selectedSpecialties,
+  selectedServiceCategories,
   selectedServices,
-  selectedSubzones,
 
   otherSpecialtyText,
 
@@ -75,20 +32,23 @@ export default function DoctorSignUpForm({
   onPasswordChange,
 
   onToggleSpecialty,
+  onToggleServiceCategory,
   onToggleService,
-  onToggleSubzone,
 
   onOtherSpecialtyTextChange,
 }: DoctorSignUpProps) {
-  const hasOtherSpecialty = selectedSpecialties.includes("other specialty");
+  const hasOtherSpecialty =
+    selectedSpecialties.includes("Other specialty") ||
+    selectedSpecialties.includes("other specialty") ||
+    selectedSpecialties.includes("other_specialty");
+
+  const visibleCategories = getVisibleCategories(selectedSpecialties);
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <BackButton onBack={onBack} />
 
-      <div>
-        <p className="mb-2 text-sm font-medium">Signing up as Doctor</p>
-      </div>
+      <p className="mb-2 text-sm font-medium">Signing up as Doctor</p>
 
       <TextInput placeholder="Name" value={name} onChange={onNameChange} />
 
@@ -113,12 +73,9 @@ export default function DoctorSignUpForm({
         onChange={onPasswordChange}
       />
 
-      <MultiSelectDropdown
-        label={DoctorCatalog.specialties.label}
-        summaryLabel="Select specialties"
-        items={DoctorCatalog.specialties.items}
-        selectedItems={selectedSpecialties}
-        onToggle={onToggleSpecialty}
+      <SpecialtySelector
+        selectedSpecialties={selectedSpecialties}
+        onToggleSpecialty={onToggleSpecialty}
       />
 
       {hasOtherSpecialty ? (
@@ -129,31 +86,19 @@ export default function DoctorSignUpForm({
         />
       ) : null}
 
-      {DoctorCatalog.categories.map((category) => (
-        <MultiSelectDropdown
-          key={category.id}
-          label={`${category.number}) ${category.label}`}
-          summaryLabel={`Select ${category.label.toLowerCase()} services`}
-          items={category.items}
-          selectedItems={selectedServices}
-          onToggle={onToggleService}
-        />
-      ))}
-
-      <MultiSelectDropdown
-        label={DoctorCatalog.subzones.faceAndGeneralAreas.label}
-        summaryLabel="Select face & general areas"
-        items={DoctorCatalog.subzones.faceAndGeneralAreas.items}
-        selectedItems={selectedSubzones}
-        onToggle={onToggleSubzone}
+      <SpecialtyProcedureSection
+        selectedSpecialties={selectedSpecialties}
+        selectedServices={selectedServices}
+        visibleCategories={visibleCategories}
+        onToggleService={onToggleService}
       />
 
-      <MultiSelectDropdown
-        label={DoctorCatalog.subzones.bodySubzones.label}
-        summaryLabel="Select body subzones"
-        items={DoctorCatalog.subzones.bodySubzones.items}
-        selectedItems={selectedSubzones}
-        onToggle={onToggleSubzone}
+      <VisibleCategorySelectors
+        visibleCategories={visibleCategories}
+        selectedServiceCategories={selectedServiceCategories}
+        selectedServices={selectedServices}
+        onToggleServiceCategory={onToggleServiceCategory}
+        onToggleService={onToggleService}
       />
 
       <MessageText message={errorMessage} variant="error" />

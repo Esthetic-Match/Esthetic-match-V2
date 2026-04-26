@@ -30,7 +30,6 @@ export type DoctorSignUpProps = {
   selectedSpecialties: string[];
   selectedServiceCategories: string[];
   selectedServices: string[];
-  selectedSubzones: string[];
 
   otherSpecialtyText: string;
 
@@ -48,7 +47,26 @@ export type DoctorSignUpProps = {
   onToggleSpecialty: (id: string) => void;
   onToggleServiceCategory: (id: string) => void;
   onToggleService: (id: string) => void;
-  onToggleSubzone: (id: string) => void;
 
   onOtherSpecialtyTextChange: (value: string) => void;
+};
+
+export type MultiSelectOption = {
+  id: string;
+  label: string;
+};
+
+export type Procedure = {
+  id: string;
+  name: string;
+};
+
+export type Subcategory = {
+  subcategory: string;
+  procedures: readonly Procedure[];
+};
+
+export type Category = {
+  category: string;
+  subcategories: readonly Subcategory[];
 };

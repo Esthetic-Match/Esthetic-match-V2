@@ -43,17 +43,19 @@ model PatientProfile {
 }
 
 model DoctorProfile {
-  id                 String   @id @default(cuid())
-  userId             String   @unique
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  specialtyIds       String[]
-  serviceIds         String[]
-  subzoneIds         String[]
+  specialtyIds    String[]
+  subcategoryIds  String[]
+  procedureIds    String[]
+  subzoneIds      String[]
+
   otherSpecialtyText String?
 
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("doctor_profile")
 }
