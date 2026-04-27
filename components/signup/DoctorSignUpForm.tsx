@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import BackButton from "@/components/UI/BackButton";
 import MessageText from "@/components/UI/MessageText";
 import TextInput from "@/components/UI/TextInput";
@@ -37,6 +40,9 @@ export default function DoctorSignUpForm({
 
   onOtherSpecialtyTextChange,
 }: DoctorSignUpProps) {
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [localError, setLocalError] = useState("");
+
   const hasOtherSpecialty =
     selectedSpecialties.includes("Other specialty") ||
     selectedSpecialties.includes("other specialty") ||
@@ -44,8 +50,25 @@ export default function DoctorSignUpForm({
 
   const visibleCategories = getVisibleCategories(selectedSpecialties);
 
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLocalError("");
+
+    if (!password || !confirmPassword) {
+      setLocalError("Please enter and confirm your password.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setLocalError("Passwords do not match.");
+      return;
+    }
+
+    onSubmit(e);
+  }
+
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <BackButton onBack={onBack} />
 
       <p className="mb-2 text-sm font-medium">Signing up as Doctor</p>
@@ -71,6 +94,13 @@ export default function DoctorSignUpForm({
         type="password"
         value={password}
         onChange={onPasswordChange}
+      />
+
+      <TextInput
+        placeholder="Confirm Password"
+        type="password"
+        value={confirmPassword}
+        onChange={setConfirmPassword}
       />
 
       <SpecialtySelector
@@ -101,6 +131,7 @@ export default function DoctorSignUpForm({
         onToggleService={onToggleService}
       />
 
+      <MessageText message={localError} variant="error" />
       <MessageText message={errorMessage} variant="error" />
 
       <button
