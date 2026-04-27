@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import BackButton from "@/components/UI/BackButton";
 import MessageText from "@/components/UI/MessageText";
 import TextInput from "@/components/UI/TextInput";
@@ -17,8 +20,32 @@ export default function PatientSignUpForm({
   onEmailChange,
   onPasswordChange,
 }: PatientSignUpFormProps) {
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [localError, setLocalError] = useState("");
+
+  const passwordsMatch = password && confirmPassword && password === confirmPassword;
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setLocalError("");
+
+    if (!password || !confirmPassword) {
+      setLocalError("Please enter and confirm your password.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setLocalError("Passwords do not match.");
+      return;
+    }
+
+    // if valid → continue with original submit
+    onSubmit(e);
+  }
+
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <BackButton onBack={onBack} />
 
       <div>
@@ -52,11 +79,22 @@ export default function PatientSignUpForm({
         onChange={onPasswordChange}
       />
 
+      <TextInput
+        placeholder="Confirm Password"
+        type="password"
+        value={confirmPassword}
+        onChange={setConfirmPassword}
+      />
+
+      {/* Local validation (password mismatch) */}
+      <MessageText message={localError} variant="error" />
+
+      {/* Backend validation */}
       <MessageText message={errorMessage} variant="error" />
 
       <button
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || !passwordsMatch}
         className="w-full rounded bg-black px-4 py-3 text-white disabled:opacity-50"
       >
         {isLoading ? "Creating account..." : "Sign up as Patient"}

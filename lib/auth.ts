@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { createAuthMiddleware, APIError } from "better-auth/api";
+import { sendEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 
 function calculateAgeFromDob(dateString: string): number {
@@ -78,6 +79,7 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
   },
 
   trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:3000"],
@@ -85,4 +87,20 @@ export const auth = betterAuth({
   experimental: {
     joins: true,
   },
+
+  emailVerification: {
+  sendVerificationEmail: async ({ user, url }) => {
+    await sendEmail({
+      to: user.email,
+      subject: "Verify your Esthetic Match account",
+      html: `
+        <div>
+          <h1>Verify your email</h1>
+          <p>Welcome to Esthetic Match. Please verify your email address.</p>
+          <a href="${url}">Verify email</a>
+        </div>
+      `,
+    });
+  },
+},
 });
