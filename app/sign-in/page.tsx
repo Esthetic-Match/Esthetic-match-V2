@@ -43,6 +43,11 @@ export default function SignInPage() {
 
       <div className="absolute inset-0 bg-[rgba(53,68,93,0.85)]" />
 
+      {/* Base white
+<div className="absolute inset-0 bg-white" />
+
+<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,_rgba(53,68,93,0.12),_transparent_60%),radial-gradient(circle_at_85%_75%,_rgba(53,68,93,0.08),_transparent_60%)] blur-3xl" /> */}
+
       <section className="relative mx-auto flex min-h-screen max-w-md flex-col">
         <button
           onClick={() => router.back()}
