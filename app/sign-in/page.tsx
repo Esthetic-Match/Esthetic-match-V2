@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, Mail, ArrowLeft } from "lucide-react";
+import { Eye, EyeClosed, Mail, ChevronLeft } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 export default function SignInPage() {
@@ -38,58 +38,55 @@ export default function SignInPage() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,_rgba(255,255,255,0.35),_transparent_85%),radial-gradient(circle_at_85%_75%,_rgba(255,255,255,0.18),_transparent_95%)] blur-3xl" />
-
-      <div className="absolute inset-0 bg-[rgba(53,68,93,0.85)]" />
-
-      {/* Base white
-<div className="absolute inset-0 bg-white" />
-
-<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,_rgba(53,68,93,0.12),_transparent_60%),radial-gradient(circle_at_85%_75%,_rgba(53,68,93,0.08),_transparent_60%)] blur-3xl" /> */}
-
-      <section className="relative mx-auto flex min-h-screen max-w-md flex-col">
-        <button
-          onClick={() => router.back()}
-          className="absolute left-6 top-6 flex items-center gap-2 text-sm text-[#f1e3db]/80 transition hover:text-white"
-        >
-          <ArrowLeft size={18} />
-          Back
-        </button>
-
-        <div className="flex flex-1 flex-col px-3 pt-5">
-          <div className="mb-7 flex flex-col items-center">
+    <main className="relative min-h-screen overflow-hidden text-black">
+      <div className="absolute inset-0 bg-white" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,_rgba(53,68,93,0.12),_transparent_60%),radial-gradient(circle_at_85%_75%,_rgba(53,68,93,0.08),_transparent_60%)] blur-3xl" />
+        
+        {/* Top Blue Banner */}
+        <div className="relative w-full bg-[#35445D] py-10 flex flex-col items-center justify-center">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.15),_transparent_70%)]" />
+          
+          <div className="relative flex flex-col items-center">
             <Image
               src="/logo.svg"
               alt="Esthetic Match"
-              width={92}
-              height={92}
-              className="mb-2"
+              width={80}
+              height={80}
+              className="mb-3"
             />
-
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#d8bd8d]">
+        
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
               Esthetic Match
             </p>
           </div>
+          <button
+            onClick={() => router.back()}
+            className="absolute left-6 top-6 flex items-center gap-2 text-sm text-white transition hover:scale-[1.02] hover:bg-white hover:text-black border border-white/40 rounded-full px-2 pr-5 py-1"
+          >
+            <ChevronLeft size={18} />
+            Back
+          </button>
+        </div>
+
+      <section className="relative mx-auto flex min-h-screen max-w-md flex-col">
+
+        <div className="flex flex-1 flex-col px-3 pt-5">
 
           <div className="mb-7 text-center">
-            <h1 className="text-[21px] font-semibold leading-tight text-white">
+            <h1 className="text-[21px] font-semibold leading-tight text-black">
               Login To Esthetic Match
             </h1>
-            <p className="mt-2 text-xs text-white/40">
-              Login to esthetic match with your account credentials
-            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-2 block text-[15px] font-medium text-white">
+              <label className="mb-2 block text-[15px] font-medium text-black">
                 Email Address
               </label>
 
               <div className="flex h-9 items-center rounded-full bg-[#d8bd8d] px-4">
                 <input
-                  className="w-full bg-transparent text-sm text-white placeholder:text-white/50 outline-none"
+                  className="w-full bg-transparent text-sm text-black placeholder:text-black/50 outline-none"
                   placeholder="Enter Your Email"
                   type="email"
                   value={email}
@@ -97,18 +94,18 @@ export default function SignInPage() {
                   required
                 />
 
-                <Mail size={16} className="text-white/60" />
+                <Mail size={16} className="text-black/60" />
               </div>
             </div>
 
             <div>
-              <label className="mb-2 block text-[15px] font-medium text-white">
+              <label className="mb-2 block text-[15px] font-medium text-black">
                 Password
               </label>
 
               <div className="flex h-9 items-center rounded-full bg-white/60 px-4">
                 <input
-                  className="w-full bg-transparent text-sm text-white placeholder:text-white/40 outline-none"
+                  className="w-full bg-transparent text-sm text-black placeholder:text-black/40 outline-none"
                   placeholder="Enter Password"
                   type={showPassword ? "text" : "password"}
                   value={password}
@@ -122,7 +119,7 @@ export default function SignInPage() {
                   className="text-[#d8bd8d]"
                   aria-label="Toggle password visibility"
                 >
-                  <Eye size={17} />
+                  {showPassword ? <EyeClosed size={17}  className="hover:scale-[1.05] cursor-pointer"/> : <Eye size={17} className="hover:scale-[1.05] cursor-pointer" />}
                 </button>
               </div>
 
