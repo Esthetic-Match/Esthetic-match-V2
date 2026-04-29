@@ -9,6 +9,8 @@ import PatientSignUpForm from "@/components/signup/PatientSignUpForm";
 import DoctorSignUpForm from "@/components/signup/DoctorSignUpForm";
 
 import type { AccountType } from "./types";
+import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
+import BackButton from "@/components/UI/BackButton";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -224,8 +226,8 @@ export default function SignUpPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md p-6">
-      <h1 className="mb-6 text-2xl font-semibold">Create account</h1>
+    <main className="">
+      <BackButton onBack={() => router.back()} />
 
       {accountType === null && (
         <AccountTypeSelector

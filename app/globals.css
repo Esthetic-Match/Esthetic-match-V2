@@ -24,3 +24,17 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.esthetic-input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.8rem 2.75rem 0.8rem 1rem;
+  font-size: 0.75rem;
+  color: white;
+  outline: none;
+}
+
+.esthetic-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
