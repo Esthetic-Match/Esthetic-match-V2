@@ -55,13 +55,14 @@ export default function SignInPage() {
               className="mb-3"
             />
         
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white">
               Esthetic Match
             </p>
           </div>
           <button
             onClick={() => router.back()}
-            className="absolute left-6 top-6 flex items-center gap-2 text-sm text-white transition hover:scale-[1.02] hover:bg-white hover:text-black border border-white/40 rounded-full px-2 pr-5 py-1"
+            className="absolute left-6 top-6 flex items-center gap-2 text-sm text-white transition 
+            hover:scale-[1.02] hover:bg-white hover:text-black border border-white/40 rounded-full px-2 pr-5 py-1 cursor-pointer"
           >
             <ChevronLeft size={18} />
             Back
