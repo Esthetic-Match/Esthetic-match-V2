@@ -29,6 +29,7 @@ interface NavItemsProps {
   }[];
   className?: string;
   onItemClick?: () => void;
+  visible?: boolean;
 }
 
 interface MobileNavProps {
@@ -101,36 +102,58 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         className,
       )}
     >
-      {children}
+      {React.Children.map(children, (child) => {
+        if (!React.isValidElement(child)) return child;
+      
+        const shouldReceiveVisible =
+          (child.type as any).name === "NavItems";
+      
+        return shouldReceiveVisible
+          ? React.cloneElement(child as React.ReactElement<any>, { visible })
+          : child;
+      })}
     </motion.div>
   );
 };
 
-export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
+export const NavItems = ({
+  items,
+  className,
+  onItemClick,
+  visible,
+}: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
-        className,
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium transition duration-200 lg:flex lg:space-x-2",
+        visible ? "text-white" : "text-black",
+        className
       )}
     >
       {items.map((item, idx) => (
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className={cn(
+            "relative px-4 py-2 transition-colors duration-200",
+            visible ? "text-white" : "text-black"
+          )}
           key={`link-${idx}`}
           href={item.link}
         >
           {hovered === idx && (
             <motion.div
               layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-white dark:bg-[#d8bd8d]"
+              className={cn(
+                "absolute inset-0 h-full w-full rounded-full",
+                visible ? "bg-white/10" : "bg-black/5"
+              )}
             />
           )}
+
           <span className="relative z-20">{item.name}</span>
         </a>
       ))}
