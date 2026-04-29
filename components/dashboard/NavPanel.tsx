@@ -17,28 +17,28 @@ export function NavPanel() {
       label: "Messages",
       href: "#",
       icon: (
-        <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />
       ),
     },
     {
       label: "Profile",
       href: "#",
       icon: (
-        <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconUserBolt className="h-5 w-5 shrink-0 text-white" />
       ),
     },
     {
       label: "Settings",
       href: "#",
       icon: (
-        <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconSettings className="h-5 w-5 shrink-0 text-white" />
       ),
     },
     {
       label: "Logout",
       href: "#",
       icon: (
-        <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />
       ),
     },
   ];
@@ -46,10 +46,9 @@ export function NavPanel() {
   return (
     <div
       className={cn(
-        "mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md  bg-gray-100 md:flex-row bg-[#283C5D]",
+        "mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md  md:flex-row bg-[#283C5D]",
         "h-screen",
-      )}
-    >
+      )}>
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
@@ -87,9 +86,9 @@ export const Logo = () => {
   return (
     <a
       href="#"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
+      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-white"
     >
-            <Image
+      <Image
         src="/logo.svg"
         alt="Esthetic Match"
         width={28}
@@ -99,7 +98,7 @@ export const Logo = () => {
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-black dark:text-white"
+        className="font-thin whitespace-pre text-white"
       >
         Esthetic Match
       </motion.span>
