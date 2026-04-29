@@ -1,11 +1,11 @@
 "use client";
-
-import Image from "next/image";
+import BlueBanner from "@/components/UI/BlueBanner";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, EyeClosed, Mail, ChevronLeft } from "lucide-react";
+import { Eye, EyeClosed, Mail } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -39,38 +39,11 @@ export default function SignInPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden text-black">
-      <div className="absolute inset-0 bg-white" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,_rgba(53,68,93,0.12),_transparent_60%),radial-gradient(circle_at_85%_75%,_rgba(53,68,93,0.08),_transparent_60%)] blur-3xl" />
-        
-        {/* Top Blue Banner */}
-        <div className="relative w-full bg-[#35445D] py-10 flex flex-col items-center justify-center">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.15),_transparent_70%)]" />
-          
-          <div className="relative flex flex-col items-center">
-            <Image
-              src="/logo.svg"
-              alt="Esthetic Match"
-              width={80}
-              height={80}
-              className="mb-3"
-            />
-        
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white">
-              Esthetic Match
-            </p>
-          </div>
-          <button
-            onClick={() => router.back()}
-            className="absolute left-6 top-6 flex items-center gap-2 text-sm text-white transition 
-            hover:scale-[1.02] hover:bg-white hover:text-black border border-white/40 rounded-full px-2 pr-5 py-1 cursor-pointer"
-          >
-            <ChevronLeft size={18} />
-            Back
-          </button>
-        </div>
+      <WhiteshadowBackground/>
+      
+      <BlueBanner />
 
       <section className="relative mx-auto flex min-h-screen max-w-md flex-col">
-
         <div className="flex flex-1 flex-col px-3 pt-5">
 
           <div className="mb-7 text-center">

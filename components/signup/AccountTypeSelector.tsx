@@ -1,40 +1,131 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+
 import MessageText from "@/components/UI/MessageText";
+import BackButton from "@/components/UI/BackButton";
 import type { AccountTypeSelectorProps } from "@/app/sign-up/types";
+
+type TransitionTarget = "patient" | "doctor" | null;
 
 export default function AccountTypeSelector({
   infoMessage,
   onSelectPatient,
   onSelectDoctor,
 }: AccountTypeSelectorProps) {
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [target, setTarget] = useState<TransitionTarget>(null);
+
+  const handleSelect = (selectedTarget: Exclude<TransitionTarget, null>) => {
+    if (isTransitioning) return;
+
+    setTarget(selectedTarget);
+    setIsTransitioning(true);
+
+    setTimeout(() => {
+      if (selectedTarget === "doctor") {
+        onSelectDoctor();
+      } else {
+        onSelectPatient();
+      }
+    }, 850);
+  };
+
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-gray-600">
-        Choose how you would like to sign up.
-      </p>
+    <div className="relative min-h-screen overflow-hidden bg-[#263F63]">
+      {/* WIPE LAYER */}
+      <div
+        className={`pointer-events-none absolute inset-y-0 left-0 z-10 bg-white transition-transform duration-600 ease-in-out ${
+          isTransitioning
+            ? "translate-x-0"
+            : "-translate-x-full"
+        } w-full`}
+      />
 
-      <button
-        type="button"
-        onClick={onSelectPatient}
-        className="w-full rounded border px-4 py-3 text-left transition hover:bg-gray-50"
+      <div
+        className={`relative z-20 min-h-screen grid md:grid-cols-2 transition-opacity duration-200 ease-in-out ${
+          isTransitioning ? "opacity-0" : "opacity-100"
+        }`}
       >
-        <span className="block font-medium">Sign up as Patient</span>
-        <span className="mt-1 block text-sm text-gray-500">
-          Create a patient account with email and password.
-        </span>
-      </button>
+        <BackButton onBack={onSelectPatient} variant="dark" />
 
-      <button
-        type="button"
-        onClick={onSelectDoctor}
-        className="w-full rounded border px-4 py-3 text-left transition hover:bg-gray-50"
-      >
-        <span className="block font-medium">Sign up as Doctor</span>
-        <span className="mt-1 block text-sm text-gray-500">
-          This option will be available soon.
-        </span>
-      </button>
+        {/* LEFT SIDE (WHITE) */}
+        <div className="flex flex-col items-center justify-center bg-white px-8 py-12 text-center max-md:hidden z-9999">
+          <h1 className="mb-4 text-2xl font-thin text-black leading-tight">
+            Sign up to <br /> Esthetic Match
+          </h1>
 
-      <MessageText message={infoMessage} variant="info" />
+          <div className="border border-gray-300 px-20 pt-6 rounded-[2rem] overflow-hidden bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6]">
+            <Image
+              src="/signup/signUpImage.png"
+              alt="Esthetic Match"
+              width={220}
+              height={220}
+              priority
+              className="rounded-[2rem] object-cover"
+            />
+          </div>
+
+          <p className="mt-4 max-w-xs text-sm text-gray-400 leading-tight">
+            Discover top-rated aesthetic practitioners near you — tailored to
+            your beauty goals.
+          </p>
+        </div>
+
+        {/* RIGHT SIDE (BLUE) */}
+        <div className="flex flex-col items-center justify-center bg-[#263F63] px-8 py-12 text-white">
+          <h2 className="mb-6 text-lg font-semibold">
+            Choose Your Account Type
+          </h2>
+
+          <div className="flex gap-4">
+            <button
+              type="button"
+              disabled={isTransitioning}
+              onClick={() => handleSelect("doctor")}
+              className="flex h-[120px] w-[120px] flex-col items-center justify-center rounded-xl bg-[#EED8B5] text-black transition hover:scale-[1.03] active:scale-[0.98] cursor-pointer disabled:pointer-events-none"
+            >
+              <Image
+                src="/signup/signupDoctor.svg"
+                alt=""
+                width={30}
+                height={30}
+                className="mb-4"
+              />
+              <span className="text-sm font-medium leading-tight text-center">
+                Healthcare
+                <br />
+                Provider
+              </span>
+            </button>
+
+            <button
+              type="button"
+              disabled={isTransitioning}
+              onClick={() => handleSelect("patient")}
+              className="flex h-[120px] w-[120px] flex-col items-center justify-center rounded-xl bg-[#EED8B5] text-black transition hover:scale-[1.03] active:scale-[0.98] cursor-pointer disabled:pointer-events-none"
+            >
+              <Image
+                src="/signup/signupPatient.svg"
+                alt=""
+                width={30}
+                height={30}
+                className="mb-4"
+              />
+              <span className="text-sm font-medium leading-tight text-center">
+                Patient or
+                <br />
+                Visitor
+              </span>
+            </button>
+          </div>
+
+          <div className="mt-6">
+            <MessageText message={infoMessage} variant="info" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
