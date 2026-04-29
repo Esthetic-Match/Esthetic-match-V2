@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { NavPanel } from "@/components/dashboard/NavPanel";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -12,11 +13,8 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-semibold">
-        Welcome {session.user.name}
-      </h1>
-      <p className="mt-2 text-sm text-gray-600">{session.user.email}</p>
+    <main>
+      <NavPanel />
     </main>
   );
 }
