@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import BackButton from "@/components/UI/BackButton";
 import MessageText from "@/components/UI/MessageText";
 import TextInput from "@/components/UI/TextInput";
 import type { DoctorSignUpProps } from "@/app/sign-up/types";
@@ -10,6 +9,7 @@ import SpecialtySelector from "./SpecialtySelector";
 import SpecialtyProcedureSection from "./SpecialtyProcedureSection";
 import VisibleCategorySelectors from "./VisibleCategorySelectors";
 import { getVisibleCategories } from "./util/utils";
+import BlueBanner from "../UI/BlueBanner";
 
 export default function DoctorSignUpForm({
   name,
@@ -69,7 +69,7 @@ export default function DoctorSignUpForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <BackButton onBack={onBack} />
+      <BlueBanner variant="blue"/>
 
       <p className="mb-2 text-sm font-medium">Signing up as Doctor</p>
 
