@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { Link } from "lucide-react";
 import {
   motion,
   AnimatePresence,
@@ -9,7 +8,7 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 
 interface NavbarProps {
@@ -99,7 +98,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       }}
       className={cn(
         "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex bg-transparent",
-        visible && "bg-white/80 bg-[#283C5D]/80",
+        visible && "bg-[#283C5D]/80",
         className,
       )}
     >
@@ -125,25 +124,27 @@ export const NavItems = ({
 }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
+  const textColor = visible ? "text-white" : "text-black";
+
   return (
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium transition duration-200 lg:flex lg:space-x-2",
-        visible ? "text-white" : "text-black",
-        className
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium transition-colors duration-200 lg:flex lg:space-x-2",
+        className,
+        textColor
       )}
     >
       {items.map((item, idx) => (
         <a
+          key={`link-${idx}`}
+          href={item.link}
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
           className={cn(
             "relative px-4 py-2 transition-colors duration-200",
-            visible ? "text-white" : "text-black"
+            textColor
           )}
-          key={`link-${idx}`}
-          href={item.link}
         >
           {hovered === idx && (
             <motion.div
