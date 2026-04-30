@@ -46,7 +46,7 @@ export function NavPanel() {
   return (
     <div
       className={cn(
-        "mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md  md:flex-row bg-[#283C5D]",
+        "mx-auto flex w-full flex-1 flex-col overflow-hidden md:flex-row bg-[#283C5D]",
         "h-screen",
       )}>
       <Sidebar open={open} setOpen={setOpen}>
