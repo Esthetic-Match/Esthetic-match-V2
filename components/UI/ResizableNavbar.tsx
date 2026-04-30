@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import { Link } from "lucide-react";
 import {
   motion,
   AnimatePresence,
@@ -281,7 +282,7 @@ export const NavbarButton = ({
   | React.ComponentPropsWithoutRef<"button">
 )) => {
   const baseStyles =
-    "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:scale-[1.03] transition duration-200 inline-block text-center";
+    "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:bg-gray-200 transition duration-200 inline-block text-center";
 
   const variantStyles = {
     primary:
