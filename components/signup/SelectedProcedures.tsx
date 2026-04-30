@@ -14,16 +14,17 @@ export default function SelectedProcedures({
   }
 
   return (
-    <div className="space-y-2 rounded border p-3">
-      <p className="text-sm font-medium">Selected procedures</p>
+    <div className="space-y-2 rounded-xl border p-3 bg-[#283C5D]">
+      <p className="text-sm font-normal text-white">Selected procedures</p>
+      <div className="border-t border-white/40 my-3" />
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 ">
         {selectedProcedures.map((procedure) => (
           <button
             key={procedure.id}
             type="button"
             onClick={() => onRemoveProcedure(procedure.id)}
-            className="flex items-center gap-2 rounded-full border bg-gray-400 px-3 py-1 text-sm"
+            className="flex items-center gap-2 rounded-full border bg-gray-300 px-3 py-1 text-sm cursor-pointer hover:bg-[#94604C] hover:border-[#94604C] hover:scale-[1.01] active:scale-[0.98]"
           >
             <span>{procedure.name}</span>
             <span aria-hidden="true" className="text-gray-500">

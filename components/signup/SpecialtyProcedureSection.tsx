@@ -25,8 +25,8 @@ export default function SpecialtyProcedureSection({
   );
 
   return (
-    <div className="space-y-4 rounded border p-4">
-      <p className="text-sm font-semibold">
+    <div className="space-y-4 rounded-xl border border-2 p-4">
+      <p className="text-sm font-normal">
         Procedures selected for {selectedSpecialties.join(", ")}
       </p>
 

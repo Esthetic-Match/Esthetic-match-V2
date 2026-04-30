@@ -47,8 +47,8 @@ export default function SignInPage() {
         <div className="flex flex-1 flex-col px-3 pt-5">
 
           <div className="mb-7 text-center">
-            <h1 className="text-[21px] font-semibold leading-tight text-black">
-              Login To Esthetic Match
+            <h1 className="text-[21px] font-thin leading-tight text-black">
+              Login
             </h1>
           </div>
 
@@ -58,7 +58,7 @@ export default function SignInPage() {
                 Email Address
               </label>
 
-              <div className="flex h-9 items-center rounded-full bg-[#d8bd8d] px-4">
+              <div className="flex h-9 items-center rounded-full bg-white/60 px-4 shadow-sm">
                 <input
                   className="w-full bg-transparent text-sm text-black placeholder:text-black/50 outline-none"
                   placeholder="Enter Your Email"
@@ -68,7 +68,7 @@ export default function SignInPage() {
                   required
                 />
 
-                <Mail size={16} className="text-black/60" />
+                <Mail size={16} className="text-[#d8bd8d]" />
               </div>
             </div>
 
@@ -77,7 +77,7 @@ export default function SignInPage() {
                 Password
               </label>
 
-              <div className="flex h-9 items-center rounded-full bg-white/60 px-4">
+              <div className="flex h-9 items-center rounded-full bg-white/60 px-4 shadow-sm">
                 <input
                   className="w-full bg-transparent text-sm text-black placeholder:text-black/40 outline-none"
                   placeholder="Enter Password"
@@ -116,7 +116,9 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="h-10 w-full cursor-pointer rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] text-sm font-semibold text-[#0f233f] transition-transform duration-200 hover:scale-[1.02] disabled:opacity-60"
+              className="h-10 w-full cursor-pointer rounded-full bg-gradient-to-r 
+              from-[#d8bd8d] to-[#f4e4c6] text-sm font-semibold text-[#0f233f] transition-transform 
+              duration-200 hover:scale-[1.02] disabled:opacity-60 shadow-sm"
             >
               {isLoading ? "Logging in..." : "Login"}
             </button>
