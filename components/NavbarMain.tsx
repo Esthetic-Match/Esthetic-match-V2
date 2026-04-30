@@ -38,13 +38,7 @@ export function NavbarMain() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary" className="border border-1 rounded-full bg-white"><span className="text-black/40">Sign In</span></NavbarButton>
-            <NavbarButton
-              variant="primary"
-              className="bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6]"
-            >
-              Book a call
-            </NavbarButton>
+            <NavbarButton href="/sign-in" variant="secondary" className="border border-1 rounded-full bg-white"><span className="text-black/40 font-medium">Sign In</span></NavbarButton>
           </div>
         </NavBody>
 
@@ -75,20 +69,14 @@ export function NavbarMain() {
 
             <div className="flex w-full flex-col gap-4">
               <NavbarButton
+                href="/sign-in"
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="primary"
                 className="w-full"
               >
                 Sign In
               </NavbarButton>
-          
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Book a call
-              </NavbarButton>
+        
             </div>
           </MobileNavMenu>
         </MobileNav>
