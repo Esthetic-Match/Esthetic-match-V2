@@ -1,146 +1,163 @@
 "use client";
 
 import { useState } from "react";
-import MessageText from "@/components/UI/MessageText";
-import TextInput from "@/components/UI/TextInput";
 import type { DoctorSignUpProps } from "@/app/sign-up/types";
 
-import SpecialtySelector from "./SpecialtySelector";
-import SpecialtyProcedureSection from "./SpecialtyProcedureSection";
-import VisibleCategorySelectors from "./VisibleCategorySelectors";
-import { getVisibleCategories } from "./util/utils";
+import MessageText from "@/components/UI/MessageText";
 import BlueBanner from "../UI/BlueBanner";
+import WhiteshadowBackground from "../UI/WhiteShadowBackground";
 
-export default function DoctorSignUpForm({
-  name,
-  dob,
-  email,
-  password,
+import DoctorAccountDetailsStep from "./DoctorAccountDetailsStep";
+import DoctorSpecialtyDetailsStep from "./DoctorSpecialtyDetailsStep";
 
-  selectedSpecialties,
-  selectedServiceCategories,
-  selectedServices,
+type DoctorSignupStep = 1 | 2 | 3;
+type DoctorSpecialtySubStep = "specialties" | "categories";
 
-  otherSpecialtyText,
+export default function DoctorSignUpForm(props: DoctorSignUpProps) {
+  const { password, errorMessage, isLoading, onBack, onSubmit } = props;
 
-  errorMessage,
-  isLoading,
+  const [step, setStep] = useState<DoctorSignupStep>(1);
+  const [specialtySubStep, setSpecialtySubStep] =
+    useState<DoctorSpecialtySubStep>("specialties");
 
-  onBack,
-  onSubmit,
-
-  onNameChange,
-  onDobChange,
-  onEmailChange,
-  onPasswordChange,
-
-  onToggleSpecialty,
-  onToggleServiceCategory,
-  onToggleService,
-
-  onOtherSpecialtyTextChange,
-}: DoctorSignUpProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [localError, setLocalError] = useState("");
 
-  const hasOtherSpecialty =
-    selectedSpecialties.includes("Other specialty") ||
-    selectedSpecialties.includes("other specialty") ||
-    selectedSpecialties.includes("other_specialty");
+  function goToNextStep() {
+    setLocalError("");
 
-  const visibleCategories = getVisibleCategories(selectedSpecialties);
+    if (step === 1) {
+      if (!password || !confirmPassword) {
+        setLocalError("Please enter and confirm your password.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setLocalError("Passwords do not match.");
+        return;
+      }
+
+      setStep(2);
+      return;
+    }
+
+    if (step === 2 && specialtySubStep === "specialties") {
+      if (props.selectedSpecialties.length === 0) {
+        setLocalError("Please select at least one specialty.");
+        return;
+      }
+
+      setSpecialtySubStep("categories");
+      return;
+    }
+  }
+
+  function goToPreviousStep() {
+    setLocalError("");
+
+    if (step === 1) {
+      onBack();
+      return;
+    }
+
+    if (step === 2 && specialtySubStep === "categories") {
+      setSpecialtySubStep("specialties");
+      return;
+    }
+
+    if (step === 2) {
+      setStep(1);
+      return;
+    }
+
+    if (step === 3) {
+      setStep(2);
+    }
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLocalError("");
 
-    if (!password || !confirmPassword) {
-      setLocalError("Please enter and confirm your password.");
+    if (step === 1) {
+      goToNextStep();
       return;
     }
 
-    if (password !== confirmPassword) {
-      setLocalError("Passwords do not match.");
+    if (step === 2 && specialtySubStep === "specialties") {
+      goToNextStep();
       return;
     }
 
-    onSubmit(e);
+    if (step === 2 && specialtySubStep === "categories") {
+      onSubmit(e);
+      return;
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <BlueBanner variant="blue"/>
+    <>
+      <BlueBanner variant="blue" />
+      <WhiteshadowBackground />
 
-      <p className="mb-2 text-sm font-medium">Signing up as Doctor</p>
-
-      <TextInput placeholder="Name" value={name} onChange={onNameChange} />
-
-      <TextInput
-        placeholder="Date of Birth"
-        type="date"
-        value={dob}
-        onChange={onDobChange}
-      />
-
-      <TextInput
-        placeholder="Email"
-        type="email"
-        value={email}
-        onChange={onEmailChange}
-      />
-
-      <TextInput
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={onPasswordChange}
-      />
-
-      <TextInput
-        placeholder="Confirm Password"
-        type="password"
-        value={confirmPassword}
-        onChange={setConfirmPassword}
-      />
-
-      <SpecialtySelector
-        selectedSpecialties={selectedSpecialties}
-        onToggleSpecialty={onToggleSpecialty}
-      />
-
-      {hasOtherSpecialty ? (
-        <TextInput
-          placeholder="Please specify other specialty"
-          value={otherSpecialtyText}
-          onChange={onOtherSpecialtyTextChange}
-        />
-      ) : null}
-
-      <SpecialtyProcedureSection
-        selectedSpecialties={selectedSpecialties}
-        selectedServices={selectedServices}
-        visibleCategories={visibleCategories}
-        onToggleService={onToggleService}
-      />
-
-      <VisibleCategorySelectors
-        visibleCategories={visibleCategories}
-        selectedServiceCategories={selectedServiceCategories}
-        selectedServices={selectedServices}
-        onToggleServiceCategory={onToggleServiceCategory}
-        onToggleService={onToggleService}
-      />
-
-      <MessageText message={localError} variant="error" />
-      <MessageText message={errorMessage} variant="error" />
-
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full rounded bg-black px-4 py-3 text-white disabled:opacity-50"
+      <form
+        onSubmit={handleSubmit}
+        className="relative z-9999 mx-auto max-w-lg space-y-4 p-6"
       >
-        {isLoading ? "Creating account..." : "Sign up as Doctor"}
-      </button>
-    </form>
+        {step === 1 ? (
+          <DoctorAccountDetailsStep
+            name={props.name}
+            dob={props.dob}
+            email={props.email}
+            password={props.password}
+            confirmPassword={confirmPassword}
+            onNameChange={props.onNameChange}
+            onDobChange={props.onDobChange}
+            onEmailChange={props.onEmailChange}
+            onPasswordChange={props.onPasswordChange}
+            onConfirmPasswordChange={setConfirmPassword}
+          />
+        ) : null}
+
+        {step === 2 ? (
+          <DoctorSpecialtyDetailsStep
+            subStep={specialtySubStep}
+            selectedSpecialties={props.selectedSpecialties}
+            selectedServiceCategories={props.selectedServiceCategories}
+            selectedServices={props.selectedServices}
+            otherSpecialtyText={props.otherSpecialtyText}
+            onToggleSpecialty={props.onToggleSpecialty}
+            onToggleServiceCategory={props.onToggleServiceCategory}
+            onToggleService={props.onToggleService}
+            onOtherSpecialtyTextChange={props.onOtherSpecialtyTextChange}
+          />
+        ) : null}
+
+        <MessageText message={localError} variant="error" />
+        <MessageText message={errorMessage} variant="error" />
+
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={goToPreviousStep}
+            className="w-full rounded border border-black rounded-full px-4 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
+          >
+            Back
+          </button>
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-white cursor-pointer hover:hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+          >
+            {step === 2 && specialtySubStep === "categories"
+              ? isLoading
+                ? "Creating account..."
+                : "Sign up as Doctor"
+              : "Continue"}
+          </button>
+        </div>
+      </form>
+    </>
   );
 }

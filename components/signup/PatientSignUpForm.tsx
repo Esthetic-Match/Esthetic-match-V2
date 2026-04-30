@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { CalendarDays, Eye, EyeClosed, Mail, User } from "lucide-react";
 
 import BackButton from "@/components/UI/BackButton";
@@ -56,7 +55,6 @@ export default function PatientSignUpForm({
     <div className="relative min-h-screen bg-white">
       <BlueBanner variant="blue"/>
       <WhiteshadowBackground />
-      <BackButton onBack={onBack} variant="dark" />
 
       <form
         onSubmit={handleSubmit}
