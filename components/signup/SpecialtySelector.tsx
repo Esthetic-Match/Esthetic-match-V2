@@ -7,6 +7,10 @@ type SpecialtySelectorProps = {
 };
 
 function getSpecialtyImagePath(specialty: string) {
+  console.log(
+  specialty,
+  getSpecialtyImagePath(specialty)
+);
   return `/images/specialties/${specialty
     .toLowerCase()
     .replaceAll(" ", "-")
