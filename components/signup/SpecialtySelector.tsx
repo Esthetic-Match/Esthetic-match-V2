@@ -1,3 +1,5 @@
+"use client";
+
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { Check } from "lucide-react";
 
@@ -12,7 +14,6 @@ function getSpecialtyImagePath(specialty: string) {
     .replaceAll(" ", "-")
     .replaceAll("/", "-")}.jpg`;
 }
-
 
 export default function SpecialtySelector({
   selectedSpecialties,
