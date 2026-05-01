@@ -1,4 +1,4 @@
-import type { Procedure } from "@/app/sign-up/types";
+import type { Procedure } from "@/app/[locale]/sign-up/types";
 
 type SelectedProceduresProps = {
   selectedProcedures: Procedure[];

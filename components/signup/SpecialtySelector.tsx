@@ -2,6 +2,7 @@
 
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type SpecialtySelectorProps = {
   selectedSpecialties: string[];
@@ -19,8 +20,8 @@ export default function SpecialtySelector({
   selectedSpecialties,
   onToggleSpecialty,
 }: SpecialtySelectorProps) {
-   
-  
+  const t = useTranslations("signUp.specialties");
+
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-3 gap-2">
@@ -42,10 +43,9 @@ export default function SpecialtySelector({
             >
               <img
                 src={getSpecialtyImagePath(specialty)}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover "
+                alt={t(specialty)}
+                className="absolute inset-0 h-full w-full object-cover"
               />
-              
 
               <div className="absolute inset-0 bg-black/35" />
 
@@ -57,7 +57,7 @@ export default function SpecialtySelector({
 
               <div className="relative z-10 flex h-full min-h-32 items-center justify-center px-3 text-center">
                 <span className="text-lg font-normal text-white">
-                  {specialty}
+                  {t(specialty)}
                 </span>
               </div>
             </button>

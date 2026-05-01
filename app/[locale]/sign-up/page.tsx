@@ -9,7 +9,6 @@ import PatientSignUpForm from "@/components/signup/PatientSignUpForm";
 import DoctorSignUpForm from "@/components/signup/DoctorSignUpForm";
 
 import type { AccountType } from "./types";
-import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
 import BackButton from "@/components/UI/BackButton";
 
 export default function SignUpPage() {
@@ -65,14 +64,6 @@ export default function SignUpPage() {
     resetFormState();
   }
 
-  function toggleSpecialty(id: string) {
-    setSelectedSpecialties((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
-        : [...current, id]
-    );
-  }
-
   function toggleItem(
     id: string,
     setter: React.Dispatch<React.SetStateAction<string[]>>
@@ -94,10 +85,6 @@ export default function SignUpPage() {
 
   function handleToggleService(id: string) {
     toggleItem(id, setSelectedServices);
-  }
-
-  function handleToggleSubzone(id: string) {
-    toggleItem(id, setSelectedSubzones);
   }
 
   async function handlePatientSubmit(e: React.FormEvent<HTMLFormElement>) {

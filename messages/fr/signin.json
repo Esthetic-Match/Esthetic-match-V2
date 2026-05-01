@@ -1,0 +1,14 @@
+{
+  "SignIn": {
+    "SignIn": "Se connecter",
+    "Email": "Adresse e-mail",
+    "EmailDescription": "Entrez votre e-mail",
+    "Password": "Mot de passe",
+    "PasswordDescription": "Entrez le mot de passe",
+    "SignInButton": "Se connecter",
+    "NoAccount": "Vous n'avez pas de compte ?",
+    "SignUp": "S'inscrire",
+    "SigningIn": "Connexion en cours...",
+    "ForgotPassword": "Mot de passe oublié?"
+  }
+}

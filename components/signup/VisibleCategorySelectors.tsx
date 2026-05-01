@@ -1,5 +1,5 @@
 import CategorySelector from "./CategorySelector";
-import type { Category } from "@/app/sign-up/types";
+import type { Category } from "@/app/[locale]/sign-up/types";
 
 type VisibleCategorySelectorsProps = {
   visibleCategories: readonly Category[];
