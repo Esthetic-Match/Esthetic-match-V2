@@ -5,7 +5,8 @@ import Image from "next/image";
 
 import MessageText from "@/components/UI/MessageText";
 import BackButton from "@/components/UI/BackButton";
-import type { AccountTypeSelectorProps } from "@/app/sign-up/types";
+import type { AccountTypeSelectorProps } from "@/app/[locale]/sign-up/types";
+import { useTranslations } from "next-intl";
 
 type TransitionTarget = "patient" | "doctor" | null;
 
@@ -14,6 +15,8 @@ export default function AccountTypeSelector({
   onSelectPatient,
   onSelectDoctor,
 }: AccountTypeSelectorProps) {
+  const t = useTranslations("signUp.SelectionPage");
+
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [target, setTarget] = useState<TransitionTarget>(null);
 
@@ -53,7 +56,7 @@ export default function AccountTypeSelector({
         {/* LEFT SIDE (WHITE) */}
         <div className="flex flex-col items-center justify-center bg-white px-8 py-12 text-center max-md:hidden z-9999">
           <h1 className="mb-4 text-2xl font-thin text-black leading-tight">
-            Sign up to <br /> Esthetic Match
+            {t("title")}
           </h1>
 
           <div className="border border-gray-300 px-20 pt-6 rounded-[2rem] overflow-hidden bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6]">
@@ -68,15 +71,14 @@ export default function AccountTypeSelector({
           </div>
 
           <p className="mt-4 max-w-xs text-sm text-gray-400 leading-tight">
-            Discover top-rated aesthetic practitioners near you — tailored to
-            your beauty goals.
+            {t("subtitle")}
           </p>
         </div>
 
         {/* RIGHT SIDE (BLUE) */}
         <div className="flex flex-col items-center justify-center bg-[#263F63] px-8 py-12 text-white">
           <h2 className="mb-6 text-lg font-semibold">
-            Choose Your Account Type
+            {t("chooseRole")}
           </h2>
 
           <div className="flex gap-4">
@@ -94,9 +96,7 @@ export default function AccountTypeSelector({
                 className="mb-4"
               />
               <span className="text-sm font-medium leading-tight text-center">
-                Healthcare
-                <br />
-                Provider
+                {t("Healthcare Provider")}
               </span>
             </button>
 
@@ -114,9 +114,7 @@ export default function AccountTypeSelector({
                 className="mb-4"
               />
               <span className="text-sm font-medium leading-tight text-center">
-                Patient or
-                <br />
-                Visitor
+                {t("Patient")}
               </span>
             </button>
           </div>

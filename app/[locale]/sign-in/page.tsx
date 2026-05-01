@@ -6,8 +6,10 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeClosed, Mail } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
+import { useTranslations } from "next-intl";
 
 export default function SignInPage() {
+  const t = useTranslations("signIn.SignIn");
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -48,20 +50,20 @@ export default function SignInPage() {
 
           <div className="mb-7 text-center">
             <h1 className="text-[21px] font-thin leading-tight text-black">
-              Login
+              {t("SignIn")}
             </h1>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="mb-2 block text-[15px] font-medium text-black">
-                Email Address
+                {t("Email")}
               </label>
 
               <div className="flex h-9 items-center rounded-full bg-white/60 px-4 shadow-sm">
                 <input
                   className="w-full bg-transparent text-sm text-black placeholder:text-black/50 outline-none"
-                  placeholder="Enter Your Email"
+                  placeholder={t("EmailDescription")}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -74,13 +76,13 @@ export default function SignInPage() {
 
             <div>
               <label className="mb-2 block text-[15px] font-medium text-black">
-                Password
+                {t("Password")}
               </label>
 
               <div className="flex h-9 items-center rounded-full bg-white/60 px-4 shadow-sm">
                 <input
                   className="w-full bg-transparent text-sm text-black placeholder:text-black/40 outline-none"
-                  placeholder="Enter Password"
+                  placeholder={t("PasswordDescription")}
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -102,7 +104,7 @@ export default function SignInPage() {
                   href="/forgot-password"
                   className="text-xs text-[#ead3a5] underline underline-offset-2"
                 >
-                  Forgot Password?
+                  {t("ForgotPassword")}
                 </Link>
               </div>
             </div>
@@ -120,14 +122,14 @@ export default function SignInPage() {
               from-[#d8bd8d] to-[#f4e4c6] text-sm font-semibold text-[#0f233f] transition-transform 
               duration-200 hover:scale-[1.02] disabled:opacity-60 shadow-sm"
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? t("SigningIn") : t("SignInButton")}
             </button>
           </form>
 
           <p className="mt-7 text-center text-sm">
-            Don&apos;t have an account?{" "}
+            {t("NoAccount")}{" "}
             <Link href="/sign-up" className="underline underline-offset-2">
-              Sign Up
+              {t("SignUp")}
             </Link>
           </p>
         </div>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CalendarDays, Eye, EyeClosed, Mail, User } from "lucide-react";
 import InputField from "../UI/InputField";
+import { useTranslations } from "next-intl";
 
 type DoctorAccountDetailsStepProps = {
   name: string;
@@ -30,6 +31,7 @@ export default function DoctorAccountDetailsStep({
   onPasswordChange,
   onConfirmPasswordChange,
 }: DoctorAccountDetailsStepProps) {
+  const t = useTranslations("signUp.signUpForm");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -37,21 +39,21 @@ export default function DoctorAccountDetailsStep({
     <>
       <div className="mb-6 flex flex-col items-center text-center">
         <p className="mt-2 max-w-xs text-xs leading-tight text-black/30">
-          Create your account to esthetic match by adding your account details
+          {t("heading")}
         </p>
       </div>
 
       <InputField
-        label="Full Name"
-        placeholder="Enter Your Full Name"
+        label={t("FullName")}
+        placeholder={t("NameDescription")}
         value={name}
         onChange={onNameChange}
         icon={<User size={15} />}
       />
 
       <InputField
-        label="Date of Birth"
-        placeholder="Select Your DOB"
+        label={t("DOB")}
+        placeholder={t("DOBDescription")}
         type="date"
         value={dob}
         onChange={onDobChange}
@@ -59,8 +61,8 @@ export default function DoctorAccountDetailsStep({
       />
 
       <InputField
-        label="Email Address"
-        placeholder="Enter Your Email"
+        label={t("Email")}
+        placeholder={t("EmailDescription")}
         type="email"
         value={email}
         onChange={onEmailChange}
@@ -68,8 +70,8 @@ export default function DoctorAccountDetailsStep({
       />
 
       <InputField
-        label="Password"
-        placeholder="Enter Password"
+        label={t("Password")}
+        placeholder={t("PasswordDescription")}
         type={showPassword ? "text" : "password"}
         value={password}
         onChange={onPasswordChange}
@@ -96,8 +98,8 @@ export default function DoctorAccountDetailsStep({
       />
 
       <InputField
-        label="Confirm Password"
-        placeholder="Enter Password"
+        label={t("ConfirmPassword")}
+        placeholder={t("ConfirmPasswordDescription")}
         type={showConfirmPassword ? "text" : "password"}
         value={confirmPassword}
         onChange={onConfirmPasswordChange}

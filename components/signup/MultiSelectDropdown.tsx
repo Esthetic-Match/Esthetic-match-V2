@@ -1,4 +1,4 @@
-import type { MultiSelectOption } from "@/app/sign-up/types";
+import type { MultiSelectOption } from "@/app/[locale]/sign-up/types";
 
 type MultiSelectDropdownProps = {
   label: string;

@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type BackButtonProps = {
   onBack: () => void;
@@ -11,6 +12,7 @@ export default function BackButton({
   onBack,
   variant = "light",
 }: BackButtonProps) {
+  const t = useTranslations("home.Home");
   const router = useRouter();
 
   const isDark = variant === "dark";
@@ -29,7 +31,7 @@ export default function BackButton({
       )}
     >
       <ChevronLeft size={18} />
-      Back
+      {t("back")}
     </button>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { DoctorSignUpProps } from "@/app/sign-up/types";
+import type { DoctorSignUpProps } from "@/app/[locale]/sign-up/types";
 
 import MessageText from "@/components/UI/MessageText";
 import BlueBanner from "../UI/BlueBanner";
@@ -9,11 +9,13 @@ import WhiteshadowBackground from "../UI/WhiteShadowBackground";
 
 import DoctorAccountDetailsStep from "./DoctorAccountDetailsStep";
 import DoctorSpecialtyDetailsStep from "./DoctorSpecialtyDetailsStep";
+import { useTranslations } from "next-intl";
 
 type DoctorSignupStep = 1 | 2 | 3;
 type DoctorSpecialtySubStep = "specialties" | "categories";
 
 export default function DoctorSignUpForm(props: DoctorSignUpProps) {
+  const t = useTranslations("signUp.doctorSignUp");
   const { password, errorMessage, isLoading, onBack, onSubmit } = props;
 
   const [step, setStep] = useState<DoctorSignupStep>(1);
@@ -142,7 +144,7 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             onClick={goToPreviousStep}
             className="w-full rounded border border-black rounded-full px-4 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
           >
-            Back
+            {t("back")}
           </button>
 
           <button

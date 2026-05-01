@@ -1,0 +1,14 @@
+{
+  "SignIn": {
+    "SignIn": "Sign In",
+    "Email": "Email Address",
+    "EmailDescription": "Enter Your Email",
+    "Password": "Password",
+    "PasswordDescription": "Enter Password",
+    "SignInButton": "Sign In",
+    "NoAccount": "Don't have an account?",
+    "SigningIn": "Signing in...",
+    "SignUp": "Sign Up",
+    "ForgotPassword": "Forgot Password?"
+  }
+}

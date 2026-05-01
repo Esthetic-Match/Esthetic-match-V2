@@ -1,5 +1,5 @@
 import MultiSelectDropdown from "./MultiSelectDropdown";
-import type { Category } from "@/app/sign-up/types";
+import type { Category } from "@/app/[locale]/sign-up/types";
 
 type CategorySelectorProps = {
   category: Category;

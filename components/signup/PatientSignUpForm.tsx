@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { CalendarDays, Eye, EyeClosed, Mail, User } from "lucide-react";
 
-import BackButton from "@/components/UI/BackButton";
+import { useTranslations } from "next-intl";
 import MessageText from "@/components/UI/MessageText";
-import type { PatientSignUpFormProps } from "@/app/sign-up/types";
+import type { PatientSignUpFormProps } from "@/app/[locale]/sign-up/types";
 import WhiteshadowBackground from "../UI/WhiteShadowBackground";
 import BlueBanner from "../UI/BlueBanner";
 import InputField from "../UI/InputField";
@@ -24,6 +24,7 @@ export default function PatientSignUpForm({
   onEmailChange,
   onPasswordChange,
 }: PatientSignUpFormProps) {
+  const t = useTranslations("signUp.signUpForm");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [localError, setLocalError] = useState("");
   const [gender, setGender] = useState("");
@@ -63,22 +64,22 @@ export default function PatientSignUpForm({
         <div className="mb-6 flex flex-col items-center text-center">
 
           <p className="mt-2 max-w-xs text-xs leading-tight text-black/30">
-            Create your account to esthetic match by adding your account details
+            {t("heading")}
           </p>
         </div>
 
         <div className="space-y-4">
           <InputField
-            label="Full Name"
-            placeholder="Enter Your Name"
+            label={t("FullName")}
+            placeholder={t("NameDescription")}
             value={name}
             onChange={onNameChange}
             icon={<User size={15} />}
           />
 
           <InputField
-            label="Email Address"
-            placeholder="Enter Your Email"
+            label={t("Email")}
+            placeholder={t("EmailDescription")}
             type="email"
             value={email}
             onChange={onEmailChange}
@@ -86,8 +87,8 @@ export default function PatientSignUpForm({
           />
 
           <InputField
-            label="DOB"
-            placeholder="Select Your DOB"
+            label={t("DOB")}
+            placeholder={t("DOBDescription")}
             type="date"
             value={dob}
             onChange={onDobChange}
@@ -96,9 +97,9 @@ export default function PatientSignUpForm({
 
           <div>
             <p className="mb-2 text-sm font-medium text-black">
-              Gender{" "}
+              {t("Gender")}{" "}
               <span className="text-xs font-normal text-black/55">
-                (Optional)
+                {t("Optional")}
               </span>
             </p>
 
@@ -120,8 +121,8 @@ export default function PatientSignUpForm({
           </div>
 
           <InputField
-            label="Password"
-            placeholder="Enter Password"
+            label={t("Password")}
+            placeholder={t("PasswordDescription")}
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={onPasswordChange}
@@ -142,8 +143,8 @@ export default function PatientSignUpForm({
           />
           
           <InputField
-            label="Confirm Password"
-            placeholder="Enter Password"
+            label={t("ConfirmPassword")}
+            placeholder={t("ConfirmPasswordDescription")}
             type={showConfirmPassword ? "text" : "password"}
             value={confirmPassword}
             onChange={setConfirmPassword}
@@ -175,7 +176,7 @@ export default function PatientSignUpForm({
           className="mt-5 h-10 w-full cursor-pointer rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] 
           text-sm font-semibold text-[#0f233f] transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
         >
-          {isLoading ? "Creating account..." : "Sign Up"}
+          {isLoading ? t("signingUp"): t("SignUpButton")}
         </button>
       </form>
     </div>
