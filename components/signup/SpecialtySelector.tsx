@@ -30,7 +30,7 @@ export default function SpecialtySelector({
               onClick={() => onToggleSpecialty(specialty)}
               aria-pressed={selected}
               className={`relative min-h-32 overflow-hidden rounded-2xl border transition
-                hover:bg-[#94604C] hover:border-[#94604C] hover:scale-[1.01] active:scale-[0.98] cursor-pointer ${
+                hover:bg-[#EDD0A9] hover:border-[#EDD0A9] hover:scale-[1.01] active:scale-[0.98] cursor-pointer ${
                 selected
                   ? "border-[#EDD0A9] ring-2 ring-[#EDD0A9]"
                   : "border-black/10 hover:border-black/30"
