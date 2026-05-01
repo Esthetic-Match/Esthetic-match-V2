@@ -7,20 +7,18 @@ type SpecialtySelectorProps = {
 };
 
 function getSpecialtyImagePath(specialty: string) {
-  console.log(
-  specialty,
-  getSpecialtyImagePath(specialty)
-);
   return `/images/specialties/${specialty
     .toLowerCase()
     .replaceAll(" ", "-")
     .replaceAll("/", "-")}.jpg`;
 }
 
+
 export default function SpecialtySelector({
   selectedSpecialties,
   onToggleSpecialty,
 }: SpecialtySelectorProps) {
+  
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-3 gap-2">
@@ -45,6 +43,7 @@ export default function SpecialtySelector({
                 alt=""
                 className="absolute inset-0 h-full w-full object-cover "
               />
+              
 
               <div className="absolute inset-0 bg-black/35" />
 
