@@ -19,6 +19,7 @@ export default function SpecialtySelector({
   selectedSpecialties,
   onToggleSpecialty,
 }: SpecialtySelectorProps) {
+   
   
   return (
     <div className="space-y-3">
