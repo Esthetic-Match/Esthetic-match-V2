@@ -24,7 +24,17 @@
     "DOB": "Date de naissance",
     "DOBDescription": "Sélectionnez votre date de naissance",
     "Gender": "Genre",
-    "Optional": "(Optionnel)"
+    "Optional": "(Optionnel)",
+    "ClinicName": "Nom de la clinique",
+    "ClinicNameDescription": "Entrez le nom de votre clinique ou cabinet",
+    "ClinicAddress": "Adresse de la clinique",
+    "ClinicAddressDescription": "Entrez l'adresse de votre clinique ou cabinet",
+    "ClinicZipCode": "Code postal de la clinique",
+    "ClinicZipCodeDescription": "Entrez le code postal de votre clinique ou cabinet",
+    "ClinicCity": "Ville de la clinique",
+    "ClinicCityDescription": "Entrez la ville de votre clinique ou cabinet",
+    "ClinicCountry": "Pays de la clinique",
+    "ClinicCountryDescription": "Entrez le pays de votre clinique ou cabinet"
   },
     "doctorSignUp": {
     "continue": "Continuer",

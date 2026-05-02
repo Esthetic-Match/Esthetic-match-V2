@@ -8,12 +8,6 @@ function calculateAgeFromDob(dateString: string): number {
   const today = new Date();
   const birthDate = new Date(dateString);
 
-  if (Number.isNaN(birthDate.getTime())) {
-    throw new APIError("BAD_REQUEST", {
-      message: "Invalid date of birth.",
-    });
-  }
-
   let age = today.getFullYear() - birthDate.getFullYear();
   const monthDiff = today.getMonth() - birthDate.getMonth();
 
@@ -60,7 +54,7 @@ export const auth = betterAuth({
         });
       }
 
-      if (!dateOfBirth || typeof dateOfBirth !== "string") {
+      if (!dateOfBirth && role == "PATIENT" || typeof dateOfBirth !== "string" && role == "PATIENT") {
         throw new APIError("BAD_REQUEST", {
           message: "Date of birth is required.",
         });
