@@ -1,5 +1,5 @@
 import HomePageTemplate from "@/components/homePage/template";
-import { NavbarMain } from "@/components/NavbarMain";
+import { NavBarMain } from "@/components/NavbarMain";
 import AmbientBackground from "@/components/UI/BlueAmbientBackground";
 
 export default function HomePage() {
@@ -8,7 +8,7 @@ export default function HomePage() {
       <AmbientBackground />
       
       {/* Navbar */}
-      <NavbarMain />
+      <NavBarMain />
       
       {/* Content */}
       <section>

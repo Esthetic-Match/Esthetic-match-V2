@@ -9,18 +9,21 @@ import {
   MobileNavHeader,
   MobileNavToggle,
   MobileNavMenu,
-} from "@/components/UI/ResizableNavbar";
+} from "@/components/UI/resizable-navbar";
+import LanguageSwitcher from "./UI/LanguageSwitcher";
+import { useLocale } from "next-intl";
 import { useState } from "react";
 
-export function NavbarMain() {
+export function NavBarMain() {
+  const locale = useLocale();
   const navItems = [
     {
-      name: "Doctors",
-      link: "#doctors",
+      name: "Features",
+      link: "#features",
     },
     {
-      name: "Procedures",
-      link: "#procedures",
+      name: "Pricing",
+      link: "#pricing",
     },
     {
       name: "Contact",
@@ -31,14 +34,17 @@ export function NavbarMain() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="sticky top-0 z-50 w-full">
+    <div className="relative w-full">
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton href="/sign-in" variant="secondary" className="border border-1 rounded-full bg-white"><span className="text-black/40 font-medium">Sign In</span></NavbarButton>
+            <LanguageSwitcher />
+            <NavbarButton href={`/${locale}/sign-in`} variant="secondary" className="bg-white">
+              Sign in
+            </NavbarButton>
           </div>
         </NavBody>
 
@@ -61,22 +67,21 @@ export function NavbarMain() {
                 key={`mobile-link-${idx}`}
                 href={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative"
+                className="relative text-neutral-600 dark:text-neutral-300"
               >
                 <span className="block">{item.name}</span>
               </a>
             ))}
-
             <div className="flex w-full flex-col gap-4">
+              <LanguageSwitcher />
               <NavbarButton
-                href="/sign-in"
+                href={`/${locale}/sign-in`}
                 onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
+                variant="secondary"
+                className="w-full bg-white"
               >
-                Sign In
+                Sign in
               </NavbarButton>
-        
             </div>
           </MobileNavMenu>
         </MobileNav>

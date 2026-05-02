@@ -20,6 +20,14 @@ export default function SignUpPage() {
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [clinicName, setClinicName] = useState("");
+  const [workAddress, setWorkAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [googlePlaceId, setGooglePlaceId] = useState("");
+  const [workLatitude, setWorkLatitude] = useState<number | null>(null);
+  const [workLongitude, setWorkLongitude] = useState<number | null>(null);
 
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   const [selectedServiceCategories, setSelectedServiceCategories] = useState<string[]>([]);
@@ -252,6 +260,20 @@ export default function SignUpPage() {
         selectedServices={selectedServices}
         otherSpecialtyText={otherSpecialtyText}
         errorMessage={errorMessage}
+        clinicName={clinicName}
+        workAddress={workAddress}
+        city={city}
+        country={country}
+        zipCode={zipCode}
+        onCityChange={setCity}
+        onCountryChange={setCountry}
+        onZipCodeChange={setZipCode}
+        onClinicNameChange={setClinicName}
+        onWorkAddressChange={setWorkAddress}
+        googlePlaceId={googlePlaceId}
+        onGooglePlaceIdChange={setGooglePlaceId}
+        onWorkLatitudeChange={setWorkLatitude}
+        onWorkLongitudeChange={setWorkLongitude}
         isLoading={isLoading}
         onBack={handleBack}
         onSubmit={handleDoctorSubmit}

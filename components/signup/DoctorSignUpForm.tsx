@@ -113,11 +113,24 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             email={props.email}
             password={props.password}
             confirmPassword={confirmPassword}
+            clinicName={props.clinicName}
+            workAddress={props.workAddress}
+            city={props.city}
+            country={props.country}
+            zipCode={props.zipCode}
             onNameChange={props.onNameChange}
             onDobChange={props.onDobChange}
             onEmailChange={props.onEmailChange}
             onPasswordChange={props.onPasswordChange}
             onConfirmPasswordChange={setConfirmPassword}
+            onClinicNameChange={props.onClinicNameChange}
+            onWorkAddressChange={props.onWorkAddressChange}
+            onCityChange={props.onCityChange}
+            onCountryChange={props.onCountryChange}
+            onZipCodeChange={props.onZipCodeChange}
+            onGooglePlaceIdChange={props.onGooglePlaceIdChange}
+            onWorkLatitudeChange={props.onWorkLatitudeChange}
+            onWorkLongitudeChange={props.onWorkLongitudeChange}
           />
         ) : null}
 

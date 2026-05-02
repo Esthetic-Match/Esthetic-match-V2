@@ -47,10 +47,15 @@ model DoctorProfile {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  clinicName      String
   specialtyIds    String[]
   subcategoryIds  String[]
   procedureIds    String[]
   subzoneIds      String[]
+  workAddress     String
+  workLatitude    Float?
+  workLongitude   Float?
+  googlePlaceId   String?
 
   otherSpecialtyText String?
 

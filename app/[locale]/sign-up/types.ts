@@ -36,6 +36,26 @@ export type DoctorSignUpProps = {
   errorMessage: string;
   isLoading: boolean;
 
+  clinicName: string;
+  workAddress: string;
+  city: string;
+  country: string;
+  zipCode: string;
+
+  googlePlaceId?: string;
+  workLatitude?: number;
+  workLongitude?: number;
+  
+  onGooglePlaceIdChange: (value: string) => void;
+  onWorkLatitudeChange: (value: number) => void;
+  onWorkLongitudeChange: (value: number) => void;
+
+  onCityChange: (value: string) => void;
+  onCountryChange: (value: string) => void;
+  onZipCodeChange: (value: string) => void;
+  onClinicNameChange: (value: string) => void;
+  onWorkAddressChange: (value: string) => void;
+
   onBack: () => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 

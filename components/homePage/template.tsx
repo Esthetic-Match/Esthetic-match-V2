@@ -22,7 +22,11 @@ export default function HomePageTemplate() {
               </div>
             
               <h1 className="text-3xl font-semibold tracking-[0.25em] text-[#283C5D] sm:text-4xl">
-                ESTHETIC MATCH
+                ESTHETIC MATCH<br/>
+                <span className="text-sm font-normal tracking-[0.15em] text-[#283C5D]/80">
+                  Day 214, I ran out of water 2 days ago and I can feel my skin drying up, but blond french lady says it will be over soon.<br/>
+                  I think she's lying, send help soon pls...
+                </span>
               </h1>
             </div>
             
