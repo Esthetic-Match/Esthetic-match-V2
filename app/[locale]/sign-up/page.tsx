@@ -143,81 +143,92 @@ export default function SignUpPage() {
   async function handleDoctorSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     resetMessages();
-  
-    if (!name.trim()) {
-      setErrorMessage("Please enter your name.");
-      return;
-    }
-  
-    if (!dob) {
-      setErrorMessage("Please enter your date of birth.");
-      return;
-    }
-  
-    if (!email.trim()) {
-      setErrorMessage("Please enter your email.");
-      return;
-    }
-  
-    if (!password.trim()) {
-      setErrorMessage("Please enter your password.");
-      return;
-    }
-  
+
+    if (!name.trim()) return setErrorMessage("Please enter your name.");
+    if (!email.trim()) return setErrorMessage("Please enter your email.");
+    if (!password.trim()) return setErrorMessage("Please enter your password.");
+    if (!clinicName.trim()) return setErrorMessage("Please enter your clinic name.");
+    if (!workAddress.trim()) return setErrorMessage("Please enter your clinic address.");
+    if (!city.trim()) return setErrorMessage("Please enter your city.");
+    if (!country.trim()) return setErrorMessage("Please enter your country.");
+
     if (selectedSpecialties.length === 0) {
-      setErrorMessage("Please select at least one specialty.");
-      return;
+      return setErrorMessage("Please select at least one specialty.");
     }
-  
+
     if (
       selectedSpecialties.includes("other_specialty") &&
       !otherSpecialtyText.trim()
     ) {
-      setErrorMessage("Please specify the other specialty.");
-      return;
+      return setErrorMessage("Please specify the other specialty.");
     }
-  
+
     setIsLoading(true);
-  
-    const signUpResult = await authClient.signUp.email({
-      name: name.trim(),
-      email: email.trim(),
-      password,
-      role: "DOCTOR",
-      dateOfBirth: dob,
-    });
-  
-    if (signUpResult.error) {
-      setIsLoading(false);
-      setErrorMessage(signUpResult.error.message || "Something went wrong.");
-      return;
-    }
-  
-    const profileResponse = await fetch("/api/doctor-profile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        specialties: selectedSpecialties,
-        serviceCategories: selectedServiceCategories,
-        services: selectedServices,
-        subzones: selectedSubzones,
+
+    try {
+      const signUpResult = await authClient.signUp.email({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+        role: "DOCTOR",
+        dateOfBirth: dob,
+      });
+
+      if (signUpResult.error) {
+        setErrorMessage(signUpResult.error.message || "Something went wrong.");
+        return;
+      }
+
+      const userId = signUpResult.data?.user?.id;
+
+      if (!userId) {
+        setErrorMessage("User was created but no user ID was returned.");
+        return;
+      }
+
+
+      const profileResponse = await fetch("/api/doctor-profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+        userId,
+
+        clinicName: clinicName.trim(),
+
+        specialtyIds: selectedSpecialties,
+        subcategoryIds: selectedServiceCategories,
+        procedureIds: selectedServices,
+        subzoneIds: selectedSubzones,
+
+        workAddress: workAddress.trim(),
+        city: city.trim(),
+        country: country.trim(),
+        zipCode: zipCode.trim() || null,
+
+        workLatitude: workLatitude ?? null,
+        workLongitude: workLongitude ?? null,
+        googlePlaceId: googlePlaceId || null,
+
         otherSpecialtyText: otherSpecialtyText.trim() || null,
       }),
-    });
-  
-    const profileData = await profileResponse.json();
-  
-    setIsLoading(false);
-  
-    if (!profileResponse.ok) {
-      setErrorMessage(profileData?.error || "Failed to save doctor profile.");
-      return;
+      });
+
+      const profileData = await profileResponse.json();
+
+      if (!profileResponse.ok) {
+        setErrorMessage(profileData?.error || "Failed to save doctor profile.");
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch (error) {
+      setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-  
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (
@@ -252,7 +263,6 @@ export default function SignUpPage() {
     {accountType === "doctor" && (
       <DoctorSignUpForm
         name={name}
-        dob={dob}
         email={email}
         password={password}
         selectedSpecialties={selectedSpecialties}
@@ -278,7 +288,6 @@ export default function SignUpPage() {
         onBack={handleBack}
         onSubmit={handleDoctorSubmit}
         onNameChange={setName}
-        onDobChange={setDob}
         onEmailChange={setEmail}
         onPasswordChange={setPassword}
         onToggleSpecialty={handleToggleSpecialty}

@@ -23,7 +23,6 @@ export type PatientSignUpFormProps = {
 
 export type DoctorSignUpProps = {
   name: string;
-  dob: string;
   email: string;
   password: string;
 
@@ -60,7 +59,6 @@ export type DoctorSignUpProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 
   onNameChange: (value: string) => void;
-  onDobChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
 

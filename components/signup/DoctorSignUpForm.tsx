@@ -109,7 +109,6 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
         {step === 1 ? (
           <DoctorAccountDetailsStep
             name={props.name}
-            dob={props.dob}
             email={props.email}
             password={props.password}
             confirmPassword={confirmPassword}
@@ -119,7 +118,6 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             country={props.country}
             zipCode={props.zipCode}
             onNameChange={props.onNameChange}
-            onDobChange={props.onDobChange}
             onEmailChange={props.onEmailChange}
             onPasswordChange={props.onPasswordChange}
             onConfirmPasswordChange={setConfirmPassword}

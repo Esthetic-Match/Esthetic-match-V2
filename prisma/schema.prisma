@@ -53,6 +53,9 @@ model DoctorProfile {
   procedureIds    String[]
   subzoneIds      String[]
   workAddress     String
+  city            String?
+  country         String?
+  zipCode         String?
   workLatitude    Float?
   workLongitude   Float?
   googlePlaceId   String?

@@ -17,7 +17,6 @@ const googleLibraries: "places"[] = ["places"];
 
 type DoctorAccountDetailsStepProps = {
   name: string;
-  dob: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -30,7 +29,6 @@ type DoctorAccountDetailsStepProps = {
   
 
   onNameChange: (value: string) => void;
-  onDobChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
   onConfirmPasswordChange: (value: string) => void;
