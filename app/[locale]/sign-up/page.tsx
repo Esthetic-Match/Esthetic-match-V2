@@ -10,9 +10,11 @@ import DoctorSignUpForm from "@/components/signup/DoctorSignUpForm";
 
 import type { AccountType } from "./types";
 import BackButton from "@/components/UI/BackButton";
+import { useLocale } from "next-intl";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const locale = useLocale();
 
   const [accountType, setAccountType] = useState<AccountType>(null);
 
@@ -136,7 +138,7 @@ export default function SignUpPage() {
       return;
     }
 
-    router.push("/dashboard");
+    router.push(`/${locale}/sign-in`);
     router.refresh();
   }
 
@@ -222,7 +224,7 @@ export default function SignUpPage() {
         return;
       }
 
-      router.push("/dashboard");
+      router.push(`/${locale}/sign-in`);
       router.refresh();
     } catch (error) {
       setErrorMessage("Something went wrong. Please try again.");

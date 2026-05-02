@@ -6,11 +6,12 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeClosed, Mail } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function SignInPage() {
   const t = useTranslations("signIn.SignIn");
   const router = useRouter();
+  const locale = useLocale();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +36,7 @@ export default function SignInPage() {
       return;
     }
 
-    router.push("/dashboard");
+    router.push(`/${locale}/dashboard`);
     router.refresh();
   }
 
@@ -101,7 +102,7 @@ export default function SignInPage() {
 
               <div className="mt-2 text-right">
                 <Link
-                  href="/forgot-password"
+                  href={`/${locale}/forgot-password`}
                   className="text-xs text-[#ead3a5] underline underline-offset-2"
                 >
                   {t("ForgotPassword")}
@@ -128,7 +129,7 @@ export default function SignInPage() {
 
           <p className="mt-7 text-center text-sm">
             {t("NoAccount")}{" "}
-            <Link href="/sign-up" className="underline underline-offset-2">
+            <Link href={`/${locale}/sign-up`} className="underline underline-offset-2">
               {t("SignUp")}
             </Link>
           </p>
