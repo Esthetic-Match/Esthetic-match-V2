@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 export default function HomePageTemplate() {
     const t = useTranslations("home.Home");
+    const locale = useLocale();
 
     return (
         <section className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 py-12 lg:flex-row lg:justify-between lg:px-16">
@@ -24,8 +26,7 @@ export default function HomePageTemplate() {
               <h1 className="text-3xl font-semibold tracking-[0.25em] text-[#283C5D] sm:text-4xl">
                 ESTHETIC MATCH<br/>
                 <span className="text-sm font-normal tracking-[0.15em] text-[#283C5D]/80">
-                  Day 214, I ran out of water 2 days ago and I can feel my skin drying up, but blond french lady says it will be over soon.<br/>
-                  I think she's lying, send help soon pls...
+                  Day 214, I ran out of water 2 days ago and I can feel my skin drying up<br/>
                 </span>
               </h1>
             </div>
@@ -44,14 +45,14 @@ export default function HomePageTemplate() {
           <div className="flex flex-col items-center gap-4 lg:items-start">
             <div className="flex gap-4">
               <Link
-                href="/sign-in"
+                href={`/${locale}/sign-in`}
                 className="rounded-full border border-[#283C5D]/30 px-6 py-3 text-sm font-medium tracking-[0.2em] uppercase text-[#283C5D] transition hover:bg-[#283C5D]/5"
               >
                 {t("Sign In")}
               </Link>
             
               <Link
-                href="/sign-up"
+                href={`/${locale}/sign-up`}
                 className="rounded-full bg-[#283C5D] px-6 py-3 text-sm font-semibold tracking-[0.2em] uppercase text-white transition hover:opacity-90"
               >
                 {t("signUp")}
