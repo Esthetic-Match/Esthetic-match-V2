@@ -14,6 +14,11 @@ import {
 import TermsAndConditions from "./TermsAndCondition";
 import LanguageSelector from "./LanguageSelector";
 import ReportProblem from "./ReportProblem";
+import ChangePassword from "./ChangePassword";
+import EditProfile from "./EditProfile";
+import PatientEditProfile from "./PatientEditProfile";
+import DoctorEditProfile from "./DoctorEditProfile";
+import SubscriptionPlans from "./SubscriptionPlans";
 
 type SettingsPage =
   | "Edit Profile"
@@ -23,6 +28,10 @@ type SettingsPage =
   | "Terms & Conditions"
   | "Subscription"
   | "Delete Account";
+
+  type SettingsProps = {
+  user: any;
+};
 
 const settingsGroups = [
   [
@@ -122,13 +131,13 @@ function PlaceholderPanel({ title }: { title: string }) {
       </p>
       <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">{title}</h2>
       <p className="mt-4 text-gray-500">
-        Placeholder component for {title}.
+        Placeholder component for {title} untill everything else is ready.
       </p>
     </div>
   );
 }
 
-export default function Settings() {
+export default function Settings({ user }: SettingsProps) {
   const [activePage, setActivePage] = useState<SettingsPage>("Edit Profile");
 
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -160,8 +169,20 @@ export default function Settings() {
         />
 
         <main className="flex-1 h-full overflow-y-auto bg-[#FAF9F7] p-6 md:p-10">
-          {activePage === "Edit Profile" && <PlaceholderPanel title="Edit Profile" />}
-          {activePage === "Change Password" && <PlaceholderPanel title="Change Password" />}
+          {activePage === "Edit Profile" &&
+            (user.role === "DOCTOR" ? (
+              <DoctorEditProfile
+                user={user}
+                doctorProfile={user.doctorProfile}
+              />
+            ) : (
+              <PatientEditProfile
+                user={user}
+                patientProfile={user.patientProfile}
+              />
+            ))}
+          {activePage === "Change Password" && <ChangePassword />}
+          {activePage === "Subscription" && <SubscriptionPlans />}
           {activePage === "Language" && <LanguageSelector />}
           {activePage === "Report a Problem" && <ReportProblem />}
           {activePage === "Terms & Conditions" && <TermsAndConditions />}

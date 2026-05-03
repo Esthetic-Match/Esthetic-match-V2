@@ -29,7 +29,7 @@ export default function LanguageSelector() {
           className={`flex flex-col items-center justify-center rounded-2xl border p-4 w-32 transition
           ${
             locale === "en"
-              ? "border-[#283C5D] bg-[#283C5D] text-white"
+              ? "border-[#d8bd8d] bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] text-white"
               : "border-black/10 bg-white text-black hover:bg-gray-100 cursor-pointer"
           }`}
         >
@@ -48,7 +48,7 @@ export default function LanguageSelector() {
           className={`flex flex-col items-center justify-center rounded-2xl border p-4 w-32 transition
           ${
             locale === "fr"
-              ? "border-[#283C5D] bg-[#283C5D] text-white"
+              ? "border-[#d8bd8d] bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1]  text-white"
               : "border-black/10 bg-white text-black hover:bg-gray-100 cursor-pointer"
           }`}
         >

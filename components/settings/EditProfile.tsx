@@ -1,9 +1,11 @@
+
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import Settings from "@/components/settings/Settings";
+import PatientEditProfile from "./PatientEditProfile";
+import DoctorEditProfile from "./DoctorEditProfile";
 
-export default async function SettingsPage() {
+export default async function EditProfile() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -26,5 +28,9 @@ export default async function SettingsPage() {
     return null;
   }
 
-  return <Settings user={user} />;
+  if (user.role === "DOCTOR") {
+    return <DoctorEditProfile user={user} doctorProfile={user.doctorProfile} />;
+  }
+
+  return <PatientEditProfile user={user} patientProfile={user.patientProfile} />;
 }
