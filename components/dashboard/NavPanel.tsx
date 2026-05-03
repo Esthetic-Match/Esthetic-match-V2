@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/UI/sidebar";
 import {
@@ -8,81 +9,102 @@ import {
   IconUserBolt,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
-import UploadImageWidget from "@/components/UI/UploadImageWidget";
+import { Urbanist  } from "next/font/google";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
-export function NavPanel() {
+const urbanist = Urbanist({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-urbanist", 
+});
+
+type NavPanelProps = {
+  children: React.ReactNode;
+};
+
+export function NavPanel({ children }: NavPanelProps) {
+  const [open, setOpen] = useState(false);
+
+  const locale = useLocale();
+  const router = useRouter();
+
+  async function handleSignOut() {
+    await authClient.signOut();
+    router.push(`/${locale}`);
+    router.refresh();
+  }
+
   const links = [
     {
       label: "Messages",
-      href: "#",
-      icon: (
-        <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />
-      ),
+      href: `/${locale}/dashboard/messages`,
+      icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />,
     },
     {
       label: "Profile",
-      href: "#",
-      icon: (
-        <IconUserBolt className="h-5 w-5 shrink-0 text-white" />
-      ),
+      href: `/${locale}/dashboard/profile`,
+      icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
     },
     {
       label: "Settings",
-      href: "#",
-      icon: (
-        <IconSettings className="h-5 w-5 shrink-0 text-white" />
-      ),
+      href: `/${locale}/dashboard/settings`,
+      icon: <IconSettings className="h-5 w-5 shrink-0 text-white" />,
     },
     {
       label: "Logout",
       href: "#",
-      icon: (
-        <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />
-      ),
+      icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />,
     },
   ];
-  const [open, setOpen] = useState(false);
+
   return (
-    <div
-      className={cn(
-        "mx-auto flex w-full flex-1 flex-col overflow-hidden md:flex-row bg-[#283C5D]",
-        "h-screen",
-      )}>
-      <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-10">
-          <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-            {open ? <Logo /> : <LogoIcon />}
-            <div className="mt-8 flex flex-col gap-2">
-              {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
-              ))}
+    <div className={`flex min-h-screen w-full bg-[#283C5D] ${urbanist.className}`}>
+      <aside className="sticky top-0 h-screen shrink-0">
+        <Sidebar open={open} setOpen={setOpen}>
+          <SidebarBody className="justify-between gap-10">
+            <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+              {open ? <Logo /> : <LogoIcon />}
+
+              <div className="mt-8 flex flex-col gap-2">
+                {links.map((link, idx) => (
+                  <SidebarLink 
+                  key={idx} 
+                  link={link}  
+                  onClick={link.label === "Logout" ? handleSignOut : undefined} />
+                ))}
+              </div>
             </div>
-          </div>
-          <div>
-            <SidebarLink
-              link={{
-                label: "regard Debo, I'm a lobster !",
-                href: "#",
-                icon: (
-                  <img
-                    src="/pp.png"
-                    className="h-7 w-7 shrink-0 rounded-full"
-                    width={50}
-                    height={50}
-                    alt="Avatar"
-                  />
-                ),
-              }}
-            />
-          </div>
-        </SidebarBody>
-      </Sidebar>
-      <Dashboard />
+
+            <div>
+              <SidebarLink
+                link={{
+                  label: "regard Debo, I'm a lobster !",
+                  href: "#",
+                  icon: (
+                    <img
+                      src="/pp.png"
+                      className="h-7 w-7 shrink-0 rounded-full"
+                      width={50}
+                      height={50}
+                      alt="Avatar"
+                    />
+                  ),
+                }}
+              />
+            </div>
+          </SidebarBody>
+        </Sidebar>
+      </aside>
+      <main className="min-h-screen flex-1 overflow-x-hidden rounded-tl-2xl bg-white">
+        {children}
+      </main>
     </div>
   );
 }
+
 export const Logo = () => {
   return (
     <a
@@ -96,21 +118,24 @@ export const Logo = () => {
         height={28}
         className="mb-2"
       />
+
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-thin whitespace-pre text-white"
+        className="whitespace-pre font-thin text-white"
       >
         Esthetic Match
       </motion.span>
     </a>
   );
 };
+
 export const LogoIcon = () => {
+  const locale = useLocale();
   return (
     <a
-      href="/dashboard"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
+      href={`/${locale}/dashboard`}
+      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-white"
     >
       <Image
         src="/logo.svg"
@@ -123,23 +148,3 @@ export const LogoIcon = () => {
   );
 };
 
-// Dummy dashboard component with content
-const Dashboard = () => {
-  return (
-    <div className="flex flex-1">
-      <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
-        <div className="flex gap-2">
-          <UploadImageWidget />
-        </div>
-        <div className="flex flex-1 gap-2">
-          {[...new Array(2)].map((i, idx) => (
-            <div
-              key={"second-array-demo-1" + idx}
-              className="h-full w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
-            ></div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
