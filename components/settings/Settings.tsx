@@ -19,6 +19,7 @@ import EditProfile from "./EditProfile";
 import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
 import SubscriptionPlans from "./SubscriptionPlans";
+import { userAgent } from "next/server";
 
 type SettingsPage =
   | "Edit Profile"
@@ -81,10 +82,24 @@ function SettingsRow({
 function SettingsSidebar({
   activePage,
   setActivePage,
+  user,
 }: {
   activePage: SettingsPage;
   setActivePage: (page: SettingsPage) => void;
+  user: {
+    name: string | null;
+    email: string;
+    image: string | null;
+  };
 }) {
+  const initials = user.name
+    ? user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+    : "U";
+
   return (
     <aside className="h-full w-full bg-[#283C5D]/80 p-4 md:w-80">
       <h1 className="mb-6 text-center text-lg font-semibold text-white">
@@ -92,21 +107,33 @@ function SettingsSidebar({
       </h1>
 
       <div className="mb-8 flex flex-col items-center">
-        <img
-          src="/pp.png"
-          alt="Profile"
-          className="h-24 w-24 rounded-full object-cover"
-        />
+        {user.image ? (
+          <img
+            src={user.image}
+            alt="Profile"
+            className="h-24 w-24 rounded-full object-cover"
+          />
+        ) : (
+          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 text-2xl font-semibold text-white">
+            {initials}
+          </div>
+        )}
 
-        <p className="mt-3 text-base font-medium text-white">Kesa Lucian</p>
-        <p className="text-xs text-white/60">kesalucian123@gmail.com</p>
+        <p className="mt-3 text-base font-medium text-white">
+          {user.name ?? "Unnamed User"}
+        </p>
+
+        <p className="text-xs text-white/60">{user.email}</p>
       </div>
 
       <p className="mb-3 text-sm font-medium text-white">Settings</p>
 
       <div className="space-y-5 mb-5">
         {settingsGroups.map((group, groupIndex) => (
-          <div key={groupIndex} className="space-y-3 border-b border-white/10 pb-5 last:border-b-0">
+          <div
+            key={groupIndex}
+            className="space-y-3 border-b border-white/10 pb-5 last:border-b-0"
+          >
             {group.map((item) => (
               <SettingsRow
                 key={item.label}
@@ -122,7 +149,6 @@ function SettingsSidebar({
     </aside>
   );
 }
-
 function PlaceholderPanel({ title }: { title: string }) {
   return (
     <div className="flex h-full min-h-[400px] flex-col justify-center rounded-2xl bg-white p-8">
@@ -166,6 +192,7 @@ export default function Settings({ user }: SettingsProps) {
         <SettingsSidebar
           activePage={activePage}
           setActivePage={setActivePage}
+          user={user}
         />
 
         <main className="flex-1 h-full overflow-y-auto bg-[#FAF9F7] p-6 md:p-10">
