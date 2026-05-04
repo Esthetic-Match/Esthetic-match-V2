@@ -1,5 +1,9 @@
 "use client";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
+import { useState } from "react";
+import { User, Mail, Building2, MapPin, Map, Globe, Hash } from "lucide-react";
+import InputField from "@/components/UI/InputField";
+
 
 type DoctorEditProfileProps = {
   user: {
@@ -61,6 +65,16 @@ export default function DoctorEditProfile({
   user,
   doctorProfile,
 }: DoctorEditProfileProps) {
+  const [name, setName] = useState(user.name ?? "");
+  const [email] = useState(user.email);
+  const [clinicName, setClinicName] = useState(doctorProfile?.clinicName ?? "");
+  const [workAddress, setWorkAddress] = useState(
+    doctorProfile?.workAddress ?? ""
+  );
+  const [city, setCity] = useState(doctorProfile?.city ?? "");
+  const [country, setCountry] = useState(doctorProfile?.country ?? "");
+  const [zipCode, setZipCode] = useState(doctorProfile?.zipCode ?? "");
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
@@ -70,64 +84,68 @@ export default function DoctorEditProfile({
         <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
           Edit Profile
         </h2>
+        <div className="border-t border-gray-300 my-4"></div>
       </div>
 
-      <div className="space-y-4 rounded-2xl bg-white p-6">
+      <div className="space-y-4 rounded-2xl p-6">
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Full name</label>
-            <input
-              defaultValue={user.name ?? ""}
-              className="w-full rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
-              placeholder="Doctor name"
-            />
-          </div>
+          <InputField
+            label="Full name"
+            placeholder="Doctor name"
+            value={name}
+            onChange={setName}
+            icon={<User size={16} />}
+          />
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Email</label>
-            <input
-              defaultValue={user.email}
-              disabled
-              className="w-full rounded-xl border bg-gray-100 px-4 py-3 text-sm text-gray-500"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Clinic name</label>
-          <input
-            defaultValue={doctorProfile?.clinicName ?? ""}
-            className="w-full rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
-            placeholder="Clinic name"
+          <InputField
+            label="Email"
+            placeholder="Email"
+            value={email}
+            onChange={() => {}}
+            icon={<Mail size={16} />}
+            disabled
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Work address</label>
-          <input
-            defaultValue={doctorProfile?.workAddress ?? ""}
-            className="w-full rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
-            placeholder="Work address"
-          />
-        </div>
+        <InputField
+          label="Clinic name"
+          placeholder="Clinic name"
+          value={clinicName}
+          onChange={setClinicName}
+          icon={<Building2 size={16} />}
+        />
+
+        <InputField
+          label="Work address"
+          placeholder="Work address"
+          value={workAddress}
+          onChange={setWorkAddress}
+          icon={<MapPin size={16} />}
+        />
 
         <div className="grid gap-4 md:grid-cols-3">
-          <input
-            defaultValue={doctorProfile?.city ?? ""}
-            className="rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
+          <InputField
+            label="City"
             placeholder="City"
+            value={city}
+            onChange={setCity}
+            icon={<Map size={16} />}
           />
 
-          <input
-            defaultValue={doctorProfile?.country ?? ""}
-            className="rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
+          <InputField
+            label="Country"
             placeholder="Country"
+            value={country}
+            onChange={setCountry}
+            icon={<Globe size={16} />}
           />
 
-          <input
-            defaultValue={doctorProfile?.zipCode ?? ""}
-            className="rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
+          <InputField
+            label="Zip code"
             placeholder="Zip code"
+            value={zipCode}
+            onChange={setZipCode}
+            icon={<Hash size={16} />}
           />
         </div>
 
@@ -135,27 +153,33 @@ export default function DoctorEditProfile({
           <div>
             <p className="mb-2 font-medium text-[#283C5D]">Specialties</p>
             <div className="flex flex-wrap gap-2">
-              {getSpecialties(doctorProfile?.specialtyIds ?? []).map((specialty) => (
-                <Chip key={specialty} label={specialty} />
-              ))}
+              {getSpecialties(doctorProfile?.specialtyIds ?? []).map(
+                (specialty) => (
+                  <Chip key={specialty} label={specialty} />
+                )
+              )}
             </div>
           </div>
-            
+
           <div>
             <p className="mb-2 font-medium text-[#283C5D]">Categories</p>
             <div className="flex flex-wrap gap-2">
-              {getCategories(doctorProfile?.subcategoryIds ?? []).map((category) => (
-                <Chip key={category} label={category} />
-              ))}
+              {getCategories(doctorProfile?.subcategoryIds ?? []).map(
+                (category) => (
+                  <Chip key={category} label={category} />
+                )
+              )}
             </div>
           </div>
-            
+
           <div>
             <p className="mb-2 font-medium text-[#283C5D]">Procedures</p>
             <div className="flex flex-wrap gap-2">
-              {getProcedures(doctorProfile?.procedureIds ?? []).map((procedure) => (
-                <Chip key={procedure} label={procedure} />
-              ))}
+              {getProcedures(doctorProfile?.procedureIds ?? []).map(
+                (procedure) => (
+                  <Chip key={procedure} label={procedure} />
+                )
+              )}
             </div>
           </div>
         </div>
@@ -163,7 +187,7 @@ export default function DoctorEditProfile({
         <button
           type="button"
           className="w-full rounded-full bg-gradient-to-r 
-              from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white hover:bg-[#d8bd8d]"
+          from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white hover:bg-[#d8bd8d]"
         >
           Save changes
         </button>

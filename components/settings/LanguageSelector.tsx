@@ -16,13 +16,19 @@ export default function LanguageSelector() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-4">
-        <div className=" flex justify-center">
-            <p className="text-lg font-normal">Please select a language</p>
-        </div>
+    <div className="mx-auto flex h-full max-w-xl flex-col justify-center space-y-5">
+      <div>
+        <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
+          Language
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
+          Change Language
+      </h2>
+      <div className="border-t border-gray-300 my-4"></div>
+      </div>
       
       {/* ENGLISH CARD */}
-      <div className="flex flex-row gap-4 justify-center">
+      <div className="flex flex-row gap-4 justify-start">
         <button
           type="button"
           onClick={() => handleSwitch("en")}

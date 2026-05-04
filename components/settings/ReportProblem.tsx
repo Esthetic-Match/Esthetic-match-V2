@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import InputField from "../UI/InputField";
+import { MessageSquare } from "lucide-react";
+import TextareaField from "@/components/UI/textareaField";
 
 export default function ReportProblem() {
   const [subject, setSubject] = useState("");
@@ -17,12 +20,12 @@ export default function ReportProblem() {
 
     try {
       const res = await fetch("/api/report-problem", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ subject, message }),
-        });
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ subject, message }),
+      });
 
       if (!res.ok) throw new Error("Failed");
 
@@ -39,34 +42,35 @@ export default function ReportProblem() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto space-y-6 flex flex-col items-center justify-center h-full gap-4"
+      className="mx-auto flex h-full max-w-xl flex-col justify-center space-y-5"
     >
-      <h2 className="text-2xl font-semibold text-[#283C5D]">
-        Report a Problem
-      </h2>
+      <div>
+        <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
+          Feedback
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
+          Report A Problem
+        </h2>
+        <div className="border-t border-gray-300 my-4"></div>
+      </div>
 
       {/* SUBJECT */}
-      <div className="space-y-2 w-full">
-        <label className="text-sm font-medium">Subject</label>
-        <input
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          placeholder="Enter subject..."
-          className="w-full rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
-        />
-      </div>
+      <InputField
+        label="Subject"
+        placeholder="Enter subject..."
+        value={subject}
+        onChange={setSubject}
+        icon={<MessageSquare size={16} />}
+      />
 
-      {/* MESSAGE */}
-      <div className="space-y-2 w-full">
-        <label className="text-sm font-medium">Message</label>
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Describe your issue..."
-          rows={6}
-          className="w-full rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#283C5D]"
-        />
-      </div>
+      {/* MESSAGE (keep textarea) */}
+      <TextareaField
+        label="Message"
+        placeholder="Describe your issue..."
+        value={message}
+        onChange={setMessage}
+        icon={<MessageSquare size={16} />}
+      />
 
       {/* SUCCESS */}
       {success && (
@@ -80,7 +84,8 @@ export default function ReportProblem() {
         type="submit"
         disabled={loading}
         className="w-full rounded-full bg-gradient-to-r 
-              from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-white text-sm font-medium transition hover:scale-[1.02] disabled:opacity-50"
+        from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-white text-sm font-medium 
+        transition hover:scale-[1.02] disabled:opacity-50"
       >
         {loading ? "Sending..." : "Send"}
       </button>
