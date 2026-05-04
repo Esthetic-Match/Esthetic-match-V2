@@ -1,18 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-function stringArray(value: unknown): string[] {
-  return Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === "string")
-    : [];
-}
-
-function nullableString(value: unknown): string | null {
-  if (typeof value !== "string") return null;
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : null;
-}
-
 function requiredString(value: unknown): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
@@ -45,17 +33,11 @@ export async function POST(req: Request) {
   }
 
   if (!clinicName) {
-    return NextResponse.json(
-      { error: "Clinic name is required." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Clinic name is required." }, { status: 400 });
   }
 
   if (!workAddress) {
-    return NextResponse.json(
-      { error: "Work address is required." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Clinic address is required." }, { status: 400 });
   }
 
   if (!city) {
@@ -63,17 +45,11 @@ export async function POST(req: Request) {
   }
 
   if (!country) {
-    return NextResponse.json(
-      { error: "Country is required." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Country is required." }, { status: 400 });
   }
 
   if (!zipCode) {
-    return NextResponse.json(
-      { error: "Zip code is required." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Clinic zip code is required." }, { status: 400 });
   }
 
   const user = await prisma.user.findUnique({
@@ -95,54 +71,33 @@ export async function POST(req: Request) {
     );
   }
 
-  const specialtyIds = stringArray(body.specialtyIds ?? body.specialties);
-  const subcategoryIds = stringArray(
-    body.subcategoryIds ?? body.serviceCategories
-  );
-  const procedureIds = stringArray(body.procedureIds ?? body.services);
-  const subzoneIds = stringArray(body.subzoneIds ?? body.subzones);
-
-  if (specialtyIds.length === 0) {
-    return NextResponse.json(
-      { error: "At least one specialty is required." },
-      { status: 400 }
-    );
-  }
-
   const profile = await prisma.doctorProfile.upsert({
     where: {
       userId,
     },
     update: {
       clinicName,
-      specialtyIds,
-      subcategoryIds,
-      procedureIds,
-      subzoneIds,
       workAddress,
       city,
       country,
       zipCode,
       workLatitude: nullableNumber(body.workLatitude),
       workLongitude: nullableNumber(body.workLongitude),
-      googlePlaceId: nullableString(body.googlePlaceId),
-      otherSpecialtyText: nullableString(body.otherSpecialtyText),
     },
     create: {
       userId,
       clinicName,
-      specialtyIds,
-      subcategoryIds,
-      procedureIds,
-      subzoneIds,
       workAddress,
       city,
       country,
       zipCode,
       workLatitude: nullableNumber(body.workLatitude),
       workLongitude: nullableNumber(body.workLongitude),
-      googlePlaceId: nullableString(body.googlePlaceId),
-      otherSpecialtyText: nullableString(body.otherSpecialtyText),
+
+      specialtyIds: [],
+      subcategoryIds: [],
+      procedureIds: [],
+      subzoneIds: [],
     },
   });
 
