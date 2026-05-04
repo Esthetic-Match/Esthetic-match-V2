@@ -23,6 +23,79 @@ type DoctorSpecialtyDetailsStepProps = {
   onOtherSpecialtyTextChange: (value: string) => void;
 };
 
+const steps = [
+  {
+    key: "specialties",
+    label: "Select Specialty",
+  },
+  {
+    key: "categories",
+    label: "Select Category",
+  },
+  {
+    key: "procedures",
+    label: "Select Procedure",
+  },
+] as const;
+
+function SpecialtyStepper({
+  currentStep,
+}: {
+  currentStep: DoctorSpecialtySubStep;
+}) {
+  const currentIndex = currentStep === "specialties" ? 0 : 1;
+
+  return (
+    <div className="mb-8 flex w-full justify-center">
+      <div className="flex w-full max-w-xl items-start">
+        {steps.map((step, index) => {
+          const isActive = index === currentIndex;
+          const isCompleted = index < currentIndex;
+
+          return (
+            <div
+              key={step.key}
+              className="flex flex-1 items-start last:flex-none"
+            >
+              <div className="flex flex-col items-center">
+                <div
+                  className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-semibold transition ${
+                    isActive || isCompleted
+                      ? "bg-[#283C5D] text-white"
+                      : "border border-[#283C5D]/20 bg-white text-[#283C5D]/40"
+                  }`}
+                >
+                  {index + 1}
+                </div>
+
+                <span
+                  className={`mt-2 whitespace-nowrap text-[11px] font-medium ${
+                    isActive
+                      ? "text-[#283C5D]"
+                      : isCompleted
+                        ? "text-[#283C5D]/70"
+                        : "text-[#283C5D]/35"
+                  }`}
+                >
+                  {step.label}
+                </span>
+              </div>
+
+              {index < steps.length - 1 ? (
+                <div
+                  className={`mx-3 mt-3 h-px flex-1 ${
+                    isCompleted ? "bg-[#283C5D]" : "bg-[#283C5D]/15"
+                  }`}
+                />
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function DoctorSpecialtyDetailsStep({
   subStep,
   selectedSpecialties,
@@ -46,13 +119,7 @@ export default function DoctorSpecialtyDetailsStep({
 
   return (
     <>
-      <div className="mb-6 flex flex-col items-center text-center">
-        <p className="mt-2 max-w-xs text-md leading-tight text-black/30">
-          {isSelectingSpecialties
-            ? "Select your specialties."
-            : "Select your categories and procedures."}
-        </p>
-      </div>
+      <SpecialtyStepper currentStep={subStep} />
 
       {isSelectingSpecialties ? (
         <>

@@ -104,7 +104,7 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
 
       <form
         onSubmit={handleSubmit}
-        className="relative z-9999 mx-auto max-w-lg space-y-4 p-6"
+        className="relative z-9999 mx-auto max-w-2xl space-y-4 p-6"
       >
         {step === 1 ? (
           <DoctorAccountDetailsStep
