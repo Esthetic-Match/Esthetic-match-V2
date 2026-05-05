@@ -1,26 +1,28 @@
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
+import type { Metadata } from "next";
+import { DM_Sans } from "next/font/google";
+import "./globals.css";
 
-export default async function LocaleLayout({
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-dm-sans",
+});
+
+export const metadata: Metadata = {
+  title: "Esthetic Match",
+  description: "Esthetic Match",
+};
+
+export default function RootLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-
-  if (!routing.locales.includes(locale as "en" | "fr")) {
-    notFound();
-  }
-
-  const messages = await getMessages();
-
   return (
-    <NextIntlClientProvider messages={messages}>
-      {children}
-    </NextIntlClientProvider>
+    <html lang="en" className={`${dmSans.variable} h-full antialiased`}>
+      <body className={`${dmSans.className} min-h-full flex flex-col`}>
+        {children}
+      </body>
+    </html>
   );
 }
