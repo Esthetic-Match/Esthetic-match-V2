@@ -2,26 +2,29 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 
 import AccountTypeSelector from "@/components/signup/AccountTypeSelector";
 import PatientSignUpForm from "@/components/signup/PatientSignUpForm";
 import DoctorSignUpForm from "@/components/signup/DoctorSignUpForm";
+import VerifyEmail from "@/components/signup/VerifyEmail";
+import BackButton from "@/components/UI/BackButton";
 
 import type { AccountType } from "./types";
-import BackButton from "@/components/UI/BackButton";
-import { useLocale } from "next-intl";
 
 export default function SignUpPage() {
   const router = useRouter();
   const locale = useLocale();
 
   const [accountType, setAccountType] = useState<AccountType>(null);
+  const [signUpStep, setSignUpStep] = useState<"form" | "verifyEmail">("form");
 
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [clinicName, setClinicName] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [city, setCity] = useState("");
@@ -31,12 +34,7 @@ export default function SignUpPage() {
   const [workLatitude, setWorkLatitude] = useState<number | null>(null);
   const [workLongitude, setWorkLongitude] = useState<number | null>(null);
 
-  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
-  const [selectedServiceCategories, setSelectedServiceCategories] = useState<string[]>([]);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
-  const [selectedSubzones, setSelectedSubzones] = useState<string[]>([]);
-  const [otherSpecialtyText, setOtherSpecialtyText] = useState("");
-
+  const [verificationEmail, setVerificationEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [infoMessage, setInfoMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,75 +49,32 @@ export default function SignUpPage() {
     setDob("");
     setEmail("");
     setPassword("");
-    setSelectedSpecialties([]);
-    setSelectedServiceCategories([]);
-    setSelectedServices([]);
-    setSelectedSubzones([]);
-    setOtherSpecialtyText("");
-  }
-
-  function handleDoctorSelect() {
-    setAccountType("doctor");
-    resetMessages();
-  }
-
-  function handlePatientSelect() {
-    setAccountType("patient");
-    resetMessages();
+    setClinicName("");
+    setWorkAddress("");
+    setCity("");
+    setCountry("");
+    setZipCode("");
+    setGooglePlaceId("");
+    setWorkLatitude(null);
+    setWorkLongitude(null);
   }
 
   function handleBack() {
     setAccountType(null);
+    setSignUpStep("form");
+    setVerificationEmail("");
     resetMessages();
     resetFormState();
-  }
-
-  function toggleItem(
-    id: string,
-    setter: React.Dispatch<React.SetStateAction<string[]>>
-  ) {
-    setter((current) =>
-      current.includes(id)
-        ? current.filter((item) => item !== id)
-        : [...current, id]
-    );
-  }
-
-  function handleToggleSpecialty(id: string) {
-    toggleItem(id, setSelectedSpecialties);
-  }
-
-  function handleToggleServiceCategory(id: string) {
-    toggleItem(id, setSelectedServiceCategories);
-  }
-
-  function handleToggleService(id: string) {
-    toggleItem(id, setSelectedServices);
   }
 
   async function handlePatientSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     resetMessages();
 
-    if (!name.trim()) {
-      setErrorMessage("Please enter your name.");
-      return;
-    }
-
-    if (!dob) {
-      setErrorMessage("Please enter your date of birth.");
-      return;
-    }
-
-    if (!email.trim()) {
-      setErrorMessage("Please enter your email.");
-      return;
-    }
-
-    if (!password.trim()) {
-      setErrorMessage("Please enter your password.");
-      return;
-    }
+    if (!name.trim()) return setErrorMessage("Please enter your name.");
+    if (!dob) return setErrorMessage("Please enter your date of birth.");
+    if (!email.trim()) return setErrorMessage("Please enter your email.");
+    if (!password.trim()) return setErrorMessage("Please enter your password.");
 
     setIsLoading(true);
 
@@ -138,37 +93,27 @@ export default function SignUpPage() {
       return;
     }
 
-    router.push(`/${locale}/sign-in`);
-    router.refresh();
+    setVerificationEmail(email.trim());
+    setSignUpStep("verifyEmail");
+    setInfoMessage("We sent a verification code to your email.");
   }
 
-  async function handleDoctorSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleCreateDoctorAccount() {
     resetMessages();
-
-    if (!name.trim()) return setErrorMessage("Please enter your name.");
-    if (!email.trim()) return setErrorMessage("Please enter your email.");
-    if (!password.trim()) return setErrorMessage("Please enter your password.");
-    if (!clinicName.trim()) return setErrorMessage("Please enter your clinic name.");
-    if (!workAddress.trim()) return setErrorMessage("Please enter your clinic address.");
-    if (!city.trim()) return setErrorMessage("Please enter your city.");
-    if (!country.trim()) return setErrorMessage("Please enter your country.");
-
-    if (selectedSpecialties.length === 0) {
-      return setErrorMessage("Please select at least one specialty.");
-    }
-
-    if (
-      selectedSpecialties.includes("other_specialty") &&
-      !otherSpecialtyText.trim()
-    ) {
-      return setErrorMessage("Please specify the other specialty.");
-    }
-
     setIsLoading(true);
 
     try {
-      const signUpResult = await authClient.signUp.email({
+      if (!name.trim()) throw new Error("Please enter your name.");
+      if (!email.trim()) throw new Error("Please enter your email.");
+      if (!dob) return setErrorMessage("Please enter your date of birth.");
+      if (!password.trim()) throw new Error("Please enter your password.");
+      if (!clinicName.trim()) throw new Error("Please enter your clinic name.");
+      if (!workAddress.trim())
+        throw new Error("Please enter your clinic address.");
+      if (!city.trim()) throw new Error("Please enter your city.");
+      if (!country.trim()) throw new Error("Please enter your country.");
+
+      const { data, error } = await authClient.signUp.email({
         name: name.trim(),
         email: email.trim(),
         password,
@@ -176,76 +121,73 @@ export default function SignUpPage() {
         dateOfBirth: dob,
       });
 
-      if (signUpResult.error) {
-        setErrorMessage(signUpResult.error.message || "Something went wrong.");
-        return;
+      if (error) {
+        throw new Error(error.message || "Could not create doctor account.");
       }
 
-      const userId = signUpResult.data?.user?.id;
+      const userId = data?.user?.id;
 
       if (!userId) {
-        setErrorMessage("User was created but no user ID was returned.");
-        return;
+        throw new Error("Account created, but user ID was not returned.");
       }
 
-
-      const profileResponse = await fetch("/api/doctor-profile", {
+      const profileRes = await fetch("/api/doctor-profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-        userId,
-
-        clinicName: clinicName.trim(),
-
-        specialtyIds: selectedSpecialties,
-        subcategoryIds: selectedServiceCategories,
-        procedureIds: selectedServices,
-        subzoneIds: selectedSubzones,
-
-        workAddress: workAddress.trim(),
-        city: city.trim(),
-        country: country.trim(),
-        zipCode: zipCode.trim() || null,
-
-        workLatitude: workLatitude ?? null,
-        workLongitude: workLongitude ?? null,
-        googlePlaceId: googlePlaceId || null,
-
-        otherSpecialtyText: otherSpecialtyText.trim() || null,
-      }),
+          userId,
+          clinicName: clinicName.trim(),
+          workAddress: workAddress.trim(),
+          city: city.trim(),
+          country: country.trim(),
+          zipCode: zipCode.trim(),
+          workLatitude,
+          workLongitude,
+        }),
       });
 
-      const profileData = await profileResponse.json();
-
-      if (!profileResponse.ok) {
-        setErrorMessage(profileData?.error || "Failed to save doctor profile.");
-        return;
+      if (!profileRes.ok) {
+        const profileData = await profileRes.json().catch(() => null);
+        throw new Error(
+          profileData?.error || "Doctor profile could not be created."
+        );
       }
 
-      router.push(`/${locale}/sign-in`);
-      router.refresh();
+      setVerificationEmail(email.trim());
     } catch (error) {
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Could not create doctor account."
+      );
+
+      throw error;
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <main className="">
+    <main>
       <BackButton onBack={() => router.back()} />
 
       {accountType === null && (
         <AccountTypeSelector
           infoMessage={infoMessage}
-          onSelectPatient={handlePatientSelect}
-          onSelectDoctor={handleDoctorSelect}
+          onSelectPatient={() => {
+            resetMessages();
+            setAccountType("patient");
+          }}
+          onSelectDoctor={() => {
+            resetMessages();
+            setAccountType("doctor");
+          }}
         />
       )}
 
-      {accountType === "patient" && (
+      {accountType === "patient" && signUpStep === "form" && (
         <PatientSignUpForm
           name={name}
           dob={dob}
@@ -262,42 +204,42 @@ export default function SignUpPage() {
         />
       )}
 
-    {accountType === "doctor" && (
-      <DoctorSignUpForm
-        name={name}
-        email={email}
-        password={password}
-        selectedSpecialties={selectedSpecialties}
-        selectedServiceCategories={selectedServiceCategories}
-        selectedServices={selectedServices}
-        otherSpecialtyText={otherSpecialtyText}
-        errorMessage={errorMessage}
-        clinicName={clinicName}
-        workAddress={workAddress}
-        city={city}
-        country={country}
-        zipCode={zipCode}
-        onCityChange={setCity}
-        onCountryChange={setCountry}
-        onZipCodeChange={setZipCode}
-        onClinicNameChange={setClinicName}
-        onWorkAddressChange={setWorkAddress}
-        googlePlaceId={googlePlaceId}
-        onGooglePlaceIdChange={setGooglePlaceId}
-        onWorkLatitudeChange={setWorkLatitude}
-        onWorkLongitudeChange={setWorkLongitude}
-        isLoading={isLoading}
-        onBack={handleBack}
-        onSubmit={handleDoctorSubmit}
-        onNameChange={setName}
-        onEmailChange={setEmail}
-        onPasswordChange={setPassword}
-        onToggleSpecialty={handleToggleSpecialty}
-        onToggleServiceCategory={handleToggleServiceCategory}
-        onToggleService={handleToggleService}
-        onOtherSpecialtyTextChange={setOtherSpecialtyText}
-      />
-    )}
+      {accountType === "patient" && signUpStep === "verifyEmail" && (
+        <VerifyEmail email={verificationEmail} role="PATIENT" />
+      )}
+
+      {accountType === "doctor" && (
+        <DoctorSignUpForm
+          name={name}
+          email={email}
+          dob={dob}
+          password={password}
+          errorMessage={errorMessage}
+          clinicName={clinicName}
+          workAddress={workAddress}
+          city={city}
+          country={country}
+          zipCode={zipCode}
+          googlePlaceId={googlePlaceId}
+          workLatitude={workLatitude}      
+          workLongitude={workLongitude}     
+          isLoading={isLoading}
+          onBack={handleBack}
+          onNameChange={setName}
+          onEmailChange={setEmail}
+          onDobChange={setDob}
+          onPasswordChange={setPassword}
+          onCityChange={setCity}
+          onCountryChange={setCountry}
+          onZipCodeChange={setZipCode}
+          onClinicNameChange={setClinicName}
+          onWorkAddressChange={setWorkAddress}
+          onGooglePlaceIdChange={setGooglePlaceId}
+          onWorkLatitudeChange={setWorkLatitude}
+          onWorkLongitudeChange={setWorkLongitude}
+          onCreateDoctorAccount={handleCreateDoctorAccount}
+        />
+      )}
     </main>
   );
 }

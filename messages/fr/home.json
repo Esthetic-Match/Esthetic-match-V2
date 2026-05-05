@@ -5,6 +5,26 @@
     "statement": "En développement",
     "Sign In": "Se connecter",
     "signUp": "S'inscrire",
-    "back": "Retour"
+    "back": "Retour",
+    "reset password": "Réinitialiser le mot de passe",
+    "enter new pass": "Choisir un nouveau mot de passe",
+    "new password": "Nouveau mot de passe",
+    "confirm password": "Confirmez le nouveau mot de passe",
+    "forgot password": "Mot de passe oublié",
+    "enter mail": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "email address": "Adresse e-mail",
+    "send link": "Envoyer le lien de réinitialisation",
+    "Sending":"Envoi en cours...",
+    "verifyTitle": "Vérifiez votre email",
+    "verifySubtitle": "Entrez le code à 6 chiffres envoyé à",
+    "verifyButton": "Vérifier l’email",
+    "verifying": "Vérification...",
+    "resend": "Renvoyer le code",
+    "sending": "Envoi...",
+    "resendSuccess": "Un nouveau code de vérification a été envoyé.",
+    "resendError": "Impossible de renvoyer le code.",
+    "missingEmail": "Adresse email manquante.",
+    "invalidOtp": "Code de vérification invalide.",
+    "invalidOtpLength": "Veuillez entrer le code à 6 chiffres."
   }
 }

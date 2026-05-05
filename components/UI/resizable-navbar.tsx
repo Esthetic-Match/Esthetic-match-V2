@@ -156,7 +156,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
       }}
       className={cn(
         "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
+        visible && "bg-white/80 dark:bg-[#283C5D]/80",
         className,
       )}
     >
@@ -172,7 +172,7 @@ export const MobileNavHeader = ({
   return (
     <div
       className={cn(
-        "flex w-full flex-row items-center justify-between",
+        "flex w-full flex-row items-center justify-between ",
         className,
       )}
     >
@@ -214,9 +214,9 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) => {
   return isOpen ? (
-    <IconX className="text-black dark:text-black" onClick={onClick} />
+    <IconX className="text-black dark:text-gray-400" onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-black dark:text-black" onClick={onClick} />
+    <IconMenu2 className="text-black dark:text-gray-400" onClick={onClick} />
   );
 };
 

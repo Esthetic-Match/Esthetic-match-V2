@@ -24,13 +24,8 @@ export type PatientSignUpFormProps = {
 export type DoctorSignUpProps = {
   name: string;
   email: string;
+  dob: string;
   password: string;
-
-  selectedSpecialties: string[];
-  selectedServiceCategories: string[];
-  selectedServices: string[];
-
-  otherSpecialtyText: string;
 
   errorMessage: string;
   isLoading: boolean;
@@ -41,14 +36,14 @@ export type DoctorSignUpProps = {
   country: string;
   zipCode: string;
 
-  googlePlaceId?: string;
-  workLatitude?: number;
-  workLongitude?: number;
-  
-  onGooglePlaceIdChange: (value: string) => void;
-  onWorkLatitudeChange: (value: number) => void;
-  onWorkLongitudeChange: (value: number) => void;
+  googlePlaceId: string;
+  workLatitude: number | null;
+  workLongitude: number | null;
 
+  onGooglePlaceIdChange: (value: string) => void;
+  onWorkLatitudeChange: (value: number | null) => void;
+  onWorkLongitudeChange: (value: number | null) => void;
+  onDobChange: (value: string) => void;
   onCityChange: (value: string) => void;
   onCountryChange: (value: string) => void;
   onZipCodeChange: (value: string) => void;
@@ -56,17 +51,12 @@ export type DoctorSignUpProps = {
   onWorkAddressChange: (value: string) => void;
 
   onBack: () => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 
   onNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
 
-  onToggleSpecialty: (id: string) => void;
-  onToggleServiceCategory: (id: string) => void;
-  onToggleService: (id: string) => void;
-
-  onOtherSpecialtyTextChange: (value: string) => void;
+  onCreateDoctorAccount: () => Promise<void>;
 };
 
 export type MultiSelectOption = {

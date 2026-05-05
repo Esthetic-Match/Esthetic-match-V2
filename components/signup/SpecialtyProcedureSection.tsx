@@ -1,12 +1,14 @@
 import SelectedProcedures from "./SelectedProcedures";
 import { getSelectedProcedureLabels } from "@/components/signup/util/utils";
 import type { Category } from "@/app/[locale]/sign-up/types";
+import { useTranslations } from "next-intl";
 
 type SpecialtyProcedureSectionProps = {
   selectedSpecialties: string[];
   selectedServices: string[];
   visibleCategories: readonly Category[];
   onToggleService: (id: string) => void;
+  onDeselectAllProcedures: () => void;
 };
 
 export default function SpecialtyProcedureSection({
@@ -14,7 +16,11 @@ export default function SpecialtyProcedureSection({
   selectedServices,
   visibleCategories,
   onToggleService,
+  onDeselectAllProcedures,
 }: SpecialtyProcedureSectionProps) {
+  
+  const t = useTranslations("signUp.procedure");
+  
   if (selectedSpecialties.length === 0) {
     return null;
   }
@@ -23,16 +29,22 @@ export default function SpecialtyProcedureSection({
     visibleCategories,
     selectedServices
   );
-
+  
   return (
-    <div className="space-y-4 rounded-xl border border-2 p-4">
-      <p className="text-sm font-normal">
-        Procedures selected for {selectedSpecialties.join(", ")}
-      </p>
+    <div className="mt-6 rounded-xl border border-black/5 bg-white p-4 shadow-md">
+      <div className="mb-4">
+        <p className="text-sm font-semibold text-[#283C5D]">
+          {t("select pro")}
+        </p>
 
+        <p className="mt-1 text-xs text-[#283C5D]/50">
+          {t("pro selected")}
+        </p>
+      </div>
       <SelectedProcedures
         selectedProcedures={selectedProcedures}
         onRemoveProcedure={onToggleService}
+        onDeselectAllProcedures={onDeselectAllProcedures}
       />
     </div>
   );
