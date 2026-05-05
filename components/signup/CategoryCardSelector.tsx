@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { Category } from "@/app/[locale]/sign-up/types";
 import { useTranslations } from "next-intl";
 import ProcedureSelectionModal from "./ProcedureSelectionModel";
@@ -12,13 +12,15 @@ type CategoryCardSelectorProps = {
   selectedServices: string[];
   onToggleServiceCategory: (value: string) => void;
   onToggleService: (value: string) => void;
+  onSelectAllProcedures: () => void;
+  onDeselectAllProcedures: () => void;
 };
 
 function getCategoryImagePath(category: string) {
   return `/images/categories/${category
     .toLowerCase()
     .replaceAll(" ", "-")
-    .replaceAll("/", "-")}.jpg`;
+    .replaceAll("/", "-")}.svg`;
 }
 
 export default function CategoryCardSelector({
@@ -27,9 +29,15 @@ export default function CategoryCardSelector({
   selectedServices,
   onToggleServiceCategory,
   onToggleService,
+  onSelectAllProcedures,
+  onDeselectAllProcedures,
 }: CategoryCardSelectorProps) {
   const t = useTranslations("signUp.category");
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
+
+  function getCategoryLabel(category: string) {
+    return t.has(category) ? t(category) : category;
+  }
 
   function openCategory(categoryItem: Category) {
     const isAlreadySelected = selectedServiceCategories.includes(
@@ -41,6 +49,19 @@ export default function CategoryCardSelector({
     }
 
     setActiveCategory(categoryItem);
+  }
+
+  function deselectCategory(
+    e: React.MouseEvent<HTMLSpanElement>,
+    categoryItem: Category
+  ) {
+    e.stopPropagation();
+
+    if (selectedServiceCategories.includes(categoryItem.category)) {
+      onToggleServiceCategory(categoryItem.category);
+    }
+
+    setActiveCategory(null);
   }
 
   function closePopup() {
@@ -58,11 +79,13 @@ export default function CategoryCardSelector({
   return (
     <>
       <div className="space-y-3">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {visibleCategories.map((categoryItem) => {
             const selected = selectedServiceCategories.includes(
               categoryItem.category
             );
+
+            const label = getCategoryLabel(categoryItem.category);
 
             return (
               <button
@@ -70,34 +93,36 @@ export default function CategoryCardSelector({
                 type="button"
                 onClick={() => openCategory(categoryItem)}
                 aria-pressed={selected}
-                className={`relative min-h-32 overflow-hidden rounded-2xl border transition 
-                    hover:bg-[#94604C] hover:border-[#94604C] hover:scale-[1.01] active:scale-[0.98] cursor-pointer active:scale-[0.98] ${
+                className={`group relative flex min-h-[150px] flex-col items-center justify-center rounded-xl border px-4 py-5 text-center shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
                   selected
-                    ? "border-[#EDD0A9] ring-2 ring-[#EDD0A9]"
-                    : "border-black/10 hover:border-black/30"
+                    ? "border-[#2563EB]/20 bg-[#EFF6FF]/40 shadow-[0_0_0_1px_rgba(37,99,235,0.25)]"
+                    : "border-black/5 bg-white hover:border-[#2563EB]/40"
                 }`}
               >
+                <span
+                  onClick={(e) => selected && deselectCategory(e, categoryItem)}
+                  className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition ${
+                    selected
+                      ? "border-gray-200 bg-gray-300 text-black"
+                      : "border-black/15 bg-#2563EBe text-white"
+                  }`}
+                >
+                  <X size={13} strokeWidth={4} />
+                </span>
+
                 <img
                   src={getCategoryImagePath(categoryItem.category)}
-                  alt={t(categoryItem.category)}
-                  className="absolute inset-0 h-full w-full object-cover"
+                  alt={label}
+                  className={`mb-3 h-11 w-11 object-contain transition ${
+                    selected
+                      ? "opacity-100"
+                      : "opacity-80 group-hover:opacity-100"
+                  }`}
                 />
 
-                <div className="absolute inset-0 bg-black/35" />
-
-                {selected ? (
-                  <div className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-white text-black">
-                    <Check size={14} strokeWidth={3} />
-                  </div>
-                ) : null}
-
-                <div className="relative z-10 flex h-full min-h-32 items-center justify-center px-3 text-center">
-                  <span className="text-sm font-semibold text-white">
-                    {t.has(categoryItem.category)
-                      ? t(categoryItem.category)
-                      : categoryItem.category}
-                  </span>
-                </div>
+                <span className="text-sm font-semibold text-[#283C5D]">
+                  {label}
+                </span>
               </button>
             );
           })}
@@ -110,6 +135,8 @@ export default function CategoryCardSelector({
           selectedServices={selectedServices}
           onToggleService={onToggleService}
           onClose={closePopup}
+          onSelectAllProcedures={onSelectAllProcedures}
+          onDeselectAllProcedures={onDeselectAllProcedures}
         />
       ) : null}
     </>

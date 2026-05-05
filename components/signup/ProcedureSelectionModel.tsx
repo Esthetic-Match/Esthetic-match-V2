@@ -9,6 +9,8 @@ type ProcedureSelectionModalProps = {
   selectedServices: string[];
   onToggleService: (id: string) => void;
   onClose: () => void;
+  onSelectAllProcedures: () => void;
+  onDeselectAllProcedures: () => void;
 };
 
 export default function ProcedureSelectionModal({
@@ -16,6 +18,8 @@ export default function ProcedureSelectionModal({
   selectedServices,
   onToggleService,
   onClose,
+  onSelectAllProcedures,
+  onDeselectAllProcedures,
 }: ProcedureSelectionModalProps) {
   if (!activeCategory) return null;
 
@@ -40,11 +44,30 @@ export default function ProcedureSelectionModal({
             <X size={16} />
           </button>
         </div>
+           <div className="flex justify-start gap-2 mb-4">
+            <button
+              type="button"
+              onClick={onSelectAllProcedures}
+              className="rounded-full border border-[#2563EB]/20 bg-[#EFF6FF]/60 px-3 py-1.5 text-xs font-medium text-[#283C5D] transition hover:bg-[#EFF6FF] active:scale-[0.98]"
+            >
+              Select all
+            </button>
+                    
+            <button
+              type="button"
+              onClick={onDeselectAllProcedures}
+              className="rounded-full border border-red-500/20 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100 active:scale-[0.98]"
+            >
+              Delete all
+            </button>
+          </div>
 
         <div className="space-y-5">
+          
           {activeCategory.subcategories.map((subcategory) => (
             <div key={subcategory.subcategory} className="space-y-2">
-              <p className="text-sm font-semibold text-black">
+              <div className="h-px w-full bg-gray-300 my-4"/>
+              <p className="text-md font-semibold text-black">
                 {t(subcategory.subcategory)}
               </p>
 
@@ -60,7 +83,7 @@ export default function ProcedureSelectionModal({
                       className={`rounded-full border px-3 py-2 text-sm transition active:scale-[0.98] cursor-pointer ${
                         selected
                           ? "border-[#283C5D] bg-[#283C5D] text-white"
-                          : "border-black/10 bg-white text-black hover:border-black/30"
+                          : "border-gray-300 shadow-md bg-white text-black hover:-translate-y-0.5"
                       }`}
                     >
                       {t(procedure.name)}

@@ -21,6 +21,8 @@ type DoctorSpecialtyDetailsStepProps = {
   onToggleServiceCategory: (value: string) => void;
   onToggleService: (value: string) => void;
   onOtherSpecialtyTextChange: (value: string) => void;
+  onSelectAllProcedures: () => void;
+  onDeselectAllProcedures: () => void;
 };
 
 const steps = [
@@ -106,6 +108,8 @@ export default function DoctorSpecialtyDetailsStep({
   onToggleServiceCategory,
   onToggleService,
   onOtherSpecialtyTextChange,
+  onSelectAllProcedures,
+  onDeselectAllProcedures,
 }: DoctorSpecialtyDetailsStepProps) {
   const hasOtherSpecialty =
     selectedSpecialties.includes("Other specialty") ||
@@ -116,6 +120,8 @@ export default function DoctorSpecialtyDetailsStep({
 
   const isSelectingSpecialties = subStep === "specialties";
   const isSelectingCategories = subStep === "categories";
+
+  
 
   return (
     <>
@@ -146,14 +152,17 @@ export default function DoctorSpecialtyDetailsStep({
             selectedServices={selectedServices}
             onToggleServiceCategory={onToggleServiceCategory}
             onToggleService={onToggleService}
+            onSelectAllProcedures={onSelectAllProcedures}
+            onDeselectAllProcedures={onDeselectAllProcedures}
           />
 
-          <SpecialtyProcedureSection
-            selectedSpecialties={selectedSpecialties}
-            selectedServices={selectedServices}
-            visibleCategories={visibleCategories}
-            onToggleService={onToggleService}
-          />
+        <SpecialtyProcedureSection
+          selectedSpecialties={selectedSpecialties}
+          selectedServices={selectedServices}
+          visibleCategories={visibleCategories}
+          onToggleService={onToggleService}
+          onDeselectAllProcedures={onDeselectAllProcedures}
+        />
         </>
       ) : null}
     </>

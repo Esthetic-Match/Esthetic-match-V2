@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Urbanist  } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-const urbanist = Urbanist({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-urbanist", 
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-dm-sans",
 });
 
 export const metadata: Metadata = {
@@ -34,9 +34,9 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${urbanist.variable} h-full antialiased`}
+      className={`${dmSans.variable} h-full antialiased`}
     >
-      <body className={`${urbanist.className} min-h-full flex flex-col`}>
+      <body className={`${dmSans.className} min-h-full flex flex-col`}>
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>

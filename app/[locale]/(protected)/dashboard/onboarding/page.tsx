@@ -2,6 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import type {
+  Category,
+  Subcategory,
+  Procedure,
+} from "@/app/[locale]/sign-up/types";
+import { DoctorCatalog } from "@/lib/doctorCatalogue";
+
 
 import MessageText from "@/components/UI/MessageText";
 import BlueBanner from "@/components/UI/BlueBanner";
@@ -23,9 +30,10 @@ export default function DoctorOnboardingPage() {
   >([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [otherSpecialtyText, setOtherSpecialtyText] = useState("");
-
+  
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
 
   function toggleValue(value: string, setter: React.Dispatch<React.SetStateAction<string[]>>) {
     setter((prev) =>
@@ -97,8 +105,36 @@ export default function DoctorOnboardingPage() {
     }
   }
 
+function getSelectedCategoryProcedureIds(): string[] {
+  return DoctorCatalog.categories
+    .filter((category) =>
+      selectedServiceCategories.includes(category.category)
+    )
+    .flatMap((category) =>
+      category.subcategories.flatMap((subcategory) =>
+        subcategory.procedures.map((procedure) => procedure.id)
+      )
+    );
+}
+
+function handleSelectAllProcedures() {
+  const procedureIds = getSelectedCategoryProcedureIds();
+
+  setSelectedServices((prev) =>
+    Array.from(new Set([...prev, ...procedureIds]))
+  );
+}
+
+function handleDeselectAllProcedures() {
+  const procedureIds = getSelectedCategoryProcedureIds();
+
+  setSelectedServices((prev) =>
+    prev.filter((id) => !procedureIds.includes(id))
+  );
+}
+
   return (
-    <div >
+    <div className="overflow-hidden">
       <BlueBanner variant="blue" />
       <WhiteshadowBackground />
 
@@ -112,23 +148,23 @@ export default function DoctorOnboardingPage() {
           selectedServiceCategories={selectedServiceCategories}
           selectedServices={selectedServices}
           otherSpecialtyText={otherSpecialtyText}
-          onToggleSpecialty={(value) =>
+          onToggleSpecialty={(value: string) =>
             toggleValue(value, setSelectedSpecialties)
           }
-          onToggleServiceCategory={(value) =>
+          onToggleServiceCategory={(value: string) =>
             toggleValue(value, setSelectedServiceCategories)
           }
-          onToggleService={(value) =>
-            toggleValue(value, setSelectedServices)
-          }
+          onToggleService={(value: string) => toggleValue(value, setSelectedServices)}
           onOtherSpecialtyTextChange={setOtherSpecialtyText}
+          onSelectAllProcedures={handleSelectAllProcedures}
+          onDeselectAllProcedures={handleDeselectAllProcedures}
         />
 
         <MessageText message={errorMessage} variant="error" />
 
         {/* Continue/Back section */}
         <div className="space-y-3 mt-8">
-          <div className="flex flex-col md:flex-row justify-between">
+          <div className="flex flex-col gap-y-4 md:flex-row justify-between">
           {/* Security message */}
           <div className="flex items-center gap-2 text-xs md:min-w-[300px] max-h-[60px] text-black/50 bg-gray-200 rounded-full px-4 pr-10 py-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white">
@@ -136,19 +172,19 @@ export default function DoctorOnboardingPage() {
             </div>
               
             <div className="leading-tight">
-              <p className="font-medium text-xl text-[#283C5D]">
+              <p className="font-medium text-lg sm:text-xl text-[#283C5D]">
                 Your information is secure
               </p>
-              <p className="text-[11px] text-lg text-black/40">
+              <p className="text-[11px] text-xs sm:text-lg text-black/40">
                 We guarantee confidentiality and data protection
               </p>
             </div>
           </div>
-            <div className="flex flex-row space-x-4 justify-between">
+          <div className="flex gap-4">
             <button
               type="button"
               onClick={handleBack}
-              className="w-full rounded-full border border-black px-20 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
+              className="flex-1 rounded-full border border-black sm:px-8 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
             >
               Back
             </button>
@@ -156,17 +192,16 @@ export default function DoctorOnboardingPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full rounded-full bg-[#283C5D] px-20 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+              className="flex-1 rounded-full bg-[#283C5D] sm:px-10 px-4 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
             >
               {subStep === "categories"
                 ? isLoading
                   ? "Saving..."
-                  : "Complete onboarding"
+                  : "Submit"
                 : "Continue"}
             </button>
-            </div>
           </div>
-              
+        </div>      
         </div>
       </form>
     </div>
