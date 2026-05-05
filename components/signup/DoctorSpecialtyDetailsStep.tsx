@@ -5,6 +5,7 @@ import TextInput from "@/components/UI/TextInput";
 import SpecialtySelector from "./SpecialtySelector";
 import SpecialtyProcedureSection from "./SpecialtyProcedureSection";
 import CategoryCardSelector from "./CategoryCardSelector";
+import SpecialtyStepper from "./SpecialtyStepper"
 import { getVisibleCategories } from "./util/utils";
 
 type DoctorSpecialtySubStep = "specialties" | "categories";
@@ -21,6 +22,8 @@ type DoctorSpecialtyDetailsStepProps = {
   onToggleServiceCategory: (value: string) => void;
   onToggleService: (value: string) => void;
   onOtherSpecialtyTextChange: (value: string) => void;
+  onSelectAllProcedures: () => void;
+  onDeselectAllProcedures: () => void;
 };
 
 export default function DoctorSpecialtyDetailsStep({
@@ -33,6 +36,8 @@ export default function DoctorSpecialtyDetailsStep({
   onToggleServiceCategory,
   onToggleService,
   onOtherSpecialtyTextChange,
+  onSelectAllProcedures,
+  onDeselectAllProcedures,
 }: DoctorSpecialtyDetailsStepProps) {
   const hasOtherSpecialty =
     selectedSpecialties.includes("Other specialty") ||
@@ -44,15 +49,11 @@ export default function DoctorSpecialtyDetailsStep({
   const isSelectingSpecialties = subStep === "specialties";
   const isSelectingCategories = subStep === "categories";
 
+  
+
   return (
     <>
-      <div className="mb-6 flex flex-col items-center text-center">
-        <p className="mt-2 max-w-xs text-md leading-tight text-black/30">
-          {isSelectingSpecialties
-            ? "Select your specialties."
-            : "Select your categories and procedures."}
-        </p>
-      </div>
+      <SpecialtyStepper currentStep={subStep} />
 
       {isSelectingSpecialties ? (
         <>
@@ -79,14 +80,17 @@ export default function DoctorSpecialtyDetailsStep({
             selectedServices={selectedServices}
             onToggleServiceCategory={onToggleServiceCategory}
             onToggleService={onToggleService}
+            onSelectAllProcedures={onSelectAllProcedures}
+            onDeselectAllProcedures={onDeselectAllProcedures}
           />
 
-          <SpecialtyProcedureSection
-            selectedSpecialties={selectedSpecialties}
-            selectedServices={selectedServices}
-            visibleCategories={visibleCategories}
-            onToggleService={onToggleService}
-          />
+        <SpecialtyProcedureSection
+          selectedSpecialties={selectedSpecialties}
+          selectedServices={selectedServices}
+          visibleCategories={visibleCategories}
+          onToggleService={onToggleService}
+          onDeselectAllProcedures={onDeselectAllProcedures}
+        />
         </>
       ) : null}
     </>

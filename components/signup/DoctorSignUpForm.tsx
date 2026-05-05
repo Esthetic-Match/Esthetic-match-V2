@@ -1,99 +1,51 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { DoctorSignUpProps } from "@/app/[locale]/sign-up/types";
 
 import MessageText from "@/components/UI/MessageText";
 import BlueBanner from "../UI/BlueBanner";
 import WhiteshadowBackground from "../UI/WhiteShadowBackground";
-
 import DoctorAccountDetailsStep from "./DoctorAccountDetailsStep";
-import DoctorSpecialtyDetailsStep from "./DoctorSpecialtyDetailsStep";
+import VerifyEmail from "./VerifyEmail";
 import { useTranslations } from "next-intl";
 
-type DoctorSignupStep = 1 | 2 | 3;
-type DoctorSpecialtySubStep = "specialties" | "categories";
+type DoctorSignupStep = "account" | "verify-email";
 
 export default function DoctorSignUpForm(props: DoctorSignUpProps) {
   const t = useTranslations("signUp.doctorSignUp");
-  const { password, errorMessage, isLoading, onBack, onSubmit } = props;
+  const router = useRouter();
 
-  const [step, setStep] = useState<DoctorSignupStep>(1);
-  const [specialtySubStep, setSpecialtySubStep] =
-    useState<DoctorSpecialtySubStep>("specialties");
+  const { password, email, errorMessage, isLoading, onBack } = props;
 
+  const [step, setStep] = useState<DoctorSignupStep>("account");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [localError, setLocalError] = useState("");
 
-  function goToNextStep() {
+  async function createDoctorAccount() {
     setLocalError("");
 
-    if (step === 1) {
-      if (!password || !confirmPassword) {
-        setLocalError("Please enter and confirm your password.");
-        return;
-      }
-
-      if (password !== confirmPassword) {
-        setLocalError("Passwords do not match.");
-        return;
-      }
-
-      setStep(2);
+    if (!password || !confirmPassword) {
+      setLocalError("Please enter and confirm your password.");
       return;
     }
 
-    if (step === 2 && specialtySubStep === "specialties") {
-      if (props.selectedSpecialties.length === 0) {
-        setLocalError("Please select at least one specialty.");
-        return;
-      }
-
-      setSpecialtySubStep("categories");
+    if (password !== confirmPassword) {
+      setLocalError("Passwords do not match.");
       return;
     }
+
+    await props.onCreateDoctorAccount();
+
+    setStep("verify-email");
   }
 
-  function goToPreviousStep() {
-    setLocalError("");
-
-    if (step === 1) {
-      onBack();
-      return;
-    }
-
-    if (step === 2 && specialtySubStep === "categories") {
-      setSpecialtySubStep("specialties");
-      return;
-    }
-
-    if (step === 2) {
-      setStep(1);
-      return;
-    }
-
-    if (step === 3) {
-      setStep(2);
-    }
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLocalError("");
 
-    if (step === 1) {
-      goToNextStep();
-      return;
-    }
-
-    if (step === 2 && specialtySubStep === "specialties") {
-      goToNextStep();
-      return;
-    }
-
-    if (step === 2 && specialtySubStep === "categories") {
-      onSubmit(e);
-      return;
+    if (step === "account") {
+      await createDoctorAccount();
     }
   }
 
@@ -102,14 +54,23 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
       <BlueBanner variant="blue" />
       <WhiteshadowBackground />
 
-      <form
-        onSubmit={handleSubmit}
-        className="relative z-9999 mx-auto max-w-lg space-y-4 p-6"
-      >
-        {step === 1 ? (
+      {step === "verify-email" ? (
+        <div className="relative z-9999 mx-auto max-w-2xl p-6">
+          <VerifyEmail
+            email={email}
+            role="DOCTOR"
+            onVerified={() => router.push("/dashboard/onboarding")}
+          />
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit}
+          className="relative z-9999 mx-auto max-w-2xl space-y-4 p-6"
+        >
           <DoctorAccountDetailsStep
             name={props.name}
             email={props.email}
+            dob={props.dob}
             password={props.password}
             confirmPassword={confirmPassword}
             clinicName={props.clinicName}
@@ -119,6 +80,7 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             zipCode={props.zipCode}
             onNameChange={props.onNameChange}
             onEmailChange={props.onEmailChange}
+            onDobChange={props.onDobChange}
             onPasswordChange={props.onPasswordChange}
             onConfirmPasswordChange={setConfirmPassword}
             onClinicNameChange={props.onClinicNameChange}
@@ -130,47 +92,29 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             onWorkLatitudeChange={props.onWorkLatitudeChange}
             onWorkLongitudeChange={props.onWorkLongitudeChange}
           />
-        ) : null}
 
-        {step === 2 ? (
-          <DoctorSpecialtyDetailsStep
-            subStep={specialtySubStep}
-            selectedSpecialties={props.selectedSpecialties}
-            selectedServiceCategories={props.selectedServiceCategories}
-            selectedServices={props.selectedServices}
-            otherSpecialtyText={props.otherSpecialtyText}
-            onToggleSpecialty={props.onToggleSpecialty}
-            onToggleServiceCategory={props.onToggleServiceCategory}
-            onToggleService={props.onToggleService}
-            onOtherSpecialtyTextChange={props.onOtherSpecialtyTextChange}
-          />
-        ) : null}
+          <MessageText message={localError} variant="error" />
+          <MessageText message={errorMessage} variant="error" />
 
-        <MessageText message={localError} variant="error" />
-        <MessageText message={errorMessage} variant="error" />
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={onBack}
+              className="w-full rounded-full border border-black px-4 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
+            >
+              {t("back")}
+            </button>
 
-        <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={goToPreviousStep}
-            className="w-full rounded border border-black rounded-full px-4 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
-          >
-            {t("back")}
-          </button>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-white cursor-pointer hover:hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
-          >
-            {step === 2 && specialtySubStep === "categories"
-              ? isLoading
-                ? "Creating account..."
-                : "Sign up as Doctor"
-              : "Continue"}
-          </button>
-        </div>
-      </form>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+            >
+              {isLoading ? "Creating account..." : "Create account"}
+            </button>
+          </div>
+        </form>
+      )}
     </>
   );
 }

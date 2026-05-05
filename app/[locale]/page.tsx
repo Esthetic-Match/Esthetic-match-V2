@@ -13,7 +13,6 @@ export default function HomePage() {
       {/* Content */}
       <section>
         <HomePageTemplate />
-        <HomePageTemplate />
       </section>
       
     </main>
