@@ -10,15 +10,15 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import Image from "next/image";
-import { Urbanist  } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
-const urbanist = Urbanist({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-urbanist", 
+  variable: "--font-dm-sans",
 });
 
 type NavPanelProps = {
@@ -61,7 +61,7 @@ export function NavPanel({ children }: NavPanelProps) {
   ];
 
   return (
-    <div className={`flex min-h-screen w-full bg-[#283C5D] ${urbanist.className}`}>
+    <div className={`flex min-h-screen w-full bg-[#283C5D] ${dmSans.className}`}>
       <aside className="sticky top-0 h-screen shrink-0">
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="justify-between gap-10">

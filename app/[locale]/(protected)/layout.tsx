@@ -15,3 +15,4 @@ export default async function RootLayout({
 }>) {
   return <NavPanel>{children}</NavPanel>;
 }
+
