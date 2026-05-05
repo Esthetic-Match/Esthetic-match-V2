@@ -3,8 +3,11 @@
 import { useState } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { useTranslations } from "next-intl";
 
 export default function ResetPasswordPage() {
+  const t = useTranslations("home.Home");
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = useParams<{ locale: string }>();
@@ -62,18 +65,18 @@ export default function ResetPasswordPage() {
         className="w-full max-w-md rounded-3xl border border-black/5 bg-white p-8 shadow-xl"
       >
         <h1 className="text-2xl font-bold text-[#283C5D]">
-          Reset password
+          {t("reset password")}
         </h1>
 
         <p className="mt-2 text-sm text-[#283C5D]/50">
-          Enter a new password for your account.
+          {t("enter new pass")}
         </p>
 
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="New password"
+          placeholder={t("new password")}
           className="mt-6 w-full rounded-2xl border border-black/10 px-4 py-3 outline-none focus:border-[#283C5D]"
         />
 
@@ -81,7 +84,7 @@ export default function ResetPasswordPage() {
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm new password"
+          placeholder={t("confirm password")}
           className="mt-3 w-full rounded-2xl border border-black/10 px-4 py-3 outline-none focus:border-[#283C5D]"
         />
 

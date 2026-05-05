@@ -2,12 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type {
-  Category,
-  Subcategory,
-  Procedure,
-} from "@/app/[locale]/sign-up/types";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
+import { useTranslations } from "next-intl";
 
 
 import MessageText from "@/components/UI/MessageText";
@@ -19,6 +15,7 @@ import { ShieldCheck } from "lucide-react";
 type DoctorSpecialtySubStep = "specialties" | "categories";
 
 export default function DoctorOnboardingPage() {
+  const t = useTranslations("signUp.onboarding");
   const router = useRouter();
 
   const [subStep, setSubStep] =
@@ -164,43 +161,47 @@ function handleDeselectAllProcedures() {
 
         {/* Continue/Back section */}
         <div className="space-y-3 mt-8">
-          <div className="flex flex-col gap-y-4 md:flex-row justify-between">
-          {/* Security message */}
-          <div className="flex items-center gap-2 text-xs md:min-w-[300px] max-h-[60px] text-black/50 bg-gray-200 rounded-full px-4 pr-10 py-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white">
-              <ShieldCheck size={24} className="text-[#283C5D]" />
-            </div>
-              
-            <div className="leading-tight">
-              <p className="font-medium text-lg sm:text-xl text-[#283C5D]">
-                Your information is secure
-              </p>
-              <p className="text-[11px] text-xs sm:text-lg text-black/40">
-                We guarantee confidentiality and data protection
-              </p>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={handleBack}
-              className="flex-1 rounded-full border border-black sm:px-8 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
-            >
-              Back
-            </button>
+          <div className="flex flex-col gap-y-4 gap-x-4 md:flex-row justify-between">
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="flex-1 rounded-full bg-[#283C5D] sm:px-10 px-4 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
-            >
-              {subStep === "categories"
-                ? isLoading
-                  ? "Saving..."
-                  : "Submit"
-                : "Continue"}
-            </button>
+          {/* Security message */}
+          <div className="flex items-center gap-3 rounded-full bg-gray-200 px-4 py-3 text-black/60">
+                  
+            <div className="flex h-15 w-15 flex-shrink-0 items-center justify-center rounded-full border border-black/10 bg-white">
+              <ShieldCheck size={35} className="text-[#283C5D]" />
+            </div>
+                  
+            <div className="min-w-0 leading-tight">
+              <p className="truncate text-sm font-semibold text-[#283C5D] sm:text-base">
+                {t("secure info")}
+              </p>
+                  
+              <p className="text-xs text-black/40 sm:text-sm">
+                {t("garantee")}
+              </p>
+            </div>
+                  
           </div>
+            <div className="flex items-center gap-2 ">
+              <button
+                type="button"
+                onClick={handleBack}
+                className="flex-1 rounded-full border border-black px-6 py-3 text-sm font-medium text-black transition hover:bg-gray-300 active:scale-[0.98] cursor-pointer"
+              >
+                {t("back")}
+              </button>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="flex-1 rounded-full bg-[#283C5D] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              >
+                {subStep === "categories"
+                  ? isLoading
+                    ? t("saving")
+                    : t("submit")
+                  : t("continue")}
+              </button>
+            </div>
         </div>      
         </div>
       </form>

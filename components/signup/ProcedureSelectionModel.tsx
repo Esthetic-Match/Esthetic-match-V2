@@ -50,7 +50,7 @@ export default function ProcedureSelectionModal({
               onClick={onSelectAllProcedures}
               className="rounded-full border border-[#2563EB]/20 bg-[#EFF6FF]/60 px-3 py-1.5 text-xs font-medium text-[#283C5D] transition hover:bg-[#EFF6FF] active:scale-[0.98]"
             >
-              Select all
+              {t("select all")}
             </button>
                     
             <button
@@ -58,7 +58,7 @@ export default function ProcedureSelectionModal({
               onClick={onDeselectAllProcedures}
               className="rounded-full border border-red-500/20 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100 active:scale-[0.98]"
             >
-              Delete all
+              {t("delete all")}
             </button>
           </div>
 
@@ -101,7 +101,7 @@ export default function ProcedureSelectionModal({
             onClick={onClose}
             className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-white transition hover:opacity-90 cursor-pointer active:scale-[0.98]"
           >
-            Done
+            {t("done")}
           </button>
         </div>
       </div>

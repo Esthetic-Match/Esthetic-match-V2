@@ -1,6 +1,7 @@
 import SelectedProcedures from "./SelectedProcedures";
 import { getSelectedProcedureLabels } from "@/components/signup/util/utils";
 import type { Category } from "@/app/[locale]/sign-up/types";
+import { useTranslations } from "next-intl";
 
 type SpecialtyProcedureSectionProps = {
   selectedSpecialties: string[];
@@ -17,6 +18,9 @@ export default function SpecialtyProcedureSection({
   onToggleService,
   onDeselectAllProcedures,
 }: SpecialtyProcedureSectionProps) {
+  
+  const t = useTranslations("signUp.procedure");
+  
   if (selectedSpecialties.length === 0) {
     return null;
   }
@@ -30,11 +34,11 @@ export default function SpecialtyProcedureSection({
     <div className="mt-6 rounded-xl border border-black/5 bg-white p-4 shadow-md">
       <div className="mb-4">
         <p className="text-sm font-semibold text-[#283C5D]">
-          Selected procedures
+          {t("select pro")}
         </p>
 
         <p className="mt-1 text-xs text-[#283C5D]/50">
-          Procedures selected from your chosen categories.
+          {t("pro selected")}
         </p>
       </div>
       <SelectedProcedures

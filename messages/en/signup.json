@@ -35,7 +35,19 @@
     "CityDescription": "Enter the city where your clinic or practice is located",
     "Country": "Country",
     "CountryDescription": "Enter the country where your clinic or practice is located"
-    
+  },
+    "onboarding":{
+      "secure info":"Your information is secure",
+      "garantee": "We guarantee confidentiality and data protection",
+      "back": "Back",
+      "continue": "Continue",
+      "saving": "Saving...",
+      "submit": "Submit",
+          "specialtyStepper": {
+            "selectSpecialty": "Select Specialty",
+            "selectCategory": "Select Category",
+            "selectProcedure": "Select Procedure"
+          }
   },
   "doctorSignUp": {
     "continue": "Continue",
@@ -43,19 +55,63 @@
     "Creating account": "Creating account...",
     "finish": "Finish Sign Up"
   },
-  "specialties": {
-      "Aesthetic doctor": "Aesthetic doctor",
-      "Plastic surgeon": "Plastic surgeon",
-      "Reconstructive surgeon": "Reconstructive surgeon",
-      "Dermatologist": "Dermatologist",
-      "General practitioner": "General practitioner",
-      "Ophthalmologist": "Ophthalmologist",
-      "Oculoplastic surgeon": "Oculoplastic surgeon",
-      "Dentist": "Dentist",
-      "Maxillofacial surgeon": "Maxillofacial surgeon",
-      "ENT surgeon": "ENT surgeon",
-      "Orthodontist": "Orthodontist",
-      "Other specialty": "Other specialty"
+  "specialtySelector": {
+    "title": "What are your main specialties?",
+    "subtitle": "Select your specialties to personalize your profile and connect with patients.",
+    "note": "You can add or modify them later.",
+    "other": "Please specify other specialty",
+    "groups": {
+      "aesthetic": "Aesthetic",
+      "surgery": "Surgery",
+      "associatedSpecialties": "Associated Specialties",
+      "other": "Other"
+    },
+    "items": {
+      "aesthetic_doctor": {
+        "label": "Aesthetic Doctor",
+        "description": "Injections, lasers, aesthetic treatments"
+      },
+      "dermatologist": {
+        "label": "Dermatologist",
+        "description": "Skin, hair, dermatological laser"
+      },
+      "plastic_surgeon": {
+        "label": "Plastic Surgeon",
+        "description": "Aesthetic & reconstructive surgery"
+      },
+      "maxillofacial_surgeon": {
+        "label": "Maxillofacial Surgeon",
+        "description": "Maxillofacial, trauma, aesthetic"
+      },
+      "ent_surgeon": {
+        "label": "ENT Surgeon",
+        "description": "Otorhinolaryngology, cervico-facial surgery"
+      },
+      "ophthalmologist": {
+        "label": "Ophthalmologist",
+        "description": "Ocular surgery, aesthetic eye medicine"
+      },
+      "dentist": {
+        "label": "Dentist",
+        "description": "Aesthetic dentistry, rehabilitation"
+      },
+      "orthodontist": {
+        "label": "Orthodontist",
+        "description": "Orthodontics, teeth alignment"
+      },
+      "oculoplastic_surgeon": {
+        "label": "Oculoplastic Surgeon",
+        "description": "Eye plastic & reconstructive surgery"
+      },
+      "reconstructive_surgeon": {
+        "label": "Reconstructive Surgeon",
+        "description": "Advanced reconstructive procedures"
+      },
+      "other_specialty": {
+        "label": "Other Specialty",
+        "description": "Specify your specialty"
+      }
+    }
   },
   "category": {
     "NON-SURGICAL FACE": "NON-SURGICAL FACE",
@@ -72,6 +128,13 @@
     "No categories": "No categories available for the selected specialties."
   },
   "procedure":{
+    "deselectAll": "Deselect all",
+    "empty": "No procedures selected yet.",
+    "select pro": "Selected procedures",
+    "pro selected": "Procedures selected from your chosen categories.",
+    "done": "Done",
+    "select all": "Select All",
+    "delete all": "Delete All",
     "selectProcedures": "Select Procedures you offer.",
     "No procedures": "No procedures available for the selected category.",
     "Hyaluronic Acid Fillers": "Hyaluronic Acid Fillers",

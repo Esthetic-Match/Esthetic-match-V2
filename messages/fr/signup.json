@@ -31,10 +31,23 @@
     "ClinicAddressDescription": "Entrez l'adresse de votre clinique ou cabinet",
     "ClinicZipCode": "Code postal de la clinique",
     "ClinicZipCodeDescription": "Entrez le code postal de votre clinique ou cabinet",
-    "ClinicCity": "Ville de la clinique",
-    "ClinicCityDescription": "Entrez la ville de votre clinique ou cabinet",
-    "ClinicCountry": "Pays de la clinique",
-    "ClinicCountryDescription": "Entrez le pays de votre clinique ou cabinet"
+    "City": "Ville de la clinique",
+    "CityDescription": "Entrez la ville de votre clinique ou cabinet",
+    "Country": "Pays de la clinique",
+    "CountryDescription": "Entrez le pays de votre clinique ou cabinet"
+  },
+  "onboarding":{
+    "secure info":"Vos informations sont sécurisés",
+    "garantee": "Nous garantissons la confidentialité et la protection des données",
+    "back": "Retour",
+    "continue": "Continuer",
+    "saving": "Enregistrement en cours...",
+    "submit": "Envoyer",
+        "specialtyStepper": {
+          "selectSpecialty": "Sélectionner les spécialité",
+          "selectCategory": "Sélectionner les catégorie",
+          "selectProcedure": "Sélectionner les procédure"
+        }
   },
     "doctorSignUp": {
     "continue": "Continuer",
@@ -42,19 +55,63 @@
     "Creating account": "Création du compte...",
     "finish": "Terminer l'inscription"
   },
-  "specialties": {
-    "Aesthetic doctor": "Médecin esthétique",
-    "Plastic surgeon": "Chirurgien plasticien",
-    "Reconstructive surgeon": "Chirurgien reconstructeur",
-    "Dermatologist": "Dermatologue",
-    "General practitioner": "Médecin généraliste",
-    "Ophthalmologist": "Ophtalmologiste",
-    "Oculoplastic surgeon": "Chirurgien oculoplastique",
-    "Dentist": "Dentiste",
-    "Maxillofacial surgeon": "Chirurgien maxillo-facial",
-    "ENT surgeon": "Chirurgien ORL",
-    "Orthodontist": "Orthodontiste",
-    "Other specialty": "Autre spécialité"
+  "specialtySelector": {
+    "title": "Quelles sont vos principales spécialités ?",
+    "subtitle": "Sélectionnez vos spécialités pour personnaliser votre profil et entrer en contact avec des patients.",
+    "note": "Vous pourrez les ajouter ou les modifier plus tard.",
+    "other": "Veuillez préciser une autre spécialité",
+    "groups": {
+      "aesthetic": "Esthétique",
+      "surgery": "Chirurgie",
+      "associatedSpecialties": "Spécialités associées",
+      "other": "Autre"
+    },
+    "items": {
+      "aesthetic_doctor": {
+        "label": "Médecin esthétique",
+        "description": "Injections, lasers, traitements esthétiques"
+      },
+      "dermatologist": {
+        "label": "Dermatologue",
+        "description": "Peau, cheveux, laser dermatologique"
+      },
+      "plastic_surgeon": {
+        "label": "Chirurgien plasticien",
+        "description": "Chirurgie esthétique et reconstructrice"
+      },
+      "maxillofacial_surgeon": {
+        "label": "Chirurgien maxillo-facial",
+        "description": "Maxillo-facial, traumatologie, esthétique"
+      },
+      "ent_surgeon": {
+        "label": "Chirurgien ORL",
+        "description": "Otorhinolaryngologie, chirurgie cervico-faciale"
+      },
+      "ophthalmologist": {
+        "label": "Ophtalmologue",
+        "description": "Chirurgie oculaire, médecine esthétique du regard"
+      },
+      "dentist": {
+        "label": "Dentiste",
+        "description": "Dentisterie esthétique, réhabilitation"
+      },
+      "orthodontist": {
+        "label": "Orthodontiste",
+        "description": "Orthodontie, alignement dentaire"
+      },
+      "oculoplastic_surgeon": {
+        "label": "Chirurgien oculoplastique",
+        "description": "Chirurgie plastique et reconstructrice du regard"
+      },
+      "reconstructive_surgeon": {
+        "label": "Chirurgien reconstructeur",
+        "description": "Procédures reconstructrices avancées"
+      },
+      "other_specialty": {
+        "label": "Autre spécialité",
+        "description": "Précisez votre spécialité"
+      }
+    }
   },
     "category": {
     "NON-SURGICAL FACE": "VISAGE NON CHIRURGICAL",
@@ -71,6 +128,13 @@
     "No categories": "Aucune catégorie disponible pour les spécialités sélectionnées."
     },
     "procedure": {
+        "deselectAll": "Tout désélectionner",
+        "empty": "Aucune procédure sélectionnée.",
+        "select pro": "Procédures sélectionnées",
+        "pro selected": "Procédures sélectionnées parmi les catégories que vous avez choisies.",
+        "done": "terminé",
+        "select all": "Tout sélectionner",
+        "delete all": "Tout supprimer",
         "selectProcedures": "Sélectionnez les procédures que vous proposez.",
         "No procedures": "Aucune procédure disponible pour la catégorie sélectionnée.",
         "Hyaluronic Acid Fillers": "Acide hyaluronique et fillers",

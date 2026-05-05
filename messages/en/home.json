@@ -5,6 +5,26 @@
     "statement": "Under development",
     "Sign In": "Sign In",
     "signUp": "Sign Up",
-    "back": "Back"
+    "back": "Back",
+    "reset password": "Reset password",
+    "enter new pass": "Enter a new password for your account",
+    "new password": "New Password",
+    "confirm password": "Confirm New Password",
+    "forgot password": "Forgot password",
+    "enter mail": "Enter your email and we will send you a password reset link.",
+    "email address": "Email address",
+    "send link": "Send reset link",
+    "Sending": "Sending...",
+    "verifyTitle": "Verify your email",
+    "verifySubtitle": "Enter the 6-digit code we sent to",
+    "verifyButton": "Verify email",
+    "verifying": "Verifying...",
+    "resend": "Resend code",
+    "sending": "Sending...",
+    "resendSuccess": "A new verification code has been sent.",
+    "resendError": "Could not resend verification code.",
+    "missingEmail": "Missing email address.",
+    "invalidOtp": "Invalid verification code.",
+    "invalidOtpLength": "Please enter the 6-digit code."
   }
 }

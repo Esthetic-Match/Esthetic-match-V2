@@ -71,7 +71,7 @@ export default function CategoryCardSelector({
   if (visibleCategories.length === 0) {
     return (
       <p className="rounded-2xl border border-black/10 bg-white p-4 text-center text-sm text-black/40">
-        No categories available for the selected specialties.
+        {t("No categories")}
       </p>
     );
   }
@@ -104,7 +104,7 @@ export default function CategoryCardSelector({
                   className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition ${
                     selected
                       ? "border-gray-200 bg-gray-300 text-black"
-                      : "border-black/15 bg-#2563EBe text-white"
+                      : "border-black/15 bg-white text-transparent"
                   }`}
                 >
                   <X size={13} strokeWidth={4} />

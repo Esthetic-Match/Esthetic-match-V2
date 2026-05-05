@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 
 type VerifyEmailProps = {
@@ -16,6 +17,7 @@ export default function VerifyEmail({
   onVerified,
 }: VerifyEmailProps) {
   const router = useRouter();
+  const t = useTranslations("home.Home");
 
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,12 +29,12 @@ export default function VerifyEmail({
     e.preventDefault();
 
     if (!email) {
-      setError("Missing email address.");
+      setError(t("missingEmail"));
       return;
     }
 
     if (otp.length !== 6) {
-      setError("Please enter the 6-digit code.");
+      setError(t("invalidOtpLength"));
       return;
     }
 
@@ -47,7 +49,7 @@ export default function VerifyEmail({
 
     if (error) {
       setLoading(false);
-      setError(error.message || "Invalid verification code.");
+      setError(error.message || t("invalidOtp"));
       return;
     }
 
@@ -68,7 +70,7 @@ export default function VerifyEmail({
 
   async function handleResendCode() {
     if (!email) {
-      setError("Missing email address.");
+      setError(t("missingEmail"));
       return;
     }
 
@@ -84,11 +86,11 @@ export default function VerifyEmail({
     setResending(false);
 
     if (error) {
-      setError(error.message || "Could not resend verification code.");
+      setError(error.message || t("resendError"));
       return;
     }
 
-    setMessage("A new verification code has been sent.");
+    setMessage(t("resendSuccess"));
   }
 
   return (
@@ -96,11 +98,11 @@ export default function VerifyEmail({
       <div className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-8 shadow-xl">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold text-[#283C5D]">
-            Verify your email
+            {t("verifyTitle")}
           </h1>
 
           <p className="mt-3 text-sm leading-relaxed text-black/50">
-            Enter the 6-digit code we sent to{" "}
+            {t("verifySubtitle")}{" "}
             <span className="font-medium text-[#283C5D]">{email}</span>
           </p>
         </div>
@@ -118,20 +120,20 @@ export default function VerifyEmail({
             className="w-full rounded-2xl border border-black/10 bg-white px-4 py-4 text-center text-2xl font-semibold tracking-[0.4em] text-[#283C5D] outline-none transition focus:border-[#283C5D]"
           />
 
-          {error ? (
+          {error && (
             <p className="text-center text-sm text-red-500">{error}</p>
-          ) : null}
+          )}
 
-          {message ? (
+          {message && (
             <p className="text-center text-sm text-green-600">{message}</p>
-          ) : null}
+          )}
 
           <button
             type="submit"
             disabled={loading || otp.length !== 6}
             className="w-full rounded-full bg-[#283C5D] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f2f49] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Verifying..." : "Verify email"}
+            {loading ? t("verifying") : t("verifyButton")}
           </button>
         </form>
 
@@ -141,7 +143,7 @@ export default function VerifyEmail({
           disabled={resending}
           className="mt-5 w-full text-center text-sm font-medium text-[#283C5D]/70 transition hover:text-[#283C5D] disabled:opacity-50"
         >
-          {resending ? "Sending..." : "Resend code"}
+          {resending ? t("sending") : t("resend")}
         </button>
       </div>
     </main>
