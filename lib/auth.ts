@@ -82,6 +82,21 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+  sendResetPassword: async ({ user, url }) => {
+    await sendEmail({
+      to: user.email,
+      subject: "Reset your Esthetic Match password",
+      html: `
+        <div>
+          <h1>Reset your password</h1>
+          <p>Click the link below to reset your password.</p>
+          <a href="${url}">Reset password</a>
+        </div>
+      `,
+    });
+  },
+
+  resetPasswordTokenExpiresIn: 3600,
   },
 
   plugins: [
