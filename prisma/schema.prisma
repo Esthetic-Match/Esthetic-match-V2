@@ -24,7 +24,6 @@ model User {
   image          String?
   sessions       Session[]
   accounts       Account[]
-  onboardingCompleted Boolean @default(false)
 
   patientProfile PatientProfile?
   doctorProfile  DoctorProfile?

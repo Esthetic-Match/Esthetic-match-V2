@@ -137,7 +137,7 @@ export default function SpecialtySelector({
             {group.title}
           </h3>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 ">
             {group.items.map((specialty) => {
               const selected = selectedSpecialties.includes(specialty.id);
 
@@ -147,10 +147,11 @@ export default function SpecialtySelector({
                   type="button"
                   onClick={() => onToggleSpecialty(specialty.id)}
                   aria-pressed={selected}
-                  className={`group relative flex min-h-[150px] flex-col items-center justify-center rounded-xl border bg-white px-4 py-5 text-center shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
+                  className={`group relative flex min-h-[150px] flex-col items-center justify-center rounded-xl border px-4 py-5 text-center 
+                    shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
                     selected
-                      ? "border-[#2563EB] bg-[#EFF6FF] shadow-[0_0_0_1px_rgba(37,99,235,0.25)]"
-                      : "border-black/10 hover:border-[#2563EB]/40"
+                      ? "border-[#2563EB]/20 bg-[#EFF6FF]/40 shadow-[0_0_0_1px_rgba(37,99,235,0.25)]"
+                      : "bg-white border-black/5 hover:border-[#2563EB]/40"
                   }`}
                 >
                   {/* check icon */}

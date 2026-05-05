@@ -7,6 +7,7 @@ import MessageText from "@/components/UI/MessageText";
 import BlueBanner from "@/components/UI/BlueBanner";
 import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
 import DoctorSpecialtyDetailsStep from "@/components/signup/DoctorSpecialtyDetailsStep";
+import { ShieldCheck } from "lucide-react";
 
 type DoctorSpecialtySubStep = "specialties" | "categories";
 
@@ -97,13 +98,13 @@ export default function DoctorOnboardingPage() {
   }
 
   return (
-    <>
+    <div >
       <BlueBanner variant="blue" />
       <WhiteshadowBackground />
 
       <form
         onSubmit={handleSubmit}
-        className="relative z-9999 mx-auto max-w-4xl space-y-5 p-6"
+        className="relative z-50 mx-auto max-w-4xl space-y-5 p-8"
       >
         <DoctorSpecialtyDetailsStep
           subStep={subStep}
@@ -125,28 +126,49 @@ export default function DoctorOnboardingPage() {
 
         <MessageText message={errorMessage} variant="error" />
 
-        <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={handleBack}
-            className="w-full rounded-full border border-black px-4 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
-          >
-            Back
-          </button>
+        {/* Continue/Back section */}
+        <div className="space-y-3 mt-8">
+          <div className="flex flex-col md:flex-row justify-between">
+          {/* Security message */}
+          <div className="flex items-center gap-2 text-xs md:min-w-[300px] max-h-[60px] text-black/50 bg-gray-200 rounded-full px-4 pr-10 py-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white">
+              <ShieldCheck size={24} className="text-[#283C5D]" />
+            </div>
+              
+            <div className="leading-tight">
+              <p className="font-medium text-xl text-[#283C5D]">
+                Your information is secure
+              </p>
+              <p className="text-[11px] text-lg text-black/40">
+                We guarantee confidentiality and data protection
+              </p>
+            </div>
+          </div>
+            <div className="flex flex-row space-x-4 justify-between">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="w-full rounded-full border border-black px-20 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
+            >
+              Back
+            </button>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
-          >
-            {subStep === "categories"
-              ? isLoading
-                ? "Saving..."
-                : "Complete onboarding"
-              : "Continue"}
-          </button>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full rounded-full bg-[#283C5D] px-20 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+            >
+              {subStep === "categories"
+                ? isLoading
+                  ? "Saving..."
+                  : "Complete onboarding"
+                : "Continue"}
+            </button>
+            </div>
+          </div>
+              
         </div>
       </form>
-    </>
+    </div>
   );
 }

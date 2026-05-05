@@ -17,7 +17,6 @@ export default function PatientSignUpForm({
   password,
   errorMessage,
   isLoading,
-  onBack,
   onSubmit,
   onNameChange,
   onDobChange,
