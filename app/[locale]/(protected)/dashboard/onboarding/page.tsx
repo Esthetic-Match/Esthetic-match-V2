@@ -131,9 +131,8 @@ function handleDeselectAllProcedures() {
 }
 
   return (
-    <div className="overflow-hidden">
-      <BlueBanner variant="blue" />
-      <WhiteshadowBackground />
+    <div className="">
+      <BlueBanner variant="blue" disableButton={true}/>
 
       <form
         onSubmit={handleSubmit}

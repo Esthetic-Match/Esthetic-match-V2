@@ -101,7 +101,7 @@ function SettingsSidebar({
     : "U";
 
   return (
-    <aside className="h-full w-full bg-[#283C5D]/80 p-4 md:w-80">
+    <aside className="h-full w-full bg-[#283c5d] p-4 md:w-80">
       <h1 className="mb-6 text-center text-lg font-semibold text-white">
         Profile
       </h1>

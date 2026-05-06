@@ -3,9 +3,10 @@ import BackButton from "@/components/UI/BackButton";
 
 type BlueBannerProps = {
   variant?: "blue" | "gold";
+  disableButton?: boolean;
 };
 
-export default function BlueBanner({ variant = "blue" }: BlueBannerProps) {
+export default function BlueBanner({ variant = "blue", disableButton  }: BlueBannerProps) {
   const isGold = variant === "gold";
 
   return (
@@ -37,8 +38,11 @@ export default function BlueBanner({ variant = "blue" }: BlueBannerProps) {
           Esthetic Match
         </p>
       </div>
-
-      <BackButton onBack={() => {}} variant={isGold ? "dark" : "light"} />
+          { disableButton ?
+          <></>
+          :
+          <BackButton onBack={() => {}} variant={isGold ? "dark" : "light"} />
+          }
     </div>
   );
 }
