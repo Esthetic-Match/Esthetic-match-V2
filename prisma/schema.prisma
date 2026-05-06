@@ -49,6 +49,7 @@ model DoctorProfile {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   clinicName      String
+  clinicBanner    String?
   specialtyIds    String[]
   subcategoryIds  String[]
   procedureIds    String[]

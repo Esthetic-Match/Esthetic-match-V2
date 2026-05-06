@@ -12,8 +12,7 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { DM_Sans } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useRouter, Link } from "@/i18n/navigation";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -28,29 +27,31 @@ type NavPanelProps = {
 export function NavPanel({ children }: NavPanelProps) {
   const [open, setOpen] = useState(false);
 
-  const locale = useLocale();
   const router = useRouter();
+  const { data: session } = authClient.useSession();
+
+  const userId = session?.user?.id;
 
   async function handleSignOut() {
     await authClient.signOut();
-    router.push(`/${locale}`);
+    router.push("/");
     router.refresh();
   }
 
   const links = [
     {
       label: "Messages",
-      href: `/${locale}/dashboard/messages`,
+      href: "/dashboard/messages",
       icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />,
     },
     {
       label: "Profile",
-      href: `/${locale}/dashboard/profile`,
+      href: userId ? `/dashboard/${userId}` : "/dashboard",
       icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
     },
     {
       label: "Settings",
-      href: `/${locale}/dashboard/settings`,
+      href: "/dashboard/settings",
       icon: <IconSettings className="h-5 w-5 shrink-0 text-white" />,
     },
     {
@@ -70,10 +71,13 @@ export function NavPanel({ children }: NavPanelProps) {
 
               <div className="mt-8 flex flex-col gap-2">
                 {links.map((link, idx) => (
-                  <SidebarLink 
-                  key={idx} 
-                  link={link}  
-                  onClick={link.label === "Logout" ? handleSignOut : undefined} />
+                  <SidebarLink
+                    key={idx}
+                    link={link}
+                    onClick={
+                      link.label === "Logout" ? handleSignOut : undefined
+                    }
+                  />
                 ))}
               </div>
             </div>
@@ -82,7 +86,7 @@ export function NavPanel({ children }: NavPanelProps) {
               <SidebarLink
                 link={{
                   label: "regard Debo, I'm a lobster !",
-                  href: "#",
+                  href: userId ? `/dashboard/${userId}` : "/dashboard",
                   icon: (
                     <img
                       src="/pp.png"
@@ -98,6 +102,7 @@ export function NavPanel({ children }: NavPanelProps) {
           </SidebarBody>
         </Sidebar>
       </aside>
+
       <main className="min-h-screen flex-1 overflow-x-hidden rounded-tl-2xl bg-white">
         {children}
       </main>
@@ -105,10 +110,11 @@ export function NavPanel({ children }: NavPanelProps) {
   );
 }
 
+//////////////////////////////////////////////////////////////////////////////////////LOGO///////////////////////////////////////////////////////////////////////
 export const Logo = () => {
   return (
-    <a
-      href="#"
+    <Link
+      href="/dashboard"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-white"
     >
       <Image
@@ -126,15 +132,15 @@ export const Logo = () => {
       >
         Esthetic Match
       </motion.span>
-    </a>
+    </Link>
   );
 };
 
+///////////////////////////////////////////////////////////////////////////////////// LOGO ICON /////////////////////////////////////////////////////////////////////////
 export const LogoIcon = () => {
-  const locale = useLocale();
   return (
-    <a
-      href={`/${locale}/dashboard`}
+    <Link
+      href="/dashboard"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-white"
     >
       <Image
@@ -144,7 +150,6 @@ export const LogoIcon = () => {
         height={28}
         className="mb-2"
       />
-    </a>
+    </Link>
   );
 };
-
