@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Heart, Star } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -105,14 +105,8 @@ export default async function ProfileDisplay() {
             key={doctor.id}
             itemScope
             itemType="https://schema.org/Physician"
-            className="relative flex overflow-hidden rounded-2xl border border-black/10 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="relative flex overflow-hidden rounded-2xl border border-black/10 bg-white p-3 shadow-sm"
           >
-            <Link
-              href={`/doctors/${doctor.id}`}
-              className="absolute inset-0 z-10"
-              aria-label={`${t("viewProfile")} ${doctor.name}`}
-            />
-
             <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-xl bg-[#FAF9F7]">
               <Image
                 src={doctor.image}
@@ -123,8 +117,8 @@ export default async function ProfileDisplay() {
                 itemProp="image"
               />
             </div>
-
-            <div className="relative z-20 flex flex-1 flex-col px-3">
+        
+            <div className="flex flex-1 flex-col px-3">
               <div className="flex justify-between gap-2">
                 <div>
                   <h3
@@ -133,7 +127,7 @@ export default async function ProfileDisplay() {
                   >
                     {doctor.name}
                   </h3>
-
+        
                   <p
                     itemProp="medicalSpecialty"
                     className="mt-1 text-[10px] font-medium text-[#283C5D]/55"
@@ -141,16 +135,16 @@ export default async function ProfileDisplay() {
                     {doctor.specialty}
                   </p>
                 </div>
-
+        
                 <button
                   type="button"
-                  className="relative z-30 flex h-6 w-6 items-center justify-center rounded-full border border-[#d8bd8d]/50 text-[#d8bd8d]"
+                  className="flex h-6 w-6 items-center justify-center rounded-full border border-[#d8bd8d]/50 text-[#d8bd8d]"
                   aria-label={t("saveDoctor")}
                 >
                   <Heart size={13} />
                 </button>
               </div>
-
+        
               <div
                 itemProp="aggregateRating"
                 itemScope
@@ -164,18 +158,21 @@ export default async function ProfileDisplay() {
                 </span>
                 <meta itemProp="reviewCount" content={doctor.reviews} />
               </div>
-
+        
               <p
                 itemProp="address"
                 className="mt-1 text-[10px] text-[#283C5D]/45"
               >
                 {doctor.location}
               </p>
-
+        
               <div className="mt-auto pt-3">
-                <span className="inline-flex rounded-full border border-[#d8bd8d]/60 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#d8bd8d]">
+                <Link
+                  href={`/doctors/${doctor.id}`}
+                  className="inline-flex rounded-full border border-[#d8bd8d]/60 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white active:scale-[0.98]"
+                >
                   {t("viewProfile")}
-                </span>
+                </Link>
               </div>
             </div>
           </article>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import HomePageTemplate from "@/components/homePage/template";
 import { NavBarMain } from "@/components/NavbarMain";
 import AmbientBackground from "@/components/UI/BlueAmbientBackground";
 import HomeSection from "@/components/homePage/HeroSection"

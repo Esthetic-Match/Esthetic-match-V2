@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 
@@ -61,10 +61,10 @@ export default function CategoryCarouselClient({
       >
         {categories.map((category) => (
           <Link
-            key={category.key}
-            href={category.href}
-            className="group relative h-[210px] min-w-[145px] overflow-hidden rounded-xl bg-[#283C5D] shadow-md sm:h-[230px] sm:min-w-[165px]"
-          >
+              key={category.key}
+              href={category.href}
+              className="group relative h-[210px] min-w-[145px] overflow-hidden rounded-xl bg-[#283C5D] shadow-md sm:h-[230px] sm:min-w-[165px]"
+            >
             <Image
               src={category.image}
               alt={category.label}
