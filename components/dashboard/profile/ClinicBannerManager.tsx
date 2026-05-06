@@ -3,70 +3,29 @@
 import { useEffect, useState } from "react";
 import ClinicBanner from "./UI/ClinicBanner";
 import EditBannerModal from "./UI/EditBannerModal";
+import type { DoctorProfileData } from "./types";
 
 const fallbackBanner = "/dev/clinic-banner-placeholder.jpg";
 
-type DoctorProfileData = {
-  id: string;
-  userId: string;
-  clinicName: string;
-  clinicBanner: string | null;
-  specialtyIds: string[];
-  subcategoryIds: string[];
-  procedureIds: string[];
-  subzoneIds: string[];
-  workAddress: string;
-  city: string | null;
-  country: string | null;
-  zipCode: string | null;
-  workLatitude: number | null;
-  workLongitude: number | null;
-  googlePlaceId: string | null;
-  otherSpecialtyText: string | null;
-};
-
 type ClinicBannerManagerProps = {
   doctorId: string;
+  clinicBanner: string;
+  isLoadingProfile: boolean;
+  onProfileUpdated: (profile: DoctorProfileData) => void;
 };
 
 export default function ClinicBannerManager({
   doctorId,
+  clinicBanner,
+  isLoadingProfile,
+  onProfileUpdated,
 }: ClinicBannerManagerProps) {
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
-  const [clinicBanner, setClinicBanner] = useState<string | null>(fallbackBanner);
-  const [profile, setProfile] = useState<DoctorProfileData | null>(null);
-  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  const [currentBanner, setCurrentBanner] = useState(clinicBanner);
 
   useEffect(() => {
-    async function fetchDoctorProfile() {
-      try {
-        const res = await fetch("/api/doctor-profile", {
-          method: "GET",
-          cache: "no-store",
-        });
-
-        if (!res.ok) {
-          throw new Error("Could not fetch doctor profile.");
-        }
-
-        const data = await res.json();
-
-        setProfile(data.profile);
-
-        if (data.profile?.clinicBanner) {
-          setClinicBanner(data.profile.clinicBanner);
-        } else {
-          setClinicBanner(fallbackBanner);
-        }
-      } catch {
-        setClinicBanner(fallbackBanner);
-      } finally {
-        setIsLoadingProfile(false);
-      }
-    }
-
-    fetchDoctorProfile();
-  }, []);
+    setCurrentBanner(clinicBanner);
+  }, [clinicBanner]);
 
   async function updateDoctorProfile(data: { clinicBanner: string | null }) {
     const res = await fetch("/api/doctor-profile", {
@@ -85,41 +44,41 @@ export default function ClinicBannerManager({
   }
 
   async function handleBannerUploaded(url: string) {
-    const previousBanner = clinicBanner;
+    const previousBanner = currentBanner;
 
-    setClinicBanner(url);
+    setCurrentBanner(url);
 
     try {
       const data = await updateDoctorProfile({
         clinicBanner: url,
       });
 
-      setProfile(data.profile);
+      onProfileUpdated(data.profile);
     } catch {
-      setClinicBanner(previousBanner);
+      setCurrentBanner(previousBanner);
     }
   }
 
   async function handleDeleteBanner() {
-    const previousBanner = clinicBanner;
+    const previousBanner = currentBanner;
 
-    setClinicBanner(fallbackBanner);
+    setCurrentBanner(fallbackBanner);
 
     try {
       const data = await updateDoctorProfile({
         clinicBanner: null,
       });
 
-      setProfile(data.profile);
+      onProfileUpdated(data.profile);
     } catch {
-      setClinicBanner(previousBanner);
+      setCurrentBanner(previousBanner);
     }
   }
 
   return (
     <>
       <ClinicBanner
-        clinicBanner={clinicBanner}
+        clinicBanner={currentBanner}
         isLoading={isLoadingProfile}
         onEdit={() => setIsBannerModalOpen(true)}
       />
@@ -127,7 +86,9 @@ export default function ClinicBannerManager({
       <EditBannerModal
         isOpen={isBannerModalOpen}
         doctorId={doctorId}
-        currentBanner={profile?.clinicBanner}
+        currentBanner={
+          currentBanner === fallbackBanner ? null : currentBanner
+        }
         onClose={() => setIsBannerModalOpen(false)}
         onBannerUploaded={handleBannerUploaded}
         onDeleteBanner={handleDeleteBanner}

@@ -15,11 +15,10 @@ import TermsAndConditions from "./TermsAndCondition";
 import LanguageSelector from "./LanguageSelector";
 import ReportProblem from "./ReportProblem";
 import ChangePassword from "./ChangePassword";
-import EditProfile from "./EditProfile";
 import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
 import SubscriptionPlans from "./SubscriptionPlans";
-import { userAgent } from "next/server";
+
 
 type SettingsPage =
   | "Edit Profile"

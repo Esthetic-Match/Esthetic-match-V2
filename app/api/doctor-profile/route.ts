@@ -186,11 +186,18 @@ export async function GET() {
       where: {
         userId: session.user.id,
       },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            role: true,
+          },
+        },
+      },
     });
-
-    if (!profile) {
-      return NextResponse.json({ profile: null }, { status: 200 });
-    }
 
     return NextResponse.json({ profile });
   } catch (error) {
