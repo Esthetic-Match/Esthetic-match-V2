@@ -8,7 +8,6 @@ import { useTranslations } from "next-intl";
 
 import MessageText from "@/components/UI/MessageText";
 import BlueBanner from "@/components/UI/BlueBanner";
-import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
 import DoctorSpecialtyDetailsStep from "@/components/signup/DoctorSpecialtyDetailsStep";
 import { ShieldCheck } from "lucide-react";
 
