@@ -7,7 +7,7 @@ export default async function HomeSection() {
 
   return (
     <section className="relative min-h-[720px] overflow-hidden bg-[#07182A] text-white">
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07182A] via-[#07182A]/75 to-[#07182A]/10" />
+
       <Image
         src="/images/hero-bg.png"
         alt=""
@@ -16,7 +16,7 @@ export default async function HomeSection() {
         sizes="100vw"
         className="object-cover object-start"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07182A] via-[#07182A]/30 to-[#07182A]/50" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#07182A] via-[#07182A]/25 to-[#07182A]/10" />
 
       <div className="relative z-10 mx-auto flex min-h-[720px] max-w-7xl items-center px-6 pt-28 md:px-12 lg:px-16">
         <div className="max-w-xl">

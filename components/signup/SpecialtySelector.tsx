@@ -167,7 +167,7 @@ export default function SpecialtySelector({
                   </span>
 
                   <img
-                    src={`/images/specialties/${specialty.icon}`}
+                    src={`/images/dashboard/specialties/${specialty.icon}`}
                     alt={t(specialty.labelKey)}
                     className={`mb-3 h-11 w-11 object-contain transition ${
                       selected

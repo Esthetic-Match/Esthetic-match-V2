@@ -7,55 +7,64 @@ const categories = [
   {
     key: "NON-SURGICAL FACE",
     href: "/categories/non-surgical-face",
-    image: "/images/categories/non-surgical-face.png",
+    image: "/images/home/categories/non-surgical-face.png",
+    icon: "/images/home/categories/icons/non-surgical-face.svg",
   },
   {
     key: "NON-SURGICAL BODY",
     href: "/categories/non-surgical-body",
-    image: "/images/categories/non-surgical-body.png",
+    image: "/images/home/categories/non-surgical-body.png",
+    icon: "/images/home/categories/icons/non-surgical-body.svg",
   },
   {
     key: "AESTHETIC DENTISTRY",
     href: "/categories/aesthetic-dentistry",
-    image: "/images/categories/aesthetic-dentistry.png",
+    image: "/images/home/categories/aesthetic-dentistry.png",
+    icon: "/images/home/categories/icons/aesthetic-dentistry.svg",
   },
   {
     key: "HAIR MEDICINE",
     href: "/categories/hair-medicine",
-    image: "/images/categories/hair-medicine.png",
+    image: "/images/home/categories/hair-medicine.png",
+    icon: "/images/home/categories/icons/hair-medicine.svg",
   },
   {
     key: "MUSCLE TONE & EMS",
     href: "/categories/muscle-tone-ems",
-    image: "/images/categories/muscle-tone-ems.png",
+    image: "/images/home/categories/muscle-tone-ems.png",
+    icon: "/images/home/categories/icons/muscle-tone-ems.svg",
   },
   {
     key: "IV THERAPY",
     href: "/categories/iv-therapy",
-    image: "/images/categories/iv-therapy.png",
+    image: "/images/home/categories/iv-therapy.png",
+    icon: "/images/home/categories/icons/iv-therapy.svg",
   },
   {
     key: "WELLNESS & DRAINAGE",
     href: "/categories/wellness-drainage",
-    image: "/images/categories/wellness-drainage.png",
+    image: "/images/home/categories/wellness-drainage.png",
+    icon: "/images/home/categories/icons/wellness-drainage.svg",
   },
   {
     key: "SURGICAL FACE",
     href: "/categories/surgical-face",
-    image: "/images/categories/surgical-face.png",
+    image: "/images/home/categories/surgical-face.png",
+    icon: "/images/home/categories/icons/surgical-face.svg",
   },
   {
     key: "SURGICAL BODY",
     href: "/categories/surgical-body",
-    image: "/images/categories/surgical-body.png",
+    image: "/images/home/categories/surgical-body.png",
+    icon: "/images/home/categories/icons/surgical-body.svg",
   },
   {
     key: "LONGEVITY MEDICINE",
     href: "/categories/longevity-medicine",
-    image: "/images/categories/longevity-medicine.png",
+    image: "/images/home/categories/longevity-medicine.png",
+    icon: "/images/home/categories/icons/longevity-medicine.svg",
   },
-] as const;
-
+];
 export default async function CategoryCarousel() {
   const t = await getTranslations("home.Home");
 
