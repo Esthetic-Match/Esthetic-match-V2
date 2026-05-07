@@ -1,11 +1,9 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { getLocale } from "next-intl/server";
 
 export default async function HomeSection() {
   const t = await getTranslations("home.Home");
-  const locale = await getLocale();
 
   return (
     <section className="relative min-h-[720px] overflow-hidden bg-[#07182A] text-white">

@@ -1,5 +1,30 @@
 import { NextResponse } from "next/server";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+
+const allowedFields = [
+  "clinicName",
+  "clinicBanner",
+  "avatar",            
+  "yearsOfExperience",
+  "specialtyIds",
+  "subcategoryIds",
+  "procedureIds",
+  "subzoneIds",
+  "workAddress",
+  "city",
+  "country",
+  "zipCode",
+  "workLatitude",
+  "workLongitude",
+  "googlePlaceId",
+  "otherSpecialtyText",
+  "inClinicPrice",
+  "onlineConsulPrice",
+  "socialMediaLink",
+  "bookingLink",
+] as const;
 
 function requiredString(value: unknown): string | null {
   if (typeof value !== "string") return null;
@@ -102,4 +127,91 @@ export async function POST(req: Request) {
   });
 
   return NextResponse.json({ success: true, profile });
+}
+
+export async function PATCH(req: Request) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (session.user.role !== "DOCTOR") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const body = await req.json();
+
+    const updateData: Record<string, unknown> = {};
+
+    for (const field of allowedFields) {
+      if (field in body) {
+        updateData[field] = body[field];
+      }
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        { error: "No valid fields provided" },
+        { status: 400 }
+      );
+    }
+
+    const profile = await prisma.doctorProfile.update({
+      where: {
+        userId: session.user.id,
+      },
+      data: updateData,
+    });
+
+    return NextResponse.json({ success: true, profile });
+  } catch (error) {
+    console.error("PATCH doctor profile error:", error);
+
+    return NextResponse.json(
+      { error: "Could not update doctor profile" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const profile = await prisma.doctorProfile.findUnique({
+      where: {
+        userId: session.user.id,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json({ profile });
+  } catch (error) {
+    console.error("GET doctor profile error:", error);
+
+    return NextResponse.json(
+      { error: "Could not fetch doctor profile" },
+      { status: 500 }
+    );
+  }
 }

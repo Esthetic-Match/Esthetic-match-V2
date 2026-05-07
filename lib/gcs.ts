@@ -8,4 +8,20 @@ export const storage = new Storage({
   },
 });
 
-export const bucket = storage.bucket(process.env.GCS_BUCKET_NAME!);
+export const privateBucket = storage.bucket(process.env.GCS_PRIVATE_BUCKET_NAME!);
+
+export const publicBucket = storage.bucket(process.env.GCS_PUBLIC_BUCKET_NAME!);
+
+export function getBucketByUploadType(type: string) {
+  const publicTypes = ["banner", "profile", "avatar"];
+
+  return publicTypes.includes(type) ? publicBucket : privateBucket;
+}
+
+export function getBucketNameByUploadType(type: string) {
+  const publicTypes = ["banner", "profile", "avatar"];
+
+  return publicTypes.includes(type)
+    ? process.env.GCS_PUBLIC_BUCKET_NAME!
+    : process.env.GCS_PRIVATE_BUCKET_NAME!;
+}

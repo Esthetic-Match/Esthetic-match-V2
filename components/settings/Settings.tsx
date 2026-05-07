@@ -15,11 +15,10 @@ import TermsAndConditions from "./TermsAndCondition";
 import LanguageSelector from "./LanguageSelector";
 import ReportProblem from "./ReportProblem";
 import ChangePassword from "./ChangePassword";
-import EditProfile from "./EditProfile";
 import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
 import SubscriptionPlans from "./SubscriptionPlans";
-import { userAgent } from "next/server";
+
 
 type SettingsPage =
   | "Edit Profile"
@@ -101,7 +100,7 @@ function SettingsSidebar({
     : "U";
 
   return (
-    <aside className="h-full w-full bg-[#283C5D]/80 p-4 md:w-80">
+    <aside className="h-full w-full bg-[#283c5d] p-4 md:w-80">
       <h1 className="mb-6 text-center text-lg font-semibold text-white">
         Profile
       </h1>

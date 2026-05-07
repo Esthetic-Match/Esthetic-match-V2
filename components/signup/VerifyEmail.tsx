@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 
@@ -60,12 +60,7 @@ export default function VerifyEmail({
       return;
     }
 
-    if (role === "DOCTOR") {
-      router.push("/dashboard/onboarding");
-      return;
-    }
-
-    router.push("/dashboard");
+    router.push("/sign-in");
   }
 
   async function handleResendCode() {

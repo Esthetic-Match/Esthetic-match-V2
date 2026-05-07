@@ -48,18 +48,26 @@ model DoctorProfile {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  clinicName      String
-  specialtyIds    String[]
-  subcategoryIds  String[]
-  procedureIds    String[]
-  subzoneIds      String[]
-  workAddress     String
-  city            String?
-  country         String?
-  zipCode         String?
-  workLatitude    Float?
-  workLongitude   Float?
-  googlePlaceId   String?
+  avatar                String?
+  yearsOfExperience     Float?
+  clinicName            String
+  clinicBanner          String?
+  specialtyIds          String[]
+  subcategoryIds        String[]
+  procedureIds          String[]
+  subzoneIds            String[]
+  workAddress           String
+  city                  String?
+  country               String?
+  zipCode               String?
+  workLatitude          Float?
+  workLongitude         Float?
+  googlePlaceId         String?
+  paidPlan              String? @default("free")
+  inClinicPrice         Float?
+  onlineConsulPrice     Float?
+  socialMediaLink       String?
+  bookingLink           String?
 
   otherSpecialtyText String?
 

@@ -2,19 +2,30 @@
 
 import { useState } from "react";
 
+type UploadAccess = "public" | "private";
+type UploadType = "profile" | "medical" | "banner";
+
 type UploadImageWidgetProps = {
-  type?: "profile" | "medical";
+  type?: UploadType;
+  access?: UploadAccess;
+  uploadPath: string;
+  label?: string;
+  onUploaded?: (url: string, objectPath: string) => void;
 };
 
 export default function UploadImageWidget({
   type = "profile",
+  access = "private",
+  uploadPath,
+  label = "Add image",
+  onUploaded,
 }: UploadImageWidgetProps) {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const selectedFile = e.target.files?.[0];
 
     if (!selectedFile) return;
@@ -47,6 +58,8 @@ export default function UploadImageWidget({
         body: JSON.stringify({
           contentType: file.type,
           type,
+          access,
+          folder: uploadPath,
         }),
       });
 
@@ -54,9 +67,13 @@ export default function UploadImageWidget({
         throw new Error("Could not create upload URL.");
       }
 
-      const { uploadUrl } = await signedUrlRes.json();
+      const data: {
+        uploadUrl: string;
+        publicUrl?: string | null;
+        objectPath: string;
+      } = await signedUrlRes.json();
 
-      const uploadRes = await fetch(uploadUrl, {
+      const uploadRes = await fetch(data.uploadUrl, {
         method: "PUT",
         headers: {
           "Content-Type": file.type,
@@ -68,9 +85,17 @@ export default function UploadImageWidget({
         throw new Error("Upload failed.");
       }
 
+      const returnedUrl =
+        access === "public" && data.publicUrl
+          ? data.publicUrl
+          : data.objectPath;
+
       setMessage("Image uploaded successfully.");
       setFile(null);
-    } catch (error) {
+      setPreviewUrl(null);
+
+      onUploaded?.(returnedUrl, data.objectPath);
+    } catch {
       setMessage("Something went wrong while uploading.");
     } finally {
       setIsUploading(false);
@@ -78,60 +103,44 @@ export default function UploadImageWidget({
   }
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-      <div className="space-y-4">
-        <div>
-          <p className="text-sm font-medium text-black">Upload image</p>
-          <p className="text-xs text-gray-500">
-            PNG, JPG or WEBP images are supported.
-          </p>
-        </div>
+    <div className="w-full space-y-4">
+      <label className="relative flex min-h-[260px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl bg-[#283C5D] px-6 py-10 text-center transition hover:opacity-95">
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          className="hidden"
+          onChange={handleFileChange}
+        />
 
-        <label className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 px-4 py-8 text-center transition hover:bg-gray-50">
-          <input
-            type="file"
-            accept="image/png,image/jpeg,image/webp"
-            className="hidden"
-            onChange={handleFileChange}
+        {previewUrl ? (
+          <img
+            src={previewUrl}
+            alt="Selected image preview"
+            className="absolute inset-0 h-full w-full object-cover"
           />
-
-          {previewUrl ? (
-            <img
-              src={previewUrl}
-              alt="Selected image preview"
-              className="h-40 w-40 rounded-xl object-cover"
-            />
-          ) : (
-            <div>
-              <p className="text-sm font-medium text-gray-700">
-                Click to select an image
-              </p>
-              <p className="mt-1 text-xs text-gray-400">
-                Image will upload securely to Google Cloud Storage
-              </p>
+        ) : (
+          <>
+            <div className="pointer-events-none absolute inset-0 opacity-[0.75]">
+              <div className="h-full w-full bg-[url('/images/dashboard/medical-pattern.png')] bg-cover bg-center" />
             </div>
-          )}
-        </label>
-
-        {file && (
-          <p className="truncate text-xs text-gray-500">
-            Selected: {file.name}
-          </p>
+          </>
         )}
+      </label>
 
-        <button
-          type="button"
-          onClick={handleUpload}
-          disabled={!file || isUploading}
-          className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isUploading ? "Uploading..." : "Upload Image"}
-        </button>
+      {file && (
+        <p className="truncate text-xs text-gray-500">Selected: {file.name}</p>
+      )}
 
-        {message && (
-          <p className="text-center text-sm text-gray-600">{message}</p>
-        )}
-      </div>
+      <button
+        type="button"
+        onClick={handleUpload}
+        disabled={!file || isUploading}
+        className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {isUploading ? "Uploading..." : "Upload Image"}
+      </button>
+
+      {message && <p className="text-center text-sm text-gray-600">{message}</p>}
     </div>
   );
 }

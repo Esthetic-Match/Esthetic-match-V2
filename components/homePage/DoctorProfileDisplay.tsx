@@ -11,7 +11,7 @@ const doctors = [
     rating: "4.9",
     reviews: "128",
     location: "Paris, France",
-    image: "/images/doctors/doctor-1.jpg",
+    image: "/dev/doctors/doctor-1.jpg",
   },
   {
     id: "sophie-leroy",
@@ -20,7 +20,7 @@ const doctors = [
     rating: "4.8",
     reviews: "96",
     location: "Lyon, France",
-    image: "/images/doctors/doctor-2.jpg",
+    image: "/dev/doctors/doctor-2.jpg",
   },
   {
     id: "julien-belin",
@@ -29,7 +29,7 @@ const doctors = [
     rating: "4.9",
     reviews: "147",
     location: "Marseille, France",
-    image: "/images/doctors/doctor-3.jpg",
+    image: "/dev/doctors/doctor-3.jpg",
   },
   {
     id: "camille-roche",
@@ -38,7 +38,7 @@ const doctors = [
     rating: "4.7",
     reviews: "83",
     location: "Bordeaux, France",
-    image: "/images/doctors/doctor-4.jpg",
+    image: "/dev/doctors/doctor-4.jpg",
   },
 ];
 
