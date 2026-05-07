@@ -18,16 +18,16 @@ export function NavBarMain() {
   const locale = useLocale();
   const navItems = [
     {
-      name: "Features",
-      link: "#features",
+      name: "Doctors",
+      link: "/doctors",
     },
     {
-      name: "Pricing",
-      link: "#pricing",
+      name: "Categories",
+      link: "/categories",
     },
     {
       name: "Contact",
-      link: "#contact",
+      link: "/contact",
     },
   ];
 

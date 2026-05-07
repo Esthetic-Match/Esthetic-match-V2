@@ -7,7 +7,6 @@ export default async function HomeSection() {
 
   return (
     <section className="relative min-h-[720px] overflow-hidden bg-[#07182A] text-white">
-
       <Image
         src="/images/hero-bg.png"
         alt=""

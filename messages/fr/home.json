@@ -49,5 +49,75 @@
     "viewProfile": "Voir le profil",
     "saveDoctor": "Enregistrer le praticien",
     "reviews": "avis"
-  }
+  },
+   "doctors": {
+      "hero": {
+        "eyebrow": "Médecins Esthetic Match",
+        "title": "Trouvez le bon médecin pour votre parcours esthétique",
+        "description": "Parcourez des médecins esthétiques vérifiés, comparez les spécialités, explorez les emplacements et choisissez le praticien qui correspond le mieux à vos besoins.",
+        "searchPlaceholder": "Rechercher par médecin, spécialité ou traitement",
+        "filters": "Filtres",
+        "search": "Rechercher"
+      },
+      "list": {
+        "title": "Médecins disponibles",
+        "practitionersCount": "{count} praticiens",
+        "doctorImageAlt": "{name}, {specialty}",
+        "saveDoctor": "Enregistrer {name}",
+        "reviews": "({count} avis)",
+        "from": "À partir de",
+        "viewProfile": "Voir le profil"
+      }
+    },
+    "contact": {
+      "seo": {
+        "title": "Contactez-nous | Esthetic Match",
+        "description": "Contactez Esthetic Match pour toute question concernant les médecins esthétiques, l’inscription des praticiens, les partenariats et le support."
+      },
+      "hero": {
+        "eyebrow": "Contacter Esthetic Match",
+        "title": "Nous sommes là pour vous aider à avancer en confiance",
+        "description": "Vous avez une question sur les médecins, les traitements, les partenariats ou l’inscription à la plateforme ? Envoyez-nous un message et notre équipe vous répondra."
+      },
+      "section": {
+        "eyebrow": "Nous contacter"
+      },
+      "cards": {
+        "general": {
+          "title": "Demandes générales",
+          "description": "Pour le support, les demandes de praticiens, les médias ou les partenariats."
+        },
+        "response": {
+          "title": "Délai de réponse",
+          "description": "Nous répondons généralement sous 1 à 2 jours ouvrés."
+        },
+        "coverage": {
+          "title": "Couverture de la plateforme",
+          "description": "Nous mettons les patients en relation avec des professionnels de confiance en médecine esthétique."
+        }
+      },
+      "form": {
+        "name": "Nom",
+        "namePlaceholder": "Votre nom",
+        "email": "Email",
+        "emailPlaceholder": "vous@exemple.com",
+        "subject": "Sujet",
+        "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+        "message": "Message",
+        "messagePlaceholder": "Écrivez votre message...",
+        "submit": "Envoyer le message"
+    }
+  },
+    "footer": {
+      "learnMore": "En savoir plus",
+      "faqs": "FAQs",
+      "contactUs": "Nous contacter",
+      "contact": "Contact",
+      "email": "Email",
+      "location": "Localisation",
+      "followUs": "Suivez-nous",
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfUse": "Conditions d’utilisation",
+      "copyright": "© Esthetic Match Inc. Tous droits réservés."
+    }
 }
