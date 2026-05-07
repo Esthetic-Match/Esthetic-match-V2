@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Navbar,
   NavBody,
@@ -11,22 +12,24 @@ import {
   MobileNavMenu,
 } from "@/components/UI/resizable-navbar";
 import LanguageSwitcher from "./UI/LanguageSwitcher";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 export function NavBarMain() {
   const locale = useLocale();
+  const t = useTranslations("home.nav");
+
   const navItems = [
     {
-      name: "Doctors",
+      name: t("doctors"),
       link: "/doctors",
     },
     {
-      name: "Categories",
+      name: t("categories"),
       link: "/categories",
     },
     {
-      name: "Contact",
+      name: t("contact"),
       link: "/contact",
     },
   ];
@@ -36,19 +39,22 @@ export function NavBarMain() {
   return (
     <div className="relative w-full">
       <Navbar>
-        {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
+
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
-            <NavbarButton href={`/${locale}/sign-in`} variant="secondary" className="bg-white">
-              Sign in
+            <NavbarButton
+              href={`/${locale}/sign-in`}
+              variant="secondary"
+              className="bg-white"
+            >
+              {t("signIn")}
             </NavbarButton>
           </div>
         </NavBody>
 
-        {/* Mobile Navigation */}
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
@@ -65,13 +71,14 @@ export function NavBarMain() {
             {navItems.map((item, idx) => (
               <a
                 key={`mobile-link-${idx}`}
-                href={item.link}
+                href={`/${locale}${item.link}`}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="relative text-neutral-600 dark:text-neutral-300"
               >
                 <span className="block">{item.name}</span>
               </a>
             ))}
+
             <div className="flex w-full flex-col gap-4">
               <LanguageSwitcher />
               <NavbarButton
@@ -80,7 +87,7 @@ export function NavBarMain() {
                 variant="secondary"
                 className="w-full bg-white"
               >
-                Sign in
+                {t("signIn")}
               </NavbarButton>
             </div>
           </MobileNavMenu>

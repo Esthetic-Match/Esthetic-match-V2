@@ -10,9 +10,10 @@ import { Link } from "@/i18n/navigation";
 type ProfileHeaderProps = {
   doctorId: string;
   name: string;
-  specialty?: string | null;
+  specialty?: string[] | null;
   clinicName?: string | null;
   workAddress?: string | null;
+  topThree?:string[] | null;
   avatar?: string | null;
   yearsOfExperience?: number | null;
   onUpdateProfile: (
@@ -28,6 +29,7 @@ export default function ProfileHeader({
   specialty,
   clinicName,
   workAddress,
+  topThree,
   avatar,
   yearsOfExperience,
   onUpdateProfile,
@@ -104,12 +106,6 @@ export default function ProfileHeader({
             <BadgeCheck size={18} className="fill-[#d8bd8d] text-white" />
           </div>
 
-          {specialty ? (
-            <p className="mt-1 text-sm font-medium text-[#283C5D]/55">
-              {formatLabel(specialty)}
-            </p>
-          ) : null}
-
           <div className="mt-5 space-y-3">
             {clinicName ? (
               <div className="flex items-center gap-3 text-sm font-medium text-[#283C5D]">
@@ -126,22 +122,58 @@ export default function ProfileHeader({
             ) : null}
           </div>
 
-          <div className="mt-7 grid max-w-lg grid-cols-1 gap-6 border-t border-black/10 pt-5 sm:grid-cols-2">
-            <div>
+          <div className="mt-7 grid max-w-4xl grid-cols-1 gap-6 border-t border-black/10 pt-5 md:grid-cols-3">
+            <div className="min-w-0">
               <p className="text-xs font-medium text-[#283C5D]/45">
                 Specialty
               </p>
-
-              <span className="mt-2 inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
-                {formatLabel(specialty) || "NA"}
-              </span>
+                      
+              <div className="mt-2 flex flex-wrap gap-2">
+                {specialty && specialty.length > 0 ? (
+                  specialty.map((item) => (
+                    <span
+                      key={item}
+                      className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]"
+                    >
+                      {formatLabel(item)}
+                    </span>
+                  ))
+                ) : (
+                  <span className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
+                    NA
+                  </span>
+                )}
+              </div>
             </div>
-
-            <div>
+              
+            <div className="min-w-0">
+              <p className="text-xs font-medium text-[#283C5D]/45">
+                Top 3 Procedures
+              </p>
+              
+              <div className="mt-2 flex flex-wrap gap-2">
+                {topThree && topThree.length > 0 ? (
+                  topThree.map((procedure) => (
+                    <span
+                      key={procedure}
+                      className="inline-flex rounded-full border border-[#d8bd8d]/40 bg-[#d8bd8d] px-4 py-1.5 text-xs font-medium text-[#283C5D]"
+                    >
+                      {formatLabel(procedure)}
+                    </span>
+                  ))
+                ) : (
+                  <span className="inline-flex rounded-full border border-dashed border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]/55">
+                    No top procedures selected
+                  </span>
+                )}
+              </div>
+            </div>
+              
+            <div className="min-w-0">
               <p className="text-xs font-medium text-[#283C5D]/45">
                 Years of experience
               </p>
-
+              
               <p className="mt-2 text-sm font-semibold text-[#283C5D]">
                 {yearsOfExperience != null
                   ? `${yearsOfExperience} years`
@@ -151,8 +183,11 @@ export default function ProfileHeader({
           </div>
         </div>
 
-        <Link  href="/dashboard/settings"  className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-[#283C5D] shadow-sm transition hover:bg-[#FAF9F7] active:scale-[0.98]">  
-        <Pencil size={15} />  Edit profile
+        <Link  href="/dashboard/settings"  className="inline-flex w-fit items-center gap-2 rounded-full 
+        border border-black/10 bg-white px-6 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition 
+        hover:bg-[#FAF9F7] active:scale-[0.98]">  
+          <Pencil size={20} />  
+          <p>Edit Profile</p>
         </Link>
       </div>
     <ImageUploadModal

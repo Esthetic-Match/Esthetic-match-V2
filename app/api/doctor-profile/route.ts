@@ -16,6 +16,7 @@ const allowedFields = [
   "city",
   "country",
   "zipCode",
+  "topThree",
   "workLatitude",
   "workLongitude",
   "googlePlaceId",
@@ -52,6 +53,7 @@ export async function POST(req: Request) {
   const city = requiredString(body.city);
   const country = requiredString(body.country);
   const zipCode = requiredString(body.zipCode);
+  const yearsOfExperience = nullableNumber(body.yearsOfExperience) 
 
   if (!userId) {
     return NextResponse.json({ error: "User ID is required." }, { status: 400 });
@@ -116,6 +118,7 @@ export async function POST(req: Request) {
       city,
       country,
       zipCode,
+      yearsOfExperience,
       workLatitude: nullableNumber(body.workLatitude),
       workLongitude: nullableNumber(body.workLongitude),
 

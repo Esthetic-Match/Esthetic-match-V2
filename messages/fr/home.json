@@ -119,5 +119,11 @@
       "privacyPolicy": "Politique de confidentialité",
       "termsOfUse": "Conditions d’utilisation",
       "copyright": "© Esthetic Match Inc. Tous droits réservés."
+    },
+    "nav": {
+      "doctors": "Médecins",
+      "categories": "Catégories",
+      "contact": "Contact",
+      "signIn": "Se connecter"
     }
 }

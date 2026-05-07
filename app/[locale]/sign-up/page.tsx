@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
 import { authClient } from "@/lib/auth-client";
 
 import AccountTypeSelector from "@/components/signup/AccountTypeSelector";
@@ -15,7 +14,6 @@ import type { AccountType } from "./types";
 
 export default function SignUpPage() {
   const router = useRouter();
-  const locale = useLocale();
 
   const [accountType, setAccountType] = useState<AccountType>(null);
   const [signUpStep, setSignUpStep] = useState<"form" | "verifyEmail">("form");
@@ -25,6 +23,7 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [yearsOfExperience, setYearsOfExperience] = useState(0);
   const [clinicName, setClinicName] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [city, setCity] = useState("");
@@ -57,6 +56,7 @@ export default function SignUpPage() {
     setGooglePlaceId("");
     setWorkLatitude(null);
     setWorkLongitude(null);
+    setYearsOfExperience(0);
   }
 
   function handleBack() {
@@ -145,6 +145,7 @@ export default function SignUpPage() {
           zipCode: zipCode.trim(),
           workLatitude,
           workLongitude,
+          yearsOfExperience,
         }),
       });
 
@@ -222,13 +223,15 @@ export default function SignUpPage() {
           zipCode={zipCode}
           googlePlaceId={googlePlaceId}
           workLatitude={workLatitude}      
-          workLongitude={workLongitude}     
+          workLongitude={workLongitude}
+          yearsOfExperience={yearsOfExperience}     
           isLoading={isLoading}
           onBack={handleBack}
           onNameChange={setName}
           onEmailChange={setEmail}
           onDobChange={setDob}
           onPasswordChange={setPassword}
+          onYearsOfExperienceChange={setYearsOfExperience}
           onCityChange={setCity}
           onCountryChange={setCountry}
           onZipCodeChange={setZipCode}

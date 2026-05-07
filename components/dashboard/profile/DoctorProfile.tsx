@@ -81,10 +81,11 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           doctorId={user.id}
           name={profile?.user?.name || "Doctor"}
           avatar={profile?.avatar || profile?.user?.image}
-          specialty={profile?.specialtyIds?.[0] || "Aesthetic Doctor"}
+          specialty={profile?.specialtyIds || []}
           clinicName={profile?.clinicName}
           workAddress={profile?.workAddress}
           yearsOfExperience={profile?.yearsOfExperience}
+          topThree={profile?.topThree}
           onUpdateProfile={updateDoctorProfile}
         />
         <ExpertiseSection

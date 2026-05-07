@@ -78,9 +78,11 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             city={props.city}
             country={props.country}
             zipCode={props.zipCode}
+            yearsOfExperience={props.yearsOfExperience} 
             onNameChange={props.onNameChange}
             onEmailChange={props.onEmailChange}
             onDobChange={props.onDobChange}
+            onYearsOfExperienceChange={props.onYearsOfExperienceChange}
             onPasswordChange={props.onPasswordChange}
             onConfirmPasswordChange={setConfirmPassword}
             onClinicNameChange={props.onClinicNameChange}
