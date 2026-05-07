@@ -16,6 +16,7 @@ const allowedFields = [
   "city",
   "country",
   "zipCode",
+  "topThree",
   "workLatitude",
   "workLongitude",
   "googlePlaceId",

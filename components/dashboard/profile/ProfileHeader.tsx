@@ -13,6 +13,7 @@ type ProfileHeaderProps = {
   specialty?: string[] | null;
   clinicName?: string | null;
   workAddress?: string | null;
+  topThree?:string[] | null;
   avatar?: string | null;
   yearsOfExperience?: number | null;
   onUpdateProfile: (
@@ -28,6 +29,7 @@ export default function ProfileHeader({
   specialty,
   clinicName,
   workAddress,
+  topThree,
   avatar,
   yearsOfExperience,
   onUpdateProfile,
@@ -120,12 +122,12 @@ export default function ProfileHeader({
             ) : null}
           </div>
 
-          <div className="mt-7 grid max-w-3xl grid-cols-1 gap-6 border-t border-black/10 pt-5 sm:grid-cols-2">
-            <div>
+          <div className="mt-7 grid max-w-4xl grid-cols-1 gap-6 border-t border-black/10 pt-5 md:grid-cols-3">
+            <div className="min-w-0">
               <p className="text-xs font-medium text-[#283C5D]/45">
                 Specialty
               </p>
-
+                      
               <div className="mt-2 flex flex-wrap gap-2">
                 {specialty && specialty.length > 0 ? (
                   specialty.map((item) => (
@@ -143,12 +145,35 @@ export default function ProfileHeader({
                 )}
               </div>
             </div>
-
-            <div>
+              
+            <div className="min-w-0">
+              <p className="text-xs font-medium text-[#283C5D]/45">
+                Top 3 Procedures
+              </p>
+              
+              <div className="mt-2 flex flex-wrap gap-2">
+                {topThree && topThree.length > 0 ? (
+                  topThree.map((procedure) => (
+                    <span
+                      key={procedure}
+                      className="inline-flex rounded-full border border-[#d8bd8d]/40 bg-[#d8bd8d] px-4 py-1.5 text-xs font-medium text-[#283C5D]"
+                    >
+                      {formatLabel(procedure)}
+                    </span>
+                  ))
+                ) : (
+                  <span className="inline-flex rounded-full border border-dashed border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]/55">
+                    No top procedures selected
+                  </span>
+                )}
+              </div>
+            </div>
+              
+            <div className="min-w-0">
               <p className="text-xs font-medium text-[#283C5D]/45">
                 Years of experience
               </p>
-
+              
               <p className="mt-2 text-sm font-semibold text-[#283C5D]">
                 {yearsOfExperience != null
                   ? `${yearsOfExperience} years`

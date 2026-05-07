@@ -16,6 +16,7 @@ export type DoctorProfileData = {
   city: string | null;
   country: string | null;
   zipCode: string | null;
+  topThree: string[] | null;
   workLatitude: number | null;
   workLongitude: number | null;
   googlePlaceId: string | null;

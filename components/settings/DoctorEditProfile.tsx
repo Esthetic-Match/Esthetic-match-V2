@@ -7,6 +7,7 @@ import {formatLabel} from "@/utils/dashboard/helper";
 import { Pencil } from "lucide-react";
 import SpecialtyModal from "./UI/SpecialtyModal";
 import CategoryProcedureModal from "./UI/CategoryProcedureModal";
+import TopThreeProceduresModal from "./UI/TopThreeProceduresModal";
 
 
 type DoctorEditProfileProps = {
@@ -29,6 +30,7 @@ type DoctorEditProfileProps = {
     city: string | null;
     country: string | null;
     zipCode: string | null;
+    topThree: string[];
     workLatitude: number | null;
     workLongitude: number | null;
     googlePlaceId: string | null;
@@ -58,10 +60,11 @@ export default function DoctorEditProfile({
   const [country, setCountry] = useState(doctorProfile?.country ?? "");
   const [zipCode, setZipCode] = useState(doctorProfile?.zipCode ?? "");
   const [yoe, setYoe] = useState(doctorProfile?.yearsOfExperience ?? 0);
-  const [modalType, setModalType] = useState<"specialtyIds" | "subcategoryIds" | null>(null);
+  const [modalType, setModalType] = useState<"specialtyIds" | "subcategoryIds" | "topThree" | null>(null);
   const [specialtyIds, setSpecialtyIds] = useState(doctorProfile?.specialtyIds ?? []);
   const [subcategoryIds, setSubcategoryIds] = useState(doctorProfile?.subcategoryIds ?? []);
   const [procedureIds, setProcedureIds] = useState(doctorProfile?.procedureIds ?? []);
+  const [topThree, setTopThree] = useState(doctorProfile?.topThree ?? []);
 
 
   return (
@@ -208,6 +211,37 @@ export default function DoctorEditProfile({
             </div>
           </div>
         </div>
+
+        <div className="border-t border-gray-300 my-4" />
+
+<div>
+  <div className="mb-2 flex items-center justify-between">
+    <p className="font-medium text-[#283C5D]">Top 3 Procedures</p>
+
+    <button
+      type="button"
+      onClick={() => setModalType("topThree")}
+      className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+    >
+      <Pencil size={14} />
+    </button>
+  </div>
+
+  {(doctorProfile?.topThree ?? []).length > 0 ? (
+    <div className="flex flex-wrap gap-2">
+      {(doctorProfile?.topThree ?? []).map((procedure) => (
+        <Chip
+          key={procedure}
+          label={formatLabel(procedure)}
+        />
+      ))}
+    </div>
+  ) : (
+    <p className="rounded-xl border border-dashed border-black/10 bg-white px-4 py-3 text-xs text-[#283C5D]/60">
+      You have not selected your top three procedures yet.
+    </p>
+  )}
+</div>
             
         <button
           type="button"
@@ -239,6 +273,18 @@ export default function DoctorEditProfile({
     onSaved={({ subcategoryIds, procedureIds }) => {
       setSubcategoryIds(subcategoryIds);
       setProcedureIds(procedureIds);
+      setModalType(null);
+    }}
+  />
+)}
+{modalType === "topThree" && (
+  <TopThreeProceduresModal
+    open
+    selectedProcedureIds={procedureIds}
+    selectedTopThree={topThree}
+    onClose={() => setModalType(null)}
+    onSaved={(updatedTopThree) => {
+      setTopThree(updatedTopThree);
       setModalType(null);
     }}
   />

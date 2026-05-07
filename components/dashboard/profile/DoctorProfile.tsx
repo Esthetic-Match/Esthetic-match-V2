@@ -85,6 +85,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           clinicName={profile?.clinicName}
           workAddress={profile?.workAddress}
           yearsOfExperience={profile?.yearsOfExperience}
+          topThree={profile?.topThree}
           onUpdateProfile={updateDoctorProfile}
         />
         <ExpertiseSection
