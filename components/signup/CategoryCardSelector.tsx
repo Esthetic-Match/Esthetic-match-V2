@@ -17,7 +17,7 @@ type CategoryCardSelectorProps = {
 };
 
 function getCategoryImagePath(category: string) {
-  return `/images/categories/${category
+  return `/images/dashboard/categories/${category
     .toLowerCase()
     .replaceAll(" ", "-")
     .replaceAll("/", "-")}.svg`;
