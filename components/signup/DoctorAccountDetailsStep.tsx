@@ -28,13 +28,14 @@ type DoctorAccountDetailsStepProps = {
   city: string;
   country: string;
   zipCode: string;
+  yearsOfExperience: number;
   
-
   onNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onDobChange: (value:string)=>void;
   onPasswordChange: (value: string) => void;
   onConfirmPasswordChange: (value: string) => void;
+  onYearsOfExperienceChange: (value: number) => void;
 
   onClinicNameChange: (value: string) => void;
   onWorkAddressChange: (value: string) => void;
@@ -61,7 +62,9 @@ export default function DoctorAccountDetailsStep({
   onNameChange,
   onEmailChange,
   onDobChange,
+  onYearsOfExperienceChange,
   onPasswordChange,
+  yearsOfExperience,
   onConfirmPasswordChange,
   onClinicNameChange,
   onWorkAddressChange,
@@ -184,6 +187,16 @@ export default function DoctorAccountDetailsStep({
         value={dob}
         onChange={onDobChange}
         icon={<CalendarDays size={15} />}
+      />
+
+      <InputField
+        label={t("yearsOfExperience")}
+        placeholder={t("yearsOfExperienceDescription")}
+        value={yearsOfExperience?.toString() ?? ""}
+        type="number"
+        onChange={() => {}}
+        onNumberChange={onYearsOfExperienceChange}
+        icon={<Building2 size={15} />}
       />
 
       <InputField

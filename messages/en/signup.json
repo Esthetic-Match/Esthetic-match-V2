@@ -34,7 +34,9 @@
     "City": "City",
     "CityDescription": "Enter the city where your clinic or practice is located",
     "Country": "Country",
-    "CountryDescription": "Enter the country where your clinic or practice is located"
+    "CountryDescription": "Enter the country where your clinic or practice is located",
+    "yearsOfExperience": "Years Of Experience",
+    "yearsOfExperienceDescription": "Enter Number Of Years you have been practicing Medecine"
   },
     "onboarding":{
       "secure info":"Your information is secure",

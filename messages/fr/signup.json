@@ -34,7 +34,9 @@
     "City": "Ville de la clinique",
     "CityDescription": "Entrez la ville de votre clinique ou cabinet",
     "Country": "Pays de la clinique",
-    "CountryDescription": "Entrez le pays de votre clinique ou cabinet"
+    "CountryDescription": "Entrez le pays de votre clinique ou cabinet",
+    "yearsOfExperience": "Années d'expérience",
+    "yearsOfExperienceDescription": "Le nombre d'années vous avez exercé la médecine"
   },
   "onboarding":{
     "secure info":"Vos informations sont sécurisés",

@@ -35,6 +35,7 @@ export type DoctorSignUpProps = {
   city: string;
   country: string;
   zipCode: string;
+  yearsOfExperience: number;
 
   googlePlaceId: string;
   workLatitude: number | null;
@@ -49,6 +50,7 @@ export type DoctorSignUpProps = {
   onZipCodeChange: (value: string) => void;
   onClinicNameChange: (value: string) => void;
   onWorkAddressChange: (value: string) => void;
+  onYearsOfExperienceChange: (value: number) => void;
 
   onBack: () => void;
 

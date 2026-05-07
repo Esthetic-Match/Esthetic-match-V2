@@ -6,6 +6,7 @@ type InputFieldProps = {
   placeholder: string;
   type?: React.HTMLInputTypeAttribute;
   value: string;
+  onNumberChange?: (value: number) => void;
   onChange: (value: string) => void;
   icon: React.ReactNode;
   disabled?: boolean;
@@ -22,7 +23,8 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       onChange,
       icon,
       disabled,
-      styleChange
+      styleChange,
+      onNumberChange,
     },
     ref
   ) => {
@@ -38,7 +40,15 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             type={type}
             value={value}
             placeholder={placeholder}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+
+              if (type === "number" && onNumberChange) {
+                onNumberChange(value === "" ? 0 : Number(value));
+              } else {
+                onChange(value);
+              }
+            }}
             disabled={disabled}
             className={cn(
               "h-10 w-full rounded-full border border-white/10 bg-white/85 px-4 pr-11 text-sm text-black outline-none placeholder:text-black/25 focus:border-[#d8bd8d] shadow-md [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0",
