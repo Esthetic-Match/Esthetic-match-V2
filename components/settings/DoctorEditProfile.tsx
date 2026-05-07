@@ -21,7 +21,7 @@ type DoctorEditProfileProps = {
   doctorProfile: {
     id: string;
     clinicName: string;
-    yearsOfExperience: number;
+    yearsOfExperience: number | null;
     specialtyIds: string[];
     subcategoryIds: string[];
     procedureIds: string[];
