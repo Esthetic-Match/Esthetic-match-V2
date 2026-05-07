@@ -6,7 +6,7 @@ export default function Footer() {
   const t = useTranslations("home.footer");
 
   return (
-    <footer className="bg-[#061A2D] px-6 py-6 text-white md:px-12 lg:px-20">
+    <footer className="bg-[#283c5d] px-6 py-2 text-white md:px-12 lg:px-20">
       <div className="mx-auto flex max-w-5xl flex-col gap-12 md:flex-row lg:justify-between">
         {/* Left Links */}
         <div className="flex flex-col gap-1">

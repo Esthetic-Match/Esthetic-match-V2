@@ -1,8 +1,12 @@
 "use client";
-import { DoctorCatalog } from "@/lib/doctorCatalogue";
+
 import { useState } from "react";
 import { User, Mail, Building2, MapPin, Map, Globe, Hash } from "lucide-react";
 import InputField from "@/components/UI/InputField";
+import {formatLabel} from "@/utils/dashboard/helper";
+import { Pencil } from "lucide-react";
+import SpecialtyModal from "./UI/SpecialtyModal";
+import CategoryProcedureModal from "./UI/CategoryProcedureModal";
 
 
 type DoctorEditProfileProps = {
@@ -16,6 +20,7 @@ type DoctorEditProfileProps = {
   doctorProfile: {
     id: string;
     clinicName: string;
+    yearsOfExperience: number;
     specialtyIds: string[];
     subcategoryIds: string[];
     procedureIds: string[];
@@ -30,28 +35,6 @@ type DoctorEditProfileProps = {
     otherSpecialtyText: string | null;
   } | null;
 };
-
-function getSpecialties(ids: string[]) {
-  return DoctorCatalog.specialties.items.filter((specialty) =>
-    ids.includes(specialty)
-  );
-}
-
-function getCategories(ids: string[]) {
-  return DoctorCatalog.categories
-    .filter((category) => ids.includes(category.category))
-    .map((category) => category.category);
-}
-
-function getProcedures(ids: string[]) {
-  return DoctorCatalog.categories.flatMap((category) =>
-    category.subcategories.flatMap((subcategory) =>
-      subcategory.procedures
-        .filter((procedure) => ids.includes(procedure.id))
-        .map((procedure) => procedure.name)
-    )
-  );
-}
 
 function Chip({ label }: { label: string }) {
   return (
@@ -74,6 +57,12 @@ export default function DoctorEditProfile({
   const [city, setCity] = useState(doctorProfile?.city ?? "");
   const [country, setCountry] = useState(doctorProfile?.country ?? "");
   const [zipCode, setZipCode] = useState(doctorProfile?.zipCode ?? "");
+  const [yoe, setYoe] = useState(doctorProfile?.yearsOfExperience ?? 0);
+  const [modalType, setModalType] = useState<"specialtyIds" | "subcategoryIds" | null>(null);
+  const [specialtyIds, setSpecialtyIds] = useState(doctorProfile?.specialtyIds ?? []);
+  const [subcategoryIds, setSubcategoryIds] = useState(doctorProfile?.subcategoryIds ?? []);
+  const [procedureIds, setProcedureIds] = useState(doctorProfile?.procedureIds ?? []);
+
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -84,7 +73,7 @@ export default function DoctorEditProfile({
         <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
           Edit Profile
         </h2>
-        <div className="border-t border-gray-300 my-4"></div>
+        <div className="border-t border-gray-300 my-4"/>
       </div>
 
       <div className="space-y-4 rounded-2xl p-6">
@@ -98,14 +87,25 @@ export default function DoctorEditProfile({
           />
 
           <InputField
-            label="Email"
+            label="Email (cannot be edited)"
             placeholder="Email"
             value={email}
             onChange={() => {}}
             icon={<Mail size={16} />}
             disabled
+            styleChange={"bg-gray-400"}
           />
         </div>
+
+        <InputField
+          label={"Years of Experience"}
+          placeholder={"0"}
+          value={yoe?.toString() ?? ""}
+          type="number"
+          onChange={() => {}}
+          onNumberChange={setYoe}
+          icon={<Building2 size={15} />}
+        />
 
         <InputField
           label="Clinic name"
@@ -116,7 +116,7 @@ export default function DoctorEditProfile({
         />
 
         <InputField
-          label="Work address"
+          label="Clinic address"
           placeholder="Work address"
           value={workAddress}
           onChange={setWorkAddress}
@@ -149,41 +149,66 @@ export default function DoctorEditProfile({
           />
         </div>
 
+        {/* Specialties, categories, procedures sections */}
         <div className="space-y-4 rounded-xl bg-[#FAF9F7] p-4 text-sm text-gray-600">
           <div>
-            <p className="mb-2 font-medium text-[#283C5D]">Specialties</p>
+            <div className="mb-2 flex items-center justify-between">
+              <p className="font-medium text-[#283C5D]">Specialties</p>
+
+              <button
+                type="button"
+                onClick={() => setModalType("specialtyIds")}
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+              >
+                <Pencil size={14} />
+              </button>
+            </div>
+
             <div className="flex flex-wrap gap-2">
-              {getSpecialties(doctorProfile?.specialtyIds ?? []).map(
-                (specialty) => (
-                  <Chip key={specialty} label={specialty} />
-                )
-              )}
+              {(doctorProfile?.specialtyIds ?? []).map((specialty) => (
+                <Chip key={specialty} label={formatLabel(specialty)} />
+              ))}
             </div>
           </div>
 
-          <div>
-            <p className="mb-2 font-medium text-[#283C5D]">Categories</p>
-            <div className="flex flex-wrap gap-2">
-              {getCategories(doctorProfile?.subcategoryIds ?? []).map(
-                (category) => (
-                  <Chip key={category} label={category} />
-                )
-              )}
-            </div>
-          </div>
+            <div className="border-t border-gray-300 my-4"/>
 
           <div>
-            <p className="mb-2 font-medium text-[#283C5D]">Procedures</p>
+            <div className="mb-2 flex items-center justify-between">
+              <p className="font-medium text-[#283C5D]">Categories</p>
+            
+              <button
+                type="button"
+                onClick={() => setModalType("subcategoryIds")}
+                className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+              >
+                <Pencil size={14} />
+              </button>
+            </div>
+            
             <div className="flex flex-wrap gap-2">
-              {getProcedures(doctorProfile?.procedureIds ?? []).map(
-                (procedure) => (
-                  <Chip key={procedure} label={procedure} />
-                )
-              )}
+              {(doctorProfile?.subcategoryIds ?? []).map((category) => (
+                 <Chip key={category} label={formatLabel(category)} />
+              ))}
+            </div>
+          </div>
+            
+          <div>
+            <div className="mb-2 flex items-center justify-between">
+              <p className="font-medium text-[#283C5D]">Procedures</p>
+            </div>
+            
+            <div className="flex flex-wrap gap-2">
+              {(doctorProfile?.procedureIds ?? []).map((procedure) => (
+                <Chip
+                  key={procedure}
+                  label={formatLabel(procedure)}
+                />
+              ))}
             </div>
           </div>
         </div>
-
+            
         <button
           type="button"
           className="w-full rounded-full bg-gradient-to-r 
@@ -192,6 +217,32 @@ export default function DoctorEditProfile({
           Save changes
         </button>
       </div>
+{modalType === "specialtyIds" && (
+  <SpecialtyModal
+    open={true}
+    selectedIds={specialtyIds}
+    onClose={() => setModalType(null)}
+    onSaved={(updatedIds) => {
+      setSpecialtyIds(updatedIds);
+      setModalType(null);
+    }}
+  />
+)}
+
+{modalType === "subcategoryIds" && (
+  <CategoryProcedureModal
+    open={true}
+    specialtyIds={specialtyIds}
+    selectedCategoryIds={subcategoryIds}
+    selectedProcedureIds={doctorProfile?.procedureIds ?? []}
+    onClose={() => setModalType(null)}
+    onSaved={({ subcategoryIds, procedureIds }) => {
+      setSubcategoryIds(subcategoryIds);
+      setProcedureIds(procedureIds);
+      setModalType(null);
+    }}
+  />
+)}
     </div>
   );
 }

@@ -56,6 +56,7 @@ model DoctorProfile {
   subcategoryIds        String[]
   procedureIds          String[]
   subzoneIds            String[]
+  topThree              String[]
   workAddress           String
   city                  String?
   country               String?

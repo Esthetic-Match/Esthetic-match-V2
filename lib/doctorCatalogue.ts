@@ -198,7 +198,7 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "MUSCLE TONE & EMS",
+      category: "MUSCLE TONE AND EMS",
       subcategories: [
         {
           subcategory: "Face",
@@ -260,7 +260,7 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "WELLNESS & DRAINAGE",
+      category: "WELLNESS AND DRAINAGE",
       subcategories: [
         {
           subcategory: "Drainage & Circulation",
