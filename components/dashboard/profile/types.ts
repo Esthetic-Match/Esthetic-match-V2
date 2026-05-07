@@ -20,6 +20,11 @@ export type DoctorProfileData = {
   workLongitude: number | null;
   googlePlaceId: string | null;
   otherSpecialtyText: string | null;
+  paidPlan: "free" | "standard" | null;
+  inClinicPrice: number | null;
+  onlineConsulPrice: number | null;
+  SocialMediaLink: string | null;
+  bookingLink: string | null;
 
   user: {
     id: string;

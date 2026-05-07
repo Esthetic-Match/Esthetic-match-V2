@@ -5,19 +5,19 @@ import UploadImageWidget from "@/components/UI/UploadImageWidget";
 
 type EditBannerModalProps = {
   isOpen: boolean;
-  doctorId: string;
-  currentBanner?: string | null;
+  ImagePath: string;
+  currentImage?: string | null;
   onClose: () => void;
-  onBannerUploaded: (url: string) => void;
+  onImageloaded: (url: string) => void;
   onDeleteBanner: () => void;
 };
 
-export default function EditBannerModal({
+export default function ImageUploadModal({
   isOpen,
-  doctorId,
-  currentBanner,
+  ImagePath,
+  currentImage,
   onClose,
-  onBannerUploaded,
+  onImageloaded,
   onDeleteBanner,
 }: EditBannerModalProps) {
   if (!isOpen) return null;
@@ -27,9 +27,9 @@ export default function EditBannerModal({
       <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
         <div className="mb-5 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-[#283C5D]">Edit Banner</h2>
+            <h2 className="text-lg font-bold text-[#283C5D]">Upload New Image</h2>
             <p className="mt-1 text-sm text-black/45">
-              Upload a new banner image or remove the current one.
+              Upload a new image or remove the current one.
             </p>
           </div>
 
@@ -42,24 +42,24 @@ export default function EditBannerModal({
           </button>
         </div>
 
-        {currentBanner ? (
+        {currentImage ? (
           <button
             type="button"
             onClick={onDeleteBanner}
             className="mb-5 flex w-full items-center justify-center gap-2 rounded-full border border-red-500/20 px-4 py-3 text-sm font-medium text-red-500 transition hover:bg-red-50 active:scale-[0.98]"
           >
             <Trash2 size={16} />
-            Delete current banner
+            Delete Image
           </button>
         ) : null}
 
           <UploadImageWidget
             type="banner"
             access="public"
-            uploadPath={`doctor-profile/${doctorId}/banner`}
+            uploadPath={ImagePath}
             label="Add a photo of clinic"
             onUploaded={(url) => {
-              onBannerUploaded(url);
+              onImageloaded(url);
               onClose();
             }}
           />

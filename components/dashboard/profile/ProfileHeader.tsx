@@ -1,40 +1,71 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import { Camera, MapPin, Pencil, Building2, BadgeCheck } from "lucide-react";
-import { formatLabel } from "@/utils/dashboard/helper";
+import { formatLabel, handleImageUpload } from "@/utils/dashboard/helper";
+import ImageUploadModal from "./UI/ImageUploadModal";
+import type { DoctorProfileData } from "./types";
+import { Link } from "@/i18n/navigation";
 
 type ProfileHeaderProps = {
+  doctorId: string;
   name: string;
   specialty?: string | null;
   clinicName?: string | null;
   workAddress?: string | null;
   avatar?: string | null;
   yearsOfExperience?: number | null;
-  onEditProfile?: () => void;
-  onEditAvatar?: () => void;
+  onUpdateProfile: (
+    data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
+  ) => void;
 };
 
 const fallbackAvatar = "/dev/profile-placeholder.jpg";
 
 export default function ProfileHeader({
+  doctorId,
   name,
   specialty,
   clinicName,
   workAddress,
   avatar,
   yearsOfExperience,
-  onEditProfile,
-  onEditAvatar,
+  onUpdateProfile,
 }: ProfileHeaderProps) {
+    const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+    const [currentAvatar, setCurrentAvatar] = useState<string | null>(avatar || fallbackAvatar);
+    
     const initials = name
         ? name
             .split(" ")
             .map((n) => n[0])
             .join("")
             .toUpperCase()
-        : "U";
+        : "EM";
+
+    async function handleAvatarUploaded(url: string) {
+      await handleImageUpload({
+        newUrl: url,
+        currentValue: currentAvatar,
+        setValue: setCurrentAvatar,
+        field: "avatar",
+        onUpdateProfile,
+      });
+    }
+
+    async function handleDeleteAvatar() {
+      await handleImageUpload({
+        newUrl: null,
+        currentValue: currentAvatar,
+        fallbackValue: fallbackAvatar,
+        setValue: setCurrentAvatar,
+        field: "avatar",
+        onUpdateProfile,
+      });
+    }
 
   return (
-    <section className="relative z-20 mx-auto -mt-16 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-black/10 bg-white px-6 pb-8 pt-24 shadow-lg md:-mt-20 md:px-10 md:pt-10">
+    <section className="relative z-20 mx-auto -mt-16 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white px-6 pb-8 pt-24 shadow-lg md:-mt-20 md:px-10 md:pt-10">
       <div className="absolute -top-20 left-6 md:left-10">
         <div className="relative h-40 w-40 rounded-full border-4 border-white bg-white shadow-md md:h-40 md:w-40">
             {avatar ? (
@@ -53,8 +84,9 @@ export default function ProfileHeader({
             }
           <button
             type="button"
-            onClick={onEditAvatar}
-            className="absolute bottom-1 right-2 flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] shadow-md transition hover:bg-[#FAF9F7] active:scale-[0.98]"
+            onClick={()=>{setIsAvatarModalOpen(true)}}
+            className="absolute bottom-1 right-2 flex h-10 w-10 items-center justify-center rounded-full border border-black/10 
+            bg-white text-[#283C5D] cursor-pointer shadow-md transition hover:text-white hover:bg-[#283c5d] hover:border-white hover:border-2 active:scale-[0.96]"
             aria-label="Edit profile photo"
           >
             <Camera size={18} />
@@ -113,21 +145,26 @@ export default function ProfileHeader({
               <p className="mt-2 text-sm font-semibold text-[#283C5D]">
                 {yearsOfExperience != null
                   ? `${yearsOfExperience} years`
-                  : "Not Added"}
+                  : "Not Available"}
               </p>
             </div>
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={onEditProfile}
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-[#283C5D] shadow-sm transition hover:bg-[#FAF9F7] active:scale-[0.98]"
-        >
-          <Pencil size={15} />
-          Edit profile
-        </button>
+        <Link  href="/dashboard/settings"  className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-[#283C5D] shadow-sm transition hover:bg-[#FAF9F7] active:scale-[0.98]">  
+        <Pencil size={15} />  Edit profile
+        </Link>
       </div>
+    <ImageUploadModal
+      isOpen={isAvatarModalOpen}
+      ImagePath={`doctor-profile/${doctorId}/avatar`}
+      currentImage={
+        currentAvatar === fallbackAvatar ? null : currentAvatar
+      }
+      onClose={() => setIsAvatarModalOpen(false)}
+      onImageloaded={handleAvatarUploaded}
+      onDeleteBanner={handleDeleteAvatar}
+    />
     </section>
   );
 }

@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 const allowedFields = [
   "clinicName",
   "clinicBanner",
+  "avatar",            
+  "yearsOfExperience",
   "specialtyIds",
   "subcategoryIds",
   "procedureIds",
@@ -18,6 +20,10 @@ const allowedFields = [
   "workLongitude",
   "googlePlaceId",
   "otherSpecialtyText",
+  "inClinicPrice",
+  "onlineConsulPrice",
+  "socialMediaLink",
+  "bookingLink",
 ] as const;
 
 function requiredString(value: unknown): string | null {
