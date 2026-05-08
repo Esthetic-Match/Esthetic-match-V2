@@ -36,7 +36,7 @@ export default function SignInPage() {
       return;
     }
 
-    router.push(`/${locale}/dashboard`);
+    router.push(`/dashboard`);
     router.refresh();
   }
 
