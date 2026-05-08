@@ -13,7 +13,7 @@ export default function ExpertiseSection({
   paidPlan = "free",
 }: ExpertiseSectionProps) {
   const isFreePlan = paidPlan === "free";
-  const visibleProcedures = isFreePlan ? procedureIds.slice(0, 10) : procedureIds;
+  const visibleProcedures = isFreePlan ? procedureIds.slice(0, 5) : procedureIds;
   const hiddenCount = procedureIds.length - visibleProcedures.length;
 
   return (
@@ -72,7 +72,7 @@ export default function ExpertiseSection({
               <h3 className="text-lg font-semibold">Standard Plan</h3>
 
               <p className="mt-3 text-sm text-white/60">
-                Only 10 procedures are visible
+                Only 5 procedures are visible
               </p>
               <UpgradeButton/>
             </aside>
