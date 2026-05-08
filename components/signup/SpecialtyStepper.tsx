@@ -15,11 +15,11 @@ const steps = [
   },
   {
     key: "categories",
-    labelKey: "selectCategory",
+    labelKey: "selectCategory/procedure",
   },
   {
-    key: "procedures",
-    labelKey: "selectProcedure",
+    key: "payment",
+    labelKey: "selectpayment",
   },
 ] as const;
 
