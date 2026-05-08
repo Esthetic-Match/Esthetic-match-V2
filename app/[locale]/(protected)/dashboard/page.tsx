@@ -1,28 +1,34 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
 
+export default async function DashboardPage({
+  params,
+}: {
+  params: Promise<{ locale: "en" | "fr" }>;
+}) {
+  const { locale } = await params;
 
-export default async function DashboardPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user) {
-    redirect("/sign-in");
+    redirect({
+      href: "/sign-in",
+      locale,
+    });
   }
 
-  // onboarding guard
   if (
-    session.user.role === "DOCTOR" &&
+    session?.user.role === "DOCTOR" &&
     !session.user.onboardingCompleted
   ) {
-    redirect("/dashboard/onboarding");
+    redirect({
+      href: "/dashboard/onboarding",
+      locale,
+    });
   }
 
-  return (
-    <main>
-      
-    </main>
-  );
+  return <main></main>;
 }
