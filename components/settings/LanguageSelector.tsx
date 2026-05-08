@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, usePathname } from "@/i18n/navigation";
 
 export default function LanguageSelector() {
   const router = useRouter();

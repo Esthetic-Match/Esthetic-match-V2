@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import Footer from "@/components/homePage/Footer";
 
 export default function FooterVisibility() {

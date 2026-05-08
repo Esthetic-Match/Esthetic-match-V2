@@ -2,7 +2,7 @@
 import BlueBanner from "@/components/UI/BlueBanner";
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { Eye, EyeClosed, Mail } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
