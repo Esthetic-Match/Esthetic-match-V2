@@ -91,7 +91,7 @@ export default function DoctorOnboardingPage() {
         throw new Error(data?.message || "Could not save onboarding.");
       }
 
-      router.push(`/${locale}/dashboard`);
+      router.push(`/dashboard`);
       router.refresh();
     } catch (error) {
       setErrorMessage(
