@@ -8,6 +8,9 @@ type BookingAndPricesProps = {
   onlineConsulPrice?: number | null;
   bookingLink?: string | null;
   socialMediaLink?: string | null;
+  workLatitude?: number | null;
+  workLongitude?: number | null;
+  googlePlaceId?: string | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void | Promise<void>;
@@ -18,7 +21,10 @@ export default function BookingAndPrices({
   onlineConsulPrice,
   bookingLink,
   socialMediaLink,
-  onUpdateProfile
+  onUpdateProfile,
+  workLatitude,
+  workLongitude,
+  googlePlaceId
 }: BookingAndPricesProps) {
   return (
     <section className="relative z-20 mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl">
@@ -31,7 +37,7 @@ export default function BookingAndPrices({
 
         <BookingLinks bookingLink={bookingLink} />
 
-        <SocialLinks socialMediaLink={socialMediaLink} />
+        <SocialLinks googlePlaceId={googlePlaceId} workLatitude={workLatitude} workLongitude={workLongitude} socialMediaLink={socialMediaLink} />
       </div>
     </section>
   );

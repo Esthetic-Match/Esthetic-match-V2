@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 const allowedFields = [
   "clinicName",
   "clinicBanner",
-  "avatar",            
+  "avatar",
   "yearsOfExperience",
   "specialtyIds",
   "subcategoryIds",
@@ -20,6 +20,9 @@ const allowedFields = [
   "workLatitude",
   "workLongitude",
   "googlePlaceId",
+  "googleRating",
+  "googleReviewCount",
+  "googleMapsUri",
   "otherSpecialtyText",
   "inClinicPrice",
   "onlineConsulPrice",
