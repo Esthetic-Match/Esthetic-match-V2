@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 
 import MessageText from "@/components/UI/MessageText";
@@ -15,6 +16,7 @@ type DoctorSpecialtySubStep = "specialties" | "categories";
 
 export default function DoctorOnboardingPage() {
   const t = useTranslations("signUp.onboarding");
+  const locale = useLocale();
   const router = useRouter();
 
   const [subStep, setSubStep] =
@@ -90,7 +92,7 @@ export default function DoctorOnboardingPage() {
         throw new Error(data?.message || "Could not save onboarding.");
       }
 
-      router.push("/dashboard");
+      router.push(`/${locale}/dashboard`);
       router.refresh();
     } catch (error) {
       setErrorMessage(
