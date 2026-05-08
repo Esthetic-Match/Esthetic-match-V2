@@ -46,7 +46,7 @@ export function NavPanel({ children }: NavPanelProps) {
     },
     {
       label: "Profile",
-      href: userId ? `/dashboard/${userId}` : "/dashboard",
+      href: `/dashboard/${userId}`,
       icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
     },
     {
