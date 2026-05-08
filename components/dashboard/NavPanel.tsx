@@ -63,7 +63,7 @@ export function NavPanel({ children }: NavPanelProps) {
 
   return (
     <div className={`flex min-h-screen w-full bg-[#283C5D] ${dmSans.className}`}>
-      <aside className="sticky top-0 h-screen shrink-0">
+      <aside className="sticky top-0 h-screen shrink-0 z-25">
         <Sidebar open={open} setOpen={setOpen}>
           <SidebarBody className="justify-between gap-10">
             <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">

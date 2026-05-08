@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   });
 
   if (!session?.user) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized: Please log out and sign in again to verify your identity" }, { status: 401 });
   }
 
   const body = await req.json();

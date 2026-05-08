@@ -69,6 +69,9 @@ model DoctorProfile {
   onlineConsulPrice     Float?
   socialMediaLink       String?
   bookingLink           String?
+  googleRating          Float?
+  googleReviewCount     Int?
+  googleMapsUri         String?
 
   otherSpecialtyText String?
 

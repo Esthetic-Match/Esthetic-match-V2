@@ -98,6 +98,11 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           bookingLink={profile?.bookingLink}
           socialMediaLink={profile?.SocialMediaLink}
           onUpdateProfile={updateDoctorProfile}
+          workLatitude={profile?.workLatitude}
+          workLongitude={profile?.workLongitude}
+          googlePlaceId={profile?.googlePlaceId}
+          googleReviewCount={profile?.googleReviewCount}
+          googleRating={profile?.googleRating}
         />
         <Gallery userId={user.id}/>
     </div>

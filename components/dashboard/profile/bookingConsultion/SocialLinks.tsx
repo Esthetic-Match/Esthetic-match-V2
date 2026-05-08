@@ -1,9 +1,31 @@
-import { LinkIcon,  Share2 } from "lucide-react";
-import CardTitle from "../UI/CardTitle"
-import UpgradeButton from "../UI/UpgradeButton"
-import SocialLockedRow from "../UI/SocialLockedRow"
+import { LinkIcon, Share2 } from "lucide-react";
+import CardTitle from "../UI/CardTitle";
+import UpgradeButton from "../UI/UpgradeButton";
+import SocialLockedRow from "../UI/SocialLockedRow";
+import GoogleReviewsButton from "../UI/GoogleReviewsButton";
 
-export default function SocialLinks({ socialMediaLink }: { socialMediaLink?: string | null }) {
+type SocialLinksProps = {
+  socialMediaLink?: string | null;
+  clinicName?: string | null;
+  workAddress?: string | null;
+  city?: string | null;
+  country?: string | null;
+  workLatitude?: number | null;
+  workLongitude?: number | null;
+  googlePlaceId?: string | null;
+  googleRating?: number | null;
+  googleReviewCount?: number | null;
+};
+
+export default function SocialLinks({
+  socialMediaLink,
+  clinicName,
+  workLatitude,
+  workLongitude,
+  googlePlaceId,
+  googleReviewCount,
+  googleRating,
+}: SocialLinksProps) {
   return (
     <div className="rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
       <CardTitle icon={<Share2 size={22} />} title="Social Media" />
@@ -20,9 +42,17 @@ export default function SocialLinks({ socialMediaLink }: { socialMediaLink?: str
         </a>
       ) : (
         <div className="mt-8">
-          <SocialLockedRow label="Instagram" iconSrc="/icons/igIcon.svg" />
-          <SocialLockedRow label="TikTok" iconSrc="/icons/tiktokIcon.svg" />
-          <SocialLockedRow label="YouTube" iconSrc="/icons/youtubeIcon.svg" />
+          <GoogleReviewsButton
+            clinicName={clinicName}
+            workLatitude={workLatitude}
+            workLongitude={workLongitude}
+            googlePlaceId={googlePlaceId}
+            googleReviewCount={googleReviewCount}
+            googleRating={googleRating}
+          />
+
+          <SocialLockedRow locked={true} label="Instagram" iconSrc="/icons/igIcon.svg" />
+          <SocialLockedRow locked={true} label="TikTok" iconSrc="/icons/tiktokIcon.svg" />
 
           <div className="mt-7 text-center">
             <p className="text-sm font-medium text-[#283C5D]">

@@ -47,8 +47,8 @@
     "submit": "Envoyer",
         "specialtyStepper": {
           "selectSpecialty": "Sélectionner les spécialité",
-          "selectCategory": "Sélectionner les catégorie",
-          "selectProcedure": "Sélectionner les procédure"
+          "selectCategory/procedure": "les catégorie et procédure",
+          "selectpayment": "le mode de paiement"
         }
   },
     "doctorSignUp": {
