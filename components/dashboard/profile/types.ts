@@ -26,6 +26,8 @@ export type DoctorProfileData = {
   onlineConsulPrice: number | null;
   SocialMediaLink: string | null;
   bookingLink: string | null;
+  googleRating?: number | null;
+  googleReviewCount?: number | null;
 
   user: {
     id: string;

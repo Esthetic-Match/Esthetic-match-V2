@@ -5,7 +5,7 @@ import { Search, Star, X, CheckCircle2 } from "lucide-react";
 
 type GooglePlaceMatch = {
   id: string;
-  name: string; // "places/PLACE_ID"
+  name: string; 
   displayName: {
     text: string;
   };
@@ -20,8 +20,10 @@ type GoogleReviewsPickerProps = {
   workLatitude?: number | null;
   workLongitude?: number | null;
   googlePlaceId?: string | null;
-  initialGoogleRating?: number | null;
-  initialGoogleReviewCount?: number | null;
+
+  googleRating?: number | null;
+  googleReviewCount?: number | null;
+
   onSaved?: (data: {
     googlePlaceId: string | null;
     googleRating: number | null;
@@ -45,8 +47,8 @@ export default function GoogleReviewsPicker({
   workLatitude,
   workLongitude,
   googlePlaceId,
-  initialGoogleRating,
-  initialGoogleReviewCount,
+  googleRating,
+  googleReviewCount,
   onSaved,
 }: GoogleReviewsPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,10 +60,11 @@ export default function GoogleReviewsPicker({
     googlePlaceId ?? null
   );
   const [savedRating, setSavedRating] = useState<number | null>(
-    initialGoogleRating ?? null
+    googleRating ?? null
   );
+
   const [savedReviewCount, setSavedReviewCount] = useState<number | null>(
-    initialGoogleReviewCount ?? null
+    googleReviewCount ?? null
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -190,8 +193,8 @@ export default function GoogleReviewsPicker({
         className="flex w-full mb-3 items-center justify-between rounded-full border border-[#F6C467] bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] px-4 py-2 text-sm text-[#283C5D] transition hover:opacity-90 active:scale-[0.98]"
       >
         <span className="w-full font-bold">
-          {selectedPlaceId
-            ? `Google Rating: ${savedRating ?? "—"} ★  (${savedReviewCount ?? 0})`
+          {googleRating
+            ? `Google Rating: ${googleRating ?? "—"} ★  (${googleReviewCount ?? 0})`
             : "Connect Google Rating"}
         </span>
         {selectedPlaceId? "":<Search size={16} />}

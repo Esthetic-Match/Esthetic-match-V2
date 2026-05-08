@@ -101,6 +101,8 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           workLatitude={profile?.workLatitude}
           workLongitude={profile?.workLongitude}
           googlePlaceId={profile?.googlePlaceId}
+          googleReviewCount={profile?.googleReviewCount}
+          googleRating={profile?.googleRating}
         />
         <Gallery userId={user.id}/>
     </div>

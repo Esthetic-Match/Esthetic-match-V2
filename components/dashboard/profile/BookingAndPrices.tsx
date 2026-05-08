@@ -11,6 +11,8 @@ type BookingAndPricesProps = {
   workLatitude?: number | null;
   workLongitude?: number | null;
   googlePlaceId?: string | null;
+  googleRating?: number | null;
+  googleReviewCount?: number | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void | Promise<void>;
@@ -24,11 +26,13 @@ export default function BookingAndPrices({
   onUpdateProfile,
   workLatitude,
   workLongitude,
-  googlePlaceId
+  googlePlaceId,
+  googleReviewCount,
+  googleRating,
 }: BookingAndPricesProps) {
   return (
-    <section className="relative z-20 mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl">
-      <div className="grid gap-5 lg:grid-cols-3">
+    <section className="relative mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl">
+      <div className="grid gap-4 lg:grid-cols-3">
         <ConsultationPrices
           inClinicPrice={inClinicPrice}
           onlineConsulPrice={onlineConsulPrice}
@@ -37,7 +41,14 @@ export default function BookingAndPrices({
 
         <BookingLinks bookingLink={bookingLink} />
 
-        <SocialLinks googlePlaceId={googlePlaceId} workLatitude={workLatitude} workLongitude={workLongitude} socialMediaLink={socialMediaLink} />
+        <SocialLinks 
+        googlePlaceId={googlePlaceId} 
+        workLatitude={workLatitude} 
+        workLongitude={workLongitude} 
+        socialMediaLink={socialMediaLink}  
+        googleReviewCount={googleReviewCount}
+        googleRating={googleRating}
+        />
       </div>
     </section>
   );

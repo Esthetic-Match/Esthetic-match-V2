@@ -13,17 +13,18 @@ type SocialLinksProps = {
   workLatitude?: number | null;
   workLongitude?: number | null;
   googlePlaceId?: string | null;
+  googleRating?: number | null;
+  googleReviewCount?: number | null;
 };
 
 export default function SocialLinks({
   socialMediaLink,
   clinicName,
-  workAddress,
-  city,
-  country,
   workLatitude,
   workLongitude,
   googlePlaceId,
+  googleReviewCount,
+  googleRating,
 }: SocialLinksProps) {
   return (
     <div className="rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
@@ -43,12 +44,11 @@ export default function SocialLinks({
         <div className="mt-8">
           <GoogleReviewsButton
             clinicName={clinicName}
-            workAddress={workAddress}
-            city={city}
-            country={country}
             workLatitude={workLatitude}
             workLongitude={workLongitude}
             googlePlaceId={googlePlaceId}
+            googleReviewCount={googleReviewCount}
+            googleRating={googleRating}
           />
 
           <SocialLockedRow locked={true} label="Instagram" iconSrc="/icons/igIcon.svg" />
