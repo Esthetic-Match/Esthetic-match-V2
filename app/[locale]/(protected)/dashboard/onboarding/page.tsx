@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
-import { useTranslations,useLocale } from "next-intl";
-import { useLocale } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 
 import MessageText from "@/components/UI/MessageText";
