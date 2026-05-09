@@ -88,14 +88,16 @@ export default function AccountTypeSelector({
               onClick={() => handleSelect("doctor")}
               className="flex h-[120px] w-[120px] flex-col items-center justify-center rounded-xl bg-[#EED8B5] text-black transition hover:scale-[1.03] active:scale-[0.98] cursor-pointer disabled:pointer-events-none"
             >
-              <Image
-                src="/signup/signupDoctor.svg"
-                alt=""
-                width={30}
-                height={30}
-                className="mb-4"
-              />
-              <span className="text-sm font-medium leading-tight text-center">
+              <div className="flex h-[40px] items-center justify-center">
+                <Image
+                  src="/signup/signupDoctor.svg"
+                  alt=""
+                  width={30}
+                  height={30}
+                />
+              </div>
+
+              <span className="mt-3 text-center text-md font-normal leading-tight">
                 {t("Healthcare Provider")}
               </span>
             </button>
@@ -106,14 +108,16 @@ export default function AccountTypeSelector({
               onClick={() => handleSelect("patient")}
               className="flex h-[120px] w-[120px] flex-col items-center justify-center rounded-xl bg-[#EED8B5] text-black transition hover:scale-[1.03] active:scale-[0.98] cursor-pointer disabled:pointer-events-none"
             >
-              <Image
-                src="/signup/signupPatient.svg"
-                alt=""
-                width={30}
-                height={30}
-                className="mb-4"
-              />
-              <span className="text-sm font-medium leading-tight text-center">
+              <div className="flex h-[40px] items-center justify-center">
+                <Image
+                  src="/signup/signupPatient.svg"
+                  alt=""
+                  width={30}
+                  height={30}
+                />
+              </div>
+
+              <span className="mt-3 text-center text-md font-normal leading-tight">
                 {t("Patient")}
               </span>
             </button>
