@@ -32,5 +32,5 @@ export default async function EditProfile() {
     return <DoctorEditProfile user={user} doctorProfile={user.doctorProfile} />;
   }
 
-  return <PatientEditProfile user={user} patientProfile={user.patientProfile} />;
+  return <PatientEditProfile user={user}  />;
 }
