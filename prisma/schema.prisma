@@ -88,7 +88,7 @@ model DoctorProfile {
   workLatitude          Float?
   workLongitude         Float?
   googlePlaceId         String?
-  paidPlan              String? @default("free")
+  paidPlan              String? @default("free") // free | premium
   inClinicPrice         Float?
   onlineConsulPrice     Float?
   socialMediaLink       String?
