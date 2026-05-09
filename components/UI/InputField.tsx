@@ -34,7 +34,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
           {label}
         </label>
 
-        <div className="relative z-50">
+        <div className="relative z-20">
           <input
             ref={ref}
             type={type}
