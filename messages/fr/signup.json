@@ -10,7 +10,8 @@
     "Patient": "Patient ou visiteur"
   },
     "signUpForm":{
-    "heading": "Créez votre compte sur Esthetic Match en ajoutant les détails de votre compte",
+    "heading": "Créez votre profil",
+    "subheading": "sur Esthetic Match en ajoutant les détails de votre compte",
     "FullName": "Nom complet",
     "NameDescription": "Entrez votre nom complet",
     "Email": "Email",
@@ -116,6 +117,7 @@
     }
   },
     "category": {
+    "heading": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
     "NON-SURGICAL FACE": "VISAGE NON CHIRURGICAL",
     "NON-SURGICAL BODY": "CORPS NON CHIRURGICAL",
     "AESTHETIC DENTISTRY": "DENTISTERIE ESTHÉTIQUE",

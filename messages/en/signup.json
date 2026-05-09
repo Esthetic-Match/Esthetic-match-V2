@@ -10,7 +10,8 @@
     "Patient": "Patient or Visitor"
   },
   "signUpForm":{
-    "heading": "Create your account to esthetic match by adding your account details",
+    "heading": "Create your account",
+    "subheading": "Join esthetic match by adding your account details",
     "FullName": "Full Name",
     "NameDescription": "Enter your full name",
     "Email": "Email",
@@ -116,6 +117,7 @@
     }
   },
   "category": {
+    "heading": "Select your domain of expertise and the procedures you offer",
     "NON-SURGICAL FACE": "NON-SURGICAL FACE",
     "NON-SURGICAL BODY": "NON-SURGICAL BODY",
     "AESTHETIC DENTISTRY": "AESTHETIC DENTISTRY",

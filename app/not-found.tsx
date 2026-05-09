@@ -46,7 +46,7 @@ export default function NotFound() {
           onClick={() => router.back()}
           className="mt-8 inline-flex items-center gap-2 rounded-full 
           bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] 
-          px-6 py-3 text-sm font-medium text-white shadow-md 
+          px-6 py-3 text-sm font-medium text-black shadow-md 
           transition hover:opacity-90 active:scale-[0.98]"
         >
           <ArrowLeft size={16} />

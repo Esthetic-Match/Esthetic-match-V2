@@ -132,11 +132,9 @@ function handleDeselectAllProcedures() {
 
   return (
     <div className="">
-      <BlueBanner variant="blue" disableButton={true}/>
-
       <form
         onSubmit={handleSubmit}
-        className="relative z-50 mx-auto max-w-4xl space-y-5 p-8"
+        className="relative z-20 mx-auto max-w-4xl space-y-5 p-8 mt-10"
       >
         <DoctorSpecialtyDetailsStep
           subStep={subStep}
