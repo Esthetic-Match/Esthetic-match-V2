@@ -177,7 +177,6 @@ export default function CategoryProcedureModal({
         </div>
 
 <div className="grid h-[64vh] grid-cols-1 overflow-hidden md:grid-cols-[0.85fr_1.4fr]">
-  {/* Left: Categories */}
 {/* Left: Categories */}
 <div className="h-full overflow-y-auto border-b border-black/10 bg-[#FAF9F7] p-6 md:border-b-0 md:border-r">
   <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
@@ -193,7 +192,7 @@ export default function CategoryProcedureModal({
               key={category.category}
               type="button"
               onClick={() => toggleCategory(category)}
-              className="rounded-full border border-[#283C5D] bg-[#283C5D] px-4 py-2 text-xs font-medium text-white transition hover:border-red-500 hover:bg-red-500 active:scale-[0.97]"
+              className="rounded-full border border-[#283C5D] bg-[#283C5D] px-4 py-2 text-xs font-medium text-white transition hover:border-red-500 hover:bg-[#A74848] active:scale-[0.97]"
             >
               {category.category}
             </button>
@@ -244,7 +243,7 @@ export default function CategoryProcedureModal({
 
   {/* Right: Procedures */}
   <div className="h-full overflow-y-auto bg-white p-6">
-    <div className="sticky top-0 z-10 mb-4 flex items-end justify-between gap-4 bg-white pb-4">
+    <div className="sticky -top-6 z-10 mb-4 flex items-end justify-between gap-4 bg-white pb-4 pt-5">
       <div>
         <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
           Procedures
@@ -292,7 +291,7 @@ export default function CategoryProcedureModal({
                         className={cn(
                           "rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.97]",
                           isSelected
-                            ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-red-500 hover:bg-red-500"
+                            ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-[#94604C] hover:bg-[#A74848]"
                             : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
                         )}
                       >

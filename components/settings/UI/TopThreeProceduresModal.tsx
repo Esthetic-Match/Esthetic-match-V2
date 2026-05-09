@@ -123,7 +123,7 @@ export default function TopThreeProceduresModal({
                     className={cn(
                       "rounded-full border px-4 py-2 text-sm font-medium transition active:scale-[0.97]",
                       isSelected
-                        ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-red-500 hover:bg-red-500"
+                        ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-red-500 hover:bg-[#A74848]"
                         : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white",
                       isDisabled &&
                         "cursor-not-allowed opacity-40 hover:border-black/10 hover:bg-white hover:text-[#283C5D]"
