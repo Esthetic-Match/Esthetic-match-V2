@@ -56,7 +56,7 @@ export function NavPanel({ children }: NavPanelProps) {
     },
     {
       label: "Logout",
-      href: "#",
+      href: "/",
       icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />,
     },
   ];
@@ -114,7 +114,7 @@ export function NavPanel({ children }: NavPanelProps) {
 export const Logo = () => {
   return (
     <Link
-      href="/dashboard"
+      href="/"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-white"
     >
       <Image
@@ -140,7 +140,7 @@ export const Logo = () => {
 export const LogoIcon = () => {
   return (
     <Link
-      href="/dashboard"
+      href="/"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-white"
     >
       <Image
