@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
-import { useTranslations, useLocale } from "next-intl";
-
+import { useTranslations } from "next-intl";
+import { authClient } from "@/lib/auth-client";
 
 import MessageText from "@/components/UI/MessageText";
-import BlueBanner from "@/components/UI/BlueBanner";
 import DoctorSpecialtyDetailsStep from "@/components/signup/DoctorSpecialtyDetailsStep";
 import { ShieldCheck } from "lucide-react";
 
@@ -15,8 +14,8 @@ type DoctorSpecialtySubStep = "specialties" | "categories";
 
 export default function DoctorOnboardingPage() {
   const t = useTranslations("signUp.onboarding");
-  const locale = useLocale();
   const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
 
   const [subStep, setSubStep] =
     useState<DoctorSpecialtySubStep>("specialties");
@@ -91,7 +90,14 @@ export default function DoctorOnboardingPage() {
         throw new Error(data?.message || "Could not save onboarding.");
       }
 
-      router.push(`/dashboard`);
+      const userId = session?.user?.id;
+          
+      if (!userId) {
+        setErrorMessage("User ID is missing.");
+        return;
+      }
+      
+      router.push(`/dashboard/${userId}`);
       router.refresh();
     } catch (error) {
       setErrorMessage(
@@ -132,11 +138,9 @@ function handleDeselectAllProcedures() {
 
   return (
     <div className="">
-      <BlueBanner variant="blue" disableButton={true}/>
-
       <form
         onSubmit={handleSubmit}
-        className="relative z-50 mx-auto max-w-4xl space-y-5 p-8"
+        className="relative z-20 mx-auto max-w-4xl space-y-5 p-8 mt-10"
       >
         <DoctorSpecialtyDetailsStep
           subStep={subStep}

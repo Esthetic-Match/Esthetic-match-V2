@@ -61,9 +61,11 @@ export default function PatientSignUpForm({
         className="relative z-10 mx-auto max-w-md px-6 py-8"
       >
         <div className="mb-6 flex flex-col items-center text-center">
-
-          <p className="mt-2 max-w-xs text-xs leading-tight text-black/30">
+          <p className="mt-2 max-w-xs text-2xl leading-tight text-black">
             {t("heading")}
+          </p>
+          <p className="mt-2 max-w-xs text-xs leading-tight text-black/30">
+            {t("subheading")}
           </p>
         </div>
 

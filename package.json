@@ -12,7 +12,7 @@
   "dependencies": {
     "@google-cloud/storage": "^7.19.0",
     "@prisma/adapter-pg": "^7.7.0",
-    "@prisma/client": "^7.7.0",
+    "@prisma/client": "^7.8.0",
     "@react-google-maps/api": "^2.20.8",
     "@tabler/icons-react": "^3.41.1",
     "better-auth": "^1.6.5",

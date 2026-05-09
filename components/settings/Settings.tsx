@@ -66,16 +66,18 @@ function SettingsRow({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center justify-between rounded-full bg-white 
-      px-4 py-3 text-left text-sm text-black transition hover:bg-gray-300 active:scale-[0.99]
-      cursor-pointer"
+      className="flex w-full cursor-pointer items-center justify-between rounded-full bg-white 
+      px-4 py-3 text-left text-sm text-black transition hover:bg-gray-300 active:scale-[0.99]"
     >
       <span className="flex items-center gap-3">
         <Icon size={16} className={danger ? "text-red-500" : "text-black"} />
         <span className={danger ? "text-red-500" : "text-black"}>{label}</span>
       </span>
 
-      <ChevronRight size={16} className={danger ? "text-red-500" : "text-black"} />
+      <ChevronRight
+        size={16}
+        className={danger ? "text-red-500" : "text-black"}
+      />
     </button>
   );
 }
@@ -91,6 +93,7 @@ function SettingsSidebar({
     name: string | null;
     email: string;
     image: string | null;
+    role: string;
   };
 }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -167,15 +170,23 @@ function SettingsSidebar({
               key={groupIndex}
               className="space-y-3 border-b border-white/10 pb-5 last:border-b-0"
             >
-              {group.map((item) => (
-                <SettingsRow
-                  key={item.label}
-                  label={item.label}
-                  icon={item.icon}
-                  danger={item.danger}
-                  onClick={() => handleSelectPage(item.label)}
-                />
-              ))}
+              {group
+                .filter((item) => {
+                  if (item.label === "Subscription" && user.role === "PATIENT") {
+                    return false;
+                  }
+                
+                  return true;
+                })
+                .map((item) => (
+                  <SettingsRow
+                    key={item.label}
+                    label={item.label}
+                    icon={item.icon}
+                    danger={item.danger}
+                    onClick={() => handleSelectPage(item.label)}
+                  />
+                ))}
             </div>
           ))}
         </div>
@@ -240,7 +251,6 @@ export default function Settings({ user }: SettingsProps) {
             ) : (
               <PatientEditProfile
                 user={user}
-                patientProfile={user.patientProfile}
               />
             ))}
           {activePage === "Change Password" && <ChangePassword />}

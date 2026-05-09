@@ -10,7 +10,8 @@
     "Patient": "Patient or Visitor"
   },
   "signUpForm":{
-    "heading": "Create your account to esthetic match by adding your account details",
+    "heading": "Create your account",
+    "subheading": "Join esthetic match by adding your account details",
     "FullName": "Full Name",
     "NameDescription": "Enter your full name",
     "Email": "Email",
@@ -27,14 +28,14 @@
     "Optional": "(Optional)",
     "ClinicName": "Clinic Name",
     "ClinicNameDescription": "Enter the name of your clinic or practice",
-    "ClinicAddress": "Clinic Address",
-    "ClinicAddressDescription": "Enter the address of your clinic or practice",
-    "ClinicZipCode": "Clinic Zip Code",
-    "ClinicZipCodeDescription": "Enter the zip code of your clinic or practice",
+    "ClinicAddress": "Address",
+    "ClinicAddressDescription": "E.g123 boswalt Street 7 ",
+    "ClinicZipCode": "Zip Code",
+    "ClinicZipCodeDescription": "E.g 15203",
     "City": "City",
-    "CityDescription": "Enter the city where your clinic or practice is located",
+    "CityDescription": "E.g Cairo",
     "Country": "Country",
-    "CountryDescription": "Enter the country where your clinic or practice is located",
+    "CountryDescription": "E.g Germany",
     "yearsOfExperience": "Years Of Experience",
     "yearsOfExperienceDescription": "Enter Number Of Years you have been practicing Medecine"
   },
@@ -116,6 +117,7 @@
     }
   },
   "category": {
+    "heading": "Select your domain of expertise and the procedures you offer",
     "NON-SURGICAL FACE": "NON-SURGICAL FACE",
     "NON-SURGICAL BODY": "NON-SURGICAL BODY",
     "AESTHETIC DENTISTRY": "AESTHETIC DENTISTRY",

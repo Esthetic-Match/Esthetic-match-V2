@@ -79,6 +79,11 @@ export default function CategoryCardSelector({
   return (
     <>
       <div className="space-y-3">
+        <div className="mb-6 flex flex-col items-center text-center">
+          <p className="mt-2 max-w-md text-3xl font-bold text-[#283C5D]">
+            {t("heading")}
+          </p>
+        </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {visibleCategories.map((categoryItem) => {
             const selected = selectedServiceCategories.includes(

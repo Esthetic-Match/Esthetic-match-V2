@@ -10,7 +10,8 @@
     "Patient": "Patient ou visiteur"
   },
     "signUpForm":{
-    "heading": "Créez votre compte sur Esthetic Match en ajoutant les détails de votre compte",
+    "heading": "Créez votre profil",
+    "subheading": "sur Esthetic Match en ajoutant les détails de votre compte",
     "FullName": "Nom complet",
     "NameDescription": "Entrez votre nom complet",
     "Email": "Email",
@@ -27,14 +28,14 @@
     "Optional": "(Optionnel)",
     "ClinicName": "Nom de la clinique",
     "ClinicNameDescription": "Entrez le nom de votre clinique ou cabinet",
-    "ClinicAddress": "Adresse de la clinique",
-    "ClinicAddressDescription": "Entrez l'adresse de votre clinique ou cabinet",
-    "ClinicZipCode": "Code postal de la clinique",
-    "ClinicZipCodeDescription": "Entrez le code postal de votre clinique ou cabinet",
+    "ClinicAddress": "Adresse",
+    "ClinicAddressDescription": "Ex. 172 Rue chambre secret 35",
+    "ClinicZipCode": "Code postal",
+    "ClinicZipCodeDescription": "Ex. 67670",
     "City": "Ville de la clinique",
-    "CityDescription": "Entrez la ville de votre clinique ou cabinet",
+    "CityDescription": "Ex. Paris",
     "Country": "Pays de la clinique",
-    "CountryDescription": "Entrez le pays de votre clinique ou cabinet",
+    "CountryDescription": "Ex. France",
     "yearsOfExperience": "Années d'expérience",
     "yearsOfExperienceDescription": "Le nombre d'années vous avez exercé la médecine"
   },
@@ -116,6 +117,7 @@
     }
   },
     "category": {
+    "heading": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
     "NON-SURGICAL FACE": "VISAGE NON CHIRURGICAL",
     "NON-SURGICAL BODY": "CORPS NON CHIRURGICAL",
     "AESTHETIC DENTISTRY": "DENTISTERIE ESTHÉTIQUE",

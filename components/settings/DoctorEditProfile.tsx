@@ -123,6 +123,17 @@ export default function DoctorEditProfile({
   }
 }
 
+function syncTopThreeWithProcedures(
+  topThree: string[],
+  procedureIds: string[]
+) {
+  const allowedProcedures = new Set(procedureIds);
+
+  return topThree.filter((procedureId) =>
+    allowedProcedures.has(procedureId)
+  );
+}
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
@@ -241,11 +252,8 @@ export default function DoctorEditProfile({
             </div>
             
             <div className="flex flex-wrap gap-2">
-              {(doctorProfile?.procedureIds ?? []).map((procedure) => (
-                <Chip
-                  key={procedure}
-                  label={formatLabel(procedure)}
-                />
+              {procedureIds.map((procedure) => (
+                <Chip key={procedure} label={formatLabel(procedure)} />
               ))}
             </div>
           </div>
@@ -268,11 +276,8 @@ export default function DoctorEditProfile({
 
           {(doctorProfile?.topThree ?? []).length > 0 ? (
             <div className="flex flex-wrap gap-2">
-              {(doctorProfile?.topThree ?? []).map((procedure) => (
-                <Chip
-                  key={procedure}
-                  label={formatLabel(procedure)}
-                />
+              {topThree.map((procedure) => (
+                <Chip key={procedure} label={formatLabel(procedure)} />
               ))}
             </div>
           ) : (
@@ -324,11 +329,28 @@ export default function DoctorEditProfile({
           open={true}
           specialtyIds={specialtyIds}
           selectedCategoryIds={subcategoryIds}
-          selectedProcedureIds={doctorProfile?.procedureIds ?? []}
+          selectedProcedureIds={procedureIds}
           onClose={() => setModalType(null)}
           onSaved={({ subcategoryIds, procedureIds }) => {
+            const syncedTopThree = syncTopThreeWithProcedures(topThree, procedureIds);
+          
             setSubcategoryIds(subcategoryIds);
             setProcedureIds(procedureIds);
+            setTopThree(syncedTopThree);
+          
+            fetch("/api/doctor-profile", {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userId: user.id,
+                subcategoryIds,
+                procedureIds,
+                topThree: syncedTopThree,
+              }),
+            });
+          
             setModalType(null);
           }}
         />

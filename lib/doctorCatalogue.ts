@@ -422,11 +422,7 @@ export const DoctorCatalog = {
         {
           subcategory: "Cellular & Regenerative Therapies",
           procedures: [
-            { name: "NAD+ IV Infusion", id: "nad_plus_iv" },
             { name: "NAD+ Precursors (NMN / NR) — Oral", id: "nad_plus_oral" },
-            { name: "IV High-Dose Vitamin C (Longevity)", id: "iv_high_dose_vit_c_longevity" },
-            { name: "Glutathione IV Therapy", id: "glutathione_therapy" },
-            { name: "Exosome IV Therapy", id: "exosome_iv" },
             { name: "Regenerative PRP (Joints / Systemic)", id: "prp_regenerative" },
             { name: "Stem Cell Therapy (Mesenchymal)", id: "stem_cell_therapy" },
             { name: "Plasmapheresis / Plasma Exchange", id: "plasmapheresis" }

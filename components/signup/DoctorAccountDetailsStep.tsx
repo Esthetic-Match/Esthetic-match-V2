@@ -81,8 +81,11 @@ export default function DoctorAccountDetailsStep({
   return (
     <>
       <div className="mb-6 flex flex-col items-center text-center">
-        <p className="mt-2 max-w-xs text-xs leading-tight text-black/30">
+        <p className="mt-2 max-w-xs text-2xl leading-tight text-normal text-black">
           {t("heading")}
+        </p>
+        <p className="mt-2 max-w-xs text-xs leading-tight text-black/30">
+          {t("subheading")}
         </p>
       </div>
 
