@@ -32,31 +32,6 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ caseId: string }> }
-) {
-  try {
-    const { caseId } = await params;
-    const { beforeImage, afterImage } = await req.json();
-
-    const updatedCase = await prisma.beforeAfterCase.update({
-      where: { id: caseId },
-      data: {
-        beforeImage,
-        afterImage,
-      },
-    });
-
-    return NextResponse.json(updatedCase);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to update case" },
-      { status: 500 }
-    );
-  }
-}
-
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
