@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Search, Star, X, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 
 type GooglePlaceMatch = {
   id: string;
@@ -195,11 +196,20 @@ export default function GoogleReviewsPicker({
         className="flex w-full mb-3 items-center justify-between rounded-full border border-[#F6C467] 
         bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] px-4 py-2 text-sm text-[#283C5D] transition hover:opacity-90 active:scale-[0.98]"
       >
-        <span>
+        <span className="flex flex-row">
+          <Image
+            src={"/icons/googleIcon.svg"}
+            alt={"Google Icon"}
+            width={16}
+            height={16}
+            className="object-contain"
+          />
+          <div className="pl-2">
           {displayedRating != null &&
           displayedReviewCount != null
-            ? `Google Rating: ${displayedRating} ★ (${displayedReviewCount} reviews)`
+            ? `Reviews: ${displayedRating}★ (${displayedReviewCount} users)`
             : "Connect Google Rating"}
+            </div>
         </span>
         {selectedPlaceId? "":<Search size={16} />}
       </button>

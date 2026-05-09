@@ -152,3 +152,21 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+model BeforeAfterCase {
+  id          String   @id @default(cuid())
+
+  doctorId    String
+  patientId   String?
+  procedureId String?
+  title       String?
+
+  beforeImage String?
+  afterImage  String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([doctorId])
+  @@index([patientId])
+}

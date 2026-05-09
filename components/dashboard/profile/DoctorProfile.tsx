@@ -104,7 +104,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           googleReviewCount={profile?.googleReviewCount}
           googleRating={profile?.googleRating}
         />
-        <Gallery userId={user.id}/>
+        <Gallery userId={user.id} paidPlan={profile?.paidPlan}/>
     </div>
   );
 }
