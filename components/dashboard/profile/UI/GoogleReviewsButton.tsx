@@ -184,17 +184,21 @@ export default function GoogleReviewsPicker({
       handleSearch(clinicName);
     }
   }
-
+  const displayedRating = savedRating ?? googleRating;
+  const displayedReviewCount =
+    savedReviewCount ?? googleReviewCount;
   return (
     <>
       <button
         type="button"
         onClick={openPicker}
-        className="flex w-full mb-3 items-center justify-between rounded-full border border-[#F6C467] bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] px-4 py-2 text-sm text-[#283C5D] transition hover:opacity-90 active:scale-[0.98]"
+        className="flex w-full mb-3 items-center justify-between rounded-full border border-[#F6C467] 
+        bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] px-4 py-2 text-sm text-[#283C5D] transition hover:opacity-90 active:scale-[0.98]"
       >
-        <span className="w-full font-bold">
-          {googleRating
-            ? `Google Rating: ${googleRating ?? "—"} ★  (${googleReviewCount ?? 0})`
+        <span>
+          {displayedRating != null &&
+          displayedReviewCount != null
+            ? `Google Rating: ${displayedRating} ★ (${displayedReviewCount} reviews)`
             : "Connect Google Rating"}
         </span>
         {selectedPlaceId? "":<Search size={16} />}

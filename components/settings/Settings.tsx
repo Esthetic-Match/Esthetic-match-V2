@@ -10,6 +10,8 @@ import {
   ShieldCheck,
   Trash2,
   Gem,
+  Menu,
+  X,
 } from "lucide-react";
 import TermsAndConditions from "./TermsAndCondition";
 import LanguageSelector from "./LanguageSelector";
@@ -91,6 +93,8 @@ function SettingsSidebar({
     image: string | null;
   };
 }) {
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
   const initials = user.name
     ? user.name
         .split(" ")
@@ -99,55 +103,87 @@ function SettingsSidebar({
         .toUpperCase()
     : "U";
 
+  function handleSelectPage(page: SettingsPage) {
+    setActivePage(page);
+    setIsMobileOpen(false);
+  }
+
   return (
-    <aside className="h-full w-full bg-[#283c5d] p-4 md:w-80 ">
-      <h1 className="mb-6 text-center text-lg font-semibold text-white">
-        Profile
-      </h1>
+    <aside className="w-full bg-[#283c5d] p-4 md:h-full md:w-80">
+      {/* Mobile Header */}
+      <div className="flex items-center justify-between md:hidden">
+        <div>
+          <p className="text-xs text-white/60">Settings</p>
+          <h1 className="text-lg font-semibold text-white">{activePage}</h1>
+        </div>
 
-      <div className="mb-8 flex flex-col items-center">
-        {user.image ? (
-          <img
-            src={user.image}
-            alt="Profile"
-            className="h-24 w-24 rounded-full object-cover"
-          />
-        ) : (
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 text-2xl font-semibold text-white">
-            {initials}
-          </div>
-        )}
-
-        <p className="mt-3 text-base font-medium text-white">
-          {user.name ?? "Unnamed User"}
-        </p>
-
-        <p className="text-xs text-white/60">{user.email}</p>
+        <button
+          type="button"
+          onClick={() => setIsMobileOpen((prev) => !prev)}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-[0.98]"
+        >
+          {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
 
-      <p className="mb-3 text-sm font-medium text-white">Settings</p>
+      {/* Sidebar Content */}
+      <div
+        className={`
+          ${isMobileOpen ? "block" : "hidden"}
+          max-md:max-h-[calc(100vh-90px)]
+          max-md:overflow-y-auto
+          md:block
+        `}
+      >
+        <h1 className="mb-6 mt-6 text-center text-lg font-semibold text-white md:mt-0">
+          Profile
+        </h1>
 
-      <div className="space-y-5 mb-5">
-        {settingsGroups.map((group, groupIndex) => (
-          <div
-            key={groupIndex}
-            className="space-y-3 border-b border-white/10 pb-5 last:border-b-0"
-          >
-            {group.map((item) => (
-              <SettingsRow
-                key={item.label}
-                label={item.label}
-                icon={item.icon}
-                danger={item.danger}
-                onClick={() => setActivePage(item.label)}
-              />
-            ))}
-          </div>
-        ))}
+        <div className="mb-8 flex flex-col items-center">
+          {user.image ? (
+            <img
+              src={user.image}
+              alt="Profile"
+              className="h-24 w-24 rounded-full object-cover"
+            />
+          ) : (
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 text-2xl font-semibold text-white">
+              {initials}
+            </div>
+          )}
+
+          <p className="mt-3 text-base font-medium text-white">
+            {user.name ?? "Unnamed User"}
+          </p>
+
+          <p className="text-xs text-white/60">{user.email}</p>
+        </div>
+
+        <p className="mb-3 text-sm font-medium text-white">Settings</p>
+
+        <div className="mb-5 space-y-5">
+          {settingsGroups.map((group, groupIndex) => (
+            <div
+              key={groupIndex}
+              className="space-y-3 border-b border-white/10 pb-5 last:border-b-0"
+            >
+              {group.map((item) => (
+                <SettingsRow
+                  key={item.label}
+                  label={item.label}
+                  icon={item.icon}
+                  danger={item.danger}
+                  onClick={() => handleSelectPage(item.label)}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </aside>
   );
 }
+
 function PlaceholderPanel({ title }: { title: string }) {
   return (
     <div className="flex h-full min-h-[400px] flex-col justify-center rounded-2xl bg-white p-8">
