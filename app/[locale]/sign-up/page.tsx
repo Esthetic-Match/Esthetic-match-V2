@@ -70,32 +70,72 @@ export default function SignUpPage() {
   async function handlePatientSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     resetMessages();
-
-    if (!name.trim()) return setErrorMessage("Please enter your name.");
-    if (!dob) return setErrorMessage("Please enter your date of birth.");
-    if (!email.trim()) return setErrorMessage("Please enter your email.");
-    if (!password.trim()) return setErrorMessage("Please enter your password.");
-
-    setIsLoading(true);
-
-    const { error } = await authClient.signUp.email({
-      name: name.trim(),
-      email: email.trim(),
-      password,
-      role: "PATIENT",
-      dateOfBirth: dob,
-    });
-
-    setIsLoading(false);
-
-    if (error) {
-      setErrorMessage(error.message || "Something went wrong.");
+  
+    if (!name.trim()) {
+      setErrorMessage("Please enter your name.");
       return;
     }
-
-    setVerificationEmail(email.trim());
-    setSignUpStep("verifyEmail");
-    setInfoMessage("We sent a verification code to your email.");
+  
+    if (!dob) {
+      setErrorMessage("Please enter your date of birth.");
+      return;
+    }
+  
+    if (!email.trim()) {
+      setErrorMessage("Please enter your email.");
+      return;
+    }
+  
+    if (!password.trim()) {
+      setErrorMessage("Please enter your password.");
+      return;
+    }
+  
+    setIsLoading(true);
+  
+    try {
+      const signUpResult = await authClient.signUp.email({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+        role: "PATIENT",
+        dateOfBirth: dob,
+      });
+  
+      if (signUpResult.error) {
+        setErrorMessage(signUpResult.error.message || "Something went wrong.");
+        return;
+      }
+  
+      const userId = signUpResult.data?.user?.id;
+  
+      if (!userId) {
+        setErrorMessage("User was created but no user ID was returned.");
+        return;
+      }
+  
+      const profileResponse = await fetch("/api/patient-profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      });
+  
+      const profileData = await profileResponse.json();
+  
+      if (!profileResponse.ok) {
+        setErrorMessage(profileData?.error || "Failed to create patient profile.");
+        return;
+      }
+  
+      setVerificationEmail(email.trim());
+      setSignUpStep("verifyEmail");
+    } catch {
+      setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function handleCreateDoctorAccount() {
@@ -172,7 +212,7 @@ export default function SignUpPage() {
 
   return (
     <main>
-      <BackButton onBack={() => router.back()} />
+      <BackButton onBack={() => router.back()} variant="dark"/>
 
       {accountType === null && (
         <AccountTypeSelector
