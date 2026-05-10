@@ -1,9 +1,28 @@
+"use client";
+
 import { Search, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { useState } from "react";
+import DoctorFiltersModal from "../UI/DoctorFiltersModal";
 
-export default function MainHeader() {
+export default function MainHeader({ initialQuery = "" }: { initialQuery?: string }) {
   const t = useTranslations("home.doctors");
+  const router = useRouter();
+  const [query, setQuery] = useState(initialQuery);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  function handleSearch() {
+    const trimmedQuery = query.trim();
+
+    if (!trimmedQuery) {
+      router.push("/doctors");
+      return;
+    }
+
+    router.push(`/doctors?q=${encodeURIComponent(trimmedQuery)}`);
+  }
 
   return (
     <section className="relative overflow-hidden bg-[#061A2D] px-6 py-24 text-white md:px-12 lg:px-24">
@@ -40,19 +59,40 @@ export default function MainHeader() {
         <div className="mt-10 flex max-w-3xl flex-col gap-3 rounded-full p-3 shadow-xl md:flex-row md:bg-white">
           <div className="flex flex-1 items-center gap-3 rounded-full bg-[#FAF9F7] px-4 py-3 text-[#283C5D]">
             <Search size={18} />
+
             <input
               type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  handleSearch();
+                }
+              }}
               placeholder={t("hero.searchPlaceholder")}
               className="w-full bg-transparent text-sm outline-none placeholder:text-[#283C5D]/50"
             />
           </div>
 
-          <button className="flex items-center justify-center gap-2 rounded-full border border-[#d8bd8d] px-5 py-3 text-sm font-semibold text-[#283C5D] transition hover:bg-[#f4e4c6]">
+          <button
+            type="button"
+            onClick={() => setIsFilterOpen(true)}
+            className="flex items-center justify-center gap-2 rounded-full border border-[#d8bd8d] px-5 py-3 text-sm font-semibold text-[#283C5D] transition hover:bg-[#f4e4c6]"
+          >
             <SlidersHorizontal size={17} />
             {t("hero.filters")}
           </button>
 
-          <button className="rounded-full bg-[#d8bd8d] px-6 py-3 text-sm font-semibold text-[#061A2D] transition hover:bg-[#f4e4c6]">
+          <DoctorFiltersModal
+            isOpen={isFilterOpen}
+            onClose={() => setIsFilterOpen(false)}
+          />
+
+          <button
+            type="button"
+            onClick={handleSearch}
+            className="rounded-full bg-[#d8bd8d] px-6 py-3 text-sm font-semibold text-[#061A2D] transition hover:bg-[#f4e4c6]"
+          >
             {t("hero.search")}
           </button>
         </div>

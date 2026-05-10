@@ -60,13 +60,31 @@
         "search": "Search"
       },
       "list": {
-        "title": "Available Doctors",
+        "title": "Doctors",
         "practitionersCount": "{count} practitioners",
         "doctorImageAlt": "{name}, {specialty}",
         "saveDoctor": "Save {name}",
         "reviews": "({count} reviews)",
         "from": "From",
-        "viewProfile": "View Profile"
+        "priceOnRequest": "Price on request",
+        "viewProfile": "View profile",
+        "noDoctorsTitle": "Sorry, no doctors found",
+        "noDoctorsDescription": "We could not find any doctors in our database matching your search."
+      },
+      "filters": {
+        "eyebrow": "Filters",
+        "title": "Find the right doctor",
+        "description": "Filter by specialty, category, location or Google rating.",
+        "specialty": "Specialty",
+        "category": "Category",
+        "location": "Location",
+        "minimumRating": "Minimum Google rating",
+        "anySpecialty": "Any specialty",
+        "anyCategory": "Any category",
+        "anyRating": "Any rating",
+        "locationPlaceholder": "City or country",
+        "clear": "Clear filters",
+        "apply": "Apply filters"
       }
     },
     "contact": {

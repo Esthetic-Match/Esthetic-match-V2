@@ -60,13 +60,31 @@
         "search": "Rechercher"
       },
       "list": {
-        "title": "Médecins disponibles",
+        "title": "Médecins",
         "practitionersCount": "{count} praticiens",
         "doctorImageAlt": "{name}, {specialty}",
         "saveDoctor": "Enregistrer {name}",
         "reviews": "({count} avis)",
         "from": "À partir de",
-        "viewProfile": "Voir le profil"
+        "priceOnRequest": "Prix sur demande",
+        "viewProfile": "Voir le profil",
+        "noDoctorsTitle": "Désolé, aucun médecin trouvé",
+        "noDoctorsDescription": "Nous n’avons trouvé aucun médecin dans notre base de données correspondant à votre recherche."
+      },
+      "filters": {
+        "eyebrow": "Filtres",
+        "title": "Trouver le bon médecin",
+        "description": "Filtrez par spécialité, catégorie, localisation ou note Google.",
+        "specialty": "Spécialité",
+        "category": "Catégorie",
+        "location": "Localisation",
+        "minimumRating": "Note minimale de Google",
+        "anySpecialty": "Toutes les spécialités",
+        "anyCategory": "Toutes les catégories",
+        "anyRating": "Toutes les notes",
+        "locationPlaceholder": "Ville ou pays",
+        "clear": "Effacer les filtres",
+        "apply": "Appliquer les filtres"
       }
     },
     "contact": {
