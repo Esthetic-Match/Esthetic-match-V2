@@ -5,6 +5,7 @@ import { Check, Pencil, WalletCards, X } from "lucide-react";
 import CardTitle from "@/components/dashboard/profile/UI/CardTitle";
 import PriceRow from "@/components/dashboard/profile/UI/PriceRow";
 import type { DoctorProfileData } from "../types";
+import { useTranslations } from "next-intl";
 
 type ConsultationPricesProps = {
   inClinicPrice?: number | null;
@@ -19,6 +20,7 @@ export default function ConsultationPrices({
   onlineConsulPrice,
   onUpdateProfile,
 }: ConsultationPricesProps) {
+  const t = useTranslations("dashboard");
   const [isEditing, setIsEditing] = useState(false);
   const [clinicPriceValue, setClinicPriceValue] = useState(
     inClinicPrice?.toString() || ""
@@ -45,7 +47,10 @@ export default function ConsultationPrices({
   return (
     <div className="rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
       <div className="flex items-center justify-between gap-4">
-        <CardTitle icon={<WalletCards size={22} />} title="Consultation Prices" />
+        <CardTitle
+          icon={<WalletCards size={22} />}
+          title={t("consultationPrices.title")}
+        />
 
         {isEditing ? (
           <div className="flex items-center gap-2">
@@ -79,24 +84,30 @@ export default function ConsultationPrices({
       <div className="mt-10 space-y-8">
         {isEditing ? (
           <EditablePriceRow
-            label="In-clinic consultation"
+            label={t("consultationPrices.inClinic")}
             value={clinicPriceValue}
             onChange={setClinicPriceValue}
           />
         ) : (
-          <PriceRow label="In-clinic consultation" price={inClinicPrice} />
+          <PriceRow
+            label={t("consultationPrices.inClinic")}
+            price={inClinicPrice}
+          />
         )}
 
         <div className="border-t border-gray-200" />
 
         {isEditing ? (
           <EditablePriceRow
-            label="Online pre-consultation"
+            label={t("consultationPrices.online")}
             value={onlinePriceValue}
             onChange={setOnlinePriceValue}
           />
         ) : (
-          <PriceRow label="Online pre-consultation" price={onlineConsulPrice} />
+          <PriceRow
+            label={t("consultationPrices.online")}
+            price={onlineConsulPrice}
+          />
         )}
       </div>
     </div>

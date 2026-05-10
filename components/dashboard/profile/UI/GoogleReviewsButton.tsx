@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Search, Star, X, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 type GooglePlaceMatch = {
   id: string;
@@ -52,6 +53,7 @@ export default function GoogleReviewsPicker({
   googleReviewCount,
   onSaved,
 }: GoogleReviewsPickerProps) {
+  const t = useTranslations("dashboard");
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState(clinicName ?? "");
   const [matches, setMatches] = useState<GooglePlaceMatch[]>([]);
@@ -205,11 +207,13 @@ export default function GoogleReviewsPicker({
             className="object-contain"
           />
           <div className="pl-2">
-          {displayedRating != null &&
-          displayedReviewCount != null
-            ? `Reviews: ${displayedRating}★ (${displayedReviewCount} users)`
-            : "Connect Google Rating"}
-            </div>
+            {displayedRating != null && displayedReviewCount != null
+              ? t("googleReviews.ratingSummary", {
+                  rating: displayedRating,
+                  count: displayedReviewCount,
+                })
+              : t("googleReviews.connect")}
+          </div>
         </span>
         {selectedPlaceId? "":<Search size={16} />}
       </button>
@@ -220,10 +224,10 @@ export default function GoogleReviewsPicker({
             <div className="flex items-center justify-between border-b border-black/10 px-6 py-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#d8bd8d]">
-                  Google Business
+                  {t("googleReviews.googleBusiness")}
                 </p>
                 <h2 className="mt-1 text-2xl font-semibold text-[#283C5D]">
-                  Select your clinic listing
+                  {t("googleReviews.selectClinic")}
                 </h2>
               </div>
 
@@ -247,7 +251,7 @@ export default function GoogleReviewsPicker({
                       handleSearch();
                     }
                   }}
-                  placeholder="Search exact Google business name"
+                  placeholder={t("googleReviews.searchPlaceholder")}
                   className="min-w-0 flex-1 rounded-full border border-black/10 bg-white px-4 py-3 text-sm text-[#283C5D] outline-none focus:border-[#d8bd8d]"
                 />
 
@@ -257,7 +261,7 @@ export default function GoogleReviewsPicker({
                   disabled={isSearching}
                   className="rounded-full bg-[#283C5D] px-5 py-3 text-sm text-white transition hover:opacity-90 disabled:opacity-50"
                 >
-                  {isSearching ? "Searching..." : "Search"}
+                  {isSearching ? t("googleReviews.searching") : t("googleReviews.search")}
                 </button>
               </div>
 
@@ -280,7 +284,7 @@ export default function GoogleReviewsPicker({
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <h3 className="font-semibold text-[#283C5D]">
-                            {place.displayName?.text ?? "Unnamed business"}
+                            {place.displayName?.text ?? t("googleReviews.unnamedBusiness")}
                           </h3>
 
                           {place.formattedAddress ? (
@@ -303,7 +307,7 @@ export default function GoogleReviewsPicker({
                           </div>
                         ) : (
                           <span className="shrink-0 rounded-full bg-[#FAF9F7] px-3 py-1 text-xs text-[#283C5D]/50">
-                            Select to fetch rating
+                            {t("googleReviews.selectToFetchRating")}
                           </span>
                         )}
                       </div>
@@ -311,8 +315,7 @@ export default function GoogleReviewsPicker({
                   ))
                 ) : (
                   <div className="rounded-2xl border border-dashed border-black/10 bg-white p-5 text-sm text-[#283C5D]/60">
-                    Search for the exact Google Maps business name, not the
-                    address.
+                    {t("googleReviews.emptySearchHint")}
                   </div>
                 )}
               </div>
@@ -320,7 +323,7 @@ export default function GoogleReviewsPicker({
               {isSaving ? (
                 <div className="flex items-center gap-2 rounded-2xl border border-green-200 bg-green-50 p-4 text-sm text-green-700">
                   <CheckCircle2 size={16} />
-                  Saving Google rating...
+                  {t("googleReviews.saving")}
                 </div>
               ) : null}
             </div>

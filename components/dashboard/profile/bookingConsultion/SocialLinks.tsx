@@ -3,6 +3,7 @@ import CardTitle from "../UI/CardTitle";
 import UpgradeButton from "../UI/UpgradeButton";
 import SocialLockedRow from "../UI/SocialLockedRow";
 import GoogleReviewsButton from "../UI/GoogleReviewsButton";
+import { useTranslations } from "next-intl";
 
 type SocialLinksProps = {
   socialMediaLink?: string | null;
@@ -26,9 +27,14 @@ export default function SocialLinks({
   googleReviewCount,
   googleRating,
 }: SocialLinksProps) {
+  const t = useTranslations("dashboard");
+
   return (
     <div className="rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
-      <CardTitle icon={<Share2 size={22} />} title="Social Media" />
+      <CardTitle
+        icon={<Share2 size={22} />}
+        title={t("social.title")}
+      />
 
       {socialMediaLink ? (
         <a
@@ -38,7 +44,7 @@ export default function SocialLinks({
           className="mt-10 inline-flex w-full items-center justify-center rounded-full border border-[#d8bd8d]/60 px-6 py-2.5 text-sm font-semibold text-[#283C5D] transition hover:bg-[#d8bd8d]/10"
         >
           <LinkIcon size={15} className="mr-2" />
-          Open social media
+          {t("social.open")}
         </a>
       ) : (
         <div className="mt-8">
@@ -51,15 +57,15 @@ export default function SocialLinks({
             googleRating={googleRating}
           />
 
-          <SocialLockedRow locked={true} label="Instagram" iconSrc="/icons/igIcon.svg" />
-          <SocialLockedRow locked={true} label="TikTok" iconSrc="/icons/tiktokIcon.svg" />
+          <SocialLockedRow locked={true} label={t("social.instagram")} iconSrc="/icons/igIcon.svg" />
+          <SocialLockedRow locked={true} label={t("social.tiktok")} iconSrc="/icons/tiktokIcon.svg" />
 
           <div className="mt-7 text-center">
             <p className="text-sm font-medium text-[#283C5D]">
-              Social links are hidden
+              {t("social.hiddenTitle")}
             </p>
             <p className="mt-1 text-sm text-[#283C5D]/60">
-              Upgrade to Premium to display
+              {t("social.hiddenDescription")}
             </p>
 
             <UpgradeButton />

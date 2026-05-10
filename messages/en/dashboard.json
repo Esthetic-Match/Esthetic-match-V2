@@ -1,0 +1,98 @@
+{
+"imageUploadModal": {
+  "title": "Upload New Image",
+  "description": "Upload a new image or remove the current one.",
+  "close": "Close modal",
+  "delete": "Delete Image",
+  "uploadLabel": "Add a photo of clinic"
+},
+"uploadImageWidget": {
+  "defaultLabel": "Add image",
+  "selected": "Selected:",
+  "upload": "Upload Image",
+  "uploading": "Uploading...",
+  "success": "Image uploaded successfully.",
+  "previewAlt": "Selected image preview",
+  "errors": {
+    "invalidImage": "Please select a valid image.",
+    "selectFirst": "Please select an image first.",
+    "generic": "Something went wrong while uploading."
+  }
+},
+  "common": {
+    "notAvailable": "Not available",
+    "notAvailableShort": "NA",
+    "upgradeToPremium": "Upgrade to Premium"
+  },
+  "header": {
+    "profilePhoto": "profile photo",
+    "editProfilePhoto": "Edit profile photo",
+    "specialty": "Specialty",
+    "topProcedures": "Top 3 Procedures",
+    "noTopProcedures": "No top procedures selected",
+    "yearsOfExperience": "Years of experience",
+    "years": "{count} years",
+    "editProfile": "Edit Profile"
+  },
+  "expertise": {
+    "title": "Expertise",
+    "procedures": "Procedures (Keywords)",
+    "noProcedures": "No procedures added yet.",
+    "moreProcedures": "+{count} more procedures hidden",
+    "moreAvailable": "Upgrade to Premium to showcase all your procedures",
+    "standardProfile": "Standard Plan",
+    "standardDescription": "Only 5 procedures are visible"
+  },
+  "consultationPrices": {
+    "title": "Consultation Prices",
+    "inClinic": "In-clinic consultation",
+    "online": "Online pre-consultation"
+  },
+  "booking": {
+    "title": "Booking Links",
+    "open": "Open booking link",
+    "hiddenTitle": "Booking links are hidden",
+    "hiddenDescription": "Upgrade to Premium to display"
+  },
+  "social": {
+    "title": "Social Media",
+    "open": "Open social media",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+    "hiddenTitle": "Social links are hidden",
+    "hiddenDescription": "Upgrade to Premium to display"
+  },
+  "googleReviews": {
+    "googleIconAlt": "Google Icon",
+    "ratingSummary": "Reviews: {rating}★ ({count} users)",
+    "connect": "Connect Google Rating",
+    "googleBusiness": "Google Business",
+    "selectClinic": "Select your clinic listing",
+    "searchPlaceholder": "Search exact Google business name",
+    "searching": "Searching...",
+    "search": "Search",
+    "unnamedBusiness": "Unnamed business",
+    "selectToFetchRating": "Select to fetch rating",
+    "emptySearchHint": "Search for the exact Google Maps business name, not the address.",
+    "saving": "Saving Google rating..."
+  },
+  "gallery": {
+    "title": "My Photo Gallery",
+    "before": "Before",
+    "after": "After",
+    "addFirstPremium": "Add your first Before & After pictures",
+    "addFirstFree": "Add your first of 3 Before & After pictures",
+    "editGallery": "Edit gallery",
+    "addMore": "Add more Before & After pictures",
+    "moreLocked": "+5 more",
+    "upgrade": "Upgrade to Premium to see all your results"
+  },
+  "galleryUpload": {
+    "title": "Upload Before & After Pictures",
+    "description": "Select both images first, then upload them together.",
+    "uploading": "Uploading...",
+    "upload": "Upload ({count}/2) images",
+    "chooseImage": "Choose {type} image",
+    "formats": "JPG, PNG or WebP"
+  }
+}
