@@ -1,0 +1,72 @@
+{
+  "doctor": {
+    "profile": {
+      "common": {
+        "notAvailable": "Not available",
+        "openInNewTab": "Opens in a new tab",
+        "profilePhoto": "profile photo"
+      },
+      "header": {
+        "specialty": "Specialty",
+        "topProcedures": "Top 3 Procedures",
+        "yearsOfExperience": "Years of experience",
+        "years": "years",
+        "noTopProcedures": "No top procedures selected"
+      },
+      "expertise": {
+        "title": "Expertise",
+        "procedures": "Procedures",
+        "noProcedures": "No procedures added yet.",
+        "moreProcedures": "+{count} more procedures available from this doctor.",
+        "standardProfile": "Standard Profile",
+        "moreAvailable": "This doctor has more procedures available.",
+        "aria": "Doctor procedures and areas of expertise"
+      },
+      "consultationPrices": {
+        "title": "Consultation Prices",
+        "inClinic": "In-clinic consultation",
+        "online": "Online pre-consultation"
+      },
+      "booking": {
+        "title": "Booking Link",
+        "description": "Book a consultation directly with this doctor.",
+        "copy": "Copy booking link",
+        "copied": "Copied"
+      },
+      "social": {
+        "title": "Social Media",
+        "open": "Open social media",
+        "instagram": "Instagram",
+        "tiktok": "TikTok",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "youtube": "YouTube",
+        "generic": "Social Media"
+      },
+      "location": {
+        "title": "Clinic Location",
+        "openMaps": "Open in Google Maps",
+        "mapTitle": "{clinicName} location on Google Maps"
+      },
+      "reviews": {
+        "title": "Google Reviews",
+        "basedOn": "Based on {count} Google reviews",
+        "viewGoogle": "View on Google",
+        "notAllowed": "The doctor has not allowed Google reviews yet."
+      },
+"gallery": {
+  "title": "Photo Gallery",
+  "before": "Before",
+  "after": "After",
+  "noImagesTitle": "No Before & After Images",
+  "noImagesDescription": "This doctor has not added any treatment transformation images yet.",
+  "more": "+{count} more",
+  "moreDescription": "More results are available on this doctor profile.",
+  "showLess": "Show less",
+  "viewMore": "View {count} more",
+  "beforeAlt": "Before treatment result",
+  "afterAlt": "After treatment result"
+}
+    }
+  }
+}
