@@ -1,0 +1,67 @@
+{
+  "doctor": {
+    "profile": {
+      "common": {
+        "notAvailable": "Non disponible",
+        "openInNewTab": "S’ouvre dans un nouvel onglet",
+        "profilePhoto": "photo de profil"
+      },
+      "header": {
+        "specialty": "Spécialité",
+        "topProcedures": "Top 3 des procédures",
+        "yearsOfExperience": "Années d’expérience",
+        "years": "ans",
+        "noTopProcedures": "Aucune procédure principale sélectionnée"
+      },
+      "expertise": {
+        "title": "Compétence",
+        "procedures": "Procédures",
+        "noProcedures": "Aucune procédure ajoutée pour le moment.",
+        "moreProcedures": "+{count} autres procédures disponibles chez ce médecin.",
+        "standardProfile": "Profil Standard",
+        "moreAvailable": "Ce médecin propose d’autres procédures.",
+        "aria": "Procédures et domaines d’expertise du médecin"
+      },
+      "consultationPrices": {
+        "title": "Tarifs de consultation",
+        "inClinic": "Consultation en clinique",
+        "online": "Pré-consultation en ligne"
+      },
+      "booking": {
+        "title": "Lien de réservation",
+        "description": "Réservez une consultation directement avec ce médecin.",
+        "copy": "Copier le lien de réservation",
+        "copied": "Copié"
+      },
+      "social": {
+        "title": "Réseaux sociaux",
+        "open": "Ouvrir les réseaux sociaux",
+        "instagram": "Instagram",
+        "tiktok": "TikTok",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "youtube": "YouTube",
+        "generic": "Réseaux sociaux"
+      },
+      "location": {
+        "title": "Adresse de la clinique",
+        "openMaps": "Ouvrir dans Google Maps"
+      },
+      "reviews": {
+        "title": "Avis Google",
+        "basedOn": "Basé sur {count} avis Google",
+        "viewGoogle": "Voir sur Google",
+        "notAllowed": "Le médecin n’a pas encore activé les avis Google."
+      },
+      "gallery": {
+        "title": "Galerie photo",
+        "before": "Avant",
+        "after": "Après",
+        "noImagesTitle": "Aucune image Avant / Après",
+        "noImagesDescription": "Ce médecin n’a pas encore ajouté d’images de transformation.",
+        "more": "+{count} de plus",
+        "moreDescription": "Plus de résultats sont disponibles sur ce profil médecin."
+      }
+    }
+  }
+}

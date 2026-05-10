@@ -1,16 +1,24 @@
 import ConsultationPrices from "./UI/ConsultationPrices";
 import BookingLinks from "./UI/BookingLinks";
+import GoogleMapsCard from "./UI/GoogleMapsCard";
+import GoogleReviewsCard from "./UI/GoogleReviewsCard";
+
 
 type PublicContactActionsSectionProps = {
   doctorProfile: {
-    paidPlan: string | null;
+    clinicName: string;
+    workAddress: string;
+    city: string | null;
+    country: string | null;
+    zipCode: string | null;
+    workLatitude: number | null;
+    workLongitude: number | null;
+    googleMapsUri: string | null;
+    googlePlaceId: string | null;
     inClinicPrice: number | null;
     onlineConsulPrice: number | null;
     bookingLink: string | null;
     socialMediaLink: string | null;
-    googlePlaceId: string | null;
-    workLatitude: number | null;
-    workLongitude: number | null;
     googleReviewCount: number | null;
     googleRating: number | null;
   };
@@ -19,8 +27,6 @@ type PublicContactActionsSectionProps = {
 export default function PublicContactActionsSection({
   doctorProfile,
 }: PublicContactActionsSectionProps) {
-  const isFreePlan =
-    doctorProfile.paidPlan === "free" || !doctorProfile.paidPlan;
 
   return (
     <section
@@ -36,10 +42,22 @@ export default function PublicContactActionsSection({
           inClinicPrice={doctorProfile.inClinicPrice}
           onlineConsulPrice={doctorProfile.onlineConsulPrice}
         />
-
-        {!isFreePlan ? (
-            <BookingLinks bookingLink={doctorProfile.bookingLink} />
-        ) : null}
+        <GoogleMapsCard
+          clinicName={doctorProfile.clinicName}
+          workAddress={doctorProfile.workAddress}
+          city={doctorProfile.city}
+          country={doctorProfile.country}
+          zipCode={doctorProfile.zipCode}
+          workLatitude={doctorProfile.workLatitude}
+          workLongitude={doctorProfile.workLongitude}
+          googleMapsUri={doctorProfile.googleMapsUri}
+          googlePlaceId={doctorProfile.googlePlaceId}
+        />
+        <GoogleReviewsCard
+          googleRating={doctorProfile.googleRating}
+          googleReviewCount={doctorProfile.googleReviewCount}
+          googleMapsUri={doctorProfile.googleMapsUri}
+        />
       </div>
     </section>
   );

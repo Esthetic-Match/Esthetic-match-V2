@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ImageIcon, Lock } from "lucide-react";
+import { ImageIcon } from "lucide-react";
 
 type GalleryProps = {
   doctorId: string;
@@ -15,32 +15,43 @@ type GalleryItem = {
 
 export default function Gallery({ doctorId, paidPlan }: GalleryProps) {
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
+  const [showAll, setShowAll] = useState(false);
 
-  const isFreePlan = paidPlan === "free" || !paidPlan;
 
-  useEffect(() => {
-    async function fetchGallery() {
-      const res = await fetch(
-        `/api/public-pages/single-profile/gallery?doctorId=${doctorId}`
-      );
+useEffect(() => {
+  async function fetchGallery() {
+    const res = await fetch(
+      `/api/public-pages/single-profile/gallery?doctorId=${doctorId}`
+    );
 
-      if (!res.ok) return;
+    const data = await res.json();
 
-      const data = await res.json();
-      setGallery(data);
+    if (!res.ok) {
+      console.error("Gallery API error:", data);
+      return;
     }
 
-    fetchGallery();
-  }, [doctorId]);
+    console.log("PUBLIC GALLERY DATA:", data);
+    setGallery(data);
+  }
 
-  const visibleGallery = isFreePlan ? gallery.slice(0, 3) : gallery;
-  const hiddenCount = Math.max(gallery.length - visibleGallery.length, 0);
+  fetchGallery();
+}, [doctorId]);
+
+    const shouldCollapse = gallery.length > 3;
+
+    const visibleGallery =
+      shouldCollapse && !showAll
+        ? gallery.slice(0, 3)
+        : gallery;
+
+    const hiddenCount = Math.max(gallery.length - 3, 0);
 
 if (visibleGallery.length === 0) {
   return (
     <section
       aria-labelledby="doctor-gallery-title"
-      className="relative z-20 mx-auto my-6 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8"
+      className="relative z-20 mx-auto my-6 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8 my-4"
     >
       <div className="mb-6 flex items-center gap-3">
         <ImageIcon size={21} className="text-[#d8bd8d]" />
@@ -73,7 +84,7 @@ if (visibleGallery.length === 0) {
   return (
     <section
       aria-labelledby="doctor-gallery-title"
-      className="relative z-20 mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8"
+      className="relative z-20 mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8 my-4"
     >
       <div className="mb-6 flex items-center gap-3">
         <ImageIcon size={21} className="text-[#d8bd8d]" />
@@ -88,23 +99,26 @@ if (visibleGallery.length === 0) {
 
       <div className="grid gap-4 md:grid-cols-3">
         {visibleGallery.map((item, index) => (
-          <BeforeAfterCard
-            key={`${doctorId}-${index}`}
-            beforeImageUrl={item.beforeImageUrl}
-            afterImageUrl={item.afterImageUrl}
-          />
+            <BeforeAfterCard
+              key={`${doctorId}-${index}`}
+              beforeImageUrl={item.beforeImageUrl}
+              afterImageUrl={item.afterImageUrl}
+            />
         ))}
-
-        {isFreePlan && hiddenCount > 0 ? (
-          <div className="flex min-h-[190px] flex-col items-center justify-center rounded-2xl bg-[#07182A]/80 p-5 text-center text-white backdrop-blur-md">
-            <Lock size={26} className="mb-4 text-[#d8bd8d]" />
-            <p className="text-lg font-semibold">+{hiddenCount} more</p>
-            <p className="mt-4 text-sm leading-relaxed text-white/85">
-              More results are available on this doctor profile.
-            </p>
+      </div>
+      {shouldCollapse ? (
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setShowAll((prev) => !prev)}
+              className="rounded-full border border-[#283C5D]/15 bg-[#FAF9F7] px-5 py-2 text-sm font-medium text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.98]"
+            >
+              {showAll
+                ? "Show less"
+                : `View ${hiddenCount} more`}
+            </button>
           </div>
         ) : null}
-      </div>
     </section>
   );
 }
