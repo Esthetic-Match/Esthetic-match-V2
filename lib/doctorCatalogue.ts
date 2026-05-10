@@ -3,27 +3,27 @@ export const DoctorCatalog = {
     id: "specialties",
     label: "SPECIALTIES (DOCTOR PROFILE ONBOARDING)",
     items: [
-      "Aesthetic doctor",
-      "Plastic surgeon",
-      "Reconstructive surgeon",
-      "Dermatologist",
-      "General practitioner",
-      "Ophthalmologist",
-      "Oculoplastic surgeon",
-      "Dentist",
-      "Maxillofacial surgeon",
-      "ENT surgeon",
-      "Orthodontist",
-      "Other specialty",
+      "aesthetic_doctor",
+      "plastic_surgeon",
+      "reconstructive_surgeon",
+      "dermatologist",
+      "general_practitioner",
+      "ophthalmologist",
+      "oculoplastic_surgeon",
+      "dentist",
+      "maxillofacial_surgeon",
+      "ent_surgeon",
+      "orthodontist",
+      "other_specialty"
     ],
   },
 
   categories: [
     {
-      category: "NON-SURGICAL FACE",
+      category: "non_surgical_face",
       subcategories: [
         {
-          subcategory: "Hyaluronic Acid Fillers",
+          subcategory: "hyaluronic_acid_fillers",
           procedures: [
             { name: "Forehead Filler", id: "forehead_filler" },
             { name: "Temple Filler", id: "temple_filler" },
@@ -43,7 +43,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Biostimulators & Skin Quality Injections",
+          subcategory: "biostimulators_and_skin_quality_injections",
           procedures: [
             { name: "Biostimulators / Collagen Stimulators", id: "biostimulators" },
             { name: "CaHA (Calcium Hydroxylapatite)", id: "caha" },
@@ -59,7 +59,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Botulinum Toxin",
+          subcategory: "botulinum_toxin",
           procedures: [
             { name: "Botulinum Toxin", id: "botulinum_toxin" },
             { name: "Lip Flip", id: "lip_flip" },
@@ -68,7 +68,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Thread Lifting",
+          subcategory: "thread_lifting",
           procedures: [
             { name: "Thread Lifting (General)", id: "thread_lifting" },
             { name: "PDO Lifting Threads", id: "pdo_threads" },
@@ -77,7 +77,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Radiofrequency & HIFU",
+          subcategory: "radiofrequency_and_hifu",
           procedures: [
             { name: "Microneedling Radiofrequency", id: "rf_microneedling" },
             { name: "Radiofrequency (Without Needles)", id: "rf_no_needles" },
@@ -88,7 +88,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Lasers & Light Devices",
+          subcategory: "lasers_and_light_devices",
           procedures: [
             { name: "Fractional Laser (Non-Ablative)", id: "fractional_laser_nonablative" },
             { name: "Fractional Laser (Ablative)", id: "fractional_laser_ablative" },
@@ -102,7 +102,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Peeling, Needling & Skin Resurfacing",
+          subcategory: "peeling_needling_and_skin_resurfacing",
           procedures: [
             { name: "BioRePeel", id: "biorepeel" },
             { name: "Chemical Peel (Superficial)", id: "chemical_peel_superficial" },
@@ -113,7 +113,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Skin Diagnosis",
+          subcategory: "skin_diagnosis",
           procedures: [
             { name: "Skin Analysis / VISIA", id: "skin_analysis" }
           ]
@@ -121,10 +121,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "NON-SURGICAL BODY",
+      category: "non_surgical_body",
       subcategories: [
         {
-          subcategory: "Fat Reduction & Body Contouring",
+          subcategory: "fat_reduction_and_body_contouring",
           procedures: [
             { name: "Non-Surgical BBL / Liquid BBL", id: "nonsurgical_bbl" },
             { name: "Sculptra Buttocks", id: "sculptra_buttocks" },
@@ -136,7 +136,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Weight Management & Nutrition",
+          subcategory: "weight_management_and_nutrition",
           procedures: [
             { name: "Weight Loss Medication", id: "weight_loss_medication" },
             { name: "Weight Loss Consultation", id: "weight_loss_consultation" },
@@ -148,10 +148,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "AESTHETIC DENTISTRY",
+      category: "aesthetic_dentistry",
       subcategories: [
         {
-          subcategory: "Veneers & Restoration",
+          subcategory: "veneers_and_restoration",
           procedures: [
             { name: "Composite / Bonding", id: "composite_bonding" },
             { name: "Ceramic Veneers", id: "ceramic_veneers" },
@@ -160,13 +160,13 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Whitening",
+          subcategory: "whitening",
           procedures: [
             { name: "Whitening Treatment", id: "whitening_treatment" }
           ]
         },
         {
-          subcategory: "Gum & Shape",
+          subcategory: "gum_and_shape",
           procedures: [
             { name: "Gingival Contouring", id: "gingival_contouring" },
             { name: "Tooth Reshaping", id: "tooth_reshaping" },
@@ -176,10 +176,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "HAIR MEDICINE",
+      category: "hair_medicine",
       subcategories: [
         {
-          subcategory: "Non-Surgical Hair Treatments",
+          subcategory: "non_surgical_hair_treatments",
           procedures: [
             { name: "PRP for Hair", id: "prp_hair" },
             { name: "Hair Mesotherapy", id: "hair_mesotherapy" },
@@ -188,7 +188,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Surgical Hair Procedures",
+          subcategory: "surgical_hair_procedures",
           procedures: [
             { name: "Forehead Reduction", id: "forehead_reduction" },
             { name: "Hairline Lowering", id: "hairline_lowering" },
@@ -198,16 +198,16 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "MUSCLE TONE AND EMS",
+      category: "muscle_tone_and_ems",
       subcategories: [
         {
-          subcategory: "Face",
+          subcategory: "face",
           procedures: [
             { name: "Facial Muscle Stimulation / EM Sculpt (Face)", id: "facial_ems" }
           ]
         },
         {
-          subcategory: "Body",
+          subcategory: "body",
           procedures: [
             { name: "EM Sculpt (Body)", id: "body_emsculpt" },
             { name: "Sport Coaching with EMS", id: "sport_coaching_ems" }
@@ -216,10 +216,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "IV THERAPY",
+      category: "iv_therapy",
       subcategories: [
         {
-          subcategory: "General & Hydration",
+          subcategory: "general_and_hydration",
           procedures: [
             { name: "IV Therapy (General)", id: "iv_therapy" },
             { name: "IV Hydration", id: "iv_hydration" },
@@ -227,7 +227,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Vitamins & Antioxidants",
+          subcategory: "vitamins_and_antioxidants",
           procedures: [
             { name: "IV High-Dose Vitamin C", id: "iv_vitamin_c" },
             { name: "IV Glutathione", id: "iv_glutathione" },
@@ -238,7 +238,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Energy, Performance & Recovery",
+          subcategory: "energy_performance_and_recovery",
           procedures: [
             { name: "IV Energy Boost", id: "iv_energy_boost" },
             { name: "IV Post-Workout Recovery", id: "iv_post_workout" },
@@ -248,7 +248,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Wellness & Beauty",
+          subcategory: "wellness_and_beauty",
           procedures: [
             { name: "IV Skin Glow & Anti-Aging", id: "iv_skin_glow" },
             { name: "IV Immunity Boost", id: "iv_immunity_boost" },
@@ -260,10 +260,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "WELLNESS AND DRAINAGE",
+      category: "wellness_and_drainage",
       subcategories: [
         {
-          subcategory: "Drainage & Circulation",
+          subcategory: "drainage_and_circulation",
           procedures: [
             { name: "Lymphatic Drainage", id: "lymphatic_drainage" },
             { name: "Lymphatic Drainage (Legs)", id: "lymphatic_drainage_legs" },
@@ -271,7 +271,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Recovery & Relaxation",
+          subcategory: "recovery_and_relaxation",
           procedures: [
             { name: "Infrared Sauna", id: "infrared_sauna" },
             { name: "Wellness Analysis", id: "wellness_analysis" }
@@ -280,10 +280,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "SURGICAL FACE",
+      category: "surgical_face",
       subcategories: [
         {
-          subcategory: "Facelifts & Lifting",
+          subcategory: "facelifts_and_lifting",
           procedures: [
             { name: "Mini Facelift", id: "mini_facelift" },
             { name: "Midface Lift", id: "midface_lift" },
@@ -295,7 +295,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Eyes & Brows",
+          subcategory: "eyes_and_brows",
           procedures: [
             { name: "Canthopexy / Cat Eye Surgery", id: "canthopexy" },
             { name: "Brow Lift", id: "brow_lift" },
@@ -304,7 +304,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Nose",
+          subcategory: "nose",
           procedures: [
             { name: "Rhinoplasty", id: "rhinoplasty" },
             { name: "Ultrasonic Rhinoplasty", id: "ultrasonic_rhinoplasty" },
@@ -312,7 +312,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Face Contouring & Features",
+          subcategory: "face_contouring_and_features",
           procedures: [
             { name: "Genioplasty", id: "genioplasty" },
             { name: "Otoplasty", id: "otoplasty" },
@@ -322,7 +322,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Lipofilling & Fat Transfer",
+          subcategory: "lipofilling_and_fat_transfer",
           procedures: [
             { name: "Facial Lipofilling (Tear Trough)", id: "lipofilling_tear_trough" },
             { name: "Facial Lipofilling (Lips)", id: "lipofilling_lips" },
@@ -332,10 +332,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "SURGICAL BODY",
+      category: "surgical_body",
       subcategories: [
         {
-          subcategory: "Liposuction",
+          subcategory: "liposuction",
           procedures: [
             { name: "Liposuction (Abdomen)", id: "lipo_abdomen" },
             { name: "Liposuction (Arms)", id: "lipo_arms" },
@@ -349,7 +349,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Body Contouring & Lifting",
+          subcategory: "body_contouring_and_lifting",
           procedures: [
             { name: "Body Lift", id: "body_lift" },
             { name: "Arm Lift (Brachioplasty)", id: "arm_lift" },
@@ -359,14 +359,14 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Buttocks",
+          subcategory: "buttocks",
           procedures: [
             { name: "Brazilian Butt Lift (BBL)", id: "bbl_surgical" },
             { name: "Buttocks Augmentation", id: "buttocks_augmentation" }
           ]
         },
         {
-          subcategory: "Breast Surgery",
+          subcategory: "breast_surgery",
           procedures: [
             { name: "Breast Augmentation", id: "breast_augmentation" },
             { name: "Breast Augmentation (Lipofilling)", id: "breast_augmentation_lipofilling" },
@@ -380,7 +380,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Intimate & Genital Surgery",
+          subcategory: "intimate_and_genital_surgery",
           procedures: [
             { name: "Penis Enlargement", id: "penis_enlargement" },
             { name: "Penoplasty", id: "penoplasty" },
@@ -394,7 +394,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Foot Surgery",
+          subcategory: "foot_surgery",
           procedures: [
             { name: "Forefoot Aesthetic Surgery", id: "forefoot_surgery" },
             { name: "Hallux Valgus Surgery", id: "hallux_valgus" },
@@ -404,10 +404,10 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "LONGEVITY MEDICINE",
+      category: "longevity_medicine",
       subcategories: [
         {
-          subcategory: "Biological Assessment & Diagnostics",
+          subcategory: "biological_assessment_and_diagnostics",
           procedures: [
             { name: "Biological Age Assessment", id: "biological_age_assessment" },
             { name: "Epigenetic Clock Test (DNA Methylation)", id: "epigenetic_clock_test" },
@@ -420,7 +420,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Cellular & Regenerative Therapies",
+          subcategory: "cellular_and_regenerative_therapies",
           procedures: [
             { name: "NAD+ Precursors (NMN / NR) — Oral", id: "nad_plus_oral" },
             { name: "Regenerative PRP (Joints / Systemic)", id: "prp_regenerative" },
@@ -429,7 +429,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Physical & Energy Therapies",
+          subcategory: "physical_and_energy_therapies",
           procedures: [
             { name: "Hyperbaric Oxygen Therapy (HBOT)", id: "hyperbaric_oxygen" },
             { name: "Ozone Therapy (Major Autohemotherapy)", id: "ozone_therapy" },
@@ -438,7 +438,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Pharmacological Protocols",
+          subcategory: "pharmacological_protocols",
           procedures: [
             { name: "Metformin — Longevity Protocol", id: "metformin_longevity" },
             { name: "Low-Dose Rapamycin — Longevity Protocol", id: "rapamycin_longevity" },
@@ -449,7 +449,7 @@ export const DoctorCatalog = {
           ]
         },
         {
-          subcategory: "Programs & Lifestyle",
+          subcategory: "programs_and_lifestyle",
           procedures: [
             { name: "Medically Supervised Fasting / FMD", id: "fasting_program" },
             { name: "Personalized Longevity Program", id: "personalized_longevity_program" },

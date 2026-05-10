@@ -1,0 +1,93 @@
+{
+  "settings": {
+    "title": "Paramètres",
+    "profile": "Profil",
+    "profileImageAlt": "Profil",
+    "unnamedUser": "Utilisateur sans nom",
+    "pages": {
+      "Edit Profile": "Modifier le profil",
+      "Change Password": "Changer le mot de passe",
+      "Language": "Langue",
+      "Report a Problem": "Signaler un problème",
+      "Terms & Conditions": "Conditions générales",
+      "Subscription": "Abonnement",
+      "Delete Account": "Supprimer le compte"
+    }
+  },
+  "editProfile": {
+    "patientProfile": "Profil du patient",
+    "title": "Modifier le profil",
+    "fullName": "Nom complet",
+    "fullNamePlaceholder": "Votre nom",
+    "email": "E-mail",
+    "emailPlaceholder": "E-mail",
+    "dateOfBirth": "Date de naissance",
+    "dateOfBirthPlaceholder": "Date de naissance",
+    "gender": "Genre",
+    "phoneNumber": "Numéro de téléphone",
+    "phonePlaceholder": "Ex. +321769864401",
+    "preferredConsultationType": "Type de consultation préféré",
+    "preferredLanguage": "Langue préférée",
+    "preferredLanguagePlaceholder": "Anglais, arabe, français...",
+    "saveChanges": "Enregistrer les modifications",
+    "saving": "Enregistrement...",
+    "genderOptions": {
+      "male": "Homme",
+      "female": "Femme",
+      "other": "Autre"
+    },
+    "consultationOptions": {
+      "inClinic": "En clinique",
+      "online": "En ligne"
+    }
+  },
+  "topProceduresModal": {
+    "profileLabel": "Profil du médecin",
+    "title": "Modifier le top 3 des procédures",
+    "description": "Choisissez jusqu’à 3 procédures parmi celles sélectionnées.",
+    "empty": "Vous devez sélectionner des procédures avant de choisir votre top 3.",
+    "selectedCount": "{count}/3 sélectionnées",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "proceduresModal": {
+    "profileLabel": "Profil du médecin",
+    "title": "Modifier les catégories et procédures",
+    "categories": "Catégories",
+    "outsideSpecialties": "En dehors des spécialités sélectionnées",
+    "procedures": "Procédures",
+    "description": "Sélectionnez des procédures dans les catégories choisies.",
+    "selectedCount": "{count} sélectionnées",
+    "emptyCategories": "Sélectionnez une catégorie pour voir les procédures associées.",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "specialtiesModal": {
+    "profileLabel": "Profil du médecin",
+    "title": "Modifier les spécialités",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "doctorEditProfile": {
+    "doctorProfile": "Profil du médecin",
+    "title": "Modifier le profil",
+    "fullName": "Nom complet",
+    "doctorNamePlaceholder": "Nom du médecin",
+    "emailCannotEdit": "E-mail (ne peut pas être modifié)",
+    "emailPlaceholder": "E-mail",
+    "yearsOfExperience": "Années d’expérience",
+    "yearsPlaceholder": "0",
+    "clinicName": "Nom de la clinique",
+    "clinicNamePlaceholder": "Nom de la clinique",
+    "specialties": "Spécialités",
+    "categories": "Catégories",
+    "procedures": "Procédures",
+    "topThreeProcedures": "Top 3 des procédures",
+    "noTopThree": "Vous n’avez pas encore sélectionné vos trois principales procédures.",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  }
+}

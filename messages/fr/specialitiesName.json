@@ -1,0 +1,14 @@
+{
+  "aesthetic_doctor": "Médecin esthétique",
+  "plastic_surgeon": "Chirurgien plastique",
+  "reconstructive_surgeon": "Chirurgien reconstructeur",
+  "dermatologist": "Dermatologue",
+  "general_practitioner": "Médecin généraliste",
+  "ophthalmologist": "Ophtalmologue",
+  "oculoplastic_surgeon": "Chirurgien oculoplastique",
+  "dentist": "Dentiste",
+  "maxillofacial_surgeon": "Chirurgien maxillo-facial",
+  "ent_surgeon": "Chirurgien ORL",
+  "orthodontist": "Orthodontiste",
+  "other_specialty": "Autre spécialité"
+}
