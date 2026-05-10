@@ -94,5 +94,24 @@
     "upload": "Télécharger ({count}/2) images",
     "chooseImage": "Choisir l’image {type}",
     "formats": "JPG, PNG ou WebP"
+  },
+  "PatientProfile": {
+    "profilePhoto": "photo de profil",
+    "editProfilePhoto": "Modifier la photo de profil",
+    "editProfile": "Modifier le profil",
+    "gender": "Genre",
+    "dateOfBirth": "Date de naissance",
+    "preferredConsultation": "Consultation préférée",
+    "contact": "Contact",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "preferences": "Préférences",
+    "consultation": "Consultation",
+    "language": "Langue",
+    "payments": "Paiements",
+    "paymentConnected": "Profil de paiement connecté.",
+    "noPaymentConnected": "Aucun profil de paiement connecté pour le moment.",
+    "notes": "Notes",
+    "noNotes": "Aucune note ajoutée pour le moment."
   }
 }

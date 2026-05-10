@@ -15,6 +15,7 @@ import {
   Video,
 } from "lucide-react";
 import ImageUploadModal from "./UI/ImageUploadModal";
+import { useTranslations } from "next-intl";
 
 type SessionUser = {
   id: string;
@@ -78,6 +79,7 @@ function formatConsultationType(value?: string | null) {
 }
 
 export default function PatientProfile({ user }: PatientProfileProps) {
+  const t = useTranslations("dashboard");
   const [patient, setPatient] = useState<PatientProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -186,173 +188,187 @@ export default function PatientProfile({ user }: PatientProfileProps) {
     .join(", ");
 
   return (
-    <section className="relative z-20 mx-auto max-w-6xl rounded-3xl border border-gray-300/10 bg-white px-6 py-8 shadow-lg md:px-10">
-      <div className="flex flex-col gap-8 md:flex-row md:items-start">
-        <div className="relative flex-shrink-0">
-          <div className="relative flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#283c5d] shadow-md">
-            {avatar ? (
-              <Image
-                src={avatar}
-                alt={`${name} profile photo`}
-                fill
-                sizes="160px"
-                className="object-cover"
-              />
-            ) : (
-              <span className="text-3xl font-semibold text-white">
-                {initials}
-              </span>
-            )}
-          </div>
+<section className="relative z-20 mx-auto max-w-6xl rounded-3xl border border-gray-300/10 bg-white px-6 py-8 shadow-lg md:px-10">
+  <div className="flex flex-col gap-8 md:flex-row md:items-start">
+    <div className="relative flex-shrink-0">
+      <div className="relative flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#283c5d] shadow-md">
+        {avatar ? (
+          <Image
+            src={avatar}
+            alt={`${name} ${t("PatientProfile.profilePhoto")}`}
+            fill
+            sizes="160px"
+            className="object-cover"
+          />
+        ) : (
+          <span className="text-3xl font-semibold text-white">
+            {initials}
+          </span>
+        )}
+      </div>
 
-          <button
-            type="button"
-            onClick={() => setIsAvatarModalOpen(true)}
-            className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] shadow-md transition hover:bg-[#283c5d] hover:text-white active:scale-[0.96]"
-            aria-label="Edit profile photo"
-          >
-            <Camera size={18} />
-          </button>
-        </div>
+      <button
+        type="button"
+        onClick={() => setIsAvatarModalOpen(true)}
+        className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] shadow-md transition hover:bg-[#283c5d] hover:text-white active:scale-[0.96]"
+        aria-label={t("PatientProfile.editProfilePhoto")}
+      >
+        <Camera size={18} />
+      </button>
+    </div>
 
+    <div className="min-w-0 flex-1">
+      <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0 flex-1">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-            <div className="min-w-0 flex-1">
-              <h1 className="text-2xl font-bold tracking-tight text-[#283C5D] md:text-3xl">
-                {name}
-              </h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[#283C5D] md:text-3xl">
+            {name}
+          </h1>
 
-              <div className="mt-4 space-y-3">
-                <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
-                  <User size={17} className="text-[#d8bd8d]" />
-                  <span>{email}</span>
-                </div>
+          <div className="mt-4 space-y-3">
+            <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
+              <User size={17} className="text-[#d8bd8d]" />
+              <span>{email}</span>
+            </div>
 
-                {fullAddress ? (
-                  <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
-                    <MapPin size={17} className="text-[#283C5D]/55" />
-                    <span>{fullAddress}</span>
-                  </div>
-                ) : null}
+            {fullAddress ? (
+              <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
+                <MapPin size={17} className="text-[#283C5D]/55" />
+                <span>{fullAddress}</span>
               </div>
-            </div>
-
-            <Link
-              href="/dashboard/settings"
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition hover:bg-[#FAF9F7] active:scale-[0.98]"
-            >
-              <Pencil size={18} />
-              <span>Edit Profile</span>
-            </Link>
-          </div>
-
-          <div className="mt-7 grid grid-cols-1 gap-6 border-t border-black/10 pt-5 md:grid-cols-3">
-            <div>
-              <p className="text-xs font-medium text-[#283C5D]/45">Gender</p>
-              <p className="mt-2 text-sm font-semibold text-[#283C5D]">
-                {formatValue(patient.gender)}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-xs font-medium text-[#283C5D]/45">
-                Date of birth
-              </p>
-              <p className="mt-2 text-sm font-semibold text-[#283C5D]">
-                {formatValue(patient.user.dateOfBirth)}
-              </p>
-            </div>
-
-            <div>
-              <p className="text-xs font-medium text-[#283C5D]/45">
-                Preferred consultation
-              </p>
-              <p className="mt-2 text-sm font-semibold text-[#283C5D]">
-                {formatConsultationType(patient.preferredConsultationType)}
-              </p>
-            </div>
+            ) : null}
           </div>
         </div>
+
+        <Link
+          href="/dashboard/settings"
+          className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition hover:bg-[#FAF9F7] active:scale-[0.98]"
+        >
+          <Pencil size={18} />
+          <span>{t("PatientProfile.editProfile")}</span>
+        </Link>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
-        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-          <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
-            <Phone size={17} className="text-[#d8bd8d]" />
-            Contact
-          </div>
+      <div className="mt-7 grid grid-cols-1 gap-6 border-t border-black/10 pt-5 md:grid-cols-3">
+        <div>
+          <p className="text-xs font-medium text-[#283C5D]/45">
+            {t("PatientProfile.gender")}
+          </p>
 
-          <div className="space-y-3 text-sm text-[#283C5D]/75">
-            <p>
-              <span className="font-medium text-[#283C5D]">Phone:</span>{" "}
-              {formatValue(patient.phoneNumber)}
-            </p>
-            <p>
-              <span className="font-medium text-[#283C5D]">Email:</span>{" "}
-              {email}
-            </p>
-          </div>
+          <p className="mt-2 text-sm font-semibold text-[#283C5D]">
+            {formatValue(patient.gender)}
+          </p>
         </div>
 
-        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-          <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
-            {patient.preferredConsultationType === "online" ? (
-              <Video size={17} className="text-[#d8bd8d]" />
-            ) : (
-              <Building2 size={17} className="text-[#d8bd8d]" />
-            )}
-            Preferences
-          </div>
+        <div>
+          <p className="text-xs font-medium text-[#283C5D]/45">
+            {t("PatientProfile.dateOfBirth")}
+          </p>
 
-          <div className="space-y-3 text-sm text-[#283C5D]/75">
-            <p>
-              <span className="font-medium text-[#283C5D]">
-                Consultation:
-              </span>{" "}
-              {formatConsultationType(patient.preferredConsultationType)}
-            </p>
-            <p>
-              <span className="font-medium text-[#283C5D]">Language:</span>{" "}
-              {formatValue(patient.preferredLanguage)}
-            </p>
-          </div>
+          <p className="mt-2 text-sm font-semibold text-[#283C5D]">
+            {formatValue(patient.user.dateOfBirth)}
+          </p>
         </div>
 
-        <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-          <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
-            <CreditCard size={17} className="text-[#d8bd8d]" />
-            Payments
-          </div>
+        <div>
+          <p className="text-xs font-medium text-[#283C5D]/45">
+            {t("PatientProfile.preferredConsultation")}
+          </p>
 
-          <div className="rounded-2xl bg-[#FAF9F7] px-4 py-4 text-sm text-[#283C5D]/75">
-            {patient.stripeCustomerId ? (
-              <p>Payment profile connected.</p>
-            ) : (
-              <p>No payment profile connected yet.</p>
-            )}
-          </div>
+          <p className="mt-2 text-sm font-semibold text-[#283C5D]">
+            {formatConsultationType(patient.preferredConsultationType)}
+          </p>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div className="mt-5 rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-        <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
-          <MessageSquare size={17} className="text-[#d8bd8d]" />
-          Notes
-        </div>
+  <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
+    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
+        <Phone size={17} className="text-[#d8bd8d]" />
+        {t("PatientProfile.contact")}
+      </div>
 
-        <p className="min-h-20 rounded-2xl bg-[#FAF9F7] px-4 py-4 text-sm leading-6 text-[#283C5D]/75">
-          {patient.notes?.trim() || "No notes added yet."}
+      <div className="space-y-3 text-sm text-[#283C5D]/75">
+        <p>
+          <span className="font-medium text-[#283C5D]">
+            {t("PatientProfile.phone")}:
+          </span>{" "}
+          {formatValue(patient.phoneNumber)}
+        </p>
+
+        <p>
+          <span className="font-medium text-[#283C5D]">
+            {t("PatientProfile.email")}:
+          </span>{" "}
+          {email}
         </p>
       </div>
+    </div>
 
-      <ImageUploadModal
-        isOpen={isAvatarModalOpen}
-        ImagePath={`patient-profile/${user.id}/avatar`}
-        currentImage={patient.avatar}
-        onClose={() => setIsAvatarModalOpen(false)}
-        onImageloaded={handleAvatarUploaded}
-        onDeleteBanner={handleDeleteAvatar}
-      />
-    </section>
+    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
+        {patient.preferredConsultationType === "online" ? (
+          <Video size={17} className="text-[#d8bd8d]" />
+        ) : (
+          <Building2 size={17} className="text-[#d8bd8d]" />
+        )}
+
+        {t("PatientProfile.preferences")}
+      </div>
+
+      <div className="space-y-3 text-sm text-[#283C5D]/75">
+        <p>
+          <span className="font-medium text-[#283C5D]">
+            {t("PatientProfile.consultation")}:
+          </span>{" "}
+          {formatConsultationType(patient.preferredConsultationType)}
+        </p>
+
+        <p>
+          <span className="font-medium text-[#283C5D]">
+            {t("PatientProfile.language")}:
+          </span>{" "}
+          {formatValue(patient.preferredLanguage)}
+        </p>
+      </div>
+    </div>
+
+    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+      <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
+        <CreditCard size={17} className="text-[#d8bd8d]" />
+        {t("PatientProfile.payments")}
+      </div>
+
+      <div className="rounded-2xl bg-[#FAF9F7] px-4 py-4 text-sm text-[#283C5D]/75">
+        {patient.stripeCustomerId ? (
+          <p>{t("PatientProfile.paymentConnected")}</p>
+        ) : (
+          <p>{t("PatientProfile.noPaymentConnected")}</p>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <div className="mt-5 rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+    <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
+      <MessageSquare size={17} className="text-[#d8bd8d]" />
+      {t("PatientProfile.notes")}
+    </div>
+
+    <p className="min-h-20 rounded-2xl bg-[#FAF9F7] px-4 py-4 text-sm leading-6 text-[#283C5D]/75">
+      {patient.notes?.trim() || t("PatientProfile.noNotes")}
+    </p>
+  </div>
+
+  <ImageUploadModal
+    isOpen={isAvatarModalOpen}
+    ImagePath={`patient-profile/${user.id}/avatar`}
+    currentImage={patient.avatar}
+    onClose={() => setIsAvatarModalOpen(false)}
+    onImageloaded={handleAvatarUploaded}
+    onDeleteBanner={handleDeleteAvatar}
+  />
+</section>
   );
 }
