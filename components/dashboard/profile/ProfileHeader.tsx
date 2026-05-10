@@ -6,6 +6,7 @@ import { formatLabel, handleImageUpload } from "@/utils/dashboard/helper";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 type ProfileHeaderProps = {
   doctorId: string;
@@ -34,6 +35,7 @@ export default function ProfileHeader({
   yearsOfExperience,
   onUpdateProfile,
 }: ProfileHeaderProps) {
+    const t = useTranslations("dashboard");
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
     const [currentAvatar, setCurrentAvatar] = useState<string | null>(avatar || fallbackAvatar);
     
@@ -73,7 +75,8 @@ export default function ProfileHeader({
             {avatar ? (
                 <Image
                     src={avatar}
-                    alt={`${name} profile photo`}
+                    alt={`${name} ${t("header.profilePhoto")}`}
+                    aria-label={t("header.editProfilePhoto")}
                     fill
                     sizes="160px"
                     className="rounded-full object-cover"
@@ -125,9 +128,8 @@ export default function ProfileHeader({
           <div className="mt-7 grid max-w-4xl grid-cols-1 gap-6 border-t border-black/10 pt-5 md:grid-cols-3">
             <div className="min-w-0">
               <p className="text-xs font-medium text-[#283C5D]/45">
-                Specialty
+                {t("header.specialty")}
               </p>
-                      
               <div className="mt-2 flex flex-wrap gap-2">
                 {specialty && specialty.length > 0 ? (
                   specialty.map((item) => (
@@ -140,7 +142,7 @@ export default function ProfileHeader({
                   ))
                 ) : (
                   <span className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
-                    NA
+                    {t("common.notAvailableShort")}
                   </span>
                 )}
               </div>
@@ -148,7 +150,7 @@ export default function ProfileHeader({
               
             <div className="min-w-0">
               <p className="text-xs font-medium text-[#283C5D]/45">
-                Top 3 Procedures
+                {t("header.topProcedures")}
               </p>
               
               <div className="mt-2 flex flex-wrap gap-2">
@@ -163,7 +165,7 @@ export default function ProfileHeader({
                   ))
                 ) : (
                   <span className="inline-flex rounded-full border border-dashed border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]/55">
-                    No top procedures selected
+                    {t("header.noTopProcedures")}
                   </span>
                 )}
               </div>
@@ -171,13 +173,13 @@ export default function ProfileHeader({
               
             <div className="min-w-0">
               <p className="text-xs font-medium text-[#283C5D]/45">
-                Years of experience
+                {t("header.yearsOfExperience")}
               </p>
               
               <p className="mt-2 text-sm font-semibold text-[#283C5D]">
                 {yearsOfExperience != null
-                  ? `${yearsOfExperience} years`
-                  : "Not Available"}
+                ? t("header.years", { count: yearsOfExperience })
+                  : t("common.notAvailable")}
               </p>
             </div>
           </div>
@@ -187,7 +189,7 @@ export default function ProfileHeader({
         border border-black/10 bg-white px-6 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition 
         hover:bg-[#FAF9F7] active:scale-[0.98]">  
           <Pencil size={20} />  
-          <p>Edit Profile</p>
+          <p>{t("header.editProfile")}</p>
         </Link>
       </div>
     <ImageUploadModal

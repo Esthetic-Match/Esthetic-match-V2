@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { cn } from "@/lib/utils";
 import {getVisibleCategories} from "@/components/signup/util/utils"
+import { useTranslations } from "next-intl";
 
 type CategoryProcedureModalProps = {
   open: boolean;
@@ -48,6 +49,10 @@ export default function CategoryProcedureModal({
   onClose,
   onSaved,
 }: CategoryProcedureModalProps) {
+  const t = useTranslations("settings");
+  const procedureT = useTranslations("proceduresName");
+  const categoryT = useTranslations("categoriesName");
+  const subcategoryT = useTranslations("subcategoriesName");
   const router = useRouter();
 
   const [localCategoryIds, setLocalCategoryIds] = useState<string[]>([]);
@@ -154,180 +159,188 @@ export default function CategoryProcedureModal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
-      <div className="relative max-h-[88vh] w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-black/10 px-6 py-5">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#d8bd8d]">
-              Doctor Profile
-            </p>
+   <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
+  <div className="relative max-h-[88vh] w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+    <div className="flex items-center justify-between border-b border-black/10 px-6 py-5">
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#d8bd8d]">
+          {t("proceduresModal.profileLabel")}
+        </p>
 
-            <h2 className="mt-1 text-2xl font-semibold text-[#283C5D]">
-              Edit Categories & Procedures
-            </h2>
+        <h2 className="mt-1 text-2xl font-semibold text-[#283C5D]">
+          {t("proceduresModal.title")}
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        onClick={onClose}
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+      >
+        <X size={18} />
+      </button>
+    </div>
+
+    <div className="grid h-[64vh] grid-cols-1 overflow-hidden md:grid-cols-[0.85fr_1.4fr]">
+      {/* Left: Categories */}
+      <div className="h-full overflow-y-auto border-b border-black/10 bg-[#FAF9F7] p-6 md:border-b-0 md:border-r">
+        <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
+          {t("proceduresModal.categories")}
+        </h3>
+
+        <div className="space-y-5">
+          <div className="space-y-3">
+            {selectedCategories.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {selectedCategories.map((category) => (
+                  <button
+                    key={category.category}
+                    type="button"
+                    onClick={() => toggleCategory(category)}
+                    className="rounded-full border border-[#283C5D] bg-[#283C5D] px-4 py-2 text-xs font-medium text-white transition hover:border-red-500 hover:bg-[#A74848] active:scale-[0.97]"
+                  >
+                    {categoryT(category.category)}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {selectedCategories.length > 0 &&
+              unselectedCategories.length > 0 && (
+                <div className="h-px w-full bg-black/10" />
+              )}
+
+            <div className="flex flex-wrap gap-2">
+              {unselectedCategories.map((category) => (
+                <button
+                  key={category.category}
+                  type="button"
+                  onClick={() => toggleCategory(category)}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#283C5D] transition hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+                >
+                  {categoryT(category.category)}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
-          >
-            <X size={18} />
-          </button>
-        </div>
+          {unavailableCategories.length > 0 && (
+            <div className="border-t border-black/10 pt-5">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#283C5D]/45">
+                {t("proceduresModal.outsideSpecialties")}
+              </p>
 
-<div className="grid h-[64vh] grid-cols-1 overflow-hidden md:grid-cols-[0.85fr_1.4fr]">
-{/* Left: Categories */}
-<div className="h-full overflow-y-auto border-b border-black/10 bg-[#FAF9F7] p-6 md:border-b-0 md:border-r">
-  <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
-    Categories
-  </h3>
-
-  <div className="space-y-5">
-    <div className="space-y-3">
-      {selectedCategories.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {selectedCategories.map((category) => (
-            <button
-              key={category.category}
-              type="button"
-              onClick={() => toggleCategory(category)}
-              className="rounded-full border border-[#283C5D] bg-[#283C5D] px-4 py-2 text-xs font-medium text-white transition hover:border-red-500 hover:bg-[#A74848] active:scale-[0.97]"
-            >
-              {category.category}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {selectedCategories.length > 0 && unselectedCategories.length > 0 && (
-        <div className="h-px w-full bg-black/10" />
-      )}
-
-      <div className="flex flex-wrap gap-2">
-        {unselectedCategories.map((category) => (
-          <button
-            key={category.category}
-            type="button"
-            onClick={() => toggleCategory(category)}
-            className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-medium text-[#283C5D] transition hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
-          >
-            {category.category}
-          </button>
-        ))}
-      </div>
-    </div>
-
-    {unavailableCategories.length > 0 && (
-      <div className="border-t border-black/10 pt-5">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#283C5D]/45">
-          Outside selected specialties
-        </p>
-
-        <div className="flex flex-wrap gap-2">
-          {unavailableCategories.map((category) => (
-            <button
-              key={category.category}
-              type="button"
-              disabled
-              className="cursor-not-allowed rounded-full border border-black/5 bg-gray-100 px-4 py-2 text-xs font-medium text-gray-400"
-            >
-              {category.category}
-            </button>
-          ))}
+              <div className="flex flex-wrap gap-2">
+                {unavailableCategories.map((category) => (
+                  <button
+                    key={category.category}
+                    type="button"
+                    disabled
+                    className="cursor-not-allowed rounded-full border border-black/5 bg-gray-100 px-4 py-2 text-xs font-medium text-gray-400"
+                  >
+                    {categoryT(category.category)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    )}
-  </div>
-</div>
 
-  {/* Right: Procedures */}
-  <div className="h-full overflow-y-auto bg-white p-6">
-    <div className="sticky -top-6 z-10 mb-4 flex items-end justify-between gap-4 bg-white pb-4 pt-5">
-      <div>
-        <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
-          Procedures
-        </h3>
-        <p className="mt-1 text-xs text-[#283C5D]/55">
-          Select procedures under your chosen categories.
-        </p>
-      </div>
+      {/* Right: Procedures */}
+      <div className="h-full overflow-y-auto bg-white p-6">
+        <div className="sticky -top-6 z-10 mb-4 flex items-end justify-between gap-4 bg-white pb-4 pt-5">
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
+              {t("proceduresModal.procedures")}
+            </h3>
 
-      <p className="text-xs font-medium text-[#d8bd8d]">
-        {localProcedureIds.length} selected
-      </p>
-    </div>
-
-    {selectedCategories.length === 0 ? (
-      <div className="rounded-2xl border border-dashed border-black/10 bg-[#FAF9F7] p-6 text-sm text-[#283C5D]/60">
-        Select a category to view its linked procedures.
-      </div>
-    ) : (
-      <div className="space-y-6 pb-6">
-        {selectedCategories.map((category) => (
-          <div key={category.category} className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
-              {category.category}
+            <p className="mt-1 text-xs text-[#283C5D]/55">
+              {t("proceduresModal.description")}
             </p>
+          </div>
 
-            {category.subcategories.map((subcategory) => (
-              <div
-                key={subcategory.subcategory}
-                className="rounded-2xl bg-[#FAF9F7] p-4"
-              >
-                <h4 className="mb-3 text-sm font-semibold text-[#283C5D]">
-                  {subcategory.subcategory}
-                </h4>
+          <p className="text-xs font-medium text-[#d8bd8d]">
+            {t("proceduresModal.selectedCount", {
+              count: localProcedureIds.length,
+            })}
+          </p>
+        </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {subcategory.procedures.map((procedure) => {
-                    const isSelected = localProcedureIds.includes(procedure.id);
+        {selectedCategories.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-black/10 bg-[#FAF9F7] p-6 text-sm text-[#283C5D]/60">
+            {t("proceduresModal.emptyCategories")}
+          </div>
+        ) : (
+          <div className="space-y-6 pb-6">
+            {selectedCategories.map((category) => (
+              <div key={category.category} className="space-y-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
+                  {categoryT(category.category)}
+                </p>
 
-                    return (
-                      <button
-                        key={procedure.id}
-                        type="button"
-                        onClick={() => toggleProcedure(procedure.id)}
-                        className={cn(
-                          "rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.97]",
-                          isSelected
-                            ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-[#94604C] hover:bg-[#A74848]"
-                            : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
-                        )}
-                      >
-                        {procedure.name}
-                      </button>
-                    );
-                  })}
-                </div>
+                {category.subcategories.map((subcategory) => (
+                  <div
+                    key={subcategory.subcategory}
+                    className="rounded-2xl bg-[#FAF9F7] p-4"
+                  >
+                    <h4 className="mb-3 text-sm font-semibold text-[#283C5D]">
+                      {subcategoryT(subcategory.subcategory)}
+                    </h4>
+
+                    <div className="flex flex-wrap gap-2">
+                      {subcategory.procedures.map((procedure) => {
+                        const isSelected = localProcedureIds.includes(
+                          procedure.id
+                        );
+
+                        return (
+                          <button
+                            key={procedure.id}
+                            type="button"
+                            onClick={() => toggleProcedure(procedure.id)}
+                            className={cn(
+                              "rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.97]",
+                              isSelected
+                                ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-[#94604C] hover:bg-[#A74848]"
+                                : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
+                            )}
+                          >
+                            {procedureT(procedure.id)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-        ))}
-      </div>
-    )}
-  </div>
-</div>
-
-        <div className="flex items-center justify-end gap-3 border-t border-black/10 px-6 py-5">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full border border-black/10 px-6 py-3 text-sm font-semibold text-[#283C5D] transition hover:bg-black/5 active:scale-[0.97]"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={isSaving}
-            className="rounded-full bg-[#d8bd8d] px-7 py-3 text-sm font-semibold text-[#061A2D] transition hover:bg-[#f4e4c6] active:scale-[0.97] disabled:opacity-50"
-          >
-            {isSaving ? "Saving..." : "Save Changes"}
-          </button>
-        </div>
+        )}
       </div>
     </div>
-  );
+
+    <div className="flex items-center justify-end gap-3 border-t border-black/10 px-6 py-5">
+      <button
+        type="button"
+        onClick={onClose}
+        className="rounded-full border border-black/10 px-6 py-3 text-sm font-semibold text-[#283C5D] transition hover:bg-black/5 active:scale-[0.97]"
+      >
+        {t("proceduresModal.cancel")}
+      </button>
+
+      <button
+        type="button"
+        onClick={handleSave}
+        disabled={isSaving}
+        className="rounded-full bg-[#d8bd8d] px-7 py-3 text-sm font-semibold text-[#061A2D] transition hover:bg-[#f4e4c6] active:scale-[0.97] disabled:opacity-50"
+      >
+        {isSaving
+          ? t("proceduresModal.saving")
+          : t("proceduresModal.saveChanges")}
+      </button>
+    </div>
+  </div>
+</div>
+)
 }

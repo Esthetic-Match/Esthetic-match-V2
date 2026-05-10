@@ -1,0 +1,14 @@
+{
+  "non_surgical_face": "Non-surgical face",
+  "non_surgical_body": "Non-surgical body",
+  "aesthetic_dentistry": "Aesthetic dentistry",
+  "hair_medicine": "Hair medicine",
+  "muscle_tone_and_ems": "Muscle tone & EMS",
+  "iv_therapy": "IV therapy",
+  "wellness_and_drainage": "Wellness & drainage",
+  "surgical_face": "Surgical face",
+  "surgical_body": "Surgical body",
+  "longevity_medicine": "Longevity medicine",
+  "OTHER": "Other",
+  "No categories": "No categories available for the selected specialties."
+}

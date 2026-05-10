@@ -1,0 +1,152 @@
+{
+  "settings": {
+    "title": "Paramètres",
+    "profile": "Profil",
+    "profileImageAlt": "Profil",
+    "unnamedUser": "Utilisateur sans nom",
+    "pages": {
+      "Edit Profile": "Modifier le profil",
+      "Change Password": "Changer le mot de passe",
+      "Language": "Langue",
+      "Report a Problem": "Signaler un problème",
+      "Terms & Conditions": "Conditions générales",
+      "Subscription": "Abonnement",
+      "Delete Account": "Supprimer le compte"
+    }
+  },
+  "editProfile": {
+    "patientProfile": "Profil du patient",
+    "title": "Modifier le profil",
+    "fullName": "Nom complet",
+    "fullNamePlaceholder": "Votre nom",
+    "email": "E-mail",
+    "emailPlaceholder": "E-mail",
+    "dateOfBirth": "Date de naissance",
+    "dateOfBirthPlaceholder": "Date de naissance",
+    "gender": "Genre",
+    "phoneNumber": "Numéro de téléphone",
+    "phonePlaceholder": "Ex. +321769864401",
+    "preferredConsultationType": "Type de consultation préféré",
+    "preferredLanguage": "Langue préférée",
+    "preferredLanguagePlaceholder": "Anglais, arabe, français...",
+    "saveChanges": "Enregistrer les modifications",
+    "saving": "Enregistrement...",
+    "genderOptions": {
+      "male": "Homme",
+      "female": "Femme",
+      "other": "Autre"
+    },
+    "consultationOptions": {
+      "inClinic": "En clinique",
+      "online": "En ligne"
+    }
+  },
+  "topProceduresModal": {
+    "profileLabel": "Profil du médecin",
+    "title": "Modifier le top 3 des procédures",
+    "description": "Choisissez jusqu’à 3 procédures parmi celles sélectionnées.",
+    "empty": "Vous devez sélectionner des procédures avant de choisir votre top 3.",
+    "selectedCount": "{count}/3 sélectionnées",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "proceduresModal": {
+    "profileLabel": "Profil du médecin",
+    "title": "Modifier les catégories et procédures",
+    "categories": "Catégories",
+    "outsideSpecialties": "En dehors des spécialités sélectionnées",
+    "procedures": "Procédures",
+    "description": "Sélectionnez des procédures dans les catégories choisies.",
+    "selectedCount": "{count} sélectionnées",
+    "emptyCategories": "Sélectionnez une catégorie pour voir les procédures associées.",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "specialtiesModal": {
+    "profileLabel": "Profil du médecin",
+    "title": "Modifier les spécialités",
+    "cancel": "Annuler",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "doctorEditProfile": {
+    "doctorProfile": "Profil du médecin",
+    "title": "Modifier le profil",
+    "fullName": "Nom complet",
+    "doctorNamePlaceholder": "Nom du médecin",
+    "emailCannotEdit": "E-mail (ne peut pas être modifié)",
+    "emailPlaceholder": "E-mail",
+    "yearsOfExperience": "Années d’expérience",
+    "yearsPlaceholder": "0",
+    "clinicName": "Nom de la clinique",
+    "clinicNamePlaceholder": "Nom de la clinique",
+    "specialties": "Spécialités",
+    "categories": "Catégories",
+    "procedures": "Procédures",
+    "topThreeProcedures": "Top 3 des procédures",
+    "noTopThree": "Vous n’avez pas encore sélectionné vos trois principales procédures.",
+    "saving": "Enregistrement...",
+    "saveChanges": "Enregistrer les modifications"
+  },
+  "changePassword": {
+    "security": "Sécurité",
+    "title": "Changer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "currentPasswordPlaceholder": "Entrez le mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "newPasswordPlaceholder": "Entrez le nouveau mot de passe",
+    "confirmPassword": "Confirmer le nouveau mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez le nouveau mot de passe",
+    "updating": "Mise à jour...",
+    "updatePassword": "Mettre à jour le mot de passe"
+  },
+  "subscriptionPlans": {
+    "freePlan": {
+      "title": "Forfait gratuit",
+      "price": "Gratuit",
+      "button": "Forfait actuel",
+      "benefits": [
+        "Profil visible sur estheticmatch",
+        "Visibilité sur la carte mondiale",
+        "Jusqu’à 10 mots-clés de procédures",
+        "Jusqu’à 4 photos avant/après",
+        "Lien de questions-réponses médicales chiffré"
+      ]
+    },
+    "proPlan": {
+      "title": "Forfait Pro",
+      "price": "359€",
+      "suffix": "/mois",
+      "button": "Passer au forfait supérieur",
+      "benefits": [
+        "Indexation illimitée des procédures",
+        "Indexé par Google et les outils IA",
+        "Galerie avant/après illimitée",
+        "Lien de consultation chiffré personnalisé",
+        "Liens de réservation et réseaux sociaux",
+        "QR code d’avis Google + quiz",
+        "Onboarding complet par estheticmatch"
+      ]
+    }
+  },
+  "language": {
+    "title": "Langue",
+    "changeLanguage": "Changer de langue",
+    "english": "Anglais",
+    "french": "Français",
+    "frenchNative": "Français"
+  },
+  "reportProblem": {
+    "feedback": "Retour",
+    "title": "Signaler un problème",
+    "subject": "Sujet",
+    "subjectPlaceholder": "Entrez le sujet...",
+    "message": "Message",
+    "messagePlaceholder": "Décrivez votre problème...",
+    "success": "Message envoyé avec succès.",
+    "sending": "Envoi...",
+    "send": "Envoyer"
+  }
+}

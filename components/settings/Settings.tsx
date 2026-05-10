@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   ChevronRight,
   Edit3,
@@ -21,7 +22,6 @@ import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
 import SubscriptionPlans from "./SubscriptionPlans";
 
-
 type SettingsPage =
   | "Edit Profile"
   | "Change Password"
@@ -31,7 +31,7 @@ type SettingsPage =
   | "Subscription"
   | "Delete Account";
 
-  type SettingsProps = {
+type SettingsProps = {
   user: any;
 };
 
@@ -46,9 +46,7 @@ const settingsGroups = [
     { label: "Report a Problem", icon: AlertCircle, danger: false },
     { label: "Terms & Conditions", icon: ShieldCheck, danger: false },
   ],
-  [
-    { label: "Delete Account", icon: Trash2, danger: true },
-  ]
+  [{ label: "Delete Account", icon: Trash2, danger: true }],
 ] as const;
 
 function SettingsRow({
@@ -62,6 +60,8 @@ function SettingsRow({
   danger?: boolean;
   onClick: () => void;
 }) {
+  const t = useTranslations("settings.settings");
+
   return (
     <button
       type="button"
@@ -71,7 +71,9 @@ function SettingsRow({
     >
       <span className="flex items-center gap-3">
         <Icon size={16} className={danger ? "text-red-500" : "text-black"} />
-        <span className={danger ? "text-red-500" : "text-black"}>{label}</span>
+        <span className={danger ? "text-red-500" : "text-black"}>
+          {t(`pages.${label}`)}
+        </span>
       </span>
 
       <ChevronRight
@@ -96,6 +98,7 @@ function SettingsSidebar({
     role: string;
   };
 }) {
+  const t = useTranslations("settings.settings");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const initials = user.name
@@ -116,8 +119,10 @@ function SettingsSidebar({
       {/* Mobile Header */}
       <div className="flex items-center justify-between md:hidden">
         <div>
-          <p className="text-xs text-white/60">Settings</p>
-          <h1 className="text-lg font-semibold text-white">{activePage}</h1>
+          <p className="text-xs text-white/60">{t("title")}</p>
+          <h1 className="text-lg font-semibold text-white">
+            {t(`pages.${activePage}`)}
+          </h1>
         </div>
 
         <button
@@ -139,14 +144,14 @@ function SettingsSidebar({
         `}
       >
         <h1 className="mb-6 mt-6 text-center text-lg font-semibold text-white md:mt-0">
-          Profile
+          {t("profile")}
         </h1>
 
         <div className="mb-8 flex flex-col items-center">
           {user.image ? (
             <img
               src={user.image}
-              alt="Profile"
+              alt={t("profileImageAlt")}
               className="h-24 w-24 rounded-full object-cover"
             />
           ) : (
@@ -156,13 +161,13 @@ function SettingsSidebar({
           )}
 
           <p className="mt-3 text-base font-medium text-white">
-            {user.name ?? "Unnamed User"}
+            {user.name ?? t("unnamedUser")}
           </p>
 
           <p className="text-xs text-white/60">{user.email}</p>
         </div>
 
-        <p className="mb-3 text-sm font-medium text-white">Settings</p>
+        <p className="mb-3 text-sm font-medium text-white">{t("title")}</p>
 
         <div className="mb-5 space-y-5">
           {settingsGroups.map((group, groupIndex) => (
@@ -175,7 +180,7 @@ function SettingsSidebar({
                   if (item.label === "Subscription" && user.role === "PATIENT") {
                     return false;
                   }
-                
+
                   return true;
                 })
                 .map((item) => (
@@ -195,21 +200,9 @@ function SettingsSidebar({
   );
 }
 
-function PlaceholderPanel({ title }: { title: string }) {
-  return (
-    <div className="flex h-full min-h-[400px] flex-col justify-center rounded-2xl bg-white p-8">
-      <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
-        Settings
-      </p>
-      <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">{title}</h2>
-      <p className="mt-4 text-gray-500">
-        Placeholder component for {title} untill everything else is ready.
-      </p>
-    </div>
-  );
-}
 
 export default function Settings({ user }: SettingsProps) {
+  const t = useTranslations("settings");
   const [activePage, setActivePage] = useState<SettingsPage>("Edit Profile");
 
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -234,7 +227,6 @@ export default function Settings({ user }: SettingsProps) {
   return (
     <div className="h-screen w-full pl-2 pt-2">
       <div className="mx-auto flex h-full w-full max-w-8xl overflow-hidden rounded-t-xl rounded-tr-xl rounded-br-xl bg-white shadow-xl max-md:flex-col">
-
         <SettingsSidebar
           activePage={activePage}
           setActivePage={setActivePage}
@@ -249,18 +241,16 @@ export default function Settings({ user }: SettingsProps) {
                 doctorProfile={user.doctorProfile}
               />
             ) : (
-              <PatientEditProfile
-                user={user}
-              />
+              <PatientEditProfile user={user} />
             ))}
+
           {activePage === "Change Password" && <ChangePassword />}
           {activePage === "Subscription" && <SubscriptionPlans />}
           {activePage === "Language" && <LanguageSelector />}
           {activePage === "Report a Problem" && <ReportProblem />}
           {activePage === "Terms & Conditions" && <TermsAndConditions />}
-          {activePage === "Delete Account" && <PlaceholderPanel title="Delete Account" />}
+          {activePage === "Delete Account" && <TermsAndConditions />}
         </main>
-
       </div>
     </div>
   );

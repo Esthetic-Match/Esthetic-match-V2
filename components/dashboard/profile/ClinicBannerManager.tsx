@@ -5,6 +5,7 @@ import ClinicBanner from "./UI/ClinicBanner";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
 import { handleImageUpload } from "@/utils/dashboard/helper";
+import { useTranslations } from "next-intl";
 
 const fallbackBanner = "/dev/clinic-banner-placeholder.jpg";
 

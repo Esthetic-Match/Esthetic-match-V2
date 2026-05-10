@@ -1,0 +1,129 @@
+{
+  "imageUploadModal": {
+    "title": "Télécharger une nouvelle image",
+    "description": "Téléchargez une nouvelle image ou supprimez l’image actuelle.",
+    "close": "Fermer la fenêtre",
+    "delete": "Supprimer l’image",
+    "uploadLabel": "Ajouter une photo de la clinique"
+  },
+  "uploadImageWidget": {
+    "defaultLabel": "Ajouter une image",
+    "selected": "Sélectionnée :",
+    "upload": "Télécharger l’image",
+    "uploading": "Téléchargement...",
+    "success": "Image téléchargée avec succès.",
+    "previewAlt": "Aperçu de l’image sélectionnée",
+    "errors": {
+      "invalidImage": "Veuillez sélectionner une image valide.",
+      "selectFirst": "Veuillez d’abord sélectionner une image.",
+      "generic": "Une erreur est survenue أثناء le téléchargement."
+    }
+  },
+  "common": {
+    "notAvailable": "Non disponible",
+    "notAvailableShort": "ND",
+    "upgradeToPremium": "Passer au forfait Premium"
+  },
+  "header": {
+    "profilePhoto": "photo de profil",
+    "editProfilePhoto": "Modifier la photo de profil",
+    "specialty": "Spécialité",
+    "topProcedures": "Top 3 des procédures",
+    "noTopProcedures": "Aucune procédure principale sélectionnée",
+    "yearsOfExperience": "Années d’expérience",
+    "years": "{count} ans",
+    "editProfile": "Modifier le profil"
+  },
+  "expertise": {
+    "title": "Expertise",
+    "procedures": "Procédures (mots-clés)",
+    "noProcedures": "Aucune procédure ajoutée pour le moment.",
+    "moreProcedures": "+{count} procédures supplémentaires masquées",
+    "moreAvailable": "Passez au forfait Premium pour afficher toutes vos procédures",
+    "standardProfile": "Forfait Standard",
+    "standardDescription": "Seulement 5 procédures sont visibles"
+  },
+  "consultationPrices": {
+    "title": "Tarifs des consultations",
+    "inClinic": "Consultation en clinique",
+    "online": "Pré-consultation en ligne"
+  },
+  "booking": {
+    "title": "Liens de réservation",
+    "open": "Ouvrir le lien de réservation",
+    "hiddenTitle": "Les liens de réservation sont masqués",
+    "hiddenDescription": "Passez au forfait Premium pour les afficher"
+  },
+  "social": {
+    "title": "Réseaux sociaux",
+    "open": "Ouvrir le réseau social",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+    "hiddenTitle": "Les liens sociaux sont masqués",
+    "hiddenDescription": "Passez au forfait Premium pour les afficher"
+  },
+  "googleReviews": {
+    "googleIconAlt": "Icône Google",
+    "ratingSummary": "Avis : {rating}★ ({count} utilisateurs)",
+    "connect": "Connecter la note Google",
+    "googleBusiness": "Google Business",
+    "selectClinic": "Sélectionnez la fiche de votre clinique",
+    "searchPlaceholder": "Rechercher le nom exact de l’établissement Google",
+    "searching": "Recherche...",
+    "search": "Rechercher",
+    "unnamedBusiness": "Établissement sans nom",
+    "selectToFetchRating": "Sélectionner pour récupérer la note",
+    "emptySearchHint": "Recherchez le nom exact de l’établissement Google Maps, et non l’adresse.",
+    "saving": "Enregistrement de la note Google..."
+  },
+  "gallery": {
+    "title": "Ma galerie photo",
+    "before": "Avant",
+    "after": "Après",
+    "addFirstPremium": "Ajoutez vos premières photos avant/après",
+    "addFirstFree": "Ajoutez vos 3 premières photos avant/après",
+    "editGallery": "Modifier la galerie",
+    "addMore": "Ajouter plus de photos avant/après",
+    "moreLocked": "+5 de plus",
+    "upgrade": "Passez au forfait Premium pour voir tous vos résultats"
+  },
+  "galleryUpload": {
+    "title": "Télécharger des photos avant/après",
+    "description": "Sélectionnez d’abord les deux images, puis téléchargez-les ensemble.",
+    "uploading": "Téléchargement...",
+    "upload": "Télécharger ({count}/2) images",
+    "chooseImage": "Choisir l’image {type}",
+    "formats": "JPG, PNG ou WebP"
+  },
+  "PatientProfile": {
+    "profilePhoto": "photo de profil",
+    "editProfilePhoto": "Modifier la photo de profil",
+    "editProfile": "Modifier le profil",
+    "gender": "Genre",
+    "dateOfBirth": "Date de naissance",
+    "preferredConsultation": "Consultation préférée",
+    "contact": "Contact",
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "preferences": "Préférences",
+    "consultation": "Consultation",
+    "language": "Langue",
+    "payments": "Paiements",
+    "paymentConnected": "Profil de paiement connecté.",
+    "noPaymentConnected": "Aucun profil de paiement connecté pour le moment.",
+    "notes": "Notes",
+    "noNotes": "Aucune note ajoutée pour le moment."
+  },
+  "dashboardLayout": {
+    "logoAlt": "Esthetic Match",
+    "brandName": "Esthetic Match",
+    "easterEgg": "T beau tox?",
+    "sidebar": {
+      "messages": "Messages",
+      "profile": "Profil",
+      "settings": "Paramètres",
+      "logout": "Déconnexion",
+      "avatarAlt": "Avatar"
+    }
+  }
+}

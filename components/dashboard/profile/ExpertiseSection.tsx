@@ -2,6 +2,7 @@ import { Lock, Sparkle } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { formatLabel } from "@/utils/dashboard/helper";
 import UpgradeButton from "./UI/UpgradeButton"
+import { useTranslations } from "next-intl";
 
 type ExpertiseSectionProps = {
   procedureIds: string[];
@@ -15,6 +16,7 @@ export default function ExpertiseSection({
   const isFreePlan = paidPlan === "free";
   const visibleProcedures = isFreePlan ? procedureIds.slice(0, 5) : procedureIds;
   const hiddenCount = procedureIds.length - visibleProcedures.length;
+  const t = useTranslations("dashboard");
 
   return (
     <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
@@ -23,13 +25,13 @@ export default function ExpertiseSection({
           <div>
             <div className="mb-7 flex items-center gap-3">
               <Sparkle size={20} className="text-[#d8bd8d]" />
-              <h2 className="text-sm font-bold uppercase tracking-[0.22em] text-[#283C5D]">
-                Expertise
-              </h2>
+                <h2 className="text-sm font-bold uppercase tracking-[0.22em] text-[#283C5D]">
+                  {t("expertise.title")}
+                </h2>
             </div>
 
             <p className="mb-4 text-sm font-medium text-[#283C5D]/80">
-              Procedures (Keywords)
+              {t("expertise.procedures")}
             </p>
 
             {visibleProcedures.length > 0 ? (
@@ -44,8 +46,10 @@ export default function ExpertiseSection({
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-[#283C5D]/45">
-                No procedures added yet.
+              <p>
+                {t("expertise.moreProcedures", {
+                  count: hiddenCount,
+                })}
               </p>
             )}
 
@@ -54,12 +58,12 @@ export default function ExpertiseSection({
                 <Lock size={16} className="mt-0.5" />
                 <div>
                   <p>+{hiddenCount} more procedures hidden</p>
-                  <Link
-                    href="/dashboard/settings"
-                    className="text-[#F6C467] transition hover:text-[#283C5D]"
-                  >
-                    Upgrade to Premium to showcase all your procedures
-                  </Link>
+                    <Link
+                      href="/dashboard/settings"
+                      className="text-[#F6C467] transition hover:text-[#283C5D]"
+                    >
+                      {t("expertise.moreAvailable")}
+                    </Link>
                 </div>
               </div>
             ) : null}
@@ -69,10 +73,12 @@ export default function ExpertiseSection({
             <aside className="rounded-2xl bg-[#283C5D] p-8 text-center text-white shadow-md">
               <Sparkle size={26} className="mx-auto mb-5 text-[#d8bd8d]" />
 
-              <h3 className="text-lg font-semibold">Standard Plan</h3>
+              <h3 className="text-lg font-semibold">
+                {t("expertise.standardProfile")}
+              </h3>
 
               <p className="mt-3 text-sm text-white/60">
-                Only 5 procedures are visible
+                {t("expertise.standardDescription")}
               </p>
               <UpgradeButton/>
             </aside>

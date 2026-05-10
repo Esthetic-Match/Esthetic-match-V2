@@ -1,0 +1,152 @@
+{
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "profileImageAlt": "Profile",
+    "unnamedUser": "Unnamed User",
+    "pages": {
+      "Edit Profile": "Edit Profile",
+      "Change Password": "Change Password",
+      "Language": "Language",
+      "Report a Problem": "Report a Problem",
+      "Terms & Conditions": "Terms & Conditions",
+      "Subscription": "Subscription",
+      "Delete Account": "Delete Account"
+    }
+  },
+  "editProfile": {
+    "patientProfile": "Patient Profile",
+    "title": "Edit Profile",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "Email",
+    "dateOfBirth": "Date of birth",
+    "dateOfBirthPlaceholder": "Date of birth",
+    "gender": "Gender",
+    "phoneNumber": "Phone number",
+    "phonePlaceholder": "Eg. +321769864401",
+    "preferredConsultationType": "Preferred consultation type",
+    "preferredLanguage": "Preferred language",
+    "preferredLanguagePlaceholder": "English, Arabic, French...",
+    "saveChanges": "Save changes",
+    "saving": "Saving...",
+    "genderOptions": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "consultationOptions": {
+      "inClinic": "In clinic",
+      "online": "Online"
+    }
+  },
+  "topProceduresModal": {
+    "profileLabel": "Doctor Profile",
+    "title": "Edit Top 3 Procedures",
+    "description": "Choose up to 3 procedures from your selected procedures.",
+    "empty": "You need to select procedures before choosing your top three.",
+    "selectedCount": "{count}/3 selected",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes"
+  },
+  "proceduresModal": {
+    "profileLabel": "Doctor Profile",
+    "title": "Edit Categories & Procedures",
+    "categories": "Categories",
+    "outsideSpecialties": "Outside selected specialties",
+    "procedures": "Procedures",
+    "description": "Select procedures under your chosen categories.",
+    "selectedCount": "{count} selected",
+    "emptyCategories": "Select a category to view its linked procedures.",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes"
+  },
+  "specialtiesModal": {
+    "profileLabel": "Doctor Profile",
+    "title": "Edit Specialties",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes"
+  },
+  "doctorEditProfile": {
+    "doctorProfile": "Doctor Profile",
+    "title": "Edit Profile",
+    "fullName": "Full name",
+    "doctorNamePlaceholder": "Doctor name",
+    "emailCannotEdit": "Email (cannot be edited)",
+    "emailPlaceholder": "Email",
+    "yearsOfExperience": "Years of Experience",
+    "yearsPlaceholder": "0",
+    "clinicName": "Clinic name",
+    "clinicNamePlaceholder": "Clinic name",
+    "specialties": "Specialties",
+    "categories": "Categories",
+    "procedures": "Procedures",
+    "topThreeProcedures": "Top 3 Procedures",
+    "noTopThree": "You have not selected your top three procedures yet.",
+    "saving": "Saving...",
+    "saveChanges": "Save changes"
+  },
+  "changePassword": {
+    "security": "Security",
+    "title": "Change Password",
+    "currentPassword": "Current password",
+    "currentPasswordPlaceholder": "Enter current password",
+    "newPassword": "New password",
+    "newPasswordPlaceholder": "Enter new password",
+    "confirmPassword": "Confirm new password",
+    "confirmPasswordPlaceholder": "Confirm new password",
+    "updating": "Updating...",
+    "updatePassword": "Update password"
+  },
+  "subscriptionPlans": {
+    "freePlan": {
+      "title": "Free Plan",
+      "price": "Free",
+      "button": "Current Plan",
+      "benefits": [
+        "Visible profile on estheticmatch",
+        "Global map visibility",
+        "Up to 10 procedure keywords",
+        "Up to 4 before/after photos",
+        "Encrypted medical Q&A link"
+      ]
+    },
+    "proPlan": {
+      "title": "Pro Plan",
+      "price": "359€",
+      "suffix": "/mo",
+      "button": "Upgrade Plan",
+      "benefits": [
+        "Unlimited procedure indexing",
+        "Indexed by Google & AI tools",
+        "Unlimited before/after gallery",
+        "Custom encrypted consultation link",
+        "Booking & social media links",
+        "Google review QR code + quiz",
+        "Full onboarding by estheticmatch"
+      ]
+    }
+  },
+  "language": {
+    "title": "Language",
+    "changeLanguage": "Change Language",
+    "english": "English",
+    "french": "French",
+    "frenchNative": "Français"
+  },
+  "reportProblem": {
+    "feedback": "Feedback",
+    "title": "Report A Problem",
+    "subject": "Subject",
+    "subjectPlaceholder": "Enter subject...",
+    "message": "Message",
+    "messagePlaceholder": "Describe your issue...",
+    "success": "Message sent successfully.",
+    "sending": "Sending...",
+    "send": "Send"
+  }
+}

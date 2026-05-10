@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 type UploadAccess = "public" | "private";
 type UploadType = "profile" | "medical" | "banner";
@@ -17,9 +18,11 @@ export default function UploadImageWidget({
   type = "profile",
   access = "private",
   uploadPath,
-  label = "Add image",
+  label,
   onUploaded,
 }: UploadImageWidgetProps) {
+  const t = useTranslations("dashboard.uploadImageWidget");
+
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -31,7 +34,7 @@ export default function UploadImageWidget({
     if (!selectedFile) return;
 
     if (!selectedFile.type.startsWith("image/")) {
-      setMessage("Please select a valid image.");
+      setMessage(t("errors.invalidImage"));
       return;
     }
 
@@ -42,7 +45,7 @@ export default function UploadImageWidget({
 
   async function handleUpload() {
     if (!file) {
-      setMessage("Please select an image first.");
+      setMessage(t("errors.selectFirst"));
       return;
     }
 
@@ -90,13 +93,13 @@ export default function UploadImageWidget({
           ? data.publicUrl
           : data.objectPath;
 
-      setMessage("Image uploaded successfully.");
+      setMessage(t("success"));
       setFile(null);
       setPreviewUrl(null);
 
       onUploaded?.(returnedUrl, data.objectPath);
     } catch {
-      setMessage("Something went wrong while uploading.");
+      setMessage(t("errors.generic"));
     } finally {
       setIsUploading(false);
     }
@@ -115,20 +118,26 @@ export default function UploadImageWidget({
         {previewUrl ? (
           <img
             src={previewUrl}
-            alt="Selected image preview"
+            alt={t("previewAlt")}
             className="absolute inset-0 h-full w-full object-cover"
           />
         ) : (
           <>
-            <div className="pointer-events-none absolute inset-0 opacity-[0.75]">
+            <div className="pointer-events-none absolute inset-0 opacity-[0.35]">
               <div className="h-full w-full bg-[url('/images/dashboard/medical-pattern.png')] bg-cover bg-center" />
             </div>
+
+            <p className="relative z-10 text-sm font-semibold text-white">
+              {label || t("defaultLabel")}
+            </p>
           </>
         )}
       </label>
 
       {file && (
-        <p className="truncate text-xs text-gray-500">Selected: {file.name}</p>
+        <p className="truncate text-xs text-gray-500">
+          {t("selected")} {file.name}
+        </p>
       )}
 
       <button
@@ -137,10 +146,14 @@ export default function UploadImageWidget({
         disabled={!file || isUploading}
         className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {isUploading ? "Uploading..." : "Upload Image"}
+        {isUploading ? t("uploading") : t("upload")}
       </button>
 
-      {message && <p className="text-center text-sm text-gray-600">{message}</p>}
+      {message && (
+        <p className="text-center text-sm text-gray-600">
+          {message}
+        </p>
+      )}
     </div>
   );
 }

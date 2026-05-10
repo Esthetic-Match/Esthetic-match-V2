@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X, ImagePlus, Upload } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type BeforeAfterUploadModalProps = {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export default function BeforeAfterUploadModal({
   onClose,
   onUploaded,
 }: BeforeAfterUploadModalProps) {
+  const t = useTranslations("dashboard");
   const [beforeFile, setBeforeFile] = useState<File | null>(null);
   const [afterFile, setAfterFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -140,53 +142,59 @@ export default function BeforeAfterUploadModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
-      <div className="w-full max-w-3xl rounded-3xl bg-white p-6 shadow-2xl">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold text-[#283C5D]">
-              Upload Before & After Pictures
-            </h2>
-            <p className="mt-1 text-sm text-black/45">
-              Select both images first, then upload them together.
-            </p>
-          </div>
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
+  <div className="w-full max-w-3xl rounded-3xl bg-white p-6 shadow-2xl">
+    <div className="mb-6 flex items-center justify-between">
+      <div>
+        <h2 className="text-lg font-bold text-[#283C5D]">
+          {t("galleryUpload.title")}
+        </h2>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-black/60 transition hover:bg-black/10 active:scale-[0.98]"
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2">
-          <ImageInputBox
-            title="Before"
-            file={beforeFile}
-            onChange={setBeforeFile}
-          />
-
-          <ImageInputBox
-            title="After"
-            file={afterFile}
-            onChange={setAfterFile}
-          />
-        </div>
-
-        <button
-          type="button"
-          disabled={!canUpload}
-          onClick={handleUpload}
-          className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#283C5D] px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40"
-        >
-          <Upload size={17} />
-          {isUploading ? "Uploading..." : `Upload (${selectedCount}/2) images`}
-        </button>
+        <p className="mt-1 text-sm text-black/45">
+          {t("galleryUpload.description")}
+        </p>
       </div>
+
+      <button
+        type="button"
+        onClick={onClose}
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-black/60 transition hover:bg-black/10 active:scale-[0.98]"
+      >
+        <X size={18} />
+      </button>
     </div>
-  );
+
+    <div className="grid gap-5 md:grid-cols-2">
+      <ImageInputBox
+        title={t("gallery.before")}
+        file={beforeFile}
+        onChange={setBeforeFile}
+      />
+
+      <ImageInputBox
+        title={t("gallery.after")}
+        file={afterFile}
+        onChange={setAfterFile}
+      />
+    </div>
+
+    <button
+      type="button"
+      disabled={!canUpload}
+      onClick={handleUpload}
+      className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#283C5D] px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40"
+    >
+      <Upload size={17} />
+
+      {isUploading
+        ? t("galleryUpload.uploading")
+        : t("galleryUpload.upload", {
+            count: selectedCount,
+          })}
+    </button>
+  </div>
+</div>
+);
 }
 
 function ImageInputBox({
@@ -198,6 +206,7 @@ function ImageInputBox({
   file: File | null;
   onChange: (file: File | null) => void;
 }) {
+  const t = useTranslations("dashboard");
   const previewUrl = file ? URL.createObjectURL(file) : null;
 
   return (
@@ -226,11 +235,13 @@ function ImageInputBox({
             <ImagePlus size={30} className="mb-3 text-[#283C5D]/60" />
 
             <p className="text-sm font-medium text-[#283C5D]">
-              Choose {title.toLowerCase()} image
+              {t("galleryUpload.chooseImage", {
+                type: title.toLowerCase(),
+              })}
             </p>
 
             <p className="mt-1 text-xs text-[#283C5D]/45">
-              JPG, PNG or WebP
+              {t("galleryUpload.formats")}
             </p>
           </div>
         )}

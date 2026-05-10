@@ -13,6 +13,7 @@ import Image from "next/image";
 import { DM_Sans } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { useRouter, Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ type NavPanelProps = {
 };
 
 export function NavPanel({ children }: NavPanelProps) {
+  const t = useTranslations("dashboard.dashboardLayout");
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -38,80 +40,79 @@ export function NavPanel({ children }: NavPanelProps) {
     router.refresh();
   }
 
-  const links = [
-    {
-      label: "Messages",
-      href: "/dashboard/messages",
-      icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />,
-    },
-    {
-      label: "Profile",
-      href: `/dashboard/${userId}`,
-      icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
-    },
-    {
-      label: "Settings",
-      href: "/dashboard/settings",
-      icon: <IconSettings className="h-5 w-5 shrink-0 text-white" />,
-    },
-    {
-      label: "Logout",
-      href: "/",
-      icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />,
-    },
-  ];
+const links = [
+  {
+    label: t("sidebar.messages"),
+    href: "/dashboard/messages",
+    icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />,
+  },
+  {
+    label: t("sidebar.profile"),
+    href: `/dashboard/${userId}`,
+    icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
+  },
+  {
+    label: t("sidebar.settings"),
+    href: "/dashboard/settings",
+    icon: <IconSettings className="h-5 w-5 shrink-0 text-white" />,
+  },
+  {
+    label: t("sidebar.logout"),
+    href: "/",
+    icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />,
+  },
+];
 
   return (
-    <div className={`flex min-h-screen w-full bg-[#283C5D] ${dmSans.className}`}>
-      <aside className="sticky top-0 h-screen shrink-0 z-25">
-        <Sidebar open={open} setOpen={setOpen}>
-          <SidebarBody className="justify-between gap-10">
-            <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-              {open ? <Logo /> : <LogoIcon />}
+<div className={`flex min-h-screen w-full bg-[#283C5D] ${dmSans.className}`}>
+  <aside className="sticky top-0 h-screen shrink-0 z-25">
+    <Sidebar open={open} setOpen={setOpen}>
+      <SidebarBody className="justify-between gap-10">
+        <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+          {open ? <Logo /> : <LogoIcon />}
 
-              <div className="mt-8 flex flex-col gap-2">
-                {links.map((link, idx) => (
-                  <SidebarLink
-                    key={idx}
-                    link={link}
-                    onClick={
-                      link.label === "Logout" ? handleSignOut : undefined
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div>
+          <div className="mt-8 flex flex-col gap-2">
+            {links.map((link, idx) => (
               <SidebarLink
-                link={{
-                  label: "regard Debo, I'm a lobster !",
-                  href: userId ? `/dashboard/${userId}` : "/dashboard",
-                  icon: (
-                    <img
-                      src="/pp.png"
-                      className="h-7 w-7 shrink-0 rounded-full"
-                      width={50}
-                      height={50}
-                      alt="Avatar"
-                    />
-                  ),
-                }}
+                key={idx}
+                link={link}
+                onClick={link.label === t("sidebar.logout") ? handleSignOut : undefined}
               />
-            </div>
-          </SidebarBody>
-        </Sidebar>
-      </aside>
+            ))}
+          </div>
+        </div>
 
-      <main className="min-h-screen flex-1 overflow-x-hidden rounded-tl-2xl bg-white">
-        {children}
-      </main>
-    </div>
-  );
+        <div>
+          <SidebarLink
+            link={{
+              label: t("easterEgg"),
+              href: userId ? `/dashboard/${userId}` : "/dashboard",
+              icon: (
+                <img
+                  src="/pp.png"
+                  className="h-6 w-6 shrink-0 rounded-full"
+                  width={20}
+                  height={20}
+                  alt={t("sidebar.avatarAlt")}
+                />
+              ),
+            }}
+          />
+        </div>
+      </SidebarBody>
+    </Sidebar>
+  </aside>
+
+  <main className="min-h-screen flex-1 overflow-x-hidden rounded-tl-2xl bg-white">
+    {children}
+  </main>
+</div>
+);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////LOGO///////////////////////////////////////////////////////////////////////
 export const Logo = () => {
+  const t = useTranslations("dashboard.dashboardLayout");
+
   return (
     <Link
       href="/"
@@ -119,7 +120,7 @@ export const Logo = () => {
     >
       <Image
         src="/logo.svg"
-        alt="Esthetic Match"
+        alt={t("logoAlt")}
         width={28}
         height={28}
         className="mb-2"
@@ -130,7 +131,7 @@ export const Logo = () => {
         animate={{ opacity: 1 }}
         className="whitespace-pre font-thin text-white"
       >
-        Esthetic Match
+        {t("brandName")}
       </motion.span>
     </Link>
   );

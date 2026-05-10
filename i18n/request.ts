@@ -16,6 +16,11 @@ export default getRequestConfig(async ({ requestLocale }) => {
       signUp: (await import(`../messages/${locale}/signup.json`)).default,
       doctor: (await import(`../messages/${locale}/doctor.json`)).default,
       proceduresName: (await import(`../messages/${locale}/proceduresName.json`)).default,
+      dashboard: (await import(`../messages/${locale}/dashboard.json`)).default,
+      settings: (await import(`../messages/${locale}/settings.json`)).default,
+      specialitiesName: (await import(`../messages/${locale}/specialitiesName.json`)).default,
+      categoriesName: (await import(`../messages/${locale}/categoriesName.json`)).default,
+      subcategoriesName: (await import(`../messages/${locale}/subcategoriesName.json`)).default,
     },
   };
 });

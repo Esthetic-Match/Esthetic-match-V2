@@ -4,8 +4,10 @@ import { useState } from "react";
 import InputField from "../UI/InputField";
 import { MessageSquare } from "lucide-react";
 import TextareaField from "@/components/UI/textareaField";
+import { useTranslations } from "next-intl";
 
 export default function ReportProblem() {
+  const t = useTranslations("settings");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,55 +42,55 @@ export default function ReportProblem() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-auto flex h-full max-w-xl flex-col justify-center space-y-5"
-    >
-      <div>
-        <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
-          Feedback
-        </p>
-        <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
-          Report A Problem
-        </h2>
-        <div className="border-t border-gray-300 my-4"></div>
-      </div>
+<form
+  onSubmit={handleSubmit}
+  className="mx-auto flex h-full max-w-xl flex-col justify-center space-y-5"
+>
+  <div>
+    <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
+      {t("reportProblem.feedback")}
+    </p>
 
-      {/* SUBJECT */}
-      <InputField
-        label="Subject"
-        placeholder="Enter subject..."
-        value={subject}
-        onChange={setSubject}
-        icon={<MessageSquare size={16} />}
-      />
+    <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
+      {t("reportProblem.title")}
+    </h2>
 
-      {/* MESSAGE (keep textarea) */}
-      <TextareaField
-        label="Message"
-        placeholder="Describe your issue..."
-        value={message}
-        onChange={setMessage}
-        icon={<MessageSquare size={16} />}
-      />
+    <div className="border-t border-gray-300 my-4"></div>
+  </div>
 
-      {/* SUCCESS */}
-      {success && (
-        <p className="text-green-600 text-sm">
-          Message sent successfully.
-        </p>
-      )}
+  <InputField
+    label={t("reportProblem.subject")}
+    placeholder={t("reportProblem.subjectPlaceholder")}
+    value={subject}
+    onChange={setSubject}
+    icon={<MessageSquare size={16} />}
+  />
 
-      {/* BUTTON */}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full rounded-full bg-gradient-to-r 
-        from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-white text-sm font-medium 
-        transition hover:scale-[1.02] disabled:opacity-50"
-      >
-        {loading ? "Sending..." : "Send"}
-      </button>
-    </form>
+  <TextareaField
+    label={t("reportProblem.message")}
+    placeholder={t("reportProblem.messagePlaceholder")}
+    value={message}
+    onChange={setMessage}
+    icon={<MessageSquare size={16} />}
+  />
+
+  {success && (
+    <p className="text-green-600 text-sm">
+      {t("reportProblem.success")}
+    </p>
+  )}
+
+  <button
+    type="submit"
+    disabled={loading}
+    className="w-full rounded-full bg-gradient-to-r 
+    from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-white text-sm font-medium 
+    transition hover:scale-[1.02] disabled:opacity-50"
+  >
+    {loading
+      ? t("reportProblem.sending")
+      : t("reportProblem.send")}
+  </button>
+</form>
   );
 }
