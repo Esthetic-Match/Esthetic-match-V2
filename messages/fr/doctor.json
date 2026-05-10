@@ -45,7 +45,8 @@
       },
       "location": {
         "title": "Adresse de la clinique",
-        "openMaps": "Ouvrir dans Google Maps"
+        "openMaps": "Ouvrir dans Google Maps",
+        "mapTitle": "Emplacement de {clinicName} sur Google Maps"
       },
       "reviews": {
         "title": "Avis Google",
@@ -53,15 +54,19 @@
         "viewGoogle": "Voir sur Google",
         "notAllowed": "Le médecin n’a pas encore activé les avis Google."
       },
-      "gallery": {
-        "title": "Galerie photo",
-        "before": "Avant",
-        "after": "Après",
-        "noImagesTitle": "Aucune image Avant / Après",
-        "noImagesDescription": "Ce médecin n’a pas encore ajouté d’images de transformation.",
-        "more": "+{count} de plus",
-        "moreDescription": "Plus de résultats sont disponibles sur ce profil médecin."
-      }
+  "gallery": {
+    "title": "Galerie photos",
+    "before": "Avant",
+    "after": "Après",
+    "noImagesTitle": "Aucune image avant/après",
+    "noImagesDescription": "Ce médecin n’a pas encore ajouté d’images de transformation de traitement.",
+    "more": "+{count} de plus",
+    "moreDescription": "Plus de résultats sont disponibles sur le profil de ce médecin.",
+    "showLess": "Afficher moins",
+    "viewMore": "Voir {count} de plus",
+    "beforeAlt": "Résultat avant traitement",
+    "afterAlt": "Résultat après traitement"
+  }
     }
   }
 }

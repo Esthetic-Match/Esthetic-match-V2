@@ -45,7 +45,8 @@
       },
       "location": {
         "title": "Clinic Location",
-        "openMaps": "Open in Google Maps"
+        "openMaps": "Open in Google Maps",
+        "mapTitle": "{clinicName} location on Google Maps"
       },
       "reviews": {
         "title": "Google Reviews",
@@ -53,15 +54,19 @@
         "viewGoogle": "View on Google",
         "notAllowed": "The doctor has not allowed Google reviews yet."
       },
-      "gallery": {
-        "title": "Photo Gallery",
-        "before": "Before",
-        "after": "After",
-        "noImagesTitle": "No Before & After Images",
-        "noImagesDescription": "This doctor has not added any treatment transformation images yet.",
-        "more": "+{count} more",
-        "moreDescription": "More results are available on this doctor profile."
-      }
+"gallery": {
+  "title": "Photo Gallery",
+  "before": "Before",
+  "after": "After",
+  "noImagesTitle": "No Before & After Images",
+  "noImagesDescription": "This doctor has not added any treatment transformation images yet.",
+  "more": "+{count} more",
+  "moreDescription": "More results are available on this doctor profile.",
+  "showLess": "Show less",
+  "viewMore": "View {count} more",
+  "beforeAlt": "Before treatment result",
+  "afterAlt": "After treatment result"
+}
     }
   }
 }

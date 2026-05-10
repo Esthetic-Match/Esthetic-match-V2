@@ -1,4 +1,5 @@
 import { MapPin } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 type GoogleMapsCardProps = {
   clinicName: string;
@@ -12,7 +13,7 @@ type GoogleMapsCardProps = {
   googlePlaceId: string | null;
 };
 
-export default function GoogleMapsCard({
+export default async function GoogleMapsCard({
   clinicName,
   workAddress,
   city,
@@ -22,6 +23,8 @@ export default function GoogleMapsCard({
   workLongitude,
   googleMapsUri,
 }: GoogleMapsCardProps) {
+  const t = await getTranslations("doctor.doctor.profile.location");
+
   const fullAddress = [workAddress, zipCode, city, country]
     .filter(Boolean)
     .join(", ");
@@ -56,22 +59,21 @@ export default function GoogleMapsCard({
             id="clinic-location-title"
             className="text-sm font-bold uppercase tracking-[0.18em] text-[#283C5D]"
           >
-            Clinic Location
+            {t("title")}
           </h2>
         </div>
 
-          {workLatitude && workLongitude ? (
-            <>
-              <meta itemProp="latitude" content={String(workLatitude)} />
-              <meta itemProp="longitude" content={String(workLongitude)} />
-            </>
-          ) : null}
-
+        {workLatitude && workLongitude ? (
+          <>
+            <meta itemProp="latitude" content={String(workLatitude)} />
+            <meta itemProp="longitude" content={String(workLongitude)} />
+          </>
+        ) : null}
       </div>
 
       <div className="h-48 w-full border-t border-b border-[#d8bd8d]">
         <iframe
-          title={`${clinicName} location on Google Maps`}
+          title={t("mapTitle", { clinicName })}
           src={embedSrc}
           className="h-full w-full"
           loading="lazy"
@@ -87,7 +89,7 @@ export default function GoogleMapsCard({
           itemProp="hasMap"
           className="inline-flex w-full items-center justify-center rounded-full border border-[#d8bd8d]/60 px-6 py-2.5 text-sm font-semibold text-[#283C5D] transition hover:bg-[#53637d] hover:text-white"
         >
-          Open in Google Maps
+          {t("openMaps")}
         </a>
       </div>
     </article>
