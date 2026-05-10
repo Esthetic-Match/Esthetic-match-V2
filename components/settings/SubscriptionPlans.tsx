@@ -1,37 +1,41 @@
+import { useTranslations } from "next-intl";
+
 export default function SubscriptionPlans() {
+  const t = useTranslations("settings.subscriptionPlans");
+
   return (
     <div className="flex h-full w-full items-center justify-center">
-        <div className="flex max-w-3xl gap-6 max-md:flex-col">
-          <PlanCard
-            title="Free Plan"
-            price="Free"
-            benefits={[
-              "Visible profile on estheticmatch",
-              "Global map visibility",
-              "Up to 10 procedure keywords",
-              "Up to 4 before/after photos",
-              "Encrypted medical Q&A link",
-            ]}
-            buttonLabel="Current Plan"
-          />
+      <div className="flex max-w-3xl gap-6 max-md:flex-col">
+        <PlanCard
+          title={t("freePlan.title")}
+          price={t("freePlan.price")}
+          benefits={[
+            t("freePlan.benefits.0"),
+            t("freePlan.benefits.1"),
+            t("freePlan.benefits.2"),
+            t("freePlan.benefits.3"),
+            t("freePlan.benefits.4"),
+          ]}
+          buttonLabel={t("freePlan.button")}
+        />
 
-          <PlanCard
-            title="Pro Plan"
-            price="359€"
-            suffix="/mo"
-            highlighted
-            benefits={[
-              "Unlimited procedure indexing",
-              "Indexed by Google & AI tools",
-              "Unlimited before/after gallery",
-              "Custom encrypted consultation link",
-              "Booking & social media links",
-              "Google review QR code + quiz",
-              "Full onboarding by estheticmatch",
-            ]}
-            buttonLabel="Upgrade Plan"
-          />
-        </div>
+        <PlanCard
+          title={t("proPlan.title")}
+          price={t("proPlan.price")}
+          suffix={t("proPlan.suffix")}
+          highlighted
+          benefits={[
+            t("proPlan.benefits.0"),
+            t("proPlan.benefits.1"),
+            t("proPlan.benefits.2"),
+            t("proPlan.benefits.3"),
+            t("proPlan.benefits.4"),
+            t("proPlan.benefits.5"),
+            t("proPlan.benefits.6"),
+          ]}
+          buttonLabel={t("proPlan.button")}
+        />
+      </div>
     </div>
   );
 }
@@ -52,7 +56,8 @@ function PlanCard({
   highlighted?: boolean;
 }) {
   return (
-    <div className={`flex min-h-[330px] flex-1 flex-col  rounded-xl border bg-white p-6 shadow-md ${
+    <div
+      className={`flex min-h-[330px] flex-1 flex-col rounded-xl border bg-white p-6 shadow-md ${
         highlighted ? "border-[#d8bd8d]" : "border-gray-200"
       }`}
     >
@@ -66,6 +71,7 @@ function PlanCard({
 
       <div className="mb-4 flex items-end gap-1">
         <h2 className="text-4xl font-bold text-black">{price}</h2>
+
         {suffix ? (
           <span className="mb-1 text-sm font-medium text-gray-500">
             {suffix}
@@ -73,8 +79,8 @@ function PlanCard({
         ) : null}
       </div>
 
-      <div className="border-t border-gray-300 my-4"/>
-      
+      <div className="border-t border-gray-300 my-4" />
+
       <ul className="mb-8 space-y-3 text-xs text-black">
         {benefits.map((benefit) => (
           <li key={benefit} className="flex items-start gap-2">

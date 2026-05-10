@@ -4,8 +4,10 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import InputField from "../UI/InputField";
 import { Lock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function ChangePassword() {
+  const t = useTranslations("settings");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -61,64 +63,68 @@ export default function ChangePassword() {
   }
 
   return (
-    <form
-      onSubmit={handleChangePassword}
-      className="mx-auto flex h-full max-w-xl flex-col justify-center space-y-5"
-    >
-      <div>
-        <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
-          Security
-        </p>
-        <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
-          Change Password
-        </h2>
-        <div className="border-t border-gray-300 my-4"></div>
-      </div>
+<form
+  onSubmit={handleChangePassword}
+  className="mx-auto flex h-full max-w-xl flex-col justify-center space-y-5"
+>
+  <div>
+    <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
+      {t("changePassword.security")}
+    </p>
 
-      <InputField
-        label="Current password"
-        type="password"
-        placeholder="Enter current password"
-        value={currentPassword}
-        onChange={setCurrentPassword}
-        icon={<Lock size={16} />}
-      />
+    <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
+      {t("changePassword.title")}
+    </h2>
 
-      <InputField
-        label="New password"
-        type="password"
-        placeholder="Enter new password"
-        value={newPassword}
-        onChange={setNewPassword}
-        icon={<Lock size={16} />}
-      />
+    <div className="border-t border-gray-300 my-4"></div>
+  </div>
 
-      <InputField
-        label="Confirm new password"
-        type="password"
-        placeholder="Confirm new password"
-        value={confirmPassword}
-        onChange={setConfirmPassword}
-        icon={<Lock size={16} />}
-      />
+  <InputField
+    label={t("changePassword.currentPassword")}
+    type="password"
+    placeholder={t("changePassword.currentPasswordPlaceholder")}
+    value={currentPassword}
+    onChange={setCurrentPassword}
+    icon={<Lock size={16} />}
+  />
 
-      {errorMessage ? (
-        <p className="text-sm text-red-500">{errorMessage}</p>
-      ) : null}
+  <InputField
+    label={t("changePassword.newPassword")}
+    type="password"
+    placeholder={t("changePassword.newPasswordPlaceholder")}
+    value={newPassword}
+    onChange={setNewPassword}
+    icon={<Lock size={16} />}
+  />
 
-      {successMessage ? (
-        <p className="text-sm text-green-600">{successMessage}</p>
-      ) : null}
+  <InputField
+    label={t("changePassword.confirmPassword")}
+    type="password"
+    placeholder={t("changePassword.confirmPasswordPlaceholder")}
+    value={confirmPassword}
+    onChange={setConfirmPassword}
+    icon={<Lock size={16} />}
+  />
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="rounded-full bg-gradient-to-r 
-        from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white 
-        transition hover:bg-[#d8bd8d] disabled:opacity-50"
-      >
-        {isLoading ? "Updating..." : "Update password"}
-      </button>
-    </form>
+  {errorMessage ? (
+    <p className="text-sm text-red-500">{errorMessage}</p>
+  ) : null}
+
+  {successMessage ? (
+    <p className="text-sm text-green-600">{successMessage}</p>
+  ) : null}
+
+  <button
+    type="submit"
+    disabled={isLoading}
+    className="rounded-full bg-gradient-to-r 
+    from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white 
+    transition hover:bg-[#d8bd8d] disabled:opacity-50"
+  >
+    {isLoading
+      ? t("changePassword.updating")
+      : t("changePassword.updatePassword")}
+  </button>
+</form>
   );
 }

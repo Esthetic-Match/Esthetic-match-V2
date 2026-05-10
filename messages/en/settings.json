@@ -89,5 +89,64 @@
     "noTopThree": "You have not selected your top three procedures yet.",
     "saving": "Saving...",
     "saveChanges": "Save changes"
+  },
+  "changePassword": {
+    "security": "Security",
+    "title": "Change Password",
+    "currentPassword": "Current password",
+    "currentPasswordPlaceholder": "Enter current password",
+    "newPassword": "New password",
+    "newPasswordPlaceholder": "Enter new password",
+    "confirmPassword": "Confirm new password",
+    "confirmPasswordPlaceholder": "Confirm new password",
+    "updating": "Updating...",
+    "updatePassword": "Update password"
+  },
+  "subscriptionPlans": {
+    "freePlan": {
+      "title": "Free Plan",
+      "price": "Free",
+      "button": "Current Plan",
+      "benefits": [
+        "Visible profile on estheticmatch",
+        "Global map visibility",
+        "Up to 10 procedure keywords",
+        "Up to 4 before/after photos",
+        "Encrypted medical Q&A link"
+      ]
+    },
+    "proPlan": {
+      "title": "Pro Plan",
+      "price": "359€",
+      "suffix": "/mo",
+      "button": "Upgrade Plan",
+      "benefits": [
+        "Unlimited procedure indexing",
+        "Indexed by Google & AI tools",
+        "Unlimited before/after gallery",
+        "Custom encrypted consultation link",
+        "Booking & social media links",
+        "Google review QR code + quiz",
+        "Full onboarding by estheticmatch"
+      ]
+    }
+  },
+  "language": {
+    "title": "Language",
+    "changeLanguage": "Change Language",
+    "english": "English",
+    "french": "French",
+    "frenchNative": "Français"
+  },
+  "reportProblem": {
+    "feedback": "Feedback",
+    "title": "Report A Problem",
+    "subject": "Subject",
+    "subjectPlaceholder": "Enter subject...",
+    "message": "Message",
+    "messagePlaceholder": "Describe your issue...",
+    "success": "Message sent successfully.",
+    "sending": "Sending...",
+    "send": "Send"
   }
 }

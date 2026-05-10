@@ -89,5 +89,64 @@
     "noTopThree": "Vous n’avez pas encore sélectionné vos trois principales procédures.",
     "saving": "Enregistrement...",
     "saveChanges": "Enregistrer les modifications"
+  },
+  "changePassword": {
+    "security": "Sécurité",
+    "title": "Changer le mot de passe",
+    "currentPassword": "Mot de passe actuel",
+    "currentPasswordPlaceholder": "Entrez le mot de passe actuel",
+    "newPassword": "Nouveau mot de passe",
+    "newPasswordPlaceholder": "Entrez le nouveau mot de passe",
+    "confirmPassword": "Confirmer le nouveau mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez le nouveau mot de passe",
+    "updating": "Mise à jour...",
+    "updatePassword": "Mettre à jour le mot de passe"
+  },
+  "subscriptionPlans": {
+    "freePlan": {
+      "title": "Forfait gratuit",
+      "price": "Gratuit",
+      "button": "Forfait actuel",
+      "benefits": [
+        "Profil visible sur estheticmatch",
+        "Visibilité sur la carte mondiale",
+        "Jusqu’à 10 mots-clés de procédures",
+        "Jusqu’à 4 photos avant/après",
+        "Lien de questions-réponses médicales chiffré"
+      ]
+    },
+    "proPlan": {
+      "title": "Forfait Pro",
+      "price": "359€",
+      "suffix": "/mois",
+      "button": "Passer au forfait supérieur",
+      "benefits": [
+        "Indexation illimitée des procédures",
+        "Indexé par Google et les outils IA",
+        "Galerie avant/après illimitée",
+        "Lien de consultation chiffré personnalisé",
+        "Liens de réservation et réseaux sociaux",
+        "QR code d’avis Google + quiz",
+        "Onboarding complet par estheticmatch"
+      ]
+    }
+  },
+  "language": {
+    "title": "Langue",
+    "changeLanguage": "Changer de langue",
+    "english": "Anglais",
+    "french": "Français",
+    "frenchNative": "Français"
+  },
+  "reportProblem": {
+    "feedback": "Retour",
+    "title": "Signaler un problème",
+    "subject": "Sujet",
+    "subjectPlaceholder": "Entrez le sujet...",
+    "message": "Message",
+    "messagePlaceholder": "Décrivez votre problème...",
+    "success": "Message envoyé avec succès.",
+    "sending": "Envoi...",
+    "send": "Envoyer"
   }
 }
