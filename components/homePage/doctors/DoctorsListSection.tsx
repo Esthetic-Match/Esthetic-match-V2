@@ -17,7 +17,8 @@ type PublicDoctor = {
 async function getDoctors(filters?: {
   q?: string;
   specialty?: string;
-  procedure?: string;
+  category?: string;
+  procedures?: string;
   location?: string;
   minRating?: string;
 }): Promise<PublicDoctor[]> {
@@ -29,7 +30,8 @@ async function getDoctors(filters?: {
 
   if (filters?.q) params.set("q", filters.q);
   if (filters?.specialty) params.set("specialty", filters.specialty);
-  if (filters?.procedure) params.set("procedure", filters.procedure);
+  if (filters?.category) params.set("category", filters.category);
+  if (filters?.procedures) params.set("procedures", filters.procedures);
   if (filters?.location) params.set("location", filters.location);
   if (filters?.minRating) params.set("minRating", filters.minRating);
 
@@ -66,15 +68,14 @@ export default async function DoctorsListSection({
   filters?: {
     q?: string;
     specialty?: string;
-    procedure?: string;
+    category?: string;
+    procedures?: string;
     location?: string;
     minRating?: string;
   };
 }) {
   const t = await getTranslations("home.doctors");
   const doctors = await getDoctors(filters);
-
-
 
   const jsonLd = {
     "@context": "https://schema.org",

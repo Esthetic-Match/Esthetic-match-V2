@@ -1,0 +1,240 @@
+{
+  "categoriesPage": {
+    "seo": {
+      "itemListName": "Aesthetic and medical treatment categories"
+    },
+    "hero": {
+      "eyebrow": "Treatment Categories",
+      "title": "Explore aesthetic, medical and wellness treatments",
+      "description": "Browse each major category, understand what it includes, and explore the subcategories used to match patients with the right doctors."
+    },
+      "recommendations": {
+    "eyebrow": "Esthetic Match picks",
+    "title": "Doctor recommendations for this category",
+    "ratingLabel": "4.0+ Google rated"
+  },
+    "selectedProceduresTitle": "Selected procedures",
+    "selectedProceduresDescription": "{count}/3 procedures selected",
+    "chooseProceduresTitle": "Choose procedures",
+    "chooseProceduresDescription": "Choose up to 3 procedures and we’ll find the best doctors for you.",
+    "findBestDoctors": "Find best doctors",
+    "chooseProceduresButton": "Choose procedures",
+    "categoryLabel": "Category {count}",
+    "proceduresCount": "{count} procedures",
+    "findDoctors": "Find doctors",
+    "viewDetails": "View Details",
+
+    "categories": {
+      "non_surgical_face": {
+        "title": "Non-surgical face",
+        "description": "Minimally invasive facial treatments focused on volume, skin quality, lifting, resurfacing, and rejuvenation."
+      },
+      "non_surgical_body": {
+        "title": "Non-surgical body",
+        "description": "Body contouring, fat reduction, weight management, and wellness-led treatments without surgery."
+      },
+      "aesthetic_dentistry": {
+        "title": "Aesthetic dentistry",
+        "description": "Cosmetic dental treatments designed to improve smile shape, brightness, balance, and restoration."
+      },
+      "hair_medicine": {
+        "title": "Hair medicine",
+        "description": "Hair restoration, scalp treatments, and surgical or non-surgical solutions for hair health."
+      },
+      "muscle_tone_and_ems": {
+        "title": "Muscle tone & EMS",
+        "description": "Electrical muscle stimulation treatments for body sculpting, facial toning, and performance support."
+      },
+      "iv_therapy": {
+        "title": "IV therapy",
+        "description": "Intravenous hydration, vitamins, recovery, immunity, energy, and beauty-focused wellness drips."
+      },
+      "wellness_and_drainage": {
+        "title": "Wellness & drainage",
+        "description": "Treatments supporting circulation, lymphatic drainage, relaxation, recovery, and general wellbeing."
+      },
+      "surgical_face": {
+        "title": "Surgical face",
+        "description": "Surgical facial procedures for lifting, contouring, reshaping, and structural facial refinement."
+      },
+      "surgical_body": {
+        "title": "Surgical body",
+        "description": "Surgical body contouring, breast surgery, intimate procedures, liposuction, and body reshaping."
+      },
+      "longevity_medicine": {
+        "title": "Longevity medicine",
+        "description": "Diagnostics, regenerative medicine, performance optimization, and medical longevity programs."
+      }
+    },
+
+    "subcategories": {
+      "hyaluronic_acid_fillers": {
+        "title": "Hyaluronic acid fillers",
+        "description": "Volume restoration and contour enhancement using hyaluronic acid-based injectables."
+      },
+      "biostimulators_and_skin_quality_injections": {
+        "title": "Biostimulators & skin quality injections",
+        "description": "Injectable treatments designed to improve collagen production, elasticity, hydration, and skin quality."
+      },
+      "botulinum_toxin": {
+        "title": "Botulinum toxin",
+        "description": "Neuromodulator treatments used to soften dynamic lines and refine facial expression balance."
+      },
+      "thread_lifting": {
+        "title": "Thread lifting",
+        "description": "Minimally invasive thread-based lifting procedures for subtle facial tightening and repositioning."
+      },
+      "radiofrequency_and_hifu": {
+        "title": "Radiofrequency & HIFU",
+        "description": "Energy-based tightening treatments using radiofrequency, ultrasound, or HIFU technology."
+      },
+      "lasers_and_light_devices": {
+        "title": "Lasers & light devices",
+        "description": "Laser and light-based treatments for pigmentation, texture, rejuvenation, and skin correction."
+      },
+      "peeling_needling_and_skin_resurfacing": {
+        "title": "Peeling, needling & skin resurfacing",
+        "description": "Resurfacing treatments that improve texture, pores, glow, and superficial skin irregularities."
+      },
+      "skin_diagnosis": {
+        "title": "Skin diagnosis",
+        "description": "Digital or clinical skin analysis used to guide personalized treatment planning."
+      },
+
+      "fat_reduction_and_body_contouring": {
+        "title": "Fat reduction & body contouring",
+        "description": "Non-surgical body shaping treatments targeting localized fat, firmness, and contour."
+      },
+      "weight_management_and_nutrition": {
+        "title": "Weight management & nutrition",
+        "description": "Medical and nutritional support for weight loss, body composition, and metabolic goals."
+      },
+
+      "veneers_and_restoration": {
+        "title": "Veneers & restoration",
+        "description": "Smile-enhancing restorations including veneers, bonding, crowns, and cosmetic repairs."
+      },
+      "whitening": {
+        "title": "Whitening",
+        "description": "Dental whitening treatments designed to improve brightness and reduce visible staining."
+      },
+      "gum_and_shape": {
+        "title": "Gum & shape",
+        "description": "Gum contouring and tooth-shape refinements for improved smile balance."
+      },
+
+      "non_surgical_hair_treatments": {
+        "title": "Non-surgical hair treatments",
+        "description": "Scalp and injectable treatments supporting hair density, growth, and scalp health."
+      },
+      "surgical_hair_procedures": {
+        "title": "Surgical hair procedures",
+        "description": "Surgical solutions for hairline, forehead, and hair restoration concerns."
+      },
+
+      "face": {
+        "title": "Face",
+        "description": "Muscle stimulation treatments designed for facial toning and contour support."
+      },
+      "body": {
+        "title": "Body",
+        "description": "EMS-based body treatments supporting muscle tone, sculpting, and performance."
+      },
+
+      "general_and_hydration": {
+        "title": "General & hydration",
+        "description": "General IV drips focused on hydration, replenishment, and tailored wellness support."
+      },
+      "vitamins_and_antioxidants": {
+        "title": "Vitamins & antioxidants",
+        "description": "Vitamin, mineral, and antioxidant infusions for beauty, immunity, and recovery."
+      },
+      "energy_performance_and_recovery": {
+        "title": "Energy, performance & recovery",
+        "description": "IV treatments designed for energy, stress, exercise recovery, and performance support."
+      },
+      "wellness_and_beauty": {
+        "title": "Wellness & beauty",
+        "description": "IV protocols targeting glow, immunity, detox, hair, weight, and anti-aging support."
+      },
+
+      "drainage_and_circulation": {
+        "title": "Drainage & circulation",
+        "description": "Treatments supporting lymphatic flow, circulation, swelling reduction, and vascular concerns."
+      },
+      "recovery_and_relaxation": {
+        "title": "Recovery & relaxation",
+        "description": "Wellness treatments designed for recovery, relaxation, and overall body balance."
+      },
+
+      "facelifts_and_lifting": {
+        "title": "Facelifts & lifting",
+        "description": "Surgical lifting procedures for facial sagging, neck definition, and facial rejuvenation."
+      },
+      "eyes_and_brows": {
+        "title": "Eyes & brows",
+        "description": "Surgical procedures focused on the eyelids, brows, and eye-area definition."
+      },
+      "nose": {
+        "title": "Nose",
+        "description": "Nasal surgery options for reshaping, refinement, correction, and revision."
+      },
+      "face_contouring_and_features": {
+        "title": "Face contouring & features",
+        "description": "Surgical refinement of facial structure, proportions, and individual facial features."
+      },
+      "lipofilling_and_fat_transfer": {
+        "title": "Lipofilling & fat transfer",
+        "description": "Fat transfer procedures used to restore facial volume and improve natural contour."
+      },
+
+      "liposuction": {
+        "title": "Liposuction",
+        "description": "Surgical fat removal and sculpting for targeted body areas."
+      },
+      "body_contouring_and_lifting": {
+        "title": "Body contouring & lifting",
+        "description": "Surgical reshaping and lifting procedures for excess skin, contour, and body definition."
+      },
+      "buttocks": {
+        "title": "Buttocks",
+        "description": "Buttock enhancement and reshaping through surgical augmentation or fat transfer."
+      },
+      "breast_surgery": {
+        "title": "Breast surgery",
+        "description": "Breast enhancement, reduction, lifting, reconstruction, and implant-related procedures."
+      },
+      "intimate_and_genital_surgery": {
+        "title": "Intimate & genital surgery",
+        "description": "Specialized intimate and genital procedures for functional or aesthetic concerns."
+      },
+      "foot_surgery": {
+        "title": "Foot surgery",
+        "description": "Aesthetic and corrective procedures for forefoot structure and appearance."
+      },
+
+      "biological_assessment_and_diagnostics": {
+        "title": "Biological assessment & diagnostics",
+        "description": "Testing and diagnostics used to assess biological age, metabolism, fitness, and longevity markers."
+      },
+      "cellular_and_regenerative_therapies": {
+        "title": "Cellular & regenerative therapies",
+        "description": "Regenerative treatments targeting cellular repair, systemic health, and longevity support."
+      },
+      "physical_and_energy_therapies": {
+        "title": "Physical & energy therapies",
+        "description": "Therapies using oxygen, light, cold, ozone, or energy-based systems for recovery and optimization."
+      },
+      "pharmacological_protocols": {
+        "title": "Pharmacological protocols",
+        "description": "Medical protocols using targeted medications or hormones for metabolic and longevity goals."
+      },
+      "programs_and_lifestyle": {
+        "title": "Programs & lifestyle",
+        "description": "Personalized longevity programs combining medical supervision, lifestyle, and prevention."
+      }
+    },
+    "specialistsTitle": "Specialists covering this category",
+    "subcategoriesTitle": "Subcategories & procedures"
+  }
+}

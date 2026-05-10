@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+function normalize(value: string) {
+  return value.toLowerCase().trim().replace(/\s+/g, "_");
+}
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -11,12 +15,26 @@ export async function GET(req: Request) {
     const location = searchParams.get("location")?.trim();
     const minRating = searchParams.get("minRating")?.trim();
 
-    const normalizedQ = q?.toLowerCase().replace(/\s+/g, "_");
-    const normalizedProcedure = category?.toLowerCase().replace(/\s+/g, "_");
-    const normalizedSpecialty = specialty?.toLowerCase().replace(/\s+/g, "_");
+    const procedures = searchParams
+      .get("procedures")
+      ?.split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    const normalizedQ = q ? normalize(q) : undefined;
+    const normalizedSpecialty = specialty ? normalize(specialty) : undefined;
+    const normalizedCategory = category ? normalize(category) : undefined;
+
+    const hasFilters =
+      q ||
+      specialty ||
+      category ||
+      location ||
+      minRating ||
+      (procedures && procedures.length > 0);
 
     const doctors = await prisma.doctorProfile.findMany({
-      take: q || specialty || category || location || minRating ? undefined : 4,
+      take: hasFilters ? undefined : 4,
       where: {
         AND: [
           q
@@ -44,6 +62,7 @@ export async function GET(req: Request) {
                 ],
               }
             : {},
+
           specialty
             ? {
                 specialtyIds: {
@@ -53,15 +72,25 @@ export async function GET(req: Request) {
                 },
               }
             : {},
+
           category
             ? {
-                procedureIds: {
-                  hasSome: [category, normalizedProcedure].filter(
+                subcategoryIds: {
+                  hasSome: [category, normalizedCategory].filter(
                     Boolean
                   ) as string[],
                 },
               }
             : {},
+
+          procedures && procedures.length > 0
+            ? {
+                procedureIds: {
+                  hasSome: procedures,
+                },
+              }
+            : {},
+
           location
             ? {
                 OR: [
@@ -70,6 +99,7 @@ export async function GET(req: Request) {
                 ],
               }
             : {},
+
           minRating
             ? {
                 googleRating: {

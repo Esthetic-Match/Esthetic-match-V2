@@ -30,7 +30,8 @@ export default async function DoctorsPage({
   searchParams: Promise<{
     q?: string;
     specialty?: string;
-    procedure?: string;
+    category?: string;
+    procedures?: string;
     location?: string;
     minRating?: string;
   }>;
