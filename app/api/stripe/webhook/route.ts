@@ -88,6 +88,13 @@ export async function POST(req: Request) {
           doctorProfileId: booking.doctorProfileId,
           activeChat: true,
           activatedAt: new Date(),
+          conversation: {
+            create: {
+              patientUserId: booking.patientUserId,
+              doctorProfileId: booking.doctorProfileId,
+              status: "ACTIVE",
+            },
+          },
         },
       });
     }

@@ -135,5 +135,21 @@
       "logout": "Déconnexion",
       "avatarAlt": "Avatar"
     }
+  },
+    "messages": {
+    "title": "Messages",
+    "subtitle": "Vos consultations en ligne actives",
+    "searchPlaceholder": "Rechercher une conversation...",
+    "loadingConversations": "Chargement des conversations...",
+    "noActiveChats": "Aucune conversation active",
+    "noActiveChatsDescription": "Les conversations de consultation en ligne apparaîtront ici.",
+    "profileAlt": "Profil",
+    "activeOnlineConsultation": "Consultation en ligne active",
+    "loadingMessages": "Chargement des messages...",
+    "startConversation": "Commencer la conversation",
+    "startConversationDescription": "Envoyez votre premier message au sujet de la consultation en ligne.",
+    "messagePlaceholder": "Écrivez votre message...",
+    "noConversationSelected": "Aucune conversation sélectionnée",
+    "noConversationSelectedDescription": "Sélectionnez une consultation en ligne active dans la colonne de gauche."
   }
 }
