@@ -7,11 +7,17 @@
     "pages": {
       "Edit Profile": "Edit Profile",
       "Change Password": "Change Password",
+      "Payment Details": "Payment Details",
       "Language": "Language",
       "Report a Problem": "Report a Problem",
       "Terms & Conditions": "Terms & Conditions",
       "Subscription": "Subscription",
       "Delete Account": "Delete Account"
+    },
+    "payments": {
+      "successTitle": "You finished your onboarding!",
+      "successDescription": "Your Stripe account is now connected and ready to receive payments in 24h !",
+      "goToDashboard": "Go to dashboard"
     }
   },
   "editProfile": {

@@ -95,14 +95,16 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         <BookingAndPrices
           inClinicPrice={profile?.inClinicPrice}
           onlineConsulPrice={profile?.onlineConsulPrice}
-          bookingLink={profile?.bookingLink}
-          socialMediaLink={profile?.SocialMediaLink}
+          bookingLinks={profile?.bookingLinks}
+          clinicName={profile?.clinicName}
           onUpdateProfile={updateDoctorProfile}
           workLatitude={profile?.workLatitude}
           workLongitude={profile?.workLongitude}
           googlePlaceId={profile?.googlePlaceId}
           googleReviewCount={profile?.googleReviewCount}
           googleRating={profile?.googleRating}
+          paidPlan={profile?.paidPlan}
+          inClinicLink={profile?.inClinicLink}
         />
         <Gallery userId={user.id} paidPlan={profile?.paidPlan}/>
     </div>

@@ -6,6 +6,7 @@ import GoogleReviewsCard from "./UI/GoogleReviewsCard";
 
 type PublicContactActionsSectionProps = {
   doctorProfile: {
+    id: string;
     clinicName: string;
     workAddress: string;
     city: string | null;
@@ -21,6 +22,7 @@ type PublicContactActionsSectionProps = {
     socialMediaLink: string | null;
     googleReviewCount: number | null;
     googleRating: number | null;
+    inClinicLink: string | null;
   };
 };
 
@@ -40,8 +42,10 @@ export default async function PublicContactActionsSection({
 
       <div className="grid gap-4 lg:grid-cols-3">
         <ConsultationPrices
+          doctorProfileId={doctorProfile.id}
           inClinicPrice={doctorProfile.inClinicPrice}
           onlineConsulPrice={doctorProfile.onlineConsulPrice}
+          inClinicLink={doctorProfile.inClinicLink}
         />
 
         <GoogleMapsCard

@@ -25,7 +25,10 @@
       "consultationPrices": {
         "title": "Consultation Prices",
         "inClinic": "In-clinic consultation",
-        "online": "Online pre-consultation"
+        "online": "Online pre-consultation",
+        "bookingLinkUnlocked": "Booking link unlocked",
+        "openBookingLink": "Open booking link",
+        "no prices": "Doctor has not added any prices yet"
       },
       "booking": {
         "title": "Booking Link",
@@ -54,19 +57,42 @@
         "viewGoogle": "View on Google",
         "notAllowed": "The doctor has not allowed Google reviews yet."
       },
-"gallery": {
-  "title": "Photo Gallery",
-  "before": "Before",
-  "after": "After",
-  "noImagesTitle": "No Before & After Images",
-  "noImagesDescription": "This doctor has not added any treatment transformation images yet.",
-  "more": "+{count} more",
-  "moreDescription": "More results are available on this doctor profile.",
-  "showLess": "Show less",
-  "viewMore": "View {count} more",
-  "beforeAlt": "Before treatment result",
-  "afterAlt": "After treatment result"
-}
+      "gallery": {
+        "title": "Photo Gallery",
+        "before": "Before",
+        "after": "After",
+        "noImagesTitle": "No Before & After Images",
+        "noImagesDescription": "This doctor has not added any treatment transformation images yet.",
+        "more": "+{count} more",
+        "moreDescription": "More results are available on this doctor profile.",
+        "showLess": "Show less",
+        "viewMore": "View {count} more",
+        "beforeAlt": "Before treatment result",
+        "afterAlt": "After treatment result"
+      }
+    },
+        "bookingConfirmation": {
+      "eyebrow": "Booking confirmation",
+      "paymentSuccessful": "Payment successful",
+      "paymentPending": "Payment is being confirmed",
+      "inClinicSuccess": "You can now view this doctor’s contact and clinic details.",
+      "onlineSuccess": "Your online consultation chat access is now active.",
+      "pendingDescription": "Stripe is still confirming your payment. This usually updates automatically after a few moments.",
+      "inClinicConsultation": "In-clinic consultation",
+      "onlineConsultation": "Online consultation",
+      "paidAmount": "Paid amount: €{price}",
+      "contactUnlocked": "Doctor contact access unlocked",
+      "clinic": "Clinic:",
+      "address": "Address:",
+      "city": "City:",
+      "openBookingLink": "Open booking link",
+      "chatUnlocked": "Chat access unlocked",
+      "chatUnlockedDescription": "You can now message the doctor through your account.",
+      "securePayment": "Payment processed securely by Stripe.",
+      "goToMessages": "Go to messages",
+      "goToDashboard": "Go to dashboard",
+      "backToDoctor": "Back to doctor profile",
+      "bookingIssue": "Booking issue"
     }
   }
 }

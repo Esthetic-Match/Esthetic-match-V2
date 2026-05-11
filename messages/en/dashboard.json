@@ -52,7 +52,12 @@
     "title": "Booking Links",
     "open": "Open booking link",
     "hiddenTitle": "Booking links are hidden",
-    "hiddenDescription": "Upgrade to Premium to display"
+    "hiddenDescription": "Upgrade to Premium to display",
+    "linkPlaceholder": "https://booking-link-{number}.com",
+    "saving": "Saving...",
+    "saveLinks": "Save booking links",
+    "saveSuccess": "Booking links updated successfully.",
+    "saveError": "Failed to save booking links."
   },
   "social": {
     "title": "Social Media",
@@ -60,7 +65,12 @@
     "instagram": "Instagram",
     "tiktok": "TikTok",
     "hiddenTitle": "Social links are hidden",
-    "hiddenDescription": "Upgrade to Premium to display"
+    "hiddenDescription": "Upgrade to Premium to display",
+    "copyTitle": "Copy your profile URL",
+    "copyDescription": "Share this link on Instagram, TikTok, WhatsApp, or your clinic page.",
+    "generating": "Generating...",
+    "copied": "Copied",
+    "copyUrl": "Copy URL"
   },
   "googleReviews": {
     "googleIconAlt": "Google Icon",
