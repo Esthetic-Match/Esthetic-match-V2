@@ -3,8 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { NavBarMain } from "@/components/NavbarMain";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import CategoryHero from "@/components/homePage/categories/CategoryHero";
-import CategorySpecialists from "@/components/homePage/categories/CategorySpecialists";
 import CategorySubcategories from "@/components/homePage/categories/CategorySubcategories";
+
 import {
   categoryPages,
   normalizeCategoryId,
@@ -26,7 +26,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const { categoryId } = await params;
 
   const t = await getTranslations("categoriesPage.categoriesPage");
-  const specialtyT = await getTranslations("specialitiesName");
   const procedureT = await getTranslations("proceduresName");
 
   const category = categoryPages.find((item) => item.slug === categoryId);
@@ -77,12 +76,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       />
 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:px-12 lg:px-16">
-        <CategorySpecialists
-          categoryId={specialtyMapCategoryId}
-          title={t("specialistsTitle")}
-          specialtyLabel={(id) => specialtyT(id)}
-        />
-
         <CategorySubcategories
           title={t("subcategoriesTitle")}
           subcategories={catalogCategory.subcategories.map((subcategory) => ({
