@@ -84,7 +84,11 @@
         "anyRating": "Any rating",
         "locationPlaceholder": "City or country",
         "clear": "Clear filters",
-        "apply": "Apply filters"
+        "apply": "Apply filters",
+        "procedures": "Procedures",
+        "chooseCategoryFirst": "Choose a category to view procedures",
+        "selectedProcedures": "Selected procedures",
+        "selectProcedures": "Select procedures from your chosen categories"
       }
     },
     "contact": {

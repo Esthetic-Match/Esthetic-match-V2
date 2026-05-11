@@ -84,7 +84,11 @@
         "anyRating": "Toutes les notes",
         "locationPlaceholder": "Ville ou pays",
         "clear": "Effacer les filtres",
-        "apply": "Appliquer les filtres"
+        "apply": "Appliquer les filtres",
+        "procedures": "Procédures",
+        "chooseCategoryFirst": "Choisissez une catégorie pour voir les procédures",
+        "selectedProcedures": "Procédures sélectionnées",
+        "selectProcedures": "Sélectionnez des procédures parmi vos catégories choisies"
       }
     },
     "contact": {
