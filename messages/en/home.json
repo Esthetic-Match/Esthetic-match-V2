@@ -142,6 +142,34 @@
       "doctors": "Doctors",
       "categories": "Categories",
       "contact": "Contact",
-      "signIn": "Sign in"
+      "signIn": "Sign in",
+      "profile": "Profile"
+    },
+      "whyDoctorsShouldJoin": {
+    "seo": {
+      "name": "Why Esthetic Match for practitioners",
+      "description": "Esthetic Match helps practitioners attract, qualify, and convert the right patients with AI-supported matching, analytics, verified profiles, and scheduling tools."
+    },
+    "eyebrow": "Why Esthetic Match for practitioners?",
+    "title": "Everything you need to attract, qualify, and convert the right patients.",
+    "description": "Clinical translation of patient language using artificial intelligence, targeted to the right practitioners.",
+    "features": {
+      "analytics": {
+        "title": "Analytics Dashboard",
+        "description": "Track profile views and patient interest trends."
+      },
+      "matching": {
+        "title": "Smart Patient Matching",
+        "description": "Automatically connect with the right patient types."
+      },
+      "badge": {
+        "title": "Verified Profile Badge",
+        "description": "Build trust and authority in the community."
+      },
+      "scheduling": {
+        "title": "Integrated Scheduling",
+        "description": "Manage appointment requests seamlessly."
+      }
     }
+  }
 }

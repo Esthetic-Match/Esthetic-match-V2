@@ -4,6 +4,7 @@ import AmbientBackground from "@/components/UI/BlueAmbientBackground";
 import HomeSection from "@/components/homePage/HeroSection"
 import CategoryCarousel from "@/components/homePage/CategoryCarousel";
 import ProfileDisplay from "@/components/homePage/DoctorProfileDisplay";
+import WhyDoctorsShouldJoin from "@/components/homePage/WhyDoctorsShouldJoin";
 
 export const metadata: Metadata = {
   title: "Esthetic Match | Find Trusted Aesthetic Doctors",
@@ -52,6 +53,7 @@ export default function HomePage() {
         <HomeSection />
         <CategoryCarousel/>
         <ProfileDisplay />
+        <WhyDoctorsShouldJoin />
       </section>
     </main>
   );
