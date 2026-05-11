@@ -25,7 +25,10 @@
       "consultationPrices": {
         "title": "Consultation Prices",
         "inClinic": "In-clinic consultation",
-        "online": "Online pre-consultation"
+        "online": "Online pre-consultation",
+        "bookingLinkUnlocked": "Booking link unlocked",
+        "openBookingLink": "Open booking link",
+        "no prices": "Doctor has not added any prices yet"
       },
       "booking": {
         "title": "Booking Link",

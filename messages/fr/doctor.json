@@ -25,7 +25,10 @@
       "consultationPrices": {
         "title": "Tarifs de consultation",
         "inClinic": "Consultation en clinique",
-        "online": "Pré-consultation en ligne"
+        "online": "Pré-consultation en ligne",
+        "bookingLinkUnlocked": "Lien de réservation débloqué",
+        "openBookingLink": "Ouvrir le lien de réservation",
+        "no prices": "Le médecin n'a pas encore indiqué de prix."
       },
       "booking": {
         "title": "Lien de réservation",
