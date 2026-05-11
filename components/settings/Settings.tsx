@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Trash2,
   Gem,
+  Landmark,
   Menu,
   X,
 } from "lucide-react";
@@ -21,10 +22,12 @@ import ChangePassword from "./ChangePassword";
 import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
 import SubscriptionPlans from "./SubscriptionPlans";
+import PaymentDetails from "./PaymentDetails";
 
 type SettingsPage =
   | "Edit Profile"
   | "Change Password"
+  | "Payment Details"
   | "Language"
   | "Report a Problem"
   | "Terms & Conditions"
@@ -39,6 +42,7 @@ const settingsGroups = [
   [
     { label: "Edit Profile", icon: Edit3, danger: false },
     { label: "Change Password", icon: Lock, danger: false },
+    { label: "Payment Details", icon: Landmark, danger: false },
     { label: "Subscription", icon: Gem, danger: false },
   ],
   [
@@ -245,6 +249,7 @@ export default function Settings({ user }: SettingsProps) {
             ))}
 
           {activePage === "Change Password" && <ChangePassword />}
+          {activePage === "Payment Details" && <PaymentDetails/>}
           {activePage === "Subscription" && <SubscriptionPlans />}
           {activePage === "Language" && <LanguageSelector />}
           {activePage === "Report a Problem" && <ReportProblem />}

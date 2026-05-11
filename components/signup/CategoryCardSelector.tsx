@@ -17,10 +17,7 @@ type CategoryCardSelectorProps = {
 };
 
 function getCategoryImagePath(category: string) {
-  return `/images/dashboard/categories/${category
-    .toLowerCase()
-    .replaceAll(" ", "-")
-    .replaceAll("/", "-")}.svg`;
+  return `/images/dashboard/categories/${category}.svg`;
 }
 
 export default function CategoryCardSelector({
@@ -33,6 +30,7 @@ export default function CategoryCardSelector({
   onDeselectAllProcedures,
 }: CategoryCardSelectorProps) {
   const t = useTranslations("signUp.category");
+
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
 
   function getCategoryLabel(category: string) {

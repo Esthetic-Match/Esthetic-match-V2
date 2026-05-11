@@ -10,7 +10,6 @@ export default async function DashboardPage({
   params: Promise<{ locale: "en" | "fr" }>;
 }) {
   const { locale } = await params;
-
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -89,13 +88,13 @@ export default async function DashboardPage({
   </div>
   <ConnectStripeButton/>
   <StripeConsultationCheckOutButton
-  doctorProfileId={"cmoykhfo800007w7kvlbw49ur"}
+  doctorProfileId={"cmoym4t2000017w7kec3sj138"}
   consultationType="IN_CLINIC"
   price={250}
 />
 
 <StripeConsultationCheckOutButton
-  doctorProfileId={"cmoykhfo800007w7kvlbw49ur"}
+  doctorProfileId={"cmoym4t2000017w7kec3sj138"}
   consultationType="ONLINE"
   price={200}
 />

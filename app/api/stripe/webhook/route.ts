@@ -21,7 +21,10 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch {
-    return NextResponse.json({ error: "Invalid webhook signature" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid webhook signature" },
+      { status: 400 }
+    );
   }
 
   if (event.type === "checkout.session.completed") {
@@ -29,15 +32,62 @@ export async function POST(req: Request) {
 
     const bookingId = checkoutSession.metadata?.bookingId;
 
-    if (bookingId) {
-      await prisma.consultationBooking.update({
-        where: { id: bookingId },
-        data: {
-          status: "paid",
-          stripePaymentIntentId:
-            typeof checkoutSession.payment_intent === "string"
-              ? checkoutSession.payment_intent
-              : checkoutSession.payment_intent?.id,
+    if (!bookingId) {
+      return NextResponse.json(
+        { error: "Missing bookingId in checkout metadata" },
+        { status: 400 }
+      );
+    }
+
+    const stripePaymentIntentId =
+      typeof checkoutSession.payment_intent === "string"
+        ? checkoutSession.payment_intent
+        : checkoutSession.payment_intent?.id ?? null;
+
+    const booking = await prisma.consultationBooking.update({
+      where: { id: bookingId },
+      data: {
+        status: "paid",
+        stripePaymentIntentId,
+        paidAt: new Date(),
+      },
+    });
+
+    if (booking.consultationType === "IN_CLINIC") {
+      await prisma.inClinicConsultationAccess.upsert({
+        where: {
+          bookingId: booking.id,
+        },
+        update: {
+          approvedToView: true,
+          approvedAt: new Date(),
+        },
+        create: {
+          bookingId: booking.id,
+          patientUserId: booking.patientUserId,
+          doctorProfileId: booking.doctorProfileId,
+          approvedToView: true,
+          approvedAt: new Date(),
+        },
+      });
+    }
+
+    if (booking.consultationType === "ONLINE") {
+      await prisma.onlineConsultationAccess.upsert({
+        where: {
+          bookingId: booking.id,
+        },
+        update: {
+          activeChat: true,
+          activatedAt: new Date(),
+          closedAt: null,
+        },
+        create: {
+          bookingId: booking.id,
+          patientUserId: booking.patientUserId,
+          doctorProfileId: booking.doctorProfileId,
+          activeChat: true,
+          activatedAt: new Date(),
         },
       });
     }
@@ -51,12 +101,9 @@ export async function POST(req: Request) {
         stripeConnectAccountId: account.id,
       },
       data: {
-        stripeConnectOnboardingComplete:
-          account.details_submitted ?? false,
-        stripeConnectChargesEnabled:
-          account.charges_enabled ?? false,
-        stripeConnectPayoutsEnabled:
-          account.payouts_enabled ?? false,
+        stripeConnectOnboardingComplete: account.details_submitted ?? false,
+        stripeConnectChargesEnabled: account.charges_enabled ?? false,
+        stripeConnectPayoutsEnabled: account.payouts_enabled ?? false,
       },
     });
   }

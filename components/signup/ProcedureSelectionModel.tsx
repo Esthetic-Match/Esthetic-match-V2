@@ -24,6 +24,7 @@ export default function ProcedureSelectionModal({
   if (!activeCategory) return null;
 
   const t = useTranslations("signUp.procedure");
+  const subCategoryT = useTranslations("subcategoriesName");
 
   return (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 px-4">
@@ -68,7 +69,7 @@ export default function ProcedureSelectionModal({
             <div key={subcategory.subcategory} className="space-y-2">
               <div className="h-px w-full bg-gray-300 my-4"/>
               <p className="text-md font-semibold text-black">
-                {t(subcategory.subcategory)}
+                {subCategoryT(subcategory.subcategory)}
               </p>
 
               <div className="flex flex-wrap gap-2">

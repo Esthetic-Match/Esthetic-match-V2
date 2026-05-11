@@ -7,11 +7,17 @@
     "pages": {
       "Edit Profile": "Modifier le profil",
       "Change Password": "Changer le mot de passe",
+      "Payment Details": "détails de paiement",
       "Language": "Langue",
       "Report a Problem": "Signaler un problème",
       "Terms & Conditions": "Conditions générales",
       "Subscription": "Abonnement",
       "Delete Account": "Supprimer le compte"
+    },
+      "payments": {
+      "successTitle": "Votre inscription est terminée !",
+      "successDescription": "Votre compte Stripe est maintenant connecté et prêt à recevoir des paiements dans 24h!",
+      "goToDashboard": "Aller au tableau de bord"
     }
   },
   "editProfile": {

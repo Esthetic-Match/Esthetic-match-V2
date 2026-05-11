@@ -34,6 +34,10 @@ model User {
   patientProfile PatientProfile?
   doctorProfile  DoctorProfile?
 
+  patientConsultationBookings ConsultationBooking[] @relation("PatientConsultationBookings")
+  inClinicConsultationAccesses InClinicConsultationAccess[] @relation("PatientInClinicAccesses")
+  onlineConsultationAccesses   OnlineConsultationAccess[] @relation("PatientOnlineAccesses")
+
   @@index([role])
   @@map("user")
 }
@@ -107,6 +111,8 @@ model DoctorProfile {
   otherSpecialtyText String?
 
   consultationBookings ConsultationBooking[]
+  inClinicConsultationAccesses InClinicConsultationAccess[]
+  onlineConsultationAccesses   OnlineConsultationAccess[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -118,8 +124,10 @@ model ConsultationBooking {
   id String @id @default(cuid())
 
   patientUserId String
+  patientUser   User @relation("PatientConsultationBookings", fields: [patientUserId], references: [id], onDelete: Cascade)
+
   doctorProfileId String
-  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
 
   consultationType ConsultationType
 
@@ -129,16 +137,80 @@ model ConsultationBooking {
   currency String @default("eur")
 
   stripeCheckoutSessionId String? @unique
-  stripePaymentIntentId String? @unique
-  stripeChargeId String?
+  stripePaymentIntentId   String? @unique
+  stripeChargeId          String?
+  stripeTransferId        String?
 
-  status String @default("pending") // pending | paid | cancelled | refunded
+  status String @default("pending") // pending | paid | cancelled | refunded | failed
+
+  paidAt DateTime?
+  cancelledAt DateTime?
+  refundedAt DateTime?
+
+  inClinicAccess InClinicConsultationAccess?
+  onlineAccess   OnlineConsultationAccess?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([patientUserId])
   @@index([doctorProfileId])
+  @@index([consultationType])
+  @@index([status])
+  @@map("consultation_booking")
+}
+
+model InClinicConsultationAccess {
+  id String @id @default(cuid())
+
+  bookingId String @unique
+  booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  patientUserId String
+  patientUser   User @relation("PatientInClinicAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  approvedToView Boolean @default(false)
+
+  purchasedAt DateTime @default(now())
+  approvedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([approvedToView])
+  @@map("in_clinic_consultation_access")
+}
+
+model OnlineConsultationAccess {
+  id String @id @default(cuid())
+
+  bookingId String @unique
+  booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  patientUserId String
+  patientUser   User @relation("PatientOnlineAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  activeChat Boolean @default(false)
+
+  purchasedAt DateTime @default(now())
+  activatedAt DateTime?
+  closedAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([activeChat])
+  @@map("online_consultation_access")
 }
 
 model Session {

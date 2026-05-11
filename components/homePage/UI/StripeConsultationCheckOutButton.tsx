@@ -57,20 +57,20 @@ export default function StripeConsultationCheckOutButton({
       type="button"
       onClick={createCheckoutSession}
       disabled={disabled}
-      className="inline-flex items-center justify-center rounded-2xl bg-[#283C5D] px-5 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+      className=" mt-6 inline-flex items-center justify-center rounded-2xl cursor-pointer
+      bg-white border border-[#d8bd8d] px-6 py-3 font-semibold text-black transition hover:text-white hover:bg-[#283C5D]/70 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {loading ? (
         <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <Loader2 className="mr-2 text-xs animate-spin" />
           Redirecting...
         </>
       ) : (
-        <>
-          Book{" "}
-          {consultationType === "IN_CLINIC" ? "in-clinic" : "online"}{" "}
-          consultation
-          {price ? ` - €${price}` : ""}
-        </>
+        <p className="text-xs">
+          {consultationType === "IN_CLINIC"
+            ? "Book Now"
+            : "Message Now"}
+        </p>
       )}
     </button>
   );

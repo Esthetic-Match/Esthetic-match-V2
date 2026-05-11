@@ -19,10 +19,31 @@ export async function POST() {
   });
 
   if (!doctorProfile) {
-    return NextResponse.json({ error: "Doctor profile not found" }, { status: 404 });
+    return NextResponse.json(
+      { error: "Doctor profile not found" },
+      { status: 404 }
+    );
   }
 
   let accountId = doctorProfile.stripeConnectAccountId;
+
+  if (accountId) {
+    try {
+      await stripe.accounts.retrieve(accountId);
+    } catch {
+      accountId = null;
+
+      await prisma.doctorProfile.update({
+        where: { id: doctorProfile.id },
+        data: {
+          stripeConnectAccountId: null,
+          stripeConnectOnboardingComplete: false,
+          stripeConnectChargesEnabled: false,
+          stripeConnectPayoutsEnabled: false,
+        },
+      });
+    }
+  }
 
   if (!accountId) {
     const account = await stripe.accounts.create({
