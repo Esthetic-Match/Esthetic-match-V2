@@ -11,7 +11,10 @@ export default async function CategoryDoctorRecommendations({
 }: CategoryDoctorRecommendationsProps) {
   const t = await getTranslations("categoriesPage.categoriesPage");
 
-  const doctors = await prisma.doctorProfile.findMany({
+let doctors = [];
+
+try {
+  doctors = await prisma.doctorProfile.findMany({
     take: 4,
     where: {
       subcategoryIds: {
@@ -22,12 +25,8 @@ export default async function CategoryDoctorRecommendations({
       },
     },
     orderBy: [
-      {
-        googleRating: "desc",
-      },
-      {
-        googleReviewCount: "desc",
-      },
+      { googleRating: "desc" },
+      { googleReviewCount: "desc" },
     ],
     select: {
       id: true,
@@ -45,6 +44,14 @@ export default async function CategoryDoctorRecommendations({
       },
     },
   });
+} catch (error) {
+  console.error("Category recommendations Prisma error:", {
+    categoryId,
+    error,
+  });
+
+  return null;
+}
 
   const formattedDoctors = doctors.map((doctor) => ({
     id: doctor.id,
