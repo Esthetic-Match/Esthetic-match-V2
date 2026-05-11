@@ -1,49 +1,62 @@
-import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import DoctorCards from "@/components/homePage/UI/DoctorCards";
-
-type PublicDoctor = {
-  id: string;
-  name: string;
-  specialtyIds: string;
-  googleRating: string;
-  googleReviewCount: string;
-  country: string;
-  avatar: string;
-};
+import { prisma } from "@/lib/prisma";
 
 type CategoryDoctorRecommendationsProps = {
   categoryId: string;
 };
 
-async function getRecommendedDoctors(categoryId: string): Promise<PublicDoctor[]> {
-  const headersList = await headers();
-  const host = headersList.get("host");
-  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-
-  const res = await fetch(
-    `${protocol}://${host}/api/public-pages/category-doctor-recommendations?category=${categoryId}`,
-    {
-      next: {
-        revalidate: 60,
-      },
-    }
-  );
-
-  if (!res.ok) {
-    return [];
-  }
-
-  return res.json();
-}
-
 export default async function CategoryDoctorRecommendations({
   categoryId,
 }: CategoryDoctorRecommendationsProps) {
   const t = await getTranslations("categoriesPage.categoriesPage");
-  const doctors = await getRecommendedDoctors(categoryId);
 
-  if (doctors.length === 0) {
+  const doctors = await prisma.doctorProfile.findMany({
+    take: 4,
+    where: {
+      subcategoryIds: {
+        has: categoryId,
+      },
+      googleRating: {
+        gte: 4,
+      },
+    },
+    orderBy: [
+      {
+        googleRating: "desc",
+      },
+      {
+        googleReviewCount: "desc",
+      },
+    ],
+    select: {
+      id: true,
+      avatar: true,
+      specialtyIds: true,
+      city: true,
+      country: true,
+      googleRating: true,
+      googleReviewCount: true,
+      user: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  const formattedDoctors = doctors.map((doctor) => ({
+    id: doctor.id,
+    name: doctor.user.name ?? "Doctor",
+    specialtyIds: doctor.specialtyIds.join(", "),
+    googleRating: doctor.googleRating?.toString() ?? "",
+    googleReviewCount: doctor.googleReviewCount?.toString() ?? "",
+    country: [doctor.city, doctor.country].filter(Boolean).join(", "),
+    avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
+  }));
+
+  if (formattedDoctors.length === 0) {
     return null;
   }
 
@@ -66,7 +79,7 @@ export default async function CategoryDoctorRecommendations({
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {doctors.map((doctor) => (
+        {formattedDoctors.map((doctor) => (
           <DoctorCards key={doctor.id} doctor={doctor} />
         ))}
       </div>
