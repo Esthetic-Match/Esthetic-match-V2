@@ -104,6 +104,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           googleReviewCount={profile?.googleReviewCount}
           googleRating={profile?.googleRating}
           paidPlan={profile?.paidPlan}
+          inClinicLink={profile?.inClinicLink}
         />
         <Gallery userId={user.id} paidPlan={profile?.paidPlan}/>
     </div>

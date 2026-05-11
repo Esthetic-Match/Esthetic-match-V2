@@ -13,6 +13,7 @@ type BookingAndPricesProps = {
   googleRating?: number | null;
   googleReviewCount?: number | null;
   paidPlan?:  string| null;
+  inClinicLink?: string | null;
   bookingLinks?: []|null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
@@ -31,6 +32,7 @@ export default function BookingAndPrices({
   googleRating,
   paidPlan,
   bookingLinks,
+  inClinicLink,
 }: BookingAndPricesProps) {
   return (
     <section className="relative mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl">
@@ -38,6 +40,7 @@ export default function BookingAndPrices({
         <ConsultationPrices
           inClinicPrice={inClinicPrice}
           onlineConsulPrice={onlineConsulPrice}
+          inClinicLink={inClinicLink}
           onUpdateProfile={onUpdateProfile}
         />
 
