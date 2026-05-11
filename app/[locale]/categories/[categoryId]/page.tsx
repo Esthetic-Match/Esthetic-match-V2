@@ -5,7 +5,6 @@ import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import CategoryHero from "@/components/homePage/categories/CategoryHero";
 import CategorySpecialists from "@/components/homePage/categories/CategorySpecialists";
 import CategorySubcategories from "@/components/homePage/categories/CategorySubcategories";
-import CategoryDoctorRecommendations from "@/components/homePage/categories/CategoryDoctorRecommendations";
 import {
   categoryPages,
   normalizeCategoryId,
@@ -103,7 +102,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           findBestDoctors={t("findBestDoctors")}
           chooseProceduresButton={t("chooseProceduresButton")}
         />
-        <CategoryDoctorRecommendations categoryId={category.id} />
       </section>
     </main>
   );
