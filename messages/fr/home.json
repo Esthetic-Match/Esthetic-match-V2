@@ -60,13 +60,31 @@
         "search": "Rechercher"
       },
       "list": {
-        "title": "Médecins disponibles",
+        "title": "Médecins",
         "practitionersCount": "{count} praticiens",
         "doctorImageAlt": "{name}, {specialty}",
         "saveDoctor": "Enregistrer {name}",
         "reviews": "({count} avis)",
         "from": "À partir de",
-        "viewProfile": "Voir le profil"
+        "priceOnRequest": "Prix sur demande",
+        "viewProfile": "Voir le profil",
+        "noDoctorsTitle": "Désolé, aucun médecin trouvé",
+        "noDoctorsDescription": "Nous n’avons trouvé aucun médecin dans notre base de données correspondant à votre recherche."
+      },
+      "filters": {
+        "eyebrow": "Filtres",
+        "title": "Trouver le bon médecin",
+        "description": "Filtrez par spécialité, catégorie, localisation ou note Google.",
+        "specialty": "Spécialité",
+        "category": "Catégorie",
+        "location": "Localisation",
+        "minimumRating": "Note minimale de Google",
+        "anySpecialty": "Toutes les spécialités",
+        "anyCategory": "Toutes les catégories",
+        "anyRating": "Toutes les notes",
+        "locationPlaceholder": "Ville ou pays",
+        "clear": "Effacer les filtres",
+        "apply": "Appliquer les filtres"
       }
     },
     "contact": {
@@ -124,6 +142,69 @@
       "doctors": "Médecins",
       "categories": "Catégories",
       "contact": "Contact",
-      "signIn": "Se connecter"
+      "signIn": "Se connecter",
+      "profile": "Profil"
+    },
+      "whyDoctorsShouldJoin": {
+    "seo": {
+      "name": "Pourquoi Esthetic Match pour les praticiens",
+      "description": "Esthetic Match aide les praticiens à attirer, qualifier et convertir les bons patients grâce au matching assisté par IA, aux analytics, aux profils vérifiés et aux outils de planification."
+    },
+    "eyebrow": "Pourquoi Esthetic Match pour les praticiens ?",
+    "title": "Tout ce dont vous avez besoin pour attirer, qualifier et convertir les bons patients.",
+    "description": "Traduction clinique du langage des patients grâce à l’intelligence artificielle, orientée vers les bons praticiens.",
+    "features": {
+      "analytics": {
+        "title": "Tableau de bord analytique",
+        "description": "Suivez les vues de profil et les tendances d’intérêt des patients."
+      },
+      "matching": {
+        "title": "Matching patient intelligent",
+        "description": "Connectez-vous automatiquement aux bons profils de patients."
+      },
+      "badge": {
+        "title": "Badge de profil vérifié",
+        "description": "Renforcez la confiance et l’autorité au sein de la communauté."
+      },
+      "scheduling": {
+        "title": "Planification intégrée",
+        "description": "Gérez les demandes de rendez-vous facilement."
+      }
     }
+  },
+   "whyPatientsUseEstheticMatch": {
+    "seo": {
+      "name": "Pourquoi les patients utilisent Esthetic Match",
+      "description": "Esthetic Match aide les patients à comprendre leurs objectifs esthétiques, découvrir les traitements adaptés et trouver plus facilement des praticiens de confiance."
+    },
+    "eyebrow": "Pour les patients",
+    "title": "Trouvez le bon médecin esthétique sans deviner.",
+    "description": "Expliquez à Esthetic Match ce que vous souhaitez améliorer, comparez des praticiens de confiance et découvrez les traitements réellement adaptés à vos objectifs.",
+    "callout": {
+      "title": "Moins de confusion. De meilleures conversations.",
+      "description": "Des préoccupations vagues à une orientation claire des traitements, Esthetic Match aide les patients à arriver préparés avant leur consultation."
+    },
+    "imageCard": {
+      "title": "Vos objectifs beauté traduits vers le bon parcours médical.",
+      "description": "Explorez catégories, procédures, profils de médecins, avis, localisations et galeries avant/après dans une expérience élégante."
+    },
+    "features": {
+      "clarity": {
+        "title": "Comprenez vos options",
+        "description": "Transformez des préoccupations du quotidien en catégories de procédures claires et possibilités de traitement."
+      },
+      "match": {
+        "title": "Trouvez de meilleurs correspondances",
+        "description": "Découvrez des médecins selon la spécialité, la catégorie, les procédures, la localisation et les avis."
+      },
+      "trust": {
+        "title": "Choisissez en toute confiance",
+        "description": "Consultez des profils vérifiés, notes Google, détails de cliniques et galeries de transformations."
+      },
+      "local": {
+        "title": "Recherchez autour de vous",
+        "description": "Trouvez des praticiens par ville, pays, zone de traitement ou objectif esthétique."
+      }
+    }
+  }
 }

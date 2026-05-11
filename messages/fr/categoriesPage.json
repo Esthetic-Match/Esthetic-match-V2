@@ -1,0 +1,240 @@
+{
+  "categoriesPage": {
+    "seo": {
+      "itemListName": "Catégories de traitements esthétiques et médicaux"
+    },
+    "hero": {
+      "eyebrow": "Catégories de traitements",
+      "title": "Explorez les traitements esthétiques, médicaux et bien-être",
+      "description": "Parcourez chaque grande catégorie, découvrez ce qu’elle comprend et explorez les sous-catégories utilisées pour associer les patients aux bons médecins."
+    },
+     "recommendations": {
+    "eyebrow": "Sélections Esthetic Match",
+    "title": "Recommandations de médecins pour cette catégorie",
+    "ratingLabel": "Note Google de 4.0+"
+    },
+    "selectedProceduresTitle": "Procédures sélectionnées",
+    "selectedProceduresDescription": "{count}/3 procédures sélectionnées",
+    "chooseProceduresTitle": "Choisir des procédures",
+    "chooseProceduresDescription": "Choisissez jusqu’à 3 procédures et nous trouverons les meilleurs médecins pour vous.",
+    "findBestDoctors": "Trouver les meilleurs médecins",
+    "chooseProceduresButton": "Choisir des procédures",
+    "categoryLabel": "Catégorie {count}",
+    "proceduresCount": "{count} procédures",
+    "findDoctors": "Trouver des médecins",
+    "viewDetails": "voir le détail",
+
+    "categories": {
+      "non_surgical_face": {
+        "title": "Visage non chirurgical",
+        "description": "Traitements faciaux mini-invasifs axés sur le volume, la qualité de la peau, le lifting, le resurfaçage et le rajeunissement."
+      },
+      "non_surgical_body": {
+        "title": "Corps non chirurgical",
+        "description": "Traitements de remodelage corporel, réduction des graisses, gestion du poids et soins bien-être sans chirurgie."
+      },
+      "aesthetic_dentistry": {
+        "title": "Dentisterie esthétique",
+        "description": "Traitements dentaires esthétiques conçus pour améliorer la forme du sourire, l’éclat, l’équilibre et la restauration."
+      },
+      "hair_medicine": {
+        "title": "Médecine capillaire",
+        "description": "Restauration capillaire, traitements du cuir chevelu et solutions chirurgicales ou non chirurgicales pour la santé des cheveux."
+      },
+      "muscle_tone_and_ems": {
+        "title": "Tonification musculaire & EMS",
+        "description": "Traitements de stimulation musculaire électrique pour le remodelage corporel, la tonification du visage et le soutien des performances."
+      },
+      "iv_therapy": {
+        "title": "Thérapie IV",
+        "description": "Hydratation intraveineuse, vitamines, récupération, immunité, énergie et perfusions bien-être orientées beauté."
+      },
+      "wellness_and_drainage": {
+        "title": "Bien-être & drainage",
+        "description": "Traitements favorisant la circulation, le drainage lymphatique, la relaxation, la récupération et le bien-être général."
+      },
+      "surgical_face": {
+        "title": "Visage chirurgical",
+        "description": "Procédures chirurgicales faciales pour le lifting, le contouring, le remodelage et l’amélioration structurelle du visage."
+      },
+      "surgical_body": {
+        "title": "Corps chirurgical",
+        "description": "Chirurgie de remodelage corporel, chirurgie mammaire, procédures intimes, liposuccion et remodelage du corps."
+      },
+      "longevity_medicine": {
+        "title": "Médecine de la longévité",
+        "description": "Diagnostics, médecine régénérative, optimisation des performances et programmes médicaux de longévité."
+      }
+    },
+
+    "subcategories": {
+      "hyaluronic_acid_fillers": {
+        "title": "Produits de comblement à l’acide hyaluronique",
+        "description": "Restauration du volume et amélioration des contours grâce à des injections à base d’acide hyaluronique."
+      },
+      "biostimulators_and_skin_quality_injections": {
+        "title": "Biostimulateurs & injections de qualité de peau",
+        "description": "Traitements injectables conçus pour améliorer la production de collagène, l’élasticité, l’hydratation et la qualité de la peau."
+      },
+      "botulinum_toxin": {
+        "title": "Toxine botulique",
+        "description": "Traitements neuromodulateurs utilisés pour adoucir les rides dynamiques et harmoniser les expressions du visage."
+      },
+      "thread_lifting": {
+        "title": "Lifting par fils",
+        "description": "Procédures mini-invasives utilisant des fils tenseurs pour raffermir et repositionner subtilement le visage."
+      },
+      "radiofrequency_and_hifu": {
+        "title": "Radiofréquence & HIFU",
+        "description": "Traitements raffermissants basés sur l’énergie utilisant la radiofréquence, les ultrasons ou la technologie HIFU."
+      },
+      "lasers_and_light_devices": {
+        "title": "Lasers & dispositifs lumineux",
+        "description": "Traitements au laser et à la lumière pour la pigmentation, la texture, le rajeunissement et la correction cutanée."
+      },
+      "peeling_needling_and_skin_resurfacing": {
+        "title": "Peelings, microneedling & resurfaçage cutané",
+        "description": "Traitements de resurfaçage améliorant la texture, les pores, l’éclat et les irrégularités superficielles de la peau."
+      },
+      "skin_diagnosis": {
+        "title": "Diagnostic de la peau",
+        "description": "Analyse numérique ou clinique de la peau utilisée pour guider des plans de traitement personnalisés."
+      },
+
+      "fat_reduction_and_body_contouring": {
+        "title": "Réduction des graisses & remodelage corporel",
+        "description": "Traitements non chirurgicaux de remodelage du corps ciblant les graisses localisées, la fermeté et les contours."
+      },
+      "weight_management_and_nutrition": {
+        "title": "Gestion du poids & nutrition",
+        "description": "Accompagnement médical et nutritionnel pour la perte de poids, la composition corporelle et les objectifs métaboliques."
+      },
+
+      "veneers_and_restoration": {
+        "title": "Facettes & restauration",
+        "description": "Restaurations esthétiques du sourire incluant facettes, bonding, couronnes et réparations cosmétiques."
+      },
+      "whitening": {
+        "title": "Blanchiment",
+        "description": "Traitements de blanchiment dentaire conçus pour améliorer l’éclat et réduire les taches visibles."
+      },
+      "gum_and_shape": {
+        "title": "Gencives & forme",
+        "description": "Contour des gencives et corrections de la forme des dents pour un sourire plus harmonieux."
+      },
+
+      "non_surgical_hair_treatments": {
+        "title": "Traitements capillaires non chirurgicaux",
+        "description": "Traitements du cuir chevelu et injections favorisant la densité, la croissance et la santé des cheveux."
+      },
+      "surgical_hair_procedures": {
+        "title": "Procédures capillaires chirurgicales",
+        "description": "Solutions chirurgicales pour la ligne capillaire, le front et la restauration capillaire."
+      },
+
+      "face": {
+        "title": "Visage",
+        "description": "Traitements de stimulation musculaire conçus pour soutenir la tonicité et les contours du visage."
+      },
+      "body": {
+        "title": "Corps",
+        "description": "Traitements corporels basés sur l’EMS favorisant la tonicité musculaire, le remodelage et les performances."
+      },
+
+      "general_and_hydration": {
+        "title": "Général & hydratation",
+        "description": "Perfusions IV générales axées sur l’hydratation, la réhydratation et le soutien bien-être personnalisé."
+      },
+      "vitamins_and_antioxidants": {
+        "title": "Vitamines & antioxydants",
+        "description": "Perfusions de vitamines, minéraux et antioxydants pour la beauté, l’immunité et la récupération."
+      },
+      "energy_performance_and_recovery": {
+        "title": "Énergie, performance & récupération",
+        "description": "Traitements IV conçus pour l’énergie, le stress, la récupération sportive et le soutien des performances."
+      },
+      "wellness_and_beauty": {
+        "title": "Bien-être & beauté",
+        "description": "Protocoles IV ciblant l’éclat, l’immunité, la détox, les cheveux, le poids et le soutien anti-âge."
+      },
+
+      "drainage_and_circulation": {
+        "title": "Drainage & circulation",
+        "description": "Traitements favorisant le drainage lymphatique, la circulation, la réduction des gonflements et les problèmes vasculaires."
+      },
+      "recovery_and_relaxation": {
+        "title": "Récupération & relaxation",
+        "description": "Traitements bien-être conçus pour la récupération, la relaxation et l’équilibre général du corps."
+      },
+
+      "facelifts_and_lifting": {
+        "title": "Liftings & remise en tension",
+        "description": "Procédures chirurgicales de lifting pour le relâchement du visage, la définition du cou et le rajeunissement facial."
+      },
+      "eyes_and_brows": {
+        "title": "Yeux & sourcils",
+        "description": "Procédures chirurgicales axées sur les paupières, les sourcils et la définition du regard."
+      },
+      "nose": {
+        "title": "Nez",
+        "description": "Options de chirurgie nasale pour le remodelage, le raffinement, la correction et les retouches."
+      },
+      "face_contouring_and_features": {
+        "title": "Contour du visage & traits",
+        "description": "Affinement chirurgical de la structure faciale, des proportions et des traits individuels."
+      },
+      "lipofilling_and_fat_transfer": {
+        "title": "Lipofilling & transfert de graisse",
+        "description": "Procédures de transfert de graisse utilisées pour restaurer le volume facial et améliorer les contours naturels."
+      },
+
+      "liposuction": {
+        "title": "Liposuccion",
+        "description": "Retrait chirurgical des graisses et remodelage de zones ciblées du corps."
+      },
+      "body_contouring_and_lifting": {
+        "title": "Remodelage corporel & lifting",
+        "description": "Procédures chirurgicales de remodelage et de lifting pour l’excès de peau, les contours et la définition corporelle."
+      },
+      "buttocks": {
+        "title": "Fessiers",
+        "description": "Amélioration et remodelage des fessiers grâce à une augmentation chirurgicale ou un transfert de graisse."
+      },
+      "breast_surgery": {
+        "title": "Chirurgie mammaire",
+        "description": "Procédures d’augmentation, réduction, lifting, reconstruction mammaire et interventions liées aux implants."
+      },
+      "intimate_and_genital_surgery": {
+        "title": "Chirurgie intime & génitale",
+        "description": "Procédures spécialisées intimes et génitales pour des préoccupations fonctionnelles ou esthétiques."
+      },
+      "foot_surgery": {
+        "title": "Chirurgie du pied",
+        "description": "Procédures esthétiques et correctrices pour la structure et l’apparence de l’avant-pied."
+      },
+
+      "biological_assessment_and_diagnostics": {
+        "title": "Évaluation biologique & diagnostics",
+        "description": "Tests et diagnostics utilisés pour évaluer l’âge biologique, le métabolisme, la condition physique et les marqueurs de longévité."
+      },
+      "cellular_and_regenerative_therapies": {
+        "title": "Thérapies cellulaires & régénératives",
+        "description": "Traitements régénératifs ciblant la réparation cellulaire, la santé systémique et le soutien à la longévité."
+      },
+      "physical_and_energy_therapies": {
+        "title": "Thérapies physiques & énergétiques",
+        "description": "Thérapies utilisant l’oxygène, la lumière, le froid, l’ozone ou des systèmes énergétiques pour la récupération et l’optimisation."
+      },
+      "pharmacological_protocols": {
+        "title": "Protocoles pharmacologiques",
+        "description": "Protocoles médicaux utilisant des médicaments ciblés ou des hormones pour des objectifs métaboliques et de longévité."
+      },
+      "programs_and_lifestyle": {
+        "title": "Programmes & mode de vie",
+        "description": "Programmes personnalisés de longévité combinant supervision médicale, mode de vie et prévention."
+      }
+    },
+    "specialistsTitle": "Spécialistes couvrant cette catégorie",
+    "subcategoriesTitle": "Sous-catégories & procédures"
+  }
+}

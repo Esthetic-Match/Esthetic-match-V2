@@ -60,13 +60,31 @@
         "search": "Search"
       },
       "list": {
-        "title": "Available Doctors",
+        "title": "Doctors",
         "practitionersCount": "{count} practitioners",
         "doctorImageAlt": "{name}, {specialty}",
         "saveDoctor": "Save {name}",
         "reviews": "({count} reviews)",
         "from": "From",
-        "viewProfile": "View Profile"
+        "priceOnRequest": "Price on request",
+        "viewProfile": "View profile",
+        "noDoctorsTitle": "Sorry, no doctors found",
+        "noDoctorsDescription": "We could not find any doctors in our database matching your search."
+      },
+      "filters": {
+        "eyebrow": "Filters",
+        "title": "Find the right doctor",
+        "description": "Filter by specialty, category, location or Google rating.",
+        "specialty": "Specialty",
+        "category": "Category",
+        "location": "Location",
+        "minimumRating": "Minimum Google rating",
+        "anySpecialty": "Any specialty",
+        "anyCategory": "Any category",
+        "anyRating": "Any rating",
+        "locationPlaceholder": "City or country",
+        "clear": "Clear filters",
+        "apply": "Apply filters"
       }
     },
     "contact": {
@@ -124,6 +142,69 @@
       "doctors": "Doctors",
       "categories": "Categories",
       "contact": "Contact",
-      "signIn": "Sign in"
+      "signIn": "Sign in",
+      "profile": "Profile"
+    },
+      "whyDoctorsShouldJoin": {
+    "seo": {
+      "name": "Why Esthetic Match for practitioners",
+      "description": "Esthetic Match helps practitioners attract, qualify, and convert the right patients with AI-supported matching, analytics, verified profiles, and scheduling tools."
+    },
+    "eyebrow": "Why Esthetic Match for practitioners?",
+    "title": "Everything you need to attract, qualify, and convert the right patients.",
+    "description": "Clinical translation of patient language using artificial intelligence, targeted to the right practitioners.",
+    "features": {
+      "analytics": {
+        "title": "Analytics Dashboard",
+        "description": "Track profile views and patient interest trends."
+      },
+      "matching": {
+        "title": "Smart Patient Matching",
+        "description": "Automatically connect with the right patient types."
+      },
+      "badge": {
+        "title": "Verified Profile Badge",
+        "description": "Build trust and authority in the community."
+      },
+      "scheduling": {
+        "title": "Integrated Scheduling",
+        "description": "Manage appointment requests seamlessly."
+      }
     }
+  },
+   "whyPatientsUseEstheticMatch": {
+    "seo": {
+      "name": "Why patients use Esthetic Match",
+      "description": "Esthetic Match helps patients understand their aesthetic goals, discover suitable treatments, and find trusted practitioners more easily."
+    },
+    "eyebrow": "For patients",
+    "title": "Find the right aesthetic doctor without guessing.",
+    "description": "Tell Esthetic Match what you want to improve, compare trusted practitioners, and discover the treatments that actually fit your goals.",
+    "callout": {
+      "title": "Less confusion. Better conversations.",
+      "description": "From vague concerns to clear treatment direction, Esthetic Match helps patients arrive prepared before booking a consultation."
+    },
+    "imageCard": {
+      "title": "Your beauty goals, translated into the right medical path.",
+      "description": "Explore categories, procedures, doctor profiles, reviews, locations, and before-and-after galleries in one elegant experience."
+    },
+    "features": {
+      "clarity": {
+        "title": "Understand your options",
+        "description": "Turn everyday concerns into clear procedure categories and treatment possibilities."
+      },
+      "match": {
+        "title": "Find better matches",
+        "description": "Discover doctors based on specialty, category, procedures, location, and rating."
+      },
+      "trust": {
+        "title": "Choose with confidence",
+        "description": "View verified profiles, Google ratings, clinic details, and transformation galleries."
+      },
+      "local": {
+        "title": "Search around you",
+        "description": "Find practitioners by city, country, treatment area, or aesthetic goal."
+      }
+    }
+  }
 }
