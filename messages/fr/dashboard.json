@@ -52,7 +52,12 @@
     "title": "Liens de réservation",
     "open": "Ouvrir le lien de réservation",
     "hiddenTitle": "Les liens de réservation sont masqués",
-    "hiddenDescription": "Passez au forfait Premium pour les afficher"
+    "hiddenDescription": "Passez au forfait Premium pour les afficher",
+    "linkPlaceholder": "https://lien-reservation-{number}.com",
+    "saving": "Enregistrement...",
+    "saveLinks": "Enregistrer les liens de réservation",
+    "saveSuccess": "Les liens de réservation ont été mis à jour avec succès.",
+    "saveError": "Échec de l’enregistrement des liens de réservation."
   },
   "social": {
     "title": "Réseaux sociaux",
@@ -60,7 +65,12 @@
     "instagram": "Instagram",
     "tiktok": "TikTok",
     "hiddenTitle": "Les liens sociaux sont masqués",
-    "hiddenDescription": "Passez au forfait Premium pour les afficher"
+    "hiddenDescription": "Passez au forfait Premium pour les afficher",
+    "copyTitle": "Copiez l’URL de votre profil",
+    "copyDescription": "Partagez ce lien sur Instagram, TikTok, WhatsApp ou la page de votre clinique.",
+    "generating": "Génération...",
+    "copied": "Copié",
+    "copyUrl": "Copier l’URL"
   },
   "googleReviews": {
     "googleIconAlt": "Icône Google",

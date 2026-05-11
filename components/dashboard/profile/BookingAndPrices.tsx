@@ -6,13 +6,14 @@ import { DoctorProfileData } from "./types";
 type BookingAndPricesProps = {
   inClinicPrice?: number | null;
   onlineConsulPrice?: number | null;
-  bookingLink?: string | null;
-  socialMediaLink?: string | null;
+  clinicName?: string | null;
   workLatitude?: number | null;
   workLongitude?: number | null;
   googlePlaceId?: string | null;
   googleRating?: number | null;
   googleReviewCount?: number | null;
+  paidPlan?:  string| null;
+  bookingLinks?: []|null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void | Promise<void>;
@@ -21,14 +22,15 @@ type BookingAndPricesProps = {
 export default function BookingAndPrices({
   inClinicPrice,
   onlineConsulPrice,
-  bookingLink,
-  socialMediaLink,
+  clinicName,
   onUpdateProfile,
   workLatitude,
   workLongitude,
   googlePlaceId,
   googleReviewCount,
   googleRating,
+  paidPlan,
+  bookingLinks,
 }: BookingAndPricesProps) {
   return (
     <section className="relative mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl">
@@ -39,15 +41,15 @@ export default function BookingAndPrices({
           onUpdateProfile={onUpdateProfile}
         />
 
-        <BookingLinks bookingLink={bookingLink} />
-
-        <SocialLinks 
-        googlePlaceId={googlePlaceId} 
-        workLatitude={workLatitude} 
-        workLongitude={workLongitude} 
-        socialMediaLink={socialMediaLink}  
-        googleReviewCount={googleReviewCount}
-        googleRating={googleRating}
+        <BookingLinks bookingLinks={bookingLinks} paidPlan={paidPlan} />
+        <SocialLinks
+          paidPlan={paidPlan}
+          clinicName={clinicName}
+          workLatitude={workLatitude}
+          workLongitude={workLongitude}
+          googlePlaceId={googlePlaceId}
+          googleRating={googleRating}
+          googleReviewCount={googleReviewCount}
         />
       </div>
     </section>

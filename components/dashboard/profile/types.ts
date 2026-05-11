@@ -28,6 +28,7 @@ export type DoctorProfileData = {
   bookingLink: string | null;
   googleRating?: number | null;
   googleReviewCount?: number | null;
+  bookingLinks?: []| null;
 
   user: {
     id: string;

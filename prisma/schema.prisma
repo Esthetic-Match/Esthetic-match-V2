@@ -96,6 +96,7 @@ model DoctorProfile {
 
   inClinicPrice         Float?
   onlineConsulPrice     Float?
+  inClinicLink          String?
 
   stripeConnectAccountId String?
   stripeConnectOnboardingComplete Boolean @default(false)
@@ -103,7 +104,7 @@ model DoctorProfile {
   stripeConnectPayoutsEnabled Boolean @default(false)
 
   socialMediaLink       String?
-  bookingLink           String?
+  bookingLinks          String[]
   googleRating          Float?
   googleReviewCount     Int?
   googleMapsUri         String?

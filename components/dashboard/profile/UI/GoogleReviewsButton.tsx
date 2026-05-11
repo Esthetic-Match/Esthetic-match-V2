@@ -196,7 +196,7 @@ export default function GoogleReviewsPicker({
         type="button"
         onClick={openPicker}
         className="flex w-full mb-3 items-center justify-between rounded-full border border-[#F6C467] 
-        bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] px-4 py-2 text-sm text-[#283C5D] transition hover:opacity-90 active:scale-[0.98]"
+        bg-[#283c5d] cursor-pointer px-4 py-2 text-sm text-white transition hover:opacity-90 active:scale-[0.98]"
       >
         <span className="flex flex-row">
           <Image
