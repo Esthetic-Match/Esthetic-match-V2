@@ -171,5 +171,40 @@
         "description": "Manage appointment requests seamlessly."
       }
     }
+  },
+   "whyPatientsUseEstheticMatch": {
+    "seo": {
+      "name": "Why patients use Esthetic Match",
+      "description": "Esthetic Match helps patients understand their aesthetic goals, discover suitable treatments, and find trusted practitioners more easily."
+    },
+    "eyebrow": "For patients",
+    "title": "Find the right aesthetic doctor without guessing.",
+    "description": "Tell Esthetic Match what you want to improve, compare trusted practitioners, and discover the treatments that actually fit your goals.",
+    "callout": {
+      "title": "Less confusion. Better conversations.",
+      "description": "From vague concerns to clear treatment direction, Esthetic Match helps patients arrive prepared before booking a consultation."
+    },
+    "imageCard": {
+      "title": "Your beauty goals, translated into the right medical path.",
+      "description": "Explore categories, procedures, doctor profiles, reviews, locations, and before-and-after galleries in one elegant experience."
+    },
+    "features": {
+      "clarity": {
+        "title": "Understand your options",
+        "description": "Turn everyday concerns into clear procedure categories and treatment possibilities."
+      },
+      "match": {
+        "title": "Find better matches",
+        "description": "Discover doctors based on specialty, category, procedures, location, and rating."
+      },
+      "trust": {
+        "title": "Choose with confidence",
+        "description": "View verified profiles, Google ratings, clinic details, and transformation galleries."
+      },
+      "local": {
+        "title": "Search around you",
+        "description": "Find practitioners by city, country, treatment area, or aesthetic goal."
+      }
+    }
   }
 }

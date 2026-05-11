@@ -171,5 +171,40 @@
         "description": "Gérez les demandes de rendez-vous facilement."
       }
     }
+  },
+   "whyPatientsUseEstheticMatch": {
+    "seo": {
+      "name": "Pourquoi les patients utilisent Esthetic Match",
+      "description": "Esthetic Match aide les patients à comprendre leurs objectifs esthétiques, découvrir les traitements adaptés et trouver plus facilement des praticiens de confiance."
+    },
+    "eyebrow": "Pour les patients",
+    "title": "Trouvez le bon médecin esthétique sans deviner.",
+    "description": "Expliquez à Esthetic Match ce que vous souhaitez améliorer, comparez des praticiens de confiance et découvrez les traitements réellement adaptés à vos objectifs.",
+    "callout": {
+      "title": "Moins de confusion. De meilleures conversations.",
+      "description": "Des préoccupations vagues à une orientation claire des traitements, Esthetic Match aide les patients à arriver préparés avant leur consultation."
+    },
+    "imageCard": {
+      "title": "Vos objectifs beauté traduits vers le bon parcours médical.",
+      "description": "Explorez catégories, procédures, profils de médecins, avis, localisations et galeries avant/après dans une expérience élégante."
+    },
+    "features": {
+      "clarity": {
+        "title": "Comprenez vos options",
+        "description": "Transformez des préoccupations du quotidien en catégories de procédures claires et possibilités de traitement."
+      },
+      "match": {
+        "title": "Trouvez de meilleurs correspondances",
+        "description": "Découvrez des médecins selon la spécialité, la catégorie, les procédures, la localisation et les avis."
+      },
+      "trust": {
+        "title": "Choisissez en toute confiance",
+        "description": "Consultez des profils vérifiés, notes Google, détails de cliniques et galeries de transformations."
+      },
+      "local": {
+        "title": "Recherchez autour de vous",
+        "description": "Trouvez des praticiens par ville, pays, zone de traitement ou objectif esthétique."
+      }
+    }
   }
 }
