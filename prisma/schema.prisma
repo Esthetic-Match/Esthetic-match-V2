@@ -88,9 +88,16 @@ model DoctorProfile {
   workLatitude          Float?
   workLongitude         Float?
   googlePlaceId         String?
-  paidPlan              String? @default("free") // free | premium
+  paidPlan              String? @default("free")
+
   inClinicPrice         Float?
   onlineConsulPrice     Float?
+
+  stripeConnectAccountId String?
+  stripeConnectOnboardingComplete Boolean @default(false)
+  stripeConnectChargesEnabled Boolean @default(false)
+  stripeConnectPayoutsEnabled Boolean @default(false)
+
   socialMediaLink       String?
   bookingLink           String?
   googleRating          Float?
@@ -99,10 +106,39 @@ model DoctorProfile {
 
   otherSpecialtyText String?
 
+  consultationBookings ConsultationBooking[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("doctor_profile")
+}
+
+model ConsultationBooking {
+  id String @id @default(cuid())
+
+  patientUserId String
+  doctorProfileId String
+  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  consultationType ConsultationType
+
+  amount Int
+  platformFee Int
+  doctorAmount Int
+  currency String @default("eur")
+
+  stripeCheckoutSessionId String? @unique
+  stripePaymentIntentId String? @unique
+  stripeChargeId String?
+
+  status String @default("pending") // pending | paid | cancelled | refunded
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
 }
 
 model Session {

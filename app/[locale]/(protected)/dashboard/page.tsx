@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "@/i18n/navigation";
+import ConnectStripeButton from "@/components/dashboard/profile/UI/StripeConnectButton";
+import StripeConsultationCheckOutButton from "@/components/homePage/UI/StripeConsultationCheckOutButton";
 
 export default async function DashboardPage({
   params,
@@ -85,6 +87,18 @@ export default async function DashboardPage({
       Coming Soon
     </p>
   </div>
+  <ConnectStripeButton/>
+  <StripeConsultationCheckOutButton
+  doctorProfileId={"cmoykhfo800007w7kvlbw49ur"}
+  consultationType="IN_CLINIC"
+  price={250}
+/>
+
+<StripeConsultationCheckOutButton
+  doctorProfileId={"cmoykhfo800007w7kvlbw49ur"}
+  consultationType="ONLINE"
+  price={200}
+/>
 </div>
   </main>;
 }
