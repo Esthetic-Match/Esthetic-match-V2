@@ -53,7 +53,7 @@ const categories = [
   {
     key: "SURGICAL BODY",
     href: "/categories/surgical-body",
-    image: "/images/home/categories/surgical-body.png",
+    image: "/images/home/categories/surgical-body.jpg",
     icon: "/images/home/categories/icons/surgical-body.svg",
   },
   {
@@ -65,6 +65,7 @@ const categories = [
 ];
 export default async function CategoryCarousel() {
   const t = await getTranslations("home.Home");
+  const categoryT = await getTranslations("categoriesName");
 
     const translatedCategories = categories.map((category) => ({
     ...category,

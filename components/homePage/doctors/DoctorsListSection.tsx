@@ -14,6 +14,13 @@ type PublicDoctor = {
   avatar: string;
 };
 
+function formatLabel(value: string) {
+  return value
+    .replace(/_/g, " ")
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
 async function getDoctors(filters?: {
   q?: string;
   specialty?: string;
@@ -53,13 +60,6 @@ async function getDoctors(filters?: {
   }
 
   return res.json();
-}
-
-function formatLabel(value: string) {
-  return value
-    .replace(/_/g, " ")
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 export default async function DoctorsListSection({

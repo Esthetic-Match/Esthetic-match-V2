@@ -5,97 +5,105 @@ function normalize(value: string) {
   return value.toLowerCase().trim().replace(/\s+/g, "_");
 }
 
+function parseList(value: string | null) {
+  return value
+    ?.split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
 
     const q = searchParams.get("q")?.trim();
     const specialty = searchParams.get("specialty")?.trim();
-    const category = searchParams.get("category")?.trim();
     const location = searchParams.get("location")?.trim();
     const minRating = searchParams.get("minRating")?.trim();
 
-    const procedures = searchParams
-      .get("procedures")
-      ?.split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
+    const categories = parseList(searchParams.get("category"));
+    const procedures = parseList(searchParams.get("procedures"));
 
     const normalizedQ = q ? normalize(q) : undefined;
     const normalizedSpecialty = specialty ? normalize(specialty) : undefined;
-    const normalizedCategory = category ? normalize(category) : undefined;
+
+    const searchOrFilters = [
+      q
+        ? {
+            OR: [
+              { user: { name: { contains: q, mode: "insensitive" as const } } },
+              { clinicName: { contains: q, mode: "insensitive" as const } },
+              { city: { contains: q, mode: "insensitive" as const } },
+              { country: { contains: q, mode: "insensitive" as const } },
+              {
+                specialtyIds: {
+                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
+                },
+              },
+              {
+                subcategoryIds: {
+                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
+                },
+              },
+              {
+                procedureIds: {
+                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
+                },
+              },
+            ],
+          }
+        : null,
+
+      specialty
+        ? {
+            specialtyIds: {
+              hasSome: [specialty, normalizedSpecialty].filter(
+                Boolean
+              ) as string[],
+            },
+          }
+        : null,
+
+      categories && categories.length > 0
+        ? {
+            subcategoryIds: {
+              hasSome: categories,
+            },
+          }
+        : null,
+
+      procedures && procedures.length > 0
+        ? {
+            procedureIds: {
+              hasSome: procedures,
+            },
+          }
+        : null,
+    ].filter(Boolean);
 
     const hasFilters =
-      q ||
-      specialty ||
-      category ||
-      location ||
-      minRating ||
-      (procedures && procedures.length > 0);
+      searchOrFilters.length > 0 || Boolean(location) || Boolean(minRating);
 
     const doctors = await prisma.doctorProfile.findMany({
       take: hasFilters ? undefined : 4,
       where: {
         AND: [
-          q
+          searchOrFilters.length > 0
             ? {
-                OR: [
-                  { user: { name: { contains: q, mode: "insensitive" } } },
-                  { clinicName: { contains: q, mode: "insensitive" } },
-                  { city: { contains: q, mode: "insensitive" } },
-                  { country: { contains: q, mode: "insensitive" } },
-                  {
-                    specialtyIds: {
-                      hasSome: [q, normalizedQ].filter(Boolean) as string[],
-                    },
-                  },
-                  {
-                    subcategoryIds: {
-                      hasSome: [q, normalizedQ].filter(Boolean) as string[],
-                    },
-                  },
-                  {
-                    procedureIds: {
-                      hasSome: [q, normalizedQ].filter(Boolean) as string[],
-                    },
-                  },
-                ],
-              }
-            : {},
-
-          specialty
-            ? {
-                specialtyIds: {
-                  hasSome: [specialty, normalizedSpecialty].filter(
-                    Boolean
-                  ) as string[],
-                },
-              }
-            : {},
-
-          category
-            ? {
-                subcategoryIds: {
-                  hasSome: [category, normalizedCategory].filter(
-                    Boolean
-                  ) as string[],
-                },
-              }
-            : {},
-
-          procedures && procedures.length > 0
-            ? {
-                procedureIds: {
-                  hasSome: procedures,
-                },
+                OR: searchOrFilters as any,
               }
             : {},
 
           location
             ? {
                 OR: [
-                  { city: { contains: location, mode: "insensitive" } },
-                  { country: { contains: location, mode: "insensitive" } },
+                  { city: { contains: location, mode: "insensitive" as const } },
+                  {
+                    country: {
+                      contains: location,
+                      mode: "insensitive" as const,
+                    },
+                  },
                 ],
               }
             : {},
@@ -139,7 +147,8 @@ export async function GET(req: Request) {
       googleRating: doctor.googleRating?.toString() ?? "",
       googleReviewCount: doctor.googleReviewCount?.toString() ?? "",
       country: [doctor.city, doctor.country].filter(Boolean).join(", "),
-      avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
+      avatar:
+        doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
     }));
 
     return NextResponse.json(formattedDoctors);

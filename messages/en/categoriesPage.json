@@ -26,11 +26,11 @@
 
     "categories": {
       "non_surgical_face": {
-        "title": "Non-surgical face",
+        "title": "Aesthetic medicine face",
         "description": "Minimally invasive facial treatments focused on volume, skin quality, lifting, resurfacing, and rejuvenation."
       },
       "non_surgical_body": {
-        "title": "Non-surgical body",
+        "title": "Aesthetic medicine body",
         "description": "Body contouring, fat reduction, weight management, and wellness-led treatments without surgery."
       },
       "aesthetic_dentistry": {

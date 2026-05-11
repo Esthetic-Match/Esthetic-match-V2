@@ -19,6 +19,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   const t = useTranslations("categoriesPage.categoriesPage");
   const procedureT = useTranslations("proceduresName");
+  const categoryT = useTranslations("categoriesName");
 
   const category = categoryPages.find((item) => item.slug === categoryId);
 
@@ -73,7 +74,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       />
 
       <CategoryHero
-        title={safeT(t, `categories.${category.id}.title`, category.id)}
+        title={
+          categoryT.has(category.id)
+            ? categoryT(category.id)
+            : category.id
+        }
         description={safeT(t, `categories.${category.id}.description`, "")}
         image={category.image}
         icon={category.icon}
