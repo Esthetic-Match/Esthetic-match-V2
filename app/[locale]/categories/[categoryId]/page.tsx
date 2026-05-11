@@ -1,12 +1,12 @@
-import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { use } from "react";
+import { useTranslations } from "next-intl";
 import { NavBarMain } from "@/components/NavbarMain";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import CategoryHero from "@/components/homePage/categories/CategoryHero";
 import CategorySubcategories from "@/components/homePage/categories/CategorySubcategories";
-import {
-  categoryPages,
-} from "@/components/homePage/categories/categoryData";
+import { categoryPages } from "@/components/homePage/categories/categoryData";
 
 type CategoryPageProps = {
   params: Promise<{
@@ -14,22 +14,16 @@ type CategoryPageProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return categoryPages.map((category) => ({
-    categoryId: category.slug,
-  }));
-}
+export default function CategoryPage({ params }: CategoryPageProps) {
+  const { categoryId } = use(params);
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { categoryId } = await params;
-
-  const t = await getTranslations("categoriesPage.categoriesPage");
-  const procedureT = await getTranslations("proceduresName");
+  const t = useTranslations("categoriesPage.categoriesPage");
+  const procedureT = useTranslations("proceduresName");
 
   const category = categoryPages.find((item) => item.slug === categoryId);
 
   if (!category) {
-    notFound();
+    return null;
   }
 
   const catalogCategory = DoctorCatalog.categories.find(
@@ -37,40 +31,37 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   );
 
   if (!catalogCategory) {
-    notFound();
+    return null;
   }
-  const translateOrFallback = (
-  translator: typeof t,
-  key: string,
-  fallback: string
-) => {
-  return translator.has(key) ? translator(key) : fallback;
-};
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "MedicalSpecialty",
-  name: translateOrFallback(t, `categories.${category.id}.title`, category.id),
-  description: translateOrFallback(
-    t,
-    `categories.${category.id}.description`,
-    ""
-  ),
-  image: category.image,
-  hasPart: catalogCategory.subcategories.map((subcategory) => ({
-    "@type": "MedicalProcedure",
-    name: translateOrFallback(
-      t,
-      `subcategories.${subcategory.subcategory}.title`,
-      subcategory.subcategory
-    ),
-    description: translateOrFallback(
-      t,
-      `subcategories.${subcategory.subcategory}.description`,
-      ""
-    ),
-  })),
-};
+  const safeT = (
+    translator: ReturnType<typeof useTranslations>,
+    key: string,
+    fallback: string
+  ) => {
+    return translator.has(key) ? translator(key) : fallback;
+  };
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "MedicalSpecialty",
+    name: safeT(t, `categories.${category.id}.title`, category.id),
+    description: safeT(t, `categories.${category.id}.description`, ""),
+    image: category.image,
+    hasPart: catalogCategory.subcategories.map((subcategory) => ({
+      "@type": "MedicalProcedure",
+      name: safeT(
+        t,
+        `subcategories.${subcategory.subcategory}.title`,
+        subcategory.subcategory
+      ),
+      description: safeT(
+        t,
+        `subcategories.${subcategory.subcategory}.description`,
+        ""
+      ),
+    })),
+  };
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
@@ -81,30 +72,26 @@ const jsonLd = {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-<CategoryHero
-  title={translateOrFallback(t, `categories.${category.id}.title`, category.id)}
-  description={translateOrFallback(
-    t,
-    `categories.${category.id}.description`,
-    ""
-  )}
-  image={category.image}
-  icon={category.icon}
-  categoryId={category.id}
-  findDoctorsLabel={t("findDoctors")}
-/>
+      <CategoryHero
+        title={safeT(t, `categories.${category.id}.title`, category.id)}
+        description={safeT(t, `categories.${category.id}.description`, "")}
+        image={category.image}
+        icon={category.icon}
+        categoryId={category.id}
+        findDoctorsLabel={safeT(t, "findDoctors", "Find doctors")}
+      />
 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:px-12 lg:px-16">
         <CategorySubcategories
-          title={t("subcategoriesTitle")}
+          title={safeT(t, "subcategoriesTitle", "Procedures")}
           subcategories={catalogCategory.subcategories.map((subcategory) => ({
             subcategory: subcategory.subcategory,
-            title: translateOrFallback(
+            title: safeT(
               t,
               `subcategories.${subcategory.subcategory}.title`,
               subcategory.subcategory
             ),
-            description: translateOrFallback(
+            description: safeT(
               t,
               `subcategories.${subcategory.subcategory}.description`,
               ""
@@ -117,12 +104,32 @@ const jsonLd = {
                 : procedure.name,
             })),
           }))}
-          selectedProceduresTitle={t("selectedProceduresTitle")}
-          selectedProceduresDescription={t.raw("selectedProceduresDescription")}
-          chooseProceduresTitle={t("chooseProceduresTitle")}
-          chooseProceduresDescription={t("chooseProceduresDescription")}
-          findBestDoctors={t("findBestDoctors")}
-          chooseProceduresButton={t("chooseProceduresButton")}
+          selectedProceduresTitle={safeT(
+            t,
+            "selectedProceduresTitle",
+            "Selected procedures"
+          )}
+          selectedProceduresDescription={
+            t.has("selectedProceduresDescription")
+              ? t.raw("selectedProceduresDescription")
+              : "{count} procedures selected"
+          }
+          chooseProceduresTitle={safeT(
+            t,
+            "chooseProceduresTitle",
+            "Choose procedures"
+          )}
+          chooseProceduresDescription={safeT(
+            t,
+            "chooseProceduresDescription",
+            "Select up to 3 procedures."
+          )}
+          findBestDoctors={safeT(t, "findBestDoctors", "Find best doctors")}
+          chooseProceduresButton={safeT(
+            t,
+            "chooseProceduresButton",
+            "Choose procedures"
+          )}
         />
       </section>
     </main>
