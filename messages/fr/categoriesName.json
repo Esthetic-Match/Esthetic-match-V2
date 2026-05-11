@@ -1,13 +1,13 @@
 {
-  "non_surgical_face": "Visage non chirurgical",
-  "non_surgical_body": "Corps non chirurgical",
+  "non_surgical_face": "Médecine esthétique (visage)",
+  "non_surgical_body": "Médecine esthétique (corps)",
   "aesthetic_dentistry": "Dentisterie esthétique",
   "hair_medicine": "Médecine capillaire",
   "muscle_tone_and_ems": "Tonification musculaire & EMS",
   "iv_therapy": "Thérapie IV",
   "wellness_and_drainage": "Bien-être & drainage",
-  "surgical_face": "Visage chirurgical",
-  "surgical_body": "Corps chirurgical",
+  "surgical_face": "Chirurgie du visage",
+  "surgical_body": "Chirurgie du corps",
   "longevity_medicine": "Médecine de longévité",
   "OTHER": "Autre",
   "No categories": "Aucune catégorie disponible pour les spécialités sélectionnées."

@@ -26,11 +26,11 @@
 
     "categories": {
       "non_surgical_face": {
-        "title": "Visage non chirurgical",
+        "title": "Médecine esthétique (visage)",
         "description": "Traitements faciaux mini-invasifs axés sur le volume, la qualité de la peau, le lifting, le resurfaçage et le rajeunissement."
       },
       "non_surgical_body": {
-        "title": "Corps non chirurgical",
+        "title": "Médecine esthétique (corps)",
         "description": "Traitements de remodelage corporel, réduction des graisses, gestion du poids et soins bien-être sans chirurgie."
       },
       "aesthetic_dentistry": {
@@ -54,11 +54,11 @@
         "description": "Traitements favorisant la circulation, le drainage lymphatique, la relaxation, la récupération et le bien-être général."
       },
       "surgical_face": {
-        "title": "Visage chirurgical",
+        "title": "Chirurgie du visage",
         "description": "Procédures chirurgicales faciales pour le lifting, le contouring, le remodelage et l’amélioration structurelle du visage."
       },
       "surgical_body": {
-        "title": "Corps chirurgical",
+        "title": "Chirurgie du corps",
         "description": "Chirurgie de remodelage corporel, chirurgie mammaire, procédures intimes, liposuccion et remodelage du corps."
       },
       "longevity_medicine": {
