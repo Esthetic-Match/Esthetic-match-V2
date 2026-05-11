@@ -54,19 +54,42 @@
         "viewGoogle": "Voir sur Google",
         "notAllowed": "Le médecin n’a pas encore activé les avis Google."
       },
-  "gallery": {
-    "title": "Galerie photos",
-    "before": "Avant",
-    "after": "Après",
-    "noImagesTitle": "Aucune image avant/après",
-    "noImagesDescription": "Ce médecin n’a pas encore ajouté d’images de transformation de traitement.",
-    "more": "+{count} de plus",
-    "moreDescription": "Plus de résultats sont disponibles sur le profil de ce médecin.",
-    "showLess": "Afficher moins",
-    "viewMore": "Voir {count} de plus",
-    "beforeAlt": "Résultat avant traitement",
-    "afterAlt": "Résultat après traitement"
-  }
+      "gallery": {
+        "title": "Galerie photos",
+        "before": "Avant",
+        "after": "Après",
+        "noImagesTitle": "Aucune image avant/après",
+        "noImagesDescription": "Ce médecin n’a pas encore ajouté d’images de transformation de traitement.",
+        "more": "+{count} de plus",
+        "moreDescription": "Plus de résultats sont disponibles sur le profil de ce médecin.",
+        "showLess": "Afficher moins",
+        "viewMore": "Voir {count} de plus",
+        "beforeAlt": "Résultat avant traitement",
+        "afterAlt": "Résultat après traitement"
+      }
+    },
+     "bookingConfirmation": {
+      "eyebrow": "Confirmation de réservation",
+      "paymentSuccessful": "Paiement réussi",
+      "paymentPending": "Le paiement est en cours de confirmation",
+      "inClinicSuccess": "Vous pouvez maintenant consulter les coordonnées et les détails de la clinique du médecin.",
+      "onlineSuccess": "Votre accès au chat de consultation en ligne est maintenant actif.",
+      "pendingDescription": "Stripe confirme encore votre paiement. Cela se met généralement à jour automatiquement après quelques instants.",
+      "inClinicConsultation": "Consultation en clinique",
+      "onlineConsultation": "Consultation en ligne",
+      "paidAmount": "Montant payé : €{price}",
+      "contactUnlocked": "Accès aux coordonnées du médecin débloqué",
+      "clinic": "Clinique :",
+      "address": "Adresse :",
+      "city": "Ville :",
+      "openBookingLink": "Ouvrir le lien de réservation",
+      "chatUnlocked": "Accès au chat débloqué",
+      "chatUnlockedDescription": "Vous pouvez maintenant envoyer des messages au médecin via votre compte.",
+      "securePayment": "Paiement traité de manière sécurisée par Stripe.",
+      "goToMessages": "Aller aux messages",
+      "goToDashboard": "Aller au tableau de bord",
+      "backToDoctor": "Retour au profil du médecin",
+      "bookingIssue": "Problème de réservation"
     }
   }
 }
