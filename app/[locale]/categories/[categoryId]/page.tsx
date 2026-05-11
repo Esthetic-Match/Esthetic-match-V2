@@ -4,10 +4,8 @@ import { NavBarMain } from "@/components/NavbarMain";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import CategoryHero from "@/components/homePage/categories/CategoryHero";
 import CategorySubcategories from "@/components/homePage/categories/CategorySubcategories";
-
 import {
   categoryPages,
-  normalizeCategoryId,
 } from "@/components/homePage/categories/categoryData";
 
 type CategoryPageProps = {
@@ -41,21 +39,38 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   if (!catalogCategory) {
     notFound();
   }
+  const translateOrFallback = (
+  translator: typeof t,
+  key: string,
+  fallback: string
+) => {
+  return translator.has(key) ? translator(key) : fallback;
+};
 
-  const specialtyMapCategoryId = normalizeCategoryId(category.id);
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "MedicalSpecialty",
-    name: t(`categories.${category.id}.title`),
-    description: t(`categories.${category.id}.description`),
-    image: category.image,
-    hasPart: catalogCategory.subcategories.map((subcategory) => ({
-      "@type": "MedicalProcedure",
-      name: t(`subcategories.${subcategory.subcategory}.title`),
-      description: t(`subcategories.${subcategory.subcategory}.description`),
-    })),
-  };
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalSpecialty",
+  name: translateOrFallback(t, `categories.${category.id}.title`, category.id),
+  description: translateOrFallback(
+    t,
+    `categories.${category.id}.description`,
+    ""
+  ),
+  image: category.image,
+  hasPart: catalogCategory.subcategories.map((subcategory) => ({
+    "@type": "MedicalProcedure",
+    name: translateOrFallback(
+      t,
+      `subcategories.${subcategory.subcategory}.title`,
+      subcategory.subcategory
+    ),
+    description: translateOrFallback(
+      t,
+      `subcategories.${subcategory.subcategory}.description`,
+      ""
+    ),
+  })),
+};
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
@@ -66,26 +81,40 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <CategoryHero
-        title={t(`categories.${category.id}.title`)}
-        description={t(`categories.${category.id}.description`)}
-        image={category.image}
-        icon={category.icon}
-        categoryId={category.id}
-        findDoctorsLabel={t("findDoctors")}
-      />
+<CategoryHero
+  title={translateOrFallback(t, `categories.${category.id}.title`, category.id)}
+  description={translateOrFallback(
+    t,
+    `categories.${category.id}.description`,
+    ""
+  )}
+  image={category.image}
+  icon={category.icon}
+  categoryId={category.id}
+  findDoctorsLabel={t("findDoctors")}
+/>
 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:px-12 lg:px-16">
         <CategorySubcategories
           title={t("subcategoriesTitle")}
           subcategories={catalogCategory.subcategories.map((subcategory) => ({
             subcategory: subcategory.subcategory,
-            title: t(`subcategories.${subcategory.subcategory}.title`),
-            description: t(`subcategories.${subcategory.subcategory}.description`),
+            title: translateOrFallback(
+              t,
+              `subcategories.${subcategory.subcategory}.title`,
+              subcategory.subcategory
+            ),
+            description: translateOrFallback(
+              t,
+              `subcategories.${subcategory.subcategory}.description`,
+              ""
+            ),
             procedures: subcategory.procedures.map((procedure) => ({
               id: procedure.id,
               name: procedure.name,
-              label: procedureT(procedure.id),
+              label: procedureT.has(procedure.id)
+                ? procedureT(procedure.id)
+                : procedure.name,
             })),
           }))}
           selectedProceduresTitle={t("selectedProceduresTitle")}
