@@ -6,6 +6,18 @@ import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { ConsultationType } from "@prisma/client";
 
+const ALLOWED_CURRENCIES = ["eur", "usd", "gbp", "aed", "egp"];
+
+function normalizeCurrency(currency?: string | null) {
+  const normalized = currency?.trim().toLowerCase() || "eur";
+
+  if (!ALLOWED_CURRENCIES.includes(normalized)) {
+    return "eur";
+  }
+
+  return normalized;
+}
+
 export async function POST(req: Request) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -20,10 +32,14 @@ export async function POST(req: Request) {
   const {
     doctorProfileId,
     consultationType,
+    currency: requestedCurrency,
   }: {
     doctorProfileId: string;
     consultationType: ConsultationType;
+    currency?: string | null;
   } = body;
+
+  const currency = normalizeCurrency(requestedCurrency);
 
   const doctorProfile = await prisma.doctorProfile.findUnique({
     where: { id: doctorProfileId },
@@ -60,7 +76,6 @@ export async function POST(req: Request) {
     );
   }
 
-  const currency = "eur";
   const amount = Math.round(price * 100);
   const platformFee = Math.round(amount * 0.1);
   const doctorAmount = amount - platformFee;
@@ -111,11 +126,13 @@ export async function POST(req: Request) {
         doctorProfileId: doctorProfile.id,
         patientUserId: session.user.id,
         consultationType,
+        currency,
       },
     },
 
     metadata: {
       bookingId: booking.id,
+      currency,
     },
   });
 
