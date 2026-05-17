@@ -5,7 +5,8 @@ import ConversationListItem from "./ConversationListItem";
 import EmptyState from "./EmptyState";
 
 type ConversationSidebarProps = {
-  conversations: Conversation[];
+  activeConversations: Conversation[];
+  closedConversations: Conversation[];
   selectedConversationId: string | null;
   search: string;
   loading: boolean;
@@ -16,7 +17,8 @@ type ConversationSidebarProps = {
 };
 
 export default function ConversationSidebar({
-  conversations,
+  activeConversations,
+  closedConversations,
   selectedConversationId,
   search,
   loading,
@@ -25,6 +27,9 @@ export default function ConversationSidebar({
   onSearchChange,
   onSelectConversation,
 }: ConversationSidebarProps) {
+  const hasConversations =
+    activeConversations.length > 0 || closedConversations.length > 0;
+
   return (
     <aside className="flex h-full min-h-0 w-full flex-col border-r border-[#283C5D]/10 bg-[#283C5D] text-white md:w-[360px]">
       <div className="border-b border-white/10 p-6">
@@ -47,24 +52,55 @@ export default function ConversationSidebar({
           <p className="p-4 text-sm text-white/60">
             {t("loadingConversations")}
           </p>
-        ) : conversations.length === 0 ? (
+        ) : !hasConversations ? (
           <EmptyState
             variant="dark"
             title={t("noActiveChats")}
             description={t("noActiveChatsDescription")}
           />
         ) : (
-          <div className="space-y-3">
-            {conversations.map((conversation) => (
-              <ConversationListItem
-                key={conversation.id}
-                conversation={conversation}
-                person={getOtherPerson(conversation, me)}
-                isActive={conversation.id === selectedConversationId}
-                profileAlt={t("profileAlt")}
-                onSelect={() => onSelectConversation(conversation.id)}
-              />
-            ))}
+          <div className="space-y-6">
+            {activeConversations.length > 0 && (
+              <div className="space-y-3">
+                {activeConversations.map((conversation) => (
+                  <ConversationListItem
+                    key={conversation.id}
+                    conversation={conversation}
+                    person={getOtherPerson(conversation, me)}
+                    isActive={conversation.id === selectedConversationId}
+                    profileAlt={t("profileAlt")}
+                    onSelect={() => onSelectConversation(conversation.id)}
+                  />
+                ))}
+              </div>
+            )}
+
+            {closedConversations.length > 0 && (
+              <>
+                <div className="flex items-center gap-3 px-2">
+                  <div className="h-px flex-1 bg-white/10" />
+
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
+                    Closed
+                  </span>
+
+                  <div className="h-px flex-1 bg-white/10" />
+                </div>
+
+                <div className="space-y-3 opacity-70">
+                  {closedConversations.map((conversation) => (
+                    <ConversationListItem
+                      key={conversation.id}
+                      conversation={conversation}
+                      person={getOtherPerson(conversation, me)}
+                      isActive={conversation.id === selectedConversationId}
+                      profileAlt={t("profileAlt")}
+                      onSelect={() => onSelectConversation(conversation.id)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

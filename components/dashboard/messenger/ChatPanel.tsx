@@ -16,6 +16,7 @@ type ChatPanelProps = {
   t: (key: string) => string;
   onMessageTextChange: (value: string) => void;
   onSendMessage: () => void;
+  onEndConversation: (conversationId: string) => void;
 };
 
 export default function ChatPanel({
@@ -29,6 +30,7 @@ export default function ChatPanel({
   t,
   onMessageTextChange,
   onSendMessage,
+  onEndConversation,  
 }: ChatPanelProps) {
   if (!selectedConversation || !me) {
     return (
@@ -48,6 +50,9 @@ export default function ChatPanel({
       <ChatHeader
         person={person}
         subtitle={t("activeOnlineConsultation")}
+        me={me}
+        conversation={selectedConversation}
+        onEndConversation={onEndConversation}
       />
 
       <MessageList
@@ -61,6 +66,7 @@ export default function ChatPanel({
       <MessageInput
         value={messageText}
         sending={sending}
+        isDisabled={selectedConversation.status === "CLOSED"}
         placeholder={t("messagePlaceholder")}
         onChange={onMessageTextChange}
         onSend={onSendMessage}

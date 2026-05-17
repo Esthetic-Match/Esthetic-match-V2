@@ -19,13 +19,11 @@ export async function GET() {
     where:
       role === "DOCTOR"
         ? {
-            status: "ACTIVE",
             doctorProfile: {
               userId,
             },
           }
         : {
-            status: "ACTIVE",
             patientUserId: userId,
           },
     include: {
@@ -53,20 +51,23 @@ export async function GET() {
         },
       },
       _count: {
-      select: {
-        messages: {
-          where: {
-            senderUserId: {
-              not: userId,
+        select: {
+          messages: {
+            where: {
+              senderUserId: {
+                not: userId,
+              },
+              readAt: null,
+              deletedAt: null,
             },
-            readAt: null,
-            deletedAt: null,
           },
         },
       },
     },
-    },
     orderBy: [
+      {
+        status: "asc",
+      },
       {
         lastMessageAt: "desc",
       },
@@ -77,9 +78,9 @@ export async function GET() {
   });
 
   return NextResponse.json({
-  conversations: conversations.map((conversation) => ({
-    ...conversation,
-    unreadCount: conversation._count.messages,
-  })),
-});
+    conversations: conversations.map((conversation) => ({
+      ...conversation,
+      unreadCount: conversation._count.messages,
+    })),
+  });
 }

@@ -54,6 +54,22 @@ export default function Messenger() {
     });
   }, [conversations, search]);
 
+  const activeConversations = useMemo(
+    () =>
+      filteredConversations.filter(
+        (conversation) => conversation.status === "ACTIVE"
+      ),
+    [filteredConversations]
+  );
+
+  const closedConversations = useMemo(
+    () =>
+      filteredConversations.filter(
+        (conversation) => conversation.status === "CLOSED"
+      ),
+    [filteredConversations]
+  );
+  
   useEffect(() => {
     async function loadInitialData() {
       try {
@@ -133,7 +149,14 @@ export default function Messenger() {
   async function sendMessage() {
     const cleanText = messageText.trim();
 
-    if (!cleanText || !selectedConversationId || sending) return;
+    if (
+      !cleanText ||
+      !selectedConversationId ||
+      sending ||
+      selectedConversation?.status !== "ACTIVE"
+    ) {
+      return;
+    }
 
     const tempMessage: Message = {
       id: `temp-${Date.now()}`,
@@ -213,11 +236,43 @@ export default function Messenger() {
   );
 }
 
+async function handleEndConversation(conversationId: string) {
+  try {
+    const res = await fetch(`/api/conversations/${conversationId}/close`, {
+      method: "PATCH",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to end conversation");
+    }
+
+    setConversations((current) =>
+      current.map((conversation) =>
+        conversation.id === conversationId
+          ? {
+              ...conversation,
+              status: "CLOSED",
+            }
+          : conversation
+      )
+    );
+
+    if (selectedConversationId === conversationId) {
+      setSelectedConversationId(null);
+      setMessages([]);
+      setMessageText("");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
   return (
     <div className="h-screen w-full bg-[#FAF9F7] pl-2 pt-2">
       <div className="mx-auto flex h-full w-full max-w-8xl overflow-hidden rounded-t-xl rounded-tr-xl rounded-br-xl bg-white shadow-xl max-md:flex-col">
         <ConversationSidebar
-          conversations={filteredConversations}
+          activeConversations={activeConversations}
+          closedConversations={closedConversations}
           selectedConversationId={selectedConversationId}
           search={search}
           loading={loadingConversations}
@@ -240,6 +295,7 @@ export default function Messenger() {
             t={t}
             onMessageTextChange={setMessageText}
             onSendMessage={sendMessage}
+            onEndConversation={handleEndConversation}
           />
         ) : (
           <EmptyChatHero />
