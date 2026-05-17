@@ -21,7 +21,9 @@
     "subtitle": "Discover top-rated aesthetic practitioners near you — tailored to your beauty goals.",
     "chooseRole": "Choose Your Account Type",
     "Healthcare Provider": "Healthcare Provider",
-    "Patient": "Patient or Visitor"
+    "Patient": "Patient or Visitor",
+    "signInMessage": "Already have an account ? ",
+    "signIn": "Sign In"
   },
   "signUpForm":{
     "heading": "Create your account",

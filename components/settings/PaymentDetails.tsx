@@ -13,7 +13,7 @@ type DoctorProfileResponse = {
   stripeConnectAccountId?: string | null;
   stripeConnectChargesEnabled?: boolean | null;
   stripeConnectOnboardingComplete?: boolean | null;
-  consultationCurrency?: string | null;
+  currency?: string | null;
 };
 
 const CURRENCIES = [
@@ -23,14 +23,17 @@ const CURRENCIES = [
   { value: "chf", label: "Swiss Franc", symbol: "CHF" },
 ];
 
-export default function PaymentDetails() {
+export default function PaymentDetails({ doctorProfile }: { doctorProfile: DoctorProfileResponse }) {
   const [profile, setProfile] = useState<DoctorProfileResponse | null>(null);
-  const [selectedCurrency, setSelectedCurrency] = useState("eur");
+  const [selectedCurrency, setSelectedCurrency] = useState(
+  doctorProfile?.currency?.toLowerCase() || "eur"
+);
   const [isFetching, setIsFetching] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSavingCurrency, setIsSavingCurrency] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  
 
   const isConnected =
     Boolean(profile?.stripeConnectAccountId) &&
@@ -38,7 +41,7 @@ export default function PaymentDetails() {
     Boolean(profile?.stripeConnectOnboardingComplete);
 
   const hasCurrencyChanged =
-    selectedCurrency !== (profile?.consultationCurrency || "eur");
+    selectedCurrency !== (profile?.currency || "eur");
 
   async function fetchDoctorProfile() {
     try {
@@ -109,7 +112,7 @@ export default function PaymentDetails() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          consultationCurrency: selectedCurrency,
+          currency: selectedCurrency,
         }),
       });
 
@@ -138,6 +141,13 @@ export default function PaymentDetails() {
   useEffect(() => {
     fetchDoctorProfile();
   }, []);
+
+  useEffect(() => {
+    console.log("Doctor profile updated:", doctorProfile.currency);
+  if (doctorProfile?.currency) {
+    setSelectedCurrency(doctorProfile.currency.toLowerCase());
+  }
+}, [doctorProfile?.currency]);
 
   if (isFetching) {
     return (

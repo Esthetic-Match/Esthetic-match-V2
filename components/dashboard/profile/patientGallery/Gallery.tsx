@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 
 type PhotoGalleryProps = {
   userId: string;
+  procedureIds?: string[] | null;
   paidPlan?: "free" | "standard" | null;
 };
 
@@ -17,14 +18,13 @@ type GalleryItem = {
 };
 
 
-export default function PhotoGallery({ userId, paidPlan }: PhotoGalleryProps) {
+export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGalleryProps) {
   const t = useTranslations("dashboard");
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
 
   const plan = paidPlan ?? "free";
   const isPremium = plan === "standard";
-  const galleryLimit = isPremium ? gallery.length : 3;
   const visibleGallery = isPremium ? gallery : gallery.slice(0, 3);
   const isEmpty = visibleGallery.length === 0;
   const canAddMore = isPremium || gallery.length < 3;
@@ -135,6 +135,7 @@ export default function PhotoGallery({ userId, paidPlan }: PhotoGalleryProps) {
     <BeforeAfterUploadModal
       isOpen={isUploadModalOpen}
       doctorId={userId}
+      procedureIds={procedureIds}
       onClose={() => setIsUploadModalOpen(false)}
       onUploaded={({ beforeImage, afterImage }) => {
         setGallery((prev) => [

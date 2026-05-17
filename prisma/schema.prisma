@@ -114,6 +114,7 @@ model DoctorProfile {
   googlePlaceId         String?
   paidPlan              String? @default("free")
   currency              String @default("eur")
+  RPPS                  String?
 
   inClinicPrice         Float?
   onlineConsulPrice     Float?
@@ -292,7 +293,10 @@ model BeforeAfterCase {
 
   doctorId    String
   patientId   String?
-  procedureId String?
+
+  procedure   String?
+  notes       String?
+
   title       String?
 
   beforeImage String?

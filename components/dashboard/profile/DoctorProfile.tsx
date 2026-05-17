@@ -108,7 +108,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           inClinicLink={profile?.inClinicLink}
           currency={profile?.currency}
         />
-        <Gallery userId={user.id} paidPlan={profile?.paidPlan}/>
+        <Gallery userId={user.id} paidPlan={profile?.paidPlan} procedureIds={profile?.procedureIds} />
     </div>
   );
 }

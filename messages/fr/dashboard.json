@@ -20,6 +20,7 @@
     }
   },
   "common": {
+    "save": "Enregistrer",
     "notAvailable": "Non disponible",
     "notAvailableShort": "ND",
     "upgradeToPremium": "Passer au forfait Premium"

@@ -20,6 +20,7 @@
   }
 },
   "common": {
+    "save": "Save",
     "notAvailable": "Not available",
     "notAvailableShort": "NA",
     "upgradeToPremium": "Upgrade to Premium"

@@ -21,7 +21,9 @@
     "subtitle": "Découvrez des praticiens esthétiques les mieux notés près de chez vous — adaptés à vos objectifs beauté.",
     "chooseRole": "Choisissez votre type de compte",
     "Healthcare Provider": "Professionnel de santé",
-    "Patient": "Patient ou visiteur"
+    "Patient": "Patient ou visiteur",
+    "signInMessage": "Vous avez déjà un compte ? ",
+    "signIn": "Se connecter"
   },
     "signUpForm":{
     "heading": "Créez votre profil",

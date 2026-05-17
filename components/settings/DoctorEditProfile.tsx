@@ -242,7 +242,7 @@ const groupedProceduresByCategory = DoctorCatalog.categories
           <button
             type="button"
             onClick={() => setModalType("specialtyIds")}
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+            className="flex h-7 w-7 items-center cursor-pointer justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
           >
             <Pencil size={14} />
           </button>
@@ -266,7 +266,7 @@ const groupedProceduresByCategory = DoctorCatalog.categories
           <button
             type="button"
             onClick={() => setModalType("subcategoryIds")}
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+            className="flex h-7 w-7 items-center cursor-pointer justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
           >
             <Pencil size={14} />
           </button>
@@ -323,14 +323,22 @@ const groupedProceduresByCategory = DoctorCatalog.categories
         <p className="font-medium text-[#283C5D]">
           {t("doctorEditProfile.topThreeProcedures")}
         </p>
+        
 
         <button
           type="button"
           onClick={() => setModalType("topThree")}
-          className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+          className="flex h-7 w-7 items-center justify-center rounded-full cursor-pointer border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
         >
           <Pencil size={14} />
         </button>
+      </div>
+
+      <div className="my-5 flex items-center gap-2 rounded-lg bg-[#EFF6FF] px-4 py-2 text-xs font-medium text-[#283C5D]/60">
+        <span className="flex h-4 w-8 items-center justify-center rounded-full border border-[#2563EB] text-[10px] font-bold text-[#2563EB]">
+          i
+        </span>
+        <span>{t("topThreeNote")}</span>
       </div>
 
       {(doctorProfile?.topThree ?? []).length > 0 ? (
@@ -363,7 +371,7 @@ const groupedProceduresByCategory = DoctorCatalog.categories
       onClick={handleSaveProfile}
       disabled={isSaving}
       className="w-full rounded-full bg-gradient-to-r 
-      from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white 
+      from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-black 
       hover:bg-[#d8bd8d] disabled:cursor-not-allowed disabled:opacity-60"
     >
       {isSaving
