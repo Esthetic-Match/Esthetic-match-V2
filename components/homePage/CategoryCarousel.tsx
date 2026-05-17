@@ -5,14 +5,14 @@ const categories = [
   {
     key: "NON-SURGICAL FACE",
     href: "/categories/non-surgical-face",
-    image: "/images/home/categories/non-surgical-face.png",
-    icon: "/images/home/categories/icons/non-surgical-face.svg",
+    image: "/images/home/categories/aesthetic_medicine_face.png",
+    icon: "/images/home/categories/icons/aesthetic-medicine-face.svg",
   },
   {
     key: "NON-SURGICAL BODY",
     href: "/categories/non-surgical-body",
-    image: "/images/home/categories/non-surgical-body.png",
-    icon: "/images/home/categories/icons/non-surgical-body.svg",
+    image: "/images/home/categories/aesthetic_medicine_body.png",
+    icon: "/images/home/categories/icons/aesthetic-medicine-body.svg",
   },
   {
     key: "AESTHETIC DENTISTRY",

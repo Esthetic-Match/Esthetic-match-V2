@@ -9,8 +9,8 @@ const categories = [
     key: "AESTHETIC MEDICINE FACE",
     id: "aesthetic_medicine_face",
     href: "/categories/non-surgical-face",
-    image: "/images/home/categories/non-surgical-face.png",
-    icon: "/images/home/categories/icons/non-surgical-face.svg",
+    image: "/images/home/categories/aesthetic_medicine_face.png",
+    icon: "/images/home/categories/icons/aesthetic-medicine-face.svg",
     description:
       "Minimally invasive facial treatments focused on volume, skin quality, lifting, resurfacing, and rejuvenation.",
   },
@@ -18,8 +18,8 @@ const categories = [
     key: "AESTHETIC MEDICINE BODY",
     id: "aesthetic_medicine_body",
     href: "/categories/non-surgical-body",
-    image: "/images/home/categories/non-surgical-body.png",
-    icon: "/images/home/categories/icons/non-surgical-body.svg",
+    image: "/images/home/categories/aesthetic_medicine_body.png",
+    icon: "/images/home/categories/icons/aesthetic-medicine-body.svg",
     description:
       "Body contouring, fat reduction, weight management, and wellness-led treatments without surgery.",
   },
@@ -81,7 +81,7 @@ const categories = [
     key: "SURGICAL BODY",
     id: "surgical_body",
     href: "/categories/surgical-body",
-    image: "/images/home/categories/surgical-body.png",
+    image: "/images/home/categories/surgical-body.jpg",
     icon: "/images/home/categories/icons/surgical-body.svg",
     description:
       "Surgical body contouring, breast surgery, intimate procedures, liposuction, and body reshaping.",

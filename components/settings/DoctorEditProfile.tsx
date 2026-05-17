@@ -56,6 +56,9 @@ export default function DoctorEditProfile({
   doctorProfile,
 }: DoctorEditProfileProps) {
   const t = useTranslations("settings");
+  const specialityT = useTranslations("specialitiesName");
+  const categoriesT = useTranslations("signUp.category");
+  const proceduresT = useTranslations("proceduresName");
   const [name, setName] = useState(user.name ?? "");
   const [email] = useState(user.email);
   const [clinicName, setClinicName] = useState(doctorProfile?.clinicName ?? "");
@@ -224,7 +227,7 @@ function syncTopThreeWithProcedures(
 
         <div className="flex flex-wrap gap-2">
           {(doctorProfile?.specialtyIds ?? []).map((specialty) => (
-            <Chip key={specialty} label={formatLabel(specialty)} />
+            <Chip key={specialty} label={specialityT(specialty)} />
           ))}
         </div>
       </div>
@@ -248,7 +251,7 @@ function syncTopThreeWithProcedures(
 
         <div className="flex flex-wrap gap-2">
           {(doctorProfile?.subcategoryIds ?? []).map((category) => (
-            <Chip key={category} label={formatLabel(category)} />
+            <Chip key={category} label={categoriesT(category)} />
           ))}
         </div>
       </div>
@@ -262,7 +265,7 @@ function syncTopThreeWithProcedures(
 
         <div className="flex flex-wrap gap-2">
           {procedureIds.map((procedure) => (
-            <Chip key={procedure} label={formatLabel(procedure)} />
+            <Chip key={procedure} label={proceduresT(procedure)} />
           ))}
         </div>
       </div>
