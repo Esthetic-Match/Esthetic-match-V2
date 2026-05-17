@@ -28,7 +28,8 @@ const allowedFields = [
   "onlineConsulPrice",
   "socialMediaLink",
   "bookingLinks",
-  "inClinicLink"
+  "inClinicLink",
+  "currency",
 ] as const;
 
 function requiredString(value: unknown): string | null {

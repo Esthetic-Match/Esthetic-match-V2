@@ -1,29 +1,50 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, CheckCircle, CreditCard } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle,
+  CreditCard,
+  Save,
+  Wallet,
+} from "lucide-react";
 
 type DoctorProfileResponse = {
   stripeConnectAccountId?: string | null;
   stripeConnectChargesEnabled?: boolean | null;
   stripeConnectOnboardingComplete?: boolean | null;
+  consultationCurrency?: string | null;
 };
+
+const CURRENCIES = [
+  { value: "eur", label: "Euro", symbol: "€" },
+  { value: "usd", label: "US Dollar", symbol: "$" },
+  { value: "gbp", label: "British Pound", symbol: "£" },
+  { value: "chf", label: "Swiss Franc", symbol: "CHF" },
+];
 
 export default function PaymentDetails() {
   const [profile, setProfile] = useState<DoctorProfileResponse | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = useState("eur");
   const [isFetching, setIsFetching] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSavingCurrency, setIsSavingCurrency] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const isConnected =
     Boolean(profile?.stripeConnectAccountId) &&
     Boolean(profile?.stripeConnectChargesEnabled) &&
     Boolean(profile?.stripeConnectOnboardingComplete);
 
+  const hasCurrencyChanged =
+    selectedCurrency !== (profile?.consultationCurrency || "eur");
+
   async function fetchDoctorProfile() {
     try {
       setIsFetching(true);
       setErrorMessage("");
+      setSuccessMessage("");
 
       const res = await fetch("/api/doctor-profile", {
         method: "GET",
@@ -36,6 +57,7 @@ export default function PaymentDetails() {
       }
 
       setProfile(data);
+      setSelectedCurrency(data.consultationCurrency || "eur");
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Something went wrong"
@@ -49,6 +71,7 @@ export default function PaymentDetails() {
     try {
       setIsLoading(true);
       setErrorMessage("");
+      setSuccessMessage("");
 
       const res = await fetch("/api/stripe/connect/onboard", {
         method: "POST",
@@ -71,6 +94,44 @@ export default function PaymentDetails() {
       );
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleSaveCurrency() {
+    try {
+      setIsSavingCurrency(true);
+      setErrorMessage("");
+      setSuccessMessage("");
+
+      const res = await fetch("/api/doctor-profile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          consultationCurrency: selectedCurrency,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to update currency");
+      }
+
+      setProfile((prev) => ({
+        ...prev,
+        ...data,
+        consultationCurrency: data.consultationCurrency || selectedCurrency,
+      }));
+
+      setSuccessMessage("Currency updated successfully.");
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "Something went wrong"
+      );
+    } finally {
+      setIsSavingCurrency(false);
     }
   }
 
@@ -97,7 +158,7 @@ export default function PaymentDetails() {
           Payment Details
         </h2>
 
-        <div className="my-4 border-t border-gray-300"></div>
+        <div className="my-4 border-t border-gray-300" />
       </div>
 
       <div className="rounded-3xl border border-[#283C5D]/10 bg-white p-5 shadow-sm">
@@ -137,15 +198,11 @@ export default function PaymentDetails() {
         </div>
       )}
 
-      {errorMessage ? (
-        <p className="text-sm text-red-500">{errorMessage}</p>
-      ) : null}
-
       <button
         type="button"
         onClick={handleConnectStripe}
         disabled={isLoading || isConnected}
-        className="rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white transition hover:bg-[#d8bd8d] disabled:opacity-50"
+        className="rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
       >
         {isLoading
           ? "Redirecting..."
@@ -155,6 +212,66 @@ export default function PaymentDetails() {
               ? "Complete Stripe Onboarding"
               : "Connect Stripe"}
       </button>
+
+      <div className="rounded-3xl border border-[#283C5D]/10 bg-white p-5 shadow-sm">
+        <div className="flex items-start gap-4">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#283C5D]/10 text-[#283C5D]">
+            <Wallet size={20} />
+          </div>
+
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-[#283C5D]">
+              Select your currency
+            </h3>
+
+            <p className="mt-1 text-sm leading-6 text-[#283C5D]/60">
+              Choose the currency patients will see when booking consultations
+              with you.
+            </p>
+
+            <div className="mt-5 space-y-4">
+              <select
+                value={selectedCurrency}
+                onChange={(event) => {
+                  setSelectedCurrency(event.target.value);
+                  setSuccessMessage("");
+                }}
+                className="w-full rounded-2xl border border-[#283C5D]/10 bg-[#FAF9F7] px-4 py-3 text-sm font-medium text-[#283C5D] outline-none transition focus:border-[#d8bd8d]"
+              >
+                {CURRENCIES.map((currency) => (
+                  <option key={currency.value} value={currency.value}>
+                    {currency.symbol} {currency.label} ({currency.value.toUpperCase()})
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                onClick={handleSaveCurrency}
+                disabled={isSavingCurrency || !hasCurrencyChanged}
+                className="inline-flex w-full items-center justify-center rounded-full bg-[#283C5D] px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+              >
+                <Save className="mr-2 h-4 w-4" />
+                {isSavingCurrency ? "Saving..." : "Save currency"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {successMessage ? (
+        <div className="flex items-center gap-2 rounded-2xl bg-green-50 px-4 py-3 text-sm text-green-700">
+          <CheckCircle size={16} />
+          {successMessage}
+        </div>
+      ) : null}
+
+      {errorMessage ? (
+        <div className="flex items-center gap-2 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-600">
+          <AlertCircle size={16} />
+          {errorMessage}
+        </div>
+      ) : null}
     </div>
   );
 }

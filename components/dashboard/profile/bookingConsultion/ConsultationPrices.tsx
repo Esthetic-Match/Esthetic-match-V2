@@ -11,6 +11,7 @@ type ConsultationPricesProps = {
   inClinicPrice?: number | null;
   onlineConsulPrice?: number | null;
   inClinicLink?: string | null;
+  currency?: string | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void | Promise<void>;
@@ -20,6 +21,7 @@ export default function ConsultationPrices({
   inClinicPrice,
   onlineConsulPrice,
   inClinicLink,
+  currency,
   onUpdateProfile,
 }: ConsultationPricesProps) {
   const t = useTranslations("dashboard");
@@ -115,6 +117,7 @@ export default function ConsultationPrices({
             <PriceRow
               label={t("consultationPrices.inClinic")}
               price={inClinicPrice}
+              currency={currency}
             />
 
             {inClinicLink ? (
@@ -147,6 +150,7 @@ export default function ConsultationPrices({
           <PriceRow
             label={t("consultationPrices.online")}
             price={onlineConsulPrice}
+            currency={currency}
           />
         )}
 

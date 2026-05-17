@@ -30,6 +30,7 @@ export type DoctorProfileData = {
   googleReviewCount?: number | null;
   bookingLinks?: []| null;
   inClinicLink?: string| null;
+  currency?: string | null;
 
   user: {
     id: string;

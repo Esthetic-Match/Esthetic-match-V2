@@ -15,6 +15,7 @@ type BookingAndPricesProps = {
   paidPlan?:  string| null;
   inClinicLink?: string | null;
   bookingLinks?: []|null;
+  currency?: string | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void | Promise<void>;
@@ -33,6 +34,7 @@ export default function BookingAndPrices({
   paidPlan,
   bookingLinks,
   inClinicLink,
+  currency,
 }: BookingAndPricesProps) {
   return (
     <section className="relative mx-auto mt-6 w-[calc(100%-2rem)] max-w-6xl">
@@ -42,6 +44,7 @@ export default function BookingAndPrices({
           onlineConsulPrice={onlineConsulPrice}
           inClinicLink={inClinicLink}
           onUpdateProfile={onUpdateProfile}
+          currency={currency}
         />
 
         <BookingLinks bookingLinks={bookingLinks} paidPlan={paidPlan} />
