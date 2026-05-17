@@ -164,8 +164,13 @@ export default function Messenger() {
       conversationId: selectedConversationId,
       senderUserId: me?.id || "",
       senderRole: me?.role === "DOCTOR" ? "DOCTOR" : "PATIENT",
+      messageType: "TEXT",
       text: cleanText,
+      attachments: [],
       createdAt: new Date().toISOString(),
+      readAt: null,
+      editedAt: null,
+      deletedAt: null,
     };
 
     setMessages((current) => [...current, tempMessage]);
