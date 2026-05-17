@@ -20,6 +20,9 @@
       "goToDashboard": "Go to dashboard"
     }
   },
+    "common": {
+    "notAvailable": "Procedure mismatch please reset your category and procedure selections to view your procedures"
+  },
   "editProfile": {
     "patientProfile": "Patient Profile",
     "title": "Edit Profile",

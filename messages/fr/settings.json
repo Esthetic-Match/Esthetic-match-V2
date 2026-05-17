@@ -20,6 +20,9 @@
       "goToDashboard": "Aller au tableau de bord"
     }
   },
+  "common": {
+    "notAvailable": "Procédure incorrecte : veuillez réinitialiser vos sélections de catégorie et de procédure pour afficher vos procédures."
+  },
   "editProfile": {
     "patientProfile": "Profil du patient",
     "title": "Modifier le profil",
