@@ -52,6 +52,19 @@ export async function GET() {
           },
         },
       },
+      _count: {
+      select: {
+        messages: {
+          where: {
+            senderUserId: {
+              not: userId,
+            },
+            readAt: null,
+            deletedAt: null,
+          },
+        },
+      },
+    },
     },
     orderBy: [
       {
@@ -63,5 +76,10 @@ export async function GET() {
     ],
   });
 
-  return NextResponse.json({ conversations });
+  return NextResponse.json({
+  conversations: conversations.map((conversation) => ({
+    ...conversation,
+    unreadCount: conversation._count.messages,
+  })),
+});
 }

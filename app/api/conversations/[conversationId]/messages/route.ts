@@ -61,6 +61,20 @@ export async function GET(_req: Request, { params }: RouteParams) {
     );
   }
 
+  await prisma.message.updateMany({
+    where: {
+      conversationId,
+      senderUserId: {
+        not: user.id,
+      },
+      readAt: null,
+      deletedAt: null,
+    },
+    data: {
+      readAt: new Date(),
+    },
+  });
+
   const messages = await prisma.message.findMany({
     where: {
       conversationId,
