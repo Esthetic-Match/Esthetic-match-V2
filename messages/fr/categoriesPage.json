@@ -25,11 +25,11 @@
     "viewDetails": "voir le détail",
 
     "categories": {
-      "non_surgical_face": {
+      "aesthetic_medicine_face": {
         "title": "Médecine esthétique (visage)",
         "description": "Traitements faciaux mini-invasifs axés sur le volume, la qualité de la peau, le lifting, le resurfaçage et le rajeunissement."
       },
-      "non_surgical_body": {
+      "aesthetic_medicine_body": {
         "title": "Médecine esthétique (corps)",
         "description": "Traitements de remodelage corporel, réduction des graisses, gestion du poids et soins bien-être sans chirurgie."
       },

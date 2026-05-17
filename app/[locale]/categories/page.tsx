@@ -6,8 +6,8 @@ import { getTranslations } from "next-intl/server";
 
 const categories = [
   {
-    key: "NON-SURGICAL FACE",
-    id: "non_surgical_face",
+    key: "AESTHETIC MEDICINE FACE",
+    id: "aesthetic_medicine_face",
     href: "/categories/non-surgical-face",
     image: "/images/home/categories/non-surgical-face.png",
     icon: "/images/home/categories/icons/non-surgical-face.svg",
@@ -15,8 +15,8 @@ const categories = [
       "Minimally invasive facial treatments focused on volume, skin quality, lifting, resurfacing, and rejuvenation.",
   },
   {
-    key: "NON-SURGICAL BODY",
-    id: "non_surgical_body",
+    key: "AESTHETIC MEDICINE BODY",
+    id: "aesthetic_medicine_body",
     href: "/categories/non-surgical-body",
     image: "/images/home/categories/non-surgical-body.png",
     icon: "/images/home/categories/icons/non-surgical-body.svg",

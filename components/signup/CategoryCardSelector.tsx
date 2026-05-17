@@ -12,8 +12,8 @@ type CategoryCardSelectorProps = {
   selectedServices: string[];
   onToggleServiceCategory: (value: string) => void;
   onToggleService: (value: string) => void;
-  onSelectAllProcedures: () => void;
-  onDeselectAllProcedures: () => void;
+  onSelectAllProcedures: (procedureIds: string[]) => void;
+  onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
 function getCategoryImagePath(category: string) {
@@ -30,12 +30,9 @@ export default function CategoryCardSelector({
   onDeselectAllProcedures,
 }: CategoryCardSelectorProps) {
   const t = useTranslations("signUp.category");
+  const categoryT = useTranslations("categoriesName");
 
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-
-  function getCategoryLabel(category: string) {
-    return t.has(category) ? t(category) : category;
-  }
 
   function openCategory(categoryItem: Category) {
     const isAlreadySelected = selectedServiceCategories.includes(
@@ -88,8 +85,6 @@ export default function CategoryCardSelector({
               categoryItem.category
             );
 
-            const label = getCategoryLabel(categoryItem.category);
-
             return (
               <button
                 key={categoryItem.category}
@@ -115,7 +110,7 @@ export default function CategoryCardSelector({
 
                 <img
                   src={getCategoryImagePath(categoryItem.category)}
-                  alt={label}
+                  alt={categoryT(categoryItem.category)}
                   className={`mb-3 h-11 w-11 object-contain transition ${
                     selected
                       ? "opacity-100"
@@ -124,7 +119,7 @@ export default function CategoryCardSelector({
                 />
 
                 <span className="text-sm font-semibold text-[#283C5D]">
-                  {label}
+                 {categoryT(categoryItem.category)}
                 </span>
               </button>
             );

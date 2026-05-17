@@ -131,17 +131,13 @@ export default function DoctorOnboardingPage() {
       );
   }
 
-  function handleSelectAllProcedures() {
-    const procedureIds = getSelectedCategoryProcedureIds();
-
+  function handleSelectAllProcedures(procedureIds: string[]) {
     setSelectedServices((prev) =>
       Array.from(new Set([...prev, ...procedureIds]))
     );
   }
-
-  function handleDeselectAllProcedures() {
-    const procedureIds = getSelectedCategoryProcedureIds();
-
+  
+  function handleDeselectAllProcedures(procedureIds: string[]) {
     setSelectedServices((prev) =>
       prev.filter((id) => !procedureIds.includes(id))
     );

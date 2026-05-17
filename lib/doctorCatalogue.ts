@@ -1,4 +1,4 @@
-export const DoctorCatalog = {
+export const DoctorCatalog =  {
   specialties: {
     id: "specialties",
     label: "SPECIALTIES (DOCTOR PROFILE ONBOARDING)",
@@ -20,51 +20,64 @@ export const DoctorCatalog = {
 
   categories: [
     {
-      category: "non_surgical_face",
+      category: "aesthetic_medicine_face",
       subcategories: [
         {
           subcategory: "hyaluronic_acid_fillers",
           procedures: [
-            { name: "Forehead Filler", id: "forehead_filler" },
-            { name: "Temple Filler", id: "temple_filler" },
-            { name: "Brow Filler", id: "brow_filler" },
-            { name: "Tear Trough Filler", id: "tear_trough_filler" },
-            { name: "Cheek Filler", id: "cheek_filler" },
-            { name: "Midface Volumization", id: "midface_volumization" },
-            { name: "Non-Surgical Rhinoplasty (Nose Filler)", id: "nose_filler" },
-            { name: "Lip Filler", id: "lip_filler" },
-            { name: "Perioral Lines Filler", id: "perioral_lines_filler" },
-            { name: "Nasolabial Fold Filler", id: "nasolabial_fold_filler" },
-            { name: "Marionette Lines Filler", id: "marionette_lines_filler" },
-            { name: "Chin Filler", id: "chin_filler" },
-            { name: "Jawline Filler", id: "jawline_filler" },
-            { name: "Hyaluronic Acid Filler (General)", id: "ha_filler" },
-            { name: "Hyaluronidase", id: "hyaluronidase" }
+						{ name: "Forehead Filler", id: "forehead_filler" },
+	          { name: "Temple Filler", id: "temple_filler" },
+	          { name: "Brow Filler", id: "brow_filler" },
+	          { name: "Tear Trough Filler", id: "tear_trough_filler" },
+	          { name: "Cheek Filler", id: "cheek_filler" },
+	          { name: "Midface Volumization", id: "midface_volumization" },
+	          { name: "Non-Surgical Rhinoplasty (Nose Filler)", id: "nose_filler" },
+	          { name: "Lip Filler", id: "lip_filler" },
+	          { name: "Perioral Lines Filler", id: "perioral_lines_filler" },
+	          { name: "Nasolabial Fold Filler", id: "nasolabial_fold_filler" },
+	          { name: "Marionette Lines Filler", id: "marionette_lines_filler" },
+	          { name: "Chin Filler", id: "chin_filler" },
+	          { name: "Jawline Filler", id: "jawline_filler" },
+	          { name: "Hyaluronic Acid Filler (General)", id: "ha_filler" },
+	          { name: "Hyaluronidase", id: "hyaluronidase" },
+	          { name: "Upper Eyelid Filler", id: "upper_eyelid_filler" },
+	          { name: "Eyebrow Filler", id: "eyebrow_filler" },
+	          { name: "Earlobe Filler", id: "earlobe_filler" },
+	          { name: "Skin Quality Hyaluronic Acid", id: "skin_quality_ha" }
           ]
         },
         {
           subcategory: "biostimulators_and_skin_quality_injections",
           procedures: [
-            { name: "Biostimulators / Collagen Stimulators", id: "biostimulators" },
-            { name: "CaHA (Calcium Hydroxylapatite)", id: "caha" },
-            { name: "PLLA (Poly-L-Lactic Acid)", id: "plla" },
-            { name: "PCL (Polycaprolactone)", id: "pcl" },
-            { name: "Skin Boosters", id: "skin_boosters" },
-            { name: "Mesotherapy", id: "mesotherapy" },
-            { name: "Polynucleotides / PDRN (Salmon DNA)", id: "polynucleotides" },
-            { name: "Peptides", id: "peptides" },
-            { name: "PRP Facial", id: "prp_facial" },
-            { name: "PRF / PRP", id: "prf_prp" },
-            { name: "Exosome Therapy", id: "exosome" }
+						{ name: "Biostimulators / Collagen Stimulators", id: "biostimulators" },
+				    { name: "Sculptra Injection", id: "sculptra_injection" },
+				    { name: "Radiesse Injection", id: "radiesse_injection" },
+				    { name: "CaHA (Calcium Hydroxylapatite)", id: "caha" },
+				    { name: "Harmonyca Injection", id: "harmonyca_injection" },
+				    { name: "PLLA (Poly-L-Lactic Acid)", id: "plla" },
+				    { name: "PCL (Polycaprolactone)", id: "pcl" },
+				    { name: "Skin Boosters", id: "skin_boosters" },
+				    { name: "Mesotherapy", id: "mesotherapy" },
+				    { name: "Polynucleotides", id: "polynucleotides" },
+				    { name: "Peptides", id: "peptides" },
+				    { name: "PRP Facial", id: "prp_facial" },
+				    { name: "PRF", id: "prf" },
+				    { name: "Exosome Therapy", id: "exosome" },
+				    { name: "Juvelook Injection", id: "juvelook_injection" },
+				    { name: "Profhilo", id: "profhilo" },
+				    { name: "Rejuran (Salmon Sperm)", id: "rejuran" }
           ]
         },
         {
           subcategory: "botulinum_toxin",
           procedures: [
-            { name: "Botulinum Toxin", id: "botulinum_toxin" },
-            { name: "Lip Flip", id: "lip_flip" },
-            { name: "Nose Botox", id: "nose_botox" },
-            { name: "Masseter Botox", id: "masseter_botox" }
+				    { name: "Botulinum Toxin", id: "botulinum_toxin" },
+				    { name: "Lip Flip", id: "lip_flip" },
+				    { name: "Nose Botox", id: "nose_botox" },
+				    { name: "Masseter Botox", id: "masseter_botox" },
+				    { name: "Baby Botox", id: "baby_botox" },
+				    { name: "Full Face Botox", id: "full_face_botox" },
+				    { name: "DAO Botox", id: "dao_botox" }
           ]
         },
         {
@@ -79,37 +92,43 @@ export const DoctorCatalog = {
         {
           subcategory: "radiofrequency_and_hifu",
           procedures: [
-            { name: "Microneedling Radiofrequency", id: "rf_microneedling" },
-            { name: "Radiofrequency (Without Needles)", id: "rf_no_needles" },
-            { name: "Topical RF", id: "topical_rf" },
-            { name: "HIFU", id: "hifu" },
-            { name: "Sofwave", id: "sofwave" },
-            { name: "Ultrasound", id: "ultrasound" }
+				    { name: "Microneedling Radiofrequency", id: "rf_microneedling" },
+				    { name: "Radiofrequency (Without Needles)", id: "rf_no_needles" },
+				    { name: "Topical RF", id: "topical_rf" },
+				    { name: "HIFU", id: "hifu" },
+				    { name: "Sofwave", id: "sofwave" },
+				    { name: "Ultrasound", id: "ultrasound" },
+				    { name: "Virtue RF", id: "virtue_rf" },
+				    { name: "Ultrasound with Radiofrequency", id: "ultrasound_rf" },
+				    { name: "Morpheus 8", id: "morpheus_8" }
           ]
         },
         {
-          subcategory: "lasers_and_light_devices",
+          subcategory: "lasers_and_energy_devices",
           procedures: [
-            { name: "Fractional Laser (Non-Ablative)", id: "fractional_laser_nonablative" },
-            { name: "Fractional Laser (Ablative)", id: "fractional_laser_ablative" },
-            { name: "CO2 Laser", id: "co2_laser" },
-            { name: "Nd:YAG Laser", id: "nd_yag" },
-            { name: "IPL (Intense Pulsed Light)", id: "ipl" },
-            { name: "BroadBand Light (BBL)", id: "bbl" },
-            { name: "Photorejuvenation", id: "photorejuvenation" },
-            { name: "Picosecond Laser", id: "picosecond_laser" },
-            { name: "LED Therapy", id: "led_therapy" }
+				    { name: "Fractional Laser (Non-Ablative)", id: "fractional_laser_nonablative" },
+				    { name: "Fractional Laser (Ablative)", id: "fractional_laser_ablative" },
+				    { name: "CO2 Laser", id: "co2_laser" },
+				    { name: "Nd:YAG Laser", id: "nd_yag" },
+				    { name: "IPL (Intense Pulsed Light)", id: "ipl" },
+				    { name: "BroadBand Light (BBL)", id: "bbl" },
+				    { name: "Photorejuvenation", id: "photorejuvenation" },
+				    { name: "Picosecond Laser", id: "picosecond_laser" },
+				    { name: "LED Therapy", id: "led_therapy" },
+				    { name: "Erbium:YAG Laser", id: "erbium_yag" },
+				    { name: "Fotona Laser", id: "fotona_laser" }
           ]
         },
         {
           subcategory: "peeling_needling_and_skin_resurfacing",
           procedures: [
-            { name: "BioRePeel", id: "biorepeel" },
-            { name: "Chemical Peel (Superficial)", id: "chemical_peel_superficial" },
-            { name: "Chemical Peel (Medium)", id: "chemical_peel_medium" },
-            { name: "Microdermabrasion", id: "microdermabrasion" },
-            { name: "Microneedling", id: "microneedling" },
-            { name: "HydraFacial", id: "hydrafacial" }
+				    { name: "BioRePeel", id: "biorepeel" },
+				    { name: "Chemical Peel (Superficial)", id: "chemical_peel_superficial" },
+				    { name: "Chemical Peel (Medium)", id: "chemical_peel_medium" },
+				    { name: "Chemical Peel (Deep Phenol)", id: "chemical_peel_deep_phenol" },
+				    { name: "Microdermabrasion", id: "microdermabrasion" },
+				    { name: "Microneedling", id: "microneedling" },
+				    { name: "HydraFacial", id: "hydrafacial" }
           ]
         },
         {
@@ -121,18 +140,20 @@ export const DoctorCatalog = {
       ]
     },
     {
-      category: "non_surgical_body",
+      category: "aesthetic_medicine_body",
       subcategories: [
         {
           subcategory: "fat_reduction_and_body_contouring",
           procedures: [
-            { name: "Non-Surgical BBL / Liquid BBL", id: "nonsurgical_bbl" },
-            { name: "Sculptra Buttocks", id: "sculptra_buttocks" },
-            { name: "Lipolytic Injection — Double Chin", id: "lipolytic_double_chin" },
-            { name: "Cryolipolysis", id: "cryolipolysis" },
-            { name: "Lipolysis (Body)", id: "body_lipolysis" },
-            { name: "Endolift", id: "endolift" },
-            { name: "Microneedling Radiofrequency (Body)", id: "body_rf_microneedling" }
+	          { name: "Non-Surgical BBL / Liquid BBL", id: "nonsurgical_bbl" },
+				    { name: "Sculptra Buttocks", id: "sculptra_buttocks" },
+				    { name: "Cryolipolysis", id: "cryolipolysis" },
+				    { name: "Lipolysis (Body)", id: "body_lipolysis" },
+				    { name: "Endolift", id: "endolift" },
+				    { name: "Microneedling Radiofrequency (Body)", id: "body_rf_microneedling" },
+				    { name: "Bodytite Skin Tightening", id: "bodytite" },
+				    { name: "Sclerotherapy Injections", id: "sclerotherapy" },
+				    { name: "Ultrasound Fat Reduction", id: "ultrasound_fat_reduction" }
           ]
         },
         {
@@ -155,7 +176,6 @@ export const DoctorCatalog = {
           procedures: [
             { name: "Composite / Bonding", id: "composite_bonding" },
             { name: "Ceramic Veneers", id: "ceramic_veneers" },
-            { name: "Whitening Veneers", id: "whitening_veneers" },
             { name: "Crowns", id: "crowns" }
           ]
         },
@@ -291,6 +311,7 @@ export const DoctorCatalog = {
             { name: "Temporal Lift", id: "temporal_lift" },
             { name: "Ponytail Lift", id: "ponytail_lift" },
             { name: "Neck Lift", id: "neck_lift" },
+            { name: "FaceTite skin tightening", id: "facetite_rf" },
             { name: "Lower Face & Neck Skin Tightening", id: "lower_face_neck_tightening" }
           ]
         },
@@ -307,6 +328,7 @@ export const DoctorCatalog = {
           subcategory: "nose",
           procedures: [
             { name: "Rhinoplasty", id: "rhinoplasty" },
+            { name: "Rhinoseptoplasty (nose deviation)", id: "rhinoseptoplasty" },
             { name: "Ultrasonic Rhinoplasty", id: "ultrasonic_rhinoplasty" },
             { name: "Revision Rhinoplasty", id: "revision_rhinoplasty" }
           ]
@@ -325,8 +347,7 @@ export const DoctorCatalog = {
           subcategory: "lipofilling_and_fat_transfer",
           procedures: [
             { name: "Facial Lipofilling (Tear Trough)", id: "lipofilling_tear_trough" },
-            { name: "Facial Lipofilling (Lips)", id: "lipofilling_lips" },
-            { name: "Facial Lipofilling (Cheeks)", id: "lipofilling_cheeks" }
+            { name: "Facial Lipofilling (face)", id: "lipofilling_face" }
           ]
         }
       ]
@@ -351,32 +372,37 @@ export const DoctorCatalog = {
         {
           subcategory: "body_contouring_and_lifting",
           procedures: [
-            { name: "Body Lift", id: "body_lift" },
-            { name: "Arm Lift (Brachioplasty)", id: "arm_lift" },
-            { name: "Thigh Lift", id: "thigh_lift" },
-            { name: "Abdominoplasty / Tummy Tuck", id: "abdominoplasty" },
-            { name: "Rib Remodeling / Rib Removal", id: "rib_remodeling" }
+				    { name: "Body Lift", id: "body_lift" },
+				    { name: "Arm Lift (Brachioplasty)", id: "arm_lift" },
+				    { name: "Thigh Lift", id: "thigh_lift" },
+				    { name: "Abdominoplasty / Tummy Tuck", id: "abdominoplasty" },
+				    { name: "Rib Remodeling / Rib Removal", id: "rib_remodeling" },
+				    { name: "Bodytite", id: "bodytite" },
+				    { name: "J-Plasma Renuvion", id: "j_plasma_renuvion" }
           ]
         },
         {
           subcategory: "buttocks",
           procedures: [
             { name: "Brazilian Butt Lift (BBL)", id: "bbl_surgical" },
-            { name: "Buttocks Augmentation", id: "buttocks_augmentation" }
+            { name: "Buttocks implant Augmentation", id: "buttocks_implant_augmentation" }
           ]
         },
         {
           subcategory: "breast_surgery",
           procedures: [
-            { name: "Breast Augmentation", id: "breast_augmentation" },
-            { name: "Breast Augmentation (Lipofilling)", id: "breast_augmentation_lipofilling" },
-            { name: "Breast Reduction", id: "breast_reduction" },
-            { name: "Breast Implant Replacement", id: "breast_implant_replacement" },
-            { name: "Breast Implant Removal", id: "breast_implant_removal" },
-            { name: "Breast Lifting / Mastopexy", id: "mastopexy" },
-            { name: "Inverted Nipple Correction", id: "nipple_correction" },
-            { name: "Breast Reconstruction", id: "breast_reconstruction" },
-            { name: "Correction of Breast Asymmetry", id: "breast_asymmetry" }
+				    { name: "Breast Augmentation", id: "breast_augmentation" },
+				    { name: "Breast Augmentation (Lipofilling)", id: "breast_augmentation_lipofilling" },
+				    { name: "MIA Breast Augmentation", id: "mia_breast_augmentation" },
+				    { name: "Breast Reduction", id: "breast_reduction" },
+				    { name: "Breast Implant Replacement", id: "breast_implant_replacement" },
+				    { name: "Breast Implant Removal", id: "breast_implant_removal" },
+				    { name: "Breast Lifting / Mastopexy", id: "mastopexy" },
+				    { name: "Preserved Internal Bra Lifting", id: "preserved_internal_bra_lifting" },
+				    { name: "Internal Bra Lifting", id: "internal_bra_lifting" },
+				    { name: "Inverted Nipple Correction", id: "nipple_correction" },
+				    { name: "Breast Reconstruction", id: "breast_reconstruction" },
+				    { name: "Correction of Breast Asymmetry", id: "breast_asymmetry" }
           ]
         },
         {
