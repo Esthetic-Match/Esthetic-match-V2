@@ -25,6 +25,7 @@ export default function Messenger() {
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [sending, setSending] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -267,6 +268,93 @@ async function handleEndConversation(conversationId: string) {
   }
 }
 
+async function sendImageMessage(file: File) {
+  if (!selectedConversationId || uploadingImage) return;
+
+  if (selectedConversation?.status !== "ACTIVE") return;
+  
+
+  try {
+    setUploadingImage(true);
+
+    const signedUrlRes = await fetch("/api/images/upload-url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contentType: file.type,
+        access: "private",
+        type: "medical",
+        folder: `conversations/${selectedConversationId}/${me?.id}`,
+      }),
+    });
+
+    if (!signedUrlRes.ok) {
+      const error = await signedUrlRes.text();
+      console.error("Signed URL error:", error);
+      throw new Error("Failed to create signed upload URL");
+    }
+
+    const { uploadUrl, objectPath } = await signedUrlRes.json();
+
+    const uploadRes = await fetch(uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: file,
+    });
+
+    if (!uploadRes.ok) {
+      throw new Error("Failed to upload image");
+    }
+
+    const messageRes = await fetch(
+      `/api/conversations/${selectedConversationId}/messages`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messageType: "IMAGE",
+          attachment: {
+            objectPath,
+            fileName: file.name,
+            contentType: file.type,
+            sizeBytes: file.size,
+          },
+        }),
+      }
+    );
+
+    if (!messageRes.ok) {
+      const error = await messageRes.text();
+      console.error("Send image message error:", error);
+      throw new Error("Failed to send image message");
+    }
+    const data: { message: Message } = await messageRes.json();
+
+    setMessages((current) => [...current, data.message]);
+
+    setConversations((current) =>
+      current.map((conversation) =>
+        conversation.id === selectedConversationId
+          ? {
+              ...conversation,
+              lastMessageAt: data.message.createdAt,
+            }
+          : conversation
+      )
+    );
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setUploadingImage(false);
+  }
+}
+
   return (
     <div className="h-screen w-full bg-[#FAF9F7] pl-2 pt-2">
       <div className="mx-auto flex h-full w-full max-w-8xl overflow-hidden rounded-t-xl rounded-tr-xl rounded-br-xl bg-white shadow-xl max-md:flex-col">
@@ -291,10 +379,12 @@ async function handleEndConversation(conversationId: string) {
             messageText={messageText}
             loadingMessages={loadingMessages}
             sending={sending}
+            uploadingImage={uploadingImage}
             bottomRef={bottomRef}
             t={t}
             onMessageTextChange={setMessageText}
             onSendMessage={sendMessage}
+            onSendImage={sendImageMessage}
             onEndConversation={handleEndConversation}
           />
         ) : (

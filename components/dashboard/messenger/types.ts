@@ -19,13 +19,32 @@ export type Conversation = {
   };
 };
 
+export type MessageAttachment = {
+  id: string;
+  objectPath: string;
+  readUrl: string;
+  fileName: string | null;
+  contentType: string;
+  sizeBytes: number | null;
+  createdAt?: string;
+};
+
 export type Message = {
   id: string;
   conversationId: string;
   senderUserId: string;
   senderRole: "PATIENT" | "DOCTOR";
+
+  messageType: "TEXT" | "IMAGE" | "MIXED";
+
   text: string;
+
+  attachments: MessageAttachment[];
+
   createdAt: string;
+  readAt?: string | null;
+  editedAt?: string | null;
+  deletedAt?: string | null;
 };
 
 export type MeUser = {

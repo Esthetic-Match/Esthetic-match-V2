@@ -10,6 +10,16 @@ type MessageListProps = {
   t: (key: string) => string;
 };
 
+export type MessageAttachment = {
+  id: string;
+  objectPath: string;
+  readUrl: string;
+  fileName: string | null;
+  contentType: string;
+  sizeBytes: number | null;
+  createdAt?: string;
+};
+
 export default function MessageList({
   messages,
   me,

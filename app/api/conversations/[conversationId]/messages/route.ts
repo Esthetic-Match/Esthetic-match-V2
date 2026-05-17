@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { decryptMessage, encryptMessage } from "@/lib/messageCrypto";
+import { storage } from "@/lib/gcs";
 
 type RouteParams = {
   params: Promise<{
@@ -80,28 +81,63 @@ export async function GET(_req: Request, { params }: RouteParams) {
       conversationId,
       deletedAt: null,
     },
+    include: {
+      attachments: true,
+    },
     orderBy: {
       createdAt: "asc",
     },
   });
 
   return NextResponse.json({
-    messages: messages.map((message) => ({
-      id: message.id,
-      conversationId: message.conversationId,
-      senderUserId: message.senderUserId,
-      senderRole: message.senderRole,
-      text: decryptMessage({
-        ciphertext: message.ciphertext,
-        iv: message.iv,
-        authTag: message.authTag,
-      }),
-      readAt: message.readAt,
-      editedAt: message.editedAt,
-      deletedAt: message.deletedAt,
-      createdAt: message.createdAt,
-      updatedAt: message.updatedAt,
-    })),
+    messages: await Promise.all(
+      messages.map(async (message) => ({
+        id: message.id,
+        conversationId: message.conversationId,
+        senderUserId: message.senderUserId,
+        senderRole: message.senderRole,
+        messageType: message.messageType,
+
+        text:
+          message.ciphertext && message.iv
+            ? decryptMessage({
+                ciphertext: message.ciphertext,
+                iv: message.iv,
+                authTag: message.authTag,
+              })
+            : "",
+
+        attachments: await Promise.all(
+          message.attachments.map(async (attachment) => {
+            const bucket = storage.bucket(process.env.GCS_PRIVATE_BUCKET_NAME!);
+
+            const [readUrl] = await bucket
+              .file(attachment.objectPath)
+              .getSignedUrl({
+                version: "v4",
+                action: "read",
+                expires: Date.now() + 10 * 60 * 1000,
+              });
+
+            return {
+              id: attachment.id,
+              objectPath: attachment.objectPath,
+              readUrl,
+              fileName: attachment.fileName,
+              contentType: attachment.contentType,
+              sizeBytes: attachment.sizeBytes,
+              createdAt: attachment.createdAt,
+            };
+          })
+        ),
+
+        readAt: message.readAt,
+        editedAt: message.editedAt,
+        deletedAt: message.deletedAt,
+        createdAt: message.createdAt,
+        updatedAt: message.updatedAt,
+      }))
+    ),
   });
 }
 
@@ -124,11 +160,21 @@ export async function POST(req: Request, { params }: RouteParams) {
   }
 
   const body = await req.json();
-  const text = String(body.text || "").trim();
 
-  if (!text) {
+  const text = String(body.text || "").trim();
+  const messageType = body.messageType || "TEXT";
+  const attachment = body.attachment;
+
+  if (messageType === "TEXT" && !text) {
     return NextResponse.json(
       { error: "Message text is required" },
+      { status: 400 }
+    );
+  }
+
+  if (messageType === "IMAGE" && !attachment?.objectPath) {
+    return NextResponse.json(
+      { error: "Image attachment is required" },
       { status: 400 }
     );
   }
@@ -140,7 +186,13 @@ export async function POST(req: Request, { params }: RouteParams) {
     );
   }
 
-  const encrypted = encryptMessage(text);
+  const encrypted = text
+    ? encryptMessage(text)
+    : {
+        ciphertext: "",
+        iv: "",
+        authTag: "",
+      };
 
   const senderRole =
     conversation.doctorProfile.userId === user.id ? "DOCTOR" : "PATIENT";
@@ -151,9 +203,26 @@ export async function POST(req: Request, { params }: RouteParams) {
         conversationId,
         senderUserId: user.id,
         senderRole,
+        messageType,
         ciphertext: encrypted.ciphertext,
         iv: encrypted.iv,
         authTag: encrypted.authTag,
+        attachments:
+          messageType === "IMAGE"
+            ? {
+                create: {
+                  conversationId,
+                  uploadedByUserId: user.id,
+                  objectPath: attachment.objectPath,
+                  fileName: attachment.fileName || null,
+                  contentType: attachment.contentType,
+                  sizeBytes: attachment.sizeBytes || null,
+                },
+              }
+            : undefined,
+      },
+      include: {
+        attachments: true,
       },
     });
 
@@ -175,7 +244,9 @@ export async function POST(req: Request, { params }: RouteParams) {
       conversationId: message.conversationId,
       senderUserId: message.senderUserId,
       senderRole: message.senderRole,
+      messageType: message.messageType,
       text,
+      attachments: message.attachments,
       readAt: message.readAt,
       editedAt: message.editedAt,
       deletedAt: message.deletedAt,

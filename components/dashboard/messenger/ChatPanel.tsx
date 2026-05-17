@@ -17,6 +17,8 @@ type ChatPanelProps = {
   onMessageTextChange: (value: string) => void;
   onSendMessage: () => void;
   onEndConversation: (conversationId: string) => void;
+  uploadingImage: boolean;
+  onSendImage: (file: File) => void;
 };
 
 export default function ChatPanel({
@@ -30,7 +32,9 @@ export default function ChatPanel({
   t,
   onMessageTextChange,
   onSendMessage,
-  onEndConversation,  
+  onEndConversation,
+  uploadingImage,
+  onSendImage
 }: ChatPanelProps) {
   if (!selectedConversation || !me) {
     return (
@@ -66,10 +70,12 @@ export default function ChatPanel({
       <MessageInput
         value={messageText}
         sending={sending}
+        uploadingImage={uploadingImage}
         isDisabled={selectedConversation.status === "CLOSED"}
         placeholder={t("messagePlaceholder")}
         onChange={onMessageTextChange}
         onSend={onSendMessage}
+        onSendImage={onSendImage}
       />
     </main>
   );
