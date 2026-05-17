@@ -57,6 +57,7 @@
   "skin_analysis": "Skin Analysis / VISIA",
   "nonsurgical_bbl": "Non-Surgical BBL / Liquid BBL",
   "sculptra_buttocks": "Sculptra Buttocks",
+  "sculptra_injection": "Sculptra Injection (General)",
   "lipolytic_double_chin": "Lipolytic Injection — Double Chin",
   "cryolipolysis": "Cryolipolysis",
   "body_lipolysis": "Lipolysis (Body)",
@@ -220,6 +221,8 @@
   "buttocks_implant_augmentation": "Buttocks Implant Augmentation",
   "mia_breast_augmentation": "MIA Breast Augmentation",
   "preserved_internal_bra_lifting": "Preserved Internal Bra Lifting (PIL)",
-  "internal_bra_lifting": "Internal Bra Lifting"
+  "internal_bra_lifting": "Internal Bra Lifting",
+  "radiesse_injection": "Radiesse Injection",
+  "harmonyca_injection": "HarmonyCA Injection"
   
 }

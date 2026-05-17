@@ -57,6 +57,7 @@
   "skin_analysis": "Analyse de peau / VISIA",
   "nonsurgical_bbl": "BBL non chirurgical / BBL liquide",
   "sculptra_buttocks": "Sculptra fessiers",
+  "sculptra_injection": "Injection de Sculptra (général)",
   "lipolytic_double_chin": "Injection lipolytique — double menton",
   "cryolipolysis": "Cryolipolyse",
   "body_lipolysis": "Lipolyse (corps)",
@@ -220,5 +221,7 @@
   "buttocks_implant_augmentation": "Augmentation des fesses par implants",
   "mia_breast_augmentation": "Augmentation mammaire MIA",
   "preserved_internal_bra_lifting": "Lifting avec soutien-gorge interne préservé (PIL)",
-  "internal_bra_lifting": "Lifting avec soutien-gorge interne"
+  "internal_bra_lifting": "Lifting avec soutien-gorge interne",
+  "radiesse_injection": "Injection de Radiesse",
+  "harmonyca_injection": "Injection de Harmonyca"
 }
