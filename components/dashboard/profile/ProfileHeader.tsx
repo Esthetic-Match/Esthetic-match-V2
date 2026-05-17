@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { Camera, MapPin, Pencil, Building2, BadgeCheck } from "lucide-react";
+import { Camera, MapPin, Pencil, Building2, BadgeCheck, Award  } from "lucide-react";
 import { formatLabel, handleImageUpload } from "@/utils/dashboard/helper";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
@@ -18,6 +18,7 @@ type ProfileHeaderProps = {
   topThree?:string[] | null;
   avatar?: string | null;
   yearsOfExperience?: number | null;
+  RPPS?: string | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void;
@@ -36,6 +37,7 @@ export default function ProfileHeader({
   avatar,
   yearsOfExperience,
   onUpdateProfile,
+  RPPS,
 }: ProfileHeaderProps) {
     const t = useTranslations("dashboard");
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
@@ -123,6 +125,15 @@ export default function ProfileHeader({
               <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
                 <MapPin size={17} className="text-[#283C5D]/55" />
                 <span>{workAddress}</span>
+              </div>
+            ) : null}
+
+            {RPPS ? (
+              <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
+                <Award  size={17} className="text-[#283C5D]/55" />
+                  <span className="text-sm font-medium tracking-tight">
+                    {t("header.RPPS")} {RPPS}
+                  </span>
               </div>
             ) : null}
           </div>

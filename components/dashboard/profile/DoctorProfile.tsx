@@ -84,6 +84,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           avatar={profile?.avatar || profile?.user?.image}
           specialty={profile?.specialtyIds || []}
           clinicName={profile?.clinicName}
+          RPPS={profile?.RPPS}
           workAddress={profile?.workAddress}
           yearsOfExperience={profile?.yearsOfExperience}
           topThree={profile?.topThree}

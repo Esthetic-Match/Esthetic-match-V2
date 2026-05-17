@@ -31,6 +31,7 @@ export type DoctorProfileData = {
   bookingLinks?: []| null;
   inClinicLink?: string| null;
   currency?: string | null;
+  RPPS?: string | null;
 
   user: {
     id: string;

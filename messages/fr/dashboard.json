@@ -34,7 +34,8 @@
     "yearsOfExperience": "Années d’expérience",
     "years": "{count} ans",
     "editProfile": "Modifier le profil",
-      "viewPublicProfile": "Voir profil"
+    "viewPublicProfile": "Voir profil",
+    "RPPS": "RPPS identification N°"
   },
   "expertise": {
     "title": "Expertise",
