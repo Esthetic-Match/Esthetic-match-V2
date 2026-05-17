@@ -20,6 +20,10 @@
       "goToDashboard": "Go to dashboard"
     }
   },
+  "topThreeNote": "Your top three procedures will be highlighted on your profile and used to match you with patients looking for those specific procedures.",
+    "common": {
+    "notAvailable": "Procedure mismatch please reset your category and procedure selections to view your procedures"
+  },
   "editProfile": {
     "patientProfile": "Patient Profile",
     "title": "Edit Profile",

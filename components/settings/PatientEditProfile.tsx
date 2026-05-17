@@ -36,7 +36,6 @@ type PatientProfileData = {
   longitude: number | null;
   googlePlaceId: string | null;
   preferredConsultationType: string | null;
-  preferredLanguage: string | null;
 };
 
 export default function PatientEditProfile({ user }: PatientEditProfileProps) {
@@ -59,7 +58,6 @@ export default function PatientEditProfile({ user }: PatientEditProfileProps) {
 
   const [preferredConsultationType, setPreferredConsultationType] =
     useState("");
-  const [preferredLanguage, setPreferredLanguage] = useState("");
 
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -92,7 +90,6 @@ export default function PatientEditProfile({ user }: PatientEditProfileProps) {
         setWorkLatitude(profile.latitude ?? null);
         setWorkLongitude(profile.longitude ?? null);
         setPreferredConsultationType(profile.preferredConsultationType ?? "");
-        setPreferredLanguage(profile.preferredLanguage ?? "");
       } catch {
         setErrorMessage("Failed to load patient profile.");
       } finally {
@@ -135,7 +132,6 @@ export default function PatientEditProfile({ user }: PatientEditProfileProps) {
 
           preferredConsultationType:
             nullableString(preferredConsultationType),
-          preferredLanguage: nullableString(preferredLanguage),
         }),
       });
 
@@ -281,14 +277,6 @@ export default function PatientEditProfile({ user }: PatientEditProfileProps) {
         ))}
       </div>
     </div>
-
-    <InputField
-      label={t("editProfile.preferredLanguage")}
-      placeholder={t("editProfile.preferredLanguagePlaceholder")}
-      value={preferredLanguage}
-      onChange={setPreferredLanguage}
-      icon={<Languages size={16} />}
-    />
 
     {successMessage ? (
       <div className="flex items-center gap-2 rounded-2xl bg-green-50 px-4 py-3 text-sm text-green-700">

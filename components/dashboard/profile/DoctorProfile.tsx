@@ -78,11 +78,13 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           onUpdateProfile={updateDoctorProfile}
         />
         <ProfileHeader
-          doctorId={user.id}
+          userId={user.id}
+          doctorId={profile?.id}
           name={profile?.user?.name || "Doctor"}
           avatar={profile?.avatar || profile?.user?.image}
           specialty={profile?.specialtyIds || []}
           clinicName={profile?.clinicName}
+          RPPS={profile?.RPPS}
           workAddress={profile?.workAddress}
           yearsOfExperience={profile?.yearsOfExperience}
           topThree={profile?.topThree}
@@ -105,8 +107,9 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           googleRating={profile?.googleRating}
           paidPlan={profile?.paidPlan}
           inClinicLink={profile?.inClinicLink}
+          currency={profile?.currency}
         />
-        <Gallery userId={user.id} paidPlan={profile?.paidPlan}/>
+        <Gallery userId={user.id} paidPlan={profile?.paidPlan} procedureIds={profile?.procedureIds} />
     </div>
   );
 }

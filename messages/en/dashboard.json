@@ -20,6 +20,7 @@
   }
 },
   "common": {
+    "save": "Save",
     "notAvailable": "Not available",
     "notAvailableShort": "NA",
     "upgradeToPremium": "Upgrade to Premium"
@@ -32,7 +33,9 @@
     "noTopProcedures": "No top procedures selected",
     "yearsOfExperience": "Years of experience",
     "years": "{count} years",
-    "editProfile": "Edit Profile"
+    "editProfile": "Edit Profile",
+    "viewPublicProfile": "View profile",
+    "RPPS": "N° identification RPPS"
   },
   "expertise": {
     "title": "Expertise",

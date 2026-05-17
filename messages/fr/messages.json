@@ -1,0 +1,12 @@
+{
+  "messages": {
+    "chatHeader": {
+      "profileAlt": "Profil",
+      "endConversation": "Terminer la conversation",
+      "modalTitle": "Terminer la conversation ?",
+      "modalDescription": "Êtes-vous sûr de vouloir terminer cette conversation avec ce patient ? Une fois confirmée, la conversation sera désactivée.",
+      "cancel": "Annuler",
+      "confirm": "Confirmer"
+    }
+  }
+}

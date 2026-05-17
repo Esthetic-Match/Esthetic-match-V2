@@ -7,6 +7,7 @@ import MessageText from "@/components/UI/MessageText";
 import BackButton from "@/components/UI/BackButton";
 import type { AccountTypeSelectorProps } from "@/app/[locale]/sign-up/types";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 type TransitionTarget = "patient" | "doctor" | null;
 
@@ -122,6 +123,15 @@ export default function AccountTypeSelector({
               </span>
             </button>
           </div>
+
+          <h2 className="mt-6 text-sm font-thin">
+            {t("signInMessage")}
+            <Link href="/sign-in"
+              className="text-sm font-semibold text-white underline"
+            >
+              {t("signIn")}
+            </Link>
+          </h2>
 
           <div className="mt-6">
             <MessageText message={infoMessage} variant="info" />

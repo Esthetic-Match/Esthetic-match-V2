@@ -10,14 +10,37 @@ type ConsultationPricesProps = {
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
   inClinicLink: string | null;
+  currency: string | null;
 };
 
-function formatPrice(price: number | null) {
+function getCurrencySymbol(currency?: string | null) {
+  switch (currency?.toLowerCase()) {
+    case "usd":
+      return "$";
+    case "eur":
+      return "€";
+    case "gbp":
+      return "£";
+    case "chf":
+      return "CHF";
+  }
+}
+
+function formatPrice(
+  price: number | null,
+  currency?: string | null
+) {
   if (price === null || price === undefined || price <= 0) {
     return null;
   }
 
-  return `€${price}`;
+  const symbol = getCurrencySymbol(currency);
+
+  if(!symbol) {
+    return price.toString();
+  }
+
+  return `${symbol}${price}`;
 }
 
 async function hasBoughtInClinicConsultation(doctorProfileId: string) {
@@ -49,13 +72,15 @@ function PriceRow({
   price,
   consultationType,
   doctorProfileId,
+  currency,
 }: {
   label: string;
   price: number | null;
   consultationType: "IN_CLINIC" | "ONLINE";
   doctorProfileId: string;
+  currency: string | null;
 }) {
-  const formattedPrice = formatPrice(price);
+  const formattedPrice = formatPrice(price, currency);
 
   if (!formattedPrice) return null;
 
@@ -73,6 +98,7 @@ function PriceRow({
         doctorProfileId={doctorProfileId}
         consultationType={consultationType}
         price={price}
+        currency={currency}
       />
     </div>
   );
@@ -115,6 +141,7 @@ export default async function ConsultationPrices({
   inClinicPrice,
   onlineConsulPrice,
   inClinicLink,
+  currency,
 }: ConsultationPricesProps) {
   const t = await getTranslations("doctor.doctor.profile.consultationPrices");
 
@@ -198,6 +225,7 @@ export default async function ConsultationPrices({
               price={inClinicPrice}
               consultationType="IN_CLINIC"
               doctorProfileId={doctorProfileId}
+              currency={currency}
             />
           )
         ) : null}
@@ -212,6 +240,7 @@ export default async function ConsultationPrices({
             price={onlineConsulPrice}
             consultationType="ONLINE"
             doctorProfileId={doctorProfileId}
+            currency={currency}
           />
         ) : null}
       </div>

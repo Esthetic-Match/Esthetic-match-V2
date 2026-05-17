@@ -21,7 +21,9 @@
     "subtitle": "Découvrez des praticiens esthétiques les mieux notés près de chez vous — adaptés à vos objectifs beauté.",
     "chooseRole": "Choisissez votre type de compte",
     "Healthcare Provider": "Professionnel de santé",
-    "Patient": "Patient ou visiteur"
+    "Patient": "Patient ou visiteur",
+    "signInMessage": "Vous avez déjà un compte ? ",
+    "signIn": "Se connecter"
   },
     "signUpForm":{
     "heading": "Créez votre profil",
@@ -132,17 +134,17 @@
   },
     "category": {
     "heading": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
-    "NON-SURGICAL FACE": "VISAGE NON CHIRURGICAL",
-    "NON-SURGICAL BODY": "CORPS NON CHIRURGICAL",
-    "AESTHETIC DENTISTRY": "DENTISTERIE ESTHÉTIQUE",
-    "HAIR MEDICINE": "MÉDECINE CAPILLAIRE",
-    "MUSCLE TONE & EMS": "TONUS MUSCULAIRE & EMS",
-    "IV THERAPY": "THÉRAPIE IV",
-    "WELLNESS & DRAINAGE": "BIEN-ÊTRE & DRAINAGE",
-    "SURGICAL FACE": "VISAGE CHIRURGICAL",
-    "SURGICAL BODY": "CORPS CHIRURGICAL",
-    "LONGEVITY MEDICINE": "MÉDECINE DE LONGÉVITÉ",
-    "OTHER": "AUTRE",
+    "NON-SURGICAL FACE": "Médecine esthétique (visage)",
+    "NON-SURGICAL BODY": "Médecine esthétique (corps)",
+    "AESTHETIC DENTISTRY": "Dentisterie esthétique",
+    "HAIR MEDICINE": "Médecine capillaire",
+    "MUSCLE TONE & EMS": "Tonification musculaire & EMS",
+    "IV THERAPY": "Thérapie IV",
+    "WELLNESS & DRAINAGE": "Bien-être & drainage",
+    "SURGICAL FACE": "Chirurgie du visage",
+    "SURGICAL BODY": "Chirurgie du corps",
+    "LONGEVITY MEDICINE": "Médecine de longévité",
+    "OTHER": "Autre",
     "No categories": "Aucune catégorie disponible pour les spécialités sélectionnées."
     },
     "procedure": {

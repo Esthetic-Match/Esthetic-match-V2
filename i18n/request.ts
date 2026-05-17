@@ -22,6 +22,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       categoriesName: (await import(`../messages/${locale}/categoriesName.json`)).default,
       subcategoriesName: (await import(`../messages/${locale}/subcategoriesName.json`)).default,
       categoriesPage: (await import(`../messages/${locale}/categoriesPage.json`)).default,
+      messages: (await import(`../messages/${locale}/messages.json`)).default,
     },
   };
 });

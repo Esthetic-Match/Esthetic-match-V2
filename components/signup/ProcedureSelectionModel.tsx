@@ -9,8 +9,8 @@ type ProcedureSelectionModalProps = {
   selectedServices: string[];
   onToggleService: (id: string) => void;
   onClose: () => void;
-  onSelectAllProcedures: () => void;
-  onDeselectAllProcedures: () => void;
+  onSelectAllProcedures: (procedureIds: string[]) => void;
+  onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
 export default function ProcedureSelectionModal({
@@ -25,6 +25,11 @@ export default function ProcedureSelectionModal({
 
   const t = useTranslations("signUp.procedure");
   const subCategoryT = useTranslations("subcategoriesName");
+  const proceduresT = useTranslations("proceduresName");
+
+  const visibleProcedureIds = activeCategory.subcategories.flatMap((subcategory) =>
+  subcategory.procedures.map((procedure) => procedure.id)
+);
 
   return (
     <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 px-4">
@@ -46,21 +51,21 @@ export default function ProcedureSelectionModal({
           </button>
         </div>
            <div className="flex justify-start gap-2 mb-4">
-            <button
-              type="button"
-              onClick={onSelectAllProcedures}
-              className="rounded-full border border-[#2563EB]/20 bg-[#EFF6FF]/60 px-3 py-1.5 text-xs font-medium text-[#283C5D] transition hover:bg-[#EFF6FF] active:scale-[0.98]"
-            >
-              {t("select all")}
-            </button>
-                    
-            <button
-              type="button"
-              onClick={onDeselectAllProcedures}
-              className="rounded-full border border-red-500/20 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100 active:scale-[0.98]"
-            >
-              {t("delete all")}
-            </button>
+<button
+  type="button"
+  onClick={() => onSelectAllProcedures(visibleProcedureIds)}
+  className="rounded-full border border-[#2563EB]/20 bg-[#EFF6FF]/60 px-3 py-1.5 text-xs font-medium text-[#283C5D] transition hover:bg-[#EFF6FF] active:scale-[0.98]"
+>
+  {t("select all")}
+</button>
+
+<button
+  type="button"
+  onClick={() => onDeselectAllProcedures(visibleProcedureIds)}
+  className="rounded-full border border-red-500/20 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100 active:scale-[0.98]"
+>
+  {t("delete all")}
+</button>
           </div>
 
         <div className="space-y-5">
@@ -87,7 +92,7 @@ export default function ProcedureSelectionModal({
                           : "border-gray-300 shadow-md bg-white text-black hover:-translate-y-0.5"
                       }`}
                     >
-                      {t(procedure.name)}
+                      {proceduresT(procedure.id)}
                     </button>
                   );
                 })}

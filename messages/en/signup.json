@@ -21,7 +21,9 @@
     "subtitle": "Discover top-rated aesthetic practitioners near you — tailored to your beauty goals.",
     "chooseRole": "Choose Your Account Type",
     "Healthcare Provider": "Healthcare Provider",
-    "Patient": "Patient or Visitor"
+    "Patient": "Patient or Visitor",
+    "signInMessage": "Already have an account ? ",
+    "signIn": "Sign In"
   },
   "signUpForm":{
     "heading": "Create your account",
@@ -132,17 +134,17 @@
   },
   "category": {
     "heading": "Select your domain of expertise and the procedures you offer",
-    "NON-SURGICAL FACE": "NON-SURGICAL FACE",
-    "NON-SURGICAL BODY": "NON-SURGICAL BODY",
-    "AESTHETIC DENTISTRY": "AESTHETIC DENTISTRY",
-    "HAIR MEDICINE": "HAIR MEDICINE",
-    "MUSCLE TONE & EMS": "MUSCLE TONE & EMS",
-    "IV THERAPY": "IV THERAPY",
-    "WELLNESS & DRAINAGE": "WELLNESS & DRAINAGE",
-    "SURGICAL FACE": "SURGICAL FACE",
-    "SURGICAL BODY": "SURGICAL BODY",
-    "LONGEVITY MEDICINE": "LONGEVITY MEDICINE",
-    "OTHER": "OTHER",
+    "NON-SURGICAL FACE": "Aesthetic medicine face",
+    "NON-SURGICAL BODY": "Aesthetic medicine face",
+    "AESTHETIC DENTISTRY": "Aesthetic dentistry",
+    "HAIR MEDICINE":  "Hair medicine",
+    "MUSCLE TONE & EMS": "Muscle tone & EMS",
+    "IV THERAPY": "IV therapy",
+    "WELLNESS & DRAINAGE": "Wellness & drainage",
+    "SURGICAL FACE": "Surgical face",
+    "SURGICAL BODY": "Surgical body",
+    "LONGEVITY MEDICINE": "Longevity medicine",
+    "OTHER": "Other",
     "No categories": "No categories available for the selected specialties."
   },
   "procedure":{

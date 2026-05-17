@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { Camera, MapPin, Pencil, Building2, BadgeCheck } from "lucide-react";
+import { Camera, MapPin, Pencil, Building2, BadgeCheck, Award  } from "lucide-react";
 import { formatLabel, handleImageUpload } from "@/utils/dashboard/helper";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
@@ -9,7 +9,8 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 type ProfileHeaderProps = {
-  doctorId: string;
+  userId: string;
+  doctorId?: string | null;
   name: string;
   specialty?: string[] | null;
   clinicName?: string | null;
@@ -17,6 +18,7 @@ type ProfileHeaderProps = {
   topThree?:string[] | null;
   avatar?: string | null;
   yearsOfExperience?: number | null;
+  RPPS?: string | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void;
@@ -25,6 +27,7 @@ type ProfileHeaderProps = {
 const fallbackAvatar = "/dev/profile-placeholder.jpg";
 
 export default function ProfileHeader({
+  userId,
   doctorId,
   name,
   specialty,
@@ -34,6 +37,7 @@ export default function ProfileHeader({
   avatar,
   yearsOfExperience,
   onUpdateProfile,
+  RPPS,
 }: ProfileHeaderProps) {
     const t = useTranslations("dashboard");
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
@@ -123,6 +127,15 @@ export default function ProfileHeader({
                 <span>{workAddress}</span>
               </div>
             ) : null}
+
+            {RPPS ? (
+              <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
+                <Award  size={17} className="text-[#283C5D]/55" />
+                  <span className="text-sm font-medium tracking-tight">
+                    {t("header.RPPS")} {RPPS}
+                  </span>
+              </div>
+            ) : null}
           </div>
 
           <div className="mt-7 grid max-w-4xl grid-cols-1 gap-6 border-t border-black/10 pt-5 md:grid-cols-3">
@@ -185,23 +198,36 @@ export default function ProfileHeader({
           </div>
         </div>
 
-        <Link  href="/dashboard/settings"  className="inline-flex w-fit items-center gap-2 rounded-full 
-        border border-black/10 bg-white px-6 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition 
-        hover:bg-[#FAF9F7] active:scale-[0.98]">  
-          <Pencil size={20} />  
-          <p>{t("header.editProfile")}</p>
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <Link
+          href={`/doctors/${doctorId}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-fit items-center gap-2 rounded-full border border-[#283C5D]/10 bg-[#283C5D] 
+          px-6 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-[#283C5D]/90 active:scale-[0.98]"
+        >
+          <BadgeCheck size={30} />
+          <p>{t("header.viewPublicProfile")}</p>
+        </Link>
+
+        <Link
+          href="/dashboard/settings"
+          className="inline-flex w-fit items-center gap-2 rounded-full border border-black/10 bg-white px-6 py-2 text-md font-medium text-[#283C5D] shadow-sm transition hover:bg-[#FAF9F7] active:scale-[0.98]"
+        >
+          <Pencil size={20} />
         </Link>
       </div>
-    <ImageUploadModal
-      isOpen={isAvatarModalOpen}
-      ImagePath={`doctor-profile/${doctorId}/avatar`}
-      currentImage={
-        currentAvatar === fallbackAvatar ? null : currentAvatar
-      }
-      onClose={() => setIsAvatarModalOpen(false)}
-      onImageloaded={handleAvatarUploaded}
-      onDeleteBanner={handleDeleteAvatar}
-    />
+      </div>
+      <ImageUploadModal
+        isOpen={isAvatarModalOpen}
+        ImagePath={`doctor-profile/${userId}/avatar`}
+        currentImage={
+          currentAvatar === fallbackAvatar ? null : currentAvatar
+        }
+        onClose={() => setIsAvatarModalOpen(false)}
+        onImageloaded={handleAvatarUploaded}
+        onDeleteBanner={handleDeleteAvatar}
+      />
     </section>
   );
 }

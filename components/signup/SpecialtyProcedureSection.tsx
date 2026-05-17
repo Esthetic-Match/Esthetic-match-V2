@@ -8,7 +8,7 @@ type SpecialtyProcedureSectionProps = {
   selectedServices: string[];
   visibleCategories: readonly Category[];
   onToggleService: (id: string) => void;
-  onDeselectAllProcedures: () => void;
+  onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
 export default function SpecialtyProcedureSection({

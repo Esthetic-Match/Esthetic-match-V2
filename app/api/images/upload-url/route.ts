@@ -55,10 +55,17 @@ export async function POST(req: Request) {
           ? `doctor-profile/${session.user.id}/avatar`
           : `medical-images/${session.user.id}`;
 
-  // 🔐 Security check
+  // Security check
   if (
-    !safeFolder.includes(session.user.id) &&
-    safeFolder.startsWith("doctor-profile")
+    safeFolder.startsWith("doctor-profile") &&
+    !safeFolder.includes(session.user.id)
+  ) {
+    return NextResponse.json({ error: "Forbidden path" }, { status: 403 });
+  }
+
+  if (
+    safeFolder.startsWith("conversations") &&
+    !safeFolder.includes(session.user.id)
   ) {
     return NextResponse.json({ error: "Forbidden path" }, { status: 403 });
   }

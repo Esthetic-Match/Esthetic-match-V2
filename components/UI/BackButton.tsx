@@ -1,38 +1,38 @@
-"use client"
-import { useRouter } from "@/i18n/navigation";
+"use client";
+
+import { Link } from "@/i18n/navigation";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 type BackButtonProps = {
-  onBack: () => void;
   variant?: "light" | "dark";
+  onBack?: () => void;
 };
 
 export default function BackButton({
-  onBack,
   variant = "light",
+  onBack,
 }: BackButtonProps) {
   const t = useTranslations("home.Home");
-  const router = useRouter();
 
   const isDark = variant === "dark";
 
   return (
-    <button
-      onClick={() => router.back()}
+    <Link
+      href="/"
       className={cn(
-        "absolute left-6 top-6 flex items-center gap-2 text-sm transition hover:scale-[1.02] rounded-full z-10 px-2 pr-5 py-1 cursor-pointer",
-        
+        "absolute left-6 top-6 z-10 flex cursor-pointer items-center gap-2 rounded-full px-2 py-1 pr-5 text-sm transition hover:scale-[1.02]",
+
         !isDark &&
-          "text-white border border-white/40 hover:bg-white hover:text-black active:scale-[0.98]",
+          "border border-white/40 text-white hover:bg-white hover:text-black active:scale-[0.98]",
 
         isDark &&
-          "text-black border border-black max-md:border-white max-md:text-white hover:bg-[#283C5D]/80 hover:text-white active:scale-[0.98]"
+          "border border-black text-black hover:bg-[#283C5D]/80 hover:text-white active:scale-[0.98] max-md:border-white max-md:text-white"
       )}
     >
       <ChevronLeft size={18} />
       {t("back")}
-    </button>
+    </Link>
   );
 }

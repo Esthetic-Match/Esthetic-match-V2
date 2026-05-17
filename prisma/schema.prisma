@@ -27,6 +27,12 @@ enum MessageSenderRole {
   DOCTOR
 }
 
+enum MessageType {
+  TEXT
+  IMAGE
+  MIXED
+}
+
 model User {
   id             String          @id @default(cuid())
   email          String          @unique
@@ -40,6 +46,7 @@ model User {
   image          String?
   sessions       Session[]
   accounts       Account[]
+  messageAttachments MessageAttachment[]
 
   patientProfile PatientProfile?
   doctorProfile  DoctorProfile?
@@ -106,6 +113,8 @@ model DoctorProfile {
   workLongitude         Float?
   googlePlaceId         String?
   paidPlan              String? @default("free")
+  currency              String @default("eur")
+  RPPS                  String?
 
   inClinicPrice         Float?
   onlineConsulPrice     Float?
@@ -284,7 +293,10 @@ model BeforeAfterCase {
 
   doctorId    String
   patientId   String?
-  procedureId String?
+
+  procedure   String?
+  notes       String?
+
   title       String?
 
   beforeImage String?
@@ -315,6 +327,7 @@ model Conversation {
   closedAt      DateTime?
 
   messages Message[]
+  attachments MessageAttachment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -337,11 +350,15 @@ model Message {
 
   senderRole MessageSenderRole
 
-  // Store encrypted message body, not plain text
-  ciphertext String
-  iv         String
+  messageType MessageType @default(TEXT)
+
+  // Keep nullable now because image-only messages may not have text
+  ciphertext String?
+  iv         String?
   authTag    String?
   keyVersion Int @default(1)
+
+  attachments MessageAttachment[]
 
   readAt    DateTime?
   editedAt  DateTime?
@@ -354,4 +371,29 @@ model Message {
   @@index([senderUserId])
   @@index([createdAt])
   @@map("message")
+}
+
+model MessageAttachment {
+  id String @id @default(cuid())
+
+  messageId String
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  uploadedByUserId String
+  uploadedByUser   User @relation(fields: [uploadedByUserId], references: [id], onDelete: Cascade)
+
+  objectPath String
+  fileName   String?
+  contentType String
+  sizeBytes   Int?
+
+  createdAt DateTime @default(now())
+
+  @@index([messageId])
+  @@index([conversationId])
+  @@index([uploadedByUserId])
+  @@map("message_attachment")
 }

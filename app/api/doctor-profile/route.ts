@@ -28,7 +28,8 @@ const allowedFields = [
   "onlineConsulPrice",
   "socialMediaLink",
   "bookingLinks",
-  "inClinicLink"
+  "inClinicLink",
+  "currency",
 ] as const;
 
 function requiredString(value: unknown): string | null {
@@ -149,7 +150,7 @@ export async function PATCH(req: Request) {
     if (session.user.role !== "DOCTOR") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-
+    
     const body = await req.json();
 
     const updateData: Record<string, unknown> = {};

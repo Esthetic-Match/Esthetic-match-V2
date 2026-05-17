@@ -20,6 +20,11 @@
       "goToDashboard": "Aller au tableau de bord"
     }
   },
+  "topThreeNote": "Vos trois principales procédures seront mises en évidence sur votre profil et utilisées pour vous associer aux patients recherchant ces procédures spécifiques.",
+    
+  "common": {
+    "notAvailable": "Procédure incorrecte : veuillez réinitialiser vos sélections de catégorie et de procédure pour afficher vos procédures."
+  },
   "editProfile": {
     "patientProfile": "Profil du patient",
     "title": "Modifier le profil",

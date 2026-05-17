@@ -9,12 +9,14 @@ type StripeConsultationCheckOutButtonProps = {
   doctorProfileId: string;
   consultationType: ConsultationType;
   price: number | null;
+  currency: string | null;
 };
 
 export default function StripeConsultationCheckOutButton({
   doctorProfileId,
   consultationType,
   price,
+  currency,
 }: StripeConsultationCheckOutButtonProps) {
   const [loading, setLoading] = useState(false);
 
@@ -30,6 +32,7 @@ export default function StripeConsultationCheckOutButton({
         body: JSON.stringify({
           doctorProfileId,
           consultationType,
+          currency,
         }),
       });
 

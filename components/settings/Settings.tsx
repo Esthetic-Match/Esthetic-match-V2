@@ -249,7 +249,7 @@ export default function Settings({ user }: SettingsProps) {
             ))}
 
           {activePage === "Change Password" && <ChangePassword />}
-          {activePage === "Payment Details" && <PaymentDetails/>}
+          {activePage === "Payment Details" && <PaymentDetails doctorProfile={user.doctorProfile}/>}
           {activePage === "Subscription" && <SubscriptionPlans />}
           {activePage === "Language" && <LanguageSelector />}
           {activePage === "Report a Problem" && <ReportProblem />}

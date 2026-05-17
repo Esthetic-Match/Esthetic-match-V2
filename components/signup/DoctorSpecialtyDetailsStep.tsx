@@ -22,8 +22,8 @@ type DoctorSpecialtyDetailsStepProps = {
   onToggleServiceCategory: (value: string) => void;
   onToggleService: (value: string) => void;
   onOtherSpecialtyTextChange: (value: string) => void;
-  onSelectAllProcedures: () => void;
-  onDeselectAllProcedures: () => void;
+  onSelectAllProcedures: (procedureIds: string[]) => void;
+  onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
 export default function DoctorSpecialtyDetailsStep({

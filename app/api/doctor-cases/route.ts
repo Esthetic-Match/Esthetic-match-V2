@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       data: {
         doctorId,
         patientId: patientId || null,
-        procedureId: procedureId || null,
+        procedure: procedureId || null,
         title: title || null,
       },
     });

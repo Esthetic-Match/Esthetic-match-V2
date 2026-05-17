@@ -23,6 +23,7 @@ type PublicContactActionsSectionProps = {
     googleReviewCount: number | null;
     googleRating: number | null;
     inClinicLink: string | null;
+    currency: string | null;
   };
 };
 
@@ -46,6 +47,7 @@ export default async function PublicContactActionsSection({
           inClinicPrice={doctorProfile.inClinicPrice}
           onlineConsulPrice={doctorProfile.onlineConsulPrice}
           inClinicLink={doctorProfile.inClinicLink}
+          currency={doctorProfile.currency}
         />
 
         <GoogleMapsCard

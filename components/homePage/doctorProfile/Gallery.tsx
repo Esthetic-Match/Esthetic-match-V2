@@ -149,19 +149,21 @@ function BeforeAfterCard({
 
 function GalleryImage({ src, label }: { src: string; label: string }) {
   return (
-    <figure>
-      <div className="relative h-40 overflow-hidden rounded-xl bg-[#FAF9F7]">
-        <img
-          src={src}
-          alt={`${label} treatment result`}
-          className="h-full w-full object-cover"
-          loading="lazy"
-        />
-      </div>
+<figure>
+  <div className="relative h-40 overflow-hidden rounded-xl bg-[#FAF9F7]">
+    <img
+      src={src}
+      alt={`${label} treatment result`}
+      className="h-full w-full scale-110 object-cover blur-xl"
+      loading="lazy"
+    />
 
-      <figcaption className="mt-2 text-center text-xs font-medium text-[#283C5D]/65">
-        {label}
-      </figcaption>
-    </figure>
+    <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
+  </div>
+
+  <figcaption className="mt-2 text-center text-xs font-medium text-[#283C5D]/65">
+    {label}
+  </figcaption>
+</figure>
   );
 }

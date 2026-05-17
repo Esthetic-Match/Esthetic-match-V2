@@ -7,7 +7,7 @@ import type { Procedure } from "@/app/[locale]/sign-up/types";
 type SelectedProceduresProps = {
   selectedProcedures: Procedure[];
   onRemoveProcedure: (procedureId: string) => void;
-  onDeselectAllProcedures: () => void;
+  onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
 export default function SelectedProcedures({
@@ -26,7 +26,7 @@ export default function SelectedProcedures({
       <div className="flex justify-end gap-2">
         <button
           type="button"
-          onClick={onDeselectAllProcedures}
+          onClick={() => onDeselectAllProcedures(selectedProcedures.map((p) => p.id))}
           className="rounded-full border border-red-500/20 px-3 py-1 text-xs font-medium text-red-500 hover:bg-red-50"
         >
           {t("deselectAll")}

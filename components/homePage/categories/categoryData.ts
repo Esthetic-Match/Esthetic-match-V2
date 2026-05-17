@@ -1,17 +1,17 @@
 export const categoryPages = [
   {
-    key: "NON-SURGICAL FACE",
-    id: "non_surgical_face",
+    key: "AESTHETIC MEDICINE FACE",
+    id: "aesthetic_medicine_face",
     slug: "non-surgical-face",
-    image: "/images/home/categories/non-surgical-face.png",
-    icon: "/images/home/categories/icons/non-surgical-face.svg",
+    image: "/images/home/categories/aesthetic_medicine_face.png",
+    icon: "/images/home/categories/icons/aesthetic-medicine-face.svg",
   },
   {
-    key: "NON-SURGICAL BODY",
-    id: "non_surgical_body",
+    key: "AESTHETIC MEDICINE BODY",
+    id: "aesthetic_medicine_body",
     slug: "non-surgical-body",
-    image: "/images/home/categories/non-surgical-body.png",
-    icon: "/images/home/categories/icons/non-surgical-body.svg",
+    image: "/images/home/categories/aesthetic_medicine_body.png",
+    icon: "/images/home/categories/icons/aesthetic-medicine-body.svg",
   },
   {
     key: "AESTHETIC DENTISTRY",

@@ -11,6 +11,7 @@ type ConsultationPricesProps = {
   inClinicPrice?: number | null;
   onlineConsulPrice?: number | null;
   inClinicLink?: string | null;
+  currency?: string | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void | Promise<void>;
@@ -20,6 +21,7 @@ export default function ConsultationPrices({
   inClinicPrice,
   onlineConsulPrice,
   inClinicLink,
+  currency,
   onUpdateProfile,
 }: ConsultationPricesProps) {
   const t = useTranslations("dashboard");
@@ -65,20 +67,20 @@ export default function ConsultationPrices({
 
   return (
     <div className="rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <CardTitle
           icon={<WalletCards size={22} />}
           title={t("consultationPrices.title")}
         />
 
         {isEditing ? (
-          <div className="flex items-center gap-2">
+          <div className="flex  items-center gap-2">
             <button
               type="button"
               onClick={handleSave}
-              className="flex h-8 w-8 items-center justify-center rounded-full cursor-pointer bg-gray-400 text-white transition hover:bg-[#283C5D] active:scale-[0.98]"
+              className="flex h-8 w-24 items-center justify-center rounded-full cursor-pointer border border-black/10 bg-[#283c5d] text-white transition hover:bg-[#283C5D]/80 active:scale-[0.98]"
             >
-              <Check size={16} />
+              <p>{t("common.save")}</p>
             </button>
 
             <button
@@ -115,6 +117,7 @@ export default function ConsultationPrices({
             <PriceRow
               label={t("consultationPrices.inClinic")}
               price={inClinicPrice}
+              currency={currency}
             />
 
             {inClinicLink ? (
@@ -147,6 +150,7 @@ export default function ConsultationPrices({
           <PriceRow
             label={t("consultationPrices.online")}
             price={onlineConsulPrice}
+            currency={currency}
           />
         )}
 
