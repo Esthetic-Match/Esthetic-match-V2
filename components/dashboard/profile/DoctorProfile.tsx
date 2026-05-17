@@ -78,7 +78,8 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           onUpdateProfile={updateDoctorProfile}
         />
         <ProfileHeader
-          doctorId={user.id}
+          userId={user.id}
+          doctorId={profile?.id}
           name={profile?.user?.name || "Doctor"}
           avatar={profile?.avatar || profile?.user?.image}
           specialty={profile?.specialtyIds || []}

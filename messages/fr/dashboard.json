@@ -32,7 +32,8 @@
     "noTopProcedures": "Aucune procédure principale sélectionnée",
     "yearsOfExperience": "Années d’expérience",
     "years": "{count} ans",
-    "editProfile": "Modifier le profil"
+    "editProfile": "Modifier le profil",
+      "viewPublicProfile": "Voir profil"
   },
   "expertise": {
     "title": "Expertise",
