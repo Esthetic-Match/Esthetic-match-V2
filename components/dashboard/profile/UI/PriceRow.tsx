@@ -32,7 +32,7 @@ export default function PriceRow({
 
       <span className="inline-flex rounded-full border border-gray-200 px-7 py-2 text-sm font-semibold text-[#283C5D]">
         {price != null
-          ? `${currencySymbol}${price}`
+          ? `${currencySymbol} ${price}`
           : fallbackText}
       </span>
     </div>

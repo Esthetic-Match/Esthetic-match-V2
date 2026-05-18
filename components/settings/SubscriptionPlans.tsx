@@ -94,7 +94,7 @@ function PlanCard({
         type="button"
         className={`mt-auto rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.98] ${
           highlighted
-            ? "border-[#d8bd8d] bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] text-white hover:bg-[#283C5D]/90"
+            ? "border-[#d8bd8d] bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] text-black hover:bg-[#283C5D]/90"
             : "border-[#283C5D] text-[#283C5D] hover:bg-[#283C5D] hover:text-white"
         }`}
       >

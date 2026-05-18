@@ -12,6 +12,7 @@ type GalleryProps = {
 type GalleryItem = {
   beforeImageUrl: string;
   afterImageUrl: string;
+  isPublic: boolean;
 };
 
 export default function Gallery({ doctorId, paidPlan }: GalleryProps) {
@@ -33,7 +34,7 @@ export default function Gallery({ doctorId, paidPlan }: GalleryProps) {
         return;
       }
 
-      console.log("PUBLIC GALLERY DATA:", data);
+
       setGallery(data);
     }
 
@@ -105,6 +106,7 @@ export default function Gallery({ doctorId, paidPlan }: GalleryProps) {
             key={`${doctorId}-${index}`}
             beforeImageUrl={item.beforeImageUrl}
             afterImageUrl={item.afterImageUrl}
+            isPublic={item.isPublic}
             beforeLabel={t("before")}
             afterLabel={t("after")}
           />
@@ -131,39 +133,72 @@ export default function Gallery({ doctorId, paidPlan }: GalleryProps) {
 function BeforeAfterCard({
   beforeImageUrl,
   afterImageUrl,
+  isPublic,
   beforeLabel,
   afterLabel,
 }: {
   beforeImageUrl: string;
   afterImageUrl: string;
+  isPublic: boolean;
   beforeLabel: string;
   afterLabel: string;
 }) {
   return (
-    <article className="grid grid-cols-2 gap-2">
-      <GalleryImage src={beforeImageUrl} label={beforeLabel} />
-      <GalleryImage src={afterImageUrl} label={afterLabel} />
+    <article className="relative grid grid-cols-2 gap-2">
+      <GalleryImage
+        src={beforeImageUrl}
+        label={beforeLabel}
+        isPublic={isPublic}
+      />
+
+      <GalleryImage
+        src={afterImageUrl}
+        label={afterLabel}
+        isPublic={isPublic}
+      />
+
+      {!isPublic ? (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="rounded-full border border-[#d8bd8d] bg-[#52627c] px-5 py-2 backdrop-blur-md shadow-lg">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
+              Message Doctor to View
+            </p>
+          </div>
+        </div>
+      ) : null}
     </article>
   );
 }
 
-function GalleryImage({ src, label }: { src: string; label: string }) {
+function GalleryImage({
+  src,
+  label,
+  isPublic,
+}: {
+  src: string;
+  label: string;
+  isPublic: boolean;
+}) {
   return (
-<figure>
-  <div className="relative h-40 overflow-hidden rounded-xl bg-[#FAF9F7]">
-    <img
-      src={src}
-      alt={`${label} treatment result`}
-      className="h-full w-full scale-110 object-cover blur-xl"
-      loading="lazy"
-    />
+    <figure>
+      <div className="relative h-40 overflow-hidden rounded-xl bg-[#FAF9F7]">
+        <img
+          src={src}
+          alt={`${label} treatment result`}
+          className={`h-full w-full object-cover ${
+            isPublic ? "" : "scale-110 blur-xl"
+          }`}
+          loading="lazy"
+        />
 
-    <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
-  </div>
+        {!isPublic ? (
+          <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" />
+        ) : null}
+      </div>
 
-  <figcaption className="mt-2 text-center text-xs font-medium text-[#283C5D]/65">
-    {label}
-  </figcaption>
-</figure>
+      <figcaption className="mt-2 text-center text-xs font-medium text-[#283C5D]/65">
+        {label}
+      </figcaption>
+    </figure>
   );
 }

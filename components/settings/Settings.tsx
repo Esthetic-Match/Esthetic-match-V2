@@ -23,6 +23,7 @@ import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
 import SubscriptionPlans from "./SubscriptionPlans";
 import PaymentDetails from "./PaymentDetails";
+import DeleteAccount from "./DeleteAccount";
 
 type SettingsPage =
   | "Edit Profile"
@@ -254,7 +255,7 @@ export default function Settings({ user }: SettingsProps) {
           {activePage === "Language" && <LanguageSelector />}
           {activePage === "Report a Problem" && <ReportProblem />}
           {activePage === "Terms & Conditions" && <TermsAndConditions />}
-          {activePage === "Delete Account" && <TermsAndConditions />}
+          {activePage === "Delete Account" && <DeleteAccount />}
         </main>
       </div>
     </div>
