@@ -28,6 +28,7 @@ export function NavBarMain() {
     { name: t("doctors"), link: "/doctors" },
     { name: t("categories"), link: "/categories" },
     { name: t("contact"), link: "/contact" },
+    { name: t("faq"), link: "/faq" },
   ];
 
   const authHref = session ? `/${locale}/dashboard` : `/${locale}/sign-in`;

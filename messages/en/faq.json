@@ -1,0 +1,117 @@
+{
+  "faq": {
+    "CTA": "View Doctors",
+    "eyebrow": "Esthetic Match FAQ",
+    "title": "Frequently asked questions about aesthetic medicine",
+    "description": "Understand treatments, injections, lasers, recovery, pricing, and consultations before booking your next appointment.",
+    "categories": {
+      "general": "General",
+      "injections": "Injections",
+      "lasers": "Lasers & Peels",
+      "comfort": "Comfort & Pain",
+      "contraindications": "Contraindications",
+      "specialCases": "Special Cases"
+    },
+    "cta": {
+      "eyebrow": "Esthetic Match",
+      "title": "Find the right aesthetic practitioner with confidence.",
+      "description": "Explore trusted doctor profiles, compare treatments, and book consultations tailored to your aesthetic goals."
+    },
+    "01": {
+      "question": "What is the difference between aesthetic medicine and aesthetic surgery?",
+      "answer": "Aesthetic medicine uses resorbable products in-office, with no or light local anaesthesia and little to no downtime. Surgery requires general or local anaesthesia, 1–2 weeks of social downtime, and delivers long-lasting or permanent results."
+    },
+    "02": {
+      "question": "Do aesthetic medicine treatments deliver natural-looking results?",
+      "answer": "Yes. Modern aesthetic medicine is minimally or non-invasive. Results look natural: those around you will notice your healthy glow, refreshed eyes, and refined silhouette — without being able to pinpoint what changed."
+    },
+    "03": {
+      "question": "From what age can aesthetic medicine treatments be considered?",
+      "answer": "Aesthetic medicine treatments are available from age 18. Since skin and hair growth only stabilise after puberty, treatment before this age is not recommended. For skin rejuvenation, starting early as a preventive measure generally yields better long-term results."
+    },
+    "04": {
+      "question": "Is aesthetic medicine covered by health insurance?",
+      "answer": "No. Aesthetic medicine procedures (injections, lasers, peels…) are considered comfort treatments and are not reimbursed by public health insurance or supplementary cover, unless a recognised medical indication applies. Some reconstructive procedures may be partially covered."
+    },
+    "05": {
+      "question": "How do I choose the right aesthetic medicine practitioner?",
+      "answer": "It is essential to choose a physician specifically qualified and trained in aesthetic medicine. Check their credentials, experience, and patient reviews. A prior consultation is key to assessing how well they listen, the relevance of their recommendations, and whether your expectations are realistic."
+    },
+    "06": {
+      "question": "Are injections compatible with laser treatments?",
+      "answer": "Botulinum toxin (Botox) injections are compatible with all laser types. Hyaluronic acid and biostimulant injections must be performed before or after a laser session — never simultaneously."
+    },
+    "07": {
+      "question": "Can I resume daily activities after an injection?",
+      "answer": "Yes, immediately. It is recommended to avoid intense sport, saunas, and sun exposure for 48 hours. Make-up can be applied the following day. Redness or mild swelling may last a few hours to a few days."
+    },
+    "08": {
+      "question": "Is there a risk of allergy to hyaluronic acid?",
+      "answer": "Allergic reactions are extremely rare, as hyaluronic acid naturally occurs in the body. Products used are highly purified. Any history of allergy should be discussed with the practitioner during a prior consultation."
+    },
+    "09": {
+      "question": "How long do injection results last?",
+      "answer": "Duration varies by product and patient profile. Botulinum toxin (Botox) typically lasts 3 to 6 months. Hyaluronic acid lasts 6 to 18 months depending on the treated area. Biostimulants (Radiesse, Sculptra…) have a delayed effect of 3 to 6 months but can last up to 24 months. Maintenance sessions are recommended."
+    },
+    "10": {
+      "question": "What happens if I stop getting injections?",
+      "answer": "The skin gradually returns to its pre-treatment state. Patients who have had regular injections retain some residual benefit, as hyaluronic acid contributes to skin hydration and cellular stimulation. There is no accelerated ageing effect upon stopping treatment."
+    },
+    "11": {
+      "question": "Can laser treatments or peels be done in summer?",
+      "answer": "Yes for most: gentle peels, injections, and certain vascular lasers. However, fractional and pigment lasers are not recommended in summer. For laser hair removal, sessions require untanned skin."
+    },
+    "12": {
+      "question": "Is there an option for sensitive skin that cannot tolerate peels?",
+      "answer": "Yes. Some treatments combine laser and pulsed light to purify the skin and stimulate collagen production, with results comparable to a peel — but without irritating the skin's surface."
+    },
+    "13": {
+      "question": "Are laser treatments effective on darker and Black skin tones?",
+      "answer": "Yes, provided the right equipment is used. Nd:YAG lasers are suited for hair removal and spot treatment on dark skin. Picosecond lasers work for tattoo removal and rejuvenation on all skin types. Scars and stretch marks on darker skin require specialist care."
+    },
+    "14": {
+      "question": "How many sessions are needed for laser hair removal?",
+      "answer": "On average, 6 to 8 sessions are needed for lasting results, spaced 4 to 8 weeks apart depending on the area treated. The exact number depends on hair type, skin tone, and hormonal variations. Annual maintenance sessions may be useful."
+    },
+    "15": {
+      "question": "Are aesthetic treatments painful?",
+      "answer": "Most treatments cause no pain. Some (fractional laser, focused ultrasound, laser hair removal) use numbing cream applied 1 hour before. For cannula-based techniques (fillers, thread lifts), a small local anaesthetic is administered at the entry point."
+    },
+    "16": {
+      "question": "Can I leave after a treatment without it being noticeable?",
+      "answer": "Yes, for most treatments. Redness and bruising (common after injections) can be covered with make-up. Only more intensive procedures (high-intensity fractional laser, thread lifts, surgery) require a few days of social downtime."
+    },
+    "17": {
+      "question": "What are the most common side effects?",
+      "answer": "The most common side effects are bruising, swelling, and redness localised in the treated area. These typically resolve within a few hours to a few days. Serious complications (haematomas, infections, asymmetry) are rare and generally correctable during a touch-up session."
+    },
+    "18": {
+      "question": "Are there contraindications to aesthetic treatments?",
+      "answer": "Yes. During pregnancy, most lasers and injections are not recommended. A history of permanent fillers (silicone) contraindicates further injections and certain devices. Any skin infection or wound on the treatment area is a general contraindication."
+    },
+    "19": {
+      "question": "Is a thread lift a surgical procedure?",
+      "answer": "No. It is a non-surgical aesthetic medicine procedure. It lifts the tissues and redefines the facial oval without altering the facial features themselves."
+    },
+    "20": {
+      "question": "Can men have aesthetic medicine treatments?",
+      "answer": "Yes, and an increasing number do. Men consult mainly to maintain a rested, dynamic appearance, correct imperfections (wrinkles, dark circles, acne), or refine their silhouette. The same treatments apply, with protocols adapted to male morphology and expectations."
+    },
+    "21": {
+      "question": "Can aesthetic medicine treat acne?",
+      "answer": "Yes. A wide range of peels and light-based treatments can be adapted to all acne types. Vitamin A peels, biothermique masks, and vascular lasers are particularly effective at reducing lesions and redness."
+    },
+    "22": {
+      "question": "How to avoid a mismatch in youthfulness between the face and the hands?",
+      "answer": "It is recommended to combine facial treatments with those for the neck, décolleté, and hands, which also age quickly due to UV exposure. Most facial treatments can be applied to these areas to preserve overall harmony."
+    },
+    "23": {
+      "question": "How much do aesthetic medicine treatments cost?",
+      "answer": "Prices vary depending on the procedure, region, practitioner, and products used. Cost also depends on treatment time and quantities injected. It is advisable to request a detailed quote during the prior consultation and to compare several practitioners before deciding."
+    },
+    "24": {
+      "question": "Is a prior consultation required before treatment?",
+      "answer": "Yes, and it is strongly recommended. The consultation allows the practitioner to assess your needs, health status, any contraindications, and to define a personalised treatment plan. It is also an opportunity for the patient to ask all their questions and align on realistic expectations."
+    }
+  }
+}
