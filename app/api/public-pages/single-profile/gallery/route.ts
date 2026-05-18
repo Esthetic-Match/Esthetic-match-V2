@@ -77,6 +77,7 @@ export async function GET(req: NextRequest) {
       cases.map(async (item) => ({
         beforeImageUrl: await getSignedImageUrl(item.beforeImage!),
         afterImageUrl: await getSignedImageUrl(item.afterImage!),
+        isPublic: item.isPublic,
       }))
     );
 
