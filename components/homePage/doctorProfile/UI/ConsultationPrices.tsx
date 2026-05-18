@@ -33,7 +33,7 @@ function formatPrice(price: number | null, currency?: string | null) {
     return price.toString();
   }
 
-  return `${symbol}${price}`;
+  return `${symbol} ${price}`;
 }
 
 function PriceRow({
