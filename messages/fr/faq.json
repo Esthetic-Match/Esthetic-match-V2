@@ -1,0 +1,117 @@
+{
+  "faq": {
+    "CTA": "Voir les médecins",
+    "eyebrow": "FAQ Esthetic Match",
+    "title": "Questions fréquentes sur la médecine esthétique",
+    "description": "Comprenez les traitements, injections, lasers, suites, tarifs et consultations avant de réserver votre prochain rendez-vous.",
+    "categories": {
+      "general": "Généralités",
+      "injections": "Injections",
+      "lasers": "Lasers & Peelings",
+      "comfort": "Confort & Douleur",
+      "contraindications": "Contre-indications",
+      "specialCases": "Cas particuliers"
+    },
+    "cta": {
+      "eyebrow": "Esthetic Match",
+      "title": "Trouvez le bon praticien esthétique en toute confiance.",
+      "description": "Explorez des profils de médecins vérifiés, comparez les traitements et réservez des consultations adaptées à vos objectifs esthétiques."
+    },
+    "01": {
+      "question": "Quelle est la différence entre médecine esthétique et chirurgie esthétique ?",
+      "answer": "La médecine esthétique utilise des produits résorbables en cabinet, sans anesthésie ou avec une légère anesthésie locale, et sans éviction sociale. La chirurgie nécessite une anesthésie générale ou locale, une éviction de 1 à 2 semaines, pour des résultats durables voire permanents."
+    },
+    "02": {
+      "question": "Les traitements de médecine esthétique offrent-ils des résultats naturels ?",
+      "answer": "Oui. La médecine esthétique moderne est peu ou pas invasive. Les résultats sont naturels : votre entourage remarquera votre bonne mine, votre regard reposé, votre silhouette affinée — sans pouvoir identifier précisément ce qui a changé."
+    },
+    "03": {
+      "question": "À partir de quel âge peut-on avoir recours à la médecine esthétique ?",
+      "answer": "Les traitements de médecine esthétique sont autorisés à partir de 18 ans. La peau et la pilosité n'étant stables qu'après la puberté, intervenir avant cet âge n'est pas indiqué. Pour le rajeunissement cutané, commencer tôt à titre préventif offre généralement de meilleurs résultats sur le long terme."
+    },
+    "04": {
+      "question": "La médecine esthétique est-elle remboursée par l'assurance maladie ?",
+      "answer": "Non. Les actes de médecine esthétique (injections, lasers, peelings…) sont considérés comme des actes de confort et ne sont pas remboursés par l'assurance maladie ni par la mutuelle, sauf indication médicale reconnue. Certaines interventions réparatrices peuvent faire l'objet d'une prise en charge partielle."
+    },
+    "05": {
+      "question": "Comment bien choisir son praticien en médecine esthétique ?",
+      "answer": "Il est essentiel de choisir un médecin qualifié et formé spécifiquement en médecine esthétique. Vérifiez ses diplômes, son expérience et les avis patients. Une consultation préalable est indispensable pour évaluer son écoute, la pertinence de ses recommandations et s'assurer que vos attentes sont réalistes."
+    },
+    "06": {
+      "question": "Les injections sont-elles compatibles avec les traitements laser ?",
+      "answer": "Les injections de toxine botulique (Botox) sont compatibles avec tous les types de laser. Les injections d'acide hyaluronique ou de biostimulants doivent être réalisées avant ou après un laser, jamais lors de la même séance."
+    },
+    "07": {
+      "question": "Peut-on reprendre ses activités après une injection ?",
+      "answer": "Oui, immédiatement. Il est conseillé d'éviter sport intense, sauna et exposition solaire pendant 48h. Le maquillage est possible dès le lendemain. Des rougeurs ou un léger gonflement peuvent persister quelques heures à quelques jours."
+    },
+    "08": {
+      "question": "Y a-t-il un risque d'allergie à l'acide hyaluronique ?",
+      "answer": "Les allergies sont extrêmement rares car l'acide hyaluronique est naturellement présent dans l'organisme. Les produits utilisés sont hautement purifiés. En cas d'antécédents d'allergie, le médecin évalue le bénéfice-risque lors d'une consultation préalable."
+    },
+    "09": {
+      "question": "Combien de temps durent les effets des injections ?",
+      "answer": "La durée varie selon le produit et le profil du patient. La toxine botulique (Botox) agit généralement 3 à 6 mois. L'acide hyaluronique dure 6 à 18 mois selon la zone traitée. Les biostimulants (Radiesse, Sculptra…) ont un effet retardé de 3 à 6 mois mais peuvent durer jusqu'à 24 mois. Des séances d'entretien sont recommandées."
+    },
+    "10": {
+      "question": "Que se passe-t-il si on arrête les injections ?",
+      "answer": "On revient progressivement à l'état initial avant les injections. Les patients qui ont pratiqué des injections régulières conservent toutefois un bénéfice résiduel, car l'acide hyaluronique contribue à l'hydratation cutanée et à la stimulation cellulaire. Il n'y a pas d'effet d'accélération du vieillissement à l'arrêt."
+    },
+    "11": {
+      "question": "Peut-on faire des traitements laser ou des peelings en été ?",
+      "answer": "Oui pour la majorité : peelings doux, injections et certains lasers vasculaires. En revanche, les lasers fractionnés et lasers pigmentaires sont déconseillés en été. Pour l'épilation laser, les séances ne se font que sur peau non bronzée."
+    },
+    "12": {
+      "question": "Existe-t-il une option pour les peaux sensibles ne supportant pas les peelings ?",
+      "answer": "Oui. Certains soins associent laser et lumière pulsée pour purifier la peau et stimuler la production de collagène, avec un éclat comparable à celui d'un peeling — mais sans irriter la surface cutanée."
+    },
+    "13": {
+      "question": "Les traitements laser fonctionnent-ils sur les peaux foncées et noires ?",
+      "answer": "Oui, à condition de choisir les bons équipements. Les lasers Nd:YAG sont adaptés à l'épilation et au traitement des taches sur peaux noires. Les lasers picoseconde conviennent au détattouage et à la réjuvénation sur tous types de peau. Les cicatrices et vergetures sur peaux foncées nécessitent une prise en charge spécialisée."
+    },
+    "14": {
+      "question": "Combien de séances sont nécessaires pour l'épilation laser ?",
+      "answer": "En moyenne 6 à 8 séances sont nécessaires pour obtenir une épilation durable, espacées de 4 à 8 semaines selon la zone traitée. Le nombre exact dépend du type de poil, de la couleur de peau et des variations hormonales. Des séances d'entretien annuelles peuvent être utiles."
+    },
+    "15": {
+      "question": "Les traitements esthétiques sont-ils douloureux ?",
+      "answer": "La grande majorité est indolore. Certains traitements (laser fractionné, ultrasons focalisés, épilation laser) se font sous crème anesthésiante appliquée 1h avant. Pour les techniques avec canule (comblement, fils tenseurs), une petite anesthésie locale est pratiquée au point d'entrée."
+    },
+    "16": {
+      "question": "Peut-on ressortir après un traitement sans que cela se remarque ?",
+      "answer": "Oui, pour la grande majorité des traitements. Rougeurs et petits bleus (fréquents après injections) se camouflent au maquillage. Seuls certains traitements intensifs (laser fractionné haute intensité, fils tenseurs, chirurgie) induisent quelques jours d'éviction sociale."
+    },
+    "17": {
+      "question": "Quels sont les effets secondaires les plus fréquents ?",
+      "answer": "Les effets secondaires les plus courants sont les ecchymoses (bleus), les gonflements et les rougeurs localisés dans la zone traitée. Ils disparaissent en général en quelques heures à quelques jours. Les complications sérieuses (hématomes, infections, asymétries) sont rares et généralement corrigeables lors d'une séance de retouche."
+    },
+    "18": {
+      "question": "Y a-t-il des contre-indications aux traitements esthétiques ?",
+      "answer": "Oui. Pendant la grossesse, la plupart des lasers et injections sont déconseillés. Un antécédent de produits de comblement permanents (silicone) contre-indique de nouvelles injections et certains appareils. Toute infection ou blessure sur la zone à traiter est une contre-indication générale."
+    },
+    "19": {
+      "question": "La pose de fils tenseurs est-elle une chirurgie ?",
+      "answer": "Non. C'est un acte de médecine esthétique, non chirurgical. La procédure a un effet lifting sur les tissus et remodèle l'ovale du visage, sans en modifier les traits."
+    },
+    "20": {
+      "question": "Les hommes peuvent-ils recourir à la médecine esthétique ?",
+      "answer": "Oui, et ils sont de plus en plus nombreux à le faire. Les hommes consultent principalement pour conserver un visage reposé et dynamique, corriger des imperfections (rides, cernes, acné) ou affiner leur silhouette. Les mêmes traitements s'appliquent, avec des protocoles adaptés à la morphologie et aux attentes masculines."
+    },
+    "21": {
+      "question": "La médecine esthétique peut-elle traiter l'acné ?",
+      "answer": "Oui. De nombreux peelings et traitements lumière sont adaptés selon le type d'acné. Les peelings à la vitamine A, les masques biothermiques et les lasers vasculaires sont particulièrement efficaces pour réduire les lésions et les rougeurs."
+    },
+    "22": {
+      "question": "Comment éviter une disparité entre la jeunesse du visage et celle des mains ?",
+      "answer": "Il est recommandé de combiner les traitements du visage avec ceux du cou, du décolleté et des mains, qui vieillissent aussi rapidement sous l'effet des UV. La plupart des traitements faciaux peuvent être appliqués sur ces zones pour préserver l'harmonie globale."
+    },
+    "23": {
+      "question": "Combien coûtent les traitements de médecine esthétique ?",
+      "answer": "Les tarifs varient selon la procédure, la région, le praticien et les produits utilisés. Le prix dépend aussi du temps de traitement et des quantités injectées. Il est conseillé de demander un devis détaillé lors de la consultation préalable et de comparer plusieurs praticiens avant de décider."
+    },
+    "24": {
+      "question": "Une consultation préalable est-elle obligatoire avant un traitement ?",
+      "answer": "Oui, et elle est fortement recommandée. La consultation permet au praticien d'évaluer vos besoins, votre état de santé, les éventuelles contre-indications et de définir un plan de traitement personnalisé. C'est aussi l'occasion pour le patient de poser toutes ses questions et de valider ses attentes."
+    }
+  }
+}
