@@ -7,7 +7,9 @@ export async function PATCH(
 ) {
   try {
     const { caseId } = await params;
-    const { beforeImage, afterImage } = await req.json();
+    const body = await req.json();
+
+    const { beforeImage, afterImage, title, procedure, notes, isPublic } = body;
 
     if (!caseId) {
       return NextResponse.json({ error: "Missing caseId" }, { status: 400 });
@@ -18,8 +20,12 @@ export async function PATCH(
         id: caseId,
       },
       data: {
-        beforeImage,
-        afterImage,
+        ...(beforeImage !== undefined && { beforeImage }),
+        ...(afterImage !== undefined && { afterImage }),
+        ...(title !== undefined && { title: title?.trim() || null }),
+        ...(procedure !== undefined && { procedure: procedure?.trim() || null }),
+        ...(notes !== undefined && { notes: notes?.trim() || null }),
+        ...(isPublic !== undefined && { isPublic: Boolean(isPublic) }),
       },
     });
 
@@ -28,7 +34,38 @@ export async function PATCH(
     console.error(error);
 
     return NextResponse.json(
-      { error: "Failed to update case images" },
+      { error: "Failed to update gallery case" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: Promise<{ caseId: string }> }
+) {
+  try {
+    const { caseId } = await params;
+
+    if (!caseId) {
+      return NextResponse.json({ error: "Missing caseId" }, { status: 400 });
+    }
+
+    await prisma.beforeAfterCase.delete({
+      where: {
+        id: caseId,
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      deletedCaseId: caseId,
+    });
+  } catch (error) {
+    console.error("DELETE /api/doctor-cases/[caseId] error:", error);
+
+    return NextResponse.json(
+      { error: "Failed to delete gallery case" },
       { status: 500 }
     );
   }

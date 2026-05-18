@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Download, X } from "lucide-react";
+import { Download, FileImage, X } from "lucide-react";
 import type { Message, MessageAttachment } from "./types";
 import { formatMessageTime } from "./utils";
 
@@ -11,12 +11,26 @@ type MessageBubbleProps = {
   isMine: boolean;
 };
 
+function hasValidImageUrl(attachment: MessageAttachment) {
+  return Boolean(attachment.readUrl && attachment.readUrl.trim().length > 0);
+}
+
 export default function MessageBubble({ message, isMine }: MessageBubbleProps) {
   const [selectedImage, setSelectedImage] =
     useState<MessageAttachment | null>(null);
 
   const hasText = Boolean(message.text?.trim());
-  const hasAttachments = Boolean(message.attachments?.length);
+
+  const validAttachments =
+    message.attachments?.filter((attachment) => hasValidImageUrl(attachment)) ??
+    [];
+
+  const pendingAttachments =
+    message.attachments?.filter((attachment) => !hasValidImageUrl(attachment)) ??
+    [];
+
+  const hasAttachments =
+    validAttachments.length > 0 || pendingAttachments.length > 0;
 
   return (
     <>
@@ -30,21 +44,42 @@ export default function MessageBubble({ message, isMine }: MessageBubbleProps) {
         >
           {hasAttachments && (
             <div className="space-y-2 p-2">
-              {message.attachments.map((attachment) => (
+              {validAttachments.map((attachment) => (
                 <button
                   key={attachment.id}
                   type="button"
                   onClick={() => setSelectedImage(attachment)}
-                  className="relative h-56 w-56 overflow-hidden rounded-2xl bg-black/5 cursor-pointer"
+                  className="relative h-56 w-56 cursor-pointer overflow-hidden rounded-2xl bg-black/5"
                 >
                   <Image
-                    src={attachment.readUrl}
+                    src={attachment.readUrl!}
                     alt={attachment.fileName || "Message image"}
                     fill
                     className="object-cover transition hover:scale-105"
                     unoptimized
                   />
                 </button>
+              ))}
+
+              {pendingAttachments.map((attachment) => (
+                <div
+                  key={attachment.id}
+                  className="flex h-56 w-56 flex-col items-center justify-center gap-3 rounded-2xl bg-black/5 px-4 text-center"
+                >
+                  <FileImage
+                    className={`h-8 w-8 ${
+                      isMine ? "text-white/50" : "text-[#283C5D]/40"
+                    }`}
+                  />
+
+                  <p
+                    className={`text-xs ${
+                      isMine ? "text-white/60" : "text-[#283C5D]/50"
+                    }`}
+                  >
+                    encrypting Image & processing...
+                  </p>
+                </div>
               ))}
             </div>
           )}
@@ -65,7 +100,7 @@ export default function MessageBubble({ message, isMine }: MessageBubbleProps) {
         </div>
       </div>
 
-      {selectedImage && (
+      {selectedImage && hasValidImageUrl(selectedImage) && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
           <div className="relative w-full max-w-4xl rounded-3xl bg-white p-4 shadow-2xl">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -96,7 +131,7 @@ export default function MessageBubble({ message, isMine }: MessageBubbleProps) {
 
             <div className="relative h-[70vh] w-full overflow-hidden rounded-2xl bg-black/5">
               <Image
-                src={selectedImage.readUrl}
+                src={selectedImage.readUrl!}
                 alt={selectedImage.fileName || "Message image"}
                 fill
                 className="object-contain"

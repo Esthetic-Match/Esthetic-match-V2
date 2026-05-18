@@ -298,6 +298,7 @@ model BeforeAfterCase {
   notes       String?
 
   title       String?
+  isPublic    Boolean  @default(false)
 
   beforeImage String?
   afterImage  String?
