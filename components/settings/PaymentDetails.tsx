@@ -212,7 +212,7 @@ export default function PaymentDetails({ doctorProfile }: { doctorProfile: Docto
         type="button"
         onClick={handleConnectStripe}
         disabled={isLoading || isConnected}
-        className="rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+        className="rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-black transition hover:opacity-90 disabled:opacity-50"
       >
         {isLoading
           ? "Redirecting..."

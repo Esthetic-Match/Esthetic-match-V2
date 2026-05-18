@@ -118,7 +118,7 @@ export default function ChangePassword() {
     type="submit"
     disabled={isLoading}
     className="rounded-full bg-gradient-to-r 
-    from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-white 
+    from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-sm font-medium text-black 
     transition hover:bg-[#d8bd8d] disabled:opacity-50"
   >
     {isLoading

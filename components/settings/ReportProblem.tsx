@@ -84,7 +84,7 @@ export default function ReportProblem() {
     type="submit"
     disabled={loading}
     className="w-full rounded-full bg-gradient-to-r 
-    from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-white text-sm font-medium 
+    from-[#d8bd8d] to-[#f2dbb1] px-4 py-3 text-black text-sm font-medium 
     transition hover:scale-[1.02] disabled:opacity-50"
   >
     {loading
