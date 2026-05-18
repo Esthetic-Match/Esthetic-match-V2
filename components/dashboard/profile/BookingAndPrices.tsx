@@ -13,7 +13,6 @@ type BookingAndPricesProps = {
   googleRating?: number | null;
   googleReviewCount?: number | null;
   paidPlan?:  string| null;
-  inClinicLink?: string | null;
   bookingLinks?: []|null;
   currency?: string | null;
   onUpdateProfile: (
@@ -33,7 +32,6 @@ export default function BookingAndPrices({
   googleRating,
   paidPlan,
   bookingLinks,
-  inClinicLink,
   currency,
 }: BookingAndPricesProps) {
   return (
@@ -42,7 +40,6 @@ export default function BookingAndPrices({
         <ConsultationPrices
           inClinicPrice={inClinicPrice}
           onlineConsulPrice={onlineConsulPrice}
-          inClinicLink={inClinicLink}
           onUpdateProfile={onUpdateProfile}
           currency={currency}
         />
