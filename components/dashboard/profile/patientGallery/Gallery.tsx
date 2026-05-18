@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ImageIcon, Lock, Plus } from "lucide-react";
+import { ImageIcon, Lock, Plus, FilePenLine  } from "lucide-react";
 import BeforeAfterUploadModal from "../UI/BeforeAfterUploadModal";
 import PrivateGcsImage from "@/components/UI/PrivateGcsImage";
 import { useTranslations } from "next-intl";
@@ -113,14 +113,10 @@ export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGa
             href={`/dashboard/${userId}/gallery`}
             className="flex min-h-[190px] flex-col items-center justify-center rounded-2xl border border-[#283C5D]/10 bg-[#FAF9F7] p-5 text-center text-[#283C5D] transition hover:scale-[1.02] hover:border-[#d8bd8d] active:scale-[0.99] md:col-start-4"
           >
-            <Plus size={26} className="mb-4 text-[#d8bd8d]" />
+            <FilePenLine  size={26} className="mb-4 text-[#d8bd8d]" />
 
             <p className="text-lg font-semibold">
               {t("gallery.editGallery")}
-            </p>
-
-            <p className="mt-4 text-sm leading-relaxed text-[#283C5D]/60">
-              {t("gallery.addMore")}
             </p>
           </Link>
       ) : (
