@@ -13,12 +13,31 @@
       "Terms & Conditions": "Terms & Conditions",
       "Subscription": "Subscription",
       "Delete Account": "Delete Account"
-    },
+    },   
     "payments": {
       "successTitle": "You finished your onboarding!",
       "successDescription": "Your Stripe account is now connected and ready to receive payments in 24h !",
       "goToDashboard": "Go to dashboard"
-    }
+    },
+  "paymentDetails": {
+    "loading": "Loading...",
+    "eyebrow": "Payments",
+    "title": "Payment Details",
+    "stripeTitle": "Stripe Connect",
+    "stripeDescription": "Connect your Stripe account to receive patient consultation payments. Esthetic Match keeps 15% commission and the remaining amount is paid to you.",
+    "connected": "Stripe is connected and ready to receive payments.",
+    "onboardingIncomplete": "Stripe account created. Please complete onboarding to receive payments.",
+    "notConnected": "Connect Stripe before receiving consultation payments.",
+    "redirecting": "Redirecting...",
+    "stripeConnected": "Stripe Connected",
+    "completeOnboarding": "Complete Stripe Onboarding",
+    "connectStripe": "Connect Stripe",
+    "currencyTitle": "Select your currency",
+    "currencyDescription": "Choose the currency patients will see when booking consultations with you.",
+    "saving": "Saving...",
+    "saveCurrency": "Save currency",
+    "currencyUpdated": "Currency updated successfully."
+  }   
   },
   "topThreeNote": "Your top three procedures will be highlighted on your profile and used to match you with patients looking for those specific procedures.",
     "common": {

@@ -1,3 +1,4 @@
+// app/api/stripe/connect/status/route.ts
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
@@ -14,44 +15,33 @@ export async function GET() {
   }
 
   const doctorProfile = await prisma.doctorProfile.findUnique({
-    where: { userId: session?.user.id },
+    where: {
+      userId: session.user.id,
+    },
   });
 
   if (!doctorProfile?.stripeConnectAccountId) {
-    return NextResponse.json({
-      connected: false,
-      onboardingComplete: false,
-      chargesEnabled: false,
-      payoutsEnabled: false,
-    });
+    return NextResponse.json(
+      { error: "Stripe Connect account not found" },
+      { status: 404 }
+    );
   }
 
   const account = await stripe.accounts.retrieve(
     doctorProfile.stripeConnectAccountId
   );
 
-  const updatedDoctorProfile = await prisma.doctorProfile.update({
-    where: { id: doctorProfile.id },
+  const updatedProfile = await prisma.doctorProfile.update({
+    where: {
+      id: doctorProfile.id,
+    },
     data: {
-      stripeConnectOnboardingComplete: account.details_submitted,
       stripeConnectChargesEnabled: account.charges_enabled,
       stripeConnectPayoutsEnabled: account.payouts_enabled,
+      stripeConnectOnboardingComplete:
+        account.details_submitted && account.charges_enabled,
     },
   });
 
-  return NextResponse.json({
-    connected: true,
-    onboardingComplete: account.details_submitted,
-    chargesEnabled: account.charges_enabled,
-    payoutsEnabled: account.payouts_enabled,
-  
-    capabilities: account.capabilities,
-    requirements: {
-      currentlyDue: account.requirements?.currently_due ?? [],
-      eventuallyDue: account.requirements?.eventually_due ?? [],
-      pastDue: account.requirements?.past_due ?? [],
-      pendingVerification: account.requirements?.pending_verification ?? [],
-      disabledReason: account.requirements?.disabled_reason ?? null,
-    },
-  });
+  return NextResponse.json(updatedProfile);
 }

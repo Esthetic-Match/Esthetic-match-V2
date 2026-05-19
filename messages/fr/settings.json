@@ -18,7 +18,26 @@
       "successTitle": "Votre inscription est terminée !",
       "successDescription": "Votre compte Stripe est maintenant connecté et prêt à recevoir des paiements dans 24h!",
       "goToDashboard": "Aller au tableau de bord"
-    }
+    },
+  "paymentDetails": {
+    "loading": "Chargement...",
+    "eyebrow": "Paiements",
+    "title": "Détails de paiement",
+    "stripeTitle": "Stripe Connect",
+    "stripeDescription": "Connectez votre compte Stripe pour recevoir les paiements des consultations des patients. Esthetic Match conserve une commission de 15 %, et le montant restant vous est versé.",
+    "connected": "Stripe est connecté et prêt à recevoir des paiements.",
+    "onboardingIncomplete": "Compte Stripe créé. Veuillez terminer l’onboarding pour recevoir des paiements.",
+    "notConnected": "Connectez Stripe avant de recevoir des paiements de consultation.",
+    "redirecting": "Redirection...",
+    "stripeConnected": "Stripe connecté",
+    "completeOnboarding": "Terminer l’onboarding Stripe",
+    "connectStripe": "Connecter Stripe",
+    "currencyTitle": "Sélectionnez votre devise",
+    "currencyDescription": "Choisissez la devise que les patients verront lorsqu’ils réserveront des consultations avec vous.",
+    "saving": "Enregistrement...",
+    "saveCurrency": "Enregistrer la devise",
+    "currencyUpdated": "Devise mise à jour avec succès."
+  }
   },
   "topThreeNote": "Vos trois principales procédures seront mises en évidence sur votre profil et utilisées pour vous associer aux patients recherchant ces procédures spécifiques.",
     
