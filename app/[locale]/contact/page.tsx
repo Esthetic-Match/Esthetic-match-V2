@@ -36,16 +36,20 @@ async function contactAction(formData: FormData) {
   }
 
   await sendEmail({
-    to: "deborah.leah.levy@gmail.com",
+    to: process.env.CONTACT_FORM_RECEIVER_EMAIL!,
     subject: `Esthetic Match Contact: ${subject}`,
     html: `
       <div style="font-family: Arial, sans-serif; line-height: 1.6;">
         <h2>New Contact Form Submission</h2>
+  
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Subject:</strong> ${subject}</p>
+  
         <hr />
+  
         <p><strong>Message:</strong></p>
+  
         <p>${message.replace(/\n/g, "<br />")}</p>
       </div>
     `,
