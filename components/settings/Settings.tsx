@@ -182,7 +182,7 @@ function SettingsSidebar({
             >
               {group
                 .filter((item) => {
-                  if (item.label === "Subscription" && user.role === "PATIENT") {
+                  if (item.label === "Subscription" || item.label === "Payment Details" && user.role === "PATIENT") {
                     return false;
                   }
 

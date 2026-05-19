@@ -125,7 +125,11 @@
     "paymentConnected": "Payment profile connected.",
     "noPaymentConnected": "No payment profile connected yet.",
     "notes": "Notes",
-    "noNotes": "No notes added yet."
+    "noNotes": "No notes added yet.",
+    "savedDoctors": "Saved doctors",
+    "savedDoctorsDescription": "Doctors you saved for later will appear here.",
+    "loadingSavedDoctors": "Loading saved doctors...",
+    "noSavedDoctors": "You have not saved any doctors yet."
   },
   "dashboardLayout": {
     "logoAlt": "Esthetic Match",

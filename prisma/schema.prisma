@@ -137,10 +137,10 @@ model PatientProfile {
   latitude      Float?
   longitude     Float?
   googlePlaceId String?
+  favorite      String[]
 
   preferredConsultationType String? // "in_clinic" | "online"
   preferredLanguage         String?
-  notes                     String?
 
   stripeCustomerId String?
 

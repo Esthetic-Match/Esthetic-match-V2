@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 function requiredString(value: unknown): string | null {
   if (typeof value !== "string") return null;
@@ -56,4 +58,42 @@ export async function POST(req: Request) {
     success: true,
     patientProfile,
   });
+}
+
+export async function GET() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user?.id) {
+    return NextResponse.json({ doctors: [] }, { status: 401 });
+  }
+
+  const patientProfile = await prisma.patientProfile.findUnique({
+    where: {
+      userId: session.user.id,
+    },
+    select: {
+      favorite: true,
+    },
+  });
+
+  const favoriteIds = patientProfile?.favorite ?? [];
+
+  if (!favoriteIds.length) {
+    return NextResponse.json({ doctors: [] });
+  }
+
+  const doctors = await prisma.doctorProfile.findMany({
+    where: {
+      id: {
+        in: favoriteIds,
+      },
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  return NextResponse.json({ doctors });
 }

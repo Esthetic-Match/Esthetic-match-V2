@@ -8,7 +8,6 @@ import {
   Camera,
   CreditCard,
   MapPin,
-  MessageSquare,
   Pencil,
   Phone,
   User,
@@ -16,6 +15,8 @@ import {
 } from "lucide-react";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import { useTranslations } from "next-intl";
+import { Heart, ArrowRight } from "lucide-react";
+import DoctorCards from "@/components/homePage/UI/DoctorCards";
 
 type SessionUser = {
   id: string;
@@ -40,7 +41,7 @@ type PatientProfileData = {
   googlePlaceId: string | null;
   preferredConsultationType: string | null;
   preferredLanguage: string | null;
-  notes: string | null;
+  favorite: string[] | null;
   stripeCustomerId: string | null;
   user: {
     id: string;
@@ -49,6 +50,16 @@ type PatientProfileData = {
     image: string | null;
     dateOfBirth: string | null;
   };
+};
+
+type FavoriteDoctorCard = {
+  id: string;
+  name: string;
+  specialtyIds: string;
+  googleRating: string;
+  googleReviewCount: string;
+  country: string;
+  avatar: string;
 };
 
 type PatientProfileProps = {
@@ -84,6 +95,35 @@ export default function PatientProfile({ user }: PatientProfileProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [favoriteDoctors, setFavoriteDoctors] = useState<FavoriteDoctorCard[]>([]);
+  const [isLoadingFavorites, setIsLoadingFavorites] = useState(true);
+
+useEffect(() => {
+  async function fetchFavoriteDoctors() {
+    try {
+      setIsLoadingFavorites(true);
+
+      const res = await fetch("/api/patient-profile/favorites", {
+        method: "GET",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setFavoriteDoctors([]);
+      }
+
+      setFavoriteDoctors(data.doctors ?? []);
+    } catch (error) {
+      console.error(error);
+      setFavoriteDoctors([]);
+    } finally {
+      setIsLoadingFavorites(false);
+    }
+  }
+
+  fetchFavoriteDoctors();
+}, []);
 
   async function fetchPatientProfile() {
     try {
@@ -282,7 +322,7 @@ export default function PatientProfile({ user }: PatientProfileProps) {
     </div>
   </div>
 
-  <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
+  <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
     <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
         <Phone size={17} className="text-[#d8bd8d]" />
@@ -325,41 +365,49 @@ export default function PatientProfile({ user }: PatientProfileProps) {
           {formatConsultationType(patient.preferredConsultationType)}
         </p>
 
-        <p>
-          <span className="font-medium text-[#283C5D]">
-            {t("PatientProfile.language")}:
-          </span>{" "}
-          {formatValue(patient.preferredLanguage)}
-        </p>
       </div>
     </div>
 
-    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
-        <CreditCard size={17} className="text-[#d8bd8d]" />
-        {t("PatientProfile.payments")}
+  </div>
+<div className="mt-10 rounded-3xl border border-black/10 bg-[#FAF9F7] p-5 shadow-sm md:p-7">
+  <div className="mb-6 flex items-center justify-between gap-4">
+    <div>
+      <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
+        <Heart size={18} className="text-[#d8bd8d]" />
+        {t("PatientProfile.savedDoctors")}
       </div>
 
-      <div className="rounded-2xl bg-[#FAF9F7] px-4 py-4 text-sm text-[#283C5D]/75">
-        {patient.stripeCustomerId ? (
-          <p>{t("PatientProfile.paymentConnected")}</p>
-        ) : (
-          <p>{t("PatientProfile.noPaymentConnected")}</p>
-        )}
-      </div>
+      <p className="text-sm text-[#283C5D]/60">
+        {t("PatientProfile.savedDoctorsDescription")}
+      </p>
     </div>
   </div>
 
-  <div className="mt-5 rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
-    <div className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#283C5D]">
-      <MessageSquare size={17} className="text-[#d8bd8d]" />
-      {t("PatientProfile.notes")}
+  {isLoadingFavorites ? (
+    <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-[#283C5D]/60">
+      {t("PatientProfile.loadingSavedDoctors")}
     </div>
+  ) : favoriteDoctors.length > 0 ? (
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {favoriteDoctors.map((doctor) => (
+        <DoctorCards key={doctor.id} doctor={doctor} />
+      ))}
+    </div>
+  ) : (
+    <div className="rounded-2xl border border-dashed border-[#283C5D]/20 bg-white p-6 text-sm text-[#283C5D]/60">
+      {t("PatientProfile.noSavedDoctors")}
+    </div>
+  )}
 
-    <p className="min-h-20 rounded-2xl bg-[#FAF9F7] px-4 py-4 text-sm leading-6 text-[#283C5D]/75">
-      {patient.notes?.trim() || t("PatientProfile.noNotes")}
-    </p>
-  </div>
+  <Link
+  href="/doctors"
+  className="inline-flex mt-8 items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition hover:bg-[#283C5D] hover:text-white active:scale-[0.98]"
+  >
+    <span>Discover doctors</span>
+
+    <ArrowRight size={16} />
+  </Link>
+</div>
 
   <ImageUploadModal
     isOpen={isAvatarModalOpen}
