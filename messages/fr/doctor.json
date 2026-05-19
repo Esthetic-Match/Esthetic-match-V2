@@ -11,7 +11,8 @@
         "topProcedures": "Top 3 des procédures",
         "yearsOfExperience": "Années d’expérience",
         "years": "ans",
-        "noTopProcedures": "Aucune procédure principale sélectionnée"
+        "noTopProcedures": "Aucune procédure principale sélectionnée",
+        "RPPS": "RPPS identification N°"
       },
       "expertise": {
         "title": "Compétence",
@@ -70,7 +71,12 @@
         "beforeAlt": "Résultat avant traitement",
         "afterAlt": "Résultat après traitement",
         "Message Doctor": "Contacter le médecin pour voir"
-      }
+      },
+      "bookingLinks": {
+          "eyebrow": "Réservation",
+          "title": "Réserver une consultation",
+          "openLink": "Ouvrir le lien de réservation : {link}"
+        }
     },
      "bookingConfirmation": {
       "eyebrow": "Confirmation de réservation",

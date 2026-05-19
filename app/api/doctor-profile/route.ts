@@ -30,6 +30,7 @@ const allowedFields = [
   "bookingLinks",
   "inClinicLink",
   "currency",
+  "RPPS",
 ] as const;
 
 function requiredString(value: unknown): string | null {

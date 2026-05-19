@@ -11,7 +11,8 @@
         "topProcedures": "Top 3 Procedures",
         "yearsOfExperience": "Years of experience",
         "years": "years",
-        "noTopProcedures": "No top procedures selected"
+        "noTopProcedures": "No top procedures selected",
+        "RPPS": "N° identification RPPS"
       },
       "expertise": {
         "title": "Expertise",
@@ -70,6 +71,11 @@
         "beforeAlt": "Before treatment result",
         "afterAlt": "After treatment result",
         "Message Doctor": "Message Doctor to View"
+      },
+      "bookingLinks": {
+        "eyebrow": "Booking",
+        "title": "Book a consultation",
+        "openLink": "Open booking link: {link}"
       }
     },
         "bookingConfirmation": {

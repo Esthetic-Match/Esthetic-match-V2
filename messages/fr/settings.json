@@ -118,7 +118,9 @@
     "topThreeProcedures": "Top 3 des procédures",
     "noTopThree": "Vous n’avez pas encore sélectionné vos trois principales procédures.",
     "saving": "Enregistrement...",
-    "saveChanges": "Enregistrer les modifications"
+    "saveChanges": "Enregistrer les modifications",
+    "RPPS": "Numéro RPPS",
+    "RPPSPlaceholder": "Saisissez votre numéro RPPS"
   },
   "changePassword": {
     "security": "Sécurité",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, Loader2, Plus, Pencil, ExternalLink } from "lucide-react";
 import CardTitle from "../UI/CardTitle";
 import PremiumLockedContent from "../UI/PremiumLockedContent";
@@ -11,6 +11,13 @@ type BookingLinksProps = {
   bookingLinks?: string[] | null;
 };
 
+function normalizeBookingLinks(bookingLinks?: string[] | null) {
+  return [
+    ...(bookingLinks ?? []),
+    ...Array(Math.max(0, 3 - (bookingLinks?.length ?? 0))).fill(""),
+  ].slice(0, 3);
+}
+
 export default function BookingLinks({
   paidPlan,
   bookingLinks,
@@ -18,15 +25,22 @@ export default function BookingLinks({
   const t = useTranslations("dashboard");
   const isStandard = paidPlan === "standard";
 
-  const initialLinks =
-    bookingLinks && bookingLinks.length > 0
-      ? [...bookingLinks, ...Array(Math.max(0, 3 - bookingLinks.length)).fill("")]
-      : ["", "", ""];
+const initialLinks = useMemo(
+  () => normalizeBookingLinks(bookingLinks),
+  [bookingLinks]
+);
 
-  const [links, setLinks] = useState<string[]>(initialLinks.slice(0, 3));
-  const [editingIndexes, setEditingIndexes] = useState<boolean[]>(
-    initialLinks.slice(0, 3).map((link) => !link)
-  );
+const [links, setLinks] = useState<string[]>(initialLinks);
+const [editingIndexes, setEditingIndexes] = useState<boolean[]>(
+  initialLinks.map((link) => !link)
+);
+
+useEffect(() => {
+  const nextLinks = normalizeBookingLinks(bookingLinks);
+
+  setLinks(nextLinks);
+  setEditingIndexes(nextLinks.map((link) => !link));
+}, [bookingLinks]);
 
   const [isSaving, setIsSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -72,13 +86,9 @@ export default function BookingLinks({
         throw new Error(data?.error || t("booking.saveError"));
       }
 
-      const nextLinks =
-        data?.bookingLinks && Array.isArray(data.bookingLinks)
-          ? [
-              ...data.bookingLinks,
-              ...Array(Math.max(0, 3 - data.bookingLinks.length)).fill(""),
-            ].slice(0, 3)
-          : links;
+      const nextLinks = Array.isArray(data?.bookingLinks)
+        ? normalizeBookingLinks(data.bookingLinks)
+        : normalizeBookingLinks(filteredLinks);
 
       setLinks(nextLinks);
       setEditingIndexes(nextLinks.map((link) => !link));

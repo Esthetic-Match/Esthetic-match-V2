@@ -22,7 +22,11 @@ export default function ExpertiseSection({
   return (
     <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
       <section className="mt-6 rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
-        <div className="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-center">
+        <div
+          className={`grid gap-8 lg:items-center ${
+            isFreePlan ? "lg:grid-cols-[1fr_320px]" : "lg:grid-cols-1"
+          }`}
+        >
           <div>
             <div className="mb-7 flex items-center gap-3">
               <Sparkle size={20} className="text-[#d8bd8d]" />
@@ -37,7 +41,11 @@ export default function ExpertiseSection({
             </p>
 
             {visibleProcedures.length > 0 ? (
-              <div className="flex flex-wrap gap-3">
+              <div
+                className={`flex flex-wrap gap-3 ${
+                  !isFreePlan ? "w-full content-center" : ""
+                }`}
+              >
                 {visibleProcedures.map((procedureId) => (
                   <span
                     key={procedureId}
