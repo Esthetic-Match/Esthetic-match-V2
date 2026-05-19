@@ -1,4 +1,3 @@
-// app/api/stripe/connect/status/route.ts
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
@@ -15,7 +14,7 @@ export async function GET() {
   }
 
   const doctorProfile = await prisma.doctorProfile.findUnique({
-    where: { userId: session.user.id },
+    where: { userId: session?.user.id },
   });
 
   if (!doctorProfile?.stripeConnectAccountId) {
@@ -42,8 +41,17 @@ export async function GET() {
 
   return NextResponse.json({
     connected: true,
-    onboardingComplete: updatedDoctorProfile.stripeConnectOnboardingComplete,
-    chargesEnabled: updatedDoctorProfile.stripeConnectChargesEnabled,
-    payoutsEnabled: updatedDoctorProfile.stripeConnectPayoutsEnabled,
+    onboardingComplete: account.details_submitted,
+    chargesEnabled: account.charges_enabled,
+    payoutsEnabled: account.payouts_enabled,
+  
+    capabilities: account.capabilities,
+    requirements: {
+      currentlyDue: account.requirements?.currently_due ?? [],
+      eventuallyDue: account.requirements?.eventually_due ?? [],
+      pastDue: account.requirements?.past_due ?? [],
+      pendingVerification: account.requirements?.pending_verification ?? [],
+      disabledReason: account.requirements?.disabled_reason ?? null,
+    },
   });
 }

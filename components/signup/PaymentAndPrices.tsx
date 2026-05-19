@@ -14,48 +14,63 @@ import { useRouter } from "@/i18n/navigation";
 import { authClient } from "@/lib/auth-client";
 import { useTranslations } from "next-intl";
 
+type PriceCardProps = {
+  icon: React.ReactNode;
+  currencySymbol: string;
+  translationKey: "online";
+  value: string;
+  placeholder: string;
+  onChange: (value: string) => void;
+};
+
+const CURRENCIES = [
+  { value: "eur", label: "Euro", symbol: "€" },
+  { value: "usd", label: "US Dollar", symbol: "$" },
+  { value: "gbp", label: "British Pound", symbol: "£" },
+  { value: "chf", label: "Swiss Franc", symbol: "CHF" },
+];
+type CurrencyValue = (typeof CURRENCIES)[number]["value"];
+
 export default function PaymentAndPrices() {
-  const t = useTranslations("signup.SignUp");
+  const t = useTranslations("signUp.SignUp.paymentPrices");
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
   const [inClinicPrice, setInClinicPrice] = useState("");
   const [onlineConsulPrice, setOnlineConsulPrice] = useState("");
   const [inClinicLink, setInClinicLink] = useState("");
+  const [currency, setCurrency] = useState<CurrencyValue>("eur");
 
   const [isSaving, setIsSaving] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const hasInClinicLink = inClinicLink.trim().length > 0;
   const loading = isSaving || isConnecting;
+
+
+  const selectedCurrency =
+    CURRENCIES.find((item) => item.value === currency) ?? CURRENCIES[0];
 
   async function savePrices() {
     setErrorMessage("");
 
     const inClinic = Number(inClinicPrice);
     const online = Number(onlineConsulPrice);
-    const bookingLink = inClinicLink.trim();
 
     if (!inClinic || inClinic <= 0) {
-      setErrorMessage("Please enter a valid in-clinic consultation price.");
-      return false;
-    }
-
-    if (!bookingLink) {
-      setErrorMessage("Please add your in-clinic booking link.");
+      setErrorMessage(t("errors.invalidInClinicPrice"));
       return false;
     }
 
     if (!online || online <= 0) {
-      setErrorMessage("Please enter a valid online consultation price.");
+      setErrorMessage(t("errors.invalidOnlinePrice"));
       return false;
     }
 
     setIsSaving(true);
 
     try {
-      const res = await fetch("/api/doctor-profile/consultation-prices", {
+      const res = await fetch("/api/doctor-profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -63,22 +78,20 @@ export default function PaymentAndPrices() {
         body: JSON.stringify({
           inClinicPrice: inClinic,
           onlineConsulPrice: online,
-          inClinicLink: bookingLink,
+          currency,
         }),
       });
 
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
-        throw new Error(data?.error || "Could not save consultation prices.");
+        throw new Error(data?.error || t("errors.saveFailed"));
       }
 
       return true;
     } catch (error) {
       setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Could not save consultation prices."
+        error instanceof Error ? error.message : t("errors.saveFailed")
       );
       return false;
     } finally {
@@ -134,111 +147,116 @@ export default function PaymentAndPrices() {
     router.refresh();
   }
 
-  return (
-    <section className="space-y-6">
-      <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-lg md:p-8">
-        <div className="mb-8 flex items-start gap-4">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#283C5D] text-white">
-            <CreditCard size={26} />
+return (
+  <section className="space-y-6">
+    <div className="rounded-[2rem] border border-black/10 bg-white p-6 shadow-lg md:p-8">
+      <div className="mb-8 flex items-start gap-4">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#283C5D] text-white">
+          <CreditCard size={26} />
+        </div>
+
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#d8bd8d]">
+            {t("eyebrow")}
+          </p>
+
+          <h2 className="mt-2 text-2xl font-semibold text-[#283C5D] md:text-3xl">
+            {t("title")}
+          </h2>
+
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-black/50">
+            {t("description")}
+          </p>
+        </div>
+      </div>
+
+      <CurrencySelector
+        value={currency}
+        onChange={setCurrency}
+      />
+
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <InClinicPriceCard
+          currencySymbol={selectedCurrency.symbol}
+          priceValue={inClinicPrice}
+          onPriceChange={setInClinicPrice}
+          onLinkChange={setInClinicLink}
+        />
+
+        <PriceCard
+          icon={<CreditCard size={22} />}
+          currencySymbol={selectedCurrency.symbol}
+          translationKey="online"
+          value={onlineConsulPrice}
+          onChange={setOnlineConsulPrice}
+          placeholder="75"
+        />
+      </div>
+
+      <div className="mt-6 rounded-3xl bg-[#FAF9F7] p-5">
+        <div className="flex gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-[#283C5D]">
+            <ShieldCheck size={24} />
           </div>
 
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#d8bd8d]">
-              Payments
+            <p className="text-sm font-semibold text-[#283C5D]">
+              {t("stripe.title")}
             </p>
-            <h2 className="mt-2 text-2xl font-semibold text-[#283C5D] md:text-3xl">
-              Set your consultation prices
-            </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-black/50">
-              Patients will pay the price you set. Esthetic Match takes a 10%
-              platform fee, and the remaining amount goes to your connected
-              Stripe account.
+
+            <p className="mt-1 text-sm leading-6 text-black/50">
+              {t("stripe.description")}
             </p>
           </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <InClinicPriceCard
-            priceValue={inClinicPrice}
-            onPriceChange={setInClinicPrice}
-            linkValue={inClinicLink}
-            onLinkChange={setInClinicLink}
-          />
-
-          <PriceCard
-            icon={<CreditCard size={22} />}
-            title="Online consultation"
-            description="The price patients pay for online consultations."
-            value={onlineConsulPrice}
-            onChange={setOnlineConsulPrice}
-            placeholder="75"
-          />
-        </div>
-
-        <div className="mt-6 rounded-3xl bg-[#FAF9F7] p-5">
-          <div className="flex gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-[#283C5D]">
-              <ShieldCheck size={24} />
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold text-[#283C5D]">
-                Secure Stripe payments
-              </p>
-              <p className="mt-1 text-sm leading-6 text-black/50">
-                Stripe handles payment collection, doctor payouts, and card
-                processing. You will be redirected to Stripe to connect your
-                account.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <MessageText message={errorMessage} variant="error" />
-
-        <div className="mt-8 flex flex-col gap-3 md:flex-row md:justify-end">
-          <button
-            type="button"
-            onClick={finishLater}
-            disabled={loading || !hasInClinicLink}
-            className="rounded-full border border-black px-6 py-3 text-sm font-medium text-black transition hover:bg-gray-100 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Save and finish later
-          </button>
-
-          <button
-            type="button"
-            onClick={connectStripe}
-            disabled={loading || !hasInClinicLink}
-            className="inline-flex items-center justify-center rounded-full bg-[#283C5D] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              "Save prices & connect Stripe"
-            )}
-          </button>
         </div>
       </div>
-    </section>
-  );
+
+      <MessageText message={errorMessage} variant="error" />
+
+      <div className="mt-8 flex flex-col gap-3 md:flex-row md:justify-end">
+        <button
+          type="button"
+          onClick={finishLater}
+          disabled={loading}
+          className="rounded-full border border-black cursor-pointer px-6 py-3 text-sm font-medium text-black transition hover:bg-gray-100 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {t("buttons.finishLater")}
+        </button>
+
+        <button
+          type="button"
+          onClick={connectStripe}
+          disabled={loading}
+          className="inline-flex items-center justify-center cursor-pointer rounded-full bg-[#283C5D] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t("buttons.saving")}
+            </>
+          ) : (
+            t("buttons.connectStripe")
+          )}
+        </button>
+      </div>
+    </div>
+  </section>
+);
 }
 
 function InClinicPriceCard({
+  currencySymbol,
   priceValue,
-  linkValue,
   onPriceChange,
   onLinkChange,
 }: {
+  currencySymbol: string;
   priceValue: string;
-  linkValue: string;
   onPriceChange: (value: string) => void;
   onLinkChange: (value: string) => void;
 }) {
-  const t = useTranslations("signup.SignUp");
+  const t = useTranslations("signUp.SignUp.paymentPrices");
+
   return (
     <div className="rounded-3xl border border-black/10 bg-[#FAF9F7] p-5">
       <div className="mb-4 flex items-center gap-3">
@@ -248,17 +266,18 @@ function InClinicPriceCard({
 
         <div>
           <h3 className="text-base font-semibold text-[#283C5D]">
-            In-clinic consultation
+            {t("inClinic.title")}
           </h3>
+
           <p className="text-xs text-black/45">
-            The price patients pay for appointments at your clinic.
+            {t("inClinic.description")}
           </p>
         </div>
       </div>
 
       <div className="relative">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-black/40">
-          €
+        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm font-semibold text-black/40">
+          {currencySymbol}
         </span>
 
         <input
@@ -272,40 +291,20 @@ function InClinicPriceCard({
           className="w-full rounded-2xl border border-black/10 bg-white py-4 pl-9 pr-4 text-lg font-semibold text-[#283C5D] outline-none transition placeholder:text-black/20 focus:border-[#283C5D]"
         />
       </div>
-
-      <div className="relative mt-3">
-        <LinkIcon className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-black/30" />
-
-        <input
-          type="url"
-          value={linkValue}
-          placeholder="In-clinic booking link"
-          onChange={(e) => onLinkChange(e.target.value)}
-          className="w-full rounded-2xl border border-black/10 bg-white py-4 pl-10 pr-4 text-sm font-medium text-[#283C5D] outline-none transition placeholder:text-black/25 focus:border-[#283C5D]"
-        />
-      </div>
     </div>
   );
 }
 
-type PriceCardProps = {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  value: string;
-  placeholder: string;
-  onChange: (value: string) => void;
-};
-
 function PriceCard({
   icon,
-  title,
-  description,
+  currencySymbol,
+  translationKey,
   value,
   placeholder,
   onChange,
 }: PriceCardProps) {
-  const t = useTranslations("signup.SignUp");
+  const t = useTranslations("signUp.SignUp.paymentPrices");
+
   return (
     <div className="rounded-3xl border border-black/10 bg-[#FAF9F7] p-5">
       <div className="mb-4 flex items-center gap-3">
@@ -314,14 +313,19 @@ function PriceCard({
         </div>
 
         <div>
-          <h3 className="text-base font-semibold text-[#283C5D]">{title}</h3>
-          <p className="text-xs text-black/45">{description}</p>
+          <h3 className="text-base font-semibold text-[#283C5D]">
+            {t(`${translationKey}.title`)}
+          </h3>
+
+          <p className="text-xs text-black/45">
+            {t(`${translationKey}.description`)}
+          </p>
         </div>
       </div>
 
       <div className="relative">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-black/40">
-          €
+        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm font-semibold text-black/40">
+          {currencySymbol}
         </span>
 
         <input
@@ -334,6 +338,51 @@ function PriceCard({
           onChange={(e) => onChange(e.target.value)}
           className="w-full rounded-2xl border border-black/10 bg-white py-4 pl-9 pr-4 text-lg font-semibold text-[#283C5D] outline-none transition placeholder:text-black/20 focus:border-[#283C5D]"
         />
+      </div>
+    </div>
+  );
+}
+
+function CurrencySelector({
+  value,
+  onChange,
+}: {
+  value: CurrencyValue;
+  onChange: (value: CurrencyValue) => void;
+}) {
+  const t = useTranslations("signUp.SignUp.paymentPrices");
+
+  return (
+    <div className="rounded-3xl border border-black/10 bg-[#FAF9F7] p-5">
+      <label className="mb-3 block text-sm font-semibold text-[#283C5D]">
+        {t("currency.label")}
+      </label>
+
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {CURRENCIES.map((currency) => {
+          const isSelected = currency.value === value;
+
+          return (
+            <button
+              key={currency.value}
+              type="button"
+              onClick={() => onChange(currency.value)}
+              className={`rounded-2xl border px-4 py-3 text-left transition active:scale-[0.98] ${
+                isSelected
+                  ? "border-[#283C5D] bg-white text-[#283C5D] shadow-sm"
+                  : "border-black/10 bg-white/60 text-black/50 hover:bg-white"
+              }`}
+            >
+              <span className="block text-sm font-semibold">
+                {currency.symbol}
+              </span>
+
+              <span className="mt-1 block text-xs">
+                {currency.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
