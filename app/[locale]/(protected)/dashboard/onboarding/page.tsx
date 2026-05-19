@@ -181,17 +181,17 @@ export default function DoctorOnboardingPage() {
 
           <div className="space-y-3 mt-8">
             <div className="flex flex-col gap-y-4 gap-x-4 md:flex-row justify-between">
-              <div className="flex items-center gap-3 rounded-full bg-gray-200 px-4 py-3 text-black/60">
-                <div className="flex h-15 w-15 flex-shrink-0 items-center justify-center rounded-full border border-black/10 bg-white">
-                  <ShieldCheck size={35} className="text-[#283C5D]" />
+              <div className="flex w-full items-start gap-3 rounded-3xl bg-gray-200 px-4 py-4 text-black/60 sm:items-center sm:rounded-full sm:px-5">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white sm:h-15 sm:w-15">
+                  <ShieldCheck size={26} className="text-[#283C5D] sm:size-[35px]" />
                 </div>
-
-                <div className="min-w-0 leading-tight">
-                  <p className="truncate text-sm font-semibold text-[#283C5D] sm:text-base">
+                        
+                <div className="min-w-0 flex-1 leading-tight">
+                  <p className="text-sm font-semibold leading-snug text-[#283C5D] sm:truncate sm:text-base">
                     {t("secure info")}
                   </p>
-
-                  <p className="text-xs text-black/40 sm:text-sm">
+                        
+                  <p className="mt-1 text-xs leading-snug text-black/40 sm:text-sm">
                     {t("garantee")}
                   </p>
                 </div>

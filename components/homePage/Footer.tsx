@@ -16,7 +16,7 @@ export default function Footer() {
           </p>
 
           <div className="mt-2 flex flex-col gap-2 text-md text-white/95">
-            <Link href="/faqs" className="transition hover:opacity-80">
+            <Link href="/faq" className="transition hover:opacity-80">
               {t("faqs")}
             </Link>
 

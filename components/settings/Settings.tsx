@@ -24,6 +24,7 @@ import DoctorEditProfile from "./DoctorEditProfile";
 import SubscriptionPlans from "./SubscriptionPlans";
 import PaymentDetails from "./PaymentDetails";
 import DeleteAccount from "./DeleteAccount";
+import { useSearchParams } from "next/navigation";
 
 type SettingsPage =
   | "Edit Profile"
@@ -185,6 +186,9 @@ function SettingsSidebar({
                   if (item.label === "Subscription" && user.role === "PATIENT") {
                     return false;
                   }
+                  if (item.label === "Payment Details" && user.role === "PATIENT") {
+                    return false;
+                  }
 
                   return true;
                 })
@@ -207,8 +211,40 @@ function SettingsSidebar({
 
 
 export default function Settings({ user }: SettingsProps) {
-  const t = useTranslations("settings");
-  const [activePage, setActivePage] = useState<SettingsPage>("Edit Profile");
+const searchParams = useSearchParams();
+
+const tab = searchParams.get("tab");
+
+function getInitialPage(): SettingsPage {
+  switch (tab) {
+    case "subscription":
+      return "Subscription";
+
+    case "payment":
+      return "Payment Details";
+
+    case "language":
+      return "Language";
+
+    case "report":
+      return "Report a Problem";
+
+    case "terms":
+      return "Terms & Conditions";
+
+    case "delete":
+      return "Delete Account";
+
+    case "password":
+      return "Change Password";
+
+    default:
+      return "Edit Profile";
+  }
+}
+
+const [activePage, setActivePage] =
+  useState<SettingsPage>(getInitialPage);
 
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [sidebarHeight, setSidebarHeight] = useState<number | null>(null);

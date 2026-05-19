@@ -81,7 +81,7 @@ export default function ConversationSidebar({
                   <div className="h-px flex-1 bg-white/10" />
 
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
-                    Closed
+                    {t("closed")}
                   </span>
 
                   <div className="h-px flex-1 bg-white/10" />

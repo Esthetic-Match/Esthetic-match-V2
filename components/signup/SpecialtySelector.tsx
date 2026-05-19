@@ -140,7 +140,7 @@ export default function SpecialtySelector({
             {t(group.titleKey)}
           </h3>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {group.items.map((specialty) => {
               const selected = selectedSpecialties.includes(specialty.id);
 

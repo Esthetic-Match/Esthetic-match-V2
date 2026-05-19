@@ -5,6 +5,7 @@ import PublicExpertiseSection from "@/components/homePage/doctorProfile/UI/Publi
 import PublicContactActionsSection from "@/components/homePage/doctorProfile/PublicContactActionsSection";
 import Gallery from "@/components/homePage/doctorProfile/Gallery";
 import { NavBarMain } from "@/components/NavbarMain";
+import BookingLinksSection from "@/components/homePage/doctorProfile/UI/BookingLinksSection";
 
 type ProfilePageProps = {
   params: Promise<{
@@ -49,6 +50,7 @@ export default async function Profilepage({ params }: ProfilePageProps) {
       <PublicProfileHeader doctorProfile={doctorProfile} />
       <PublicExpertiseSection doctorProfile={doctorProfile} />
       <PublicContactActionsSection doctorProfile={doctorProfile} />
+      <BookingLinksSection bookingLinks={doctorProfile.bookingLinks} />
       <Gallery
          doctorId={doctorProfile.userId}
          paidPlan={doctorProfile.paidPlan}

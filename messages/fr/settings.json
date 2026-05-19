@@ -18,7 +18,26 @@
       "successTitle": "Votre inscription est terminée !",
       "successDescription": "Votre compte Stripe est maintenant connecté et prêt à recevoir des paiements dans 24h!",
       "goToDashboard": "Aller au tableau de bord"
-    }
+    },
+  "paymentDetails": {
+    "loading": "Chargement...",
+    "eyebrow": "Paiements",
+    "title": "Détails de paiement",
+    "stripeTitle": "Stripe Connect",
+    "stripeDescription": "Connectez votre compte Stripe pour recevoir les paiements des consultations des patients. Esthetic Match conserve une commission de 15 %, et le montant restant vous est versé.",
+    "connected": "Stripe est connecté et prêt à recevoir des paiements.",
+    "onboardingIncomplete": "Compte Stripe créé. Veuillez terminer l’onboarding pour recevoir des paiements.",
+    "notConnected": "Connectez Stripe avant de recevoir des paiements de consultation.",
+    "redirecting": "Redirection...",
+    "stripeConnected": "Stripe connecté",
+    "completeOnboarding": "Terminer l’onboarding Stripe",
+    "connectStripe": "Connecter Stripe",
+    "currencyTitle": "Sélectionnez votre devise",
+    "currencyDescription": "Choisissez la devise que les patients verront lorsqu’ils réserveront des consultations avec vous.",
+    "saving": "Enregistrement...",
+    "saveCurrency": "Enregistrer la devise",
+    "currencyUpdated": "Devise mise à jour avec succès."
+  }
   },
   "topThreeNote": "Vos trois principales procédures seront mises en évidence sur votre profil et utilisées pour vous associer aux patients recherchant ces procédures spécifiques.",
     
@@ -99,7 +118,9 @@
     "topThreeProcedures": "Top 3 des procédures",
     "noTopThree": "Vous n’avez pas encore sélectionné vos trois principales procédures.",
     "saving": "Enregistrement...",
-    "saveChanges": "Enregistrer les modifications"
+    "saveChanges": "Enregistrer les modifications",
+    "RPPS": "Numéro RPPS",
+    "RPPSPlaceholder": "Saisissez votre numéro RPPS"
   },
   "changePassword": {
     "security": "Sécurité",
@@ -186,5 +207,24 @@
       "body": "Vous pouvez désormais gérer votre profil premium, vos liens de réservation, votre galerie, vos avis Google et votre visibilité publique depuis votre tableau de bord.",
       "dashboardButton": "Aller au tableau de bord",
       "settingsButton": "Retour aux paramètres"
+    },
+  "deleteAccount": {
+    "eyebrow": "Paramètres du compte",
+    "title": "Supprimer le compte",
+    "warningTitle": "Cette action est irréversible",
+    "warningDescription": "La suppression de votre compte entraînera la suppression définitive de votre profil, de vos données enregistrées, de vos consultations, de vos messages, du contenu de votre galerie et de toutes les informations associées à votre compte.",
+    "button": "Supprimer le compte",
+    "modal": {
+      "eyebrow": "Confirmer la suppression",
+      "title": "Êtes-vous absolument sûr ?",
+      "description": "Cette action supprimera définitivement votre compte ainsi que tout ce qui y est associé. Vous ne pourrez pas le récupérer par la suite.",
+      "cancel": "Annuler",
+      "confirm": "Confirmer la suppression",
+      "deleting": "Suppression..."
+    },
+    "errors": {
+      "failed": "Échec de la suppression du compte",
+      "generic": "Une erreur est survenue"
     }
   }
+}

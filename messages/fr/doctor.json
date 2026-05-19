@@ -11,7 +11,8 @@
         "topProcedures": "Top 3 des procédures",
         "yearsOfExperience": "Années d’expérience",
         "years": "ans",
-        "noTopProcedures": "Aucune procédure principale sélectionnée"
+        "noTopProcedures": "Aucune procédure principale sélectionnée",
+        "RPPS": "RPPS identification N°"
       },
       "expertise": {
         "title": "Compétence",
@@ -28,7 +29,14 @@
         "online": "Pré-consultation en ligne",
         "bookingLinkUnlocked": "Lien de réservation débloqué",
         "openBookingLink": "Ouvrir le lien de réservation",
-        "no prices": "Le médecin n'a pas encore indiqué de prix."
+        "no prices": "Le médecin n'a pas encore indiqué de prix.",
+        "redirecting": "Redirection...",
+        "bookNow": "Réserver maintenant",
+        "messageNow": "Envoyer un message",
+        "errors": {
+          "checkoutFailed": "Échec de la création de la session de paiement",
+          "paymentFailed": "Le paiement a échoué"
+        }
       },
       "booking": {
         "title": "Lien de réservation",
@@ -58,7 +66,7 @@
         "notAllowed": "Le médecin n’a pas encore activé les avis Google."
       },
       "gallery": {
-        "title": "Galerie photos",
+        "title": "Galerie de photo",
         "before": "Avant",
         "after": "Après",
         "noImagesTitle": "Aucune image avant/après",
@@ -68,8 +76,14 @@
         "showLess": "Afficher moins",
         "viewMore": "Voir {count} de plus",
         "beforeAlt": "Résultat avant traitement",
-        "afterAlt": "Résultat après traitement"
-      }
+        "afterAlt": "Résultat après traitement",
+        "Message Doctor": "Contacter le médecin pour voir"
+      },
+      "bookingLinks": {
+          "eyebrow": "Réservation",
+          "title": "Réserver une consultation",
+          "openLink": "Ouvrir le lien de réservation : {link}"
+        }
     },
      "bookingConfirmation": {
       "eyebrow": "Confirmation de réservation",

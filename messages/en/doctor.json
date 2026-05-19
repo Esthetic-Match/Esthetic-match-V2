@@ -11,7 +11,8 @@
         "topProcedures": "Top 3 Procedures",
         "yearsOfExperience": "Years of experience",
         "years": "years",
-        "noTopProcedures": "No top procedures selected"
+        "noTopProcedures": "No top procedures selected",
+        "RPPS": "N° identification RPPS"
       },
       "expertise": {
         "title": "Expertise",
@@ -28,7 +29,14 @@
         "online": "Online pre-consultation",
         "bookingLinkUnlocked": "Booking link unlocked",
         "openBookingLink": "Open booking link",
-        "no prices": "Doctor has not added any prices yet"
+        "no prices": "Doctor has not added any prices yet",
+        "redirecting": "Redirecting...",
+        "bookNow": "Book Now",
+        "messageNow": "Message Now",
+        "errors": {
+          "checkoutFailed": "Failed to create checkout session",
+          "paymentFailed": "Payment failed"
+        }
       },
       "booking": {
         "title": "Booking Link",
@@ -68,7 +76,13 @@
         "showLess": "Show less",
         "viewMore": "View {count} more",
         "beforeAlt": "Before treatment result",
-        "afterAlt": "After treatment result"
+        "afterAlt": "After treatment result",
+        "Message Doctor": "Message Doctor to View"
+      },
+      "bookingLinks": {
+        "eyebrow": "Booking",
+        "title": "Book a consultation",
+        "openLink": "Open booking link: {link}"
       }
     },
         "bookingConfirmation": {

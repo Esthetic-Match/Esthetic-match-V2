@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star, StarOff  } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 type GoogleReviewsCardProps = {
@@ -126,9 +126,15 @@ export default async function GoogleReviewsCard({
           ) : null}
         </div>
       ) : (
-        <p className="mt-10 text-sm leading-relaxed text-[#283C5D]/60">
-          {t("notAllowed")}
-        </p>
+        <div className="mt-16 flex flex-col items-center justify-center text-center">
+          <div className="flex h-20 w-20 border-t border-[#d8bd8d]/60 items-center justify-center rounded-full bg-gradient-to-br from-[#F6C467]/20 to-[#d8bd8d]/10 shadow-inner">
+            <StarOff size={34} className="text-[#d8bd8d]" />
+          </div>
+
+          <p className="mt-12 max-w-sm rounded-full text-sm font-medium leading-relaxed text-[#283C5D]/60">
+            {t("notAllowed")}
+          </p>
+        </div>
       )}
     </article>
   );

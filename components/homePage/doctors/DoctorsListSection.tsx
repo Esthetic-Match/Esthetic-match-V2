@@ -198,16 +198,6 @@ export default async function DoctorsListSection({
                       {specialty}
                     </p>
                   </div>
-
-                  <button
-                    type="button"
-                    aria-label={t("list.saveDoctor", {
-                      name: doctor.name,
-                    })}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#d8bd8d]/70 text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white"
-                  >
-                    <Heart size={15} />
-                  </button>
                 </div>
 
                 {rating > 0 && reviews > 0 ? (

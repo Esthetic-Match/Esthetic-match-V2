@@ -37,9 +37,7 @@ export default async function PublicExpertiseSection({
       >
         <div
           className={`grid gap-8 lg:items-center ${
-            isFreePlan
-              ? "lg:grid-cols-[1fr_220px]"
-              : "lg:grid-cols-[1fr_120px]"
+            isFreePlan ? "lg:grid-cols-[1fr_220px]" : "lg:grid-cols-1"
           }`}
         >
           <div>

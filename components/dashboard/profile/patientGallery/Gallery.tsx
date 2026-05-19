@@ -62,7 +62,7 @@ export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGa
             <></>
           ) : (
             <span className="font-medium text-[#283C5D]/40">
-              ({visibleGallery.length}/{isPremium ? gallery.length : 3})
+              ({visibleGallery.length}/{isPremium ? gallery.length : 3}) {t("gallery.upgrade")}
             </span>
           )}
         </h2>
@@ -79,7 +79,13 @@ export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGa
       )}
     </div>
 
-    <div className="grid gap-4 md:grid-cols-[repeat(3,minmax(0,1fr))_160px]">
+      <div
+        className={
+          isPremium && !isEmpty
+            ? "flex gap-4 overflow-x-auto pb-3"
+            : "grid gap-4 md:grid-cols-[repeat(3,minmax(0,1fr))_160px]"
+        }
+      >
       {isEmpty ? (
         <button
           type="button"
@@ -98,36 +104,32 @@ export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGa
         </button>
       ) : (
         visibleGallery.map((item, index) => (
-          <BeforeAfterCard
+          <div
             key={`${userId}-${index}`}
-            beforeImage={item.beforeImage}
-            afterImage={item.afterImage}
-            beforeLabel={t("gallery.before")}
-            afterLabel={t("gallery.after")}
-          />
+            className={isPremium ? "w-[280px] shrink-0" : ""}
+          >
+            <BeforeAfterCard
+              beforeImage={item.beforeImage}
+              afterImage={item.afterImage}
+              beforeLabel={t("gallery.before")}
+              afterLabel={t("gallery.after")}
+            />
+          </div>
         ))
       )}
-
-      {isPremium ? (
-          <Link
-            href={`/dashboard/${userId}/gallery`}
-            className="flex min-h-[190px] flex-col items-center justify-center rounded-2xl border border-[#283C5D]/10 bg-[#FAF9F7] p-5 text-center text-[#283C5D] transition hover:scale-[1.02] hover:border-[#d8bd8d] active:scale-[0.99] md:col-start-4"
-          >
-            <FilePenLine  size={26} className="mb-4 text-[#d8bd8d]" />
-
-            <p className="text-lg font-semibold">
-              {t("gallery.editGallery")}
-            </p>
-          </Link>
-      ) : (
-        <div className="flex min-h-[190px] flex-col items-center justify-center rounded-2xl bg-[#07182A]/80 p-5 text-center text-white backdrop-blur-md md:col-start-4">
-          <Lock size={26} className="mb-4 text-[#d8bd8d]" />
-          <p className="text-lg font-semibold">{t("gallery.moreLocked")}</p>
-          <p className="mt-4 text-sm leading-relaxed text-white/85">
-            {t("gallery.upgrade")}
+        <Link
+          href={`/dashboard/${userId}/gallery`}
+          className={
+            isPremium && !isEmpty
+              ? "flex min-h-[140px] w-[140px] shrink-0 flex-col items-center justify-center rounded-2xl border border-[#283C5D]/10 bg-[#FAF9F7] p-5 text-center text-[#283C5D] transition hover:scale-[1.01] hover:border-[#d8bd8d] active:scale-[0.99]"
+              : "flex min-h-[190px] flex-col items-center justify-center rounded-2xl border border-[#283C5D]/10 bg-[#FAF9F7] p-5 text-center text-[#283C5D] transition hover:scale-[1.01] hover:border-[#d8bd8d] active:scale-[0.99] md:col-start-4"
+          }
+        >
+          <FilePenLine size={26} className="mb-4 text-[#d8bd8d]" />
+          <p className="text-lg font-semibold">
+            {t("gallery.editGallery")}
           </p>
-        </div>
-      )}
+        </Link>
     </div>
   </section>
 

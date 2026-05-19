@@ -1,278 +1,263 @@
-export default function TermsAndConditions() {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Conditions Générales d’Abonnement — Praticiens | Esthetic Match",
+  description:
+    "Conditions Générales d’Abonnement applicables aux praticiens utilisant la plateforme Esthetic Match.",
+};
+
+const sections = [
+  {
+    title: "Préambule",
+    content: [
+      `Les présentes Conditions Générales d'Abonnement (ci-après « CGA ») régissent les relations entre Esthetic Match OÜ et tout professionnel de santé qualifié souhaitant accéder aux services de la Plateforme.`,
+      `En s'inscrivant sur la Plateforme, le Praticien accepte sans réserve les présentes CGA.`,
+      `Le Praticien déclare exercer légalement la médecine esthétique dans sa juridiction, disposer des diplômes requis et être couvert par une assurance responsabilité civile professionnelle.`,
+    ],
+  },
+  {
+    title: "Article 1 – Définitions",
+    content: [
+      `« Plateforme » : web-application et site web Esthetic Match ainsi que les services associés.`,
+      `« Praticien » : professionnel de santé qualifié autorisé à exercer dans sa juridiction.`,
+      `« Profil Praticien » : page de présentation du praticien.`,
+      `« Pré-consultation en ligne » : fonctionnalité permettant à un patient d'adresser une demande d'avis esthétique préliminaire.`,
+      `« Prix Praticien » : montant fixé librement par le praticien pour chaque Pré-consultation.`,
+      `« Frais de Service Plateforme » : frais facturés au patient par Esthetic Match.`,
+      `« Plan Gratuit » : accès sans abonnement payant avec fonctionnalités limitées.`,
+      `« Plan Premium » : accès enrichi avec fonctionnalités avancées.`,
+      `« Panneau d'Administration » : interface interne de validation des praticiens.`,
+      `« Avis » : évaluations et commentaires des patients.`,
+      `« Données personnelles » : toute donnée permettant d'identifier une personne physique.`,
+    ],
+  },
+  {
+    title: "Article 2 – Objet",
+    content: [
+      `Les présentes CGA définissent les conditions dans lesquelles le Praticien accède à la Plateforme et utilise les services associés.`,
+      `Elles constituent le socle contractuel entre le Praticien et Esthetic Match.`,
+      `Des conditions particulières peuvent compléter les présentes CGA.`,
+    ],
+  },
+  {
+    title: "Article 3 – Processus d'inscription et validation",
+    content: [
+      `3.1 Documents requis : pièce d'identité, diplôme en médecine, spécialisation en médecine esthétique, numéro RPPS ou équivalent, attestation d'assurance RCP, RIB/IBAN.`,
+      `Pour les praticiens français, la vérification peut être effectuée via annuaire.sante.fr.`,
+      `3.2 Esthetic Match vérifie les dossiers dans un délai indicatif de cinq (5) jours ouvrés.`,
+      `Esthetic Match peut refuser une inscription sans motivation.`,
+      `3.3 Le Praticien doit informer Esthetic Match sous sept (7) jours de toute modification concernant ses qualifications ou son assurance.`,
+    ],
+  },
+  {
+    title: "Article 4 – Services accessibles au Praticien",
+    content: [
+      `4.1 Plan Gratuit : profil visible, géolocalisation, dix mots-clés procédures, quatre photographies avant/après et accès à la Pré-consultation en ligne.`,
+      `4.2 Plan Premium : mots-clés illimités, galerie illimitée, SEO/LLM complet, QR codes Google Reviews, liens sociaux, onboarding personnalisé.`,
+      `4.3 Consultation en cabinet : possibilité d'ajouter des liens vers Doctolib, Calendly, OneDoc ou équivalent.`,
+      `4.4 SLA Esthetic Match : disponibilité minimale de 99,5 %, paiements sous quinze (15) jours ouvrés, support sous 48h ouvrées.`,
+    ],
+  },
+  {
+    title:
+      "Article 5 – Fonctionnalité « Pré-consultation en ligne » – Obligations et rémunération",
+    content: [
+      `5.1 La Pré-consultation constitue un avis esthétique préliminaire et non un diagnostic médical.`,
+      `Le Praticien est seul responsable du contenu médical de ses réponses.`,
+      `5.2 Le Praticien fixe librement le prix de chaque Pré-consultation.`,
+      `5.3 Les Frais de Service Plateforme rémunèrent uniquement les services techniques fournis par Esthetic Match.`,
+      `Le Praticien doit répondre personnellement à chaque Pré-consultation.`,
+      `Il est interdit de déléguer les réponses à un tiers ou à une IA externe.`,
+      `5.4 Le délai de réponse est de 72 heures ouvrées.`,
+      `5.5 Les paiements sont reversés sous quinze (15) jours ouvrés suivant la fin du mois.`,
+      `5.6 Tous les échanges sont strictement confidentiels et archivés pendant cinq (5) ans.`,
+      `5.7 Clause de non-sollicitation : interdiction de contourner la Plateforme pour des consultations rémunérées directes.`,
+    ],
+  },
+  {
+    title: "Article 6 – Abonnement Premium : modalités et facturation",
+    content: [
+      `6.1 Souscription mensuelle ou annuelle selon les tarifs affichés.`,
+      `6.2 Renouvellement automatique sauf résiliation trente (30) jours avant échéance.`,
+      `6.3 Aucun remboursement pour une période déjà commencée.`,
+      `6.4 Les abonnements rémunèrent des fonctionnalités technologiques et non un envoi de patients.`,
+      `Le mécanisme tarifaire est conçu pour ne pas constituer du compérage médical.`,
+    ],
+  },
+  {
+    title: "Article 7 – Profil Praticien et contenu",
+    content: [
+      `Le Praticien est seul responsable du contenu publié sur son Profil.`,
+      `Les photographies doivent être publiées avec le consentement écrit des patients concernés.`,
+      `Le contenu doit respecter les règles de publicité médicale applicables.`,
+      `Esthetic Match peut supprimer ou modifier tout contenu non conforme.`,
+    ],
+  },
+  {
+    title: "Article 8 – Avis et notations",
+    content: [
+      `Les avis proviennent d'avis natifs et d'avis Google.`,
+      `Esthetic Match ne supprime pas les avis négatifs sauf contenu illicite.`,
+      `Le Praticien ne peut solliciter ou acheter de faux avis.`,
+      `Les demandes de révision d'avis peuvent être adressées à moderation@estheticmatch.com.`,
+    ],
+  },
+  {
+    title: "Article 9 – Obligations déontologiques et réglementaires",
+    content: [
+      `Le Praticien doit respecter les règles déontologiques applicables dans sa juridiction.`,
+      `Une assurance responsabilité civile professionnelle valide est obligatoire.`,
+      `Une attestation RCP doit être fournie chaque année.`,
+      `Le Praticien est tenu au secret médical.`,
+      `Le Contrat ne crée aucun lien de subordination avec Esthetic Match.`,
+    ],
+  },
+  {
+    title: "Article 10 – Protection des données personnelles",
+    content: [
+      `Esthetic Match et le Praticien agissent en qualité de responsables conjoints de traitement.`,
+      `Le Praticien doit traiter les données conformément aux lois applicables.`,
+      `Les données de santé doivent bénéficier d'une protection renforcée.`,
+      `Le DPA est accepté lors de l'inscription via une case à cocher ou signature.`,
+    ],
+  },
+  {
+    title: "Article 11 – Propriété intellectuelle",
+    content: [
+      `La Plateforme et ses technologies demeurent la propriété exclusive d'Esthetic Match.`,
+      `Le Praticien conserve la propriété de son contenu publié.`,
+      `Le Praticien accorde une licence à Esthetic Match pour afficher et promouvoir son contenu.`,
+      `Les réponses de Pré-consultation ne peuvent être utilisées pour entraîner une IA sans accord exprès du Praticien.`,
+      `Toute utilisation de la marque Esthetic Match nécessite un accord écrit.`,
+    ],
+  },
+  {
+    title: "Article 12 – Responsabilité",
+    content: [
+      `Le Praticien est seul responsable des informations publiées et des actes médicaux réalisés.`,
+      `Esthetic Match est un intermédiaire technique.`,
+      `La responsabilité d'Esthetic Match est limitée aux montants versés par le Praticien durant les douze derniers mois.`,
+      `Les dommages indirects et immatériels sont exclus.`,
+      `Le Praticien s'engage à indemniser Esthetic Match en cas de recours lié à ses fautes professionnelles.`,
+    ],
+  },
+  {
+    title: "Article 13 – Durée et résiliation",
+    content: [
+      `Le Contrat est conclu pour une durée indéterminée.`,
+      `Le Praticien peut résilier avec un préavis de trente (30) jours.`,
+      `Esthetic Match peut résilier avec préavis ou immédiatement en cas de faute grave.`,
+      `Le Profil est désactivé à la résiliation.`,
+      `Le Praticien doit répondre aux Pré-consultations reçues avant résiliation.`,
+      `Le Praticien peut demander la restitution de ses données dans les trente (30) jours.`,
+    ],
+  },
+  {
+    title: "Article 14 – Modification des CGA",
+    content: [
+      `Esthetic Match peut modifier les présentes CGA.`,
+      `Toute modification substantielle est notifiée avec un préavis de trente (30) jours.`,
+      `La poursuite de l'utilisation vaut acceptation des nouvelles conditions.`,
+    ],
+  },
+  {
+    title: "Article 15 – Loi applicable et règlement des litiges",
+    content: [
+      `Le Contrat est soumis au droit estonien.`,
+      `Les parties s'engagent à rechercher une solution amiable.`,
+      `À défaut, les tribunaux compétents du siège social d'Esthetic Match sont compétents.`,
+    ],
+  },
+  {
+    title: "Article 16 – Dispositions générales",
+    content: [
+      `Les présentes CGA et le DPA constituent l'intégralité de l'accord.`,
+      `Si une clause est invalide, les autres demeurent applicables.`,
+      `L'absence d'application d'une clause ne vaut pas renonciation.`,
+      `Le Praticien ne peut céder ses droits sans accord écrit.`,
+      `Contacts : partners@estheticmatch.com, dpo@estheticmatch.com.`,
+    ],
+  },
+  {
+    title: "Article 17 – Force majeure",
+    content: [
+      `Aucune partie ne peut être tenue responsable en cas de force majeure.`,
+      `Cela inclut notamment pandémies, cyberattaques, catastrophes naturelles et défaillances Internet.`,
+      `Si l'événement dure plus de trente (30) jours, chaque partie peut résilier sans pénalité.`,
+    ],
+  },
+  {
+    title: "Annexe 1 – Charte de contenu médical",
+    content: [
+      `Le Profil doit contenir des informations exactes, vérifiables et à jour.`,
+      `Les photographies doivent être accompagnées du consentement écrit des patients.`,
+      `Les tarifs affichés sont indicatifs.`,
+      `Les réponses doivent être personnalisées et adaptées à chaque patient.`,
+      `Les réponses doivent rappeler la nécessité d'une consultation en présentiel.`,
+      `Il est interdit de délivrer un diagnostic ou une ordonnance via la Pré-consultation.`,
+      `Les demandes de paiement direct hors Plateforme sont interdites.`,
+      `Des sanctions peuvent être appliquées en cas de non-respect.`,
+    ],
+  },
+  {
+    title: "Annexe 2 – Grille tarifaire",
+    content: [
+      `Le Prix Praticien est fixé librement par le Praticien.`,
+      `Les Frais de Service Plateforme sont facturés directement au Patient.`,
+      `Le Plan Premium existe en formule mensuelle et annuelle.`,
+      `Le renouvellement est automatique avec préavis de trente (30) jours.`,
+      `Aucun remboursement n'est prévu pour une période commencée.`,
+    ],
+  },
+];
+
+export default function PractitionerSubscriptionTermsPage() {
   return (
-    <div className="max-w-4xl mx-auto space-y-6 text-sm text-gray-700 leading-relaxed">
-      
-      <h1 className="text-2xl font-semibold text-[#283C5D]">
-        Terms of Use & Subscription Plans
-      </h1>
+    <main className="min-h-screen bg-[#FAF9F7] px-4 py-10 text-[#283C5D] sm:px-6 lg:px-8">
+      <article className="mx-auto max-w-5xl overflow-hidden rounded-[2rem] border border-[#283C5D]/10 bg-white shadow-sm">
+        <header className="border-b border-[#283C5D]/10 bg-gradient-to-br from-white via-[#FAF9F7] to-[#f4e4c6]/40 px-6 py-10 sm:px-10 lg:px-14">
+          <p className="mb-4 inline-flex rounded-full border border-[#283C5D]/10 bg-white/70 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#283C5D]/70">
+            Version 1.0 – Mai 2026
+          </p>
 
-      <p><strong>Effective date:</strong> 2026 | Version 1.1</p>
+          <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl">
+            Conditions Générales d’Abonnement — Praticiens
+          </h1>
 
-      <h2 className="text-lg font-semibold">1. Overview</h2>
-      <p>
-        estheticmatch is a SaaS platform that enables medical aesthetic practitioners
-        (doctors, surgeons, and licensed practitioners) to create a comprehensive,
-        procedure-specific profile indexed for AI tools, LLMs, and Google search engines.
-        The platform also facilitates remunerated online medical pre-consultations through
-        a secure, GDPR-compliant and health-data-compliant encrypted environment.
-      </p>
+          <p className="mt-5 max-w-3xl text-base leading-8 text-[#283C5D]/70">
+            Applicables à tout praticien en médecine esthétique souhaitant
+            accéder aux services de la Plateforme Esthetic Match.
+          </p>
 
-      <ul className="list-disc ml-5">
-        <li>Free Plan (Standard)</li>
-        <li>Special 2-Month Offer (Full Access — Limited Time)</li>
-        <li>Annual Pro Plan</li>
-      </ul>
+          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.22em] text-[#283C5D]/50">
+            Confidentiel
+          </p>
+        </header>
 
-      <h2 className="text-lg font-semibold">2. Free Plan — Standard</h2>
-      <ul className="list-disc ml-5">
-        <li>Visible practitioner profile</li>
-        <li>Geolocalisation visibility on global map</li>
-        <li>Up to 10 procedure keywords</li>
-        <li>Up to 4 before/after photos</li>
-        <li>Encrypted medical Q&A link (non-diagnostic)</li>
-      </ul>
+        <div className="space-y-10 px-6 py-10 sm:px-10 lg:px-14">
+          {sections.map((section) => (
+            <section
+              key={section.title}
+              className="rounded-3xl border border-[#283C5D]/10 bg-[#FAF9F7]/50 p-6 sm:p-8"
+            >
+              <h2 className="text-2xl font-bold tracking-tight text-[#283C5D]">
+                {section.title}
+              </h2>
 
-      <p><strong>Does not include:</strong></p>
-      <ul className="list-disc ml-5">
-        <li>Personalised bio link</li>
-        <li>Booking links</li>
-        <li>Social media links</li>
-        <li>Google review QR code</li>
-        <li>Unlimited keywords & SEO indexing</li>
-        <li>Unlimited photo gallery</li>
-        <li>Onboarding by team</li>
-      </ul>
-
-      <h2 className="text-lg font-semibold">3. Special 2-Month Offer</h2>
-      <ul className="list-disc ml-5">
-        <li>Full access to all features for 2 months</li>
-        <li>Profile setup by estheticmatch team</li>
-        <li>No payment required</li>
-      </ul>
-
-      <p>
-        After 2 months, account reverts to Free Plan unless upgraded.
-        No charges without explicit consent.
-      </p>
-
-      <h2 className="text-lg font-semibold">4. Annual Pro Plan — 4,300 € / year</h2>
-
-      <h3 className="font-semibold">4.1 Full Procedure Indexing & SEO</h3>
-      <ul className="list-disc ml-5">
-        <li>Unlimited keywords</li>
-        <li>Indexed by Google and AI models (ChatGPT, Perplexity, etc.)</li>
-      </ul>
-
-      <h3 className="font-semibold">4.2 Unlimited Photo Gallery</h3>
-      <ul className="list-disc ml-5">
-        <li>Unlimited before/after photos</li>
-      </ul>
-
-      <h3 className="font-semibold">4.3 Encrypted Consultation Link</h3>
-      <ul className="list-disc ml-5">
-        <li>Custom bio link</li>
-        <li>Text + file submissions</li>
-        <li>End-to-end encrypted</li>
-      </ul>
-
-      <h3 className="font-semibold">4.4 Booking & Social Links</h3>
-      <ul className="list-disc ml-5">
-        <li>Booking tools (Doctolib, etc.)</li>
-        <li>Social media links</li>
-      </ul>
-
-      <h3 className="font-semibold">4.5 Google Review QR Code</h3>
-      <ul className="list-disc ml-5">
-        <li>QR code for reviews</li>
-        <li>Custom diagnostic quiz</li>
-      </ul>
-
-      <h3 className="font-semibold">4.6 Global Map</h3>
-      <ul className="list-disc ml-5">
-        <li>International visibility</li>
-      </ul>
-
-      <h3 className="font-semibold">4.7 Onboarding</h3>
-      <ul className="list-disc ml-5">
-        <li>Full setup by estheticmatch team</li>
-      </ul>
-
-      <h2 className="text-lg font-semibold">5. Subscription & Payment</h2>
-      <ul className="list-disc ml-5">
-        <li>4,300 € yearly</li>
-        <li>Auto-renewal</li>
-        <li>No refunds (unless required by law)</li>
-      </ul>
-
-      <h2 className="text-lg font-semibold">6. Medical Compliance</h2>
-      <ul className="list-disc ml-5">
-        <li>End-to-end encrypted communication</li>
-        <li>No formal diagnosis provided</li>
-        <li>Practitioners responsible for advice</li>
-        <li>Not a medical institution</li>
-        <li>No data sold</li>
-      </ul>
-
-      <h2 className="text-lg font-semibold">7. Reviews & Disputes</h2>
-      <ul className="list-disc ml-5">
-        <li>Verified reviews</li>
-        <li>Right to contest</li>
-        <li>10-day resolution window</li>
-      </ul>
-     <div className="border-t border-gray-200 pt-8"/>
-
-        <h1 className="text-2xl font-semibold text-[#283C5D]">
-          Conditions d'utilisation & Offres d'abonnement
-        </h1>
-
-        <p>
-          <strong>Date d'entrée en vigueur :</strong> 2026 | Version 1.1
-        </p>
-
-        <h2 className="text-lg font-semibold">1. Présentation</h2>
-        <p>
-          estheticmatch est une plateforme SaaS permettant aux praticiens de la médecine esthétique
-          (médecins, chirurgiens et praticiens diplômés) de créer un profil complet, indexé par
-          procédure, optimisé pour les outils d'intelligence artificielle, les LLMs et les moteurs de
-          recherche. La plateforme facilite également les pré-consultations médicales en ligne
-          rémunérées, dans un environnement sécurisé, chiffré et conforme au RGPD et à la
-          réglementation sur les données de santé.
-        </p>
-
-        <ul className="list-disc ml-5">
-          <li>Offre Gratuite (Standard)</li>
-          <li>Offre Spéciale 2 mois (Accès complet — Durée limitée)</li>
-          <li>Abonnement Annuel Pro</li>
-        </ul>
-
-        <h2 className="text-lg font-semibold">2. Offre Gratuite — Standard</h2>
-        <p>
-          L'offre gratuite est accessible à tous les praticiens inscrits, sans frais et pour une durée
-          illimitée. Elle comprend :
-        </p>
-        <ul className="list-disc ml-5">
-          <li>Un profil praticien visible sur la plateforme estheticmatch</li>
-          <li>La visibilité sur la carte mondiale estheticmatch (géolocalisation)</li>
-          <li>Jusqu'à 10 mots-clés de procédures et techniques affichés sur le profil pour un référencement de base</li>
-          <li>Jusqu'à 4 photos avant-après publiées sur le profil</li>
-          <li>
-            L'accès au lien de consultation médicale chiffré : les praticiens reçoivent les questions
-            des patients soumises par texte et pièces jointes (photos ou fichiers), et peuvent percevoir
-            une rémunération pour ces pré-consultations. Les échanges transitent par une messagerie
-            chiffrée de bout en bout, conforme à la réglementation sur les données de santé. Les réponses
-            fournies ne constituent pas un diagnostic médical et ne remplacent pas une consultation en
-            présentiel.
-          </li>
-        </ul>
-
-        <p>
-          <strong>L'offre gratuite ne comprend pas :</strong>
-        </p>
-        <ul className="list-disc ml-5">
-          <li>Un lien personnalisé optimisé pour la bio Instagram ou Facebook</li>
-          <li>L'ajout de liens de prise de rendez-vous (Doctolib, OneDoc ou équivalent)</li>
-          <li>L'ajout de liens vers les réseaux sociaux (Instagram, Facebook, site internet)</li>
-          <li>Le QR code d'avis Google avec quiz diagnostique personnalisable</li>
-          <li>Les mots-clés de procédures illimités et l'indexation LLM / GEO SEO complète</li>
-          <li>La galerie photos avant-après illimitée</li>
-          <li>L'onboarding et la création du profil par l'équipe estheticmatch</li>
-        </ul>
-
-        <h2 className="text-lg font-semibold">3. Offre Spéciale 2 mois — Accès complet</h2>
-        <p>
-          Dans le cadre de campagnes promotionnelles ou de bundles partenaires, estheticmatch peut
-          accorder aux praticiens un accès complet à toutes les fonctionnalités de la plateforme,
-          gratuitement, pour une durée de deux (2) mois.
-        </p>
-        <ul className="list-disc ml-5">
-          <li>Un accès complet à toutes les fonctionnalités de l'Abonnement Annuel Pro pendant 2 mois</li>
-          <li>La création et l'onboarding complet du profil réalisés par l'équipe estheticmatch</li>
-          <li>Aucun prélèvement pendant la période promotionnelle</li>
-        </ul>
-        <p>
-          À l'issue des 2 mois, le compte bascule automatiquement vers l'offre gratuite standard,
-          sauf souscription à l'Abonnement Annuel Pro. Aucun prélèvement n'est effectué sans
-          consentement explicite du praticien.
-        </p>
-
-        <h2 className="text-lg font-semibold">4. Abonnement Annuel Pro — 4 300 € / an</h2>
-        <p>
-          L'Abonnement Annuel Pro donne accès à l'ensemble des fonctionnalités estheticmatch pour
-          douze (12) mois. En plus de tout ce qui est inclus dans l'offre gratuite, il comprend :
-        </p>
-
-        <h3 className="font-semibold">4.1 Référencement complet par procédure & LLM / GEO SEO</h3>
-        <ul className="list-disc ml-5">
-          <li>Mots-clés illimités de procédures, techniques et technologies intégrés au profil</li>
-          <li>
-            Optimisation SEO et GEO SEO complète : indexation par Google et par les modèles de langage
-            IA (LLMs) incluant ChatGPT, Perplexity et outils équivalents
-          </li>
-        </ul>
-
-        <h3 className="font-semibold">4.2 Galerie photos avant-après illimitée</h3>
-        <ul className="list-disc ml-5">
-          <li>Publication d'un nombre illimité de photos avant-après, organisées par procédure et zone de traitement</li>
-        </ul>
-
-        <h3 className="font-semibold">4.3 Lien de consultation chiffré personnalisé pour la bio sociale</h3>
-        <ul className="list-disc ml-5">
-          <li>Génération d'un lien personnalisé et brandé, conçu pour être intégré dans la bio Instagram ou Facebook du praticien</li>
-          <li>Les patients soumettent leurs questions ou demandes de pré-consultation par texte et pièces jointes via ce lien</li>
-          <li>Toutes les communications sont chiffrées de bout en bout et conformes à la réglementation sur les données de santé</li>
-          <li>Les réponses fournies ne constituent pas un diagnostic médical et ne remplacent pas une consultation en présentiel</li>
-        </ul>
-
-        <h3 className="font-semibold">4.4 Liens de réservation et réseaux sociaux</h3>
-        <ul className="list-disc ml-5">
-          <li>Ajout d'un ou plusieurs liens de prise de rendez-vous (Doctolib, OneDoc ou tout outil tiers)</li>
-          <li>Ajout de liens vers le site internet, le profil Instagram et les autres réseaux sociaux du praticien</li>
-        </ul>
-
-        <h3 className="font-semibold">4.5 QR code avis Google + quiz diagnostique personnalisable</h3>
-        <ul className="list-disc ml-5">
-          <li>Génération d'un QR code à afficher dans le cabinet</li>
-          <li>Les patients scannent le QR code et complètent un court quiz diagnostique personnalisable</li>
-          <li>À l'issue du quiz, les patients sont invités à laisser un avis Google vérifié</li>
-        </ul>
-
-        <h3 className="font-semibold">4.6 Carte mondiale de géolocalisation</h3>
-        <ul className="list-disc ml-5">
-          <li>Profil visible sur la carte internationale estheticmatch, consultable par procédure, technique et localisation</li>
-          <li>Visibilité auprès de patients internationaux recherchant des traitements spécifiques à l'étranger</li>
-        </ul>
-
-        <h3 className="font-semibold">4.7 Onboarding du profil par l'équipe estheticmatch</h3>
-        <ul className="list-disc ml-5">
-          <li>
-            Création et configuration complète du profil par l'équipe estheticmatch à la souscription,
-            incluant la sélection des mots-clés, l'accompagnement photo et la configuration des liens
-          </li>
-        </ul>
-
-        <h2 className="text-lg font-semibold">5. Modalités d'abonnement et de paiement</h2>
-        <ul className="list-disc ml-5">
-          <li>L'Abonnement Annuel Pro est facturé annuellement à 4 300 € (HT, selon la législation applicable)</li>
-          <li>Le paiement est exigible en totalité à la date de souscription</li>
-          <li>Les abonnements sont renouvelés automatiquement, sauf résiliation notifiée au moins 30 jours avant la date de renouvellement</li>
-          <li>Aucun remboursement n'est accordé pour les périodes partielles, sauf disposition légale contraire</li>
-        </ul>
-
-        <h2 className="text-lg font-semibold">6. Contenu médical et conformité</h2>
-        <ul className="list-disc ml-5">
-          <li>L'ensemble des communications échangées sur estheticmatch sont traitées via une infrastructure chiffrée de bout en bout, conforme au RGPD et dédiée aux données de santé</li>
-          <li>Les réponses fournies via la plateforme constituent des pré-consultations à titre informatif uniquement et ne constituent pas un diagnostic médical formel, ni un substitut à une consultation en présentiel</li>
-          <li>Les praticiens sont seuls responsables des conseils qu'ils dispensent et doivent détenir les diplômes et assurances professionnelles en vigueur</li>
-          <li>estheticmatch agit en tant qu'intermédiaire de plateforme et ne constitue pas un établissement de santé</li>
-          <li>Les données des patients ne sont jamais vendues ni transmises à des tiers</li>
-        </ul>
-
-        <h2 className="text-lg font-semibold">7. Avis vérifiés et droit de contestation</h2>
-        <ul className="list-disc ml-5">
-          <li>Tous les avis publiés sur les profils praticiens sont vérifiés via le système d'avis estheticmatch</li>
-          <li>Les praticiens ont le droit de contester tout avis ne respectant pas la charte de contenu de la plateforme</li>
-          <li>Les contestations d'avis sont traitées dans un délai de 10 jours ouvrés</li>
-        </ul>
-      </div>
+              <div className="mt-5 space-y-4">
+                {section.content.map((paragraph) => (
+                  <p
+                    key={paragraph}
+                    className="text-sm leading-7 text-[#283C5D]/75 sm:text-base sm:leading-8"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </article>
+    </main>
   );
 }

@@ -34,6 +34,7 @@ doctorProfile: {
   country: string | null;
   zipCode: string | null;
   topThree?: string[];
+  RPPS: string | null;
   workLatitude: number | null;
   workLongitude: number | null;
   googlePlaceId: string | null;
@@ -85,6 +86,7 @@ export default function DoctorEditProfile({
   const [googleMapsUri, setGoogleMapsUri] = useState(doctorProfile?.googleMapsUri ?? null);
   const [googleRating, setGoogleRating] = useState(doctorProfile?.googleRating ?? null);
   const [googleReviewCount, setGoogleReviewCount] = useState(doctorProfile?.googleReviewCount ?? null);
+  const [RPPS, setRPPS] = useState(doctorProfile?.RPPS ?? "");
 
   async function handleSaveProfile() {
   try {
@@ -101,6 +103,7 @@ export default function DoctorEditProfile({
         userId: user.id,
         name,
         clinicName,
+        RPPS,
         yearsOfExperience: yoe,
         workAddress,
         city,
@@ -212,6 +215,14 @@ const groupedProceduresByCategory = DoctorCatalog.categories
       placeholder={t("doctorEditProfile.clinicNamePlaceholder")}
       value={clinicName}
       onChange={setClinicName}
+      icon={<Building2 size={16} />}
+    />
+
+    <InputField
+      label={t("doctorEditProfile.RPPS")}
+      placeholder={t("doctorEditProfile.RPPSPlaceholder")}
+      value={RPPS}
+      onChange={setRPPS}
       icon={<Building2 size={16} />}
     />
 

@@ -3,6 +3,7 @@ import {
   BadgeCheck,
   Building2,
   MapPin,
+  Award,
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -18,18 +19,13 @@ type PublicProfileHeaderProps = {
     yearsOfExperience: number | null;
     googleRating: number | null;
     googleReviewCount: number | null;
+    RPPS: string | null;
     user: {
       name: string | null;
       image: string | null;
     };
   };
 };
-
-const formatLabel = (value: string) =>
-  value
-    .replace(/_/g, " ")
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
 
 const getInitials = (name: string) =>
   name
@@ -43,9 +39,12 @@ export default async function PublicProfileHeader({
   doctorProfile,
 }: PublicProfileHeaderProps) {
   const t = await getTranslations("doctor.doctor.profile");
+  const specialtiesT = await getTranslations("specialitiesName");
+  const proceduresT = await getTranslations("proceduresName");
   const name = doctorProfile.user.name ?? "Doctor";
   const avatar = doctorProfile.avatar ?? doctorProfile.user.image;
   const initials = getInitials(name);
+  const RPPS = doctorProfile.RPPS;
 
   const location = [
     doctorProfile.workAddress,
@@ -114,6 +113,15 @@ export default async function PublicProfileHeader({
                 {doctorProfile.country ? <meta itemProp="addressCountry" content={doctorProfile.country} /> : null}
               </div>
             ) : null}
+
+            {RPPS ? (
+              <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
+                <Award  size={17} className="text-[#283C5D]/55" />
+                  <span className="text-sm font-medium tracking-tight">
+                    {t("header.RPPS")} {RPPS}
+                  </span>
+              </div>
+            ) : null}
           </div>
 
           <div className="mt-7 grid max-w-4xl grid-cols-1 gap-6 border-t border-black/10 pt-5 md:grid-cols-3">
@@ -126,7 +134,7 @@ export default async function PublicProfileHeader({
                 {doctorProfile.specialtyIds.length > 0 ? (
                   doctorProfile.specialtyIds.map((item) => (
                     <span key={item} itemProp="medicalSpecialty" className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
-                      {formatLabel(item)}
+                      {specialtiesT(item)}
                     </span>
                   ))
                 ) : (
@@ -146,7 +154,7 @@ export default async function PublicProfileHeader({
                 {doctorProfile.topThree.length > 0 ? (
                   doctorProfile.topThree.map((procedure) => (
                     <span key={procedure} className="inline-flex rounded-full border border-[#d8bd8d]/40 bg-[#d8bd8d] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
-                      {formatLabel(procedure)}
+                      {proceduresT(procedure)}
                     </span>
                   ))
                 ) : (

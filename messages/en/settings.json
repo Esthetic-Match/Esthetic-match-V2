@@ -13,12 +13,31 @@
       "Terms & Conditions": "Terms & Conditions",
       "Subscription": "Subscription",
       "Delete Account": "Delete Account"
-    },
+    },   
     "payments": {
       "successTitle": "You finished your onboarding!",
       "successDescription": "Your Stripe account is now connected and ready to receive payments in 24h !",
       "goToDashboard": "Go to dashboard"
-    }
+    },
+  "paymentDetails": {
+    "loading": "Loading...",
+    "eyebrow": "Payments",
+    "title": "Payment Details",
+    "stripeTitle": "Stripe Connect",
+    "stripeDescription": "Connect your Stripe account to receive patient consultation payments. Esthetic Match keeps 15% commission and the remaining amount is paid to you.",
+    "connected": "Stripe is connected and ready to receive payments.",
+    "onboardingIncomplete": "Stripe account created. Please complete onboarding to receive payments.",
+    "notConnected": "Connect Stripe before receiving consultation payments.",
+    "redirecting": "Redirecting...",
+    "stripeConnected": "Stripe Connected",
+    "completeOnboarding": "Complete Stripe Onboarding",
+    "connectStripe": "Connect Stripe",
+    "currencyTitle": "Select your currency",
+    "currencyDescription": "Choose the currency patients will see when booking consultations with you.",
+    "saving": "Saving...",
+    "saveCurrency": "Save currency",
+    "currencyUpdated": "Currency updated successfully."
+  }   
   },
   "topThreeNote": "Your top three procedures will be highlighted on your profile and used to match you with patients looking for those specific procedures.",
     "common": {
@@ -98,7 +117,9 @@
     "topThreeProcedures": "Top 3 Procedures",
     "noTopThree": "You have not selected your top three procedures yet.",
     "saving": "Saving...",
-    "saveChanges": "Save changes"
+    "saveChanges": "Save changes",
+    "RPPS": "RPPS number",
+    "RPPSPlaceholder": "Enter your RPPS number"
   },
   "changePassword": {
     "security": "Security",
@@ -185,5 +206,24 @@
       "body": "You can now manage your premium profile, booking links, gallery, Google reviews, and public visibility from your dashboard.",
       "dashboardButton": "Go to dashboard",
       "settingsButton": "Back to settings"
-    }
+    },
+    "deleteAccount": {
+  "eyebrow": "Account settings",
+  "title": "Delete account",
+  "warningTitle": "This action cannot be undone",
+  "warningDescription": "Deleting your account will permanently remove your profile, saved data, consultations, messages, gallery content, and all information associated with your account.",
+  "button": "Delete account",
+  "modal": {
+    "eyebrow": "Confirm deletion",
+    "title": "Are you absolutely sure?",
+    "description": "This will permanently delete your account and everything connected to it. You will not be able to recover it later.",
+    "cancel": "Cancel",
+    "confirm": "Confirm delete",
+    "deleting": "Deleting..."
+  },
+  "errors": {
+    "failed": "Failed to delete account",
+    "generic": "Something went wrong"
+  }
+}
 }
