@@ -113,35 +113,55 @@
     "updating": "Mise à jour...",
     "updatePassword": "Mettre à jour le mot de passe"
   },
-  "subscriptionPlans": {
-    "freePlan": {
-      "title": "Forfait gratuit",
-      "price": "Gratuit",
-      "button": "Forfait actuel",
-      "benefits": [
-        "Profil visible sur estheticmatch",
-        "Visibilité sur la carte mondiale",
-        "Jusqu’à 10 mots-clés de procédures",
-        "Jusqu’à 4 photos avant/après",
-        "Lien de questions-réponses médicales chiffré"
-      ]
-    },
-    "proPlan": {
-      "title": "Forfait Pro",
-      "price": "359€",
-      "suffix": "/mois",
-      "button": "Passer au forfait supérieur",
-      "benefits": [
-        "Indexation illimitée des procédures",
-        "Indexé par Google et les outils IA",
-        "Galerie avant/après illimitée",
-        "Lien de consultation chiffré personnalisé",
-        "Liens de réservation et réseaux sociaux",
-        "QR code d’avis Google + quiz",
-        "Onboarding complet par estheticmatch"
-      ]
+"subscriptionPlans": {
+  "common": {
+    "loading": "Une moment...",
+    "currentPlan": "Plan actuel"
+  },
+  "freePlan": {
+    "title": "Plan Gratuit",
+    "price": "€0",
+    "button": "Plan actuel",
+    "benefits": {
+      "0": "Profil médecin basique",
+      "1": "Visibilité publique limitée",
+      "2": "Afficher jusqu’à 5 procédures",
+      "3": "Accès limité à la galerie",
+      "4": "Informations de profil basiques"
     }
   },
+  "monthlyPlan": {
+    "title": "Premium Mensuel",
+    "price": "€390",
+    "suffix": "/ mois",
+    "button": "Passer au mensuel",
+    "benefits": {
+      "0": "Profil médecin premium",
+      "1": "Visibilité publique améliorée",
+      "2": "Afficher toutes les procédures",
+      "3": "Accès complet à la galerie",
+      "4": "Liens de réservation activés",
+      "5": "Section des avis Google",
+      "6": "Fonctionnalités de profil prioritaires"
+    }
+  },
+  "yearlyPlan": {
+    "title": "Premium Annuel",
+    "price": "€4,320",
+    "suffix": "/ an",
+    "badge": "Meilleure offre",
+    "button": "Passer à l’annuel",
+    "benefits": {
+      "0": "Tout ce qui est inclus dans Premium Mensuel",
+      "1": "Deux mois inclus",
+      "2": "Visibilité publique améliorée",
+      "3": "Afficher toutes les procédures",
+      "4": "Accès complet à la galerie",
+      "5": "Liens de réservation activés",
+      "6": "Fonctionnalités de profil prioritaires"
+    }
+  }
+},
   "language": {
     "title": "Langue",
     "changeLanguage": "Changer de langue",
@@ -159,5 +179,12 @@
     "success": "Message envoyé avec succès.",
     "sending": "Envoi...",
     "send": "Envoyer"
+  },
+    "subscriptionSuccess": {
+      "title": "Abonnement activé",
+      "description": "Votre formule premium est maintenant active. Les fonctionnalités et la visibilité de votre profil ont été mises à niveau avec succès.",
+      "body": "Vous pouvez désormais gérer votre profil premium, vos liens de réservation, votre galerie, vos avis Google et votre visibilité publique depuis votre tableau de bord.",
+      "dashboardButton": "Aller au tableau de bord",
+      "settingsButton": "Retour aux paramètres"
+    }
   }
-}

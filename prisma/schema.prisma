@@ -62,35 +62,6 @@ model User {
   @@map("user")
 }
 
-model PatientProfile {
-  id     String @id @default(cuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  avatar        String?
-  gender        String?
-  phoneNumber   String?
-
-  city          String?
-  country       String?
-  zipCode       String?
-  address       String?
-  latitude      Float?
-  longitude     Float?
-  googlePlaceId String?
-
-  preferredConsultationType String? // "in_clinic" | "online"
-  preferredLanguage         String?
-  notes                     String?
-
-  stripeCustomerId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("patient_profile")
-}
-
 model DoctorProfile {
   id     String @id @default(cuid())
   userId String @unique
@@ -120,6 +91,11 @@ model DoctorProfile {
   onlineConsulPrice     Float?
   inClinicLink          String?
 
+  stripeSubscriptionId       String?
+  stripeSubscriptionStatus   String?
+  stripeCustomerId           String?
+  subscriptionCurrentPeriodEnd DateTime?
+  subscriptionPlan           String? @default("free")
   stripeConnectAccountId String?
   stripeConnectOnboardingComplete Boolean @default(false)
   stripeConnectChargesEnabled Boolean @default(false)
@@ -143,6 +119,35 @@ model DoctorProfile {
   updatedAt DateTime @updatedAt
 
   @@map("doctor_profile")
+}
+
+model PatientProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  avatar        String?
+  gender        String?
+  phoneNumber   String?
+
+  city          String?
+  country       String?
+  zipCode       String?
+  address       String?
+  latitude      Float?
+  longitude     Float?
+  googlePlaceId String?
+
+  preferredConsultationType String? // "in_clinic" | "online"
+  preferredLanguage         String?
+  notes                     String?
+
+  stripeCustomerId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("patient_profile")
 }
 
 model ConsultationBooking {
