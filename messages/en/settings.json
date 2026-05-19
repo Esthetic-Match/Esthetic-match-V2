@@ -112,35 +112,55 @@
     "updating": "Updating...",
     "updatePassword": "Update password"
   },
-  "subscriptionPlans": {
-    "freePlan": {
-      "title": "Free Plan",
-      "price": "Free",
-      "button": "Current Plan",
-      "benefits": [
-        "Visible profile on estheticmatch",
-        "Global map visibility",
-        "Up to 10 procedure keywords",
-        "Up to 4 before/after photos",
-        "Encrypted medical Q&A link"
-      ]
+ "subscriptionPlans": {
+      "common": {
+        "loading": "Redirecting...",
+        "currentPlan": "Current plan"
+      },
+      "freePlan": {
+        "title": "Free Plan",
+        "price": "€0",
+        "button": "Current plan",
+        "benefits": {
+          "0": "Basic doctor profile",
+          "1": "Limited public visibility",
+          "2": "Display up to 5 procedures",
+          "3": "Limited gallery access",
+          "4": "Basic profile information"
+        }
+      },
+      "monthlyPlan": {
+        "title": "Premium Monthly",
+        "price": "€390",
+        "suffix": "/ month",
+        "button": "Upgrade monthly",
+        "benefits": {
+          "0": "Premium doctor profile",
+          "1": "Improved public visibility",
+          "2": "Show all procedures",
+          "3": "Full gallery access",
+          "4": "Booking links enabled",
+          "5": "Google reviews section",
+          "6": "Priority profile features"
+        }
+      },
+      "yearlyPlan": {
+        "title": "Premium Yearly",
+        "price": "€4,320",
+        "suffix": "/ year",
+        "badge": "Best value",
+        "button": "Upgrade yearly",
+        "benefits": {
+          "0": "Everything in Premium Monthly",
+          "1": "Two months included",
+          "2": "Improved public visibility",
+          "3": "Show all procedures",
+          "4": "Full gallery access",
+          "5": "Booking links enabled",
+          "6": "Priority profile features"
+        }
+      }
     },
-    "proPlan": {
-      "title": "Pro Plan",
-      "price": "359€",
-      "suffix": "/mo",
-      "button": "Upgrade Plan",
-      "benefits": [
-        "Unlimited procedure indexing",
-        "Indexed by Google & AI tools",
-        "Unlimited before/after gallery",
-        "Custom encrypted consultation link",
-        "Booking & social media links",
-        "Google review QR code + quiz",
-        "Full onboarding by estheticmatch"
-      ]
-    }
-  },
   "language": {
     "title": "Language",
     "changeLanguage": "Change Language",
@@ -158,5 +178,12 @@
     "success": "Message sent successfully.",
     "sending": "Sending...",
     "send": "Send"
-  }
+  },
+      "subscriptionSuccess": {
+      "title": "Subscription activated",
+      "description": "Your premium plan is now active. Your profile features and visibility have been upgraded successfully.",
+      "body": "You can now manage your premium profile, booking links, gallery, Google reviews, and public visibility from your dashboard.",
+      "dashboardButton": "Go to dashboard",
+      "settingsButton": "Back to settings"
+    }
 }
