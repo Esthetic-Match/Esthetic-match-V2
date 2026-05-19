@@ -39,12 +39,12 @@
   },
   "expertise": {
     "title": "Expertise",
-    "procedures": "Procedures (Keywords)",
+    "procedures": "Procedures",
     "noProcedures": "No procedures added yet.",
-    "moreProcedures": "+{count} more procedures hidden",
-    "moreAvailable": "Upgrade to Premium to showcase all your procedures",
-    "standardProfile": "Standard Plan",
-    "standardDescription": "Only 5 procedures are visible"
+    "hiddenProcedures": "+{count} more procedures hidden",
+    "moreAvailable": "Upgrade to show all procedures",
+    "standardProfile": "Unlock your full profile",
+    "standardDescription": "Upgrade to the Standard plan to display all your procedures and make your profile more complete."
   },
   "consultationPrices": {
     "title": "Consultation Prices",
@@ -98,7 +98,7 @@
     "editGallery": "Edit gallery",
     "addMore": "Add more Before & After pictures",
     "moreLocked": "+5 more",
-    "upgrade": "Upgrade to Premium to see all your results"
+    "upgrade": "Upgrade to Premium to add more pictures"
   },
   "galleryUpload": {
     "title": "Upload Before & After Pictures",
@@ -159,5 +159,47 @@
     "messagePlaceholder": "Type your message...",
     "noConversationSelected": "No conversation selected",
     "noConversationSelectedDescription": "Select an active online consultation from the left side."
-  }
+  },
+    "editGallery": {
+    "loading": "Loading gallery...",
+    "eyebrow": "Gallery",
+    "title": "Edit Your Cases",
+    "emptyTitle": "No gallery cases found",
+    "emptyDescription": "Upload before and after images first, then edit their details here.",
+    "caseCard": {
+      "before": "Before",
+      "after": "After",
+      "public": "Public",
+      "private": "Private",
+      "case": "Case",
+      "details": "Gallery details",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Example: Jawline refinement",
+      "procedureLabel": "Procedure",
+      "selectProcedure": "Select procedure",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Add a short description for this case...",
+      "saving": "Saving...",
+      "save": "Save"
+      },
+      "actionsMenu": {
+        "openActions": "Open case actions",
+        "makePrivate": "Make case private",
+        "makePublic": "Make case public",
+        "delete": "Delete case"
+      },
+      "deleteModal": {
+        "title": "Are you sure you want to delete this case?",
+        "description": "This action cannot be undone. The case will be removed from your gallery.",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "deleting": "Deleting..."
+      },
+      "procedureModal": {
+        "title": "Select procedure",
+        "description": "Choose one of your preselected procedures for this gallery case.",
+        "emptyTitle": "No procedures found",
+        "emptyDescription": "Add procedures to your doctor profile first."
+      }
+    }
 }

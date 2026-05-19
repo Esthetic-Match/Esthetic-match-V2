@@ -43,6 +43,8 @@ export default async function PublicProfileHeader({
   doctorProfile,
 }: PublicProfileHeaderProps) {
   const t = await getTranslations("doctor.doctor.profile");
+  const specialtiesT = await getTranslations("specialitiesName");
+  const proceduresT = await getTranslations("proceduresName");
   const name = doctorProfile.user.name ?? "Doctor";
   const avatar = doctorProfile.avatar ?? doctorProfile.user.image;
   const initials = getInitials(name);
@@ -126,7 +128,7 @@ export default async function PublicProfileHeader({
                 {doctorProfile.specialtyIds.length > 0 ? (
                   doctorProfile.specialtyIds.map((item) => (
                     <span key={item} itemProp="medicalSpecialty" className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
-                      {formatLabel(item)}
+                      {specialtiesT(item)}
                     </span>
                   ))
                 ) : (
@@ -146,7 +148,7 @@ export default async function PublicProfileHeader({
                 {doctorProfile.topThree.length > 0 ? (
                   doctorProfile.topThree.map((procedure) => (
                     <span key={procedure} className="inline-flex rounded-full border border-[#d8bd8d]/40 bg-[#d8bd8d] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
-                      {formatLabel(procedure)}
+                      {proceduresT(procedure)}
                     </span>
                   ))
                 ) : (

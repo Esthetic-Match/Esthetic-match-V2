@@ -39,12 +39,12 @@
   },
   "expertise": {
     "title": "Expertise",
-    "procedures": "Procédures (mots-clés)",
+    "procedures": "Procédures",
     "noProcedures": "Aucune procédure ajoutée pour le moment.",
-    "moreProcedures": "+{count} procédures supplémentaires masquées",
-    "moreAvailable": "Passez au forfait Premium pour afficher toutes vos procédures",
-    "standardProfile": "Forfait Standard",
-    "standardDescription": "Seulement 5 procédures sont visibles"
+    "hiddenProcedures": "+{count} procédures supplémentaires masquées",
+    "moreAvailable": "Passez à l’offre supérieure pour afficher toutes les procédures",
+    "standardProfile": "Débloquez votre profil complet",
+    "standardDescription": "Passez à l’offre Standard pour afficher toutes vos procédures et rendre votre profil plus complet."
   },
   "consultationPrices": {
     "title": "Tarifs des consultations",
@@ -98,7 +98,7 @@
     "editGallery": "Modifier la galerie",
     "addMore": "Ajouter plus de photos avant/après",
     "moreLocked": "+5 de plus",
-    "upgrade": "Passez au forfait Premium pour voir tous vos résultats"
+    "upgrade": "Passez au forfait Premium pour ajouter davantage de photos"
   },
   "galleryUpload": {
     "title": "Télécharger des photos avant/après",
@@ -159,5 +159,47 @@
     "messagePlaceholder": "Écrivez votre message...",
     "noConversationSelected": "Aucune conversation sélectionnée",
     "noConversationSelectedDescription": "Sélectionnez une consultation en ligne active dans la colonne de gauche."
-  }
+  },
+    "editGallery": {
+    "loading": "Chargement de la galerie...",
+    "eyebrow": "Galerie",
+    "title": "Modifier vos cas",
+    "emptyTitle": "Aucun cas trouvé dans la galerie",
+    "emptyDescription": "Téléchargez d’abord des images avant/après, puis modifiez leurs détails ici.",
+    "caseCard": {
+      "before": "Avant",
+      "after": "Après",
+      "public": "Public",
+      "private": "Privé",
+      "case": "Cas",
+      "details": "Détails de la galerie",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "Exemple : Redéfinition de la mâchoire",
+      "procedureLabel": "Procédure",
+      "selectProcedure": "Sélectionner une procédure",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Ajoutez une courte description pour ce cas...",
+      "saving": "Enregistrement...",
+      "save": "Enregistrer"
+      },
+      "actionsMenu": {
+        "openActions": "Ouvrir les actions du cas",
+        "makePrivate": "Rendre le cas privé",
+        "makePublic": "Rendre le cas public",
+        "delete": "Supprimer le cas"
+      },
+     "deleteModal": {
+        "title": "Êtes-vous sûr de vouloir supprimer ce cas ?",
+        "description": "Cette action est irréversible. Le cas sera supprimé de votre galerie.",
+        "cancel": "Annuler",
+        "delete": "Supprimer",
+        "deleting": "Suppression..."
+      },
+      "procedureModal": {
+        "title": "Sélectionner une procédure",
+        "description": "Choisissez l’une de vos procédures présélectionnées pour ce cas de galerie.",
+        "emptyTitle": "Aucune procédure trouvée",
+        "emptyDescription": "Ajoutez d’abord des procédures à votre profil praticien."
+      }
+    }
 }

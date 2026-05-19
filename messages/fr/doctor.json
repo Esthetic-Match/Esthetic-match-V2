@@ -58,7 +58,7 @@
         "notAllowed": "Le médecin n’a pas encore activé les avis Google."
       },
       "gallery": {
-        "title": "Galerie photos",
+        "title": "Galerie de photo",
         "before": "Avant",
         "after": "Après",
         "noImagesTitle": "Aucune image avant/après",
@@ -68,7 +68,8 @@
         "showLess": "Afficher moins",
         "viewMore": "Voir {count} de plus",
         "beforeAlt": "Résultat avant traitement",
-        "afterAlt": "Résultat après traitement"
+        "afterAlt": "Résultat après traitement",
+        "Message Doctor": "Contacter le médecin pour voir"
       }
     },
      "bookingConfirmation": {

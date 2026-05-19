@@ -68,7 +68,8 @@
         "showLess": "Show less",
         "viewMore": "View {count} more",
         "beforeAlt": "Before treatment result",
-        "afterAlt": "After treatment result"
+        "afterAlt": "After treatment result",
+        "Message Doctor": "Message Doctor to View"
       }
     },
         "bookingConfirmation": {

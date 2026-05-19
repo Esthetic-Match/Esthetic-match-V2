@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Camera, MapPin, Pencil, Building2, BadgeCheck, Award  } from "lucide-react";
-import { formatLabel, handleImageUpload } from "@/utils/dashboard/helper";
+import {  handleImageUpload } from "@/utils/dashboard/helper";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
 import { Link } from "@/i18n/navigation";
@@ -40,6 +40,8 @@ export default function ProfileHeader({
   RPPS,
 }: ProfileHeaderProps) {
     const t = useTranslations("dashboard");
+    const specialtiesT =  useTranslations("specialitiesName");
+    const proceduresT =  useTranslations("proceduresName");
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
     const [currentAvatar, setCurrentAvatar] = useState<string | null>(avatar || fallbackAvatar);
     
@@ -150,7 +152,7 @@ export default function ProfileHeader({
                       key={item}
                       className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]"
                     >
-                      {formatLabel(item)}
+                      {specialtiesT(item)}
                     </span>
                   ))
                 ) : (
@@ -173,7 +175,7 @@ export default function ProfileHeader({
                       key={procedure}
                       className="inline-flex rounded-full border border-[#d8bd8d]/40 bg-[#d8bd8d] px-4 py-1.5 text-xs font-medium text-[#283C5D]"
                     >
-                      {formatLabel(procedure)}
+                      {proceduresT(procedure)}
                     </span>
                   ))
                 ) : (

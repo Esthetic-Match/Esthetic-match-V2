@@ -143,6 +143,7 @@ function BeforeAfterCard({
   beforeLabel: string;
   afterLabel: string;
 }) {
+  const t = useTranslations("doctor.doctor.profile.gallery");
   return (
     <article className="relative grid grid-cols-2 gap-2">
       <GalleryImage
@@ -161,7 +162,7 @@ function BeforeAfterCard({
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="rounded-full border border-[#d8bd8d] bg-[#52627c] px-5 py-2 backdrop-blur-md shadow-lg">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white">
-              Message Doctor to View
+              {t("Message Doctor")}
             </p>
           </div>
         </div>

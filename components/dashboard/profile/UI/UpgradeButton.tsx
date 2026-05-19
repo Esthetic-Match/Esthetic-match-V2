@@ -9,7 +9,7 @@ type UpgradeButtonProps = {
 };
 
 export default function UpgradeButton({
-  href = "/dashboard/settings",
+  href = "/dashboard/settings?tab=subscription",
   label,
   className = "",
 }: UpgradeButtonProps) {
