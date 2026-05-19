@@ -158,7 +158,8 @@
     "startConversationDescription": "Send your first message about the online consultation.",
     "messagePlaceholder": "Type your message...",
     "noConversationSelected": "No conversation selected",
-    "noConversationSelectedDescription": "Select an active online consultation from the left side."
+    "noConversationSelectedDescription": "Select an active online consultation from the left side.",
+    "closed": "Closed"
   },
     "editGallery": {
     "loading": "Loading gallery...",

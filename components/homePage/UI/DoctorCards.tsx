@@ -57,14 +57,7 @@ export default async function DoctorCards( doctor: DoctorCardProps ){
                     {doctor.doctor.specialtyIds}
                   </p>
                 </div>
-        
-                <button
-                  type="button"
-                  className="flex h-6 w-6 items-center justify-center rounded-full border border-[#d8bd8d]/50 text-[#d8bd8d]"
-                  aria-label={t("saveDoctor")}
-                >
-                  <Heart size={13} />
-                </button>
+      
               </div>
             
             {doctor.doctor.googleReviewCount &&

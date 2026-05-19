@@ -158,7 +158,8 @@
     "startConversationDescription": "Envoyez votre premier message au sujet de la consultation en ligne.",
     "messagePlaceholder": "Écrivez votre message...",
     "noConversationSelected": "Aucune conversation sélectionnée",
-    "noConversationSelectedDescription": "Sélectionnez une consultation en ligne active dans la colonne de gauche."
+    "noConversationSelectedDescription": "Sélectionnez une consultation en ligne active dans la colonne de gauche.",
+    "closed": "Términé"
   },
     "editGallery": {
     "loading": "Chargement de la galerie...",
