@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { AlertTriangle, Trash2, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 
 export default function DeleteAccount() {
   const router = useRouter();
+  const t = useTranslations("settings.deleteAccount");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,14 +25,14 @@ export default function DeleteAccount() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data?.error || "Failed to delete account");
+        throw new Error(data?.error || t("errors.failed"));
       }
 
       router.push("/");
       router.refresh();
     } catch (error) {
       setErrorMessage(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : t("errors.generic")
       );
     } finally {
       setLoading(false);
@@ -43,11 +45,11 @@ export default function DeleteAccount() {
       <div className="mx-auto flex h-full max-w-xl flex-col justify-center space-y-5">
         <div>
           <p className="text-sm uppercase tracking-wide text-[#283C5D]/60">
-            Account settings
+            {t("eyebrow")}
           </p>
 
           <h2 className="mt-2 text-3xl font-semibold text-[#283C5D]">
-            Delete account
+            {t("title")}
           </h2>
 
           <div className="my-4 border-t border-gray-300" />
@@ -59,13 +61,11 @@ export default function DeleteAccount() {
 
             <div>
               <h3 className="font-semibold text-red-700">
-                This action cannot be undone
+                {t("warningTitle")}
               </h3>
 
               <p className="mt-2 text-sm leading-relaxed text-red-600">
-                Deleting your account will permanently remove your profile,
-                saved data, consultations, messages, gallery content, and all
-                information associated with your account.
+                {t("warningDescription")}
               </p>
             </div>
           </div>
@@ -84,7 +84,7 @@ export default function DeleteAccount() {
           className="flex w-full items-center justify-center gap-2 rounded-full bg-red-600 px-4 py-3 text-sm font-medium text-white transition hover:scale-[1.02] hover:bg-red-700 disabled:opacity-50"
         >
           <Trash2 size={16} />
-          Delete account
+          {t("button")}
         </button>
       </div>
 
@@ -94,11 +94,11 @@ export default function DeleteAccount() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm uppercase tracking-wide text-red-500">
-                  Confirm deletion
+                  {t("modal.eyebrow")}
                 </p>
 
                 <h3 className="mt-2 text-2xl font-semibold text-[#283C5D]">
-                  Are you absolutely sure?
+                  {t("modal.title")}
                 </h3>
               </div>
 
@@ -112,8 +112,7 @@ export default function DeleteAccount() {
             </div>
 
             <p className="mt-4 text-sm leading-relaxed text-[#283C5D]/65">
-              This will permanently delete your account and everything connected
-              to it. You will not be able to recover it later.
+              {t("modal.description")}
             </p>
 
             <div className="mt-6 flex gap-3">
@@ -123,7 +122,7 @@ export default function DeleteAccount() {
                 disabled={loading}
                 className="flex-1 rounded-full border border-[#283C5D]/15 px-4 py-3 text-sm font-medium text-[#283C5D] transition hover:bg-[#FAF9F7]"
               >
-                Cancel
+                {t("modal.cancel")}
               </button>
 
               <button
@@ -132,7 +131,7 @@ export default function DeleteAccount() {
                 disabled={loading}
                 className="flex-1 rounded-full bg-red-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-red-700 disabled:opacity-50"
               >
-                {loading ? "Deleting..." : "Confirm delete"}
+                {loading ? t("modal.deleting") : t("modal.confirm")}
               </button>
             </div>
           </div>

@@ -403,7 +403,7 @@ useEffect(() => {
   href="/doctors"
   className="inline-flex mt-8 items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition hover:bg-[#283C5D] hover:text-white active:scale-[0.98]"
   >
-    <span>Discover doctors</span>
+    <span>{t("PatientProfile.Discover doctors")}</span>
 
     <ArrowRight size={16} />
   </Link>

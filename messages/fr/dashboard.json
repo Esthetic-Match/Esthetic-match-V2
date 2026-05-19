@@ -129,7 +129,8 @@
     "savedDoctors": "Médecins sauvegardés",
     "savedDoctorsDescription": "Les médecins que vous avez enregistrés pour plus tard apparaîtront ici.",
     "loadingSavedDoctors": "Chargement des médecins sauvegardés...",
-    "noSavedDoctors": "Vous n’avez encore sauvegardé aucun médecin."  
+    "noSavedDoctors": "Vous n’avez encore sauvegardé aucun médecin.",
+    "Discover doctors": "Découvrir les médecins"
   },
   "dashboardLayout": {
     "logoAlt": "Esthetic Match",

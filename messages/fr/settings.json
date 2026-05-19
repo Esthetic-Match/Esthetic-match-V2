@@ -186,5 +186,24 @@
       "body": "Vous pouvez désormais gérer votre profil premium, vos liens de réservation, votre galerie, vos avis Google et votre visibilité publique depuis votre tableau de bord.",
       "dashboardButton": "Aller au tableau de bord",
       "settingsButton": "Retour aux paramètres"
+    },
+  "deleteAccount": {
+    "eyebrow": "Paramètres du compte",
+    "title": "Supprimer le compte",
+    "warningTitle": "Cette action est irréversible",
+    "warningDescription": "La suppression de votre compte entraînera la suppression définitive de votre profil, de vos données enregistrées, de vos consultations, de vos messages, du contenu de votre galerie et de toutes les informations associées à votre compte.",
+    "button": "Supprimer le compte",
+    "modal": {
+      "eyebrow": "Confirmer la suppression",
+      "title": "Êtes-vous absolument sûr ?",
+      "description": "Cette action supprimera définitivement votre compte ainsi que tout ce qui y est associé. Vous ne pourrez pas le récupérer par la suite.",
+      "cancel": "Annuler",
+      "confirm": "Confirmer la suppression",
+      "deleting": "Suppression..."
+    },
+    "errors": {
+      "failed": "Échec de la suppression du compte",
+      "generic": "Une erreur est survenue"
     }
   }
+}

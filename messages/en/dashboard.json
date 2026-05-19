@@ -129,7 +129,8 @@
     "savedDoctors": "Saved doctors",
     "savedDoctorsDescription": "Doctors you saved for later will appear here.",
     "loadingSavedDoctors": "Loading saved doctors...",
-    "noSavedDoctors": "You have not saved any doctors yet."
+    "noSavedDoctors": "You have not saved any doctors yet.",
+    "Discover doctors": "Discover doctors"
   },
   "dashboardLayout": {
     "logoAlt": "Esthetic Match",

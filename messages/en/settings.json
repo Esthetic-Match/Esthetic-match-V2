@@ -185,5 +185,24 @@
       "body": "You can now manage your premium profile, booking links, gallery, Google reviews, and public visibility from your dashboard.",
       "dashboardButton": "Go to dashboard",
       "settingsButton": "Back to settings"
-    }
+    },
+    "deleteAccount": {
+  "eyebrow": "Account settings",
+  "title": "Delete account",
+  "warningTitle": "This action cannot be undone",
+  "warningDescription": "Deleting your account will permanently remove your profile, saved data, consultations, messages, gallery content, and all information associated with your account.",
+  "button": "Delete account",
+  "modal": {
+    "eyebrow": "Confirm deletion",
+    "title": "Are you absolutely sure?",
+    "description": "This will permanently delete your account and everything connected to it. You will not be able to recover it later.",
+    "cancel": "Cancel",
+    "confirm": "Confirm delete",
+    "deleting": "Deleting..."
+  },
+  "errors": {
+    "failed": "Failed to delete account",
+    "generic": "Something went wrong"
+  }
+}
 }
