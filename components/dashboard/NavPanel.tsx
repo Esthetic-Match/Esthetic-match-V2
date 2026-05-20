@@ -7,6 +7,7 @@ import {
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
+  IconShieldLock,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import Image from "next/image";
@@ -40,6 +41,8 @@ export function NavPanel({ children }: NavPanelProps) {
     router.refresh();
   }
 
+const isAdmin = session?.user?.role === "ADMIN";
+
 const links = [
   {
     label: t("sidebar.messages"),
@@ -56,6 +59,15 @@ const links = [
     href: "/dashboard/settings",
     icon: <IconSettings className="h-5 w-5 shrink-0 text-white" />,
   },
+  ...(isAdmin
+    ? [
+        {
+          label: t("sidebar.adminPanel"),
+          href: "/dashboard/adminPanel",
+          icon: <IconShieldLock className="h-5 w-5 shrink-0 text-white" />,
+        },
+      ]
+    : []),
   {
     label: t("sidebar.logout"),
     href: "/",
