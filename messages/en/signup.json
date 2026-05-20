@@ -18,7 +18,7 @@
     "paymentPrices": {
       "eyebrow": "Payments",
       "title": "Set your consultation prices",
-      "description": "Patients will pay the price you set. Esthetic Match takes a 10% platform fee, and the remaining amount goes to your connected Stripe account.",
+      "description": "Patients will pay the price you set. Esthetic Match takes a 15% platform fee, and the remaining amount goes to your connected Stripe account.",
       "inClinic": {
         "title": "In-clinic consultation",
         "description": "The price patients pay for appointments at your clinic."

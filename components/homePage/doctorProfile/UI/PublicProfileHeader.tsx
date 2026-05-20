@@ -55,12 +55,12 @@ export default async function PublicProfileHeader({
     .join(", ");
 
   return (
-   <section
+    <section
       itemScope
       itemType="https://schema.org/Physician"
-      className="relative z-20 mx-auto -mt-16 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white px-6 pb-8 pt-24 shadow-lg md:-mt-20 md:px-10 md:pt-10"
+      className="relative z-20 mx-auto -mt-16 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white px-6 pb-8 pt-8 shadow-lg md:-mt-20 md:px-10 md:pt-10"
     >
-      <div className="absolute -top-20 left-6 md:left-10">
+      <div className="relative mx-auto -mt-24 mb-6 h-40 w-40 md:absolute md:-top-20 md:left-10 md:mx-0 md:mb-0 md:mt-0">
         <div className="relative h-40 w-40 rounded-full border-4 border-white bg-white shadow-md">
           {avatar?.trim() ? (
             <Image
@@ -73,13 +73,13 @@ export default async function PublicProfileHeader({
               itemProp="image"
             />
           ) : (
-            <div className="absolute flex h-38 w-38 items-center justify-center rounded-full bg-[#283c5d] text-2xl font-semibold text-white">
+            <div className="absolute inset-1 flex items-center justify-center rounded-full bg-[#283c5d] text-2xl font-semibold text-white">
               {initials}
             </div>
           )}
         </div>
       </div>
-
+        
       <div className="flex flex-col gap-8 md:ml-48 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
