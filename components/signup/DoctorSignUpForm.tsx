@@ -59,7 +59,7 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
           <VerifyEmail
             email={email}
             role="DOCTOR"
-            onVerified={() => router.push("/dashboard/onboarding")}
+            onVerified={() => router.push("/sign-in")}
           />
         </div>
       ) : (
