@@ -134,54 +134,127 @@
     "updatePassword": "Update password"
   },
  "subscriptionPlans": {
+    "premiumActive": "Premium active",
+    "premiumPlanActiveTitle": "Your Premium plan is active",
+    "premiumPlanActiveDescription": "Manage your subscription, invoices, payment method, renewal, or cancellation directly through the Stripe customer portal.",
+    "openBillingPortal": "Open billing portal",
       "common": {
         "loading": "Redirecting...",
         "currentPlan": "Current plan"
       },
-      "freePlan": {
-        "title": "Free Plan",
-        "price": "€0",
-        "button": "Current plan",
-        "benefits": {
-          "0": "Basic doctor profile",
-          "1": "Limited public visibility",
-          "2": "Display up to 5 procedures",
-          "3": "Limited gallery access",
-          "4": "Basic profile information"
-        }
+       "freePlan": {
+    "title": "FREE",
+    "subtitle": "For starters",
+    "price": "0€",
+    "suffix": "/ month",
+    "button": "Your current plan",
+    "benefits": {
+      "0": {
+        "title": "Online medical advice requests (paid)",
+        "description": "Get paid to answer patient DM requests via encrypted messaging (text & photo)."
       },
-      "monthlyPlan": {
-        "title": "Premium Monthly",
-        "price": "€390",
-        "suffix": "/ month",
-        "button": "Upgrade monthly",
-        "benefits": {
-          "0": "Premium doctor profile",
-          "1": "Improved public visibility",
-          "2": "Show all procedures",
-          "3": "Full gallery access",
-          "4": "Booking links enabled",
-          "5": "Google reviews section",
-          "6": "Priority profile features"
-        }
+      "1": {
+        "title": "SEO & GEO visibility",
+        "description": "Your procedures (keywords) are referenced to improve your visibility."
       },
-      "yearlyPlan": {
-        "title": "Premium Yearly",
-        "price": "€4,320",
-        "suffix": "/ year",
-        "badge": "Best value",
-        "button": "Upgrade yearly",
-        "benefits": {
-          "0": "Everything in Premium Monthly",
-          "1": "Two months included",
-          "2": "Improved public visibility",
-          "3": "Show all procedures",
-          "4": "Full gallery access",
-          "5": "Booking links enabled",
-          "6": "Priority profile features"
-        }
+      "2": {
+        "title": "Visible procedures (keywords)",
+        "description": "Up to 5 keywords."
+      },
+      "3": {
+        "title": "Photo gallery (before/after)",
+        "description": "Up to 5 before/after photos."
       }
-    },
+    }
+  },
+  "monthlyPlan": {
+    "title": "PREMIUM",
+    "subtitle": "Monthly",
+    "badge": "Most popular",
+    "price": "390€",
+    "suffix": "/ month",
+    "note": "Cancel anytime",
+    "button": "Choose this plan",
+    "benefits": {
+      "0": {
+        "title": "Online medical advice requests (paid)",
+        "description": "Get paid to answer patient DM requests via encrypted messaging (text & photo)."
+      },
+      "1": {
+        "title": "SEO & GEO visibility",
+        "description": "Your procedures (keywords) are referenced to improve your visibility."
+      },
+      "2": {
+        "title": "Unlimited procedures (keywords)",
+        "description": "Unlimited keywords."
+      },
+      "3": {
+        "title": "Unlimited before/after photos",
+        "description": "Unlimited before/after photos."
+      },
+      "4": {
+        "title": "Photo of your clinic",
+        "description": "Add photos of your clinic."
+      },
+      "5": {
+        "title": "Booking links",
+        "description": "Add and display your booking links."
+      },
+      "6": {
+        "title": "Social media links",
+        "description": "Display Instagram, TikTok, YouTube."
+      },
+      "7": {
+        "title": "Profile analytics",
+        "description": "Advanced profile insights."
+      }
+    }
+  },
+  "yearlyPlan": {
+    "title": "PREMIUM",
+    "subtitle": "Annual",
+    "badge": "Best value",
+    "price": "360€",
+    "suffix": "/ month",
+    "billingNote": "Billed once 4,320€ / year",
+    "savingNote": "(Save 360€ / year)",
+    "button": "Choose this plan",
+    "benefits": {
+      "0": {
+        "title": "Online medical advice requests (paid)",
+        "description": "Get paid to answer patient DM requests via encrypted messaging (text & photo)."
+      },
+      "1": {
+        "title": "SEO & GEO visibility",
+        "description": "Your procedures (keywords) are referenced to improve your visibility."
+      },
+      "2": {
+        "title": "Unlimited procedures (keywords)",
+        "description": "Unlimited keywords."
+      },
+      "3": {
+        "title": "Unlimited before/after photos",
+        "description": "Unlimited before/after photos."
+      },
+      "4": {
+        "title": "Photo of your clinic",
+        "description": "Add photos of your clinic."
+      },
+      "5": {
+        "title": "Booking links",
+        "description": "Add and display your booking links."
+      },
+      "6": {
+        "title": "Social media links",
+        "description": "Display Instagram, TikTok, YouTube."
+      },
+      "7": {
+        "title": "Profile analytics",
+        "description": "Advanced profile insights."
+      }
+    }
+  }
+},
   "language": {
     "title": "Language",
     "changeLanguage": "Change Language",

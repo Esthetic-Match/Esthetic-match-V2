@@ -135,51 +135,128 @@
     "updatePassword": "Mettre à jour le mot de passe"
   },
 "subscriptionPlans": {
+      "premiumActive": "Premium actif",
+    "premiumPlanActiveTitle": "Votre abonnement Premium est actif",
+    "premiumPlanActiveDescription": "Gérez votre abonnement, vos factures, votre moyen de paiement, votre renouvellement ou votre annulation directement depuis le portail client Stripe.",
+    "openBillingPortal": "Ouvrir le portail de facturation",
   "common": {
     "loading": "Une moment...",
     "currentPlan": "Plan actuel"
   },
-  "freePlan": {
-    "title": "Plan Gratuit",
-    "price": "€0",
-    "button": "Plan actuel",
+   "freePlan": {
+    "title": "GRATUIT",
+    "subtitle": "Pour débuter",
+    "price": "0€",
+    "suffix": "/ mois",
+    "button": "Votre plan actuel",
     "benefits": {
-      "0": "Profil médecin basique",
-      "1": "Visibilité publique limitée",
-      "2": "Afficher jusqu’à 5 procédures",
-      "3": "Accès limité à la galerie",
-      "4": "Informations de profil basiques"
+      "0": {
+        "title": "Demandes de conseils médicaux en ligne (payantes)",
+        "description": "Être payé pour répondre aux demandes DM des patients via messagerie chiffrée (texte & photo)."
+      },
+      "1": {
+        "title": "Visibilité SEO & GEO",
+        "description": "Vos procédures (mots-clés) sont référencées pour améliorer votre visibilité."
+      },
+      "2": {
+        "title": "Procédures visibles (mots-clés)",
+        "description": "Jusqu’à 5 mots-clés."
+      },
+      "3": {
+        "title": "Galerie photos (avant/après)",
+        "description": "Jusqu’à 5 photos avant/après."
+      },
+      "4": {
+        "title": "Procédures illimitées",
+        "description": "Non inclus."
+      }
     }
   },
   "monthlyPlan": {
-    "title": "Premium Mensuel",
-    "price": "€390",
+    "title": "PREMIUM",
+    "subtitle": "Mensuel",
+    "badge": "Le plus populaire",
+    "price": "390€",
     "suffix": "/ mois",
-    "button": "Passer au mensuel",
+    "note": "Annulation à tout moment",
+    "button": "Choisir ce plan",
     "benefits": {
-      "0": "Profil médecin premium",
-      "1": "Visibilité publique améliorée",
-      "2": "Afficher toutes les procédures",
-      "3": "Accès complet à la galerie",
-      "4": "Liens de réservation activés",
-      "5": "Section des avis Google",
-      "6": "Fonctionnalités de profil prioritaires"
+      "0": {
+        "title": "Demandes de conseils médicaux en ligne (payantes)",
+        "description": "Être payé pour répondre aux demandes DM des patients via messagerie chiffrée (texte & photo)."
+      },
+      "1": {
+        "title": "Visibilité SEO & GEO",
+        "description": "Vos procédures (mots-clés) sont référencées pour améliorer votre visibilité."
+      },
+      "2": {
+        "title": "Procédures illimitées (mots-clés)",
+        "description": "Mots-clés illimités."
+      },
+      "3": {
+        "title": "Photos illimitées avant/après",
+        "description": "Photos avant/après illimitées."
+      },
+      "4": {
+        "title": "Photo de votre clinique",
+        "description": "Ajoutez des photos de votre clinique."
+      },
+      "5": {
+        "title": "Liens de réservation",
+        "description": "Ajoutez et affichez vos liens de réservation."
+      },
+      "6": {
+        "title": "Liens réseaux sociaux",
+        "description": "Afficher Instagram, TikTok, YouTube."
+      },
+      "7": {
+        "title": "Analytique du profil",
+        "description": "Statistiques avancées du profil."
+      }
     }
   },
   "yearlyPlan": {
-    "title": "Premium Annuel",
-    "price": "€4,320",
-    "suffix": "/ an",
-    "badge": "Meilleure offre",
-    "button": "Passer à l’annuel",
+    "title": "PREMIUM",
+    "subtitle": "Annuel",
+    "badge": "Meilleur rapport qualité/prix",
+    "price": "360€",
+    "suffix": "/ mois",
+    "billingNote": "Facturé une fois 4,320€ / an",
+    "savingNote": "(Économisez 360€ / an)",
+    "button": "Choisir ce plan",
     "benefits": {
-      "0": "Tout ce qui est inclus dans Premium Mensuel",
-      "1": "Deux mois inclus",
-      "2": "Visibilité publique améliorée",
-      "3": "Afficher toutes les procédures",
-      "4": "Accès complet à la galerie",
-      "5": "Liens de réservation activés",
-      "6": "Fonctionnalités de profil prioritaires"
+      "0": {
+        "title": "Demandes de conseils médicaux en ligne (payantes)",
+        "description": "Être payé pour répondre aux demandes DM des patients via messagerie chiffrée (texte & photo)."
+      },
+      "1": {
+        "title": "Visibilité SEO & GEO",
+        "description": "Vos procédures (mots-clés) sont référencées pour améliorer votre visibilité."
+      },
+      "2": {
+        "title": "Procédures illimitées (mots-clés)",
+        "description": "Mots-clés illimités."
+      },
+      "3": {
+        "title": "Photos illimitées avant/après",
+        "description": "Photos avant/après illimitées."
+      },
+      "4": {
+        "title": "Photo de votre clinique",
+        "description": "Ajoutez des photos de votre clinique."
+      },
+      "5": {
+        "title": "Liens de réservation",
+        "description": "Ajoutez et affichez vos liens de réservation."
+      },
+      "6": {
+        "title": "Liens réseaux sociaux",
+        "description": "Afficher Instagram, TikTok, YouTube."
+      },
+      "7": {
+        "title": "Analytique du profil",
+        "description": "Statistiques avancées du profil."
+      }
     }
   }
 },
