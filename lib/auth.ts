@@ -30,7 +30,7 @@ export const auth = betterAuth({
   user: {
     additionalFields: {
       role: {
-        type: ["PATIENT", "DOCTOR"],
+        type: ["PATIENT", "DOCTOR", "ADMIN"],
         required: true,
       },
       dateOfBirth: {

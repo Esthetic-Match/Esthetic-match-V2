@@ -10,6 +10,7 @@ datasource db {
 enum UserRole {
   PATIENT
   DOCTOR
+  ADMIN
 }
 
 enum ConsultationType {

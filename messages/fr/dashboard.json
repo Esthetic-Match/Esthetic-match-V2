@@ -141,7 +141,8 @@
       "profile": "Profil",
       "settings": "Paramètres",
       "logout": "Déconnexion",
-      "avatarAlt": "Avatar"
+      "avatarAlt": "Avatar",
+      "adminPanel": "Panneau d’administration"
     }
   },
     "messages": {

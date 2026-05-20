@@ -141,7 +141,8 @@
       "profile": "Profile",
       "settings": "Settings",
       "logout": "Logout",
-      "avatarAlt": "Avatar"
+      "avatarAlt": "Avatar",
+      "adminPanel": "Admin Panel"
     }
   },
     "messages": {
