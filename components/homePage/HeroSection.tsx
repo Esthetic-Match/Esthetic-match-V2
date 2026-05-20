@@ -45,13 +45,6 @@ export default async function HomeSection() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/sign-up"
-                className="rounded-full bg-[#d8bd8d] px-7 py-3 text-center text-sm font-semibold text-[#07182A] transition hover:bg-[#f4e4c6] active:scale-[0.98]"
-              >
-                {t("heroPrimaryCta")}
-              </Link>
-
-              <Link
-                href="/sign-up"
                 className="rounded-full border border-white/25 px-7 py-3 text-center text-sm font-semibold text-white transition hover:bg-white/10 active:scale-[0.98]"
               >
                 {t("heroSecondaryCta")}

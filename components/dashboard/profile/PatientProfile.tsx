@@ -16,7 +16,7 @@ import {
 import ImageUploadModal from "./UI/ImageUploadModal";
 import { useTranslations } from "next-intl";
 import { Heart, ArrowRight } from "lucide-react";
-import DoctorCards from "@/components/homePage/UI/DoctorCards";
+import FavoriteDoctorCard from "./UI/FavoriteDoctorCard";
 
 type SessionUser = {
   id: string;
@@ -43,6 +43,10 @@ type PatientProfileData = {
   preferredLanguage: string | null;
   favorite: string[] | null;
   stripeCustomerId: string | null;
+  clinicName?: string | null;
+  specialtyIds?: string[] | null;
+  googleRating?: number | null;
+  googleReviewCount?: number | null;
   user: {
     id: string;
     name: string | null;
@@ -52,14 +56,17 @@ type PatientProfileData = {
   };
 };
 
-type FavoriteDoctorCard = {
+type FavoriteDoctor = {
   id: string;
-  name: string;
-  specialtyIds: string;
-  googleRating: string;
-  googleReviewCount: string;
-  country: string;
-  avatar: string;
+  clinicName?: string | null;
+  specialtyIds?: string[] | null;
+  googleRating?: number | null;
+  googleReviewCount?: number | null;
+  country?: string | null;
+  avatar?: string | null;
+  user?: {
+    name?: string | null;
+  } | null;
 };
 
 type PatientProfileProps = {
@@ -91,70 +98,72 @@ function formatConsultationType(value?: string | null) {
 
 export default function PatientProfile({ user }: PatientProfileProps) {
   const t = useTranslations("dashboard");
+
   const [patient, setPatient] = useState<PatientProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
-  const [favoriteDoctors, setFavoriteDoctors] = useState<FavoriteDoctorCard[]>([]);
+  const [favoriteDoctors, setFavoriteDoctors] = useState<FavoriteDoctor[]>([]);
   const [isLoadingFavorites, setIsLoadingFavorites] = useState(true);
 
-useEffect(() => {
-  async function fetchFavoriteDoctors() {
-    try {
-      setIsLoadingFavorites(true);
+  useEffect(() => {
+    async function fetchFavoriteDoctors() {
+      try {
+        setIsLoadingFavorites(true);
 
-      const res = await fetch("/api/patient-profile/favorites", {
-        method: "GET",
-      });
+        const res = await fetch("/api/patient-profile", {
+          method: "GET",
+          cache: "no-store",
+        });
 
-      const data = await res.json();
+        if (!res.ok) {
+          setFavoriteDoctors([]);
+          return;
+        }
 
-      if (!res.ok) {
+        const data = await res.json();
+        setFavoriteDoctors(data.doctors ?? []);
+      } catch (error) {
+        console.error(error);
         setFavoriteDoctors([]);
+      } finally {
+        setIsLoadingFavorites(false);
       }
-
-      setFavoriteDoctors(data.doctors ?? []);
-    } catch (error) {
-      console.error(error);
-      setFavoriteDoctors([]);
-    } finally {
-      setIsLoadingFavorites(false);
     }
-  }
 
-  fetchFavoriteDoctors();
-}, []);
-
-  async function fetchPatientProfile() {
-    try {
-      setIsLoading(true);
-      setErrorMessage("");
-
-      const response = await fetch(`/api/patient-profile/${user.id}`, {
-        method: "GET",
-        cache: "no-store",
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setErrorMessage(data?.error || "Failed to load patient profile.");
-        return;
-      }
-
-      setPatient(data.patientProfile);
-    } catch {
-      setErrorMessage("Failed to load patient profile.");
-    } finally {
-      setIsLoading(false);
-    }
-  }
+    fetchFavoriteDoctors();
+  }, []);
 
   useEffect(() => {
-    if (user.id) {
-      fetchPatientProfile();
+    if (!user?.id) return;
+
+    async function fetchPatientProfile() {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
+
+        const response = await fetch(`/api/patient-profile/${user.id}`, {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setErrorMessage(data?.error || "Failed to load patient profile.");
+          return;
+        }
+
+        setPatient(data.patientProfile);
+      } catch {
+        setErrorMessage("Failed to load patient profile.");
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }, [user.id]);
+
+    fetchPatientProfile();
+  }, [user?.id]);
 
   async function handleAvatarUploaded(url: string) {
     const response = await fetch(`/api/patient-profile/${user.id}`, {
@@ -194,7 +203,6 @@ useEffect(() => {
     setPatient(data.patientProfile);
     setIsAvatarModalOpen(false);
   }
-
   if (isLoading) {
     return (
       <div className="mx-auto max-w-6xl rounded-3xl bg-white p-8 shadow-lg">
@@ -390,7 +398,10 @@ useEffect(() => {
   ) : favoriteDoctors.length > 0 ? (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
       {favoriteDoctors.map((doctor) => (
-        <DoctorCards key={doctor.id} doctor={doctor} />
+        <FavoriteDoctorCard
+          key={doctor.id}
+          doctor={doctor}
+        />
       ))}
     </div>
   ) : (
