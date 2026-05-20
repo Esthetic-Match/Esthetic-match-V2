@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, MessageCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 
@@ -79,20 +79,15 @@ async function createCheckoutSession() {
       type="button"
       onClick={createCheckoutSession}
       disabled={disabled}
-      className="mt-6 inline-flex cursor-pointer items-center justify-center rounded-2xl border border-[#d8bd8d] bg-white px-6 py-3 font-semibold text-black transition hover:bg-[#283C5D]/70 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#283C5D] 
+      px-5 py-3 text-sm font-normal text-white transition hover:bg-[#1f2f49] disabled:cursor-not-allowed disabled:opacity-60"
     >
       {loading ? (
-        <>
-          <Loader2 className="mr-2 animate-spin text-xs" />
-          {t("redirecting")}
-        </>
+        <Loader2 size={16} className="animate-spin" />
       ) : (
-        <p className="text-xs">
-          {consultationType === "IN_CLINIC"
-            ? t("bookNow")
-            : t("messageNow")}
-        </p>
+        <MessageCircle size={20} />
       )}
+      {t("messageNow")}
     </button>
   );
 }

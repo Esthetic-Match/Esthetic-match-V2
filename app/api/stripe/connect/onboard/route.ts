@@ -5,6 +5,26 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
+function getStripeCountryFromDoctorProfile(country?: string | null) {
+  const normalizedCountry = country?.trim().toLowerCase();
+
+  const countryMap: Record<string, string> = {
+    france: "FR",
+    fr: "FR",
+
+    switzerland: "CH",
+    suisse: "CH",
+    schweiz: "CH",
+    svizzera: "CH",
+    ch: "CH",
+
+    estonia: "EE",
+    ee: "EE",
+  };
+
+  return countryMap[normalizedCountry || ""] || "FR";
+}
+
 export async function POST() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -46,8 +66,11 @@ export async function POST() {
   }
 
   if (!accountId) {
+    const stripeCountry = getStripeCountryFromDoctorProfile(doctorProfile.country);
+      
     const account = await stripe.accounts.create({
       type: "express",
+      country: stripeCountry,
       email: session.user.email,
       capabilities: {
         card_payments: { requested: true },
@@ -58,7 +81,6 @@ export async function POST() {
         userId: session.user.id,
       },
     });
-
     accountId = account.id;
 
     await prisma.doctorProfile.update({

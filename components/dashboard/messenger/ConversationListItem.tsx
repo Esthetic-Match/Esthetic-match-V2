@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useMemo, useState } from "react";
 import type { Conversation, OtherPerson } from "./types";
 import { formatMessageTime, getInitials } from "./utils";
 
@@ -17,6 +20,20 @@ export default function ConversationListItem({
   profileAlt,
   onSelect,
 }: ConversationListItemProps) {
+  const [imageError, setImageError] = useState(false);
+
+  const initials = useMemo(() => {
+    return getInitials(person?.name, person?.email)?.trim();
+  }, [person?.name, person?.email]);
+
+  const shouldUseFallbackImage =
+    imageError || !person?.image || !initials;
+
+  const fallbackImage = "/images/default-doctor.png";
+
+  const imageSrc =
+    !imageError && person?.image ? person.image : fallbackImage;
+
   return (
     <button
       onClick={onSelect}
@@ -31,23 +48,29 @@ export default function ConversationListItem({
           {conversation.unreadCount > 9 ? "9+" : conversation.unreadCount}
         </span>
       )}
+
       <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/20">
-        {person?.image ? (
+        {shouldUseFallbackImage ? (
           <Image
-            src={person.image}
-            alt={person.name || profileAlt}
+            src={fallbackImage}
+            alt={person?.name || profileAlt}
             fill
             className="object-cover"
           />
         ) : (
-          <span className="text-sm font-bold">
-            {getInitials(person?.name, person?.email)}
-          </span>
+          <Image
+            src={imageSrc}
+            alt={person.name || profileAlt}
+            fill
+            className="object-cover"
+            onError={() => setImageError(true)}
+          />
         )}
       </div>
 
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold">{person?.name}</p>
+
         <p
           className={`truncate text-xs ${
             isActive ? "text-[#283C5D]/60" : "text-white/50"

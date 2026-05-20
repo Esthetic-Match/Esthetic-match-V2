@@ -25,6 +25,14 @@ export default function ChatHeader({
   const t = useTranslations("messages.messages.chatHeader");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const fallbackImage = "/images/default-doctor.png";
+
+  const imageSrc =
+    !imageError && person?.image
+      ? person.image
+      : fallbackImage;
 
   const canEndConversation =
     me.role === "DOCTOR" && conversation.status === "ACTIVE";
@@ -35,12 +43,15 @@ export default function ChatHeader({
         <div className="flex items-center gap-4">
           <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#283C5D]/10 text-[#283C5D]">
             {person?.image ? (
-              <Image
-                src={person.image}
-                alt={person.name || t("profileAlt")}
-                fill
-                className="object-cover"
-              />
+              <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#283C5D]/10 text-[#283C5D]">
+                <Image
+                  src={imageSrc}
+                  alt={person?.name || t("profileAlt")}
+                  fill
+                  className="object-cover"
+                  onError={() => setImageError(true)}
+                />
+              </div>
             ) : (
               <span className="text-sm font-bold">
                 {getInitials(person?.name, person?.email)}

@@ -77,7 +77,8 @@ export async function POST(req: Request) {
   }
 
   const amount = Math.round(price * 100);
-  const platformFee = Math.round(amount * 0.1);
+  const PLATFORM_FEE_PERCENTAGE = 0.15;
+  const platformFee = Math.round(amount * PLATFORM_FEE_PERCENTAGE);
   const doctorAmount = amount - platformFee;
 
   const booking = await prisma.consultationBooking.create({
@@ -111,6 +112,7 @@ export async function POST(req: Request) {
               consultationType === "IN_CLINIC"
                 ? `In-clinic consultation with ${doctorProfile.clinicName}`
                 : `Online consultation with ${doctorProfile.clinicName}`,
+            description: `Includes a 15% platform service fee.`,
           },
         },
       },

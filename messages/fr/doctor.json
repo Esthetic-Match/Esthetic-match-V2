@@ -26,13 +26,15 @@
       "consultationPrices": {
         "title": "Tarifs de consultation",
         "inClinic": "Consultation en clinique",
-        "online": "Pré-consultation en ligne",
+        "online": "Question médicale en ligne",
         "bookingLinkUnlocked": "Lien de réservation débloqué",
         "openBookingLink": "Ouvrir le lien de réservation",
         "no prices": "Le médecin n'a pas encore indiqué de prix.",
         "redirecting": "Redirection...",
         "bookNow": "Réserver maintenant",
         "messageNow": "Envoyer un message",
+        "commissionInfoAriaLabel": "Informations sur la commission de la plateforme",
+        "commissionInfo": "Esthetic Match applique une commission de plateforme de 15 % sur les consultations payantes afin de soutenir les paiements sécurisés, la messagerie et le fonctionnement de la plateforme.",
         "errors": {
           "checkoutFailed": "Échec de la création de la session de paiement",
           "paymentFailed": "Le paiement a échoué"
@@ -83,7 +85,13 @@
           "eyebrow": "Réservation",
           "title": "Réserver une consultation",
           "openLink": "Ouvrir le lien de réservation : {link}"
-        }
+        },
+              "stickyContactBanner": {
+        "title": "Poser une question à {doctorName}",
+        "subtitle": "Avis médical sécurisé en ligne",
+        "free": "Gratuit",
+        "fromPrice": "dès {price}"
+      }
     },
      "bookingConfirmation": {
       "eyebrow": "Confirmation de réservation",

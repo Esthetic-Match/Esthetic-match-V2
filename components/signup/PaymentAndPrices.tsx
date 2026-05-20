@@ -38,7 +38,6 @@ export default function PaymentAndPrices() {
 
   const [inClinicPrice, setInClinicPrice] = useState("");
   const [onlineConsulPrice, setOnlineConsulPrice] = useState("");
-  const [inClinicLink, setInClinicLink] = useState("");
   const [currency, setCurrency] = useState<CurrencyValue>("eur");
 
   const [isSaving, setIsSaving] = useState(false);
@@ -180,7 +179,6 @@ return (
           currencySymbol={selectedCurrency.symbol}
           priceValue={inClinicPrice}
           onPriceChange={setInClinicPrice}
-          onLinkChange={setInClinicLink}
         />
 
         <PriceCard
@@ -189,7 +187,7 @@ return (
           translationKey="online"
           value={onlineConsulPrice}
           onChange={setOnlineConsulPrice}
-          placeholder="75"
+          placeholder="40"
         />
       </div>
 
@@ -248,12 +246,10 @@ function InClinicPriceCard({
   currencySymbol,
   priceValue,
   onPriceChange,
-  onLinkChange,
 }: {
   currencySymbol: string;
   priceValue: string;
   onPriceChange: (value: string) => void;
-  onLinkChange: (value: string) => void;
 }) {
   const t = useTranslations("signUp.SignUp.paymentPrices");
 

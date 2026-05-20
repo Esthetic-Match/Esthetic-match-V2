@@ -26,13 +26,15 @@
       "consultationPrices": {
         "title": "Consultation Prices",
         "inClinic": "In-clinic consultation",
-        "online": "Online pre-consultation",
+        "online": "Online Medical Question",
         "bookingLinkUnlocked": "Booking link unlocked",
         "openBookingLink": "Open booking link",
         "no prices": "Doctor has not added any prices yet",
         "redirecting": "Redirecting...",
         "bookNow": "Book Now",
         "messageNow": "Message Now",
+        "commissionInfoAriaLabel": "Platform commission information",
+        "commissionInfo": "Esthetic Match applies a 15% platform commission to paid consultations to support secure payments, messaging, and platform operations.",
         "errors": {
           "checkoutFailed": "Failed to create checkout session",
           "paymentFailed": "Payment failed"
@@ -83,6 +85,12 @@
         "eyebrow": "Booking",
         "title": "Book a consultation",
         "openLink": "Open booking link: {link}"
+      },
+            "stickyContactBanner": {
+        "title": "Ask {doctorName} a question",
+        "subtitle": "Your medical advice is secured online",
+        "free": "Free",
+        "fromPrice": "from {price}"
       }
     },
         "bookingConfirmation": {
