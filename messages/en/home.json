@@ -88,7 +88,8 @@
         "procedures": "Procedures",
         "chooseCategoryFirst": "Choose a category to view procedures",
         "selectedProcedures": "Selected procedures",
-        "selectProcedures": "Select procedures from your chosen categories"
+        "selectProcedures": "Select procedures from your chosen categories",
+        "filters": "Filters"
       }
     },
     "contact": {
