@@ -1,8 +1,7 @@
-import { WalletCards } from "lucide-react";
+import { Info, MonitorCheck, Stethoscope, WalletCards } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import StripeConsultationCheckOutButton from "@/components/homePage/UI/StripeConsultationCheckOutButton";
 import FreeOnlineConsultationButton from "./FreeOnlineConsultationButton";
-import { Info } from "lucide-react";
 
 type ConsultationPricesProps = {
   doctorProfileId: string;
@@ -32,7 +31,6 @@ function formatPrice(price: number | null | undefined, currency?: string | null)
   }
 
   const symbol = getCurrencySymbol(currency);
-
   return symbol ? `${symbol} ${price}` : price.toString();
 }
 
@@ -40,7 +38,7 @@ function isFreePrice(price: number | null | undefined) {
   return price === null || price === undefined || price <= 0;
 }
 
-function PriceRow({
+function ConsultationCard({
   label,
   price,
   consultationType,
@@ -54,29 +52,68 @@ function PriceRow({
   currency: string | null;
 }) {
   const formattedPrice = formatPrice(price, currency);
-  const isOnlineFree = consultationType === "ONLINE" && isFreePrice(price);
+  const isOnline = consultationType === "ONLINE";
+  const isOnlineFree = isOnline && isFreePrice(price);
 
   return (
-    <div className="flex flex-col gap-5">
-      <div>
-        <p className="mb-3 text-sm text-[#283C5D]/60">{label}</p>
+    <div
+      className={
+        isOnline
+          ? "relative overflow-hidden rounded-3xl border border-[#d8bd8d]/60 bg-gradient-to-br from-[#283C5D] via-[#31486d] to-[#18263d] p-5 text-white shadow-xl"
+          : "rounded-3xl border border-[#283C5D]/10 bg-[#FAF9F7] p-5 shadow-sm"
+      }
+    >
+      {isOnline ? (
+        <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#d8bd8d]/20 blur-2xl" />
+      ) : null}
 
-        <p className="text-lg font-semibold text-[#283C5D]">
-          {formattedPrice}
-        </p>
+      <div className="relative flex items-start gap-4">
+        <div
+          className={
+            isOnline
+              ? "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-[#f4e4c6] ring-1 ring-white/15"
+              : "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-[#283C5D] ring-1 ring-[#283C5D]/10"
+          }
+        >
+          {isOnline ? <MonitorCheck size={20} /> : <Stethoscope size={20} />}
+        </div>
+
+        <div className="flex-1">
+          <p
+            className={
+              isOnline
+                ? "mb-2 text-sm font-medium text-white/70"
+                : "mb-2 text-sm font-medium text-[#283C5D]/60"
+            }
+          >
+            {label}
+          </p>
+
+          <p
+            className={
+              isOnline
+                ? "text-2xl font-semibold text-white"
+                : "text-2xl font-semibold text-[#283C5D]"
+            }
+          >
+            {formattedPrice}
+          </p>
+        </div>
       </div>
 
-      {consultationType === "ONLINE" ? (
-        isOnlineFree ? (
-          <FreeOnlineConsultationButton doctorProfileId={doctorProfileId} />
-        ) : (
-          <StripeConsultationCheckOutButton
-            doctorProfileId={doctorProfileId}
-            consultationType={consultationType}
-            price={price}
-            currency={currency}
-          />
-        )
+      {isOnline ? (
+        <div className="relative mt-5">
+          {isOnlineFree ? (
+            <FreeOnlineConsultationButton doctorProfileId={doctorProfileId} />
+          ) : (
+            <StripeConsultationCheckOutButton
+              doctorProfileId={doctorProfileId}
+              consultationType={consultationType}
+              price={price}
+              currency={currency}
+            />
+          )}
+        </div>
       ) : null}
     </div>
   );
@@ -100,57 +137,49 @@ export default async function ConsultationPrices({
       aria-labelledby="consultation-prices-title"
       className="rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8"
     >
-    <div className="flex items-start justify-between gap-4">
-      <div className="flex items-center gap-3">
-        <WalletCards
-          size={22}
-          className="text-[#d8bd8d]"
-          aria-hidden="true"
-        />
-    
-        <h2
-          id="consultation-prices-title"
-          className="text-sm font-bold uppercase tracking-[0.18em] text-[#283C5D]"
-        >
-          {t("title")}
-        </h2>
-      </div>
-      
-      <div className="group relative">
-        <button
-          type="button"
-          aria-label={t("commissionInfoAriaLabel")}
-          className="flex h-6 w-6 items-center justify-center rounded-full border border-[#283C5D]/15 bg-[#FAF9F7] text-[#283C5D]/70 transition hover:bg-[#283C5D] hover:text-white"
-        >
-          <Info size={13} />
-        </button>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <WalletCards size={22} className="text-[#d8bd8d]" aria-hidden="true" />
 
-        <div className="pointer-events-none absolute right-0 top-8 z-20 w-64 rounded-2xl bg-[#283C5D] p-3 text-xs leading-relaxed text-white opacity-0 shadow-2xl transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-          {t("commissionInfo")}
+          <h2
+            id="consultation-prices-title"
+            className="text-sm font-bold uppercase tracking-[0.18em] text-[#283C5D]"
+          >
+            {t("title")}
+          </h2>
+        </div>
+
+        <div className="group relative">
+          <button
+            type="button"
+            aria-label={t("commissionInfoAriaLabel")}
+            className="flex h-6 w-6 items-center justify-center rounded-full border border-[#283C5D]/15 bg-[#FAF9F7] text-[#283C5D]/70 transition hover:bg-[#283C5D] hover:text-white"
+          >
+            <Info size={13} />
+          </button>
+
+          <div className="pointer-events-none absolute right-0 top-8 z-20 w-64 rounded-2xl bg-[#283C5D] p-3 text-xs leading-relaxed text-white opacity-0 shadow-2xl transition-all duration-200 group-hover:opacity-100">
+            {t("commissionInfo")}
+          </div>
         </div>
       </div>
-    </div>
 
-      <div className="mt-10 space-y-8">
-        {shouldShowInClinic ? (
-          <PriceRow
-            label={t("inClinic")}
-            price={inClinicPrice}
-            consultationType="IN_CLINIC"
+      <div className="mt-8 flex flex-col gap-4">
+        {shouldShowOnline ? (
+          <ConsultationCard
+            label={t("online")}
+            price={onlineConsulPrice}
+            consultationType="ONLINE"
             doctorProfileId={doctorProfileId}
             currency={currency}
           />
         ) : null}
 
-        {shouldShowInClinic && shouldShowOnline ? (
-          <div className="border-t border-gray-200" />
-        ) : null}
-
-        {shouldShowOnline ? (
-          <PriceRow
-            label={t("online")}
-            price={onlineConsulPrice}
-            consultationType="ONLINE"
+        {shouldShowInClinic ? (
+          <ConsultationCard
+            label={t("inClinic")}
+            price={inClinicPrice}
+            consultationType="IN_CLINIC"
             doctorProfileId={doctorProfileId}
             currency={currency}
           />

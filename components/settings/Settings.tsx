@@ -12,7 +12,7 @@ import {
   Trash2,
   Gem,
   Landmark,
-  Menu,
+  LayoutList ,
   X,
 } from "lucide-react";
 import TermsAndConditions from "./TermsAndCondition";
@@ -136,7 +136,7 @@ function SettingsSidebar({
           onClick={() => setIsMobileOpen((prev) => !prev)}
           className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-[0.98]"
         >
-          {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
+          {isMobileOpen ? <X size={20} /> : <LayoutList  size={20} />}
         </button>
       </div>
 

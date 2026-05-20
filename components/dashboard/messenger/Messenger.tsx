@@ -6,6 +6,7 @@ import type { Conversation, MeUser, Message } from "./types";
 import ConversationSidebar from "./ConversationSidebar";
 import ChatPanel from "./ChatPanel";
 import EmptyChatHero from "./EmptyChatHero";
+import { MessageSquareReply  } from "lucide-react";
 
 type MeResponse = {
   user: MeUser;
@@ -26,6 +27,7 @@ export default function Messenger() {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [sending, setSending] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -361,42 +363,92 @@ async function sendImageMessage(file: File) {
 }
 
   return (
-    <div className="h-screen w-full bg-[#FAF9F7] pl-2 pt-2">
-      <div className="mx-auto flex h-full w-full max-w-8xl overflow-hidden rounded-t-xl rounded-tr-xl rounded-br-xl bg-white shadow-xl max-md:flex-col">
-        <ConversationSidebar
-          activeConversations={activeConversations}
-          closedConversations={closedConversations}
-          selectedConversationId={selectedConversationId}
-          search={search}
-          loading={loadingConversations}
-          me={me}
-          t={t}
-          onSearchChange={setSearch}
-          onSelectConversation={handleSelectConversation}
+<div className="h-[100dvh] w-full bg-[#FAF9F7] p-1 lg:pl-2 lg:pt-2">
+  <div className="relative mx-auto flex h-full w-full max-w-8xl overflow-hidden rounded-xl bg-white shadow-xl">
+    <div className="hidden lg:block">
+      <ConversationSidebar
+        activeConversations={activeConversations}
+        closedConversations={closedConversations}
+        selectedConversationId={selectedConversationId}
+        search={search}
+        loading={loadingConversations}
+        me={me}
+        t={t}
+        onSearchChange={setSearch}
+        onSelectConversation={handleSelectConversation}
+      />
+    </div>
+
+    {isMobileSidebarOpen ? (
+      <div className="fixed inset-0 z-50 lg:hidden">
+        <button
+          type="button"
+          aria-label="Close conversations"
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         />
-    
-      <div className="min-h-0 flex-1">
-        {selectedConversation && me ? (
-          <ChatPanel
-            selectedConversation={selectedConversation}
+
+        <div className="relative h-full w-[86%] max-w-sm overflow-hidden rounded-r-3xl bg-[#283C5D] shadow-2xl">
+          <ConversationSidebar
+            activeConversations={activeConversations}
+            closedConversations={closedConversations}
+            selectedConversationId={selectedConversationId}
+            search={search}
+            loading={loadingConversations}
             me={me}
-            messages={messages}
-            messageText={messageText}
-            loadingMessages={loadingMessages}
-            sending={sending}
-            uploadingImage={uploadingImage}
-            bottomRef={bottomRef}
             t={t}
-            onMessageTextChange={setMessageText}
-            onSendMessage={sendMessage}
-            onSendImage={sendImageMessage}
-            onEndConversation={handleEndConversation}
+            onSearchChange={setSearch}
+            onSelectConversation={(conversationId) => {
+              handleSelectConversation(conversationId);
+              setIsMobileSidebarOpen(false);
+            }}
           />
-        ) : (
-          <EmptyChatHero />
-        )}
+        </div>
       </div>
+    ) : null}
+
+    <div className="min-h-0 flex-1">
+      <div className="flex h-full min-h-0 flex-col">
+        <div className="flex items-center justify-between border-b border-[#283C5D]/10 bg-white px-4 py-3 lg:hidden">
+          <button
+            type="button"
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#283C5D] text-white shadow-md"
+          >
+            <MessageSquareReply  size={20} />
+          </button>
+
+          <p className="text-sm font-semibold text-[#283C5D]">
+            {t("title")}
+          </p>
+
+          <div className="h-10 w-10" />
+        </div>
+
+        <div className="min-h-0 flex-1">
+          {selectedConversation && me ? (
+            <ChatPanel
+              selectedConversation={selectedConversation}
+              me={me}
+              messages={messages}
+              messageText={messageText}
+              loadingMessages={loadingMessages}
+              sending={sending}
+              uploadingImage={uploadingImage}
+              bottomRef={bottomRef}
+              t={t}
+              onMessageTextChange={setMessageText}
+              onSendMessage={sendMessage}
+              onSendImage={sendImageMessage}
+              onEndConversation={handleEndConversation}
+            />
+          ) : (
+            <EmptyChatHero />
+          )}
+        </div>
       </div>
     </div>
+  </div>
+</div>
   );
 }

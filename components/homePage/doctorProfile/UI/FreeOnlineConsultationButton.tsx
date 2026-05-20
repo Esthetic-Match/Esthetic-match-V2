@@ -49,19 +49,28 @@ export default function FreeOnlineConsultationButton({
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleStartConversation}
-      disabled={isLoading}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-[#283C5D] 
-      px-5 py-3 text-sm font-normal text-white transition hover:bg-[#1f2f49] disabled:cursor-not-allowed disabled:opacity-60"
-    >
-      {isLoading ? (
-        <Loader2 size={16} className="animate-spin" />
-      ) : (
-        <MessageCircle size={20} />
-      )}
-      {t("messageNow")}
-    </button>
+<button
+  type="button"
+  onClick={handleStartConversation}
+  disabled={isLoading}
+  className="
+    inline-flex items-center justify-center gap-2 rounded-full
+    bg-gradient-to-r from-[#d8bd8d] via-[#f4e4c6] to-[#c9a46a]
+    px-5 py-3 text-sm font-medium text-black
+    shadow-md shadow-[#d8bd8d]/30
+    transition-all duration-200
+    hover:scale-[1.02] hover:shadow-lg hover:shadow-[#d8bd8d]/40
+    active:scale-[0.98]
+    disabled:cursor-not-allowed disabled:opacity-60
+  "
+>
+  {isLoading ? (
+    <Loader2 size={16} className="animate-spin" />
+  ) : (
+    <MessageCircle size={20} />
+  )}
+
+  {t("messageNow")}
+</button>
   );
 }
