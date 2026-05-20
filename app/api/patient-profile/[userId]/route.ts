@@ -9,6 +9,7 @@ type RouteContext = {
   }>;
 };
 
+
 const allowedFields = [
   "avatar",
   "gender",
@@ -24,6 +25,7 @@ const allowedFields = [
   "preferredLanguage",
   "notes",
   "stripeCustomerId",
+  "favorite"
 ] as const;
 
 export async function GET(_req: Request, context: RouteContext) {
@@ -91,6 +93,24 @@ export async function PATCH(req: Request, context: RouteContext) {
     for (const field of allowedFields) {
       if (field in body) {
         updateData[field] = body[field];
+      }
+    }
+
+    if ("favorite" in body) {
+      const currentProfile = await prisma.patientProfile.findUnique({
+        where: { userId: session.user.id },
+        select: { favorite: true },
+      });
+    
+      const currentFavorites = currentProfile?.favorite ?? [];
+      const doctorProfileId = Array.isArray(body.favorite)
+        ? body.favorite[0]
+        : body.favorite;
+    
+      if (typeof doctorProfileId === "string") {
+        updateData.favorite = currentFavorites.includes(doctorProfileId)
+          ? currentFavorites.filter((id) => id !== doctorProfileId)
+          : [...currentFavorites, doctorProfileId];
       }
     }
 

@@ -14,7 +14,7 @@ import {
 import LanguageSwitcher from "./UI/LanguageSwitcher";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-import { UserCircle } from "lucide-react";
+import { MessageCircle  } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 export function NavBarMain() {
@@ -49,7 +49,7 @@ export function NavBarMain() {
                 variant="secondary"
                 className="bg-white px-3"
               >
-                <UserCircle size={22} className="text-[#283C5D]" />
+                <MessageCircle  size={22} className="text-[#283C5D]" />
               </NavbarButton>
             ) : (
               <NavbarButton
@@ -97,8 +97,8 @@ export function NavBarMain() {
                   variant="secondary"
                   className="flex w-full items-center justify-center gap-2 bg-white"
                 >
-                  <UserCircle size={20} />
-                  {t("profile")}
+                  <MessageCircle  size={20} />
+                  {t("messages")}
                 </NavbarButton>
               ) : (
                 <NavbarButton

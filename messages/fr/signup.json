@@ -10,7 +10,7 @@
       "inClinicDescription": "Le tarif payé par les patients pour les rendez-vous dans votre clinique.",
       "inClinicLinkPlaceholder": "Lien de réservation en clinique",
       "secureTitle": "Paiements Stripe sécurisés",
-      "secureDescription": "Stripe gère les paiements, les versements aux médecins et le traitement des cartes. Vous serez redirigé vers Stripe pour connecter votre compte.",
+      "secureDescription": "Le prix que les patients devront payer pour vous envoyer un message privé contenant uniquement du texte et des photos — afin de poser une question d'ordre médical et d'obtenir un avis professionnel avant de prendre rendez-vous pour une consultation en personne. Il s'agit d'une approche plus moderne pour rassurer les patients avant qu'ils ne franchissent le pas et prennent rendez-vous pour une consultation physique, tout en contribuant à améliorer la qualité de votre patientèle. La conversation est cryptée et conforme aux normes médicales. « Dans le cadre du forfait standard, des frais de plateforme de 15 % s'appliquent (voir les conditions générales).",
       "finishLater": "Enregistrer et terminer plus tard",
       "saving": "Enregistrement...",
       "connectStripe": "Enregistrer les tarifs et connecter Stripe"

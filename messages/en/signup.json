@@ -10,7 +10,7 @@
       "inClinicDescription": "The price patients pay for appointments at your clinic.",
       "inClinicLinkPlaceholder": "In-clinic booking link",
       "secureTitle": "Secure Stripe payments",
-      "secureDescription": "Stripe handles payment collection, doctor payouts, and card processing. You will be redirected to Stripe to connect your account.",
+      "secureDescription": "The price patients will pay to send you a direct message including text and photos only — in order to ask a medical-related question and receive a professional opinion before booking an in-person consultation. This is a more progressive way to reassure patients before they take the step of booking a physical appointment, while also helping improve the qualification of your patient base. The chat is encrypted and medically compliant. “Under the standard plan, a 15% platform fee applies (see terms and conditions).",
       "finishLater": "Save and finish later",
       "saving": "Saving...",
       "connectStripe": "Save prices & connect Stripe"

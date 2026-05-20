@@ -6,6 +6,7 @@ import PublicContactActionsSection from "@/components/homePage/doctorProfile/Pub
 import Gallery from "@/components/homePage/doctorProfile/Gallery";
 import { NavBarMain } from "@/components/NavbarMain";
 import BookingLinksSection from "@/components/homePage/doctorProfile/UI/BookingLinksSection";
+import DoctorQuestionStickyBanner from "@/components/homePage/doctorProfile/UI/DoctorQuestionStickyBanner";
 
 type ProfilePageProps = {
   params: Promise<{
@@ -41,7 +42,7 @@ export default async function Profilepage({ params }: ProfilePageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-[#FAF9F7]">
+    <main className="min-h-screen bg-[#FAF9F7] pb-32">
       <NavBarMain />
       <ClinicBanner
         clinicBanner={doctorProfile.clinicBanner}
@@ -55,6 +56,12 @@ export default async function Profilepage({ params }: ProfilePageProps) {
          doctorId={doctorProfile.userId}
          paidPlan={doctorProfile.paidPlan}
        />
+      <DoctorQuestionStickyBanner
+        doctorProfileId={doctorProfile.id}
+        doctorName={doctorProfile.clinicName}
+        onlineConsulPrice={doctorProfile.onlineConsulPrice}
+        currency={doctorProfile.currency}
+      />
     </main>
   );
 }
