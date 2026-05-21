@@ -3,6 +3,7 @@ import AdminUsersTable from "@/components/dashboard/admin/AdminUsersTable";
 import ConsultationBookingsAnalytics from "@/components/dashboard/admin/ConsultationBookingsAnalytics";
 import ConsultationBookingsTable from "@/components/dashboard/admin/ConsultationBookingsTable";
 import DoctorPlansCard from "@/components/dashboard/admin/DoctorPlansCard";
+import DoctorProfilesPlanTable from "@/components/dashboard/admin/DoctorProfilesPlanTable";
 
 export default function AdminPanelPage() {
   return (
@@ -26,6 +27,10 @@ export default function AdminPanelPage() {
 
         <div className="mt-8">
           <DoctorPlansCard />
+        </div>
+
+        <div className="mt-8">
+          <DoctorProfilesPlanTable />
         </div>
 
         <div className="mt-8">
