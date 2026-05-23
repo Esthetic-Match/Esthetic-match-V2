@@ -83,7 +83,22 @@
     "Country": "Country",
     "CountryDescription": "E.g Germany",
     "yearsOfExperience": "Years Of Experience",
-    "yearsOfExperienceDescription": "Enter Number Of Years you have been practicing Medecine"
+    "yearsOfExperienceDescription": "Enter Number Of Years you have been practicing Medecine",
+      "errors": {
+    "passwordRequired": "Please enter and confirm your password.",
+    "passwordMismatch": "Passwords do not match.",
+    "googleDobRequired": "Please enter your date of birth before continuing with Google.",
+    "googleAgeRequirement": "You must be at least 18 years old to sign up."
+    },
+    "orSignUpWithEmail": "or sign up with email",
+    "continueWithGoogle": "Continue with Google",
+    "googleDobModal": {
+        "eyebrow": "Google sign up",
+        "title": "Confirm your age",
+        "description": "Please enter your date of birth before continuing with Google.",
+        "close": "Close date of birth modal",
+        "continue": "Continue with Google"
+      }
   },
     "onboarding":{
       "secure info":"Your information is secure",

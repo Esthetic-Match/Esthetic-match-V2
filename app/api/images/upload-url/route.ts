@@ -56,8 +56,19 @@ export async function POST(req: Request) {
           : `medical-images/${session.user.id}`;
 
   // Security check
+  const isAdmin = session.user.role === "ADMIN";
+  
   if (
     safeFolder.startsWith("doctor-profile") &&
+    !isAdmin &&
+    !safeFolder.includes(session.user.id)
+  ) {
+    return NextResponse.json({ error: "Forbidden path" }, { status: 403 });
+  }
+  
+  if (
+    safeFolder.startsWith("conversations") &&
+    !isAdmin &&
     !safeFolder.includes(session.user.id)
   ) {
     return NextResponse.json({ error: "Forbidden path" }, { status: 403 });

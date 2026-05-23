@@ -9,6 +9,8 @@
     "NoAccount": "Don't have an account?",
     "SigningIn": "Signing in...",
     "SignUp": "Sign Up",
-    "ForgotPassword": "Forgot Password?"
+    "ForgotPassword": "Forgot Password?",
+    "continueWithGoogle": "Continue with Google",
+    "or": "or"
   }
 }

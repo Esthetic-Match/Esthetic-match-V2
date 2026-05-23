@@ -83,8 +83,22 @@
     "Country": "Pays de la clinique",
     "CountryDescription": "Ex. France",
     "yearsOfExperience": "Années d'expérience",
-    "yearsOfExperienceDescription": "Le nombre d'années vous avez exercé la médecine"
-  },
+    "yearsOfExperienceDescription": "Le nombre d'années vous avez exercé la médecine",
+    "errors": {
+      "passwordRequired": "Veuillez saisir et confirmer votre mot de passe.",
+      "passwordMismatch": "Les mots de passe ne correspondent pas.",
+      "googleDobRequired": "Veuillez saisir votre date de naissance avant de continuer avec Google.",
+      "googleAgeRequirement": "Vous devez avoir au moins 18 ans pour vous inscrire."
+    },
+    "orSignUpWithEmail": "ou inscrivez-vous avec votre e-mail",
+    "continueWithGoogle": "Continuer avec Google",
+    "googleDobModal": {
+      "eyebrow": "Inscription avec Google",
+      "title": "Confirmez votre âge",
+      "description": "Veuillez saisir votre date de naissance avant de continuer avec Google.",
+      "close": "Fermer la fenêtre de date de naissance",
+      "continue": "Continuer avec Google"
+    },
   "onboarding":{
     "secure info":"Vos informations sont sécurisés",
     "garantee": "Nous garantissons la confidentialité et la protection des données",
@@ -424,4 +438,5 @@
         "Personalized Longevity Program": "Programme personnalisé de longévité",
         "Longevity Consultation": "Consultation longévité"
     }
-}             
+}        
+}     

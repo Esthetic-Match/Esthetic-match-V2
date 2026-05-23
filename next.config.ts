@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
         hostname: "storage.googleapis.com",
         pathname: "/esthetic-match-v2-public/**", // public bucket
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+      },
     ],
   },
 };
