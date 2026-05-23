@@ -209,29 +209,40 @@ export default function AdminDoctorMediaManager() {
                   key={profile.id}
                   className="bg-white transition hover:bg-[#FAF9F7]"
                 >
-                  <td className="whitespace-nowrap px-5 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="relative h-11 w-11 overflow-hidden rounded-full bg-[#FAF2DE]">
-                        {profile.avatar ? (
-                          <Image
-                            src={profile.avatar}
-                            alt={profile.clinicName}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : null}
-                      </div>
+<td className="whitespace-nowrap px-5 py-4">
+  <div className="flex items-center gap-3">
+    <div className="relative h-11 w-11 overflow-hidden rounded-full bg-[#FAF2DE]">
+      <img
+        src={profile.avatar || "/images/default-doctor.png"}
+        alt={profile.clinicName}
+        className="h-full w-full object-cover"
+        onError={(event) => {
+          event.currentTarget.src = "/images/default-doctor.png";
+        }}
+      />
+    </div>
 
-                      <div>
-                        <p className="font-semibold text-[#283C5D]">
-                          {profile.clinicName}
-                        </p>
-                        <p className="mt-1 text-xs text-[#283C5D]/50">
-                          {profile.user.email}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
+    <div className="relative h-11 w-11 overflow-hidden rounded-full bg-[#283C5D]/10">
+      <img
+        src={profile.clinicBanner || "/images/default-doctor.png"}
+        alt={`${profile.clinicName} banner`}
+        className="h-full w-full object-cover"
+        onError={(event) => {
+          event.currentTarget.src = "/images/default-doctor.png";
+        }}
+      />
+    </div>
+
+    <div>
+      <p className="font-semibold text-[#283C5D]">
+        {profile.clinicName}
+      </p>
+      <p className="mt-1 text-xs text-[#283C5D]/50">
+        {profile.user.email}
+      </p>
+    </div>
+  </div>
+</td>
 
                   <td className="whitespace-nowrap px-5 py-4">
                     <MediaStatus hasImage={Boolean(profile.avatar)} />
