@@ -1,4 +1,5 @@
 "use client";
+
 import BlueBanner from "@/components/UI/BlueBanner";
 import Link from "next/link";
 import { useState } from "react";
@@ -7,6 +8,8 @@ import { Eye, EyeClosed, Mail } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
 import { useTranslations, useLocale } from "next-intl";
+import GoogleSignInButton from "@/components/UI/GoogleSignInButton";
+import InputField from "@/components/UI/InputField";
 
 export default function SignInPage() {
   const t = useTranslations("signIn.SignIn");
@@ -36,74 +39,70 @@ export default function SignInPage() {
       return;
     }
 
-    router.push(`/dashboard`);
+    router.push("/dashboard");
     router.refresh();
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden text-black">
-      <WhiteshadowBackground/>
-      
+    <main className="relative min-h-screen overflow-hidden bg-white text-black">
+      <WhiteshadowBackground />
       <BlueBanner />
 
-      <section className="relative mx-auto flex min-h-screen max-w-md flex-col">
-        <div className="flex flex-1 flex-col px-3 pt-5">
-
+      <section className="relative z-10 mx-auto flex  max-w-md items-start px-6 py-10">
+        <div className="w-full mt-6 rounded-[2rem] border border-white/40 bg-white/75 p-6 shadow-2xl shadow-[#283C5D]/10 backdrop-blur-md">
           <div className="mb-7 text-center">
-            <h1 className="text-[21px] font-thin leading-tight text-black">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#d8bd8d]">
+              Esthetic Match
+            </p>
+
+            <h1 className="text-2xl font-semibold leading-tight text-[#283C5D]">
               {t("SignIn")}
             </h1>
           </div>
 
+          <GoogleSignInButton />
+
+          <div className="my-6 flex items-center gap-4">
+            <div className="h-px flex-1 bg-[#283C5D]/10" />
+            <span className="text-xs font-medium text-[#283C5D]/45">
+              {t("or")}
+            </span>
+            <div className="h-px flex-1 bg-[#283C5D]/10" />
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="mb-2 block text-[15px] font-medium text-black">
-                {t("Email")}
-              </label>
-
-              <div className="flex h-9 items-center rounded-full bg-white/60 px-4 shadow-sm">
-                <input
-                  className="w-full bg-transparent text-sm text-black placeholder:text-black/50 outline-none"
-                  placeholder={t("EmailDescription")}
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-
-                <Mail size={16} className="text-[#d8bd8d]" />
-              </div>
-            </div>
+            <InputField
+              label={t("Email")}
+              placeholder={t("EmailDescription")}
+              type="email"
+              value={email}
+              onChange={setEmail}
+              icon={<Mail size={15} />}
+            />
 
             <div>
-              <label className="mb-2 block text-[15px] font-medium text-black">
-                {t("Password")}
-              </label>
-
-              <div className="flex h-9 items-center rounded-full bg-white/60 px-4 shadow-sm">
-                <input
-                  className="w-full bg-transparent text-sm text-black placeholder:text-black/40 outline-none"
-                  placeholder={t("PasswordDescription")}
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((value) => !value)}
-                  className="text-[#d8bd8d]"
-                  aria-label="Toggle password visibility"
-                >
-                  {showPassword ? <EyeClosed size={17}  className="hover:scale-[1.05] cursor-pointer"/> : <Eye size={17} className="hover:scale-[1.05] cursor-pointer" />}
-                </button>
-              </div>
+              <InputField
+                label={t("Password")}
+                placeholder={t("PasswordDescription")}
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={setPassword}
+                icon={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((value) => !value)}
+                    className="text-[#d8bd8d] transition hover:scale-[1.05]"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? <EyeClosed size={17} /> : <Eye size={17} />}
+                  </button>
+                }
+              />
 
               <div className="mt-2 text-right">
                 <Link
                   href={`/${locale}/forgot-password`}
-                  className="text-xs text-[#ead3a5] underline underline-offset-2"
+                  className="text-xs font-medium text-[#d8bd8d] underline underline-offset-2"
                 >
                   {t("ForgotPassword")}
                 </Link>
@@ -111,7 +110,7 @@ export default function SignInPage() {
             </div>
 
             {errorMessage ? (
-              <p className="rounded-lg bg-[#94604C] px-3 py-2 text-sm text-[#FDFDFD]">
+              <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
                 {errorMessage}
               </p>
             ) : null}
@@ -119,17 +118,18 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="h-10 w-full cursor-pointer rounded-full bg-gradient-to-r 
-              from-[#d8bd8d] to-[#f4e4c6] text-sm font-semibold text-[#0f233f] transition-transform 
-              duration-200 hover:scale-[1.02] disabled:opacity-60 shadow-sm"
+              className="h-11 w-full cursor-pointer rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] text-sm font-semibold text-[#0f233f] shadow-sm transition hover:scale-[1.01] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoading ? t("SigningIn") : t("SignInButton")}
             </button>
           </form>
 
-          <p className="mt-7 text-center text-sm">
+          <p className="mt-7 text-center text-sm text-[#283C5D]/60">
             {t("NoAccount")}{" "}
-            <Link href={`/${locale}/sign-up`} className="underline underline-offset-2">
+            <Link
+              href={`/${locale}/sign-up`}
+              className="font-semibold text-[#283C5D] underline underline-offset-2"
+            >
               {t("SignUp")}
             </Link>
           </p>

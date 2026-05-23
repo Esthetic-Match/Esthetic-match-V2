@@ -9,6 +9,8 @@
     "NoAccount": "Vous n'avez pas de compte ?",
     "SignUp": "S'inscrire",
     "SigningIn": "Connexion en cours...",
-    "ForgotPassword": "Mot de passe oublié?"
+    "ForgotPassword": "Mot de passe oublié?",
+    "continueWithGoogle": "Continuer avec Google",
+    "or": "ou"
   }
 }
