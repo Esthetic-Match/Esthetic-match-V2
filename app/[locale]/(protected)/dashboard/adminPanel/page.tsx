@@ -1,3 +1,4 @@
+import AdminDoctorMediaManager from "@/components/dashboard/admin/AdminDoctorMediaManager";
 import AdminStatsCards from "@/components/dashboard/admin/AdminStatsCards";
 import AdminUsersTable from "@/components/dashboard/admin/AdminUsersTable";
 import ConsultationBookingsAnalytics from "@/components/dashboard/admin/ConsultationBookingsAnalytics";
@@ -31,6 +32,10 @@ export default function AdminPanelPage() {
 
         <div className="mt-8">
           <DoctorProfilesPlanTable />
+        </div>
+
+        <div className="mt-8">
+          <AdminDoctorMediaManager />
         </div>
 
         <div className="mt-8">
