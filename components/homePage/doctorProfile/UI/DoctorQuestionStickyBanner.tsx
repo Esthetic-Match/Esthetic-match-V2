@@ -43,7 +43,7 @@ export default function DoctorQuestionStickyBanner({
   currency,
 }: DoctorQuestionStickyBannerProps) {
   const t =  useTranslations("doctor.doctor.profile.stickyContactBanner");
-const router = useRouter();
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
