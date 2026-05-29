@@ -13,13 +13,13 @@ type PublicDoctor = {
   avatar: string;
 };
 
-async function getDoctors(): Promise<PublicDoctor[]> {
+async function getMostRecentDoctors(): Promise<PublicDoctor[]> {
   const headersList = await headers();
   const host = headersList.get("host");
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
   const res = await fetch(
-    `${protocol}://${host}/api/public-pages/doctor-profile`,
+    `${protocol}://${host}/api/public-pages/doctor-profile/recent`,
     {
       next: {
         revalidate: 60,
@@ -31,12 +31,18 @@ async function getDoctors(): Promise<PublicDoctor[]> {
     return [];
   }
 
-  return res.json();
+  const data = await res.json();
+
+  return Array.isArray(data) ? data : [];
 }
 
 export default async function ProfileDisplay() {
   const t = await getTranslations("home.Home");
-  const doctors = await getDoctors();
+  const doctors = await getMostRecentDoctors();
+
+  if (doctors.length === 0) {
+    return null;
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -70,10 +76,6 @@ export default async function ProfileDisplay() {
       };
     }),
   };
-
-  if (doctors.length === 0) {
-    return null;
-  }
 
   return (
     <section

@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 type DoctorSignupStep = "account" | "verify-email";
 
 export default function DoctorSignUpForm(props: DoctorSignUpProps) {
-  const t = useTranslations("signUp.doctorSignUp");
+  const t = useTranslations("home.Home");
   const router = useRouter();
 
   const { password, email, errorMessage, isLoading, onBack } = props;
@@ -112,7 +112,7 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
               disabled={isLoading}
               className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
             >
-              {isLoading ? "Creating account..." : "Create account"}
+              {isLoading ? t("one moment") : t("signUp")}
             </button>
           </div>
         </form>

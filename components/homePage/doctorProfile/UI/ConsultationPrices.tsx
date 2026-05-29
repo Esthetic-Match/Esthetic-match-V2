@@ -2,6 +2,7 @@ import { Info, MonitorCheck, Stethoscope, WalletCards } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import StripeConsultationCheckOutButton from "@/components/homePage/UI/StripeConsultationCheckOutButton";
 import FreeOnlineConsultationButton from "./FreeOnlineConsultationButton";
+import { useTranslations } from "next-intl";
 
 type ConsultationPricesProps = {
   doctorProfileId: string;
@@ -51,6 +52,7 @@ function ConsultationCard({
   doctorProfileId: string;
   currency: string | null;
 }) {
+  const t =  useTranslations("doctor.doctor.profile.stickyContactBanner");
   const formattedPrice = formatPrice(price, currency);
   const isOnline = consultationType === "ONLINE";
   const isOnlineFree = isOnline && isFreePrice(price);
@@ -96,7 +98,7 @@ function ConsultationCard({
                 : "text-2xl font-semibold text-[#283C5D]"
             }
           >
-            {formattedPrice}
+            {formattedPrice === "Free" ? t("free") : formattedPrice}
           </p>
         </div>
       </div>

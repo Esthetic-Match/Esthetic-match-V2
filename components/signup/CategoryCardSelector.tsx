@@ -29,7 +29,7 @@ export default function CategoryCardSelector({
   onSelectAllProcedures,
   onDeselectAllProcedures,
 }: CategoryCardSelectorProps) {
-  const t = useTranslations("signUp.category");
+  const t = useTranslations("onboarding.category");
   const categoryT = useTranslations("categoriesName");
 
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);

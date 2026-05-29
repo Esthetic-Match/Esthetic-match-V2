@@ -23,7 +23,7 @@ export default function ProcedureSelectionModal({
 }: ProcedureSelectionModalProps) {
   if (!activeCategory) return null;
 
-  const t = useTranslations("signUp.procedure");
+  const t = useTranslations("onboarding.procedure");
   const subCategoryT = useTranslations("subcategoriesName");
   const proceduresT = useTranslations("proceduresName");
 
@@ -51,21 +51,21 @@ export default function ProcedureSelectionModal({
           </button>
         </div>
            <div className="flex justify-start gap-2 mb-4">
-<button
-  type="button"
-  onClick={() => onSelectAllProcedures(visibleProcedureIds)}
-  className="rounded-full border border-[#2563EB]/20 bg-[#EFF6FF]/60 px-3 py-1.5 text-xs font-medium text-[#283C5D] transition hover:bg-[#EFF6FF] active:scale-[0.98]"
->
-  {t("select all")}
-</button>
+            <button
+              type="button"
+              onClick={() => onSelectAllProcedures(visibleProcedureIds)}
+              className="rounded-full border border-[#2563EB]/20 bg-[#EFF6FF]/60 px-3 py-1.5 text-xs font-medium text-[#283C5D] transition hover:bg-[#EFF6FF] active:scale-[0.98]"
+            >
+              {t("select all")}
+            </button>
 
-<button
-  type="button"
-  onClick={() => onDeselectAllProcedures(visibleProcedureIds)}
-  className="rounded-full border border-red-500/20 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100 active:scale-[0.98]"
->
-  {t("delete all")}
-</button>
+            <button
+              type="button"
+              onClick={() => onDeselectAllProcedures(visibleProcedureIds)}
+              className="rounded-full border border-red-500/20 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100 active:scale-[0.98]"
+            >
+              {t("delete all")}
+            </button>
           </div>
 
         <div className="space-y-5">

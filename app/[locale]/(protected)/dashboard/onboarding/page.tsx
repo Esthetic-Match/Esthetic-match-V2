@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { useTranslations } from "next-intl";
-import { authClient } from "@/lib/auth-client";
 
 import MessageText from "@/components/UI/MessageText";
 import DoctorSpecialtyDetailsStep from "@/components/signup/DoctorSpecialtyDetailsStep";
@@ -15,9 +13,8 @@ type DoctorOnboardingStep = "specialties" | "categories" | "payment";
 type DoctorSpecialtySubStep = "specialties" | "categories";
 
 export default function DoctorOnboardingPage() {
-  const t = useTranslations("signUp.onboarding");
+  const t = useTranslations("onboarding");
   const router = useRouter();
-  const { data: session } = authClient.useSession();
 
   const [step, setStep] = useState<DoctorOnboardingStep>("specialties");
 
@@ -119,17 +116,6 @@ export default function DoctorOnboardingPage() {
     }
   }
 
-  function getSelectedCategoryProcedureIds(): string[] {
-    return DoctorCatalog.categories
-      .filter((category) =>
-        selectedServiceCategories.includes(category.category)
-      )
-      .flatMap((category) =>
-        category.subcategories.flatMap((subcategory) =>
-          subcategory.procedures.map((procedure) => procedure.id)
-        )
-      );
-  }
 
   function handleSelectAllProcedures(procedureIds: string[]) {
     setSelectedServices((prev) =>
