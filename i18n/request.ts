@@ -1,5 +1,6 @@
 import { getRequestConfig } from "next-intl/server";
 import { routing } from "./routing";
+import DoctorOnboardingPage from "@/app/[locale]/(protected)/dashboard/onboarding/page";
 
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;
@@ -14,6 +15,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       home: (await import(`../messages/${locale}/home.json`)).default,
       signIn: (await import(`../messages/${locale}/signin.json`)).default,
       signUp: (await import(`../messages/${locale}/signup.json`)).default,
+      onboarding: (await import(`../messages/${locale}/onboarding.json`)).default,
       doctor: (await import(`../messages/${locale}/doctor.json`)).default,
       proceduresName: (await import(`../messages/${locale}/proceduresName.json`)).default,
       dashboard: (await import(`../messages/${locale}/dashboard.json`)).default,

@@ -15,7 +15,8 @@ export default function SelectedProcedures({
   onRemoveProcedure,
   onDeselectAllProcedures,
 }: SelectedProceduresProps) {
-  const t = useTranslations("signUp.procedure");
+  const t = useTranslations("onboarding.procedure");
+  const proceduresT = useTranslations("proceduresName");
 
   function getProcedureLabel(name: string) {
     return t.has(name) ? t(name) : name;
@@ -36,7 +37,7 @@ export default function SelectedProcedures({
       {selectedProcedures.length > 0 ? (
         <div className="flex flex-wrap gap-2">
           {selectedProcedures.map((procedure) => {
-            const label = getProcedureLabel(procedure.name);
+            const label = getProcedureLabel(procedure.id);
 
             return (
               <button
@@ -45,7 +46,7 @@ export default function SelectedProcedures({
                 onClick={() => onRemoveProcedure(procedure.id)}
                 className="group flex items-center gap-2 rounded-full border border-[#2563EB]/15 bg-[#EFF6FF]/60 px-3 py-1.5 text-sm font-medium text-[#283C5D] transition hover:border-red-500/30 hover:bg-red-50 hover:text-red-600 active:scale-[0.98]"
               >
-                <span>{label}</span>
+                <span>{proceduresT(procedure.id)}</span>
 
                 <span className="flex h-4 w-4 items-center justify-center rounded-full bg-white text-[#283C5D]/50 transition group-hover:text-red-600">
                   <X size={11} strokeWidth={3} />

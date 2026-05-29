@@ -1,0 +1,96 @@
+{
+    "secure info":"Vos informations sont sécurisés",
+    "garantee": "Nous garantissons la confidentialité et la protection des données",
+    "back": "Retour",
+    "continue": "Continuer",
+    "saving": "Enregistrement en cours...",
+    "submit": "Envoyer",
+    "specialtyStepper": {
+      "selectSpecialty": "Sélectionner les spécialité",
+      "selectCategory/procedure": "les catégorie et procédure",
+      "selectpayment": "le mode de paiement"
+    },
+    "specialtySelector": {
+        "title": "Quelles sont vos principales spécialités ?",
+        "subtitle": "Sélectionnez vos spécialités pour personnaliser votre profil et entrer en contact avec des patients.",
+        "note": "Vous pourrez les ajouter ou les modifier plus tard.",
+        "other": "Veuillez préciser une autre spécialité",
+        "groups": {
+          "aesthetic": "Esthétique",
+          "surgery": "Chirurgie",
+          "associatedSpecialties": "Spécialités associées",
+          "other": "Autre"
+        },
+        "items": {
+          "aesthetic_doctor": {
+            "label": "Médecin esthétique",
+            "description": "Injections, lasers, traitements esthétiques"
+          },
+          "dermatologist": {
+            "label": "Dermatologue",
+            "description": "Peau, cheveux, laser dermatologique"
+          },
+          "plastic_surgeon": {
+            "label": "Chirurgien plasticien",
+            "description": "Chirurgie esthétique et reconstructrice"
+          },
+          "maxillofacial_surgeon": {
+            "label": "Chirurgien maxillo-facial",
+            "description": "Maxillo-facial, traumatologie, esthétique"
+          },
+          "ent_surgeon": {
+            "label": "Chirurgien ORL",
+            "description": "Otorhinolaryngologie, chirurgie cervico-faciale"
+          },
+          "ophthalmologist": {
+            "label": "Ophtalmologue",
+            "description": "Chirurgie oculaire, médecine esthétique du regard"
+          },
+          "dentist": {
+            "label": "Dentiste",
+            "description": "Dentisterie esthétique, réhabilitation"
+          },
+          "orthodontist": {
+            "label": "Orthodontiste",
+            "description": "Orthodontie, alignement dentaire"
+          },
+          "oculoplastic_surgeon": {
+            "label": "Chirurgien oculoplastique",
+            "description": "Chirurgie plastique et reconstructrice du regard"
+          },
+          "reconstructive_surgeon": {
+            "label": "Chirurgien reconstructeur",
+            "description": "Procédures reconstructrices avancées"
+          },
+          "other_specialty": {
+            "label": "Autre spécialité",
+            "description": "Précisez votre spécialité"
+          }
+    }
+    },
+    "category": {
+        "heading": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
+        "NON-SURGICAL FACE": "Médecine esthétique (visage)",
+        "NON-SURGICAL BODY": "Médecine esthétique (corps)",
+        "AESTHETIC DENTISTRY": "Dentisterie esthétique",
+        "HAIR MEDICINE": "Médecine capillaire",
+        "MUSCLE TONE & EMS": "Tonification musculaire & EMS",
+        "IV THERAPY": "Thérapie IV",
+        "WELLNESS & DRAINAGE": "Bien-être & drainage",
+        "SURGICAL FACE": "Chirurgie du visage",
+        "SURGICAL BODY": "Chirurgie du corps",
+        "LONGEVITY MEDICINE": "Médecine de longévité",
+        "OTHER": "Autre",
+        "No categories": "Aucune catégorie disponible pour les spécialités sélectionnées."
+    },
+    "procedure": {
+        "deselectAll": "Tout désélectionner",
+        "empty": "Aucune procédure sélectionnée.",
+        "select pro": "Procédures sélectionnées",
+        "pro selected": "Procédures sélectionnées parmi les catégories que vous avez choisies.",
+        "done": "terminé",
+        "select all": "Tout sélectionner",
+        "delete all": "Tout supprimer",
+        "selectProcedures": "Sélectionnez les procédures que vous proposez."
+    }
+}

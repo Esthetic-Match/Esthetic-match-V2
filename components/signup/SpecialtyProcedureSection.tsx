@@ -19,7 +19,7 @@ export default function SpecialtyProcedureSection({
   onDeselectAllProcedures,
 }: SpecialtyProcedureSectionProps) {
   
-  const t = useTranslations("signUp.procedure");
+  const t = useTranslations("onboarding.procedure");
   
   if (selectedSpecialties.length === 0) {
     return null;

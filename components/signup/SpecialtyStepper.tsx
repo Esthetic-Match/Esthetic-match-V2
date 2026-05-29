@@ -26,7 +26,7 @@ const steps = [
 export default function SpecialtyStepper({
   currentStep,
 }: SpecialtyStepperProps) {
-  const t = useTranslations("signUp.onboarding.specialtyStepper");
+  const t = useTranslations("onboarding.specialtyStepper");
 
   const currentIndex = currentStep === "specialties" ? 0 : 1;
 

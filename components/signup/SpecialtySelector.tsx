@@ -113,7 +113,7 @@ export default function SpecialtySelector({
   selectedSpecialties,
   onToggleSpecialty,
 }: SpecialtySelectorProps) {
-  const t = useTranslations("signUp.specialtySelector");
+  const t = useTranslations("onboarding.specialtySelector");
 
   return (
     <div className="w-full space-y-8">

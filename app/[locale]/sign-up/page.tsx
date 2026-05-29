@@ -162,7 +162,7 @@ export default function SignUpPage() {
       });
 
       if (error) {
-        throw new Error(error.message || "Could not create doctor account.");
+        throw new Error(error.message || "Could not create doctor account. Try again later.");
       }
 
       const userId = data?.user?.id;
