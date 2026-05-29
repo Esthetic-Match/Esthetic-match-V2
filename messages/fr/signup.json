@@ -16,37 +16,7 @@
       "connectStripe": "Enregistrer les tarifs et connecter Stripe",
       "back": "Retour",
       "continue": "Continuer"
-    },
-      "paymentPrices": {
-    "eyebrow": "Paiements",
-    "title": "Définissez vos tarifs de consultation",
-    "description": "Les patients paieront le tarif que vous définissez. Esthetic Match prélève une commission de plateforme de 15 %, et le montant restant est versé sur votre compte Stripe connecté.",
-    "inClinic": {
-      "title": "Consultation en cabinet",
-      "description": "Le tarif payé par les patients pour les rendez-vous dans votre cabinet."
-    },
-    "online": {
-      "title": "Consultation en ligne",
-      "description": "Le tarif payé par les patients pour les consultations en ligne."
-    },
-    "stripe": {
-      "title": "Paiements sécurisés avec Stripe",
-      "description": "Stripe gère l’encaissement des paiements, les virements aux praticiens et le traitement des cartes bancaires. Vous serez redirigé vers Stripe pour connecter votre compte."
-    },
-    "buttons": {
-      "finishLater": "Enregistrer et terminer plus tard",
-      "connectStripe": "Enregistrer les tarifs et connecter Stripe",
-      "saving": "Enregistrement..."
-    },
-      "currency": {
-    "label": "Devise de consultation"
-  },
-  "errors": {
-    "invalidInClinicPrice": "Veuillez saisir un tarif valide pour la consultation en cabinet.",
-    "invalidOnlinePrice": "Veuillez saisir un tarif valide pour la consultation en ligne.",
-    "saveFailed": "Impossible d’enregistrer les tarifs de consultation."
-  }
-  }
+    }
   },
   "SelectionPage": {
     "title": "Inscrivez-vous sur Esthetic Match",

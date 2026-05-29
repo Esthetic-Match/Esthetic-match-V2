@@ -32,7 +32,7 @@ const CURRENCIES = [
 type CurrencyValue = (typeof CURRENCIES)[number]["value"];
 
 export default function PaymentAndPrices() {
-  const t = useTranslations("signUp.SignUp.paymentPrices");
+  const t = useTranslations("onboarding.paymentPrices");
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
@@ -56,12 +56,12 @@ export default function PaymentAndPrices() {
     const inClinic = Number(inClinicPrice);
     const online = Number(onlineConsulPrice);
 
-    if (!inClinic || inClinic <= 0) {
+    if (inClinic == null ) {
       setErrorMessage(t("errors.invalidInClinicPrice"));
       return false;
     }
 
-    if (!online || online <= 0) {
+    if (!online == null ) {
       setErrorMessage(t("errors.invalidOnlinePrice"));
       return false;
     }
@@ -251,7 +251,7 @@ function InClinicPriceCard({
   priceValue: string;
   onPriceChange: (value: string) => void;
 }) {
-  const t = useTranslations("signUp.SignUp.paymentPrices");
+  const t = useTranslations("onboarding.paymentPrices");
 
   return (
     <div className="rounded-3xl border border-black/10 bg-[#FAF9F7] p-5">
@@ -278,7 +278,7 @@ function InClinicPriceCard({
 
         <input
           type="number"
-          min="1"
+          min="0"
           step="1"
           inputMode="decimal"
           value={priceValue}
@@ -299,7 +299,7 @@ function PriceCard({
   placeholder,
   onChange,
 }: PriceCardProps) {
-  const t = useTranslations("signUp.SignUp.paymentPrices");
+  const t = useTranslations("onboarding.paymentPrices");
 
   return (
     <div className="rounded-3xl border border-black/10 bg-[#FAF9F7] p-5">
@@ -326,7 +326,7 @@ function PriceCard({
 
         <input
           type="number"
-          min="1"
+          min="0"
           step="1"
           inputMode="decimal"
           value={value}
@@ -346,7 +346,7 @@ function CurrencySelector({
   value: CurrencyValue;
   onChange: (value: CurrencyValue) => void;
 }) {
-  const t = useTranslations("signUp.SignUp.paymentPrices");
+  const t = useTranslations("onboarding.paymentPrices");
 
   return (
     <div className="rounded-3xl border border-black/10 bg-[#FAF9F7] p-5">

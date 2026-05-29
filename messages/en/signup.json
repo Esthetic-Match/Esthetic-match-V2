@@ -16,36 +16,6 @@
       "connectStripe": "Save prices & connect Stripe",
       "back": "Back",
       "continue": "Continue"
-    },
-    "paymentPrices": {
-      "eyebrow": "Payments",
-      "title": "Set your consultation prices",
-      "description": "Patients will pay the price you set. Esthetic Match takes a 15% platform fee, and the remaining amount goes to your connected Stripe account.",
-      "inClinic": {
-        "title": "In-clinic consultation",
-        "description": "The price patients pay for appointments at your clinic."
-      },
-      "online": {
-        "title": "Online consultation",
-        "description": "The price patients pay for online consultations."
-      },
-      "stripe": {
-        "title": "Secure Stripe payments",
-        "description": "Stripe handles payment collection, doctor payouts, and card processing. You will be redirected to Stripe to connect your account."
-      },
-      "buttons": {
-        "finishLater": "Save and finish later",
-        "connectStripe": "Save prices & connect Stripe",
-        "saving": "Saving..."
-      },
-          "currency": {
-      "label": "Consultation currency"
-    },
-    "errors": {
-      "invalidInClinicPrice": "Please enter a valid in-clinic consultation price.",
-      "invalidOnlinePrice": "Please enter a valid online consultation price.",
-      "saveFailed": "Could not save consultation prices."
-    }
     }
   },
   "SelectionPage":{
