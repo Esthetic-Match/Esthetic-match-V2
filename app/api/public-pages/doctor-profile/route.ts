@@ -121,42 +121,58 @@ export async function GET(req: Request) {
       ],
     };
 
-    const doctors = await prisma.doctorProfile.findMany({
-      skip,
-      take: limit + 1,
-      where,
-      orderBy: {
-        createdAt: "desc",
-      },
-      select: {
-        id: true,
-        avatar: true,
-        specialtyIds: true,
-        subcategoryIds: true,
-        procedureIds: true,
-        city: true,
-        country: true,
-        clinicName: true,
-        googleRating: true,
-        googleReviewCount: true,
-        user: {
-          select: {
-            name: true,
-            image: true,
-          },
+  const doctors = await prisma.doctorProfile.findMany({
+    skip,
+    take: limit + 1,
+    where,
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      avatar: true,
+      specialtyIds: true,
+
+      city: true,
+      country: true,
+
+      yearsOfExperience: true,
+      inClinicPrice: true,
+      onlineConsulPrice: true,
+      currency: true,
+
+      googleRating: true,
+      googleReviewCount: true,
+
+      user: {
+        select: {
+          name: true,
+          image: true,
         },
       },
-    });
+    },
+  });
 
     const hasMore = doctors.length > limit;
 
     const formattedDoctors = doctors.slice(0, limit).map((doctor) => ({
       id: doctor.id,
       name: doctor.user.name ?? "Doctor",
-      specialtyIds: doctor.specialtyIds.join(", "),
-      googleRating: doctor.googleRating?.toString() ?? "",
-      googleReviewCount: doctor.googleReviewCount?.toString() ?? "",
-      country: [doctor.city, doctor.country].filter(Boolean).join(", "),
+    
+      specialtyIds: doctor.specialtyIds,
+    
+      city: doctor.city,
+      country: doctor.country,
+    
+      googleRating: doctor.googleRating,
+      googleReviewCount: doctor.googleReviewCount,
+    
+      yearsOfExperience: doctor.yearsOfExperience,
+    
+      inClinicPrice: doctor.inClinicPrice,
+      onlineConsulPrice: doctor.onlineConsulPrice,
+      currency: doctor.currency,
+    
       avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
     }));
 

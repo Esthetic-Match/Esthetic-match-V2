@@ -6,11 +6,23 @@ import DoctorCards from "./UI/DoctorCards";
 type PublicDoctor = {
   id: string;
   name: string;
-  specialtyIds: string;
-  googleRating: string;
-  googleReviewCount: string;
-  country: string;
+
+  specialtyIds: string[];
+
   avatar: string;
+
+  city: string | null;
+  country: string | null;
+
+  googleRating: number | null;
+  googleReviewCount: number | null;
+
+  yearsOfExperience: number | null;
+
+  inClinicPrice: number | null;
+  onlineConsulPrice: number | null;
+
+  currency: string;
 };
 
 async function getMostRecentDoctors(): Promise<PublicDoctor[]> {

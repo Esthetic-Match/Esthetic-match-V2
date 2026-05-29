@@ -11,11 +11,21 @@ export async function GET() {
       select: {
         id: true,
         avatar: true,
+      
         specialtyIds: true,
+      
         city: true,
         country: true,
+      
+        yearsOfExperience: true,
+      
+        inClinicPrice: true,
+        onlineConsulPrice: true,
+        currency: true,
+      
         googleRating: true,
         googleReviewCount: true,
+      
         user: {
           select: {
             name: true,
@@ -24,15 +34,31 @@ export async function GET() {
         },
       },
     });
-
+  
     const formattedDoctors = doctors.map((doctor) => ({
       id: doctor.id,
+    
       name: doctor.user.name ?? "Doctor",
-      specialtyIds: doctor.specialtyIds.join(", "),
-      googleRating: doctor.googleRating?.toString() ?? "",
-      googleReviewCount: doctor.googleReviewCount?.toString() ?? "",
-      country: [doctor.city, doctor.country].filter(Boolean).join(", "),
-      avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
+    
+      specialtyIds: doctor.specialtyIds,
+    
+      city: doctor.city,
+      country: doctor.country,
+    
+      googleRating: doctor.googleRating,
+      googleReviewCount: doctor.googleReviewCount,
+    
+      yearsOfExperience: doctor.yearsOfExperience,
+    
+      inClinicPrice: doctor.inClinicPrice,
+      onlineConsulPrice: doctor.onlineConsulPrice,
+    
+      currency: doctor.currency,
+    
+      avatar:
+        doctor.avatar ??
+        doctor.user.image ??
+        "/images/default-doctor.png",
     }));
 
     return NextResponse.json(formattedDoctors);

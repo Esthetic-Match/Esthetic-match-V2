@@ -1,6 +1,4 @@
 import { Link } from "@/i18n/navigation";
-import { MapPin, Star } from "lucide-react";
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import DoctorCards from "../UI/DoctorCards";
@@ -8,11 +6,23 @@ import DoctorCards from "../UI/DoctorCards";
 type PublicDoctor = {
   id: string;
   name: string;
-  specialtyIds: string;
-  googleRating: string;
-  googleReviewCount: string;
-  country: string;
+
+  specialtyIds: string[];
+
   avatar: string;
+
+  city: string | null;
+  country: string | null;
+
+  googleRating: number | null;
+  googleReviewCount: number | null;
+
+  yearsOfExperience: number | null;
+
+  inClinicPrice: number | null;
+  onlineConsulPrice: number | null;
+
+  currency: string;
 };
 
 type DoctorFilters = {
@@ -31,12 +41,6 @@ type DoctorsResponse = {
   hasMore: boolean;
 };
 
-function formatLabel(value: string) {
-  return value
-    .replace(/_/g, " ")
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-}
 
 function buildPageQuery(filters: DoctorFilters | undefined, page: number, limit: number) {
   const params = new URLSearchParams();
