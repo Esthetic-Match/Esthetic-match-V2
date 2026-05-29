@@ -176,7 +176,7 @@
     "title": "PREMIUM",
     "subtitle": "Mensuel",
     "badge": "Le plus populaire",
-    "price": "390€",
+    "price": "120€",
     "suffix": "/ mois",
     "note": "Annulation à tout moment",
     "button": "Choisir ce plan",
@@ -219,10 +219,10 @@
     "title": "PREMIUM",
     "subtitle": "Annuel",
     "badge": "Meilleur rapport qualité/prix",
-    "price": "360€",
+    "price": "108€",
     "suffix": "/ mois",
-    "billingNote": "Facturé une fois 4,320€ / an",
-    "savingNote": "(Économisez 360€ / an)",
+    "billingNote": "Facturé une fois 1296€ / an",
+    "savingNote": "(Économisez 144€ / an)",
     "button": "Choisir ce plan",
     "benefits": {
       "0": {

@@ -171,7 +171,7 @@
     "title": "PREMIUM",
     "subtitle": "Monthly",
     "badge": "Most popular",
-    "price": "390€",
+    "price": "120€",
     "suffix": "/ month",
     "note": "Cancel anytime",
     "button": "Choose this plan",
@@ -214,10 +214,10 @@
     "title": "PREMIUM",
     "subtitle": "Annual",
     "badge": "Best value",
-    "price": "360€",
+    "price": "108€",
     "suffix": "/ month",
-    "billingNote": "Billed once 4,320€ / year",
-    "savingNote": "(Save 360€ / year)",
+    "billingNote": "Billed once 1296€ / year",
+    "savingNote": "(Save 144€ / year)",
     "button": "Choose this plan",
     "benefits": {
       "0": {
