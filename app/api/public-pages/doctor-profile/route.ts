@@ -21,6 +21,14 @@ export async function GET(req: Request) {
     const location = searchParams.get("location")?.trim();
     const minRating = searchParams.get("minRating")?.trim();
 
+    const page = Math.max(Number(searchParams.get("page") || "1"), 1);
+    const limit = Math.min(
+      Math.max(Number(searchParams.get("limit") || "10"), 1),
+      50
+    );
+
+    const skip = (page - 1) * limit;
+
     const categories = parseList(searchParams.get("category"));
     const procedures = parseList(searchParams.get("procedures"));
 
@@ -81,42 +89,42 @@ export async function GET(req: Request) {
         : null,
     ].filter(Boolean);
 
-    const hasFilters =
-      searchOrFilters.length > 0 || Boolean(location) || Boolean(minRating);
+    const where = {
+      AND: [
+        searchOrFilters.length > 0
+          ? {
+              OR: searchOrFilters as any,
+            }
+          : {},
+
+        location
+          ? {
+              OR: [
+                { city: { contains: location, mode: "insensitive" as const } },
+                {
+                  country: {
+                    contains: location,
+                    mode: "insensitive" as const,
+                  },
+                },
+              ],
+            }
+          : {},
+
+        minRating
+          ? {
+              googleRating: {
+                gte: Number(minRating),
+              },
+            }
+          : {},
+      ],
+    };
 
     const doctors = await prisma.doctorProfile.findMany({
-      take: hasFilters ? undefined : 4,
-      where: {
-        AND: [
-          searchOrFilters.length > 0
-            ? {
-                OR: searchOrFilters as any,
-              }
-            : {},
-
-          location
-            ? {
-                OR: [
-                  { city: { contains: location, mode: "insensitive" as const } },
-                  {
-                    country: {
-                      contains: location,
-                      mode: "insensitive" as const,
-                    },
-                  },
-                ],
-              }
-            : {},
-
-          minRating
-            ? {
-                googleRating: {
-                  gte: Number(minRating),
-                },
-              }
-            : {},
-        ],
-      },
+      skip,
+      take: limit + 1,
+      where,
       orderBy: {
         createdAt: "desc",
       },
@@ -140,18 +148,24 @@ export async function GET(req: Request) {
       },
     });
 
-    const formattedDoctors = doctors.map((doctor) => ({
+    const hasMore = doctors.length > limit;
+
+    const formattedDoctors = doctors.slice(0, limit).map((doctor) => ({
       id: doctor.id,
       name: doctor.user.name ?? "Doctor",
       specialtyIds: doctor.specialtyIds.join(", "),
       googleRating: doctor.googleRating?.toString() ?? "",
       googleReviewCount: doctor.googleReviewCount?.toString() ?? "",
       country: [doctor.city, doctor.country].filter(Boolean).join(", "),
-      avatar:
-        doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
+      avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
     }));
 
-    return NextResponse.json(formattedDoctors);
+    return NextResponse.json({
+      doctors: formattedDoctors,
+      page,
+      limit,
+      hasMore,
+    });
   } catch (error) {
     console.error("Failed to fetch public doctor profiles:", error);
 

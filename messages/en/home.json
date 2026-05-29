@@ -70,7 +70,10 @@
         "priceOnRequest": "Price on request",
         "viewProfile": "View profile",
         "noDoctorsTitle": "Sorry, no doctors found",
-        "noDoctorsDescription": "We could not find any doctors in our database matching your search."
+        "noDoctorsDescription": "We could not find any doctors in our database matching your search.",
+        "next": "Next",
+        "previous": "Previous",
+        "page": "Page"
       },
       "filters": {
         "eyebrow": "Filters",

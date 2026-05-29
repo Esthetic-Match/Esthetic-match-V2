@@ -70,7 +70,10 @@
         "priceOnRequest": "Prix sur demande",
         "viewProfile": "Voir le profil",
         "noDoctorsTitle": "Désolé, aucun médecin trouvé",
-        "noDoctorsDescription": "Nous n’avons trouvé aucun médecin dans notre base de données correspondant à votre recherche."
+        "noDoctorsDescription": "Nous n’avons trouvé aucun médecin dans notre base de données correspondant à votre recherche.",
+        "next": "Suivant",
+        "previous": "Précédent",
+        "page": "Page"
       },
       "filters": {
         "eyebrow": "Filtres",

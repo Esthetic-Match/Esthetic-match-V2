@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { Heart, MapPin, Star, Search } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
@@ -14,6 +14,22 @@ type PublicDoctor = {
   avatar: string;
 };
 
+type DoctorFilters = {
+  q?: string;
+  specialty?: string;
+  category?: string;
+  procedures?: string;
+  location?: string;
+  minRating?: string;
+  page?: string;
+  limit?: string;
+};
+
+type DoctorsResponse = {
+  doctors: PublicDoctor[];
+  hasMore: boolean;
+};
+
 function formatLabel(value: string) {
   return value
     .replace(/_/g, " ")
@@ -21,14 +37,27 @@ function formatLabel(value: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-async function getDoctors(filters?: {
-  q?: string;
-  specialty?: string;
-  category?: string;
-  procedures?: string;
-  location?: string;
-  minRating?: string;
-}): Promise<PublicDoctor[]> {
+function buildPageQuery(filters: DoctorFilters | undefined, page: number, limit: number) {
+  const params = new URLSearchParams();
+
+  if (filters?.q) params.set("q", filters.q);
+  if (filters?.specialty) params.set("specialty", filters.specialty);
+  if (filters?.category) params.set("category", filters.category);
+  if (filters?.procedures) params.set("procedures", filters.procedures);
+  if (filters?.location) params.set("location", filters.location);
+  if (filters?.minRating) params.set("minRating", filters.minRating);
+
+  params.set("page", String(page));
+  params.set("limit", String(limit));
+
+  return params.toString();
+}
+
+async function getDoctors(
+  filters?: DoctorFilters,
+  page = 1,
+  limit = 10
+): Promise<DoctorsResponse> {
   const headersList = await headers();
   const host = headersList.get("host");
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
@@ -42,40 +71,46 @@ async function getDoctors(filters?: {
   if (filters?.location) params.set("location", filters.location);
   if (filters?.minRating) params.set("minRating", filters.minRating);
 
-  const queryString = params.toString();
+  params.set("page", String(page));
+  params.set("limit", String(limit));
 
   const res = await fetch(
-    `${protocol}://${host}/api/public-pages/doctor-profile${
-      queryString ? `?${queryString}` : ""
-    }`,
+    `${protocol}://${host}/api/public-pages/doctor-profile?${params.toString()}`,
     {
-      next: {
-        revalidate: 60,
-      },
+      next: { revalidate: 60 },
     }
   );
 
   if (!res.ok) {
-    return [];
+    return { doctors: [], hasMore: false };
   }
 
-  return res.json();
+  const data = await res.json();
+
+  if (Array.isArray(data)) {
+    return {
+      doctors: data,
+      hasMore: data.length === limit,
+    };
+  }
+
+  return {
+    doctors: Array.isArray(data.doctors) ? data.doctors : [],
+    hasMore: Boolean(data.hasMore),
+  };
 }
 
 export default async function DoctorsListSection({
   filters,
 }: {
-  filters?: {
-    q?: string;
-    specialty?: string;
-    category?: string;
-    procedures?: string;
-    location?: string;
-    minRating?: string;
-  };
+  filters?: DoctorFilters;
 }) {
   const t = await getTranslations("home.doctors");
-  const doctors = await getDoctors(filters);
+
+  const page = Math.max(Number(filters?.page || "1"), 1);
+  const limit = Math.max(Number(filters?.limit || "10"), 1);
+
+  const { doctors, hasMore } = await getDoctors(filters, page, limit);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -113,153 +148,181 @@ export default async function DoctorsListSection({
   };
 
   return (
- <section
-  aria-labelledby="doctors-list-title"
-  className="mx-auto max-w-6xl px-6 py-16 md:px-12 lg:px-4"
->
-  <script
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-  />
+    <section
+      aria-labelledby="doctors-list-title"
+      className="mx-auto max-w-6xl px-6 py-16 md:px-12 lg:px-4"
+    >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-  <div className="mb-8 flex items-end justify-between gap-4">
-    <div>
-      <p
-        id="doctors-list-title"
-        className="mb-3 text-xs font-semibold uppercase tracking-[0.45em] text-[#283C5D]"
-      >
-        {t("list.title")}
-      </p>
-      <div className="h-px w-16 bg-[#d8bd8d]" />
-    </div>
+      <div className="mb-8 flex items-end justify-between gap-4">
+        <div>
+          <p
+            id="doctors-list-title"
+            className="mb-3 text-xs font-semibold uppercase tracking-[0.45em] text-[#283C5D]"
+          >
+            {t("list.title")}
+          </p>
+          <div className="h-px w-16 bg-[#d8bd8d]" />
+        </div>
 
-    <p className="hidden text-xs uppercase tracking-[0.25em] text-[#d8bd8d] md:block">
-      {t("list.practitionersCount", { count: doctors.length })}
-    </p>
-  </div>
+        <p className="hidden text-xs uppercase tracking-[0.25em] text-[#d8bd8d] md:block">
+          {t("list.practitionersCount", { count: doctors.length })}
+        </p>
+      </div>
 
       {doctors.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-[#d8bd8d]/40 bg-white px-6 py-16 text-center shadow-sm">
           <h3 className="text-xl font-semibold text-[#283C5D]">
             {t("list.noDoctorsTitle")}
           </h3>
-      
+
           <p className="mt-3 text-sm text-[#283C5D]/60">
             {t("list.noDoctorsDescription")}
           </p>
         </div>
       ) : (
-        <div className="grid gap-5 p-4 sm:grid-cols-2 lg:grid-cols-3">
-          {doctors.map((doctor) => {
+        <>
+          <div className="grid gap-5 p-4 sm:grid-cols-2 lg:grid-cols-3">
+            {doctors.map((doctor) => {
+              const rating = Number(doctor.googleRating || 0);
+              const reviews = Number(doctor.googleReviewCount || 0);
+              const specialty = formatLabel(doctor.specialtyIds);
+              const tags = doctor.specialtyIds
+                ? doctor.specialtyIds.split(",").slice(0, 3).map(formatLabel)
+                : [];
 
-        const rating = Number(doctor.googleRating || 0);
-        const reviews = Number(doctor.googleReviewCount || 0);
-        const specialty = formatLabel(doctor.specialtyIds);
-        const tags = doctor.specialtyIds
-          ? doctor.specialtyIds.split(",").slice(0, 3).map(formatLabel)
-          : [];
+              return (
+                <article
+                  key={doctor.id}
+                  itemScope
+                  itemType="https://schema.org/Physician"
+                  className="group overflow-hidden rounded-2xl border border-black/10 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                >
+                  <div className="flex gap-4">
+                    <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[#283C5D]/10">
+                      <Image
+                        src={doctor.avatar}
+                        alt={t("list.doctorImageAlt", {
+                          name: doctor.name,
+                          specialty,
+                        })}
+                        fill
+                        sizes="112px"
+                        itemProp="image"
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    </div>
 
-        return (
-          <article
-            key={doctor.id}
-            itemScope
-            itemType="https://schema.org/Physician"
-            className="group overflow-hidden rounded-2xl border border-black/10 bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-          >
-            <div className="flex gap-4">
-              <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-[#283C5D]/10">
-                <Image
-                  src={doctor.avatar}
-                  alt={t("list.doctorImageAlt", {
-                    name: doctor.name,
-                    specialty,
-                  })}
-                  fill
-                  sizes="112px"
-                  itemProp="image"
-                  className="object-cover transition duration-500 group-hover:scale-105"
-                />
-              </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <h2
+                            itemProp="name"
+                            className="text-sm font-semibold leading-tight text-[#283C5D]"
+                          >
+                            {doctor.name}
+                          </h2>
 
-              <div className="min-w-0 flex-1">
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h2
-                      itemProp="name"
-                      className="text-sm font-semibold leading-tight text-[#283C5D]"
-                    >
-                      {doctor.name}
-                    </h2>
+                          <p
+                            itemProp="medicalSpecialty"
+                            className="mt-1 text-xs text-[#283C5D]/60"
+                          >
+                            {specialty}
+                          </p>
+                        </div>
+                      </div>
 
-                    <p
-                      itemProp="medicalSpecialty"
-                      className="mt-1 text-xs text-[#283C5D]/60"
-                    >
-                      {specialty}
+                      {rating > 0 && reviews > 0 ? (
+                        <div
+                          itemProp="aggregateRating"
+                          itemScope
+                          itemType="https://schema.org/AggregateRating"
+                          className="mt-3 flex items-center gap-1 text-xs text-[#283C5D]/70"
+                        >
+                          <Star
+                            size={14}
+                            className="fill-[#d8bd8d] text-[#d8bd8d]"
+                          />
+
+                          <span itemProp="ratingValue">{rating}</span>
+                          <meta
+                            itemProp="reviewCount"
+                            content={String(reviews)}
+                          />
+
+                          <span>{t("list.reviews", { count: reviews })}</span>
+                        </div>
+                      ) : null}
+
+                      <div className="mt-2 flex items-center gap-1 text-xs text-[#283C5D]/60">
+                        <MapPin size={13} />
+                        <span itemProp="address">{doctor.country}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {tags.length > 0 ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full bg-[#FAF9F7] px-3 py-1 text-xs text-[#283C5D]/70"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  <div className="mt-5 flex items-center justify-between border-t border-black/10 pt-4">
+                    <p className="text-xs text-[#283C5D]/60">
+                      {t("list.from")}{" "}
+                      <span className="font-semibold text-[#283C5D]">
+                        {t("list.priceOnRequest")}
+                      </span>
                     </p>
+
+                    <Link
+                      href={`/doctors/${doctor.id}`}
+                      itemProp="url"
+                      className="rounded-full border border-[#d8bd8d] px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white"
+                    >
+                      {t("list.viewProfile")}
+                    </Link>
                   </div>
-                </div>
+                </article>
+              );
+            })}
+          </div>
 
-                {rating > 0 && reviews > 0 ? (
-                  <div
-                    itemProp="aggregateRating"
-                    itemScope
-                    itemType="https://schema.org/AggregateRating"
-                    className="mt-3 flex items-center gap-1 text-xs text-[#283C5D]/70"
-                  >
-                    <Star
-                      size={14}
-                      className="fill-[#d8bd8d] text-[#d8bd8d]"
-                    />
-
-                    <span itemProp="ratingValue">{rating}</span>
-                    <meta itemProp="reviewCount" content={String(reviews)} />
-
-                    <span>{t("list.reviews", { count: reviews })}</span>
-                  </div>
-                ) : null}
-
-                <div className="mt-2 flex items-center gap-1 text-xs text-[#283C5D]/60">
-                  <MapPin size={13} />
-                  <span itemProp="address">{doctor.country}</span>
-                </div>
-              </div>
-            </div>
-
-            {tags.length > 0 ? (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-[#FAF9F7] px-3 py-1 text-xs text-[#283C5D]/70"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+          <div className="mt-10 flex items-center justify-center gap-3">
+            {page > 1 ? (
+              <Link
+                href={`/doctors?${buildPageQuery(filters, page - 1, limit)}`}
+                className="rounded-full border border-[#283C5D]/15 bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white"
+              >
+                {t("list.previous")}
+              </Link>
             ) : null}
 
-            <div className="mt-5 flex items-center justify-between border-t border-black/10 pt-4">
-              <p className="text-xs text-[#283C5D]/60">
-                {t("list.from")}{" "}
-                <span className="font-semibold text-[#283C5D]">
-                  {t("list.priceOnRequest")}
-                </span>
-              </p>
+            <span className="rounded-full bg-[#FAF9F7] px-5 py-2 text-xs font-semibold text-[#283C5D]/70">
+              {t("list.page")} {page}
+            </span>
 
+            {hasMore ? (
               <Link
-                href={`/doctors/${doctor.id}`}
-                itemProp="url"
-                className="rounded-full border border-[#d8bd8d] px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white"
+                href={`/doctors?${buildPageQuery(filters, page + 1, limit)}`}
+                className="rounded-full border border-[#d8bd8d] bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white"
               >
-                {t("list.viewProfile")}
+                {t("list.next")}
               </Link>
-            </div>
-          </article>
-        );
-      })}
-    </div>
-  )}
-</section>
+            ) : null}
+          </div>
+        </>
+      )}
+    </section>
   );
 }
