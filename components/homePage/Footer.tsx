@@ -34,11 +34,7 @@ export default function Footer() {
 
           <div className="mt-2 space-y-2 text-white/95">
             <p className="font-normal text-md">
-              {t("email")}: estheticmatch@gmail.com
-            </p>
-
-            <p className="font-normal text-md">
-              {t("location")}: Geneva Switzerland
+              {t("location")}: Tallinn, Estonia
             </p>
 
             <Link
