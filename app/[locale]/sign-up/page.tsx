@@ -145,7 +145,6 @@ export default function SignUpPage() {
     try {
       if (!name.trim()) throw new Error("Please enter your name.");
       if (!email.trim()) throw new Error("Please enter your email.");
-      if (!dob) return setErrorMessage("Please enter your date of birth.");
       if (!password.trim()) throw new Error("Please enter your password.");
       if (!clinicName.trim()) throw new Error("Please enter your clinic name.");
       if (!workAddress.trim())
@@ -158,7 +157,6 @@ export default function SignUpPage() {
         email: email.trim(),
         password,
         role: "DOCTOR",
-        dateOfBirth: dob,
       });
 
       if (error) {
@@ -253,7 +251,6 @@ export default function SignUpPage() {
         <DoctorSignUpForm
           name={name}
           email={email}
-          dob={dob}
           password={password}
           errorMessage={errorMessage}
           clinicName={clinicName}
@@ -269,7 +266,6 @@ export default function SignUpPage() {
           onBack={handleBack}
           onNameChange={setName}
           onEmailChange={setEmail}
-          onDobChange={setDob}
           onPasswordChange={setPassword}
           onYearsOfExperienceChange={setYearsOfExperience}
           onCityChange={setCity}

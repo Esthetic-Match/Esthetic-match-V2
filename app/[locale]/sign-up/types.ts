@@ -24,7 +24,6 @@ export type PatientSignUpFormProps = {
 export type DoctorSignUpProps = {
   name: string;
   email: string;
-  dob: string;
   password: string;
 
   errorMessage: string;
@@ -44,7 +43,6 @@ export type DoctorSignUpProps = {
   onGooglePlaceIdChange: (value: string) => void;
   onWorkLatitudeChange: (value: number | null) => void;
   onWorkLongitudeChange: (value: number | null) => void;
-  onDobChange: (value: string) => void;
   onCityChange: (value: string) => void;
   onCountryChange: (value: string) => void;
   onZipCodeChange: (value: string) => void;
