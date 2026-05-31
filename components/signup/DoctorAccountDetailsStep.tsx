@@ -17,7 +17,6 @@ import GoogleClinicLocationFields from "@/components/UI/GoogleClinicLocationFiel
 type DoctorAccountDetailsStepProps = {
   name: string;
   email: string;
-  dob: string;
   password: string;
   confirmPassword: string;
 
@@ -30,7 +29,6 @@ type DoctorAccountDetailsStepProps = {
   
   onNameChange: (value: string) => void;
   onEmailChange: (value: string) => void;
-  onDobChange: (value:string)=>void;
   onPasswordChange: (value: string) => void;
   onConfirmPasswordChange: (value: string) => void;
   onYearsOfExperienceChange: (value: number) => void;
@@ -49,7 +47,6 @@ type DoctorAccountDetailsStepProps = {
 export default function DoctorAccountDetailsStep({
   name,
   email,
-  dob,
   password,
   confirmPassword,
   clinicName,
@@ -59,7 +56,6 @@ export default function DoctorAccountDetailsStep({
   zipCode,
   onNameChange,
   onEmailChange,
-  onDobChange,
   onYearsOfExperienceChange,
   onPasswordChange,
   yearsOfExperience,
@@ -95,15 +91,6 @@ export default function DoctorAccountDetailsStep({
         value={name}
         onChange={onNameChange}
         icon={<User size={15} />}
-      />
-
-      <InputField
-        label={t("DOB")}
-        placeholder={t("DOBDescription")}
-        type="date"
-        value={dob}
-        onChange={onDobChange}
-        icon={<CalendarDays size={15} />}
       />
 
       <InputField
