@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    router.push(`/${params.locale}/sign-in`);
+    router.push(`/sign-in`);
   }
 
   return (
