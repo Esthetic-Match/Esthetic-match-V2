@@ -5,6 +5,24 @@ import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { getTranslations } from "next-intl/server";
 
 const categories = [
+    {
+    key: "SURGICAL FACE",
+    id: "surgical_face",
+    href: "/categories/surgical-face",
+    image: "/images/home/categories/surgical-face.png",
+    icon: "/images/home/categories/icons/surgical-face.svg",
+    description:
+      "Surgical facial procedures for lifting, contouring, reshaping, and structural facial refinement.",
+  },
+  {
+    key: "SURGICAL BODY",
+    id: "surgical_body",
+    href: "/categories/surgical-body",
+    image: "/images/home/categories/surgical-body.jpg",
+    icon: "/images/home/categories/icons/surgical-body.svg",
+    description:
+      "Surgical body contouring, breast surgery, intimate procedures, liposuction, and body reshaping.",
+  },
   {
     key: "AESTHETIC MEDICINE FACE",
     id: "aesthetic_medicine_face",
@@ -67,24 +85,6 @@ const categories = [
     icon: "/images/home/categories/icons/wellness-drainage.svg",
     description:
       "Treatments supporting circulation, lymphatic drainage, relaxation, recovery, and general wellbeing.",
-  },
-  {
-    key: "SURGICAL FACE",
-    id: "surgical_face",
-    href: "/categories/surgical-face",
-    image: "/images/home/categories/surgical-face.png",
-    icon: "/images/home/categories/icons/surgical-face.svg",
-    description:
-      "Surgical facial procedures for lifting, contouring, reshaping, and structural facial refinement.",
-  },
-  {
-    key: "SURGICAL BODY",
-    id: "surgical_body",
-    href: "/categories/surgical-body",
-    image: "/images/home/categories/surgical-body.jpg",
-    icon: "/images/home/categories/icons/surgical-body.svg",
-    description:
-      "Surgical body contouring, breast surgery, intimate procedures, liposuction, and body reshaping.",
   },
   {
     key: "LONGEVITY MEDICINE",
