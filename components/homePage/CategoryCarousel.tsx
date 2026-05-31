@@ -3,6 +3,18 @@ import CategoryCarouselClient from "./CategoryCarouselClient";
 
 const categories = [
   {
+    key: "SURGICAL FACE",
+    href: "/categories/surgical-face",
+    image: "/images/home/categories/surgical-face.png",
+    icon: "/images/home/categories/icons/surgical-face.svg",
+  },
+  {
+    key: "SURGICAL BODY",
+    href: "/categories/surgical-body",
+    image: "/images/home/categories/surgical-body.jpg",
+    icon: "/images/home/categories/icons/surgical-body.svg",
+  },
+  {
     key: "NON-SURGICAL FACE",
     href: "/categories/non-surgical-face",
     image: "/images/home/categories/aesthetic_medicine_face.png",
@@ -43,18 +55,6 @@ const categories = [
     href: "/categories/wellness-drainage",
     image: "/images/home/categories/wellness-drainage.png",
     icon: "/images/home/categories/icons/wellness-drainage.svg",
-  },
-  {
-    key: "SURGICAL FACE",
-    href: "/categories/surgical-face",
-    image: "/images/home/categories/surgical-face.png",
-    icon: "/images/home/categories/icons/surgical-face.svg",
-  },
-  {
-    key: "SURGICAL BODY",
-    href: "/categories/surgical-body",
-    image: "/images/home/categories/surgical-body.jpg",
-    icon: "/images/home/categories/icons/surgical-body.svg",
   },
   {
     key: "LONGEVITY MEDICINE",
