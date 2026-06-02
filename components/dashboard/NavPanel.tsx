@@ -93,24 +93,6 @@ const links = [
             ))}
           </div>
         </div>
-
-        <div>
-          <SidebarLink
-            link={{
-              label: t("easterEgg"),
-              href: userId ? `/dashboard/${userId}` : "/dashboard",
-              icon: (
-                <img
-                  src="/pp.png"
-                  className="h-6 w-6 shrink-0 rounded-full"
-                  width={20}
-                  height={20}
-                  alt={t("sidebar.avatarAlt")}
-                />
-              ),
-            }}
-          />
-        </div>
       </SidebarBody>
     </Sidebar>
   </aside>
