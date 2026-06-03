@@ -3,6 +3,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import FooterVisibility from "@/components/layout/FooterVisibility";
+import Script from "next/script";
 
 export default async function LocaleLayout({
   children,
@@ -20,9 +21,19 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      {children}
-      <FooterVisibility />
-    </NextIntlClientProvider>
+    <>
+      <Script
+        id="Cookiebot"
+        src="https://consent.cookiebot.com/uc.js"
+        data-cbid="1f821395-7c93-4bc1-a077-36d1d1ef9aa9"
+        data-blockingmode="auto"
+        strategy="beforeInteractive"
+      />
+
+      <NextIntlClientProvider messages={messages}>
+        {children}
+        <FooterVisibility />
+      </NextIntlClientProvider>
+    </>
   );
 }
