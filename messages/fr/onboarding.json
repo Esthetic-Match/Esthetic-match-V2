@@ -6,9 +6,21 @@
     "saving": "Enregistrement en cours...",
     "submit": "Envoyer",
     "specialtyStepper": {
-      "selectSpecialty": "Sélectionner les spécialité",
-      "selectCategory/procedure": "les catégorie et procédure",
-      "selectpayment": "le mode de paiement"
+      "selectSpecialty": "Choisir la spécialité",
+      "selectTopProcedures": "Choisir les 3 procédures principales",
+      "selectCategoryProcedure": "Choisir les procédures et procédures",
+      "selectPayment": "Paiement"
+    },
+    "topProcedures": {
+      "title": "Choisissez vos 3 procédures principales",
+      "description": "Choisissez les procédures que vous souhaitez le plus mettre en avant sur votre profil.",
+      "selected": "Sélectionné",
+      "counter": "{count}/3 sélectionnées"
+    },
+    "errors": {
+      "selectSpecialty": "Veuillez sélectionner au moins une spécialité.",
+      "selectCategory": "Veuillez sélectionner au moins une catégorie.",
+      "selectTopProcedures": "Veuillez sélectionner exactement 3 procédures principales."
     },
     "specialtySelector": {
         "title": "Quelles sont vos principales spécialités ?",

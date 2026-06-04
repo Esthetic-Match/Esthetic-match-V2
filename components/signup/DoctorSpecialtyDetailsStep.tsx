@@ -7,8 +7,12 @@ import SpecialtyProcedureSection from "./SpecialtyProcedureSection";
 import CategoryCardSelector from "./CategoryCardSelector";
 import SpecialtyStepper from "./SpecialtyStepper"
 import { getVisibleCategories } from "./util/utils";
+import TopProceduresSelector from "./TopProceduresSelector";
 
-type DoctorSpecialtySubStep = "specialties" | "categories";
+type DoctorSpecialtySubStep =
+  | "specialties"
+  | "categories"
+  | "topProcedures";
 
 type DoctorSpecialtyDetailsStepProps = {
   subStep: DoctorSpecialtySubStep;
@@ -17,7 +21,9 @@ type DoctorSpecialtyDetailsStepProps = {
   selectedServiceCategories: string[];
   selectedServices: string[];
   otherSpecialtyText: string;
-
+  selectedTopProcedures: string[];
+  
+  onToggleTopProcedure: (value: string) => void;
   onToggleSpecialty: (value: string) => void;
   onToggleServiceCategory: (value: string) => void;
   onToggleService: (value: string) => void;
@@ -38,6 +44,8 @@ export default function DoctorSpecialtyDetailsStep({
   onOtherSpecialtyTextChange,
   onSelectAllProcedures,
   onDeselectAllProcedures,
+  selectedTopProcedures,
+  onToggleTopProcedure,
 }: DoctorSpecialtyDetailsStepProps) {
   const hasOtherSpecialty =
     selectedSpecialties.includes("Other specialty") ||
@@ -48,6 +56,7 @@ export default function DoctorSpecialtyDetailsStep({
 
   const isSelectingSpecialties = subStep === "specialties";
   const isSelectingCategories = subStep === "categories";
+  const isSelectingTopProcedures = subStep === "topProcedures";
 
   
 
@@ -92,6 +101,13 @@ export default function DoctorSpecialtyDetailsStep({
           onDeselectAllProcedures={onDeselectAllProcedures}
         />
         </>
+      ) : null}
+      {isSelectingTopProcedures ? (
+        <TopProceduresSelector
+          selectedServices={selectedServices}
+          selectedTopProcedures={selectedTopProcedures}
+          onToggleTopProcedure={onToggleTopProcedure}
+        />
       ) : null}
     </>
   );

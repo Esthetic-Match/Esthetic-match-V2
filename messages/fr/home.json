@@ -1,7 +1,7 @@
 {
   "Home": {
     "title": "Bienvenue",
-    "subtitle": "Trouvez le praticien esthétique qui correspond à vos besoins",
+    "subtitle": "Trouvez le praticien esthétique adapté à vos besoins",
     "statement": "En développement",
     "Sign In": "Se connecter",
     "signUp": "S'inscrire",
@@ -163,7 +163,7 @@
     },
     "eyebrow": "Pourquoi Esthetic Match pour les praticiens ?",
     "title": "Tout ce dont vous avez besoin pour attirer, qualifier et convertir les bons patients.",
-    "description": "Traduction clinique du langage des patients grâce à l’intelligence artificielle, orientée vers les bons praticiens.",
+    "description": "Traduction clinique, orientée vers les bons praticiens.",
     "features": {
       "analytics": {
         "title": "Tableau de bord analytique",

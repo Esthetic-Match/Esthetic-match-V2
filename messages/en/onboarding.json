@@ -7,8 +7,20 @@
     "submit": "Submit",
     "specialtyStepper": {
       "selectSpecialty": "Select Specialty",
-      "selectCategory/procedure": "Category & Procedures",
-      "selectpayment": "Select Payment"
+      "selectTopProcedures": "Select Top 3 Procedure",
+      "selectCategoryProcedure": "Select Categories & Procedures",
+      "selectPayment": "Payment"
+    },
+    "topProcedures": {
+      "title": "Select Your Top 3 Procedures",
+      "description": "Choose the Procedures you want to highlight most on your profile.",
+      "selected": "Selected",
+      "counter": "{count}/3 selected"
+    },
+    "errors": {
+      "selectSpecialty": "Please select at least one specialty.",
+      "selectCategory": "Please select at least one category.",
+      "selectTopProcedures": "Please select exactly 3 top Procedures."
     },
     "specialtySelector": {
         "title": "What are your main specialties?",

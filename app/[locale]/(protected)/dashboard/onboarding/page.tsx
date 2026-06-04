@@ -9,8 +9,16 @@ import DoctorSpecialtyDetailsStep from "@/components/signup/DoctorSpecialtyDetai
 import PaymentAndPrices from "@/components/signup/PaymentAndPrices";
 import { ShieldCheck } from "lucide-react";
 
-type DoctorOnboardingStep = "specialties" | "categories" | "payment";
-type DoctorSpecialtySubStep = "specialties" | "categories";
+type DoctorOnboardingStep =
+  | "specialties"
+  | "categories"
+  | "topProcedures"
+  | "payment";
+
+type DoctorSpecialtySubStep =
+  | "specialties"
+  | "categories"
+  | "topProcedures";
 
 export default function DoctorOnboardingPage() {
   const t = useTranslations("onboarding");
@@ -24,13 +32,19 @@ export default function DoctorOnboardingPage() {
   >([]);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [otherSpecialtyText, setOtherSpecialtyText] = useState("");
+  const [selectedTopProcedures, setSelectedTopProcedures] = useState<string[]>([]);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  
 
   const isPaymentStep = step === "payment";
   const subStep: DoctorSpecialtySubStep =
-    step === "categories" ? "categories" : "specialties";
+    step === "categories"
+      ? "categories"
+      : step === "topProcedures"
+        ? "topProcedures"
+        : "specialties";
 
   function toggleValue(
     value: string,
@@ -47,6 +61,11 @@ export default function DoctorOnboardingPage() {
     setErrorMessage("");
 
     if (step === "payment") {
+      setStep("topProcedures");
+      return;
+    }
+
+    if (step === "topProcedures") {
       setStep("categories");
       return;
     }
@@ -69,6 +88,7 @@ export default function DoctorOnboardingPage() {
         specialtyIds: selectedSpecialties,
         subcategoryIds: selectedServiceCategories,
         procedureIds: selectedServices,
+        topThree: selectedTopProcedures,
         otherSpecialtyText,
       }),
     });
@@ -79,13 +99,16 @@ export default function DoctorOnboardingPage() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
+
     setErrorMessage("");
 
     if (step === "specialties") {
       if (selectedSpecialties.length === 0) {
-        setErrorMessage("Please select at least one specialty.");
+        setErrorMessage(t("errors.selectSpecialty"));
         return;
       }
 
@@ -95,7 +118,20 @@ export default function DoctorOnboardingPage() {
 
     if (step === "categories") {
       if (selectedServiceCategories.length === 0) {
-        setErrorMessage("Please select at least one category.");
+        setErrorMessage(t("errors.selectCategory"));
+        return;
+      }
+
+      setStep("topProcedures");
+      return;
+    }
+
+    if (step === "topProcedures") {
+      if (selectedTopProcedures.length !== 3) {
+        setErrorMessage(
+          t("errors.selectTopProcedures")
+        );
+
         return;
       }
 
@@ -106,7 +142,9 @@ export default function DoctorOnboardingPage() {
         setStep("payment");
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : "Could not save onboarding."
+          error instanceof Error
+            ? error.message
+            : "Could not save onboarding."
         );
       } finally {
         setIsLoading(false);
@@ -149,6 +187,10 @@ export default function DoctorOnboardingPage() {
             selectedServiceCategories={selectedServiceCategories}
             selectedServices={selectedServices}
             otherSpecialtyText={otherSpecialtyText}
+            selectedTopProcedures={selectedTopProcedures}
+            onToggleTopProcedure={(value: string) =>
+              toggleValue(value, setSelectedTopProcedures)
+            }
             onToggleSpecialty={(value: string) =>
               toggleValue(value, setSelectedSpecialties)
             }
