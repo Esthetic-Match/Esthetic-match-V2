@@ -2,7 +2,11 @@
 
 import { useTranslations } from "next-intl";
 
-type DoctorSpecialtySubStep = "specialties" | "categories";
+type DoctorSpecialtySubStep =
+  | "specialties"
+  | "categories"
+  | "topProcedures"
+  | "payment";
 
 type SpecialtyStepperProps = {
   currentStep: DoctorSpecialtySubStep;
@@ -15,11 +19,15 @@ const steps = [
   },
   {
     key: "categories",
-    labelKey: "selectCategory/procedure",
+    labelKey: "selectCategoryProcedure",
+  },
+    {
+    key: "topProcedures",
+    labelKey: "selectTopProcedures",
   },
   {
     key: "payment",
-    labelKey: "selectpayment",
+    labelKey: "selectPayment",
   },
 ] as const;
 
@@ -28,7 +36,9 @@ export default function SpecialtyStepper({
 }: SpecialtyStepperProps) {
   const t = useTranslations("onboarding.specialtyStepper");
 
-  const currentIndex = currentStep === "specialties" ? 0 : 1;
+  const currentIndex = steps.findIndex(
+    (step) => step.key === currentStep
+  );
 
   return (
 <div className="mb-8 w-full overflow-x-auto px-1">

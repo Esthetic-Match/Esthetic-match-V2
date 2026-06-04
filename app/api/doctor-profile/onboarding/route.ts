@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const { specialtyIds, subcategoryIds, procedureIds, otherSpecialtyText } =
+  const { specialtyIds, subcategoryIds, procedureIds, otherSpecialtyText, topThree } =
     body;
 
   await prisma.doctorProfile.update({
@@ -25,6 +25,7 @@ export async function POST(req: Request) {
       specialtyIds,
       subcategoryIds,
       procedureIds,
+      topThree,
       otherSpecialtyText,
     },
   });
