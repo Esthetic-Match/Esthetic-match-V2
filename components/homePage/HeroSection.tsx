@@ -29,7 +29,7 @@ export default async function HomeSection() {
             <h1 className="max-w-2xl text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-5xl lg:text-6xl">
               {t("heroTitleLine1")}
               <br />
-              <span className="text-[#d8bd8d]">
+              <span >
                 {t("heroTitleLine2")}
               </span>
               <br />
@@ -38,9 +38,9 @@ export default async function HomeSection() {
               </span>
             </h1>
 
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-white/75 sm:text-base">
+            {/* <p className="mt-6 max-w-md text-sm leading-relaxed text-white/75 sm:text-base">
               {t("heroDescription")}
-            </p>
+            </p> */}
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link

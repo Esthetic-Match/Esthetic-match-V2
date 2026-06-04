@@ -50,10 +50,6 @@ export default async function PublicExpertiseSection({
               </h2>
             </div>
 
-            <p className="mb-4 text-sm font-medium text-[#283C5D]/80">
-              {t("expertise.procedures")}
-            </p>
-
             {visibleProcedures.length > 0 ? (
               <ul
                 itemProp="knowsAbout"

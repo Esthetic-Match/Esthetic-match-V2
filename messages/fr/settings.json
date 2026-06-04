@@ -135,127 +135,127 @@
     "updatePassword": "Mettre à jour le mot de passe"
   },
 "subscriptionPlans": {
-      "premiumActive": "Premium actif",
-    "premiumPlanActiveTitle": "Votre abonnement Premium est actif",
-    "premiumPlanActiveDescription": "Gérez votre abonnement, vos factures, votre moyen de paiement, votre renouvellement ou votre annulation directement depuis le portail client Stripe.",
-    "openBillingPortal": "Ouvrir le portail de facturation",
+  "premiumActive": "Premium actif",
+  "premiumPlanActiveTitle": "Votre abonnement Premium est actif",
+  "premiumPlanActiveDescription": "Gérez votre abonnement, vos factures, votre moyen de paiement, le renouvellement ou l’annulation directement depuis le portail client Stripe.",
+  "openBillingPortal": "Ouvrir le portail de facturation",
   "common": {
-    "loading": "Une moment...",
-    "currentPlan": "Plan actuel"
+    "loading": "Redirection...",
+    "currentPlan": "Votre plan actuel"
   },
-   "freePlan": {
-    "title": "GRATUIT",
-    "subtitle": "Pour débuter",
+  "freePlan": {
+    "title": "PLAN GRATUIT",
+    "subtitle": "Pour commencer",
     "price": "0€",
     "suffix": "/ mois",
     "button": "Votre plan actuel",
     "benefits": {
       "0": {
-        "title": "Demandes de conseils médicaux en ligne (payantes)",
-        "description": "Être payé pour répondre aux demandes DM des patients via messagerie chiffrée (texte & photo)."
+        "title": "Profil praticien Esthetic Match",
+        "description": "Créez votre profil et présentez votre expertise."
       },
       "1": {
-        "title": "Visibilité SEO & GEO",
-        "description": "Vos procédures (mots-clés) sont référencées pour améliorer votre visibilité."
+        "title": "Demandes de préconsultations rémunérées",
+        "description": "Soyez payé pour répondre aux demandes de préconsultation via messagerie chiffrée (texte & photo)."
       },
       "2": {
-        "title": "Procédures visibles (mots-clés)",
-        "description": "Jusqu’à 5 mots-clés."
+        "title": "Visibilité SEO & GEO",
+        "description": "Référencement limité aux catégories et spécialités."
       },
       "3": {
-        "title": "Galerie photos (avant/après)",
-        "description": "Jusqu’à 5 photos avant/après."
+        "title": "Procédures visibles (mots-clés)",
+        "description": "Mots-clés illimités."
       },
       "4": {
-        "title": "Procédures illimitées",
-        "description": "Non inclus."
+        "title": "Galerie photos (avant/après)",
+        "description": "Jusqu'à 5 photos avant/après."
       }
     }
   },
   "monthlyPlan": {
-    "title": "PREMIUM",
+    "title": "DEVENEZ MEMBRE ESTHETIC MATCH",
     "subtitle": "Mensuel",
     "badge": "Le plus populaire",
-    "price": "120€",
+    "price": "170€",
     "suffix": "/ mois",
-    "note": "Annulation à tout moment",
+    "note": "Développez votre notoriété, votre visibilité et votre acquisition de patients.",
     "button": "Choisir ce plan",
     "benefits": {
       "0": {
-        "title": "Demandes de conseils médicaux en ligne (payantes)",
-        "description": "Être payé pour répondre aux demandes DM des patients via messagerie chiffrée (texte & photo)."
+        "title": "Toutes les options de l'offre gratuite",
+        "description": ""
       },
       "1": {
-        "title": "Visibilité SEO & GEO",
-        "description": "Vos procédures (mots-clés) sont référencées pour améliorer votre visibilité."
+        "title": "Référencement avancé Google & IA",
+        "description": "Nom + procédures + localité."
       },
       "2": {
-        "title": "Procédures illimitées (mots-clés)",
-        "description": "Mots-clés illimités."
+        "title": "Photos avant/après illimitées",
+        "description": "Publiez autant de cas cliniques que vous le souhaitez."
       },
       "3": {
-        "title": "Photos illimitées avant/après",
-        "description": "Photos avant/après illimitées."
+        "title": "Réseaux sociaux & site internet",
+        "description": "Ajout des liens Instagram, TikTok et site internet sur votre profil."
       },
       "4": {
-        "title": "Photo de votre clinique",
-        "description": "Ajoutez des photos de votre clinique."
+        "title": "1 interview vidéo professionnelle par an + montage vidéo",
+        "description": "Partagée en collaboration avec les réseaux Esthetic Match."
       },
       "5": {
-        "title": "Liens de réservation",
-        "description": "Ajoutez et affichez vos liens de réservation."
+        "title": "Automatisation Message Instagram",
+        "description": "Paramétrage de messages automatiques dans vos DM Instagram avec votre lien de préconsultation payante et votre lien de prise de rendez-vous consultation."
       },
       "6": {
-        "title": "Liens réseaux sociaux",
-        "description": "Afficher Instagram, TikTok, YouTube."
+        "title": "Votre présentation en story permanente Instagram",
+        "description": "Catégorie « Experts Partenaires Esthetic Match », suivie par de nombreux patients."
       },
       "7": {
-        "title": "Analytique du profil",
-        "description": "Statistiques avancées du profil."
+        "title": "Toutes les options premium incluses",
+        "description": "Développez votre notoriété, votre visibilité et votre acquisition de patients."
       }
     }
   },
   "yearlyPlan": {
-    "title": "PREMIUM",
+    "title": "DEVENEZ MEMBRE ESTHETIC MATCH",
     "subtitle": "Annuel",
     "badge": "Meilleur rapport qualité/prix",
-    "price": "108€",
+    "price": "156€",
     "suffix": "/ mois",
-    "billingNote": "Facturé une fois 1296€ / an",
-    "savingNote": "(Économisez 144€ / an)",
+    "billingNote": "Facturé une fois 1880€ / an",
+    "savingNote": "Économisez 160€ / an",
     "button": "Choisir ce plan",
     "benefits": {
       "0": {
-        "title": "Demandes de conseils médicaux en ligne (payantes)",
-        "description": "Être payé pour répondre aux demandes DM des patients via messagerie chiffrée (texte & photo)."
+        "title": "Toutes les options de l'offre gratuite",
+        "description": ""
       },
       "1": {
-        "title": "Visibilité SEO & GEO",
-        "description": "Vos procédures (mots-clés) sont référencées pour améliorer votre visibilité."
+        "title": "Référencement avancé Google & IA",
+        "description": "Nom + procédures + localité."
       },
       "2": {
-        "title": "Procédures illimitées (mots-clés)",
-        "description": "Mots-clés illimités."
+        "title": "Photos avant/après illimitées",
+        "description": "Publiez autant de cas cliniques que vous le souhaitez."
       },
       "3": {
-        "title": "Photos illimitées avant/après",
-        "description": "Photos avant/après illimitées."
+        "title": "Réseaux sociaux & site internet",
+        "description": "Ajout des liens Instagram, TikTok et site internet sur votre profil."
       },
       "4": {
-        "title": "Photo de votre clinique",
-        "description": "Ajoutez des photos de votre clinique."
+        "title": "1 interview vidéo professionnelle par an + montage vidéo",
+        "description": "Partagée en collaboration avec les réseaux Esthetic Match."
       },
       "5": {
-        "title": "Liens de réservation",
-        "description": "Ajoutez et affichez vos liens de réservation."
+        "title": "Votre présentation en story permanente Instagram",
+        "description": "Catégorie « Experts Partenaires Esthetic Match », suivie par de nombreux patients."
       },
       "6": {
-        "title": "Liens réseaux sociaux",
-        "description": "Afficher Instagram, TikTok, YouTube."
+        "title": "Automatisation Message Instagram",
+        "description": "Paramétrage de messages automatiques dans vos DM Instagram avec votre lien de préconsultation payante et votre lien de prise de rendez-vous consultation."
       },
       "7": {
-        "title": "Analytique du profil",
-        "description": "Statistiques avancées du profil."
+        "title": "Meilleur rapport qualité/prix",
+        "description": "Économisez 160€ par an grâce à l'abonnement annuel."
       }
     }
   }

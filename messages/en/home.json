@@ -1,7 +1,7 @@
 {
   "Home": {
     "title": "Welcome",
-    "subtitle": "Find the right aesthetic practitioner according to your needs",
+    "subtitle": "Find the right aesthetic practitioner according to your needs.",
     "statement": "Under development",
     "Sign In": "Sign In",
     "signUp": "Sign Up",
@@ -28,9 +28,9 @@
     "invalidOtp": "Invalid verification code.",
     "invalidOtpLength": "Please enter the 6-digit code.",
     "heroEyebrow": "Esthetic Match",
-    "heroTitleLine1": "Your best",
-    "heroTitleLine2": "version, with",
-    "heroTitleLine3": "confidence",
+    "heroTitleLine1": "Find the right",
+    "heroTitleLine2": "aesthetic practitioner according",
+    "heroTitleLine3": "to your needs.",
     "heroDescription": "The trusted community for aesthetic medicine and cosmetic surgery. Discover, compare, and connect with trusted experts.",
     "heroPrimaryCta": "Find a doctor",
     "heroSecondaryCta": "Are you a practitioner?",

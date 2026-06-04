@@ -1,7 +1,7 @@
 {
   "Home": {
     "title": "Bienvenue",
-    "subtitle": "Trouvez le praticien esthétique adapté à vos besoins",
+    "subtitle": "Trouvez le praticien esthétique qui répond à vos besoins.",
     "statement": "En développement",
     "Sign In": "Se connecter",
     "signUp": "S'inscrire",
@@ -28,9 +28,9 @@
     "invalidOtp": "Code de vérification invalide.",
     "invalidOtpLength": "Veuillez entrer le code à 6 chiffres.",
     "heroEyebrow": "Esthetic Match",
-    "heroTitleLine1": "Votre meilleure",
-    "heroTitleLine2": "version, en toute",
-    "heroTitleLine3": "confiance",
+    "heroTitleLine1": "Trouvez le praticien ",
+    "heroTitleLine2": "esthétique",
+    "heroTitleLine3": "qui répond à vos besoins.",
     "heroDescription": "La communauté de référence pour la médecine et la chirurgie esthétique. Découvrez, comparez et connectez-vous avec les meilleurs experts.",
     "heroPrimaryCta": "Trouver un praticien",
     "heroSecondaryCta": "Vous êtes praticien ?",

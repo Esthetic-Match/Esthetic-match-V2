@@ -15,7 +15,7 @@
         "RPPS": "N° identification RPPS"
       },
       "expertise": {
-        "title": "Expertise",
+        "title": "Procedures",
         "procedures": "Procedures",
         "noProcedures": "No procedures added yet.",
         "moreProcedures": "+{count} more procedures available from this doctor.",
