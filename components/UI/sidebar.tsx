@@ -164,13 +164,18 @@ export const SidebarLink = ({
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }) => {
-  const { open, animate } = useSidebar();
+  const { open, animate, setOpen } = useSidebar();
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    // custom click handler
     if (props.onClick) {
-      e.preventDefault();
       props.onClick(e);
     }
+
+    // collapse mobile sidebar after navigation
+    setOpen(false);
   };
 
   return (
@@ -187,8 +192,17 @@ export const SidebarLink = ({
 
       <motion.span
         animate={{
-          display: animate ? (open ? "inline-block" : "none") : "inline-block",
-          opacity: animate ? (open ? 1 : 0) : 1,
+          display: animate
+            ? open
+              ? "inline-block"
+              : "none"
+            : "inline-block",
+
+          opacity: animate
+            ? open
+              ? 1
+              : 0
+            : 1,
         }}
         className="text-white text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
