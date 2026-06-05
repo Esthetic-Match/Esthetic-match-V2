@@ -4,7 +4,7 @@
   "description": "Upload a new image or remove the current one.",
   "close": "Close modal",
   "delete": "Delete Image",
-  "uploadLabel": "Add a photo of clinic"
+  "uploadLabel": "Add a photo"
 },
 "uploadImageWidget": {
   "defaultLabel": "Add image",

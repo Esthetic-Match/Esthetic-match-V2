@@ -4,7 +4,7 @@
     "description": "Téléchargez une nouvelle image ou supprimez l’image actuelle.",
     "close": "Fermer la fenêtre",
     "delete": "Supprimer l’image",
-    "uploadLabel": "Ajouter une photo de la clinique"
+    "uploadLabel": "Ajouter une photo"
   },
   "uploadImageWidget": {
     "defaultLabel": "Ajouter une image",
