@@ -3,19 +3,20 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
   try {
-    const id = req.nextUrl.searchParams.get("id");
+    const slug = req.nextUrl.searchParams.get("slug");
 
-    if (!id) {
+    if (!slug) {
       return NextResponse.json(
-        { error: "Missing doctor profile id" },
+        { error: "Missing doctor profile slug" },
         { status: 400 }
       );
     }
 
     const doctorProfile = await prisma.doctorProfile.findUnique({
       where: {
-        id,
+        slug,
       },
+
       include: {
         user: {
           select: {

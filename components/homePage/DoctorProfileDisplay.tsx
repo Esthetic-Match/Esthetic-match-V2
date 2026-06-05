@@ -5,6 +5,7 @@ import DoctorCards from "./UI/DoctorCards";
 
 type PublicDoctor = {
   id: string;
+  slug: string;
   name: string;
 
   specialtyIds: string[];

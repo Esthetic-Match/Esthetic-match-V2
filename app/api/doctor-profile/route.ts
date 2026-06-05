@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import slugify from "slugify";
 
 const allowedFields = [
   "clinicName",
@@ -50,6 +51,30 @@ function nullableNumber(value: unknown): number | null {
   return null;
 }
 
+async function generateUniqueDoctorSlug(name: string) {
+  const baseSlug = slugify(name, {
+    lower: true,
+    strict: true,
+    trim: true,
+  });
+
+  let slug = baseSlug;
+  let counter = 1;
+
+  while (
+    await prisma.doctorProfile.findFirst({
+      where: {
+        slug,
+      },
+    })
+  ) {
+    slug = `${baseSlug}-${counter}`;
+    counter++;
+  }
+
+  return slug;
+}
+
 export async function POST(req: Request) {
   const body = await req.json();
 
@@ -87,10 +112,11 @@ export async function POST(req: Request) {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: {
-      id: true,
-      role: true,
-    },
+      select: {
+        id: true,
+        role: true,
+        name: true,
+      },
   });
 
   if (!user) {
@@ -104,6 +130,22 @@ export async function POST(req: Request) {
     );
   }
 
+  const existingProfile = await prisma.doctorProfile.findUnique({
+    where: {
+      userId,
+    },
+  
+    select: {
+      slug: true,
+    },
+  });
+  
+  const slug =
+    existingProfile?.slug ||
+    (await generateUniqueDoctorSlug(
+      user.name || clinicName
+    ));
+
   const profile = await prisma.doctorProfile.upsert({
     where: {
       userId,
@@ -111,6 +153,7 @@ export async function POST(req: Request) {
     update: {
       clinicName,
       workAddress,
+      slug,
       city,
       country,
       zipCode,
@@ -120,6 +163,7 @@ export async function POST(req: Request) {
     create: {
       userId,
       clinicName,
+      slug,
       workAddress,
       city,
       country,

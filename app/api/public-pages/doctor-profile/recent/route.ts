@@ -10,6 +10,7 @@ export async function GET() {
       },
       select: {
         id: true,
+        slug: true,
         avatar: true,
       
         specialtyIds: true,
@@ -37,6 +38,7 @@ export async function GET() {
   
     const formattedDoctors = doctors.map((doctor) => ({
       id: doctor.id,
+      slug: doctor.slug,
     
       name: doctor.user.name ?? "Doctor",
     

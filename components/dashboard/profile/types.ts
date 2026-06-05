@@ -2,6 +2,7 @@
 
 export type DoctorProfileData = {
   id: string;
+  slug: string;
   userId: string;
 
   avatar: string | null;

@@ -80,6 +80,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         <ProfileHeader
           userId={user.id}
           doctorId={profile?.id}
+          slug={profile?.slug}
           name={profile?.user?.name || "Doctor"}
           avatar={profile?.avatar || profile?.user?.image}
           specialty={profile?.specialtyIds || []}

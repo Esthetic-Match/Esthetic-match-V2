@@ -5,6 +5,7 @@ import DoctorCards from "../UI/DoctorCards";
 
 type PublicDoctor = {
   id: string;
+  slug: string;
   name: string;
 
   specialtyIds: string[];
@@ -133,7 +134,7 @@ export default async function DoctorsListSection({
           name: doctor.name,
           medicalSpecialty: doctor.specialtyIds,
           image: doctor.avatar,
-          url: `/doctors/${doctor.id}`,
+          url: `/doctors/${doctor.slug}`,
           address: {
             "@type": "PostalAddress",
             addressLocality: doctor.country,

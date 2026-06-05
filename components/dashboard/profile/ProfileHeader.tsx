@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 type ProfileHeaderProps = {
   userId: string;
   doctorId?: string | null;
+  slug?: string | null;
   name: string;
   specialty?: string[] | null;
   clinicName?: string | null;
@@ -29,6 +30,7 @@ const fallbackAvatar = "/dev/profile-placeholder.jpg";
 export default function ProfileHeader({
   userId,
   doctorId,
+  slug,
   name,
   specialty,
   clinicName,
@@ -202,7 +204,7 @@ export default function ProfileHeader({
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <Link
-          href={`/doctors/${doctorId}`}
+          href={`/doctors/${slug}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex w-fit items-center gap-2 rounded-full border border-[#283C5D]/10 bg-[#283C5D] 

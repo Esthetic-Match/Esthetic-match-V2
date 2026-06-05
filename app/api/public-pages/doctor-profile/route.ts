@@ -130,6 +130,7 @@ export async function GET(req: Request) {
     },
     select: {
       id: true,
+      slug: true,
       avatar: true,
       specialtyIds: true,
 
@@ -157,6 +158,7 @@ export async function GET(req: Request) {
 
     const formattedDoctors = doctors.slice(0, limit).map((doctor) => ({
       id: doctor.id,
+      slug: doctor.slug,
       name: doctor.user.name ?? "Doctor",
     
       specialtyIds: doctor.specialtyIds,

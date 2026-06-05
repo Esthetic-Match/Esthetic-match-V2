@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 
 export type DoctorCardData = {
   id: string;
+  slug: string;
   name: string;
   specialtyIds: string[];
 
@@ -145,7 +146,7 @@ export default async function DoctorCards({ doctor }: DoctorCardProps) {
 
       <div className="mt-auto pt-4">
         <Link
-          href={`/doctors/${doctor.id}`}
+          href={`/doctors/${doctor.slug}`}
           className="w-full inline-flex rounded-full justify-center border border-[#d8bd8d]/60 px-4 py-1.5 text-[10px] font-semibold uppercase 
           tracking-[0.08em] text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white active:scale-[0.98]"
         >
