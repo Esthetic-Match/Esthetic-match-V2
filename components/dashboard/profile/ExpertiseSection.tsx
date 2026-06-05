@@ -1,104 +1,109 @@
-import { Lock, Sparkle } from "lucide-react";
-import { Link } from "@/i18n/navigation";
-import UpgradeButton from "./UI/UpgradeButton"
+import { Sparkle } from "lucide-react";
 import { useTranslations } from "next-intl";
+
+import { DoctorCatalog } from "@/lib/doctorCatalogue";
 
 type ExpertiseSectionProps = {
   procedureIds: string[];
-  paidPlan?: "free" | "standard" | null;
+  subcategoryIds?: string[];
 };
 
 export default function ExpertiseSection({
   procedureIds,
-  paidPlan = "free",
+  subcategoryIds = [],
 }: ExpertiseSectionProps) {
-  const proceduresT = useTranslations("proceduresName");
   const t = useTranslations("dashboard.expertise");
 
-  const isFreePlan = paidPlan === "free";
-  const visibleProcedures = isFreePlan ? procedureIds.slice(0, 5) : procedureIds;
-  const hiddenCount = procedureIds.length - visibleProcedures.length;
+  const categoriesT = useTranslations("categoriesName");
+  const proceduresT = useTranslations("proceduresName");
+  const subcategoryT = useTranslations("subcategoriesName");
+
+  const selectedProcedureIds = procedureIds ?? [];
+  const selectedSubcategoryIds = subcategoryIds ?? [];
+
+  const groupedProceduresByCategory = DoctorCatalog.categories
+    .map((category) => ({
+      categoryId: category.category,
+
+      subcategories: category.subcategories
+        .map((subcategory) => ({
+          subcategoryId: subcategory.subcategory,
+
+          procedures: subcategory.procedures.filter((procedure) =>
+            selectedProcedureIds.includes(procedure.id)
+          ),
+        }))
+        .filter(
+          (subcategory) =>
+            selectedSubcategoryIds.includes(
+              subcategory.subcategoryId
+            ) || subcategory.procedures.length > 0
+        ),
+    }))
+    .filter((category) => category.subcategories.length > 0);
 
   return (
     <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
       <section className="mt-6 rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
-        <div
-          className={`grid gap-8 lg:items-center ${
-            isFreePlan ? "lg:grid-cols-[1fr_320px]" : "lg:grid-cols-1"
-          }`}
-        >
-          <div>
-            <div className="mb-7 flex items-center gap-3">
-              <Sparkle size={20} className="text-[#d8bd8d]" />
+        <div className="mb-7 flex items-center gap-3">
+          <Sparkle size={20} className="text-[#d8bd8d]" />
 
-              <h2 className="text-sm font-bold uppercase tracking-[0.22em] text-[#283C5D]">
-                {t("title")}
-              </h2>
-            </div>
+          <h2 className="text-sm font-bold uppercase tracking-[0.22em] text-[#283C5D]">
+            {t("title")}
+          </h2>
+        </div>
 
-            <p className="mb-4 text-sm font-medium text-[#283C5D]/80">
-              {t("procedures")}
-            </p>
+        {groupedProceduresByCategory.length > 0 ? (
+          <div className="space-y-8">
+            {groupedProceduresByCategory.map((category) => (
+              <div key={category.categoryId}>
+                <div className="mb-4 flex items-center justify-center gap-3">
+                  <div className="h-px w-8 bg-[#d8bd8d]" />
 
-            {visibleProcedures.length > 0 ? (
-              <div
-                className={`flex flex-wrap gap-3 ${
-                  !isFreePlan ? "w-full content-center" : ""
-                }`}
-              >
-                {visibleProcedures.map((procedureId) => (
-                  <span
-                    key={procedureId}
-                    className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#283C5D] shadow-sm"
-                  >
-                    {proceduresT(procedureId)}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-[#283C5D]/55">
-                {t("noProcedures")}
-              </p>
-            )}
+                  <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-[#283C5D]">
+                    {categoriesT(category.categoryId)}
+                  </h3>
+                  <div className="h-px w-8 bg-[#d8bd8d]" />
+                </div>
 
-            {isFreePlan && hiddenCount > 0 ? (
-              <div className="mt-7 flex items-start gap-3 text-sm text-[#283C5D]/55">
-                <Lock size={16} className="mt-0.5" />
+                <div className="space-y-5 text-center">
+                  {category.subcategories.map((subcategory) => (
+                    <div key={subcategory.subcategoryId}>
+                      <h4 className="mb-3 text-sm font-semibold text-[#283C5D]/80">
+                        {subcategoryT(
+                          subcategory.subcategoryId
+                        )}
+                      </h4>
 
-                <div>
-                  <p>
-                    {t("hiddenProcedures", {
-                      count: hiddenCount,
-                    })}
-                  </p>
-
-                  <Link
-                    href="/dashboard/settings"
-                    className="text-[#F6C467] transition hover:text-[#283C5D]"
-                  >
-                    {t("moreAvailable")}
-                  </Link>
+                      {subcategory.procedures.length > 0 ? (
+                        <div className="flex flex-wrap gap-3 justify-center">
+                          {subcategory.procedures.map(
+                            (procedure) => (
+                              <span
+                                key={procedure.id}
+                                className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#283C5D] shadow-sm"
+                              >
+                                {proceduresT(procedure.id)}
+                              </span>
+                            )
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-[#283C5D]/45">
+                          {t("noProcedures")}
+                        </p>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-            ) : null}
+            ))}
           </div>
-
-          {isFreePlan ? (
-            <aside className="rounded-2xl bg-[#283C5D] p-8 text-center text-white shadow-md">
-              <Sparkle size={26} className="mx-auto mb-5 text-[#d8bd8d]" />
-
-              <h3 className="text-lg font-semibold">
-                {t("standardProfile")}
-              </h3>
-
-              <p className="mt-3 text-sm text-white/60">
-                {t("standardDescription")}
-              </p>
-
-              <UpgradeButton />
-            </aside>
-          ) : null}
-        </div>
+        ) : (
+          <p className="text-sm text-[#283C5D]/55">
+            {t("noProcedures")}
+          </p>
+        )}
       </section>
     </div>
   );

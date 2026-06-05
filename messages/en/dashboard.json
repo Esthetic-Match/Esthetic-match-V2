@@ -38,7 +38,7 @@
     "RPPS": "N° identification RPPS"
   },
   "expertise": {
-    "title": "Expertise",
+    "title": "Procedures",
     "procedures": "Procedures",
     "noProcedures": "No procedures added yet.",
     "hiddenProcedures": "+{count} more procedures hidden",
