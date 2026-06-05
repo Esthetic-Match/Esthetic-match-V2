@@ -93,7 +93,6 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         />
         <ExpertiseSection
           procedureIds={profile?.procedureIds || []}
-          paidPlan={profile?.paidPlan || "free"}
         />
         <BookingAndPrices
           inClinicPrice={profile?.inClinicPrice}

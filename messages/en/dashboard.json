@@ -4,7 +4,7 @@
   "description": "Upload a new image or remove the current one.",
   "close": "Close modal",
   "delete": "Delete Image",
-  "uploadLabel": "Add a photo of clinic"
+  "uploadLabel": "Add a photo"
 },
 "uploadImageWidget": {
   "defaultLabel": "Add image",
@@ -38,7 +38,7 @@
     "RPPS": "N° identification RPPS"
   },
   "expertise": {
-    "title": "Expertise",
+    "title": "Procedures",
     "procedures": "Procedures",
     "noProcedures": "No procedures added yet.",
     "hiddenProcedures": "+{count} more procedures hidden",
