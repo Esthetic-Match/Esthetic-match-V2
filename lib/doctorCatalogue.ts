@@ -77,7 +77,8 @@ export const DoctorCatalog =  {
 				    { name: "Masseter Botox", id: "masseter_botox" },
 				    { name: "Baby Botox", id: "baby_botox" },
 				    { name: "Full Face Botox", id: "full_face_botox" },
-				    { name: "DAO Botox", id: "dao_botox" }
+				    { name: "DAO Botox", id: "dao_botox" },
+            { name: "Neck lift Nefertiti", id: "Neck_lift_botox" }
           ]
         },
         {
@@ -100,7 +101,8 @@ export const DoctorCatalog =  {
 				    { name: "Ultrasound", id: "ultrasound" },
 				    { name: "Virtue RF", id: "virtue_rf" },
 				    { name: "Ultrasound with Radiofrequency", id: "ultrasound_rf" },
-				    { name: "Morpheus 8", id: "morpheus_8" }
+				    { name: "Morpheus 8", id: "morpheus_8" },
+            { name: "Subcutaneous Radiofrequency", id: "subcutaneous_rf" }
           ]
         },
         {
@@ -116,7 +118,8 @@ export const DoctorCatalog =  {
 				    { name: "Picosecond Laser", id: "picosecond_laser" },
 				    { name: "LED Therapy", id: "led_therapy" },
 				    { name: "Erbium:YAG Laser", id: "erbium_yag" },
-				    { name: "Fotona Laser", id: "fotona_laser" }
+				    { name: "Fotona Laser", id: "fotona_laser" },
+            { name: "Carboxytherapy", id: "carboxytherapy" }
           ]
         },
         {
@@ -154,6 +157,16 @@ export const DoctorCatalog =  {
 				    { name: "Bodytite Skin Tightening", id: "bodytite" },
 				    { name: "Sclerotherapy Injections", id: "sclerotherapy" },
 				    { name: "Ultrasound Fat Reduction", id: "ultrasound_fat_reduction" }
+          ]
+        },
+        {
+          subcategory: "lasers_and_energy_devices_body",
+          procedures: [
+			      { name: "Laser Hair Removal", id: "laser_hair_removal" },
+			      { name: "Attiva", id: "attiva" },
+			      { name: "Subcutaneous Radiofrequency", id: "subcutaneous_rf" },
+			      { name: "Endolift (Body)", id: "endolift_body" },
+			      { name: "Ultrasound (Sofwave)", id: "sofwave_body" }
           ]
         },
         {
@@ -204,7 +217,8 @@ export const DoctorCatalog =  {
             { name: "PRP for Hair", id: "prp_hair" },
             { name: "Hair Mesotherapy", id: "hair_mesotherapy" },
             { name: "HydraFacial Scalp", id: "hydrafacial_scalp" },
-            { name: "Hair Bleaching", id: "hair_bleaching" }
+            { name: "Hair Bleaching", id: "hair_bleaching" },
+            { name: "Hair Transplantation", id: "hair_transplantation" }
           ]
         },
         {
@@ -212,7 +226,6 @@ export const DoctorCatalog =  {
           procedures: [
             { name: "Forehead Reduction", id: "forehead_reduction" },
             { name: "Hairline Lowering", id: "hairline_lowering" },
-            { name: "Hair Transplantation", id: "hair_transplantation" }
           ]
         }
       ]
@@ -280,7 +293,7 @@ export const DoctorCatalog =  {
       ]
     },
     {
-      category: "wellness_and_drainage",
+      category: "wellness_and_postoperative",
       subcategories: [
         {
           subcategory: "drainage_and_circulation",
@@ -309,7 +322,6 @@ export const DoctorCatalog =  {
             { name: "Midface Lift", id: "midface_lift" },
             { name: "Facelift", id: "facelift" },
             { name: "Temporal Lift", id: "temporal_lift" },
-            { name: "Ponytail Lift", id: "ponytail_lift" },
             { name: "Neck Lift", id: "neck_lift" },
             { name: "FaceTite skin tightening", id: "facetite_rf" },
             { name: "Lower Face & Neck Skin Tightening", id: "lower_face_neck_tightening" }
@@ -330,7 +342,9 @@ export const DoctorCatalog =  {
             { name: "Rhinoplasty", id: "rhinoplasty" },
             { name: "Rhinoseptoplasty (nose deviation)", id: "rhinoseptoplasty" },
             { name: "Ultrasonic Rhinoplasty", id: "ultrasonic_rhinoplasty" },
-            { name: "Revision Rhinoplasty", id: "revision_rhinoplasty" }
+            { name: "Revision Rhinoplasty", id: "revision_rhinoplasty" },
+            { name: "Preservation Rhinoplasty", id: "preservation_rhinoplasty" },
+            { name: "Ethnic / Wide Nose Rhinoplasty", id: "ethnic_rhinoplasty" }
           ]
         },
         {
@@ -340,7 +354,8 @@ export const DoctorCatalog =  {
             { name: "Otoplasty", id: "otoplasty" },
             { name: "Lip Lift / Bullhorn Lip Lift", id: "lip_lift" },
             { name: "Buccal Fat Removal / Bichectomy", id: "buccal_fat_removal" },
-            { name: "Facial Feminization Surgery", id: "facial_feminization" }
+            { name: "Facial Feminization Surgery", id: "facial_feminization" },
+            { name: "Orthognathic Surgery", id: "orthognathic_surgery" }
           ]
         },
         {
@@ -366,7 +381,9 @@ export const DoctorCatalog =  {
             { name: "Liposuction (Genitals)", id: "lipo_genitals" },
             { name: "Liposuction (Buttocks)", id: "lipo_buttocks" },
             { name: "Liposuction for Lipedema", id: "lipo_lipedema" },
-            { name: "Abdominal Liposculpture", id: "liposculpture_abdomen" }
+            { name: "Abdominal Liposculpture", id: "liposculpture_abdomen" },
+            { name: "VASER Liposuction", id: "vaser_liposuction" },
+            { name: "360° Liposuction", id: "liposuction_360" }
           ]
         },
         {
@@ -378,7 +395,10 @@ export const DoctorCatalog =  {
 				    { name: "Abdominoplasty / Tummy Tuck", id: "abdominoplasty" },
 				    { name: "Rib Remodeling / Rib Removal", id: "rib_remodeling" },
 				    { name: "Bodytite", id: "bodytite" },
-				    { name: "J-Plasma Renuvion", id: "j_plasma_renuvion" }
+				    { name: "J-Plasma Renuvion", id: "j_plasma_renuvion" },
+            { name: "High-Definition Liposuction (HD Lipo)", id: "hd_liposuction" },
+			      { name: "Cellulite Surgery (Subcision)", id: "cellulite_subcision" },
+			      { name: "Quantum skin retraction", id: "Quantum_radiofrequency" }
           ]
         },
         {
@@ -402,7 +422,9 @@ export const DoctorCatalog =  {
 				    { name: "Internal Bra Lifting", id: "internal_bra_lifting" },
 				    { name: "Inverted Nipple Correction", id: "nipple_correction" },
 				    { name: "Breast Reconstruction", id: "breast_reconstruction" },
-				    { name: "Correction of Breast Asymmetry", id: "breast_asymmetry" }
+				    { name: "Correction of Breast Asymmetry", id: "breast_asymmetry" },
+            { name: "Internal Bra Matrix", id: "internal_bra_matrix" },
+			      { name: "Breast Lift with Implants", id: "mastopexy_with_implants" }
           ]
         },
         {
