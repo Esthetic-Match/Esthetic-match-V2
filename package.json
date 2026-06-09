@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "deploy": "npx prisma generate && npx auth@latest generate && npx prisma migrate deploy",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fix:social-links": "tsx -r dotenv/config scripts/fix-social-media-links.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.19.0",

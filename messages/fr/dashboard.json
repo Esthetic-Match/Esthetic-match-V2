@@ -35,7 +35,9 @@
     "years": "{count} ans",
     "editProfile": "Modifier le profil",
     "viewPublicProfile": "Voir profil",
-    "RPPS": "RPPS identification N°"
+    "RPPS": "RPPS identification N°",
+    "copy": "Copier Profil",
+    "edit": "Modifier Profil"
   },
   "expertise": {
     "title": "procédures",
@@ -52,7 +54,7 @@
     "online": "Pré-consultation en ligne"
   },
   "booking": {
-    "title": "Liens de réservation",
+    "title": "Prendre rendez-vous en cabinet",
     "open": "Ouvrir le lien de réservation",
     "hiddenTitle": "Les liens de réservation sont masqués",
     "hiddenDescription": "Passez au forfait Premium pour les afficher",

@@ -20,6 +20,12 @@ export async function GET(req: Request) {
     where: {
       userId: session.user.id,
     },
+    select: {
+      id: true,
+      slug: true,
+      paidPlan: true,
+      socialMediaLink: true,
+    },
   });
 
   if (!doctorProfile) {
@@ -36,10 +42,11 @@ export async function GET(req: Request) {
     );
   }
 
-  if (doctorProfile.socialMediaLink) {
-    return NextResponse.json({
-      socialMediaLink: doctorProfile.socialMediaLink,
-    });
+  if (!doctorProfile.slug) {
+    return NextResponse.json(
+      { error: "Doctor profile slug not found" },
+      { status: 400 }
+    );
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
@@ -51,14 +58,24 @@ export async function GET(req: Request) {
     );
   }
 
-  const generatedLink = `${appUrl}/${locale}/doctors/${doctorProfile.id}`;
+  const correctLink = `${appUrl}/${locale}/doctor-profile/${doctorProfile.slug}`;
+
+  const isOldBrokenLink =
+    doctorProfile.socialMediaLink?.includes("/doctors/") ||
+    doctorProfile.socialMediaLink?.includes(doctorProfile.id);
+
+  if (doctorProfile.socialMediaLink && !isOldBrokenLink) {
+    return NextResponse.json({
+      socialMediaLink: doctorProfile.socialMediaLink,
+    });
+  }
 
   const updatedDoctorProfile = await prisma.doctorProfile.update({
     where: {
       id: doctorProfile.id,
     },
     data: {
-      socialMediaLink: generatedLink,
+      socialMediaLink: correctLink,
     },
   });
 

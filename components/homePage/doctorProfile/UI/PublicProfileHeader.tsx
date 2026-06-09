@@ -1,14 +1,11 @@
 import Image from "next/image";
-import {
-  BadgeCheck,
-  Building2,
-  MapPin,
-  Award,
-} from "lucide-react";
+import { BadgeCheck, Building2, MapPin, Award } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import DoctorFavoriteButton from "./FavoriteButton";
 
 type PublicProfileHeaderProps = {
   doctorProfile: {
+    id: string;
     avatar: string | null;
     clinicName: string;
     specialtyIds: string[];
@@ -41,6 +38,7 @@ export default async function PublicProfileHeader({
   const t = await getTranslations("doctor.doctor.profile");
   const specialtiesT = await getTranslations("specialitiesName");
   const proceduresT = await getTranslations("proceduresName");
+
   const name = doctorProfile.user.name ?? "Doctor";
   const avatar = doctorProfile.avatar ?? doctorProfile.user.image;
   const initials = getInitials(name);
@@ -60,6 +58,8 @@ export default async function PublicProfileHeader({
       itemType="https://schema.org/Physician"
       className="relative z-20 mx-auto -mt-16 w-[calc(100%-2rem)] max-w-6xl rounded-3xl border border-gray-300/10 bg-white px-6 pb-8 pt-8 shadow-lg md:-mt-20 md:px-10 md:pt-10"
     >
+      <DoctorFavoriteButton doctorProfileId={doctorProfile.id} />
+
       <div className="relative mx-auto -mt-24 mb-6 h-40 w-40 md:absolute md:-top-20 md:left-10 md:mx-0 md:mb-0 md:mt-0">
         <div className="relative h-40 w-40 rounded-full border-4 border-white bg-white shadow-md">
           {avatar?.trim() ? (
@@ -79,15 +79,22 @@ export default async function PublicProfileHeader({
           )}
         </div>
       </div>
-        
+
       <div className="flex flex-col gap-8 md:ml-48 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <h1 itemProp="name" className="text-2xl font-bold tracking-tight text-[#283C5D] md:text-3xl">
+          <div className="flex items-center gap-2 pr-14">
+            <h1
+              itemProp="name"
+              className="text-2xl font-bold tracking-tight text-[#283C5D] md:text-3xl"
+            >
               {name}
             </h1>
 
-            <BadgeCheck size={18} className="fill-[#d8bd8d] text-white" aria-hidden="true" />
+            <BadgeCheck
+              size={18}
+              className="fill-[#d8bd8d] text-white"
+              aria-hidden="true"
+            />
           </div>
 
           <div className="mt-5 space-y-3">
@@ -108,18 +115,31 @@ export default async function PublicProfileHeader({
                 <MapPin size={17} className="text-[#283C5D]/55" />
                 <span>{location}</span>
 
-                <meta itemProp="streetAddress" content={doctorProfile.workAddress} />
-                {doctorProfile.city ? <meta itemProp="addressLocality" content={doctorProfile.city} /> : null}
-                {doctorProfile.country ? <meta itemProp="addressCountry" content={doctorProfile.country} /> : null}
+                <meta
+                  itemProp="streetAddress"
+                  content={doctorProfile.workAddress}
+                />
+                {doctorProfile.city ? (
+                  <meta
+                    itemProp="addressLocality"
+                    content={doctorProfile.city}
+                  />
+                ) : null}
+                {doctorProfile.country ? (
+                  <meta
+                    itemProp="addressCountry"
+                    content={doctorProfile.country}
+                  />
+                ) : null}
               </div>
             ) : null}
 
             {RPPS ? (
               <div className="flex items-center gap-3 text-sm text-[#283C5D]/75">
-                <Award  size={17} className="text-[#283C5D]/55" />
-                  <span className="text-sm font-medium tracking-tight">
-                    {t("header.RPPS")} {RPPS}
-                  </span>
+                <Award size={17} className="text-[#283C5D]/55" />
+                <span className="text-sm font-medium tracking-tight">
+                  {t("header.RPPS")} {RPPS}
+                </span>
               </div>
             ) : null}
           </div>
@@ -133,7 +153,11 @@ export default async function PublicProfileHeader({
               <div className="mt-2 flex flex-wrap gap-2">
                 {doctorProfile.specialtyIds.length > 0 ? (
                   doctorProfile.specialtyIds.map((item) => (
-                    <span key={item} itemProp="medicalSpecialty" className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
+                    <span
+                      key={item}
+                      itemProp="medicalSpecialty"
+                      className="inline-flex rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-1.5 text-xs font-medium text-[#283C5D]"
+                    >
                       {specialtiesT(item)}
                     </span>
                   ))
@@ -153,7 +177,10 @@ export default async function PublicProfileHeader({
               <div className="mt-2 flex flex-wrap gap-2">
                 {doctorProfile.topThree.length > 0 ? (
                   doctorProfile.topThree.map((procedure) => (
-                    <span key={procedure} className="inline-flex rounded-full border border-[#d8bd8d]/40 bg-[#d8bd8d] px-4 py-1.5 text-xs font-medium text-[#283C5D]">
+                    <span
+                      key={procedure}
+                      className="inline-flex rounded-full border border-[#d8bd8d]/40 bg-[#d8bd8d] px-4 py-1.5 text-xs font-medium text-[#283C5D]"
+                    >
                       {proceduresT(procedure)}
                     </span>
                   ))

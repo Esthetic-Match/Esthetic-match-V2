@@ -35,7 +35,9 @@
     "years": "{count} years",
     "editProfile": "Edit Profile",
     "viewPublicProfile": "View profile",
-    "RPPS": "N° identification RPPS"
+    "RPPS": "N° identification RPPS",
+    "copy": "copy Profile",
+    "edit": "Edit Profile"
   },
   "expertise": {
     "title": "Procedures",

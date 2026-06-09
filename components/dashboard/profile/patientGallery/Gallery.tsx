@@ -26,9 +26,9 @@ export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGa
 
   const plan = paidPlan ?? "free";
   const isPremium = plan === "standard";
-  const visibleGallery = isPremium ? gallery : gallery.slice(0, 3);
+  const visibleGallery = isPremium ? gallery : gallery.slice(0, 5);
   const isEmpty = visibleGallery.length === 0;
-  const canAddMore = isPremium || gallery.length < 3;
+  const canAddMore = isPremium || gallery.length < 5;
 
   useEffect(() => {
     async function fetchGallery() {
@@ -62,7 +62,7 @@ export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGa
             <></>
           ) : (
             <span className="font-medium text-[#283C5D]/40">
-              ({visibleGallery.length}/{isPremium ? gallery.length : 3}) {t("gallery.upgrade")}
+              ({visibleGallery.length}/{isPremium ? gallery.length : 5}) {t("gallery.upgrade")}
             </span>
           )}
         </h2>

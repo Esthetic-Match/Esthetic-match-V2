@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { Globe } from "lucide-react";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
@@ -17,12 +17,19 @@ export default function LanguageSwitcher() {
       onClick={() => {
         router.push(pathname, { locale: newLocale });
       }}
-      className="relative z-[99999] flex cursor-pointer items-center gap-2 rounded-full 
-      border border-black/10 bg-white px-3 py-2 text-sm text-black transition hover:bg-gray-300
-      hover:text-black active:scale-[0.98] justify-center"
+      className="relative z-[99999] flex cursor-pointer items-center justify-center gap-2 rounded-full 
+      border border-black/10 bg-white px-3 py-2 text-sm text-black transition
+      hover:bg-[#283C5D] hover:text-white hover:scale-[0.95] active:scale-[1.01]"
     >
-      <Globe size={16} />
-      <span>{newLocale.toUpperCase()}</span>
+      <span className="relative h-5 w-5 overflow-hidden rounded-full border border-black/10 bg-white hover:scale-[1.05]">
+        <Image
+          src={`/flags/${locale}.png`}
+          alt={`${locale.toUpperCase()} flag`}
+          fill
+          sizes="20px"
+          className="object-fill"
+        />
+      </span>
     </button>
   );
 }
