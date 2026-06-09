@@ -86,11 +86,11 @@
           "title": "Réserver une consultation",
           "openLink": "Ouvrir le lien de réservation : {link}"
         },
-              "stickyContactBanner": {
-        "title": "Poser une question à {doctorName}",
-        "subtitle": "Avis médical sécurisé en ligne",
-        "free": "Gratuit",
-        "fromPrice": "dès {price}"
+        "stickyContactBanner": {
+          "title": "Poser une question à {doctorName}",
+          "subtitle": "Avis médical sécurisé en ligne",
+          "free": "Gratuit",
+          "fromPrice": "dès {price}"
       }
     },
      "bookingConfirmation": {

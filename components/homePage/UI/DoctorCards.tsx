@@ -1,37 +1,40 @@
+"use client";
+
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { Building2, Monitor, BriefcaseBusiness, Star } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 
 export type DoctorCardData = {
   id: string;
   slug: string;
   name: string;
   specialtyIds: string[];
-
   avatar: string;
-
   city: string | null;
   country: string | null;
-
   googleRating: number | null;
   googleReviewCount: number | null;
-
   yearsOfExperience: number | null;
-
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
   currency: string;
 };
 
-type DoctorCardProps = {
-  doctor: DoctorCardData;
+export type CardTranslations = {
+  reviews: string;
+  free: string;
+  viewProfile: string;
 };
 
-export default async function DoctorCards({ doctor }: DoctorCardProps) {
-  const t = await getTranslations("home.Home");
-  const specialtyT = await getTranslations("specialitiesName");
+export type SpecialtyTranslations = Record<string, string>;
 
+type DoctorCardProps = {
+  doctor: DoctorCardData;
+  t: CardTranslations;
+  specialtyT: SpecialtyTranslations;
+};
+
+export default function DoctorCards({ doctor, t, specialtyT }: DoctorCardProps) {
   const specialties = doctor.specialtyIds;
 
   return (
@@ -45,7 +48,7 @@ export default async function DoctorCards({ doctor }: DoctorCardProps) {
           <Image
             src={doctor.avatar || "/images/default-doctor.png"}
             alt={`${doctor.name}, ${specialties
-              .map((specialtyId) => specialtyT(specialtyId))
+              .map((id) => specialtyT[id] ?? id)
               .join(", ")}`}
             fill
             sizes="96px"
@@ -67,13 +70,10 @@ export default async function DoctorCards({ doctor }: DoctorCardProps) {
               className="mt-2 flex items-center gap-1 text-[10px] text-[#283C5D]/60"
             >
               <Star size={11} className="fill-[#d8bd8d] text-[#d8bd8d]" />
-
               <span itemProp="ratingValue">{doctor.googleRating}</span>
-
               <span>
-                ({doctor.googleReviewCount} {t("reviews")})
+                ({doctor.googleReviewCount} {t.reviews})
               </span>
-
               <meta
                 itemProp="reviewCount"
                 content={String(doctor.googleReviewCount)}
@@ -102,14 +102,12 @@ export default async function DoctorCards({ doctor }: DoctorCardProps) {
               {doctor.inClinicPrice} {doctor.currency.toUpperCase()}
             </span>
           </div>
-        ) : 
+        ) : (
           <div className="flex items-center gap-1.5 rounded-xl bg-[#FAF9F7] px-2 py-2 text-[10px] font-semibold text-[#283C5D]/65">
             <Building2 size={13} className="text-[#d8bd8d]" />
-            <span>
-              {t("free")}
-            </span>
+            <span>{t.free}</span>
           </div>
-        }
+        )}
 
         {doctor.onlineConsulPrice ? (
           <div className="flex items-center gap-1.5 rounded-xl bg-[#FAF9F7] px-2 py-2 text-[10px] font-semibold text-[#283C5D]/65">
@@ -118,26 +116,24 @@ export default async function DoctorCards({ doctor }: DoctorCardProps) {
               {doctor.onlineConsulPrice} {doctor.currency.toUpperCase()}
             </span>
           </div>
-        ) : 
+        ) : (
           <div className="flex items-center gap-1.5 rounded-xl bg-[#FAF9F7] px-2 py-2 text-[10px] font-semibold text-[#283C5D]/65">
             <Monitor size={13} className="text-[#d8bd8d]" />
-            <span>
-              {t("free")}
-            </span>
+            <span>{t.free}</span>
           </div>
-          }
+        )}
       </div>
 
       {specialties.length > 0 ? (
         <div className="mt-3 border-t border-[#283C5D]/10 pt-3">
           <div className="flex flex-wrap gap-1.5">
-            {specialties.map((specialtyId) => (
+            {specialties.map((id) => (
               <span
-                key={specialtyId}
+                key={id}
                 itemProp="medicalSpecialty"
                 className="rounded-full border border-[#283C5D]/15 bg-white px-2.5 py-1 text-[9px] font-semibold text-[#283C5D]/65"
               >
-                {specialtyT(specialtyId)}
+                {specialtyT[id] ?? id}
               </span>
             ))}
           </div>
@@ -147,10 +143,9 @@ export default async function DoctorCards({ doctor }: DoctorCardProps) {
       <div className="mt-auto pt-4">
         <Link
           href={`/doctors/${doctor.slug}`}
-          className="w-full inline-flex rounded-full justify-center border border-[#d8bd8d]/60 px-4 py-1.5 text-[10px] font-semibold uppercase 
-          tracking-[0.08em] text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white active:scale-[0.98]"
+          className="inline-flex w-full justify-center rounded-full border border-[#d8bd8d]/60 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white active:scale-[0.98]"
         >
-          {t("viewProfile")}
+          {t.viewProfile}
         </Link>
       </div>
     </article>

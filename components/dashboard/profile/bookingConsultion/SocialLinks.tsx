@@ -53,7 +53,7 @@ export default function SocialLinks({
         );
 
         const data = await res.json().catch(() => null);
-
+        console.log(data)
         if (!res.ok) {
           throw new Error(data?.error || "Could not generate social link.");
         }
@@ -145,30 +145,6 @@ return (
                 {errorMessage}
               </p>
             ) : null}
-
-            <button
-              type="button"
-              onClick={copySocialLink}
-              disabled={isLoadingLink || !socialLink}
-              className="mt-5 inline-flex cursor-pointer items-center justify-center rounded-full bg-[#283C5D] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isLoadingLink ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t("social.generating")}
-                </>
-              ) : copied ? (
-                <>
-                  <Check className="mr-2 h-4 w-4" />
-                  {t("social.copied")}
-                </>
-              ) : (
-                <>
-                  <Copy className="mr-2 h-4 w-4" />
-                  {t("social.copyUrl")}
-                </>
-              )}
-            </button>
           </div>
         </div>
       )}

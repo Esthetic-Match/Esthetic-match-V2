@@ -5,7 +5,7 @@ export const SPECIALTY_CATEGORY_MAP: Record<string, string[]> = {
     "hair_medicine",
     "muscle_tone_and_ems",
     "iv_therapy",
-    "wellness_and_drainage",
+    "wellness_and_postoperative",
     "longevity",
   ],
   plastic_surgeon: [
@@ -33,7 +33,7 @@ export const SPECIALTY_CATEGORY_MAP: Record<string, string[]> = {
   general_practitioner: [
     "aesthetic_medicine_face",
     "iv_therapy",
-    "wellness_and_drainage",
+    "wellness_and_postoperative",
     "longevity",
     "aesthetic_medicine_body",
   ],
@@ -53,7 +53,7 @@ export const SPECIALTY_CATEGORY_MAP: Record<string, string[]> = {
     "hair_medicine",
     "muscle_tone_and_ems",
     "iv_therapy",
-    "wellness_and_drainage",
+    "wellness_and_postoperative",
     "surgical_face",
     "surgical_body",
     "longevity",

@@ -58,6 +58,7 @@ type PatientProfileData = {
 
 type FavoriteDoctor = {
   id: string;
+  slug:string;
   clinicName?: string | null;
   specialtyIds?: string[] | null;
   googleRating?: number | null;

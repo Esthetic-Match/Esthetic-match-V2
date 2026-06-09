@@ -26,20 +26,30 @@ export default function SignInPage() {
     e.preventDefault();
     setErrorMessage("");
     setIsLoading(true);
-
+  
     const { error } = await authClient.signIn.email({
       email,
       password,
     });
-
-    setIsLoading(false);
-
+  
     if (error) {
+      setIsLoading(false);
       setErrorMessage(error.message || "Invalid credentials.");
       return;
     }
-
-    router.push("/dashboard");
+  
+    const session = await authClient.getSession();
+    const userId = session.data?.user?.id;
+  
+    setIsLoading(false);
+  
+    if (!userId) {
+      router.push("/dashboard");
+      router.refresh();
+      return;
+    }
+  
+    router.push(`/dashboard/${userId}`);
     router.refresh();
   }
 

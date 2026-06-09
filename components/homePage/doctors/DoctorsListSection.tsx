@@ -1,30 +1,9 @@
-import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
-import DoctorCards from "../UI/DoctorCards";
+import DoctorsInfiniteList from "./DoctorsInfiniteList";
+import type { DoctorCardData } from "../UI/DoctorCards";
 
-type PublicDoctor = {
-  id: string;
-  slug: string;
-  name: string;
 
-  specialtyIds: string[];
-
-  avatar: string;
-
-  city: string | null;
-  country: string | null;
-
-  googleRating: number | null;
-  googleReviewCount: number | null;
-
-  yearsOfExperience: number | null;
-
-  inClinicPrice: number | null;
-  onlineConsulPrice: number | null;
-
-  currency: string;
-};
 
 type DoctorFilters = {
   q?: string;
@@ -38,26 +17,9 @@ type DoctorFilters = {
 };
 
 type DoctorsResponse = {
-  doctors: PublicDoctor[];
+  doctors: DoctorCardData[];
   hasMore: boolean;
 };
-
-
-function buildPageQuery(filters: DoctorFilters | undefined, page: number, limit: number) {
-  const params = new URLSearchParams();
-
-  if (filters?.q) params.set("q", filters.q);
-  if (filters?.specialty) params.set("specialty", filters.specialty);
-  if (filters?.category) params.set("category", filters.category);
-  if (filters?.procedures) params.set("procedures", filters.procedures);
-  if (filters?.location) params.set("location", filters.location);
-  if (filters?.minRating) params.set("minRating", filters.minRating);
-
-  params.set("page", String(page));
-  params.set("limit", String(limit));
-
-  return params.toString();
-}
 
 async function getDoctors(
   filters?: DoctorFilters,
@@ -69,35 +31,26 @@ async function getDoctors(
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
   const params = new URLSearchParams();
-
-  if (filters?.q) params.set("q", filters.q);
-  if (filters?.specialty) params.set("specialty", filters.specialty);
-  if (filters?.category) params.set("category", filters.category);
+  if (filters?.q)          params.set("q", filters.q);
+  if (filters?.specialty)  params.set("specialty", filters.specialty);
+  if (filters?.category)   params.set("category", filters.category);
   if (filters?.procedures) params.set("procedures", filters.procedures);
-  if (filters?.location) params.set("location", filters.location);
-  if (filters?.minRating) params.set("minRating", filters.minRating);
-
+  if (filters?.location)   params.set("location", filters.location);
+  if (filters?.minRating)  params.set("minRating", filters.minRating);
   params.set("page", String(page));
   params.set("limit", String(limit));
 
   const res = await fetch(
     `${protocol}://${host}/api/public-pages/doctor-profile?${params.toString()}`,
-    {
-      next: { revalidate: 60 },
-    }
+    { next: { revalidate: 60 } }
   );
 
-  if (!res.ok) {
-    return { doctors: [], hasMore: false };
-  }
+  if (!res.ok) return { doctors: [], hasMore: false };
 
   const data = await res.json();
 
   if (Array.isArray(data)) {
-    return {
-      doctors: data,
-      hasMore: data.length === limit,
-    };
+    return { doctors: data, hasMore: data.length === limit };
   }
 
   return {
@@ -111,21 +64,37 @@ export default async function DoctorsListSection({
 }: {
   filters?: DoctorFilters;
 }) {
-  const t = await getTranslations("home.doctors");
+  const t        = await getTranslations("home.Home");
+  const listT    = await getTranslations("home.doctors");
+  const specialtyT = await getTranslations("specialitiesName");
 
-  const page = Math.max(Number(filters?.page || "1"), 1);
-  const limit = Math.max(Number(filters?.limit || "10"), 1);
+  const limit = 12;
+  const { doctors, hasMore } = await getDoctors(filters, 1, limit);
 
-  const { doctors, hasMore } = await getDoctors(filters, page, limit);
+  // Serialize card translations into a plain object (safe to cross the server→client boundary)
+  const cardTranslations = {
+    reviews:     t("reviews"),
+    free:        t("free"),
+    viewProfile: t("viewProfile"),
+  };
+
+const allSpecialtyIds = [...new Set(doctors.flatMap((d) => d.specialtyIds))];
+
+const specialtyTranslations = Object.fromEntries(
+  allSpecialtyIds.map((id) => {
+    try   { return [id, specialtyT(id)]; }
+    catch { return [id, id]; }
+  })
+);
+
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: t("list.title"),
+    name: listT("list.title"),
     numberOfItems: doctors.length,
     itemListElement: doctors.map((doctor, index) => {
       const hasRating = doctor.googleRating && doctor.googleReviewCount;
-
       return {
         "@type": "ListItem",
         position: index + 1,
@@ -153,75 +122,47 @@ export default async function DoctorsListSection({
     }),
   };
 
-return (
-  <section
-    aria-labelledby="doctors-list-title"
-    className="mx-auto max-w-6xl px-6 py-16 md:px-12 lg:px-4"
-  >
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+  return (
+    <section
+      aria-labelledby="doctors-list-title"
+      className="mx-auto max-w-6xl px-6 py-16 md:px-12 lg:px-4"
+    >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-    <div className="mb-8 flex items-end justify-between gap-4">
-      <div>
-        <p
-          id="doctors-list-title"
-          className="mb-3 text-xs font-semibold uppercase tracking-[0.45em] text-[#283C5D]"
-        >
-          {t("list.title")}
-        </p>
-        <div className="h-px w-16 bg-[#d8bd8d]" />
+      <div className="mb-8 flex items-end justify-between gap-4">
+        <div>
+          <p
+            id="doctors-list-title"
+            className="mb-3 text-xs font-semibold uppercase tracking-[0.45em] text-[#283C5D]"
+          >
+            {listT("list.title")}
+          </p>
+          <div className="h-px w-16 bg-[#d8bd8d]" />
+        </div>
       </div>
 
-      <p className="hidden text-xs uppercase tracking-[0.25em] text-[#d8bd8d] md:block">
-        {t("list.practitionersCount", { count: doctors.length })}
-      </p>
-    </div>
-
-    {doctors.length === 0 ? (
-      <div className="rounded-3xl border border-dashed border-[#d8bd8d]/40 bg-white px-6 py-16 text-center shadow-sm">
-        <h3 className="text-xl font-semibold text-[#283C5D]">
-          {t("list.noDoctorsTitle")}
-        </h3>
-
-        <p className="mt-3 text-sm text-[#283C5D]/60">
-          {t("list.noDoctorsDescription")}
-        </p>
-      </div>
-    ) : (
-      <>
-        <div className="grid gap-5 p-4 sm:grid-cols-2 lg:grid-cols-3">
-          {doctors.map((doctor) => (
-            <DoctorCards key={doctor.id} doctor={doctor} />
-          ))}
+      {doctors.length === 0 ? (
+        <div className="rounded-3xl border border-dashed border-[#d8bd8d]/40 bg-white px-6 py-16 text-center shadow-sm">
+          <h3 className="text-xl font-semibold text-[#283C5D]">
+            {listT("list.noDoctorsTitle")}
+          </h3>
+          <p className="mt-3 text-sm text-[#283C5D]/60">
+            {listT("list.noDoctorsDescription")}
+          </p>
         </div>
-
-        <div className="mt-10 flex items-center justify-center gap-3">
-          {page > 1 ? (
-            <Link
-              href={`/doctors?${buildPageQuery(filters, page - 1, limit)}`}
-              className="rounded-full border border-[#283C5D]/15 bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white"
-            >
-              {t("list.previous")}
-            </Link>
-          ) : null}
-
-          <span className="rounded-full bg-[#FAF9F7] px-5 py-2 text-xs font-semibold text-[#283C5D]/70">
-            {t("list.page")} {page}
-          </span>
-
-          {hasMore ? (
-            <Link
-              href={`/doctors?${buildPageQuery(filters, page + 1, limit)}`}
-              className="rounded-full border border-[#d8bd8d] bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wider text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white"
-            >
-              {t("list.next")}
-            </Link>
-          ) : null}
-        </div>
-      </>
-    )}
-  </section>
-);
+      ) : (
+        <DoctorsInfiniteList
+          initialDoctors={doctors}
+          initialHasMore={hasMore}
+          filters={filters}
+          limit={limit}
+          t={cardTranslations}
+          specialtyT={specialtyTranslations}
+        />
+      )}
+    </section>
+  );
 }

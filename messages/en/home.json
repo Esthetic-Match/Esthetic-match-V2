@@ -151,9 +151,11 @@
     "nav": {
       "doctors": "Doctors",
       "categories": "Categories",
+      "profile": "Profile",
       "contact": "Contact",
       "signIn": "Sign in",
       "messages": "View Messages",
+      "logout": "Logout",
       "faq": "FAQ"
     },
       "whyDoctorsShouldJoin": {

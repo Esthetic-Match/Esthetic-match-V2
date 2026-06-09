@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 type FavoriteDoctorCardProps = {
   doctor: {
     id: string;
+    slug: string;
     clinicName?: string | null;
     specialtyIds?: string[] | null;
     googleRating?: number | null;
@@ -39,7 +40,7 @@ export default function FavoriteDoctorCard({
 
   return (
     <Link
-      href={`/doctors/${doctor.id}`}
+      href={`/doctors/${doctor.slug}`}
       className="group overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
     >
       <div className="relative h-44 bg-[#F2F3F5]">

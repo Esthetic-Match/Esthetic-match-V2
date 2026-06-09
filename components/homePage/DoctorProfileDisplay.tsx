@@ -7,22 +7,15 @@ type PublicDoctor = {
   id: string;
   slug: string;
   name: string;
-
   specialtyIds: string[];
-
   avatar: string;
-
   city: string | null;
   country: string | null;
-
   googleRating: number | null;
   googleReviewCount: number | null;
-
   yearsOfExperience: number | null;
-
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
-
   currency: string;
 };
 
@@ -33,29 +26,37 @@ async function getMostRecentDoctors(): Promise<PublicDoctor[]> {
 
   const res = await fetch(
     `${protocol}://${host}/api/public-pages/doctor-profile/recent`,
-    {
-      next: {
-        revalidate: 60,
-      },
-    }
+    { next: { revalidate: 60 } }
   );
 
-  if (!res.ok) {
-    return [];
-  }
+  if (!res.ok) return [];
 
   const data = await res.json();
-
   return Array.isArray(data) ? data : [];
 }
 
 export default async function ProfileDisplay() {
-  const t = await getTranslations("home.Home");
-  const doctors = await getMostRecentDoctors();
+  const t          = await getTranslations("home.Home");
+  const specialtyT = await getTranslations("specialitiesName");
+  const doctors    = await getMostRecentDoctors();
 
-  if (doctors.length === 0) {
-    return null;
-  }
+  if (doctors.length === 0) return null;
+
+  // Collect only the specialty IDs actually used by these doctors
+  const allSpecialtyIds = [...new Set(doctors.flatMap((d) => d.specialtyIds))];
+
+  const cardTranslations = {
+    reviews:     t("reviews"),
+    free:        t("free"),
+    viewProfile: t("viewProfile"),
+  };
+
+  const specialtyTranslations = Object.fromEntries(
+    allSpecialtyIds.map((id) => {
+      try   { return [id, specialtyT(id)]; }
+      catch { return [id, id]; }           
+    })
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -63,7 +64,6 @@ export default async function ProfileDisplay() {
     name: t("nearbyDoctors"),
     itemListElement: doctors.map((doctor, index) => {
       const hasRating = doctor.googleRating && doctor.googleReviewCount;
-
       return {
         "@type": "ListItem",
         position: index + 1,
@@ -121,7 +121,12 @@ export default async function ProfileDisplay() {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {doctors.map((doctor) => (
-          <DoctorCards key={doctor.id} doctor={doctor} />
+          <DoctorCards
+            key={doctor.id}
+            doctor={doctor}
+            t={cardTranslations}
+            specialtyT={specialtyTranslations}
+          />
         ))}
       </div>
     </section>
