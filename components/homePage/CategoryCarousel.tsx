@@ -51,10 +51,10 @@ const categories = [
     icon: "/images/home/categories/icons/iv-therapy.svg",
   },
   {
-    key: "WELLNESS & DRAINAGE",
-    href: "/categories/wellness-drainage",
-    image: "/images/home/categories/wellness-drainage.png",
-    icon: "/images/home/categories/icons/wellness-drainage.svg",
+    key: "WELLNESS & POSTOPERATIVE",
+    href: "/categories/wellness-and-postoperative",
+    image: "/images/home/categories/wellness-and-postoperative.png",
+    icon: "/images/home/categories/icons/wellness-and-postoperative.svg",
   },
   {
     key: "LONGEVITY MEDICINE",

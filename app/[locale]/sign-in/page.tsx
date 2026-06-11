@@ -44,7 +44,7 @@ export default function SignInPage() {
     setIsLoading(false);
   
     if (!userId) {
-      router.push("/dashboard");
+      router.push("/dashboard/settings");
       router.refresh();
       return;
     }

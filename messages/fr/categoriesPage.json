@@ -49,7 +49,7 @@
         "title": "Thérapie IV",
         "description": "Hydratation intraveineuse, vitamines, récupération, immunité, énergie et perfusions bien-être orientées beauté."
       },
-      "wellness_and_drainage": {
+      "wellness_and_postoperative": {
         "title": "Bien-être & drainage",
         "description": "Traitements favorisant la circulation, le drainage lymphatique, la relaxation, la récupération et le bien-être général."
       },
@@ -234,6 +234,10 @@
         "description": "Programmes personnalisés de longévité combinant supervision médicale, mode de vie et prévention."
       },
       "lasers_and_energy_devices": {
+        "title": "Lasers et appareils énergétiques",
+        "description": "Traitements avancés utilisant des lasers et des technologies énergétiques pour le rajeunissement de la peau, le resurfacing, le raffermissement, la correction de la pigmentation et l’amélioration esthétique non invasive."
+      },
+      "lasers_and_energy_devices_body": {
         "title": "Lasers et appareils énergétiques",
         "description": "Traitements avancés utilisant des lasers et des technologies énergétiques pour le rajeunissement de la peau, le resurfacing, le raffermissement, la correction de la pigmentation et l’amélioration esthétique non invasive."
       }

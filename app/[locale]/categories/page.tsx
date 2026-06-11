@@ -78,11 +78,11 @@ const categories = [
       "Intravenous hydration, vitamins, recovery, immunity, energy, and beauty-focused wellness drips.",
   },
   {
-    key: "WELLNESS & DRAINAGE",
-    id: "wellness_and_drainage",
-    href: "/categories/wellness-drainage",
-    image: "/images/home/categories/wellness-drainage.png",
-    icon: "/images/home/categories/icons/wellness-drainage.svg",
+    key: "WELLNESS & POSTOPERATIVE",
+    id: "wellness_and_postoperative",
+    href: "/categories/wellness-and-postoperative",
+    image: "/images/home/categories/wellness-and-postoperative.png",
+    icon: "/images/home/categories/icons/wellness-and-postoperative.svg",
     description:
       "Treatments supporting circulation, lymphatic drainage, relaxation, recovery, and general wellbeing.",
   },
