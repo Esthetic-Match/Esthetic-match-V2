@@ -43,10 +43,10 @@ export const categoryPages = [
   },
   {
     key: "WELLNESS & DRAINAGE",
-    id: "wellness_and_drainage",
-    slug: "wellness-drainage",
-    image: "/images/home/categories/wellness-drainage.png",
-    icon: "/images/home/categories/icons/wellness-drainage.svg",
+    id: "wellness_and_postoperative",
+    slug: "wellness-and-postoperative",
+    image: "/images/home/categories/wellness-and-postoperative.png",
+    icon: "/images/home/categories/icons/wellness-and-postoperative.svg",
   },
   {
     key: "SURGICAL FACE",
