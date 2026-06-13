@@ -1,19 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ClinicBanner from "./UI/ClinicBanner";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
 import { handleImageUpload } from "@/utils/dashboard/helper";
-import { useTranslations } from "next-intl";
 
 const fallbackBanner = "/dev/clinic-banner-placeholder.jpg";
 
 type ClinicBannerManagerProps = {
   doctorId: string;
-  clinicBanner: string;
+  clinicBanner: string | null;
   isLoadingProfile: boolean;
-   onUpdateProfile: (
+  onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void;
 };
@@ -25,38 +24,35 @@ export default function ClinicBannerManager({
   onUpdateProfile,
 }: ClinicBannerManagerProps) {
   const [isBannerModalOpen, setIsBannerModalOpen] = useState(false);
-  const [currentBanner, setCurrentBanner] = useState<string | null>(clinicBanner);
+  const [currentBanner, setCurrentBanner] = useState<string | null>(null);
 
-  useEffect(() => {
-    setCurrentBanner(clinicBanner);
-  }, [clinicBanner]);
+  const displayedBanner = currentBanner ?? clinicBanner ?? fallbackBanner;
 
+  async function handleBannerUploaded(url: string) {
+    await handleImageUpload({
+      newUrl: url,
+      currentValue: displayedBanner,
+      setValue: setCurrentBanner,
+      field: "clinicBanner",
+      onUpdateProfile,
+    });
+  }
 
-async function handleBannerUploaded(url: string) {
-  await handleImageUpload({
-    newUrl: url,
-    currentValue: currentBanner,
-    setValue: setCurrentBanner,
-    field: "clinicBanner",
-    onUpdateProfile,
-  });
-}
-
-async function handleDeleteBanner() {
-  await handleImageUpload({
-    newUrl: null,
-    currentValue: currentBanner,
-    fallbackValue: fallbackBanner,
-    setValue: setCurrentBanner,
-    field: "clinicBanner",
-    onUpdateProfile,
-  });
-}
+  async function handleDeleteBanner() {
+    await handleImageUpload({
+      newUrl: null,
+      currentValue: displayedBanner,
+      fallbackValue: fallbackBanner,
+      setValue: setCurrentBanner,
+      field: "clinicBanner",
+      onUpdateProfile,
+    });
+  }
 
   return (
     <>
       <ClinicBanner
-        clinicBanner={currentBanner}
+        clinicBanner={displayedBanner}
         isLoading={isLoadingProfile}
         onEdit={() => setIsBannerModalOpen(true)}
       />
@@ -64,9 +60,7 @@ async function handleDeleteBanner() {
       <ImageUploadModal
         isOpen={isBannerModalOpen}
         ImagePath={`doctor-profile/${doctorId}/banner`}
-        currentImage={
-          currentBanner === fallbackBanner ? null : currentBanner
-        }
+        currentImage={displayedBanner === fallbackBanner ? null : displayedBanner}
         onClose={() => setIsBannerModalOpen(false)}
         onImageloaded={handleBannerUploaded}
         onDeleteBanner={handleDeleteBanner}

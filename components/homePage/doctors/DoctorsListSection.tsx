@@ -122,6 +122,16 @@ const specialtyTranslations = Object.fromEntries(
     }),
   };
 
+  const doctorsListKey = JSON.stringify({
+  q: filters?.q ?? "",
+  specialty: filters?.specialty ?? "",
+  category: filters?.category ?? "",
+  procedures: filters?.procedures ?? "",
+  location: filters?.location ?? "",
+  minRating: filters?.minRating ?? "",
+  limit,
+});
+
   return (
     <section
       aria-labelledby="doctors-list-title"
@@ -155,6 +165,7 @@ const specialtyTranslations = Object.fromEntries(
         </div>
       ) : (
         <DoctorsInfiniteList
+          key={doctorsListKey}
           initialDoctors={doctors}
           initialHasMore={hasMore}
           filters={filters}

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Heart, Loader2 } from "lucide-react";
-import { useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 
 type DoctorFavoriteButtonProps = {
@@ -12,13 +11,11 @@ type DoctorFavoriteButtonProps = {
 export default function FavoriteButton({
   doctorProfileId,
 }: DoctorFavoriteButtonProps) {
-  const locale = useLocale();
   const router = useRouter();
 
   const [canFavorite, setCanFavorite] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     async function checkRoleAndFavoriteStatus() {
@@ -31,7 +28,6 @@ export default function FavoriteButton({
           return;
         }
 
-        setUserId(data.user.id);
 
         if (data?.user?.role === "PATIENT") {
           setCanFavorite(true);

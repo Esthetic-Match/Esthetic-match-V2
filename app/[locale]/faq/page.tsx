@@ -4,12 +4,6 @@ import { NavBarMain } from "@/components/NavbarMain";
 import { ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
-type FAQItem = {
-  id: string;
-  category: string;
-  question: string;
-  answer: string;
-};
 
 export async function generateMetadata({
   params,
@@ -47,12 +41,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function FAQPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+export default async function FAQPage() {
 
   const t = await getTranslations("faq.faq");
 

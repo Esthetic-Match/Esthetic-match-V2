@@ -25,6 +25,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(createdCase);
   } catch (error) {
+    console.log(error)
     return NextResponse.json(
       { error: "Failed to create case" },
       { status: 500 }

@@ -7,13 +7,11 @@ import { authClient } from "@/lib/auth-client";
 
 type VerifyEmailProps = {
   email: string;
-  role: "PATIENT" | "DOCTOR";
   onVerified?: () => void;
 };
 
 export default function VerifyEmail({
   email,
-  role,
   onVerified,
 }: VerifyEmailProps) {
   const router = useRouter();

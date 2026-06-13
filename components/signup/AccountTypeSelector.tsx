@@ -19,12 +19,11 @@ export default function AccountTypeSelector({
   const t = useTranslations("signUp.SelectionPage");
 
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [target, setTarget] = useState<TransitionTarget>(null);
 
   const handleSelect = (selectedTarget: Exclude<TransitionTarget, null>) => {
     if (isTransitioning) return;
 
-    setTarget(selectedTarget);
+
     setIsTransitioning(true);
 
     setTimeout(() => {
@@ -52,7 +51,7 @@ export default function AccountTypeSelector({
           isTransitioning ? "opacity-0" : "opacity-100"
         }`}
       >
-        <BackButton onBack={onSelectPatient} variant="dark" />
+        <BackButton variant="dark" />
 
         {/* LEFT SIDE (WHITE) */}
         <div className="flex flex-col items-center justify-center bg-white px-8 py-12 text-center max-md:hidden z-9999">

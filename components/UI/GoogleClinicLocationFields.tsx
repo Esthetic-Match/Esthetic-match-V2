@@ -126,16 +126,19 @@ export default function GoogleClinicLocationFields({
     return () => {
       listener.remove();
     };
-  }, [
-    isLoaded,
-    onWorkAddressChange,
-    onCityChange,
-    onCountryChange,
-    onZipCodeChange,
-    onGooglePlaceIdChange,
-    onWorkLatitudeChange,
-    onWorkLongitudeChange,
-  ]);
+}, [
+  isLoaded,
+  onWorkAddressChange,
+  onCityChange,
+  onCountryChange,
+  onZipCodeChange,
+  onGooglePlaceIdChange,
+  onGoogleMapsUriChange,
+  onGoogleRatingChange,
+  onGoogleReviewCountChange,
+  onWorkLatitudeChange,
+  onWorkLongitudeChange,
+]);
 
   return (
     <>

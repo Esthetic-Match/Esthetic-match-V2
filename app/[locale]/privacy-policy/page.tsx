@@ -201,7 +201,7 @@ export default function PrivacyPolicyPage() {
           </h1>
 
           <p className="mt-5 max-w-3xl text-base leading-8 text-[#283C5D]/70">
-            Applicable à l'ensemble des utilisateurs de la Plateforme Esthetic
+            Applicable à l&apos;ensemble des utilisateurs de la Plateforme Esthetic
             Match.
           </p>
 

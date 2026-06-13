@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { ImageIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 type GalleryProps = {
   doctorId: string;
-  paidPlan: "free" | "standard" | string | null;
 };
 
 type GalleryItem = {
@@ -15,7 +15,7 @@ type GalleryItem = {
   isPublic: boolean;
 };
 
-export default function Gallery({ doctorId, paidPlan }: GalleryProps) {
+export default function Gallery({ doctorId }: GalleryProps) {
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [showAll, setShowAll] = useState(false);
 
@@ -183,13 +183,14 @@ function GalleryImage({
   return (
     <figure>
       <div className="relative h-40 overflow-hidden rounded-xl bg-[#FAF9F7]">
-        <img
+        <Image
           src={src}
           alt={`${label} treatment result`}
-          className={`h-full w-full object-cover ${
+          fill
+          sizes="100vw"
+          className={`object-cover ${
             isPublic ? "" : "scale-110 blur-xl"
           }`}
-          loading="lazy"
         />
 
         {!isPublic ? (

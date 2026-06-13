@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CalendarDays, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createPortal } from "react-dom";
@@ -34,11 +34,7 @@ export default function GoogleAuthButton({ role }: GoogleAuthButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [error, setError] = useState("");
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   function handleOpenModal() {
     setError("");
@@ -85,7 +81,7 @@ export default function GoogleAuthButton({ role }: GoogleAuthButtonProps) {
         <span>{t("continueWithGoogle")}</span>
       </button>
 
-{mounted && isModalOpen
+{isModalOpen && typeof document !== "undefined"
   ? createPortal(
       <div className="fixed inset-0 z-[99999] flex min-h-screen w-screen items-center justify-center bg-black/50 p-4 backdrop-blur-md">
         <div className="relative w-full max-w-md rounded-[2rem] border border-white/70 bg-white p-6 shadow-2xl shadow-[#283C5D]/20">

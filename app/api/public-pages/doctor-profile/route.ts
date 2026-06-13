@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 
 function normalize(value: string) {
   return value.toLowerCase().trim().replace(/\s+/g, "_");
@@ -35,43 +36,49 @@ export async function GET(req: Request) {
     const normalizedQ = q ? normalize(q) : undefined;
     const normalizedSpecialty = specialty ? normalize(specialty) : undefined;
 
-    const searchOrFilters = [
+    const searchOrFiltersRaw: (Prisma.DoctorProfileWhereInput | null)[] = [
       q
         ? {
             OR: [
-              { user: { name: { contains: q, mode: "insensitive" as const } } },
-              { clinicName: { contains: q, mode: "insensitive" as const } },
-              { city: { contains: q, mode: "insensitive" as const } },
-              { country: { contains: q, mode: "insensitive" as const } },
+              { user: { name: { contains: q, mode: "insensitive" } } },
+              { clinicName: { contains: q, mode: "insensitive" } },
+              { city: { contains: q, mode: "insensitive" } },
+              { country: { contains: q, mode: "insensitive" } },
               {
                 specialtyIds: {
-                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
+                  hasSome: [q, normalizedQ].filter(
+                    (value): value is string => Boolean(value)
+                  ),
                 },
               },
               {
                 subcategoryIds: {
-                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
+                  hasSome: [q, normalizedQ].filter(
+                    (value): value is string => Boolean(value)
+                  ),
                 },
               },
               {
                 procedureIds: {
-                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
+                  hasSome: [q, normalizedQ].filter(
+                    (value): value is string => Boolean(value)
+                  ),
                 },
               },
             ],
           }
         : null,
-
+        
       specialty
         ? {
             specialtyIds: {
               hasSome: [specialty, normalizedSpecialty].filter(
-                Boolean
-              ) as string[],
+                (value): value is string => Boolean(value)
+              ),
             },
           }
         : null,
-
+        
       categories && categories.length > 0
         ? {
             subcategoryIds: {
@@ -79,7 +86,7 @@ export async function GET(req: Request) {
             },
           }
         : null,
-
+        
       procedures && procedures.length > 0
         ? {
             procedureIds: {
@@ -87,30 +94,34 @@ export async function GET(req: Request) {
             },
           }
         : null,
-    ].filter(Boolean);
+    ];
 
-    const where = {
+    const searchOrFilters = searchOrFiltersRaw.filter(
+      (filter): filter is Prisma.DoctorProfileWhereInput => filter !== null
+    );
+
+    const where: Prisma.DoctorProfileWhereInput = {
       AND: [
         searchOrFilters.length > 0
           ? {
-              OR: searchOrFilters as any,
+              OR: searchOrFilters,
             }
           : {},
-
+          
         location
           ? {
               OR: [
-                { city: { contains: location, mode: "insensitive" as const } },
+                { city: { contains: location, mode: "insensitive" } },
                 {
                   country: {
                     contains: location,
-                    mode: "insensitive" as const,
+                    mode: "insensitive",
                   },
                 },
               ],
             }
           : {},
-
+          
         minRating
           ? {
               googleRating: {
@@ -120,7 +131,6 @@ export async function GET(req: Request) {
           : {},
       ],
     };
-
   const doctors = await prisma.doctorProfile.findMany({
     skip,
     take: limit + 1,

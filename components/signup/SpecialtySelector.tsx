@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 type SpecialtySelectorProps = {
   selectedSpecialties: string[];
@@ -166,9 +167,11 @@ export default function SpecialtySelector({
                     <Check size={13} strokeWidth={3} />
                   </span>
 
-                  <img
+                  <Image
                     src={`/images/dashboard/specialties/${specialty.icon}`}
                     alt={t(specialty.labelKey)}
+                    width={44}
+                    height={44}
                     className={`mb-3 h-11 w-11 object-contain transition ${
                       selected
                         ? "opacity-100"

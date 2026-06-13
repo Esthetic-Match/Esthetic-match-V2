@@ -7,7 +7,6 @@ import {
   ShieldCheck,
   CreditCard,
   Building2,
-  LinkIcon,
 } from "lucide-react";
 import MessageText from "@/components/UI/MessageText";
 import { useRouter } from "@/i18n/navigation";

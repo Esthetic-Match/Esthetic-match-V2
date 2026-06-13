@@ -121,6 +121,31 @@ export default function AdminDoctorMediaManager() {
     fetchProfiles();
   }, []);
 
+  function DoctorMediaImage({
+  src,
+  alt,
+  fallback = "/images/default-doctor.png",
+}: {
+  src: string | null;
+  alt: string;
+  fallback?: string;
+}) {
+  const [imageSrc, setImageSrc] = useState(src || fallback);
+
+  return (
+    <Image
+      src={imageSrc}
+      alt={alt}
+      fill
+      sizes="44px"
+      className="object-cover"
+      onError={() => {
+        setImageSrc(fallback);
+      }}
+    />
+  );
+}
+
   async function updateDoctorMedia(
     doctorProfileId: string,
     field: MediaField,
@@ -205,6 +230,7 @@ export default function AdminDoctorMediaManager() {
               </tr>
             ) : (
               profiles.map((profile) => (
+                
                 <tr
                   key={profile.id}
                   className="bg-white transition hover:bg-[#FAF9F7]"
@@ -212,25 +238,17 @@ export default function AdminDoctorMediaManager() {
 <td className="whitespace-nowrap px-5 py-4">
   <div className="flex items-center gap-3">
     <div className="relative h-11 w-11 overflow-hidden rounded-full bg-[#FAF2DE]">
-      <img
-        src={profile.avatar || "/images/default-doctor.png"}
-        alt={profile.clinicName}
-        className="h-full w-full object-cover"
-        onError={(event) => {
-          event.currentTarget.src = "/images/default-doctor.png";
-        }}
-      />
+  <DoctorMediaImage
+    src={profile.avatar}
+    alt={profile.clinicName || "Doctor profile image"}
+  />
     </div>
 
     <div className="relative h-11 w-11 overflow-hidden rounded-full bg-[#283C5D]/10">
-      <img
-        src={profile.clinicBanner || "/images/default-doctor.png"}
-        alt={`${profile.clinicName} banner`}
-        className="h-full w-full object-cover"
-        onError={(event) => {
-          event.currentTarget.src = "/images/default-doctor.png";
-        }}
-      />
+  <DoctorMediaImage
+    src={profile.clinicBanner}
+    alt={`${profile.clinicName || "Clinic"} banner`}
+  />
     </div>
 
     <div>

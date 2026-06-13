@@ -7,7 +7,6 @@ import {
   Mail,
   User,
   Building2,
-  CalendarDays,
 } from "lucide-react";
 import InputField from "../UI/InputField";
 import { useTranslations } from "next-intl";

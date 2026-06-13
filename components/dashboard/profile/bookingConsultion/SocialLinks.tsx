@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Check, Copy, LinkIcon, Loader2, Share2 } from "lucide-react";
+import { LinkIcon, Share2 } from "lucide-react";
 import CardTitle from "../UI/CardTitle";
 import UpgradeButton from "../UI/UpgradeButton";
 import SocialLockedRow from "../UI/SocialLockedRow";
 import GoogleReviewsButton from "../UI/GoogleReviewsButton";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 type SocialLinksProps = {
   paidPlan?: string | null;
@@ -28,62 +27,9 @@ export default function SocialLinks({
   googleRating,
 }: SocialLinksProps) {
   const t = useTranslations("dashboard");
-  const locale = useLocale();
 
   const isStandard = paidPlan === "standard";
 
-  const [socialLink, setSocialLink] = useState("");
-  const [isLoadingLink, setIsLoadingLink] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    if (!isStandard) return;
-
-    async function getOrCreateSocialLink() {
-      try {
-        setIsLoadingLink(true);
-        setErrorMessage("");
-
-        const res = await fetch(
-          `/api/doctor-profile/social-link?locale=${locale}`,
-          {
-            method: "GET",
-          }
-        );
-
-        const data = await res.json().catch(() => null);
-        console.log(data)
-        if (!res.ok) {
-          throw new Error(data?.error || "Could not generate social link.");
-        }
-
-        setSocialLink(data.socialMediaLink || "");
-      } catch (error) {
-        setErrorMessage(
-          error instanceof Error
-            ? error.message
-            : "Could not generate social link."
-        );
-      } finally {
-        setIsLoadingLink(false);
-      }
-    }
-
-    getOrCreateSocialLink();
-  }, [isStandard, locale]);
-
-  async function copySocialLink() {
-    if (!socialLink) return;
-
-    await navigator.clipboard.writeText(socialLink);
-
-    setCopied(true);
-
-    setTimeout(() => {
-      setCopied(false);
-    }, 1800);
-  }
 
 return (
   <div className="rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
@@ -139,12 +85,6 @@ return (
             <p className="mt-1 text-sm text-[#283C5D]/60">
               {t("social.copyDescription")}
             </p>
-
-            {errorMessage ? (
-              <p className="mt-3 text-sm font-medium text-red-500">
-                {errorMessage}
-              </p>
-            ) : null}
           </div>
         </div>
       )}

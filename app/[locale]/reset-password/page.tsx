@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import {useSearchParams, useParams } from "next/navigation";
+import {useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { useTranslations } from "next-intl";
 
@@ -11,7 +11,6 @@ export default function ResetPasswordPage() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const params = useParams<{ locale: string }>();
 
   const token = searchParams.get("token");
   const error = searchParams.get("error");

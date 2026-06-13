@@ -70,27 +70,48 @@ export async function POST(req: Request) {
       );
     }
 
-    const places =
-      data.suggestions
-        ?.map((suggestion: any) => suggestion.placePrediction)
-        .filter(Boolean)
-        .map((prediction: any) => ({
-          id:
-            prediction.placeId ??
-            prediction.place?.replace("places/", ""),
+type GooglePlacePrediction = {
+  placeId?: string;
+  place?: string;
+  text?: {
+    text?: string;
+  };
+  structuredFormat?: {
+    mainText?: {
+      text?: string;
+    };
+    secondaryText?: {
+      text?: string;
+    };
+  };
+};
 
-          name: prediction.place,
+type GoogleSuggestion = {
+  placePrediction?: GooglePlacePrediction;
+};
 
-          displayName: {
-            text:
-              prediction.structuredFormat?.mainText?.text ??
-              prediction.text?.text,
-          },
+const suggestions = data.suggestions as GoogleSuggestion[] | undefined;
 
-          formattedAddress:
-            prediction.structuredFormat?.secondaryText?.text ??
-            null,
-        })) ?? [];
+const places =
+  suggestions
+    ?.map((suggestion) => suggestion.placePrediction)
+    .filter((prediction): prediction is GooglePlacePrediction => Boolean(prediction))
+    .map((prediction) => ({
+      id:
+        prediction.placeId ??
+        prediction.place?.replace("places/", ""),
+
+      name: prediction.place,
+
+      displayName: {
+        text:
+          prediction.structuredFormat?.mainText?.text ??
+          prediction.text?.text,
+      },
+
+      formattedAddress:
+        prediction.structuredFormat?.secondaryText?.text ?? null,
+    })) ?? [];
 
     return NextResponse.json({
       places,

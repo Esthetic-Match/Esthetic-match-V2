@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import {
   ChevronRight,
   Edit3,
@@ -25,6 +26,26 @@ import SubscriptionPlans from "./SubscriptionPlans";
 import PaymentDetails from "./PaymentDetails";
 import DeleteAccount from "./DeleteAccount";
 import { useSearchParams } from "next/navigation";
+import type { DoctorProfile, PatientProfile, UserRole } from "@prisma/client";
+
+type SettingsUser = {
+  id: string;
+  email: string;
+  name: string | null;
+  role: UserRole;
+  dateOfBirth: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  emailVerified: boolean;
+  onboardingCompleted: boolean;
+  image: string | null;
+  patientProfile: PatientProfile | null;
+  doctorProfile: DoctorProfile | null;
+};
+
+type SettingsProps = {
+  user: SettingsUser;
+};
 
 type SettingsPage =
   | "Edit Profile"
@@ -35,10 +56,6 @@ type SettingsPage =
   | "Terms & Conditions"
   | "Subscription"
   | "Delete Account";
-
-type SettingsProps = {
-  user: any;
-};
 
 const settingsGroups = [
   [
@@ -155,9 +172,11 @@ function SettingsSidebar({
 
         <div className="mb-8 flex flex-col items-center">
           {user.image ? (
-            <img
+            <Image
               src={user.image}
               alt={t("profileImageAlt")}
+              width={96}
+              height={96}
               className="h-24 w-24 rounded-full object-cover"
             />
           ) : (
@@ -247,14 +266,12 @@ const [activePage, setActivePage] =
   useState<SettingsPage>(getInitialPage);
 
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const [sidebarHeight, setSidebarHeight] = useState<number | null>(null);
 
   useEffect(() => {
     if (!sidebarRef.current) return;
 
     const updateHeight = () => {
       if (!sidebarRef.current) return;
-      setSidebarHeight(sidebarRef.current.offsetHeight);
     };
 
     updateHeight();
@@ -286,7 +303,7 @@ const [activePage, setActivePage] =
             ))}
 
           {activePage === "Change Password" && <ChangePassword />}
-          {activePage === "Payment Details" && <PaymentDetails doctorProfile={user.doctorProfile}/>}
+          {activePage === "Payment Details" && <PaymentDetails doctorProfile={user.doctorProfile!}/>}
           {activePage === "Subscription" && <SubscriptionPlans />}
           {activePage === "Language" && <LanguageSelector />}
           {activePage === "Report a Problem" && <ReportProblem />}

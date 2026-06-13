@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, ImagePlus, Upload } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 type BeforeAfterUploadModalProps = {
   isOpen: boolean;
@@ -310,10 +311,12 @@ function ImageInputBox({
       <div className="relative flex min-h-[220px] overflow-hidden rounded-2xl border-2 border-dashed border-[#283C5D]/20 bg-[#FAF9F7] transition hover:border-[#d8bd8d]">
         {previewUrl ? (
           <>
-            <img
+            <Image
               src={previewUrl}
               alt={title}
-              className="absolute inset-0 h-full w-full object-cover"
+              fill
+              sizes="100vw"
+              className="object-cover"
             />
 
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4">

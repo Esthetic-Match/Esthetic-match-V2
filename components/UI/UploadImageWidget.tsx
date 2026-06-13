@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 type UploadAccess = "public" | "private";
 type UploadType = "profile" | "medical" | "banner";
@@ -116,10 +117,12 @@ export default function UploadImageWidget({
         />
 
         {previewUrl ? (
-          <img
+          <Image
             src={previewUrl}
             alt={t("previewAlt")}
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            sizes="100vw"
+            className="object-cover"
           />
         ) : (
           <>

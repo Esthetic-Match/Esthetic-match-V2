@@ -89,13 +89,6 @@ export default function DoctorsInfiniteList({
     return () => observer.disconnect();
   }, [fetchMore]);
 
-  useEffect(() => {
-    setDoctors(initialDoctors);
-    setHasMore(initialHasMore);
-    setPage(2);
-  }, [initialDoctors, initialHasMore]);
-
-
   return (
     <>
       <div className="grid gap-5 p-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -236,7 +236,7 @@ export default function TermsAndConditionsPage() {
           </p>
 
           <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl">
-            Conditions Générales d'Utilisation
+            Conditions Générales d&apos;Utilisation
           </h1>
 
           <p className="mt-5 max-w-3xl text-base leading-8 text-[#283C5D]/70">

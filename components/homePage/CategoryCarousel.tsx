@@ -65,7 +65,6 @@ const categories = [
 ];
 export default async function CategoryCarousel() {
   const t = await getTranslations("home.Home");
-  const categoryT = await getTranslations("categoriesName");
 
     const translatedCategories = categories.map((category) => ({
     ...category,

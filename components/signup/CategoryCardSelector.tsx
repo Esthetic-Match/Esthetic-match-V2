@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import type { Category } from "@/app/[locale]/sign-up/types";
 import { useTranslations } from "next-intl";
 import ProcedureSelectionModal from "./ProcedureSelectionModel";
+import Image from "next/image";
 
 type CategoryCardSelectorProps = {
   visibleCategories: readonly Category[];
@@ -108,9 +109,11 @@ export default function CategoryCardSelector({
                   <X size={13} strokeWidth={4} />
                 </span>
 
-                <img
+                <Image
                   src={getCategoryImagePath(categoryItem.category)}
                   alt={categoryT(categoryItem.category)}
+                  width={44}
+                  height={44}
                   className={`mb-3 h-11 w-11 object-contain transition ${
                     selected
                       ? "opacity-100"

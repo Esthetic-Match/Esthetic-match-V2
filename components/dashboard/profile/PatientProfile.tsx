@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   Building2,
   Camera,
-  CreditCard,
   MapPin,
   Pencil,
   Phone,

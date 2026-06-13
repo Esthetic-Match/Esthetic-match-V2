@@ -3,6 +3,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 type PrivateGcsImageProps = {
   objectPath: string;
@@ -40,5 +41,15 @@ export default function PrivateGcsImage({
     return <div className="h-full w-full animate-pulse bg-[#FAF9F7]" />;
   }
 
-  return <img src={signedUrl} alt={alt} className={className} />;
+  return (
+  <div className="relative h-full w-full">
+    <Image
+      src={signedUrl}
+      alt={alt}
+      fill
+      className={className}
+      sizes="100vw"
+    />
+  </div>
+);
 }

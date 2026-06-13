@@ -6,7 +6,6 @@ import GoogleClinicLocationFields from "@/components/UI/GoogleClinicLocationFiel
 import {
   CalendarDays,
   CheckCircle2,
-  Languages,
   Mail,
   Phone,
   User,
@@ -59,7 +58,6 @@ export default function PatientEditProfile({ user }: PatientEditProfileProps) {
   const [preferredConsultationType, setPreferredConsultationType] =
     useState("");
 
-  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -67,7 +65,6 @@ export default function PatientEditProfile({ user }: PatientEditProfileProps) {
   useEffect(() => {
     async function fetchPatientProfile() {
       try {
-        setIsLoadingProfile(true);
         setErrorMessage("");
 
         const response = await fetch(`/api/patient-profile/${user.id}`);
@@ -92,9 +89,7 @@ export default function PatientEditProfile({ user }: PatientEditProfileProps) {
         setPreferredConsultationType(profile.preferredConsultationType ?? "");
       } catch {
         setErrorMessage("Failed to load patient profile.");
-      } finally {
-        setIsLoadingProfile(false);
-      }
+      } 
     }
 
     if (user.id) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { X } from "lucide-react";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
@@ -33,10 +33,6 @@ type CategoryItem = {
   }[];
 };
 
-function normalizeId(value: string) {
-  return value.toLowerCase().trim().replaceAll(" ", "_");
-}
-
 function getVisibleCategoriesFallback(selectedSpecialties: string[]) {
   return getVisibleCategories(selectedSpecialties);
 }
@@ -55,16 +51,34 @@ export default function CategoryProcedureModal({
   const subcategoryT = useTranslations("subcategoriesName");
   const router = useRouter();
 
-  const [localCategoryIds, setLocalCategoryIds] = useState<string[]>([]);
-  const [localProcedureIds, setLocalProcedureIds] = useState<string[]>([]);
-  const [isSaving, setIsSaving] = useState(false);
+const [localCategoryIds, setLocalCategoryIds] =
+  useState<string[]>(selectedCategoryIds);
+const [localProcedureIds, setLocalProcedureIds] =
+  useState<string[]>(selectedProcedureIds);
+const [isSaving, setIsSaving] = useState(false);
 
-  useEffect(() => {
-    if (open) {
-      setLocalCategoryIds(selectedCategoryIds);
-      setLocalProcedureIds(selectedProcedureIds);
-    }
-  }, [open, selectedCategoryIds, selectedProcedureIds]);
+const [wasOpen, setWasOpen] = useState(open);
+const [previousSelectedCategoryIds, setPreviousSelectedCategoryIds] =
+  useState(selectedCategoryIds);
+const [previousSelectedProcedureIds, setPreviousSelectedProcedureIds] =
+  useState(selectedProcedureIds);
+
+if (
+  open &&
+  (!wasOpen ||
+    previousSelectedCategoryIds !== selectedCategoryIds ||
+    previousSelectedProcedureIds !== selectedProcedureIds)
+) {
+  setLocalCategoryIds(selectedCategoryIds);
+  setLocalProcedureIds(selectedProcedureIds);
+  setPreviousSelectedCategoryIds(selectedCategoryIds);
+  setPreviousSelectedProcedureIds(selectedProcedureIds);
+  setWasOpen(true);
+}
+
+if (!open && wasOpen) {
+  setWasOpen(false);
+}
 
   const visibleCategories = useMemo(() => {
     return getVisibleCategoriesFallback(specialtyIds);

@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, Link } from "@/i18n/navigation";
+import Image from "next/image";
 
 export default function LanguageSelector() {
   const t = useTranslations("settings");
@@ -33,9 +34,11 @@ export default function LanguageSelector() {
               : "border-black/10 bg-white text-black hover:bg-gray-100"
           }`}
         >
-          <img
+          <Image
             src="/flags/en.png"
             alt={t("language.english")}
+            width={40}
+            height={40}
             className="h-10 w-10 rounded-full object-cover"
           />
 
@@ -54,9 +57,11 @@ export default function LanguageSelector() {
               : "border-black/10 bg-white text-black hover:bg-gray-100"
           }`}
         >
-          <img
+          <Image
             src="/flags/fr.png"
             alt={t("language.french")}
+            width={40}
+            height={40}
             className="h-10 w-10 rounded-full object-cover"
           />
 
