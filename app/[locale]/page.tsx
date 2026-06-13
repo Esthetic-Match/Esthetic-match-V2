@@ -7,6 +7,7 @@ import ProfileDisplay from "@/components/homePage/DoctorProfileDisplay";
 import WhyDoctorsShouldJoin from "@/components/homePage/WhyDoctorsShouldJoin";
 import WhyPatientsUseEstheticMatch from "@/components/homePage/WhyPatientsUseEstheticMatch";
 import { FinalStatement } from "@/components/homePage/FinalStatement";
+import PageLoadGate from "@/components/UI/loaders/PageLoadGate";
 
 export const metadata: Metadata = {
   title: "Esthetic Match | Find Trusted Aesthetic Doctors",
@@ -41,24 +42,25 @@ const jsonLd = {
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#FAF9F7] text-[#283C5D]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-
-      <AmbientBackground />
-
-      <NavBarMain />
-
-      <section aria-label="Esthetic Match homepage content">
-        <HomeSection />
-        <CategoryCarousel/>
-        <ProfileDisplay />
-        <WhyDoctorsShouldJoin />
-        <WhyPatientsUseEstheticMatch />
-        <FinalStatement/>
-      </section>
-    </main>
+     <PageLoadGate>
+      <main className="relative min-h-screen overflow-x-hidden bg-[#FAF9F7] text-[#283C5D]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <AmbientBackground />
+    
+        <NavBarMain />   
+    
+        <section aria-label="Esthetic Match homepage content">
+          <HomeSection />
+          <CategoryCarousel/>
+          <ProfileDisplay />
+          <WhyDoctorsShouldJoin />
+          <WhyPatientsUseEstheticMatch />
+          <FinalStatement/>
+        </section>
+      </main>
+    </PageLoadGate>
   );
 }
