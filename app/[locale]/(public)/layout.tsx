@@ -1,8 +1,8 @@
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
+import FooterVisibility from "@/components/home/layout/FooterVisibility";
 import Script from "next/script";
+import PageLoadGate from "@/components/UI/loaders/PageLoadGate";
+import { NavBarMain } from "@/components/NavbarMain";
 
 export default async function LocaleLayout({
   children,
@@ -11,13 +11,6 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-
-  if (!routing.locales.includes(locale as "en" | "fr")) {
-    notFound();
-  }
-
-  const messages = await getMessages();
 
   return (
     <>
@@ -28,10 +21,11 @@ export default async function LocaleLayout({
         data-blockingmode="auto"
         strategy="beforeInteractive"
       />
-
-      <NextIntlClientProvider messages={messages}>
-        {children}
-      </NextIntlClientProvider>
+        <NavBarMain /> 
+        <PageLoadGate>
+          {children}
+          <FooterVisibility />
+        </PageLoadGate>
     </>
   );
 }

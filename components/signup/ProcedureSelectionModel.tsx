@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-import type { Category } from "@/app/[locale]/sign-up/types";
+import type { Category } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 
 type ProcedureSelectionModalProps = {

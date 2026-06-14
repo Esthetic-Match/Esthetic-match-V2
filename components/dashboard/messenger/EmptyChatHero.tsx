@@ -2,51 +2,55 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
+import { authClient } from "@/lib/auth/auth-client";
 
 export default function EmptyChatHero() {
-  return (
-    <main className="flex h-full items-center justify-center bg-[#FAF9F7] p-6">
-      <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[2rem] border border-[#d8bd8d]/30 bg-gradient-to-br from-[#d8bd8d] via-[#f4e4c6] to-[#FAF9F7] shadow-xl">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.7),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(40,60,93,0.18),transparent_40%)]" />
+  const t = useTranslations("dashboard.messages");
+  const { data: session } = authClient.useSession();
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.85,
-            y: 30,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.9,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="relative flex flex-col items-center justify-center text-center"
-        >
-          <motion.div
-            animate={{
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="relative h-40 w-40 md:h-56 md:w-56"
-          >
-            <Image
-              src="/logoBlue.svg"
-              alt="Default"
-              fill
-              priority
-              className="rounded-2xl object-contain drop-shadow-xl"
-            />
-          </motion.div>
-        </motion.div>
-      </div>
+  const userName =
+    session?.user?.name?.trim() ||
+    session?.user?.email?.split("@")[0] ||
+    "";
+
+  return (
+    <main className="flex h-full items-center justify-center bg-white p-6">
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 0.96,
+          y: 16,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.6,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="flex flex-col items-center justify-center text-center"
+      >
+        <div className="relative h-24 w-24 md:h-32 md:w-32">
+          <Image
+            src="/logo.svg"
+            alt="Esthetic Match"
+            fill
+            priority
+            className="object-contain"
+          />
+        </div>
+
+        <h1 className="mt-6 text-xl font-semibold text-[#283C5D] md:text-2xl">
+          {userName ? `${t("welcome")}, ${userName}` : t("welcome")}
+        </h1>
+
+        <p className="mt-2 text-sm font-medium text-[#283C5D]/60 md:text-base">
+          {t("noMessagesYet")}
+        </p>
+      </motion.div>
     </main>
   );
 }

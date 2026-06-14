@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 
 import { DoctorCatalog } from "@/lib/doctorCatalogue"
-import type { Procedure } from "@/app/[locale]/sign-up/types";
+import type { Procedure } from "@/app/[locale]/(public)/sign-up/types";
 
 type TopProceduresSelectorProps = {
   selectedServices: string[];

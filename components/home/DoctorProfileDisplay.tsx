@@ -63,14 +63,17 @@ export default async function ProfileDisplay() {
     "@type": "ItemList",
     name: t("nearbyDoctors"),
     itemListElement: doctors.map((doctor, index) => {
-      const hasRating = doctor.googleRating && doctor.googleReviewCount;
+      const hasRating =
+        doctor.googleRating !== null &&
+        doctor.googleReviewCount !== null &&
+        doctor.googleReviewCount > 0;
       return {
         "@type": "ListItem",
         position: index + 1,
         item: {
           "@type": "Physician",
           name: doctor.name,
-          medicalSpecialty: doctor.specialtyIds,
+          medicalSpecialty: doctor.specialtyIds.map((id) => specialtyTranslations[id] ?? id),
           image: doctor.avatar,
           address: {
             "@type": "PostalAddress",

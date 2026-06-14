@@ -5,7 +5,7 @@ import { CalendarDays, Eye, EyeClosed, Mail, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import MessageText from "@/components/UI/MessageText";
-import type { PatientSignUpFormProps } from "@/app/[locale]/sign-up/types";
+import type { PatientSignUpFormProps } from "@/app/[locale]/(public)/sign-up/types";
 import WhiteshadowBackground from "../UI/WhiteShadowBackground";
 import BlueBanner from "../UI/BlueBanner";
 import InputField from "../UI/InputField";

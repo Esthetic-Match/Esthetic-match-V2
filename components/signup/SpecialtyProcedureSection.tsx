@@ -1,6 +1,6 @@
 import SelectedProcedures from "./SelectedProcedures";
 import { getSelectedProcedureLabels } from "@/components/signup/util/utils";
-import type { Category } from "@/app/[locale]/sign-up/types";
+import type { Category } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 
 type SpecialtyProcedureSectionProps = {

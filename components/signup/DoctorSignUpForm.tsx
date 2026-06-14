@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import type { DoctorSignUpProps } from "@/app/[locale]/sign-up/types";
+import type { DoctorSignUpProps } from "@/app/[locale]/(public)/sign-up/types";
 
 import MessageText from "@/components/UI/MessageText";
 import BlueBanner from "../UI/BlueBanner";

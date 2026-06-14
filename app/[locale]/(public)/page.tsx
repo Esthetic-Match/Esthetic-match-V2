@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { NavBarMain } from "@/components/NavbarMain";
 import AmbientBackground from "@/components/UI/BlueAmbientBackground";
 import HomeSection from "@/components/home/HeroSection"
 import CategoryCarousel from "@/components/home/CategoryCarousel";
@@ -7,7 +6,6 @@ import ProfileDisplay from "@/components/home/DoctorProfileDisplay";
 import WhyDoctorsShouldJoin from "@/components/home/WhyDoctorsShouldJoin";
 import WhyPatientsUseEstheticMatch from "@/components/home/WhyPatientsUseEstheticMatch";
 import { FinalStatement } from "@/components/home/FinalStatement";
-import PageLoadGate from "@/components/UI/loaders/PageLoadGate";
 
 export const metadata: Metadata = {
   title: "Esthetic Match | Find Trusted Aesthetic Doctors",
@@ -42,9 +40,7 @@ const jsonLd = {
 
 export default function HomePage() {
   return (
-    <>
-      <NavBarMain />   
-       <PageLoadGate>
+    <>  
         <main className="relative min-h-screen overflow-x-hidden bg-[#FAF9F7] text-[#283C5D]">
           <script
             type="application/ld+json"
@@ -60,7 +56,6 @@ export default function HomePage() {
             <FinalStatement/>
           </section>
         </main>
-      </PageLoadGate>
     </>
   );
 }

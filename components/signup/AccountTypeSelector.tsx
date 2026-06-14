@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import MessageText from "@/components/UI/MessageText";
 import BackButton from "@/components/UI/BackButton";
-import type { AccountTypeSelectorProps } from "@/app/[locale]/sign-up/types";
+import type { AccountTypeSelectorProps } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 

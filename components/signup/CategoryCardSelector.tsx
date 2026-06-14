@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
-import type { Category } from "@/app/[locale]/sign-up/types";
+import type { Category } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 import ProcedureSelectionModal from "./ProcedureSelectionModel";
 import Image from "next/image";

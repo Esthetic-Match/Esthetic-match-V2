@@ -18,7 +18,7 @@ const categories = [
     key: "SURGICAL BODY",
     id: "surgical_body",
     href: "/categories/surgical-body",
-    image: "/images/home/categories/surgical-body.jpg",
+    image: "/images/home/categories/surgical-body.png",
     icon: "/images/home/categories/icons/surgical-body.svg",
     description:
       "Surgical body contouring, breast surgery, intimate procedures, liposuction, and body reshaping.",
