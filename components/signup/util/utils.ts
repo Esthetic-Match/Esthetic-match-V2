@@ -1,5 +1,5 @@
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
-import { SPECIALTY_CATEGORY_MAP } from "@/components/signup/util/specialtyCategoryMap";
+import { SPECIALTY_CATEGORY_MAP } from "@/lib/specialtyCategoryMap";
 import type { Category, Procedure } from "@/app/[locale]/sign-up/types";
 
 export function toId(value: string) {
