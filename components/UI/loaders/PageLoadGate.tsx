@@ -28,7 +28,7 @@ export default function PageLoadGate({ children }: PageLoadGateProps) {
 
       loaderTimer = setTimeout(() => {
         setShowLoader(false);
-      }, 700);
+      }, 1000);
     };
 
     if (document.readyState === "complete") {

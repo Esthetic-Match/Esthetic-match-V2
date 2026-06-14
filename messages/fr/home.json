@@ -50,7 +50,9 @@
     "viewProfile": "Voir le profil",
     "saveDoctor": "Enregistrer le praticien",
     "reviews": "avis",
-    "free": "Gratuit"
+    "free": "Gratuit",
+    "exploreByCategoryEyebrow": "Trouvez le bon traitement",
+    "exploreByCategoryDescription": "Parcourez les catégories de médecine esthétique, chirurgie esthétique, esthétique dentaire, soins de la peau, restauration capillaire et bien-être pour trouver des médecins de confiance près de chez vous."
   },
    "doctors": {
       "hero": {

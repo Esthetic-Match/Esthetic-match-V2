@@ -50,7 +50,10 @@
     "viewProfile": "View profile",
     "saveDoctor": "Save doctor",
     "reviews": "reviews",
-    "free": "Free"
+    "free": "Free",
+    "exploreByCategoryEyebrow": "Find the right treatment",
+    "exploreByCategoryDescription": "Browse aesthetic medicine, cosmetic surgery, dental aesthetics, skin treatments, hair restoration, and wellness categories to find trusted doctors near you."
+
   },
     "doctors": {
       "hero": {

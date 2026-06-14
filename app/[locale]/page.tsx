@@ -42,25 +42,25 @@ const jsonLd = {
 
 export default function HomePage() {
   return (
-     <PageLoadGate>
-      <main className="relative min-h-screen overflow-x-hidden bg-[#FAF9F7] text-[#283C5D]">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <AmbientBackground />
-    
-        <NavBarMain />   
-    
-        <section aria-label="Esthetic Match homepage content">
-          <HomeSection />
-          <CategoryCarousel/>
-          <ProfileDisplay />
-          <WhyDoctorsShouldJoin />
-          <WhyPatientsUseEstheticMatch />
-          <FinalStatement/>
-        </section>
-      </main>
-    </PageLoadGate>
+    <>
+      <NavBarMain />   
+       <PageLoadGate>
+        <main className="relative min-h-screen overflow-x-hidden bg-[#FAF9F7] text-[#283C5D]">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+          <AmbientBackground />
+          <section aria-label="Esthetic Match homepage content">
+            <HomeSection />
+            <CategoryCarousel/>
+            <ProfileDisplay />
+            <WhyDoctorsShouldJoin />
+            <WhyPatientsUseEstheticMatch />
+            <FinalStatement/>
+          </section>
+        </main>
+      </PageLoadGate>
+    </>
   );
 }

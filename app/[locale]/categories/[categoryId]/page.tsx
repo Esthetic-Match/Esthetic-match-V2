@@ -6,7 +6,6 @@ import { NavBarMain } from "@/components/NavbarMain";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import CategoryHero from "@/components/homePage/categories/CategoryHero";
 import CategorySubcategories from "@/components/homePage/categories/CategorySubcategories";
-import { categoryPages } from "@/components/homePage/categories/categoryData";
 
 type CategoryPageProps = {
   params: Promise<{
@@ -21,7 +20,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const procedureT = useTranslations("proceduresName");
   const categoryT = useTranslations("categoriesName");
 
-  const category = categoryPages.find((item) => item.slug === categoryId);
+  const category = DoctorCatalog.categories.find((item) => item.slug === categoryId);
 
   if (!category) {
     return null;
@@ -48,7 +47,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     "@type": "MedicalSpecialty",
     name: safeT(t, `categories.${category.id}.title`, category.id),
     description: safeT(t, `categories.${category.id}.description`, ""),
-    image: category.image,
+    image: category.homeImage,
     hasPart: catalogCategory.subcategories.map((subcategory) => ({
       "@type": "MedicalProcedure",
       name: safeT(
@@ -80,7 +79,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             : category.id
         }
         description={safeT(t, `categories.${category.id}.description`, "")}
-        image={category.image}
+        image={category.homeImage}
         icon={category.icon}
         categoryId={category.id}
         findDoctorsLabel={safeT(t, "findDoctors", "Find doctors")}
