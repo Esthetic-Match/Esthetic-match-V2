@@ -2,8 +2,8 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { createAuthMiddleware, APIError } from "better-auth/api";
 import { emailOTP } from "better-auth/plugins";
-import { sendEmail } from "@/lib/email";
-import { prisma } from "@/lib/prisma";
+import { sendEmail } from "@/lib/utils/email";
+import { prisma } from "@/lib/database/prisma";
 
 function calculateAgeFromDob(dateString: string): number {
   const today = new Date();

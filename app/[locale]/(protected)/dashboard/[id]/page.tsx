@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "@/i18n/navigation";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
 
 import DoctorProfile from "@/components/dashboard/profile/DoctorProfile";
 import PatientProfile from "@/components/dashboard/profile/PatientProfile";

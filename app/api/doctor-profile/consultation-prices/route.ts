@@ -1,16 +1,18 @@
 // app/api/doctor-profile/consultation-prices/route.ts
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 
-export async function PATCH(req: Request) {
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
+
+export const PATCH = withApiHandler(async (req: Request) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
   const body = await req.json();
@@ -19,16 +21,18 @@ export async function PATCH(req: Request) {
   const onlineConsulPrice = Number(body.onlineConsulPrice);
 
   if (!inClinicPrice || inClinicPrice <= 0) {
-    return NextResponse.json(
-      { error: "Invalid in-clinic consultation price" },
-      { status: 400 }
+    throw new ApiError(
+      "Invalid in-clinic consultation price",
+      400,
+      "INVALID_IN_CLINIC_CONSULTATION_PRICE"
     );
   }
 
   if (!onlineConsulPrice || onlineConsulPrice <= 0) {
-    return NextResponse.json(
-      { error: "Invalid online consultation price" },
-      { status: 400 }
+    throw new ApiError(
+      "Invalid online consultation price",
+      400,
+      "INVALID_ONLINE_CONSULTATION_PRICE"
     );
   }
 
@@ -39,9 +43,10 @@ export async function PATCH(req: Request) {
   });
 
   if (!doctorProfile) {
-    return NextResponse.json(
-      { error: "Doctor profile not found" },
-      { status: 404 }
+    throw new ApiError(
+      "Doctor profile not found",
+      404,
+      "DOCTOR_PROFILE_NOT_FOUND"
     );
   }
 
@@ -55,8 +60,8 @@ export async function PATCH(req: Request) {
     },
   });
 
-  return NextResponse.json({
+  return apiSuccess({
     success: true,
     doctorProfile: updatedDoctorProfile,
   });
-}
+});

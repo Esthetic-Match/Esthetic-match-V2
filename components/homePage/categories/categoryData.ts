@@ -42,7 +42,7 @@ export const categoryPages = [
     icon: "/images/home/categories/icons/iv-therapy.svg",
   },
   {
-    key: "WELLNESS & DRAINAGE",
+    key: "WELLNESS & POSTOPERATIVE",
     id: "wellness_and_postoperative",
     slug: "wellness-and-postoperative",
     image: "/images/home/categories/wellness-and-postoperative.png",

@@ -1,21 +1,33 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
 import { headers } from "next/headers";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ conversationId: string }> }
-) {
-  try {
+type RouteParams = {
+  params: Promise<{
+    conversationId: string;
+  }>;
+};
+
+export const PATCH = withApiHandler<RouteParams>(
+  async (_req: Request, { params }) => {
     const { conversationId } = await params;
+
+    if (!conversationId) {
+      throw new ApiError(
+        "Conversation id is required",
+        400,
+        "CONVERSATION_ID_REQUIRED"
+      );
+    }
 
     const session = await auth.api.getSession({
       headers: await headers(),
     });
 
     if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
     }
 
     const conversation = await prisma.conversation.findUnique({
@@ -28,19 +40,20 @@ export async function PATCH(
     });
 
     if (!conversation) {
-      return NextResponse.json(
-        { error: "Conversation not found" },
-        { status: 404 }
+      throw new ApiError(
+        "Conversation not found",
+        404,
+        "CONVERSATION_NOT_FOUND"
       );
     }
 
-    const isDoctorOwner =
-      conversation.doctorProfile.userId === session.user.id;
+    const isDoctorOwner = conversation.doctorProfile.userId === session.user.id;
 
     if (!isDoctorOwner) {
-      return NextResponse.json(
-        { error: "Only the doctor can end this conversation" },
-        { status: 403 }
+      throw new ApiError(
+        "Only the doctor can end this conversation",
+        403,
+        "ONLY_DOCTOR_CAN_END_CONVERSATION"
       );
     }
 
@@ -54,15 +67,8 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json({
+    return apiSuccess({
       conversation: updatedConversation,
     });
-  } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: "Failed to close conversation" },
-      { status: 500 }
-    );
   }
-}
+);

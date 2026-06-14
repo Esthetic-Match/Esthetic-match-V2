@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import MessageText from "@/components/UI/MessageText";
 import { useRouter } from "@/i18n/navigation";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { useTranslations } from "next-intl";
 
 type PriceCardProps = {

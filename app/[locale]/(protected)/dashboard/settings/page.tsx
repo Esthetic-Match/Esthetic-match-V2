@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
 import Settings from "@/components/settings/Settings";
 
 export default async function SettingsPage() {

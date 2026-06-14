@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/database/prisma";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
 function requiredString(value: unknown): string | null {
   if (typeof value !== "string") return null;
@@ -10,16 +11,13 @@ function requiredString(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-export async function POST(req: Request) {
+export const POST = withApiHandler(async (req: Request) => {
   const body = await req.json();
 
   const userId = requiredString(body.userId);
 
   if (!userId) {
-    return NextResponse.json(
-      { error: "User ID is required." },
-      { status: 400 }
-    );
+    throw new ApiError("User ID is required.", 400, "USER_ID_REQUIRED");
   }
 
   const user = await prisma.user.findUnique({
@@ -31,16 +29,14 @@ export async function POST(req: Request) {
   });
 
   if (!user) {
-    return NextResponse.json(
-      { error: "User not found." },
-      { status: 404 }
-    );
+    throw new ApiError("User not found.", 404, "USER_NOT_FOUND");
   }
 
   if (user.role !== "PATIENT") {
-    return NextResponse.json(
-      { error: "User is not registered as a patient." },
-      { status: 400 }
+    throw new ApiError(
+      "User is not registered as a patient.",
+      400,
+      "USER_IS_NOT_PATIENT"
     );
   }
 
@@ -54,19 +50,19 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json({
+  return apiSuccess({
     success: true,
     patientProfile,
   });
-}
+});
 
-export async function GET() {
+export const GET = withApiHandler(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user?.id) {
-    return NextResponse.json({ doctors: [] }, { status: 401 });
+    return apiSuccess({ doctors: [] }, 401);
   }
 
   const patientProfile = await prisma.patientProfile.findUnique({
@@ -81,7 +77,9 @@ export async function GET() {
   const favoriteIds = patientProfile?.favorite ?? [];
 
   if (!favoriteIds.length) {
-    return NextResponse.json({ doctors: [] });
+    return apiSuccess({
+      doctors: [],
+    });
   }
 
   const doctors = await prisma.doctorProfile.findMany({
@@ -95,5 +93,7 @@ export async function GET() {
     },
   });
 
-  return NextResponse.json({ doctors });
-}
+  return apiSuccess({
+    doctors,
+  });
+});

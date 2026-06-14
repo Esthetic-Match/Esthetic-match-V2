@@ -1,6 +1,6 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { useState } from "react";
 import { CalendarDays, X } from "lucide-react";
 import { useTranslations } from "next-intl";

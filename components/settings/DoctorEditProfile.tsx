@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { User, Mail, Building2 } from "lucide-react";
 import InputField from "@/components/UI/InputField";
-import {formatLabel} from "@/utils/dashboard/helper";
+import {formatLabel} from "@/lib/helpers/helper";
 import { Pencil } from "lucide-react";
 import SpecialtyModal from "./UI/SpecialtyModal";
 import CategoryProcedureModal from "./UI/CategoryProcedureModal";

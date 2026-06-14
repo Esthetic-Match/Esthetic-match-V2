@@ -1,9 +1,9 @@
 // app/api/stripe/checkout/consultation/route.ts
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { stripe } from "@/lib/thirdParty/stripe";
 import { ConsultationType } from "@prisma/client";
 
 const ALLOWED_CURRENCIES = ["eur", "usd", "gbp", "aed", "egp"];

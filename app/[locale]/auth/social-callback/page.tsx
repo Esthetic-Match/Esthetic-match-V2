@@ -1,8 +1,8 @@
 // app/[locale]/auth/social-callback/page.tsx
 import { redirect } from "@/i18n/navigation";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
 
 type SocialCallbackPageProps = {
   params: Promise<{

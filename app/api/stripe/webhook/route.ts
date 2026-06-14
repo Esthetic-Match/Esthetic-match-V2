@@ -1,8 +1,9 @@
 // app/api/stripe/webhook/route.ts
-import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
-import { prisma } from "@/lib/prisma";
+
 import Stripe from "stripe";
+import { stripe } from "@/lib/thirdParty/stripe";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiError, apiSuccess } from "@/lib/api/error-handler";
 
 function getSubscriptionPeriodEnd(subscription: Stripe.Subscription) {
   const periodEnd = subscription.items.data[0]?.current_period_end;
@@ -43,7 +44,11 @@ async function handleConsultationCheckoutCompleted(
   const bookingId = checkoutSession.metadata?.bookingId;
 
   if (!bookingId) {
-    throw new Error("Missing bookingId in checkout metadata");
+    throw new ApiError(
+      "Missing bookingId in checkout metadata",
+      400,
+      "STRIPE_BOOKING_ID_MISSING"
+    );
   }
 
   const stripePaymentIntentId =
@@ -170,31 +175,37 @@ async function handleStripeConnectAccountUpdated(account: Stripe.Account) {
 }
 
 export async function POST(req: Request) {
-  const body = await req.text();
-  const signature = req.headers.get("stripe-signature");
-
-  if (!signature) {
-    return NextResponse.json({ error: "Missing signature" }, { status: 400 });
-  }
-
-  let event: Stripe.Event;
-
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
-  } catch (error) {
-    console.error("Stripe webhook signature error:", error);
+    const body = await req.text();
+    const signature = req.headers.get("stripe-signature");
 
-    return NextResponse.json(
-      { error: "Invalid webhook signature" },
-      { status: 400 }
-    );
-  }
+    if (!signature) {
+      throw new ApiError("Missing signature", 400, "STRIPE_SIGNATURE_MISSING");
+    }
 
-  try {
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!webhookSecret) {
+      throw new ApiError(
+        "Missing STRIPE_WEBHOOK_SECRET",
+        500,
+        "STRIPE_WEBHOOK_SECRET_MISSING"
+      );
+    }
+
+    let event: Stripe.Event;
+
+    try {
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    } catch (error) {
+      throw new ApiError(
+        "Invalid webhook signature",
+        400,
+        "INVALID_STRIPE_WEBHOOK_SIGNATURE",
+        process.env.NODE_ENV === "development" ? error : undefined
+      );
+    }
+
     switch (event.type) {
       case "checkout.session.completed": {
         const checkoutSession = event.data.object as Stripe.Checkout.Session;
@@ -236,13 +247,14 @@ export async function POST(req: Request) {
         break;
     }
 
-    return NextResponse.json({ received: true });
+    return apiSuccess({
+      received: true,
+    });
   } catch (error) {
-    console.error(`Stripe webhook handler error for ${event.type}:`, error);
-
-    return NextResponse.json(
-      { error: "Webhook handler failed" },
-      { status: 500 }
-    );
+    return apiError(error, {
+      method: req.method,
+      url: req.url,
+    });
   }
 }
+

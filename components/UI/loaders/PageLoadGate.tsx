@@ -13,12 +13,20 @@ type PageLoadGateProps = {
 export default function PageLoadGate({ children }: PageLoadGateProps) {
   const [loaded, setLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
+    let loaderTimer: ReturnType<typeof setTimeout>;
+    let contentTimer: ReturnType<typeof setTimeout>;
+
     const handleLoad = () => {
       setLoaded(true);
 
-      setTimeout(() => {
+      contentTimer = setTimeout(() => {
+        setShowContent(true);
+      }, 300);
+
+      loaderTimer = setTimeout(() => {
         setShowLoader(false);
       }, 700);
     };
@@ -31,6 +39,8 @@ export default function PageLoadGate({ children }: PageLoadGateProps) {
 
     return () => {
       window.removeEventListener("load", handleLoad);
+      clearTimeout(loaderTimer);
+      clearTimeout(contentTimer);
     };
   }, []);
 
@@ -39,7 +49,7 @@ export default function PageLoadGate({ children }: PageLoadGateProps) {
       {showLoader && (
         <div
           className={[
-            "fixed inset-0 z-[9999] flex items-center justify-center bg-[#06172A]",
+            "fixed inset-0 z-[9999] flex items-center justify-center bg-[#FAF9F7]",
             "transition-all duration-700 ease-out",
             loaded
               ? "pointer-events-none opacity-0 scale-[1.02]"
@@ -60,14 +70,16 @@ export default function PageLoadGate({ children }: PageLoadGateProps) {
         </div>
       )}
 
-      <div
-        className={[
-          "transition-all duration-700 ease-out",
-          loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3",
-        ].join(" ")}
-      >
-        {children}
-      </div>
+      {showContent && (
+        <div
+          className={[
+            "transition-all duration-700 ease-out",
+            loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3",
+          ].join(" ")}
+        >
+          {children}
+        </div>
+      )}
     </>
   );
 }

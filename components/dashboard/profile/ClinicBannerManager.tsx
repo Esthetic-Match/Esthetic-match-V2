@@ -4,7 +4,7 @@ import { useState } from "react";
 import ClinicBanner from "./UI/ClinicBanner";
 import ImageUploadModal from "./UI/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
-import { handleImageUpload } from "@/utils/dashboard/helper";
+import { handleImageUpload } from "@/lib/helpers/helper";
 
 const fallbackBanner = "/dev/clinic-banner-placeholder.jpg";
 

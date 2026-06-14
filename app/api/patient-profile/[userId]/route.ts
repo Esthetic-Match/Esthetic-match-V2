@@ -1,14 +1,14 @@
-import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
 type RouteContext = {
   params: Promise<{
     userId: string;
   }>;
 };
-
 
 const allowedFields = [
   "avatar",
@@ -25,64 +25,71 @@ const allowedFields = [
   "preferredLanguage",
   "notes",
   "stripeCustomerId",
-  "favorite"
+  "favorite",
 ] as const;
 
-export async function GET(_req: Request, context: RouteContext) {
-  const { userId } = await context.params;
+export const GET = withApiHandler<RouteContext>(
+  async (_req: Request, context) => {
+    const { userId } = await context.params;
 
-  if (!userId) {
-    return NextResponse.json(
-      { error: "User ID is required." },
-      { status: 400 }
-    );
-  }
+    if (!userId) {
+      throw new ApiError("User ID is required.", 400, "USER_ID_REQUIRED");
+    }
 
-  const patientProfile = await prisma.patientProfile.findUnique({
-    where: { userId },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          dateOfBirth: true,
+    const patientProfile = await prisma.patientProfile.findUnique({
+      where: { userId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            dateOfBirth: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  if (!patientProfile) {
-    return NextResponse.json(
-      { error: "Patient profile not found." },
-      { status: 404 }
-    );
+    if (!patientProfile) {
+      throw new ApiError(
+        "Patient profile not found.",
+        404,
+        "PATIENT_PROFILE_NOT_FOUND"
+      );
+    }
+
+    return apiSuccess({
+      patientProfile,
+    });
   }
+);
 
-  return NextResponse.json({ patientProfile });
-}
-
-export async function PATCH(req: Request, context: RouteContext) {
-  try {
+export const PATCH = withApiHandler<RouteContext>(
+  async (req: Request, context) => {
     const { userId } = await context.params;
+
+    if (!userId) {
+      throw new ApiError("User ID is required.", 400, "USER_ID_REQUIRED");
+    }
 
     const session = await auth.api.getSession({
       headers: await headers(),
     });
 
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
     }
 
     if (session.user.role !== "PATIENT") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      throw new ApiError("Forbidden", 403, "FORBIDDEN");
     }
 
     if (session.user.id !== userId) {
-      return NextResponse.json(
-        { error: "You can only update your own profile." },
-        { status: 403 }
+      throw new ApiError(
+        "You can only update your own profile.",
+        403,
+        "CANNOT_UPDATE_OTHER_USER_PROFILE"
       );
     }
 
@@ -101,12 +108,12 @@ export async function PATCH(req: Request, context: RouteContext) {
         where: { userId: session.user.id },
         select: { favorite: true },
       });
-    
+
       const currentFavorites = currentProfile?.favorite ?? [];
       const doctorProfileId = Array.isArray(body.favorite)
         ? body.favorite[0]
         : body.favorite;
-    
+
       if (typeof doctorProfileId === "string") {
         updateData.favorite = currentFavorites.includes(doctorProfileId)
           ? currentFavorites.filter((id) => id !== doctorProfileId)
@@ -115,9 +122,10 @@ export async function PATCH(req: Request, context: RouteContext) {
     }
 
     if (Object.keys(updateData).length === 0) {
-      return NextResponse.json(
-        { error: "No valid fields provided" },
-        { status: 400 }
+      throw new ApiError(
+        "No valid fields provided",
+        400,
+        "NO_VALID_FIELDS_PROVIDED"
       );
     }
 
@@ -139,16 +147,9 @@ export async function PATCH(req: Request, context: RouteContext) {
       },
     });
 
-    return NextResponse.json({
+    return apiSuccess({
       success: true,
       patientProfile,
     });
-  } catch (error) {
-    console.error("PATCH patient profile error:", error);
-
-    return NextResponse.json(
-      { error: "Could not update patient profile" },
-      { status: 500 }
-    );
   }
-}
+);

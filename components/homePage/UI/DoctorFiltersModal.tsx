@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 type DoctorFiltersModalProps = {
   isOpen: boolean;

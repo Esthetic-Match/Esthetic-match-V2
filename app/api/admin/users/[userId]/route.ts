@@ -1,8 +1,8 @@
 // app/api/admin/users/[userId]/route.ts
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
 
 type RouteContext = {
   params: Promise<{

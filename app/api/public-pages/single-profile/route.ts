@@ -1,48 +1,42 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { NextRequest } from "next/server";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
-export async function GET(req: NextRequest) {
-  try {
-    const slug = req.nextUrl.searchParams.get("slug");
+export const GET = withApiHandler<unknown, NextRequest>(async (req) => {
+  const slug = req.nextUrl.searchParams.get("slug");
 
-    if (!slug) {
-      return NextResponse.json(
-        { error: "Missing doctor profile slug" },
-        { status: 400 }
-      );
-    }
-
-    const doctorProfile = await prisma.doctorProfile.findUnique({
-      where: {
-        slug,
-      },
-
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            image: true,
-          },
-        },
-      },
-    });
-
-    if (!doctorProfile) {
-      return NextResponse.json(
-        { error: "Doctor profile not found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(doctorProfile);
-  } catch (error) {
-    console.error("Failed to fetch single public doctor profile:", error);
-
-    return NextResponse.json(
-      { error: "Failed to fetch doctor profile" },
-      { status: 500 }
+  if (!slug) {
+    throw new ApiError(
+      "Missing doctor profile slug",
+      400,
+      "DOCTOR_PROFILE_SLUG_REQUIRED"
     );
   }
-}
+
+  const doctorProfile = await prisma.doctorProfile.findUnique({
+    where: {
+      slug,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  if (!doctorProfile) {
+    throw new ApiError(
+      "Doctor profile not found",
+      404,
+      "DOCTOR_PROFILE_NOT_FOUND"
+    );
+  }
+
+  return apiSuccess(doctorProfile);
+});

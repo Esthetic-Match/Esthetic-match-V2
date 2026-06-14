@@ -15,7 +15,7 @@ import LanguageSwitcher from "./UI/LanguageSwitcher";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Layers2, LogOut, MessageCircle, UserRoundPen } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 
 export function NavBarMain() {

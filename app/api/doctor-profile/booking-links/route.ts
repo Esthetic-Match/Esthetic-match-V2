@@ -1,16 +1,18 @@
 // app/api/doctor-profile/booking-links/route.ts
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 
-export async function PATCH(req: Request) {
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
+
+export const PATCH = withApiHandler(async (req: Request) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
   const body = await req.json();
@@ -29,16 +31,18 @@ export async function PATCH(req: Request) {
   });
 
   if (!doctorProfile) {
-    return NextResponse.json(
-      { error: "Doctor profile not found" },
-      { status: 404 }
+    throw new ApiError(
+      "Doctor profile not found",
+      404,
+      "DOCTOR_PROFILE_NOT_FOUND"
     );
   }
 
   if (doctorProfile.paidPlan !== "standard") {
-    return NextResponse.json(
-      { error: "Booking links are only available on the standard plan" },
-      { status: 403 }
+    throw new ApiError(
+      "Booking links are only available on the standard plan",
+      403,
+      "STANDARD_PLAN_REQUIRED"
     );
   }
 
@@ -51,8 +55,8 @@ export async function PATCH(req: Request) {
     },
   });
 
-  return NextResponse.json({
+  return apiSuccess({
     success: true,
     bookingLinks: updatedDoctorProfile.bookingLinks,
   });
-}
+});

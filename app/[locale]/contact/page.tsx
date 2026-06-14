@@ -1,5 +1,5 @@
 import { Mail, MapPin, MessageCircle, Send } from "lucide-react";
-import { sendEmail } from "@/lib/email";
+import { sendEmail } from "@/lib/utils/email";
 import { NavBarMain } from "@/components/NavbarMain";
 import { getTranslations } from "next-intl/server";
 

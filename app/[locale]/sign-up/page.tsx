@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 
 import AccountTypeSelector from "@/components/signup/AccountTypeSelector";
 import PatientSignUpForm from "@/components/signup/PatientSignUpForm";

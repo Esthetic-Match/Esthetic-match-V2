@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { stripe } from "@/lib/thirdParty/stripe";
 import { redirect } from "@/i18n/navigation";
 
 async function refreshStripeConnectStatus() {

@@ -1,6 +1,6 @@
 import EditGallery from "@/components/dashboard/profile/gallery/EditGallery";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
 import { redirect } from "@/i18n/navigation";
 import { headers } from "next/headers";
 

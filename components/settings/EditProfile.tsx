@@ -1,7 +1,7 @@
 
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
 import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
 

@@ -1,6 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { Storage } from "@google-cloud/storage";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
 function getStorage() {
   const credentialsJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
@@ -20,7 +22,11 @@ function getBucketName() {
   const bucketName = process.env.GCS_PRIVATE_BUCKET_NAME;
 
   if (!bucketName) {
-    throw new Error("Missing GCS_PRIVATE_BUCKET_NAME");
+    throw new ApiError(
+      "Missing GCS_PRIVATE_BUCKET_NAME",
+      500,
+      "GCS_PRIVATE_BUCKET_NAME_MISSING"
+    );
   }
 
   return bucketName;
@@ -51,46 +57,31 @@ async function getSignedImageUrl(objectPath: string) {
   return url;
 }
 
-export async function GET(req: NextRequest) {
-  try {
-    const doctorId = req.nextUrl.searchParams.get("doctorId");
+export const GET = withApiHandler<unknown, NextRequest>(async (req) => {
+  const doctorId = req.nextUrl.searchParams.get("doctorId");
 
-    if (!doctorId) {
-      return NextResponse.json(
-        { error: "Missing doctorId" },
-        { status: 400 }
-      );
-    }
-
-    const cases = await prisma.beforeAfterCase.findMany({
-      where: {
-        doctorId,
-        beforeImage: { not: null },
-        afterImage: { not: null },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    const gallery = await Promise.all(
-      cases.map(async (item) => ({
-        beforeImageUrl: await getSignedImageUrl(item.beforeImage!),
-        afterImageUrl: await getSignedImageUrl(item.afterImage!),
-        isPublic: item.isPublic,
-      }))
-    );
-
-    return NextResponse.json(gallery);
-  } catch (error) {
-    console.error("Failed to fetch public gallery:", error);
-
-    return NextResponse.json(
-      {
-        error: "Failed to fetch gallery",
-        details: error instanceof Error ? error.message : "Unknown error",
-      },
-      { status: 500 }
-    );
+  if (!doctorId) {
+    throw new ApiError("Missing doctorId", 400, "DOCTOR_ID_REQUIRED");
   }
-}
+
+  const cases = await prisma.beforeAfterCase.findMany({
+    where: {
+      doctorId,
+      beforeImage: { not: null },
+      afterImage: { not: null },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const gallery = await Promise.all(
+    cases.map(async (item) => ({
+      beforeImageUrl: await getSignedImageUrl(item.beforeImage!),
+      afterImageUrl: await getSignedImageUrl(item.afterImage!),
+      isPublic: item.isPublic,
+    }))
+  );
+
+  return apiSuccess(gallery);
+});

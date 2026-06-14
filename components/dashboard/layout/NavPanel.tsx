@@ -12,7 +12,7 @@ import {
 import { motion } from "motion/react";
 import Image from "next/image";
 import { DM_Sans } from "next/font/google";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth/auth-client";
 import { useRouter, Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 

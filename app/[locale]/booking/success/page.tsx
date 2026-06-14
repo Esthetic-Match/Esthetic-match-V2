@@ -3,8 +3,8 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { CheckCircle2, Clock, MessageCircle, MapPin, ShieldCheck } from "lucide-react";
 import { redirect } from "@/i18n/navigation";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
 
 type BookingSuccessPageProps = {
   searchParams: Promise<{

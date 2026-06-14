@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/database/prisma";
 import slugify from "slugify";
 
 async function main() {
