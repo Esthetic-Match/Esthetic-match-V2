@@ -1,5 +1,5 @@
 import SelectedProcedures from "./SelectedProcedures";
-import { getSelectedProcedureLabels } from "@/components/signup/util/utils";
+import { getSelectedProcedureLabels } from "@/components/public/signup/util/utils";
 import type { Category } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 

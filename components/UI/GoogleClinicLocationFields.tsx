@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { MapPin } from "lucide-react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useTranslations } from "next-intl";
-import InputField from "../UI/InputField";
+import InputField from "@/components/UI/InputField";
 
 const googleLibraries: "places"[] = ["places"];
 

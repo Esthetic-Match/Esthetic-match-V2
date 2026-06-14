@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import ClinicBanner from "@/components/home/doctorProfile/UI/ClinicBanner";
-import PublicProfileHeader from "@/components/home/doctorProfile/UI/PublicProfileHeader";
-import PublicExpertiseSection from "@/components/home/doctorProfile/UI/PublicExpertiseSection";
-import PublicContactActionsSection from "@/components/home/doctorProfile/PublicContactActionsSection";
-import Gallery from "@/components/home/doctorProfile/Gallery";
-import { NavBarMain } from "@/components/NavbarMain";
-import BookingLinksSection from "@/components/home/doctorProfile/UI/BookingLinksSection";
-import DoctorQuestionStickyBanner from "@/components/home/doctorProfile/UI/DoctorQuestionStickyBanner";
+import ClinicBanner from "@/components/public/doctorProfile/UI/ClinicBanner";
+import PublicProfileHeader from "@/components/public/doctorProfile/UI/PublicProfileHeader";
+import PublicExpertiseSection from "@/components/public/doctorProfile/UI/PublicExpertiseSection";
+import PublicContactActionsSection from "@/components/public/doctorProfile/PublicContactActionsSection";
+import Gallery from "@/components/public/doctorProfile/Gallery";
+import BookingLinksSection from "@/components/public/doctorProfile/UI/BookingLinksSection";
+import DoctorQuestionStickyBanner from "@/components/public/doctorProfile/UI/DoctorQuestionStickyBanner";
 
 type ProfilePageProps = {
   params: Promise<{
@@ -181,8 +180,6 @@ export default async function Profilepage({
           __html: JSON.stringify(jsonLd),
         }}
       />
-
-      <NavBarMain />
 
       <ClinicBanner
         clinicBanner={doctorProfile.clinicBanner}

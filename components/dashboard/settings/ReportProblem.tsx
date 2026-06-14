@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import InputField from "../UI/InputField";
+import InputField from "@/components/UI/InputField";
 import { MessageSquare } from "lucide-react";
 import TextareaField from "@/components/UI/textareaField";
 import { useTranslations } from "next-intl";

@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { authClient } from "@/lib/auth/auth-client";
 
-import AccountTypeSelector from "@/components/signup/AccountTypeSelector";
-import PatientSignUpForm from "@/components/signup/PatientSignUpForm";
-import DoctorSignUpForm from "@/components/signup/DoctorSignUpForm";
-import VerifyEmail from "@/components/signup/VerifyEmail";
+import AccountTypeSelector from "@/components/public/signup/AccountTypeSelector";
+import PatientSignUpForm from "@/components/public/signup/PatientSignUpForm";
+import DoctorSignUpForm from "@/components/public/signup/DoctorSignUpForm";
+import VerifyEmail from "@/components/public/signup/VerifyEmail";
 import BackButton from "@/components/UI/BackButton";
 
 import type { AccountType } from "./types";

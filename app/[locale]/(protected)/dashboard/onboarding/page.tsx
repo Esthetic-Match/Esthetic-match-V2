@@ -5,8 +5,8 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import MessageText from "@/components/UI/MessageText";
-import DoctorSpecialtyDetailsStep from "@/components/signup/DoctorSpecialtyDetailsStep";
-import PaymentAndPrices from "@/components/signup/PaymentAndPrices";
+import DoctorSpecialtyDetailsStep from "@/components/public/signup/DoctorSpecialtyDetailsStep";
+import PaymentAndPrices from "@/components/public/signup/PaymentAndPrices";
 import { ShieldCheck } from "lucide-react";
 
 type DoctorOnboardingStep =

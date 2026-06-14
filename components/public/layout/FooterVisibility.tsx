@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "@/i18n/navigation";
-import Footer from "@/components/home/Footer";
+import Footer from "@/components/public/layout/Footer";
 
 export default function FooterVisibility() {
   const pathname = usePathname();

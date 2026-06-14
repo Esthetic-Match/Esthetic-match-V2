@@ -1,12 +1,10 @@
-import { NextIntlClientProvider } from "next-intl";
-import FooterVisibility from "@/components/home/layout/FooterVisibility";
+import FooterVisibility from "@/components/public/layout/FooterVisibility";
 import Script from "next/script";
 import PageLoadGate from "@/components/UI/loaders/PageLoadGate";
-import { NavBarMain } from "@/components/NavbarMain";
+import PublicNavbarVisibility from "@/components/public/layout/NavBarVisibility";
 
 export default async function LocaleLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -21,7 +19,7 @@ export default async function LocaleLayout({
         data-blockingmode="auto"
         strategy="beforeInteractive"
       />
-        <NavBarMain /> 
+        <PublicNavbarVisibility /> 
         <PageLoadGate>
           {children}
           <FooterVisibility />

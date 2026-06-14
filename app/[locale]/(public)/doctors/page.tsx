@@ -1,6 +1,6 @@
-import { NavBarMain } from "@/components/NavbarMain";
-import HeaderSection from "@/components/home/doctors/HeaderSection";
-import DoctorsListSection from "@/components/home/doctors/DoctorsListSection";
+
+import HeaderSection from "@/components/public/doctors/HeaderSection";
+import DoctorsListSection from "@/components/public/doctors/DoctorsListSection";
 
 export const metadata = {
   title: "Find Aesthetic Doctors | Esthetic Match",
@@ -40,7 +40,6 @@ export default async function DoctorsPage({
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
-      <NavBarMain />
       <HeaderSection initialQuery={params.q ?? ""} />
       <DoctorsListSection filters={params} />
     </main>

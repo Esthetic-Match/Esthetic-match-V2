@@ -8,7 +8,7 @@ import {
   User,
   Building2,
 } from "lucide-react";
-import InputField from "../UI/InputField";
+import InputField from "@/components/UI/InputField";
 import { useTranslations } from "next-intl";
 import GoogleClinicLocationFields from "@/components/UI/GoogleClinicLocationFields";
 

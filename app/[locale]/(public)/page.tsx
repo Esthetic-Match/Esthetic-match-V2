@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import AmbientBackground from "@/components/UI/BlueAmbientBackground";
-import HomeSection from "@/components/home/HeroSection"
-import CategoryCarousel from "@/components/home/CategoryCarousel";
-import ProfileDisplay from "@/components/home/DoctorProfileDisplay";
-import WhyDoctorsShouldJoin from "@/components/home/WhyDoctorsShouldJoin";
-import WhyPatientsUseEstheticMatch from "@/components/home/WhyPatientsUseEstheticMatch";
-import { FinalStatement } from "@/components/home/FinalStatement";
+import HomeSection from "@/components/public/homepage/HeroSection"
+import CategoryCarousel from "@/components/public/homepage/CategoryCarousel";
+import ProfileDisplay from "@/components/public/homepage/DoctorProfileDisplay";
+import WhyDoctorsShouldJoin from "@/components/public/homepage/WhyDoctorsShouldJoin";
+import WhyPatientsUseEstheticMatch from "@/components/public/homepage/WhyPatientsUseEstheticMatch";
+import { FinalStatement } from "@/components/public/homepage/FinalStatement";
 
 export const metadata: Metadata = {
   title: "Esthetic Match | Find Trusted Aesthetic Doctors",

@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Eye, EyeClosed, Mail } from "lucide-react";
 import { authClient } from "@/lib/auth/auth-client";
-import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
 import { useTranslations, useLocale } from "next-intl";
 import GoogleSignInButton from "@/components/UI/GoogleSignInButton";
 import InputField from "@/components/UI/InputField";
@@ -55,7 +54,6 @@ export default function SignInPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-white text-black">
-      <WhiteshadowBackground />
       <BlueBanner />
 
       <section className="relative z-10 mx-auto flex  max-w-md items-start px-6 py-10">

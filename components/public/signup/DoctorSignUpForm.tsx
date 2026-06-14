@@ -5,8 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import type { DoctorSignUpProps } from "@/app/[locale]/(public)/sign-up/types";
 
 import MessageText from "@/components/UI/MessageText";
-import BlueBanner from "../UI/BlueBanner";
-import WhiteshadowBackground from "../UI/WhiteShadowBackground";
+import BlueBanner from "@/components/UI/BlueBanner";
 import DoctorAccountDetailsStep from "./DoctorAccountDetailsStep";
 import VerifyEmail from "./VerifyEmail";
 import { useTranslations } from "next-intl";
@@ -52,7 +51,6 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
   return (
     <>
       <BlueBanner variant="blue" />
-      <WhiteshadowBackground />
 
       {step === "verify-email" ? (
         <div className="relative z-9999 mx-auto max-w-2xl p-6">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { authClient } from "@/lib/auth/auth-client";
-import InputField from "../UI/InputField";
+import InputField from "@/components/UI/InputField";
 import { Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 

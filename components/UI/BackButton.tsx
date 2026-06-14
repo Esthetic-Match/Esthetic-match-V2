@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 
 type BackButtonProps = {
   variant?: "light" | "dark";
+  onBack: ()=> void;
 };
 
 export default function BackButton({

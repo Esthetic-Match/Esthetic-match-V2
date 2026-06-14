@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
-import { NavBarMain } from "@/components/NavbarMain";
 import { ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
@@ -91,8 +90,6 @@ export default async function FAQPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
-      <NavBarMain />
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

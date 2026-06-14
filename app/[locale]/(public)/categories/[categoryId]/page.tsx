@@ -2,10 +2,9 @@
 
 import { use } from "react";
 import { useTranslations } from "next-intl";
-import { NavBarMain } from "@/components/NavbarMain";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
-import CategoryHero from "@/components/home/categories/CategoryHero";
-import CategorySubcategories from "@/components/home/categories/CategorySubcategories";
+import CategoryHero from "@/components/public/categories/CategoryHero";
+import CategorySubcategories from "@/components/public/categories/CategorySubcategories";
 
 type CategoryPageProps = {
   params: Promise<{
@@ -65,8 +64,6 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
-      <NavBarMain />
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

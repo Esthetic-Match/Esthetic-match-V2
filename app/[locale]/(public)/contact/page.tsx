@@ -1,6 +1,5 @@
 import { Mail, MapPin, MessageCircle, Send } from "lucide-react";
 import { sendEmail } from "@/lib/utils/email";
-import { NavBarMain } from "@/components/NavbarMain";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
@@ -61,8 +60,6 @@ export default async function ContactPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
-      <NavBarMain />
-
       <section className="relative overflow-hidden bg-[#061A2D] px-6 py-24 text-white md:px-12 lg:px-24">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_30%,rgba(216,189,141,0.22),transparent_35%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[#FAF9F7]" />

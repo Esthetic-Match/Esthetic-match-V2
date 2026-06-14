@@ -7,6 +7,7 @@ import { authClient } from "@/lib/auth/auth-client";
 
 type VerifyEmailProps = {
   email: string;
+  role: string;
   onVerified?: () => void;
 };
 

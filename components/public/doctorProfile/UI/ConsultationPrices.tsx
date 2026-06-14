@@ -1,6 +1,6 @@
 import { Info, MonitorCheck, Stethoscope, WalletCards } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import StripeConsultationCheckOutButton from "@/components/home/UI/StripeConsultationCheckOutButton";
+import StripeConsultationCheckOutButton from "@/components/public/UI/StripeConsultationCheckOutButton";
 import FreeOnlineConsultationButton from "./FreeOnlineConsultationButton";
 import { useTranslations } from "next-intl";
 

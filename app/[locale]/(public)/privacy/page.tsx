@@ -1,11 +1,8 @@
 import Script from "next/script";
 import Link from "next/link";
-import { NavBarMain } from "@/components/NavbarMain";
 
 export default function CookiesPage() {
   return (
-    <>
-    <NavBarMain />
     <main className="max-w-4xl mx-auto px-6 py-16">
       <h1 className="text-4xl font-bold mb-6">
         Cookie Policy
@@ -58,6 +55,5 @@ export default function CookiesPage() {
           />
       </div>
     </main>
-    </>
   );
 }

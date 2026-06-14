@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import HomeDoctorSearchBar from "@/components/home/UI/HomeSearchBar";
+import HomeDoctorSearchBar from "@/components/public/UI/HomeSearchBar";
 
 export default async function HomeSection() {
   const t = await getTranslations("home.Home");

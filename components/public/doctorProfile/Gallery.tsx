@@ -7,6 +7,7 @@ import Image from "next/image";
 
 type GalleryProps = {
   doctorId: string;
+  paidPlan: string;
 };
 
 type GalleryItem = {

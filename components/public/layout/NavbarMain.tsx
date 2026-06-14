@@ -11,7 +11,7 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "@/components/UI/resizable-navbar";
-import LanguageSwitcher from "./UI/LanguageSwitcher";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Layers2, LogOut, MessageCircle, UserRoundPen } from "lucide-react";

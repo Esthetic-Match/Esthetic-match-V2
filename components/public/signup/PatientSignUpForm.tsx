@@ -6,10 +6,10 @@ import { useTranslations } from "next-intl";
 
 import MessageText from "@/components/UI/MessageText";
 import type { PatientSignUpFormProps } from "@/app/[locale]/(public)/sign-up/types";
-import WhiteshadowBackground from "../UI/WhiteShadowBackground";
-import BlueBanner from "../UI/BlueBanner";
-import InputField from "../UI/InputField";
-import GoogleAuthButton from "../UI/GoogleAuthbutton";
+import WhiteshadowBackground from "@/components/UI/WhiteShadowBackground";
+import BlueBanner from "@/components/UI/BlueBanner";
+import InputField from "@/components/UI/InputField";
+import GoogleAuthButton from "@/components/UI/GoogleAuthbutton";
 
 export default function PatientSignUpForm({
   name,

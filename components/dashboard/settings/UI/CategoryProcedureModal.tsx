@@ -5,7 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import { X } from "lucide-react";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { cn } from "@/lib/utils/utils";
-import {getVisibleCategories} from "@/components/signup/util/utils"
+import {getVisibleCategories} from "@/components/public/signup/util/utils"
 import { useTranslations } from "next-intl";
 
 type CategoryProcedureModalProps = {

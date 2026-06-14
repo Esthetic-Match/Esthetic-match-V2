@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
-import DoctorCards from "./UI/DoctorCards";
+import DoctorCards from "@/components/public/UI/DoctorCards";
 
 type PublicDoctor = {
   id: string;

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import {NavBarMain} from "@/components/NavbarMain";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { getTranslations } from "next-intl/server";
 
@@ -119,7 +118,6 @@ export default async function CategoriesPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
-      <NavBarMain />
 
       <script
         type="application/ld+json"

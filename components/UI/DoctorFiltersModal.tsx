@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Star, MapPin, SlidersHorizontal, ChevronDown, ChevronRight, ChevronUp   } from "lucide-react";
+import { X, Star, MapPin, SlidersHorizontal, ChevronDown, ChevronUp   } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
