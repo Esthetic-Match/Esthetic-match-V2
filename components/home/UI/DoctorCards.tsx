@@ -41,7 +41,7 @@ export default function DoctorCards({ doctor, t, specialtyT }: DoctorCardProps) 
     <article
       itemScope
       itemType="https://schema.org/Physician"
-      className="relative flex min-h-[285px] flex-col overflow-hidden rounded-2xl border border-black/10 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+      className="relative flex min-h-[285px] flex-col overflow-hidden rounded-2xl border border-black/10 bg-white p-3 shadow-sm transition hover:shadow-md"
     >
       <div className="flex gap-3">
         <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-xl bg-[#FAF9F7]">
@@ -126,12 +126,12 @@ export default function DoctorCards({ doctor, t, specialtyT }: DoctorCardProps) 
 
       {specialties.length > 0 ? (
         <div className="mt-3 border-t border-[#283C5D]/10 pt-3">
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex justify-center flex-wrap gap-1.5">
             {specialties.map((id) => (
               <span
                 key={id}
                 itemProp="medicalSpecialty"
-                className="rounded-full border border-[#283C5D]/15 bg-white px-2.5 py-1 text-[9px] font-semibold text-[#283C5D]/65"
+                className="rounded-full border border-[#283C5D]/15 bg-white px-2.5 py-1 text-[10px] font-semibold text-[#283C5D]/65"
               >
                 {specialtyT[id] ?? id}
               </span>
@@ -139,11 +139,11 @@ export default function DoctorCards({ doctor, t, specialtyT }: DoctorCardProps) 
           </div>
         </div>
       ) : null}
-
+      <div className="mt-4 grid grid-cols-3 gap-2 border-t border-[#283C5D]/10 pt-3"></div>
       <div className="mt-auto pt-4">
         <Link
           href={`/doctors/${doctor.slug}`}
-          className="inline-flex w-full justify-center rounded-full border border-[#d8bd8d]/60 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#d8bd8d] transition hover:bg-[#d8bd8d] hover:text-white active:scale-[0.98]"
+          className="inline-flex w-full justify-center rounded-full border border-[#d8bd8d]/60 px-4 py-4 bg-[#283C5D] text-[10px] font-semibold uppercase tracking-[0.08em] text-white transition hover:bg-[#CFB793] hover:text-black active:scale-[0.98]"
         >
           {t.viewProfile}
         </Link>

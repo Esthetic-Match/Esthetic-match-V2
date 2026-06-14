@@ -4,8 +4,8 @@ import { use } from "react";
 import { useTranslations } from "next-intl";
 import { NavBarMain } from "@/components/NavbarMain";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
-import CategoryHero from "@/components/homePage/categories/CategoryHero";
-import CategorySubcategories from "@/components/homePage/categories/CategorySubcategories";
+import CategoryHero from "@/components/home/categories/CategoryHero";
+import CategorySubcategories from "@/components/home/categories/CategorySubcategories";
 
 type CategoryPageProps = {
   params: Promise<{

@@ -1,6 +1,6 @@
 import { NavBarMain } from "@/components/NavbarMain";
-import HeaderSection from "@/components/homePage/doctors/HeaderSection";
-import DoctorsListSection from "@/components/homePage/doctors/DoctorsListSection";
+import HeaderSection from "@/components/home/doctors/HeaderSection";
+import DoctorsListSection from "@/components/home/doctors/DoctorsListSection";
 
 export const metadata = {
   title: "Find Aesthetic Doctors | Esthetic Match",

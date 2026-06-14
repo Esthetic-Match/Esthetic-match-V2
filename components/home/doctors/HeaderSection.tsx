@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
-import DoctorFiltersModal from "../UI/DoctorFiltersModal";
+import DoctorFiltersModal from "../../UI/DoctorFiltersModal";
 
 export default function MainHeader({ initialQuery = "" }: { initialQuery?: string }) {
   const t = useTranslations("home.doctors");
@@ -77,7 +77,7 @@ export default function MainHeader({ initialQuery = "" }: { initialQuery?: strin
           <button
             type="button"
             onClick={() => setIsFilterOpen(true)}
-            className="flex items-center justify-center gap-2 rounded-full border border-[#d8bd8d] px-5 py-3 text-sm font-semibold text-[#283C5D] transition hover:bg-[#f4e4c6]"
+            className="flex items-center justify-center gap-2 rounded-full border border-black/40 text-black px-5 py-3 text-sm font-semibold hover:bg-[#283C5D] hover:text-white cursor-pointer"
           >
             <SlidersHorizontal size={17} />
             {t("hero.filters")}
@@ -91,7 +91,7 @@ export default function MainHeader({ initialQuery = "" }: { initialQuery?: strin
           <button
             type="button"
             onClick={handleSearch}
-            className="rounded-full bg-[#d8bd8d] px-6 py-3 text-sm font-semibold text-[#061A2D] transition hover:bg-[#f4e4c6]"
+            className="rounded-full bg-[#d8bd8d] px-6 py-3 text-sm font-semibold text-[#061A2D] transition hover:bg-[#f4e4c6] cursor-pointer"
           >
             {t("hero.search")}
           </button>

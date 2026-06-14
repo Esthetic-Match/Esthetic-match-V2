@@ -1,14 +1,14 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import ClinicBanner from "@/components/homePage/doctorProfile/UI/ClinicBanner";
-import PublicProfileHeader from "@/components/homePage/doctorProfile/UI/PublicProfileHeader";
-import PublicExpertiseSection from "@/components/homePage/doctorProfile/UI/PublicExpertiseSection";
-import PublicContactActionsSection from "@/components/homePage/doctorProfile/PublicContactActionsSection";
-import Gallery from "@/components/homePage/doctorProfile/Gallery";
+import ClinicBanner from "@/components/home/doctorProfile/UI/ClinicBanner";
+import PublicProfileHeader from "@/components/home/doctorProfile/UI/PublicProfileHeader";
+import PublicExpertiseSection from "@/components/home/doctorProfile/UI/PublicExpertiseSection";
+import PublicContactActionsSection from "@/components/home/doctorProfile/PublicContactActionsSection";
+import Gallery from "@/components/home/doctorProfile/Gallery";
 import { NavBarMain } from "@/components/NavbarMain";
-import BookingLinksSection from "@/components/homePage/doctorProfile/UI/BookingLinksSection";
-import DoctorQuestionStickyBanner from "@/components/homePage/doctorProfile/UI/DoctorQuestionStickyBanner";
+import BookingLinksSection from "@/components/home/doctorProfile/UI/BookingLinksSection";
+import DoctorQuestionStickyBanner from "@/components/home/doctorProfile/UI/DoctorQuestionStickyBanner";
 
 type ProfilePageProps = {
   params: Promise<{
