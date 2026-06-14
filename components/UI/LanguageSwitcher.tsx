@@ -23,7 +23,7 @@ export default function LanguageSwitcher() {
     >
       <span className="relative h-5 w-5 overflow-hidden rounded-full border border-black/10 bg-white hover:scale-[1.05]">
         <Image
-          src={`/flags/${locale}.png`}
+          src={`/images/flags/${locale}.png`}
           alt={`${locale.toUpperCase()} flag`}
           fill
           sizes="20px"

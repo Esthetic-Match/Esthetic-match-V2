@@ -35,7 +35,7 @@ export default function LanguageSelector() {
           }`}
         >
           <Image
-            src="/flags/en.png"
+            src="/images/flags/en.png"
             alt={t("language.english")}
             width={40}
             height={40}
@@ -58,7 +58,7 @@ export default function LanguageSelector() {
           }`}
         >
           <Image
-            src="/flags/fr.png"
+            src="/images/flags/fr.png"
             alt={t("language.french")}
             width={40}
             height={40}

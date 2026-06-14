@@ -61,7 +61,7 @@ export default function AccountTypeSelector({
 
           <div className="border border-gray-300 px-20 pt-6 rounded-[2rem] overflow-hidden bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6]">
             <Image
-              src="/signup/signUpImage.png"
+              src="/images/home/signup/signUpImage.png"
               alt="Esthetic Match"
               width={220}
               height={220}
@@ -90,7 +90,7 @@ export default function AccountTypeSelector({
             >
               <div className="flex h-[40px] items-center justify-center">
                 <Image
-                  src="/signup/signupDoctor.svg"
+                  src="/images/home/signup/signupDoctor.svg"
                   alt=""
                   width={30}
                   height={30}
@@ -110,7 +110,7 @@ export default function AccountTypeSelector({
             >
               <div className="flex h-[40px] items-center justify-center">
                 <Image
-                  src="/signup/signupPatient.svg"
+                  src="/images/home/signup/signupPatient.svg"
                   alt=""
                   width={30}
                   height={30}

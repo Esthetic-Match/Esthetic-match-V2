@@ -47,6 +47,7 @@ interface MobileNavMenuProps {
   children: React.ReactNode;
   className?: string;
   isOpen: boolean;
+  onClose: () => void;
 }
 
 export const Navbar = ({ children, className }: NavbarProps) => {
@@ -185,6 +186,7 @@ export const MobileNavMenu = ({
   children,
   className,
   isOpen,
+  onClose,
 }: MobileNavMenuProps) => {
   return (
     <AnimatePresence>
