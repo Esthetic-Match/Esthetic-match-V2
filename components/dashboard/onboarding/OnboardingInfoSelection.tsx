@@ -18,15 +18,15 @@ type OnboardingInfoSelectionProps = {
   subStep: DoctorSpecialtySubStep;
 
   selectedSpecialties: string[];
-  selectedServiceCategories: string[];
-  selectedServices: string[];
+  selectedCategories: string[];
+  selectedProcedures: string[];
   otherSpecialtyText: string;
   selectedTopProcedures: string[];
   
   onToggleTopProcedure: (value: string) => void;
   onToggleSpecialty: (value: string) => void;
-  onToggleServiceCategory: (value: string) => void;
-  onToggleService: (value: string) => void;
+  onToggleCategory: (value: string) => void;
+  onToggleProcedure: (value: string) => void;
   onOtherSpecialtyTextChange: (value: string) => void;
   onSelectAllProcedures: (procedureIds: string[]) => void;
   onDeselectAllProcedures: (procedureIds: string[]) => void;
@@ -35,12 +35,12 @@ type OnboardingInfoSelectionProps = {
 export default function OnboardingInfoSelection({
   subStep,
   selectedSpecialties,
-  selectedServiceCategories,
-  selectedServices,
+  selectedCategories,
+  selectedProcedures,
   otherSpecialtyText,
   onToggleSpecialty,
-  onToggleServiceCategory,
-  onToggleService,
+  onToggleCategory,
+  onToggleProcedure,
   onOtherSpecialtyTextChange,
   onSelectAllProcedures,
   onDeselectAllProcedures,
@@ -83,26 +83,25 @@ export default function OnboardingInfoSelection({
         <>
           <CategoryAndProcedureSelector
             visibleCategories={visibleCategories}
-            selectedServiceCategories={selectedServiceCategories}
-            selectedServices={selectedServices}
-            onToggleServiceCategory={onToggleServiceCategory}
-            onToggleService={onToggleService}
+            selectedCategories={selectedCategories}
+            selectedProcedures={selectedProcedures}
+            onToggleCategory={onToggleCategory}
+            onToggleProcedure={onToggleProcedure}
             onSelectAllProcedures={onSelectAllProcedures}
             onDeselectAllProcedures={onDeselectAllProcedures}
           />
-
-        <ChosenProceduresSection
-          selectedSpecialties={selectedSpecialties}
-          selectedServices={selectedServices}
-          visibleCategories={visibleCategories}
-          onToggleService={onToggleService}
-          onDeselectAllProcedures={onDeselectAllProcedures}
-        />
+          <ChosenProceduresSection
+            selectedSpecialties={selectedSpecialties}
+            selectedProcedures={selectedProcedures}
+            visibleCategories={visibleCategories}
+            onToggleProcedure={onToggleProcedure}
+            onDeselectAllProcedures={onDeselectAllProcedures}
+          />
         </>
       ) : null}
       {isSelectingTopProcedures ? (
         <TopProceduresSelector
-          selectedServices={selectedServices}
+          selectedProcedures={selectedProcedures}
           selectedTopProcedures={selectedTopProcedures}
           onToggleTopProcedure={onToggleTopProcedure}
         />

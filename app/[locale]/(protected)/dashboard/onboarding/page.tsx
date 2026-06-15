@@ -27,10 +27,10 @@ export default function DoctorOnboardingPage() {
   const [step, setStep] = useState<DoctorOnboardingStep>("specialties");
 
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
-  const [selectedServiceCategories, setSelectedServiceCategories] = useState<
+  const [selectedCategories, setselectedCategories] = useState<
     string[]
   >([]);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedProcedures, setselectedProcedures] = useState<string[]>([]);
   const [otherSpecialtyText, setOtherSpecialtyText] = useState("");
   const [selectedTopProcedures, setSelectedTopProcedures] = useState<string[]>([]);
 
@@ -86,8 +86,8 @@ export default function DoctorOnboardingPage() {
       },
       body: JSON.stringify({
         specialtyIds: selectedSpecialties,
-        subcategoryIds: selectedServiceCategories,
-        procedureIds: selectedServices,
+        subcategoryIds: selectedCategories,
+        procedureIds: selectedProcedures,
         topThree: selectedTopProcedures,
         otherSpecialtyText,
       }),
@@ -117,7 +117,7 @@ export default function DoctorOnboardingPage() {
     }
 
     if (step === "categories") {
-      if (selectedServiceCategories.length === 0) {
+      if (selectedCategories.length === 0) {
         setErrorMessage(t("errors.selectCategory"));
         return;
       }
@@ -156,13 +156,13 @@ export default function DoctorOnboardingPage() {
 
 
   function handleSelectAllProcedures(procedureIds: string[]) {
-    setSelectedServices((prev) =>
+    setselectedProcedures((prev) =>
       Array.from(new Set([...prev, ...procedureIds]))
     );
   }
   
   function handleDeselectAllProcedures(procedureIds: string[]) {
-    setSelectedServices((prev) =>
+    setselectedProcedures((prev) =>
       prev.filter((id) => !procedureIds.includes(id))
     );
   }
@@ -184,8 +184,8 @@ export default function DoctorOnboardingPage() {
           <OnboardingInfoSelection
             subStep={subStep}
             selectedSpecialties={selectedSpecialties}
-            selectedServiceCategories={selectedServiceCategories}
-            selectedServices={selectedServices}
+            selectedCategories={selectedCategories}
+            selectedProcedures={selectedProcedures}
             otherSpecialtyText={otherSpecialtyText}
             selectedTopProcedures={selectedTopProcedures}
             onToggleTopProcedure={(value: string) =>
@@ -194,11 +194,11 @@ export default function DoctorOnboardingPage() {
             onToggleSpecialty={(value: string) =>
               toggleValue(value, setSelectedSpecialties)
             }
-            onToggleServiceCategory={(value: string) =>
-              toggleValue(value, setSelectedServiceCategories)
+            onToggleCategory={(value: string) =>
+              toggleValue(value, setselectedCategories)
             }
-            onToggleService={(value: string) =>
-              toggleValue(value, setSelectedServices)
+            onToggleProcedure={(value: string) =>
+              toggleValue(value, setselectedProcedures)
             }
             onOtherSpecialtyTextChange={setOtherSpecialtyText}
             onSelectAllProcedures={handleSelectAllProcedures}

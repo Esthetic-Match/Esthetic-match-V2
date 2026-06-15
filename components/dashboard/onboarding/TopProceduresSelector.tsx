@@ -6,13 +6,13 @@ import { DoctorCatalog } from "@/lib/doctorCatalogue"
 import type { Procedure } from "@/app/[locale]/(public)/sign-up/types";
 
 type TopProceduresSelectorProps = {
-  selectedServices: string[];
+  selectedProcedures: string[];
   selectedTopProcedures: string[];
   onToggleTopProcedure: (procedureId: string) => void;
 };
 
 export default function TopProceduresSelector({
-  selectedServices,
+  selectedProcedures,
   selectedTopProcedures,
   onToggleTopProcedure,
 }: TopProceduresSelectorProps) {
@@ -33,7 +33,7 @@ export default function TopProceduresSelector({
 
           procedures: subcategory.procedures.filter(
             (procedure: Procedure) =>
-              selectedServices.includes(procedure.id)
+              selectedProcedures.includes(procedure.id)
           ),
         }))
         .filter((subcategory) => subcategory.procedures.length > 0),

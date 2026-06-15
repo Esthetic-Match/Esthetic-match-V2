@@ -1,21 +1,21 @@
-import SelectedProcedures from "./SelectedProcedures";
+import ChosenProcedures from "./ChosenProcedures";
 import { getSelectedProcedureLabels } from "@/components/public/signup/util/utils";
 import type { Category } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 
 type ChosenProceduresSectionProps = {
   selectedSpecialties: string[];
-  selectedServices: string[];
+  selectedProcedures: string[];
   visibleCategories: readonly Category[];
-  onToggleService: (id: string) => void;
+  onToggleProcedure: (id: string) => void;
   onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
 export default function ChosenProceduresSection({
   selectedSpecialties,
-  selectedServices,
+  selectedProcedures,
   visibleCategories,
-  onToggleService,
+  onToggleProcedure,
   onDeselectAllProcedures,
 }: ChosenProceduresSectionProps) {
   const t = useTranslations("onboarding.procedure");
@@ -24,9 +24,9 @@ export default function ChosenProceduresSection({
     return null;
   }
 
-  const selectedProcedures = getSelectedProcedureLabels(
+  const chosenProcedures = getSelectedProcedureLabels(
     visibleCategories,
-    selectedServices
+    selectedProcedures
   );
   
   return (
@@ -40,9 +40,9 @@ export default function ChosenProceduresSection({
           {t("pro selected")}
         </p>
       </div>
-      <SelectedProcedures
-        selectedProcedures={selectedProcedures}
-        onRemoveProcedure={onToggleService}
+      <ChosenProcedures
+        chosenProcedures={chosenProcedures}
+        onRemoveProcedure={onToggleProcedure}
         onDeselectAllProcedures={onDeselectAllProcedures}
       />
     </div>

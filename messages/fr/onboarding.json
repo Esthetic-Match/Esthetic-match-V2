@@ -5,6 +5,36 @@
     "continue": "Continuer",
     "saving": "Enregistrement en cours...",
     "submit": "Envoyer",
+    "onboardingComplete": {
+    "eyebrow": "Onboarding terminé",
+    "title": "Félicitations, votre profil est maintenant en ligne !",
+    "description": "Les patients peuvent désormais découvrir votre profil sur Esthetic Match. Il reste une dernière étape pour activer les paiements et générer des revenus grâce à vos services.",
+    "verification": {
+      "title": "Complétez votre vérification professionnelle",
+      "duration": "~10 minutes.",
+      "description": "Pour recevoir les paiements des patients et générer des revenus grâce à vos services sur Esthetic Match, vous devez compléter l’étape de vérification professionnelle via Stripe."
+    },
+    "later": {
+      "title": "Vous pouvez le faire plus tard",
+      "description": "Votre profil restera en ligne, mais les patients ne pourront pas encore vous payer."
+    },
+    "revenue": {
+      "title": "Activez vos revenus",
+      "description": "Complétez la vérification maintenant pour activer les paiements et commencer à accepter des réservations payantes."
+    },
+    "stripe": {
+      "title": "Propulsé par Stripe",
+      "description": "Stripe gère la vérification professionnelle et la configuration sécurisée des paiements."
+    },
+    "buttons": {
+      "doLater": "Le faire plus tard",
+      "doNow": "Le faire maintenant",
+      "redirecting": "Redirection..."
+    },
+    "errors": {
+      "stripeFailed": "Impossible de démarrer l’onboarding Stripe."
+    }
+  },
     "specialtyStepper": {
       "selectSpecialty": "Choisir la spécialité",
       "selectTopProcedures": "Choisir les 3 procédures principales",
@@ -52,6 +82,7 @@
     },
     "paymentPrices": {
       "eyebrow": "Paiements",
+      "button": "Enregistrer et connecter Stripe",
       "title": "Définissez vos tarifs de consultation",
       "description": "Les patients paieront le tarif que vous définissez. Esthetic Match prélève une commission de plateforme de 15 %, et le montant restant est versé sur votre compte Stripe connecté.",
       "inClinic": {
@@ -69,6 +100,7 @@
       "buttons": {
         "finishLater": "Enregistrer et terminer plus tard",
         "connectStripe": "Enregistrer les tarifs et connecter Stripe",
+        "next": "Enregistrer et connecter Stripe",
         "saving": "Enregistrement..."
       },
       "currency": {

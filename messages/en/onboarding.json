@@ -5,6 +5,36 @@
     "continue": "Continue",
     "saving": "Saving...",
     "submit": "Submit",
+    "onboardingComplete": {
+    "eyebrow": "Onboarding complete",
+    "title": "Congratulations, your profile is now live!",
+    "description": "Patients can now discover your profile on Esthetic Match. There is one final step required to unlock payments and revenue from your services.",
+    "verification": {
+      "title": "Complete your business verification",
+      "duration": "~10 minutes",
+      "description": "To receive patient payments and generate revenue from your services on Esthetic Match, you need to complete the business verification step through Stripe."
+    },
+    "later": {
+      "title": "You can do it later",
+      "description": "Your profile will stay live, but patients will not be able to pay you yet."
+    },
+    "revenue": {
+      "title": "Unlock revenue",
+      "description": "Complete verification now to activate payments and start accepting paid bookings."
+    },
+    "stripe": {
+      "title": "Powered by Stripe",
+      "description": "Stripe handles business verification and secure payment setup."
+    },
+    "buttons": {
+      "doLater": "Do it later",
+      "doNow": "Do it now",
+      "redirecting": "Redirecting..."
+    },
+    "errors": {
+      "stripeFailed": "Could not start Stripe onboarding."
+    }
+  },
     "specialtyStepper": {
       "selectSpecialty": "Select Specialty",
       "selectTopProcedures": "Select Top 3 Procedure",
@@ -70,6 +100,7 @@
       "buttons": {
         "finishLater": "Save and finish later",
         "connectStripe": "Save prices & connect Stripe",
+        "next": "Save & Connect Stripe",
         "saving": "Saving..."
       },
           "currency": {

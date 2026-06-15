@@ -6,8 +6,8 @@ import { useTranslations } from "next-intl";
 
 type ProcedureSelectionModalProps = {
   activeCategory: Category | null;
-  selectedServices: string[];
-  onToggleService: (id: string) => void;
+  selectedProcedures: string[];
+  onToggleProcedure: (id: string) => void;
   onClose: () => void;
   onSelectAllProcedures: (procedureIds: string[]) => void;
   onDeselectAllProcedures: (procedureIds: string[]) => void;
@@ -15,8 +15,8 @@ type ProcedureSelectionModalProps = {
 
 export default function ProcedureSelectionModal({
   activeCategory,
-  selectedServices,
-  onToggleService,
+  selectedProcedures,
+  onToggleProcedure,
   onClose,
   onSelectAllProcedures,
   onDeselectAllProcedures,
@@ -79,13 +79,13 @@ export default function ProcedureSelectionModal({
 
               <div className="flex flex-wrap gap-2">
                 {subcategory.procedures.map((procedure) => {
-                  const selected = selectedServices.includes(procedure.id);
+                  const selected = selectedProcedures.includes(procedure.id);
 
                   return (
                     <button
                       key={procedure.id}
                       type="button"
-                      onClick={() => onToggleService(procedure.id)}
+                      onClick={() => onToggleProcedure(procedure.id)}
                       className={`cursor-pointer rounded-full border px-3 py-2 text-sm transition active:scale-[0.98] ${
                         selected
                           ? "border-[#283C5D] bg-[#283C5D] text-white"

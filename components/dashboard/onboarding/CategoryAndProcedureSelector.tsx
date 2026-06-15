@@ -9,10 +9,10 @@ import Image from "next/image";
 
 type CategoryAndProcedureSelectorProps = {
   visibleCategories: readonly Category[];
-  selectedServiceCategories: string[];
-  selectedServices: string[];
-  onToggleServiceCategory: (value: string) => void;
-  onToggleService: (value: string) => void;
+  selectedCategories: string[];
+  selectedProcedures: string[];
+  onToggleCategory: (value: string) => void;
+  onToggleProcedure: (value: string) => void;
   onSelectAllProcedures: (procedureIds: string[]) => void;
   onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
@@ -23,10 +23,10 @@ function getCategoryImagePath(category: string) {
 
 export default function CategoryAndProcedureSelector({
   visibleCategories,
-  selectedServiceCategories,
-  selectedServices,
-  onToggleServiceCategory,
-  onToggleService,
+  selectedCategories,
+  selectedProcedures,
+  onToggleCategory,
+  onToggleProcedure,
   onSelectAllProcedures,
   onDeselectAllProcedures,
 }: CategoryAndProcedureSelectorProps) {
@@ -36,12 +36,12 @@ export default function CategoryAndProcedureSelector({
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
 
   function openCategory(categoryItem: Category) {
-    const isAlreadySelected = selectedServiceCategories.includes(
+    const isAlreadySelected = selectedCategories.includes(
       categoryItem.category
     );
 
     if (!isAlreadySelected) {
-      onToggleServiceCategory(categoryItem.category);
+      onToggleCategory(categoryItem.category);
     }
 
     setActiveCategory(categoryItem);
@@ -53,8 +53,8 @@ export default function CategoryAndProcedureSelector({
   ) {
     e.stopPropagation();
 
-    if (selectedServiceCategories.includes(categoryItem.category)) {
-      onToggleServiceCategory(categoryItem.category);
+    if (selectedCategories.includes(categoryItem.category)) {
+      onToggleCategory(categoryItem.category);
     }
 
     setActiveCategory(null);
@@ -93,7 +93,7 @@ export default function CategoryAndProcedureSelector({
       </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {visibleCategories.map((categoryItem) => {
-            const selected = selectedServiceCategories.includes(
+            const selected = selectedCategories.includes(
               categoryItem.category
             );
 
@@ -144,8 +144,8 @@ export default function CategoryAndProcedureSelector({
       {activeCategory ? (
         <ProcedureSelectionModal
           activeCategory={activeCategory}
-          selectedServices={selectedServices}
-          onToggleService={onToggleService}
+          selectedProcedures={selectedProcedures}
+          onToggleProcedure={onToggleProcedure}
           onClose={closePopup}
           onSelectAllProcedures={onSelectAllProcedures}
           onDeselectAllProcedures={onDeselectAllProcedures}

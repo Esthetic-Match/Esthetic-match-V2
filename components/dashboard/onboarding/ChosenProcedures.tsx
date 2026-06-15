@@ -5,17 +5,17 @@ import { useTranslations } from "next-intl";
 import type { Procedure } from "@/app/[locale]/(public)/sign-up/types";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 
-type SelectedProceduresProps = {
-  selectedProcedures: Procedure[];
+type chosenProceduresProps = {
+  chosenProcedures: Procedure[];
   onRemoveProcedure: (procedureId: string) => void;
   onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
-export default function SelectedProcedures({
-  selectedProcedures,
+export default function ChosenProcedures({
+  chosenProcedures,
   onRemoveProcedure,
   onDeselectAllProcedures,
-}: SelectedProceduresProps) {
+}: chosenProceduresProps) {
   const t = useTranslations("onboarding.procedure");
   const categoriesT = useTranslations("categoriesName");
   const subcategoriesT = useTranslations("subcategoriesName");
@@ -28,7 +28,7 @@ const groupedProcedures = DoctorCatalog.categories
       .map((subcategory) => ({
         subcategoryTitle: subcategory.subcategory,
         procedures: subcategory.procedures.filter((procedure) =>
-          selectedProcedures.some((p) => p.id === procedure.id)
+          chosenProcedures.some((p) => p.id === procedure.id)
         ),
       }))
       .filter((subcategory) => subcategory.procedures.length > 0),
@@ -40,33 +40,34 @@ const groupedProcedures = DoctorCatalog.categories
       <div className="flex justify-end gap-2">
         <button
           type="button"
-          onClick={() => onDeselectAllProcedures(selectedProcedures.map((p) => p.id))}
+          onClick={() => onDeselectAllProcedures(chosenProcedures.map((p) => p.id))}
           className="rounded-full border border-red-500/20 px-3 py-1 text-xs font-medium text-red-500 hover:bg-red-50"
         >
           {t("deselectAll")}
         </button>
       </div>
 
-      {selectedProcedures.length > 0 ? (
+      {chosenProcedures.length > 0 ? (
         <div className="space-y-5">
           {groupedProcedures.map((category) => (
             <div key={category.categoryTitle} className="space-y-3">
               {/* Category */}
               <div>
-                <h3 className="text-sm font-semibold text-[#283C5D]">
+                <h3 className="text-sm font-semibold uppercase text-[#CEB591]">
                   {categoriesT(category.categoryTitle)}
                 </h3>
+                <div className="mt-4 h-px w-16 bg-[#d8bd8d]" />
               </div>
           
               {/* Subcategories */}
               <div className="space-y-4">
                 {category.subcategories.map((subcategory) => (
                   <div key={subcategory.subcategoryTitle} className="space-y-2">
-                    <h4 className="text-xs font-medium uppercase tracking-wide text-[#283C5D]/60">
+                    <h4 className="text-xs font-medium tracking-wide text-[#283C5D]/60">
                       {subcategoriesT(subcategory.subcategoryTitle)}
                     </h4>
-                
-                    <div className="flex flex-wrap gap-2">
+                    
+                    <div className="flex flex-wrap gap-2 my-6">
                       {subcategory.procedures.map((procedure) => (
                         <button
                           key={procedure.id}
