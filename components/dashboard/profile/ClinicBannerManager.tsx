@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ClinicBanner from "./UI/ClinicBanner";
-import ImageUploadModal from "./UI/ImageUploadModal";
+import ImageUploadModal from "./modal/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
 import { handleImageUpload } from "@/lib/helpers/helper";
 

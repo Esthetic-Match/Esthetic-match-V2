@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ImageIcon, Plus, FilePenLine  } from "lucide-react";
-import BeforeAfterUploadModal from "../UI/BeforeAfterUploadModal";
+import BeforeAfterUploadModal from "../modal/BeforeAfterUploadModal";
 import PrivateGcsImage from "@/components/UI/PrivateGcsImage";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";

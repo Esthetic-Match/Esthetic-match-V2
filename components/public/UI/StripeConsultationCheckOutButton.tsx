@@ -87,7 +87,7 @@ async function createCheckoutSession() {
     transition-all duration-200
     hover:scale-[1.02] hover:shadow-lg hover:shadow-[#d8bd8d]/40
     active:scale-[0.98]
-    disabled:cursor-not-allowed disabled:opacity-60
+    disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer
   "
 >
   {loading ? (

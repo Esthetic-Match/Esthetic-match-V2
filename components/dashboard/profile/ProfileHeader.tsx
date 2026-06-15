@@ -13,7 +13,7 @@ import {
   Check,
 } from "lucide-react";
 import { handleImageUpload } from "@/lib/helpers/helper";
-import ImageUploadModal from "./UI/ImageUploadModal";
+import ImageUploadModal from "./modal/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
 import { Link } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";

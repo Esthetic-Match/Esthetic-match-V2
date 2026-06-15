@@ -87,7 +87,7 @@ export default async function GoogleMapsCard({
           target="_blank"
           rel="noopener noreferrer"
           itemProp="hasMap"
-          className="inline-flex w-full items-center justify-center rounded-full border border-[#d8bd8d]/60 px-6 py-2.5 text-sm font-semibold text-[#283C5D] transition hover:bg-[#53637d] hover:text-white"
+          className="inline-flex w-full items-center justify-center rounded-full border border-[#d8bd8d]/60 px-6 py-2.5 text-sm font-semibold text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white"
         >
           {t("openMaps")}
         </a>

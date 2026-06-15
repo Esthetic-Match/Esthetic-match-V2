@@ -1,5 +1,3 @@
-// components/ui/PageLoadGate.tsx
-
 "use client";
 
 import Image from "next/image";
@@ -13,22 +11,16 @@ type PageLoadGateProps = {
 export default function PageLoadGate({ children }: PageLoadGateProps) {
   const [loaded, setLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
-  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     let loaderTimer: ReturnType<typeof setTimeout>;
-    let contentTimer: ReturnType<typeof setTimeout>;
 
     const handleLoad = () => {
       setLoaded(true);
 
-      contentTimer = setTimeout(() => {
-        setShowContent(true);
-      }, 300);
-
       loaderTimer = setTimeout(() => {
         setShowLoader(false);
-      }, 1000);
+      }, 700);
     };
 
     if (document.readyState === "complete") {
@@ -40,12 +32,20 @@ export default function PageLoadGate({ children }: PageLoadGateProps) {
     return () => {
       window.removeEventListener("load", handleLoad);
       clearTimeout(loaderTimer);
-      clearTimeout(contentTimer);
     };
   }, []);
 
   return (
     <>
+      <div
+        className={[
+          "transition-opacity duration-700 ease-out",
+          loaded ? "opacity-100" : "opacity-0",
+        ].join(" ")}
+      >
+        {children}
+      </div>
+
       {showLoader && (
         <div
           className={[
@@ -67,17 +67,6 @@ export default function PageLoadGate({ children }: PageLoadGateProps) {
             />
             <Loading />
           </div>
-        </div>
-      )}
-
-      {showContent && (
-        <div
-          className={[
-            "transition-all duration-700 ease-out",
-            loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3",
-          ].join(" ")}
-        >
-          {children}
         </div>
       )}
     </>

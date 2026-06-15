@@ -57,7 +57,8 @@ export default function BookingLinksSection({
             aria-label={t("openLink", {
               link: formatBookingLink(link),
             })}
-            className="group flex min-h-14 items-center justify-between gap-3 rounded-full border border-black/10 bg-[#FAF9F7] px-5 py-3 text-sm font-semibold text-[#283C5D] transition hover:border-[#d8bd8d]/60 hover:bg-white hover:shadow-sm active:scale-[0.98]"
+            className="group flex min-h-14 items-center justify-between gap-3 rounded-full border border-black/10 bg-[#FAF9F7] px-5 py-3 text-sm font-semibold 
+            text-[#283C5D] transition hover:border-[#d8bd8d]/60 hover:bg-white hover:shadow-sm active:scale-[0.98]"
           >
             <span className="truncate">{formatBookingLink(link)}</span>
 

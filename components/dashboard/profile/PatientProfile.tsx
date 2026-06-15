@@ -12,7 +12,7 @@ import {
   User,
   Video,
 } from "lucide-react";
-import ImageUploadModal from "./UI/ImageUploadModal";
+import ImageUploadModal from "./modal/ImageUploadModal";
 import { useTranslations } from "next-intl";
 import { Heart, ArrowRight } from "lucide-react";
 import FavoriteDoctorCard from "./UI/FavoriteDoctorCard";
