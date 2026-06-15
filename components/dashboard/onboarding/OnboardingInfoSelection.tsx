@@ -3,8 +3,8 @@
 import TextInput from "@/components/UI/TextInput";
 
 import SpecialtySelector from "./SpecialtySelector";
-import SpecialtyProcedureSection from "./SpecialtyProcedureSection";
-import CategoryCardSelector from "./CategoryCardSelector";
+import ChosenProceduresSection from "./ChosenProceduresSection";
+import CategoryAndProcedureSelector from "./CategoryAndProcedureSelector";
 import SpecialtyStepper from "./SpecialtyStepper"
 import { getVisibleCategories } from "../../public/signup/util/utils";
 import TopProceduresSelector from "./TopProceduresSelector";
@@ -58,8 +58,6 @@ export default function OnboardingInfoSelection({
   const isSelectingCategories = subStep === "categories";
   const isSelectingTopProcedures = subStep === "topProcedures";
 
-  
-
   return (
     <>
       <SpecialtyStepper currentStep={subStep} />
@@ -83,7 +81,7 @@ export default function OnboardingInfoSelection({
 
       {isSelectingCategories ? (
         <>
-          <CategoryCardSelector
+          <CategoryAndProcedureSelector
             visibleCategories={visibleCategories}
             selectedServiceCategories={selectedServiceCategories}
             selectedServices={selectedServices}
@@ -93,7 +91,7 @@ export default function OnboardingInfoSelection({
             onDeselectAllProcedures={onDeselectAllProcedures}
           />
 
-        <SpecialtyProcedureSection
+        <ChosenProceduresSection
           selectedSpecialties={selectedSpecialties}
           selectedServices={selectedServices}
           visibleCategories={visibleCategories}

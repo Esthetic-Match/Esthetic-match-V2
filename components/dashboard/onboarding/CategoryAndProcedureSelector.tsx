@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import ProcedureSelectionModal from "./modal/ProcedureSelectionModel";
 import Image from "next/image";
 
-type CategoryCardSelectorProps = {
+type CategoryAndProcedureSelectorProps = {
   visibleCategories: readonly Category[];
   selectedServiceCategories: string[];
   selectedServices: string[];
@@ -21,7 +21,7 @@ function getCategoryImagePath(category: string) {
   return `/images/dashboard/categories/${category}.svg`;
 }
 
-export default function CategoryCardSelector({
+export default function CategoryAndProcedureSelector({
   visibleCategories,
   selectedServiceCategories,
   selectedServices,
@@ -29,7 +29,7 @@ export default function CategoryCardSelector({
   onToggleService,
   onSelectAllProcedures,
   onDeselectAllProcedures,
-}: CategoryCardSelectorProps) {
+}: CategoryAndProcedureSelectorProps) {
   const t = useTranslations("onboarding.category");
   const categoryT = useTranslations("categoriesName");
 
@@ -75,11 +75,22 @@ export default function CategoryCardSelector({
   return (
     <>
       <div className="space-y-3">
-        <div className="mb-6 flex flex-col items-center text-center">
-          <p className="mt-2 max-w-md text-3xl font-bold text-[#283C5D]">
-            {t("heading")}
-          </p>
+      <div className="flex flex-col my-6 items-center text-center">
+        <h2 className="text-2xl font-bold tracking-tight text-[#283C5D] md:text-3xl">
+          {t("title")}
+        </h2>
+
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#283C5D]/45">
+          {t("subtitle")}
+        </p>
+
+        <div className="mt-5 flex items-center gap-2 rounded-lg bg-[#EFF6FF] px-4 py-2 text-xs font-medium text-[#283C5D]/60">
+          <span className="flex h-4 w-4 items-center justify-center rounded-full border border-[#2563EB] text-[10px] font-bold text-[#2563EB]">
+            i
+          </span>
+          <span>{t("note")}</span>
         </div>
+      </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {visibleCategories.map((categoryItem) => {
             const selected = selectedServiceCategories.includes(

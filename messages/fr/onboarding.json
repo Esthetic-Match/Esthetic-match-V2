@@ -8,7 +8,7 @@
     "specialtyStepper": {
       "selectSpecialty": "Choisir la spécialité",
       "selectTopProcedures": "Choisir les 3 procédures principales",
-      "selectCategoryProcedure": "Choisir les procédures et procédures",
+      "selectCategoryProcedure": "Choisir les catégories et procédures",
       "selectPayment": "Paiement"
     },
     "topProcedures": {
@@ -32,67 +32,12 @@
           "surgery": "Chirurgie",
           "associatedSpecialties": "Spécialités associées",
           "other": "Autre"
-        },
-        "items": {
-          "aesthetic_doctor": {
-            "label": "Médecin esthétique",
-            "description": "Injections, lasers, traitements esthétiques"
-          },
-          "dermatologist": {
-            "label": "Dermatologue",
-            "description": "Peau, cheveux, laser dermatologique"
-          },
-          "plastic_surgeon": {
-            "label": "Chirurgien plasticien",
-            "description": "Chirurgie esthétique et reconstructrice"
-          },
-          "maxillofacial_surgeon": {
-            "label": "Chirurgien maxillo-facial",
-            "description": "Maxillo-facial, traumatologie, esthétique"
-          },
-          "ent_surgeon": {
-            "label": "Chirurgien ORL",
-            "description": "Otorhinolaryngologie, chirurgie cervico-faciale"
-          },
-          "ophthalmologist": {
-            "label": "Ophtalmologue",
-            "description": "Chirurgie oculaire, médecine esthétique du regard"
-          },
-          "dentist": {
-            "label": "Dentiste",
-            "description": "Dentisterie esthétique, réhabilitation"
-          },
-          "orthodontist": {
-            "label": "Orthodontiste",
-            "description": "Orthodontie, alignement dentaire"
-          },
-          "oculoplastic_surgeon": {
-            "label": "Chirurgien oculoplastique",
-            "description": "Chirurgie plastique et reconstructrice du regard"
-          },
-          "reconstructive_surgeon": {
-            "label": "Chirurgien reconstructeur",
-            "description": "Procédures reconstructrices avancées"
-          },
-          "other_specialty": {
-            "label": "Autre spécialité",
-            "description": "Précisez votre spécialité"
-          }
-    }
+        }
     },
     "category": {
-        "heading": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
-        "NON-SURGICAL FACE": "Médecine esthétique (visage)",
-        "NON-SURGICAL BODY": "Médecine esthétique (corps)",
-        "AESTHETIC DENTISTRY": "Dentisterie esthétique",
-        "HAIR MEDICINE": "Médecine capillaire",
-        "MUSCLE TONE & EMS": "Tonification musculaire & EMS",
-        "IV THERAPY": "Thérapie IV",
-        "WELLNESS & POSTOPERATIVE": "Bien-être & postopératoire",
-        "SURGICAL FACE": "Chirurgie du visage",
-        "SURGICAL BODY": "Chirurgie du corps",
-        "LONGEVITY MEDICINE": "Médecine de longévité",
-        "OTHER": "Autre",
+        "title": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
+        "subtitle": "Choisissez les catégories et les procédures qui représentent le mieux votre pratique.",
+        "note": "Vous pourrez les modifier plus tard.",
         "No categories": "Aucune catégorie disponible pour les spécialités sélectionnées."
     },
     "procedure": {

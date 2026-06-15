@@ -3,7 +3,7 @@ import { getSelectedProcedureLabels } from "@/components/public/signup/util/util
 import type { Category } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 
-type SpecialtyProcedureSectionProps = {
+type ChosenProceduresSectionProps = {
   selectedSpecialties: string[];
   selectedServices: string[];
   visibleCategories: readonly Category[];
@@ -11,14 +11,13 @@ type SpecialtyProcedureSectionProps = {
   onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
-export default function SpecialtyProcedureSection({
+export default function ChosenProceduresSection({
   selectedSpecialties,
   selectedServices,
   visibleCategories,
   onToggleService,
   onDeselectAllProcedures,
-}: SpecialtyProcedureSectionProps) {
-  
+}: ChosenProceduresSectionProps) {
   const t = useTranslations("onboarding.procedure");
   
   if (selectedSpecialties.length === 0) {

@@ -32,67 +32,12 @@
           "surgery": "Surgery",
           "associatedSpecialties": "Associated Specialties",
           "other": "Other"
-        },
-        "items": {
-          "aesthetic_doctor": {
-            "label": "Aesthetic Doctor",
-            "description": "Injections, lasers, aesthetic treatments"
-          },
-          "dermatologist": {
-            "label": "Dermatologist",
-            "description": "Skin, hair, dermatological laser"
-          },
-          "plastic_surgeon": {
-            "label": "Plastic Surgeon",
-            "description": "Aesthetic & reconstructive surgery"
-          },
-          "maxillofacial_surgeon": {
-            "label": "Maxillofacial Surgeon",
-            "description": "Maxillofacial, trauma, aesthetic"
-          },
-          "ent_surgeon": {
-            "label": "ENT Surgeon",
-            "description": "Otorhinolaryngology, cervico-facial surgery"
-          },
-          "ophthalmologist": {
-            "label": "Ophthalmologist",
-            "description": "Ocular surgery, aesthetic eye medicine"
-          },
-          "dentist": {
-            "label": "Dentist",
-            "description": "Aesthetic dentistry, rehabilitation"
-          },
-          "orthodontist": {
-            "label": "Orthodontist",
-            "description": "Orthodontics, teeth alignment"
-          },
-          "oculoplastic_surgeon": {
-            "label": "Oculoplastic Surgeon",
-            "description": "Eye plastic & reconstructive surgery"
-          },
-          "reconstructive_surgeon": {
-            "label": "Reconstructive Surgeon",
-            "description": "Advanced reconstructive procedures"
-          },
-          "other_specialty": {
-            "label": "Other Specialty",
-            "description": "Specify your specialty"
-          }
-    }
+        }
     },
     "category": {
-        "heading": "Select your domain of expertise and the procedures you offer",
-        "NON-SURGICAL FACE": "Aesthetic medicine face",
-        "NON-SURGICAL BODY": "Aesthetic medicine face",
-        "AESTHETIC DENTISTRY": "Aesthetic dentistry",
-        "HAIR MEDICINE":  "Hair medicine",
-        "MUSCLE TONE & EMS": "Muscle tone & EMS",
-        "IV THERAPY": "IV therapy",
-        "WELLNESS & POSTOPERATIVE": "Wellness & Postoperative",
-        "SURGICAL FACE": "Surgical face",
-        "SURGICAL BODY": "Surgical body",
-        "LONGEVITY MEDICINE": "Longevity medicine",
-        "OTHER": "Other",
+        "title": "Select your domain of expertise and the procedures you offer",
+        "subtitle": "Choose the categories and procedures that best represent your practice.",
+        "note": "You can modify them later.",
         "No categories": "No categories available for the selected specialties."
     },
     "procedure":{

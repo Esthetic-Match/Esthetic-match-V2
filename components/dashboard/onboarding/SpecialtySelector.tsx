@@ -3,118 +3,20 @@
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { DoctorCatalog } from "@/lib/doctorCatalogue";
 
 type SpecialtySelectorProps = {
   selectedSpecialties: string[];
   onToggleSpecialty: (id: string) => void;
 };
 
-type SpecialtyItem = {
-  id: string;
-  labelKey: string;
-  descriptionKey: string;
-  icon: string;
-};
-
-type SpecialtyGroup = {
-  titleKey: string;
-  items: SpecialtyItem[];
-};
-
-const specialtyGroups: SpecialtyGroup[] = [
-  {
-    titleKey: "groups.aesthetic",
-    items: [
-      {
-        id: "aesthetic_doctor",
-        labelKey: "items.aesthetic_doctor.label",
-        descriptionKey: "items.aesthetic_doctor.description",
-        icon: "aesthetic_doctor.svg",
-      },
-      {
-        id: "dermatologist",
-        labelKey: "items.dermatologist.label",
-        descriptionKey: "items.dermatologist.description",
-        icon: "dermatologist.svg",
-      },
-    ],
-  },
-  {
-    titleKey: "groups.surgery",
-    items: [
-      {
-        id: "plastic_surgeon",
-        labelKey: "items.plastic_surgeon.label",
-        descriptionKey: "items.plastic_surgeon.description",
-        icon: "plastic_surgeon.svg",
-      },
-      {
-        id: "maxillofacial_surgeon",
-        labelKey: "items.maxillofacial_surgeon.label",
-        descriptionKey: "items.maxillofacial_surgeon.description",
-        icon: "maxillofacial_surgeon.svg",
-      },
-      {
-        id: "ent_surgeon",
-        labelKey: "items.ent_surgeon.label",
-        descriptionKey: "items.ent_surgeon.description",
-        icon: "ent_surgeon.svg",
-      },
-    ],
-  },
-  {
-    titleKey: "groups.associatedSpecialties",
-    items: [
-      {
-        id: "ophthalmologist",
-        labelKey: "items.ophthalmologist.label",
-        descriptionKey: "items.ophthalmologist.description",
-        icon: "ophthalmologist.svg",
-      },
-      {
-        id: "dentist",
-        labelKey: "items.dentist.label",
-        descriptionKey: "items.dentist.description",
-        icon: "dentist.svg",
-      },
-      {
-        id: "orthodontist",
-        labelKey: "items.orthodontist.label",
-        descriptionKey: "items.orthodontist.description",
-        icon: "orthodontist.svg",
-      },
-    ],
-  },
-  {
-    titleKey: "groups.other",
-    items: [
-      {
-        id: "oculoplastic_surgeon",
-        labelKey: "items.oculoplastic_surgeon.label",
-        descriptionKey: "items.oculoplastic_surgeon.description",
-        icon: "oculoplastic_surgeon.svg",
-      },
-      {
-        id: "reconstructive_surgeon",
-        labelKey: "items.reconstructive_surgeon.label",
-        descriptionKey: "items.reconstructive_surgeon.description",
-        icon: "reconstructive_surgeon.svg",
-      },
-      {
-        id: "other_specialty",
-        labelKey: "items.other_specialty.label",
-        descriptionKey: "items.other_specialty.description",
-        icon: "other_specialty.svg",
-      },
-    ],
-  },
-];
-
 export default function SpecialtySelector({
   selectedSpecialties,
   onToggleSpecialty,
 }: SpecialtySelectorProps) {
   const t = useTranslations("onboarding.specialtySelector");
+  const specialityT = useTranslations("specialitiesName");
+  const specialtyGroups = DoctorCatalog.specialties.groups;
 
   return (
     <div className="w-full space-y-8">
@@ -169,7 +71,7 @@ export default function SpecialtySelector({
 
                   <Image
                     src={`/images/dashboard/specialties/${specialty.icon}`}
-                    alt={t(specialty.labelKey)}
+                    alt={specialityT(specialty.id)}
                     width={44}
                     height={44}
                     className={`mb-3 h-11 w-11 object-contain transition ${
@@ -180,11 +82,7 @@ export default function SpecialtySelector({
                   />
 
                   <span className="text-sm font-semibold text-[#283C5D]">
-                    {t(specialty.labelKey)}
-                  </span>
-
-                  <span className="mt-1 text-xs leading-snug text-[#283C5D]/50">
-                    {t(specialty.descriptionKey)}
+                    {specialityT(specialty.id)}
                   </span>
                 </button>
               );
