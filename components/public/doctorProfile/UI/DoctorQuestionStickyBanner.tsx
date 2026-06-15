@@ -1,7 +1,7 @@
 "use client";
 
 import FreeOnlineConsultationButton from "./FreeOnlineConsultationButton";
-import StripeConsultationCheckOutButton from "@/components/public/UI/StripeConsultationCheckOutButton";
+import StripeConsultationCheckOutButton from "@/components/public/doctorProfile/UI/StripeConsultationCheckOutButton";
 import { useState, useEffect } from "react";
 import { Heart, Loader2 } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
