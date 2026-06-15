@@ -93,12 +93,13 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
 
           <MessageText message={localError} variant="error" />
           <MessageText message={errorMessage} variant="error" />
+          <div className="mt-4 h-px w-16 bg-[#d8bd8d]" />
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 m-8">
             <button
               type="button"
               onClick={onBack}
-              className="w-full rounded-full border border-black px-4 py-3 text-black hover:bg-gray-300 cursor-pointer active:scale-[0.98]"
+              className="w-full rounded-full border border-black px-4 py-2 text-black transition hover:bg-[#283C5D] hover:text-white cursor-pointer active:scale-[0.98]"
             >
               {t("back")}
             </button>
@@ -106,7 +107,7 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full rounded-full bg-[#283C5D] px-4 py-3 text-white cursor-pointer hover:opacity-90 active:scale-[0.98] disabled:opacity-50"
+              className="w-full rounded-full bg-[#d8bd8d] px-4 py-2 text-black cursor-pointer transition hover:bg-[#d8bd8d]/80 active:scale-[0.98] disabled:opacity-50"
             >
               {isLoading ? t("one moment") : t("signUp")}
             </button>

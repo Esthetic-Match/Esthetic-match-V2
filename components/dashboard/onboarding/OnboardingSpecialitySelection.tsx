@@ -2,11 +2,11 @@
 
 import TextInput from "@/components/UI/TextInput";
 
-import SpecialtySelector from "./SpecialtySelector";
+import SpecialtySelector from "../../public/signup/SpecialtySelector";
 import SpecialtyProcedureSection from "./SpecialtyProcedureSection";
 import CategoryCardSelector from "./CategoryCardSelector";
 import SpecialtyStepper from "./SpecialtyStepper"
-import { getVisibleCategories } from "./util/utils";
+import { getVisibleCategories } from "../../public/signup/util/utils";
 import TopProceduresSelector from "./TopProceduresSelector";
 
 type DoctorSpecialtySubStep =
@@ -14,7 +14,7 @@ type DoctorSpecialtySubStep =
   | "categories"
   | "topProcedures";
 
-type DoctorSpecialtyDetailsStepProps = {
+type OnboardingSpecialitySelectionProps = {
   subStep: DoctorSpecialtySubStep;
 
   selectedSpecialties: string[];
@@ -32,7 +32,7 @@ type DoctorSpecialtyDetailsStepProps = {
   onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
 
-export default function DoctorSpecialtyDetailsStep({
+export default function OnboardingSpecialitySelection({
   subStep,
   selectedSpecialties,
   selectedServiceCategories,
@@ -46,7 +46,7 @@ export default function DoctorSpecialtyDetailsStep({
   onDeselectAllProcedures,
   selectedTopProcedures,
   onToggleTopProcedure,
-}: DoctorSpecialtyDetailsStepProps) {
+}: OnboardingSpecialitySelectionProps) {
   const hasOtherSpecialty =
     selectedSpecialties.includes("Other specialty") ||
     selectedSpecialties.includes("other specialty") ||

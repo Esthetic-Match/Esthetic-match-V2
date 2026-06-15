@@ -5,8 +5,8 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import MessageText from "@/components/UI/MessageText";
-import DoctorSpecialtyDetailsStep from "@/components/public/signup/DoctorSpecialtyDetailsStep";
-import PaymentAndPrices from "@/components/public/signup/PaymentAndPrices";
+import OnboardingSpecialitySelection from "@/components/dashboard/onboarding/OnboardingSpecialitySelection";
+import PaymentAndPrices from "@/components/dashboard/onboarding/PaymentAndPrices";
 import { ShieldCheck } from "lucide-react";
 
 type DoctorOnboardingStep =
@@ -181,7 +181,7 @@ export default function DoctorOnboardingPage() {
           onSubmit={handleSubmit}
           className="relative z-20 mx-auto max-w-4xl space-y-5 p-8 mt-10"
         >
-          <DoctorSpecialtyDetailsStep
+          <OnboardingSpecialitySelection
             subStep={subStep}
             selectedSpecialties={selectedSpecialties}
             selectedServiceCategories={selectedServiceCategories}

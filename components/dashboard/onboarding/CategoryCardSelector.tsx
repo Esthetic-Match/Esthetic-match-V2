@@ -4,7 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import type { Category } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
-import ProcedureSelectionModal from "./ProcedureSelectionModel";
+import ProcedureSelectionModal from "./modal/ProcedureSelectionModel";
 import Image from "next/image";
 
 type CategoryCardSelectorProps = {
