@@ -5,7 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import MessageText from "@/components/UI/MessageText";
-import OnboardingSpecialitySelection from "@/components/dashboard/onboarding/OnboardingSpecialitySelection";
+import OnboardingInfoSelection from "@/components/dashboard/onboarding/OnboardingInfoSelection";
 import PaymentAndPrices from "@/components/dashboard/onboarding/PaymentAndPrices";
 import { ShieldCheck } from "lucide-react";
 
@@ -181,7 +181,7 @@ export default function DoctorOnboardingPage() {
           onSubmit={handleSubmit}
           className="relative z-20 mx-auto max-w-4xl space-y-5 p-8 mt-10"
         >
-          <OnboardingSpecialitySelection
+          <OnboardingInfoSelection
             subStep={subStep}
             selectedSpecialties={selectedSpecialties}
             selectedServiceCategories={selectedServiceCategories}
