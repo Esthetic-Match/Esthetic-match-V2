@@ -21,6 +21,7 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
   const [step, setStep] = useState<DoctorSignupStep>("account");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [localError, setLocalError] = useState("");
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
 
   async function createDoctorAccount() {
     setLocalError("");
@@ -94,7 +95,38 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
           <MessageText message={localError} variant="error" />
           <MessageText message={errorMessage} variant="error" />
           <div className="mt-4 h-px w-16 bg-[#d8bd8d]" />
-
+                
+          <label className="mt-6 flex items-start gap-3 rounded-2xl border border-[#283C5D]/10 bg-white/70 p-4 text-sm leading-6 text-[#283C5D]/75">
+            <input
+              type="checkbox"
+              checked={hasAcceptedTerms}
+              onChange={(event) => setHasAcceptedTerms(event.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-[#283C5D]/20 accent-[#d8bd8d] cursor-pointer"
+            />
+          
+            <span>
+              {t("agree")}{" "}
+              <a
+                href="/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#283C5D] underline underline-offset-4 hover:text-[#d8bd8d]"
+              >
+                {t("privacyPolicy")}
+              </a>{" "}
+              and{" "}
+              <a
+                href="/terms-of-use"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#283C5D] underline underline-offset-4 hover:text-[#d8bd8d]"
+              >
+                {t("termsOfUse")}
+              </a>
+              .
+            </span>
+          </label>
+                
           <div className="flex gap-3 m-8">
             <button
               type="button"
@@ -103,11 +135,11 @@ export default function DoctorSignUpForm(props: DoctorSignUpProps) {
             >
               {t("back")}
             </button>
-
+                
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full rounded-full bg-[#d8bd8d] px-4 py-2 text-black cursor-pointer transition hover:bg-[#d8bd8d]/80 active:scale-[0.98] disabled:opacity-50"
+              disabled={isLoading || !hasAcceptedTerms}
+              className="w-full rounded-full bg-[#d8bd8d] px-4 py-2 text-black cursor-pointer transition hover:bg-[#d8bd8d]/80 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? t("one moment") : t("signUp")}
             </button>

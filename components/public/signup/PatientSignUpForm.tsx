@@ -30,6 +30,7 @@ export default function PatientSignUpForm({
   const [localError, setLocalError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
 
   const passwordsMatch =
     Boolean(password) && Boolean(confirmPassword) && password === confirmPassword;
@@ -161,10 +162,40 @@ export default function PatientSignUpForm({
             <MessageText message={localError} variant="error" />
             <MessageText message={errorMessage} variant="error" />
           </div>
+                    <label className="mt-6 flex items-start gap-3 rounded-2xl border border-[#283C5D]/10 bg-white/70 p-4 text-sm leading-6 text-[#283C5D]/75">
+            <input
+              type="checkbox"
+              checked={hasAcceptedTerms}
+              onChange={(event) => setHasAcceptedTerms(event.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-[#283C5D]/20 accent-[#d8bd8d] cursor-pointer"
+            />
+          
+            <span>
+              {t("agree")}{" "}
+              <a
+                href="/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#283C5D] underline underline-offset-4 hover:text-[#d8bd8d]"
+              >
+                {t("privacyPolicy")}
+              </a>{" "}
+              and{" "}
+              <a
+                href="/terms-of-use"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-[#283C5D] underline underline-offset-4 hover:text-[#d8bd8d]"
+              >
+                {t("termsOfUse")}
+              </a>
+              .
+            </span>
+          </label>
 
           <button
             type="submit"
-            disabled={isLoading || !passwordsMatch}
+            disabled={isLoading || !passwordsMatch || !hasAcceptedTerms}
             className="mt-5 h-11 w-full cursor-pointer rounded-full bg-gradient-to-r from-[#d8bd8d] to-[#f4e4c6] text-sm font-semibold text-[#0f233f] shadow-sm transition hover:scale-[1.01] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? t("signingUp") : t("SignUpButton")}

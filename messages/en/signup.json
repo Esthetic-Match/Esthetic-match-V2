@@ -30,6 +30,9 @@
   "signUpForm":{
     "heading": "Create your account",
     "subheading": "Join esthetic match by adding your account details",
+    "agree": "I agree to the",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
     "FullName": "Full Name",
     "NameDescription": "Enter your full name",
     "Email": "Email",
