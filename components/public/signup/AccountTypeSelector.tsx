@@ -8,6 +8,7 @@ import BackButton from "@/components/UI/BackButton";
 import type { AccountTypeSelectorProps } from "@/app/[locale]/(public)/sign-up/types";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import router from "next/router";
 
 type TransitionTarget = "patient" | "doctor" | null;
 
@@ -51,7 +52,7 @@ export default function AccountTypeSelector({
           isTransitioning ? "opacity-0" : "opacity-100"
         }`}
       >
-        <BackButton variant="dark" />
+        <BackButton onBack={() => router.back()} variant="dark" />
 
         {/* LEFT SIDE (WHITE) */}
         <div className="flex flex-col items-center justify-center bg-white px-8 py-12 text-center max-md:hidden z-9999">

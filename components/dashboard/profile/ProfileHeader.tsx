@@ -20,6 +20,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 type ProfileHeaderProps = {
   userId: string;
+  doctorId?: string | null;
   slug?: string | null;
   name: string;
   specialty?: string[] | null;
@@ -38,6 +39,7 @@ const fallbackAvatar = "/dev/profile-placeholder.jpg";
 
 export default function ProfileHeader({
   userId,
+  doctorId,
   slug,
   name,
   specialty,
