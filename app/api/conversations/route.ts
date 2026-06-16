@@ -1,15 +1,16 @@
-import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
-export async function GET() {
+export const GET = withApiHandler(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
   const userId = session.user.id;
@@ -77,10 +78,10 @@ export async function GET() {
     ],
   });
 
-  return NextResponse.json({
+  return apiSuccess({
     conversations: conversations.map((conversation) => ({
       ...conversation,
       unreadCount: conversation._count.messages,
     })),
   });
-}
+});

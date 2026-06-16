@@ -1,9 +1,11 @@
 // app/api/stripe/connect/onboard/route.ts
-import { NextResponse } from "next/server";
+
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { stripe } from "@/lib/thirdParty/stripe";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
 function getStripeCountryFromDoctorProfile(country?: string | null) {
   const normalizedCountry = country?.trim().toLowerCase();
@@ -25,13 +27,13 @@ function getStripeCountryFromDoctorProfile(country?: string | null) {
   return countryMap[normalizedCountry || ""] || "FR";
 }
 
-export async function POST() {
+export const POST = withApiHandler(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
   const doctorProfile = await prisma.doctorProfile.findUnique({
@@ -39,9 +41,10 @@ export async function POST() {
   });
 
   if (!doctorProfile) {
-    return NextResponse.json(
-      { error: "Doctor profile not found" },
-      { status: 404 }
+    throw new ApiError(
+      "Doctor profile not found",
+      404,
+      "DOCTOR_PROFILE_NOT_FOUND"
     );
   }
 
@@ -66,8 +69,10 @@ export async function POST() {
   }
 
   if (!accountId) {
-    const stripeCountry = getStripeCountryFromDoctorProfile(doctorProfile.country);
-      
+    const stripeCountry = getStripeCountryFromDoctorProfile(
+      doctorProfile.country
+    );
+
     const account = await stripe.accounts.create({
       type: "express",
       country: stripeCountry,
@@ -81,6 +86,7 @@ export async function POST() {
         userId: session.user.id,
       },
     });
+
     accountId = account.id;
 
     await prisma.doctorProfile.update({
@@ -91,7 +97,15 @@ export async function POST() {
     });
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+  if (!appUrl) {
+    throw new ApiError(
+      "Missing NEXT_PUBLIC_APP_URL",
+      500,
+      "NEXT_PUBLIC_APP_URL_MISSING"
+    );
+  }
 
   const accountLink = await stripe.accountLinks.create({
     account: accountId,
@@ -100,5 +114,7 @@ export async function POST() {
     type: "account_onboarding",
   });
 
-  return NextResponse.json({ url: accountLink.url });
-}
+  return apiSuccess({
+    url: accountLink.url,
+  });
+});

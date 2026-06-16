@@ -150,6 +150,8 @@
     "messages": {
     "title": "Messages",
     "subtitle": "Vos consultations en ligne actives",
+    "welcome": "Bienvenue",
+    "noMessagesYet": "Vous n'avez pas reçu un message aujourd'hui !",
     "searchPlaceholder": "Rechercher une conversation...",
     "loadingConversations": "Chargement des conversations...",
     "noActiveChats": "Aucune conversation active",

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MoreVertical, MessageCircleOff } from "lucide-react";
+import { MessageCircleOff } from "lucide-react";
 import type { Conversation, MeUser, OtherPerson } from "./types";
 import { getInitials } from "./utils";
 import { useTranslations } from "next-intl";
@@ -23,7 +23,6 @@ export default function ChatHeader({
   onEndConversation,
 }: ChatHeaderProps) {
   const t = useTranslations("messages.messages.chatHeader");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
 

@@ -1,16 +1,18 @@
 // app/api/doctor-profile/social-link/route.ts
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 
-export async function GET(req: Request) {
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
+
+export const GET = withApiHandler(async (req: Request) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
   const { searchParams } = new URL(req.url);
@@ -29,32 +31,36 @@ export async function GET(req: Request) {
   });
 
   if (!doctorProfile) {
-    return NextResponse.json(
-      { error: "Doctor profile not found" },
-      { status: 404 }
+    throw new ApiError(
+      "Doctor profile not found",
+      404,
+      "DOCTOR_PROFILE_NOT_FOUND"
     );
   }
 
   if (doctorProfile.paidPlan !== "standard") {
-    return NextResponse.json(
-      { error: "Social profile link is only available on the standard plan" },
-      { status: 403 }
+    throw new ApiError(
+      "Social profile link is only available on the standard plan",
+      403,
+      "STANDARD_PLAN_REQUIRED"
     );
   }
 
   if (!doctorProfile.slug) {
-    return NextResponse.json(
-      { error: "Doctor profile slug not found" },
-      { status: 400 }
+    throw new ApiError(
+      "Doctor profile slug not found",
+      400,
+      "DOCTOR_PROFILE_SLUG_NOT_FOUND"
     );
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
   if (!appUrl) {
-    return NextResponse.json(
-      { error: "Missing NEXT_PUBLIC_APP_URL" },
-      { status: 500 }
+    throw new ApiError(
+      "Missing NEXT_PUBLIC_APP_URL",
+      500,
+      "NEXT_PUBLIC_APP_URL_MISSING"
     );
   }
 
@@ -65,7 +71,7 @@ export async function GET(req: Request) {
     doctorProfile.socialMediaLink?.includes(doctorProfile.id);
 
   if (doctorProfile.socialMediaLink && !isOldBrokenLink) {
-    return NextResponse.json({
+    return apiSuccess({
       socialMediaLink: doctorProfile.socialMediaLink,
     });
   }
@@ -79,7 +85,7 @@ export async function GET(req: Request) {
     },
   });
 
-  return NextResponse.json({
+  return apiSuccess({
     socialMediaLink: updatedDoctorProfile.socialMediaLink,
   });
-}
+});

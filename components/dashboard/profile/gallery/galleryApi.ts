@@ -1,6 +1,18 @@
 import type { GalleryCase } from "./types";
 
-export async function fetchDoctorGallery(userId: string): Promise<GalleryCase[]> {
+type DoctorGalleryApiItem = {
+  id: string;
+  beforeImage: string | null;
+  afterImage: string | null;
+  title: string | null;
+  procedure: string | null;
+  notes: string | null;
+  isPublic: boolean | null;
+};
+
+export async function fetchDoctorGallery(
+  userId: string
+): Promise<GalleryCase[]> {
   const res = await fetch(`/api/doctor-cases?doctorId=${userId}`, {
     method: "GET",
     cache: "no-store",
@@ -10,9 +22,9 @@ export async function fetchDoctorGallery(userId: string): Promise<GalleryCase[]>
     throw new Error("Failed to fetch gallery");
   }
 
-  const data = await res.json();
+  const data = (await res.json()) as DoctorGalleryApiItem[];
 
-  return data.map((item: any) => ({
+  return data.map((item) => ({
     id: item.id,
     beforeImage: item.beforeImage ?? null,
     afterImage: item.afterImage ?? null,

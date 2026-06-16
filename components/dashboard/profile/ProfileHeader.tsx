@@ -12,15 +12,14 @@ import {
   SquareChartGantt,
   Check,
 } from "lucide-react";
-import { handleImageUpload } from "@/utils/dashboard/helper";
-import ImageUploadModal from "./UI/ImageUploadModal";
+import { handleImageUpload } from "@/lib/helpers/helper";
+import ImageUploadModal from "./modal/ImageUploadModal";
 import type { DoctorProfileData } from "./types";
 import { Link } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 type ProfileHeaderProps = {
   userId: string;
-  doctorId?: string | null;
   slug?: string | null;
   name: string;
   specialty?: string[] | null;
@@ -39,7 +38,6 @@ const fallbackAvatar = "/dev/profile-placeholder.jpg";
 
 export default function ProfileHeader({
   userId,
-  doctorId,
   slug,
   name,
   specialty,

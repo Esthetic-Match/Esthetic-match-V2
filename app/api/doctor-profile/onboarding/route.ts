@@ -1,21 +1,31 @@
-import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
-export async function POST(req: Request) {
+export const POST = withApiHandler(async (req: Request) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user) {
-    return NextResponse.json({ message: "Unauthorized: Please log out and sign in again to verify your identity" }, { status: 401 });
+    throw new ApiError(
+      "Unauthorized: Please log out and sign in again to verify your identity",
+      401,
+      "UNAUTHORIZED"
+    );
   }
 
   const body = await req.json();
 
-  const { specialtyIds, subcategoryIds, procedureIds, otherSpecialtyText, topThree } =
-    body;
+  const {
+    specialtyIds,
+    subcategoryIds,
+    procedureIds,
+    otherSpecialtyText,
+    topThree,
+  } = body;
 
   await prisma.doctorProfile.update({
     where: {
@@ -39,6 +49,7 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.json({ ok: true });
-}
-
+  return apiSuccess({
+    ok: true,
+  });
+});

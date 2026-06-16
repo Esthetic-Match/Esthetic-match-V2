@@ -5,10 +5,40 @@
     "continue": "Continuer",
     "saving": "Enregistrement en cours...",
     "submit": "Envoyer",
+    "onboardingComplete": {
+    "eyebrow": "Onboarding terminé",
+    "title": "Félicitations, votre profil est maintenant en ligne !",
+    "description": "Les patients peuvent désormais découvrir votre profil sur Esthetic Match. Il reste une dernière étape pour activer les paiements et générer des revenus grâce à vos services.",
+    "verification": {
+      "title": "Complétez votre vérification professionnelle",
+      "duration": "~10 minutes.",
+      "description": "Pour recevoir les paiements des patients et générer des revenus grâce à vos services sur Esthetic Match, vous devez compléter l’étape de vérification professionnelle via Stripe."
+    },
+    "later": {
+      "title": "Vous pouvez le faire plus tard",
+      "description": "Votre profil restera en ligne, mais les patients ne pourront pas encore vous payer."
+    },
+    "revenue": {
+      "title": "Activez vos revenus",
+      "description": "Complétez la vérification maintenant pour activer les paiements et commencer à accepter des réservations payantes."
+    },
+    "stripe": {
+      "title": "Propulsé par Stripe",
+      "description": "Stripe gère la vérification professionnelle et la configuration sécurisée des paiements."
+    },
+    "buttons": {
+      "doLater": "Le faire plus tard",
+      "doNow": "Le faire maintenant",
+      "redirecting": "Redirection..."
+    },
+    "errors": {
+      "stripeFailed": "Impossible de démarrer l’onboarding Stripe."
+    }
+  },
     "specialtyStepper": {
       "selectSpecialty": "Choisir la spécialité",
       "selectTopProcedures": "Choisir les 3 procédures principales",
-      "selectCategoryProcedure": "Choisir les procédures et procédures",
+      "selectCategoryProcedure": "Choisir les catégories et procédures",
       "selectPayment": "Paiement"
     },
     "topProcedures": {
@@ -32,67 +62,12 @@
           "surgery": "Chirurgie",
           "associatedSpecialties": "Spécialités associées",
           "other": "Autre"
-        },
-        "items": {
-          "aesthetic_doctor": {
-            "label": "Médecin esthétique",
-            "description": "Injections, lasers, traitements esthétiques"
-          },
-          "dermatologist": {
-            "label": "Dermatologue",
-            "description": "Peau, cheveux, laser dermatologique"
-          },
-          "plastic_surgeon": {
-            "label": "Chirurgien plasticien",
-            "description": "Chirurgie esthétique et reconstructrice"
-          },
-          "maxillofacial_surgeon": {
-            "label": "Chirurgien maxillo-facial",
-            "description": "Maxillo-facial, traumatologie, esthétique"
-          },
-          "ent_surgeon": {
-            "label": "Chirurgien ORL",
-            "description": "Otorhinolaryngologie, chirurgie cervico-faciale"
-          },
-          "ophthalmologist": {
-            "label": "Ophtalmologue",
-            "description": "Chirurgie oculaire, médecine esthétique du regard"
-          },
-          "dentist": {
-            "label": "Dentiste",
-            "description": "Dentisterie esthétique, réhabilitation"
-          },
-          "orthodontist": {
-            "label": "Orthodontiste",
-            "description": "Orthodontie, alignement dentaire"
-          },
-          "oculoplastic_surgeon": {
-            "label": "Chirurgien oculoplastique",
-            "description": "Chirurgie plastique et reconstructrice du regard"
-          },
-          "reconstructive_surgeon": {
-            "label": "Chirurgien reconstructeur",
-            "description": "Procédures reconstructrices avancées"
-          },
-          "other_specialty": {
-            "label": "Autre spécialité",
-            "description": "Précisez votre spécialité"
-          }
-    }
+        }
     },
     "category": {
-        "heading": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
-        "NON-SURGICAL FACE": "Médecine esthétique (visage)",
-        "NON-SURGICAL BODY": "Médecine esthétique (corps)",
-        "AESTHETIC DENTISTRY": "Dentisterie esthétique",
-        "HAIR MEDICINE": "Médecine capillaire",
-        "MUSCLE TONE & EMS": "Tonification musculaire & EMS",
-        "IV THERAPY": "Thérapie IV",
-        "WELLNESS & DRAINAGE": "Bien-être & drainage",
-        "SURGICAL FACE": "Chirurgie du visage",
-        "SURGICAL BODY": "Chirurgie du corps",
-        "LONGEVITY MEDICINE": "Médecine de longévité",
-        "OTHER": "Autre",
+        "title": "sélectionner vos domaines d’expertise et les procédures que vous proposez",
+        "subtitle": "Choisissez les catégories et les procédures qui représentent le mieux votre pratique.",
+        "note": "Vous pourrez les modifier plus tard.",
         "No categories": "Aucune catégorie disponible pour les spécialités sélectionnées."
     },
     "procedure": {
@@ -107,6 +82,7 @@
     },
     "paymentPrices": {
       "eyebrow": "Paiements",
+      "button": "Enregistrer et connecter Stripe",
       "title": "Définissez vos tarifs de consultation",
       "description": "Les patients paieront le tarif que vous définissez. Esthetic Match prélève une commission de plateforme de 15 %, et le montant restant est versé sur votre compte Stripe connecté.",
       "inClinic": {
@@ -122,8 +98,10 @@
         "description": "Stripe gère l’encaissement des paiements, les virements aux praticiens et le traitement des cartes bancaires. Vous serez redirigé vers Stripe pour connecter votre compte."
       },
       "buttons": {
+        "finish": "Terminer",
         "finishLater": "Enregistrer et terminer plus tard",
         "connectStripe": "Enregistrer les tarifs et connecter Stripe",
+        "next": "Enregistrer et connecter Stripe",
         "saving": "Enregistrement..."
       },
       "currency": {

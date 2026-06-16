@@ -1,4 +1,4 @@
-export const DoctorCatalog =  {
+export const DoctorCatalog = {
   specialties: {
     id: "specialties",
     label: "SPECIALTIES (DOCTOR PROFILE ONBOARDING)",
@@ -14,12 +14,113 @@ export const DoctorCatalog =  {
       "maxillofacial_surgeon",
       "ent_surgeon",
       "orthodontist",
-      "other_specialty"
+      "other_specialty",
+    ],
+
+    groups: [
+      {
+        titleKey: "groups.aesthetic",
+        items: [
+          {
+            id: "aesthetic_doctor",
+            labelKey: "items.aesthetic_doctor.label",
+            descriptionKey: "items.aesthetic_doctor.description",
+            icon: "aesthetic_doctor.svg",
+          },
+          {
+            id: "dermatologist",
+            labelKey: "items.dermatologist.label",
+            descriptionKey: "items.dermatologist.description",
+            icon: "dermatologist.svg",
+          },
+        ],
+      },
+      {
+        titleKey: "groups.surgery",
+        items: [
+          {
+            id: "plastic_surgeon",
+            labelKey: "items.plastic_surgeon.label",
+            descriptionKey: "items.plastic_surgeon.description",
+            icon: "plastic_surgeon.svg",
+          },
+          {
+            id: "maxillofacial_surgeon",
+            labelKey: "items.maxillofacial_surgeon.label",
+            descriptionKey: "items.maxillofacial_surgeon.description",
+            icon: "maxillofacial_surgeon.svg",
+          },
+          {
+            id: "ent_surgeon",
+            labelKey: "items.ent_surgeon.label",
+            descriptionKey: "items.ent_surgeon.description",
+            icon: "ent_surgeon.svg",
+          },
+          {
+            id: "reconstructive_surgeon",
+            labelKey: "items.reconstructive_surgeon.label",
+            descriptionKey: "items.reconstructive_surgeon.description",
+            icon: "reconstructive_surgeon.svg",
+          },
+        ],
+      },
+      {
+        titleKey: "groups.associatedSpecialties",
+        items: [
+          {
+            id: "ophthalmologist",
+            labelKey: "items.ophthalmologist.label",
+            descriptionKey: "items.ophthalmologist.description",
+            icon: "ophthalmologist.svg",
+          },
+          {
+            id: "dentist",
+            labelKey: "items.dentist.label",
+            descriptionKey: "items.dentist.description",
+            icon: "dentist.svg",
+          },
+          {
+            id: "orthodontist",
+            labelKey: "items.orthodontist.label",
+            descriptionKey: "items.orthodontist.description",
+            icon: "orthodontist.svg",
+          },
+        ],
+      },
+      {
+        titleKey: "groups.other",
+        items: [
+          {
+            id: "general_practitioner",
+            labelKey: "items.general_practitioner.label",
+            descriptionKey: "items.general_practitioner.description",
+            icon: "general_practitioner.svg",
+          },
+          {
+            id: "oculoplastic_surgeon",
+            labelKey: "items.oculoplastic_surgeon.label",
+            descriptionKey: "items.oculoplastic_surgeon.description",
+            icon: "oculoplastic_surgeon.svg",
+          },
+          {
+            id: "other_specialty",
+            labelKey: "items.other_specialty.label",
+            descriptionKey: "items.other_specialty.description",
+            icon: "other_specialty.svg",
+          },
+        ],
+      },
     ],
   },
-
   categories: [
     {
+      key: "AESTHETIC MEDICINE FACE",
+      id: "aesthetic_medicine_face",
+      slug: "non-surgical-face",  //check in order to change it
+      href: "/categories/non-surgical-face",
+      homeImage: "/images/home/categories/aesthetic_medicine_face.png",
+      dashboardImage: "/images/dashboard/categories/aesthetic_medicine_face.svg",
+      icon: "/images/home/categories/icons/aesthetic-medicine-face.svg",
       category: "aesthetic_medicine_face",
       subcategories: [
         {
@@ -143,6 +244,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "AESTHETIC MEDICINE BODY",
+      id: "aesthetic_medicine_body",
+      slug: "non-surgical-body",  //check in order to change it
+      href: "/categories/non-surgical-body",
+      homeImage: "/images/home/categories/aesthetic_medicine_body.png",
+      dashboardImage: "/images/dashboard/categories/aesthetic_medicine_body.svg",
+      icon: "/images/home/categories/icons/aesthetic-medicine-body.svg",
       category: "aesthetic_medicine_body",
       subcategories: [
         {
@@ -182,6 +290,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "AESTHETIC DENTISTRY",
+      id: "aesthetic_dentistry",
+      slug: "aesthetic-dentistry",
+      href: "/categories/aesthetic-dentistry",
+      homeImage: "/images/home/categories/aesthetic-dentistry.png",
+      dashboardImage: "/images/dashboard/categories/aesthetic-dentistry.svg",
+      icon: "/images/home/categories/icons/aesthetic-dentistry.svg",
       category: "aesthetic_dentistry",
       subcategories: [
         {
@@ -209,6 +324,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "HAIR MEDICINE",
+      id: "hair_medicine",
+      slug: "hair-medicine",
+      href: "/categories/hair-medicine",
+      homeImage: "/images/home/categories/hair-medicine.png",
+      dashboardImage: "/images/dashboard/categories/hair-medicine.svg",
+      icon: "/images/home/categories/icons/hair-medicine.svg",
       category: "hair_medicine",
       subcategories: [
         {
@@ -231,6 +353,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "MUSCLE TONE & EMS",
+      id: "muscle_tone_and_ems",
+      slug: "muscle-tone-ems",
+      href: "/categories/muscle-tone-ems",
+      homeImage: "/images/home/categories/muscle-tone-ems.png",
+      dashboardImage: "/images/dashboard/categories/muscle-tone-ems.svg",
+      icon: "/images/home/categories/icons/muscle-tone-ems.svg",
       category: "muscle_tone_and_ems",
       subcategories: [
         {
@@ -249,6 +378,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "IV THERAPY",
+      id: "iv_therapy",
+      slug: "iv-therapy",
+      href: "/categories/iv-therapy",
+      homeImage: "/images/home/categories/iv-therapy.png",
+      dashboardImage: "/images/dashboard/categories/iv-therapy.svg",
+      icon: "/images/home/categories/icons/iv-therapy.svg",
       category: "iv_therapy",
       subcategories: [
         {
@@ -293,6 +429,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "WELLNESS & POSTOPERATIVE",
+      id: "wellness_and_postoperative",
+      slug: "wellness-and-postoperative",
+      href: "/categories/wellness-and-postoperative",
+      homeImage: "/images/home/categories/wellness-and-postoperative.png",
+      dashboardImage: "/images/dashboard/categories/wellness-and-postoperative.svg",
+      icon: "/images/home/categories/icons/wellness-and-postoperative.svg",
       category: "wellness_and_postoperative",
       subcategories: [
         {
@@ -313,6 +456,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "SURGICAL FACE",
+      id: "surgical_face",
+      slug: "surgical-face",
+      href: "/categories/surgical-face",
+      homeImage: "/images/home/categories/surgical-face.png",
+      dashboardImage: "/images/dashboard/categories/surgical-face.svg",
+      icon: "/images/home/categories/icons/surgical-face.svg",
       category: "surgical_face",
       subcategories: [
         {
@@ -368,6 +518,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "SURGICAL BODY",
+      id: "surgical_body",
+      slug: "surgical-body",
+      href: "/categories/surgical-body",
+      homeImage: "/images/home/categories/surgical-body.png",
+      dashboardImage: "/images/dashboard/categories/surgical-body.svg",
+      icon: "/images/home/categories/icons/surgical-body.svg",
       category: "surgical_body",
       subcategories: [
         {
@@ -452,6 +609,13 @@ export const DoctorCatalog =  {
       ]
     },
     {
+      key: "LONGEVITY MEDICINE",
+      id: "longevity_medicine",
+      slug: "longevity-medicine",
+      href: "/categories/longevity-medicine",
+      homeImage: "/images/home/categories/longevity-medicine.png",
+      dashboardImage: "/images/dashboard/categories/longevity-medicine.svg",
+      icon: "/images/home/categories/icons/longevity-medicine.svg",
       category: "longevity_medicine",
       subcategories: [
         {

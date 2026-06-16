@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { decryptMessage, encryptMessage } from "@/lib/messageCrypto";
-import { storage } from "@/lib/gcs";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { decryptMessage, encryptMessage } from "@/lib/utils/messageCrypto";
+import { storage } from "@/lib/google/gcs";
 
 type RouteParams = {
   params: Promise<{

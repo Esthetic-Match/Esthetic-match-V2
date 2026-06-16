@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
   motion,
@@ -9,6 +9,7 @@ import {
 } from "motion/react";
 import { Link } from "@/i18n/navigation";
 import React, { useState } from "react";
+import Image from "next/image";
 
 
 interface NavbarProps {
@@ -185,7 +186,6 @@ export const MobileNavMenu = ({
   children,
   className,
   isOpen,
-  onClose,
 }: MobileNavMenuProps) => {
   return (
     <AnimatePresence>
@@ -226,9 +226,9 @@ export const NavbarLogo = () => {
       href="/"
       className="relative z-10 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-      <img
+      <Image
         src="/logo.svg"
-        alt="logo"
+        alt="Esthetic Match logo"
         width={25}
         height={25}
       />

@@ -41,7 +41,7 @@
     "HAIR MEDICINE": "Médecine capillaire",
     "MUSCLE TONE & EMS": "Tonification musculaire & EMS",
     "IV THERAPY": "Thérapie IV",
-    "WELLNESS & DRAINAGE": "Bien-être & drainage",
+    "WELLNESS & POSTOPERATIVE": "Bien-être & drainage",
     "SURGICAL FACE": "Chirurgie du visage",
     "SURGICAL BODY": "Chirurgie du corps",
     "LONGEVITY MEDICINE": "Médecine de longévité",
@@ -50,7 +50,9 @@
     "viewProfile": "Voir le profil",
     "saveDoctor": "Enregistrer le praticien",
     "reviews": "avis",
-    "free": "Gratuit"
+    "free": "Gratuit",
+    "exploreByCategoryEyebrow": "Trouvez le bon traitement",
+    "exploreByCategoryDescription": "Parcourez les catégories de médecine esthétique, chirurgie esthétique, esthétique dentaire, soins de la peau, restauration capillaire et bien-être pour trouver des médecins de confiance près de chez vous."
   },
    "doctors": {
       "hero": {
@@ -81,7 +83,7 @@
         "title": "Trouver le bon médecin",
         "description": "Filtrez par spécialité, catégorie, localisation ou note Google.",
         "specialty": "Spécialité",
-        "category": "Catégorie",
+        "category": "1) Catégorie",
         "location": "Localisation",
         "minimumRating": "Note minimale de Google",
         "anySpecialty": "Toutes les spécialités",
@@ -90,7 +92,7 @@
         "locationPlaceholder": "Ville ou pays",
         "clear": "Effacer les filtres",
         "apply": "Appliquer les filtres",
-        "procedures": "Procédures",
+        "procedures": "2) Procédures",
         "chooseCategoryFirst": "Choisissez une catégorie pour voir les procédures",
         "selectedProcedures": "Procédures sélectionnées",
         "selectProcedures": "Sélectionnez des procédures parmi vos catégories choisies",

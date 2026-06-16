@@ -1,68 +1,59 @@
-import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
-export async function DELETE() {
-  try {
-    const session = await auth.api.getSession({
-      headers: await headers(),
-    });
+export const DELETE = withApiHandler(async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!session?.user?.id) {
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
+  }
 
-    const userId = session.user.id;
+  const userId = session.user.id;
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        doctorProfile: {
-          select: {
-            id: true,
-          },
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      doctorProfile: {
+        select: {
+          id: true,
         },
       },
-    });
+    },
+  });
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
+  if (!user) {
+    throw new ApiError("User not found", 404, "USER_NOT_FOUND");
+  }
 
-    await prisma.$transaction(async (tx) => {
-      if (user.doctorProfile?.id) {
-        await tx.beforeAfterCase.deleteMany({
-          where: {
-            doctorId: user.doctorProfile.id,
-          },
-        });
-      }
-
+  await prisma.$transaction(async (tx) => {
+    if (user.doctorProfile?.id) {
       await tx.beforeAfterCase.deleteMany({
         where: {
-          patientId: userId,
+          doctorId: user.doctorProfile.id,
         },
       });
+    }
 
-      await tx.user.delete({
-        where: {
-          id: userId,
-        },
-      });
+    await tx.beforeAfterCase.deleteMany({
+      where: {
+        patientId: userId,
+      },
     });
 
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Failed to delete account:", error);
-
-    return NextResponse.json(
-      {
-        error: "Failed to delete account",
-        details: error instanceof Error ? error.message : "Unknown error",
+    await tx.user.delete({
+      where: {
+        id: userId,
       },
-      { status: 500 }
-    );
-  }
-}
+    });
+  });
+
+  return apiSuccess({
+    success: true,
+  });
+});

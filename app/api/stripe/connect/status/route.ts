@@ -1,17 +1,19 @@
 // app/api/stripe/connect/status/route.ts
-import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
 
-export async function GET() {
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { stripe } from "@/lib/thirdParty/stripe";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
+
+export const GET = withApiHandler(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
   const doctorProfile = await prisma.doctorProfile.findUnique({
@@ -21,9 +23,10 @@ export async function GET() {
   });
 
   if (!doctorProfile?.stripeConnectAccountId) {
-    return NextResponse.json(
-      { error: "Stripe Connect account not found" },
-      { status: 404 }
+    throw new ApiError(
+      "Stripe Connect account not found",
+      404,
+      "STRIPE_CONNECT_ACCOUNT_NOT_FOUND"
     );
   }
 
@@ -43,5 +46,5 @@ export async function GET() {
     },
   });
 
-  return NextResponse.json(updatedProfile);
-}
+  return apiSuccess(updatedProfile);
+});

@@ -41,7 +41,7 @@
     "HAIR MEDICINE": "Hair Medicine",
     "MUSCLE TONE & EMS": "Muscle Tone & EMS",
     "IV THERAPY": "IV therapy",
-    "WELLNESS & DRAINAGE": "Wellness & Drainage",
+    "WELLNESS & POSTOPERATIVE": "Wellness & Postoperative",
     "SURGICAL FACE": "Surgical face",
     "SURGICAL BODY": "Body Surgery",
     "LONGEVITY MEDICINE": "Longevity medicine",
@@ -50,7 +50,10 @@
     "viewProfile": "View profile",
     "saveDoctor": "Save doctor",
     "reviews": "reviews",
-    "free": "Free"
+    "free": "Free",
+    "exploreByCategoryEyebrow": "Find the right treatment",
+    "exploreByCategoryDescription": "Browse aesthetic medicine, cosmetic surgery, dental aesthetics, skin treatments, hair restoration, and wellness categories to find trusted doctors near you."
+
   },
     "doctors": {
       "hero": {
@@ -81,7 +84,7 @@
         "title": "Find the right doctor",
         "description": "Filter by specialty, category, location or Google rating.",
         "specialty": "Specialty",
-        "category": "Category",
+        "category": "1) Category",
         "location": "Location",
         "minimumRating": "Minimum Google rating",
         "anySpecialty": "Any specialty",
@@ -90,7 +93,7 @@
         "locationPlaceholder": "City or country",
         "clear": "Clear filters",
         "apply": "Apply filters",
-        "procedures": "Procedures",
+        "procedures": "2) Procedures",
         "chooseCategoryFirst": "Choose a category to view procedures",
         "selectedProcedures": "Selected procedures",
         "selectProcedures": "Select procedures from your chosen categories",

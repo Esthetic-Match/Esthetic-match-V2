@@ -1,7 +1,7 @@
 import { CheckCircle2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import SubscriptionPlans from "@/components/settings/SubscriptionPlans";
+import SubscriptionPlans from "@/components/dashboard/settings/SubscriptionPlans";
 
 type SubscriptionPageProps = {
   searchParams: Promise<{

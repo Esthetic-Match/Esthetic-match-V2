@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ImageIcon, Lock, Plus, FilePenLine  } from "lucide-react";
-import BeforeAfterUploadModal from "../UI/BeforeAfterUploadModal";
+import { ImageIcon, Plus, FilePenLine  } from "lucide-react";
+import BeforeAfterUploadModal from "../modal/BeforeAfterUploadModal";
 import PrivateGcsImage from "@/components/UI/PrivateGcsImage";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -36,10 +36,10 @@ export default function PhotoGallery({ userId, paidPlan, procedureIds }: PhotoGa
 
       if (!res.ok) return;
 
-      const data = await res.json();
-
+      const data = (await res.json()) as GalleryItem[];
+          
       setGallery(
-        data.map((item: any) => ({
+        data.map((item) => ({
           beforeImage: item.beforeImage,
           afterImage: item.afterImage,
         }))

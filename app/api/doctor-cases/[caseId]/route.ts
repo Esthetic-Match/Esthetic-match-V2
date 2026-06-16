@@ -1,18 +1,22 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: Promise<{ caseId: string }> }
-) {
-  try {
+type RouteParams = {
+  params: Promise<{
+    caseId: string;
+  }>;
+};
+
+export const PATCH = withApiHandler<RouteParams>(
+  async (req: Request, { params }) => {
     const { caseId } = await params;
     const body = await req.json();
 
     const { beforeImage, afterImage, title, procedure, notes, isPublic } = body;
 
     if (!caseId) {
-      return NextResponse.json({ error: "Missing caseId" }, { status: 400 });
+      throw new ApiError("Missing caseId", 400, "CASE_ID_REQUIRED");
     }
 
     const updatedCase = await prisma.beforeAfterCase.update({
@@ -29,26 +33,16 @@ export async function PATCH(
       },
     });
 
-    return NextResponse.json(updatedCase);
-  } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: "Failed to update gallery case" },
-      { status: 500 }
-    );
+    return apiSuccess(updatedCase);
   }
-}
+);
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ caseId: string }> }
-) {
-  try {
+export const DELETE = withApiHandler<RouteParams>(
+  async (_req: Request, { params }) => {
     const { caseId } = await params;
 
     if (!caseId) {
-      return NextResponse.json({ error: "Missing caseId" }, { status: 400 });
+      throw new ApiError("Missing caseId", 400, "CASE_ID_REQUIRED");
     }
 
     await prisma.beforeAfterCase.delete({
@@ -57,16 +51,9 @@ export async function DELETE(
       },
     });
 
-    return NextResponse.json({
+    return apiSuccess({
       success: true,
       deletedCaseId: caseId,
     });
-  } catch (error) {
-    console.error("DELETE /api/doctor-cases/[caseId] error:", error);
-
-    return NextResponse.json(
-      { error: "Failed to delete gallery case" },
-      { status: 500 }
-    );
   }
-}
+);

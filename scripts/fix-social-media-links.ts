@@ -1,5 +1,5 @@
 // scripts/fix-social-media-links.ts
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/database/prisma";
 
 async function main() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;

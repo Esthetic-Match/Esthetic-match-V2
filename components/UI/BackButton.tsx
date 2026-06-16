@@ -2,17 +2,16 @@
 
 import { Link } from "@/i18n/navigation";
 import { ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import { useTranslations } from "next-intl";
 
 type BackButtonProps = {
   variant?: "light" | "dark";
-  onBack?: () => void;
+  onBack: ()=> void;
 };
 
 export default function BackButton({
   variant = "light",
-  onBack,
 }: BackButtonProps) {
   const t = useTranslations("home.Home");
 

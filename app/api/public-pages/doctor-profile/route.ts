@@ -1,5 +1,7 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/database/prisma";
+import type { Prisma } from "@prisma/client";
+import { apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
 function normalize(value: string) {
   return value.toLowerCase().trim().replace(/\s+/g, "_");
@@ -12,114 +14,123 @@ function parseList(value: string | null) {
     .filter(Boolean);
 }
 
-export async function GET(req: Request) {
-  try {
-    const { searchParams } = new URL(req.url);
+export const GET = withApiHandler(async (req: Request) => {
+  const { searchParams } = new URL(req.url);
 
-    const q = searchParams.get("q")?.trim();
-    const specialty = searchParams.get("specialty")?.trim();
-    const location = searchParams.get("location")?.trim();
-    const minRating = searchParams.get("minRating")?.trim();
+  const q = searchParams.get("q")?.trim();
+  const specialty = searchParams.get("specialty")?.trim();
+  const location = searchParams.get("location")?.trim();
+  const minRating = searchParams.get("minRating")?.trim();
 
-    const page = Math.max(Number(searchParams.get("page") || "1"), 1);
-    const limit = Math.min(
-      Math.max(Number(searchParams.get("limit") || "10"), 1),
-      50
-    );
+  const page = Math.max(Number(searchParams.get("page") || "1"), 1);
+  const limit = Math.min(
+    Math.max(Number(searchParams.get("limit") || "10"), 1),
+    50
+  );
 
-    const skip = (page - 1) * limit;
+  const skip = (page - 1) * limit;
 
-    const categories = parseList(searchParams.get("category"));
-    const procedures = parseList(searchParams.get("procedures"));
+  const categories = parseList(searchParams.get("category"));
+  const procedures = parseList(searchParams.get("procedures"));
 
-    const normalizedQ = q ? normalize(q) : undefined;
-    const normalizedSpecialty = specialty ? normalize(specialty) : undefined;
+  const normalizedQ = q ? normalize(q) : undefined;
+  const normalizedSpecialty = specialty ? normalize(specialty) : undefined;
 
-    const searchOrFilters = [
-      q
+  const searchOrFiltersRaw: (Prisma.DoctorProfileWhereInput | null)[] = [
+    q
+      ? {
+          OR: [
+            { user: { name: { contains: q, mode: "insensitive" } } },
+            { clinicName: { contains: q, mode: "insensitive" } },
+            { city: { contains: q, mode: "insensitive" } },
+            { country: { contains: q, mode: "insensitive" } },
+            {
+              specialtyIds: {
+                hasSome: [q, normalizedQ].filter(
+                  (value): value is string => Boolean(value)
+                ),
+              },
+            },
+            {
+              subcategoryIds: {
+                hasSome: [q, normalizedQ].filter(
+                  (value): value is string => Boolean(value)
+                ),
+              },
+            },
+            {
+              procedureIds: {
+                hasSome: [q, normalizedQ].filter(
+                  (value): value is string => Boolean(value)
+                ),
+              },
+            },
+          ],
+        }
+      : null,
+
+    specialty
+      ? {
+          specialtyIds: {
+            hasSome: [specialty, normalizedSpecialty].filter(
+              (value): value is string => Boolean(value)
+            ),
+          },
+        }
+      : null,
+
+    categories && categories.length > 0
+      ? {
+          subcategoryIds: {
+            hasSome: categories,
+          },
+        }
+      : null,
+
+    procedures && procedures.length > 0
+      ? {
+          procedureIds: {
+            hasSome: procedures,
+          },
+        }
+      : null,
+  ];
+
+  const searchOrFilters = searchOrFiltersRaw.filter(
+    (filter): filter is Prisma.DoctorProfileWhereInput => filter !== null
+  );
+
+  const where: Prisma.DoctorProfileWhereInput = {
+    AND: [
+      searchOrFilters.length > 0
+        ? {
+            OR: searchOrFilters,
+          }
+        : {},
+
+      location
         ? {
             OR: [
-              { user: { name: { contains: q, mode: "insensitive" as const } } },
-              { clinicName: { contains: q, mode: "insensitive" as const } },
-              { city: { contains: q, mode: "insensitive" as const } },
-              { country: { contains: q, mode: "insensitive" as const } },
+              { city: { contains: location, mode: "insensitive" } },
               {
-                specialtyIds: {
-                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
-                },
-              },
-              {
-                subcategoryIds: {
-                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
-                },
-              },
-              {
-                procedureIds: {
-                  hasSome: [q, normalizedQ].filter(Boolean) as string[],
+                country: {
+                  contains: location,
+                  mode: "insensitive",
                 },
               },
             ],
           }
-        : null,
+        : {},
 
-      specialty
+      minRating
         ? {
-            specialtyIds: {
-              hasSome: [specialty, normalizedSpecialty].filter(
-                Boolean
-              ) as string[],
+            googleRating: {
+              gte: Number(minRating),
             },
           }
-        : null,
-
-      categories && categories.length > 0
-        ? {
-            subcategoryIds: {
-              hasSome: categories,
-            },
-          }
-        : null,
-
-      procedures && procedures.length > 0
-        ? {
-            procedureIds: {
-              hasSome: procedures,
-            },
-          }
-        : null,
-    ].filter(Boolean);
-
-    const where = {
-      AND: [
-        searchOrFilters.length > 0
-          ? {
-              OR: searchOrFilters as any,
-            }
-          : {},
-
-        location
-          ? {
-              OR: [
-                { city: { contains: location, mode: "insensitive" as const } },
-                {
-                  country: {
-                    contains: location,
-                    mode: "insensitive" as const,
-                  },
-                },
-              ],
-            }
-          : {},
-
-        minRating
-          ? {
-              googleRating: {
-                gte: Number(minRating),
-              },
-            }
-          : {},
-      ],
-    };
+        : {},
+    ],
+  };
 
   const doctors = await prisma.doctorProfile.findMany({
     skip,
@@ -154,42 +165,34 @@ export async function GET(req: Request) {
     },
   });
 
-    const hasMore = doctors.length > limit;
+  const hasMore = doctors.length > limit;
 
-    const formattedDoctors = doctors.slice(0, limit).map((doctor) => ({
-      id: doctor.id,
-      slug: doctor.slug,
-      name: doctor.user.name ?? "Doctor",
-    
-      specialtyIds: doctor.specialtyIds,
-    
-      city: doctor.city,
-      country: doctor.country,
-    
-      googleRating: doctor.googleRating,
-      googleReviewCount: doctor.googleReviewCount,
-    
-      yearsOfExperience: doctor.yearsOfExperience,
-    
-      inClinicPrice: doctor.inClinicPrice,
-      onlineConsulPrice: doctor.onlineConsulPrice,
-      currency: doctor.currency,
-    
-      avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
-    }));
+  const formattedDoctors = doctors.slice(0, limit).map((doctor) => ({
+    id: doctor.id,
+    slug: doctor.slug,
+    name: doctor.user.name ?? "Doctor",
 
-    return NextResponse.json({
-      doctors: formattedDoctors,
-      page,
-      limit,
-      hasMore,
-    });
-  } catch (error) {
-    console.error("Failed to fetch public doctor profiles:", error);
+    specialtyIds: doctor.specialtyIds,
 
-    return NextResponse.json(
-      { error: "Failed to fetch doctor profiles" },
-      { status: 500 }
-    );
-  }
-}
+    city: doctor.city,
+    country: doctor.country,
+
+    googleRating: doctor.googleRating,
+    googleReviewCount: doctor.googleReviewCount,
+
+    yearsOfExperience: doctor.yearsOfExperience,
+
+    inClinicPrice: doctor.inClinicPrice,
+    onlineConsulPrice: doctor.onlineConsulPrice,
+    currency: doctor.currency,
+
+    avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
+  }));
+
+  return apiSuccess({
+    doctors: formattedDoctors,
+    page,
+    limit,
+    hasMore,
+  });
+});

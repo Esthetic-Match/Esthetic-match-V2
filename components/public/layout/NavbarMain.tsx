@@ -1,0 +1,196 @@
+"use client";
+
+import {
+  Navbar,
+  NavBody,
+  NavItems,
+  MobileNav,
+  NavbarLogo,
+  NavbarButton,
+  MobileNavHeader,
+  MobileNavToggle,
+  MobileNavMenu,
+} from "@/components/UI/resizable-navbar";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
+import { Layers2, LogOut, MessageCircle, UserRoundPen } from "lucide-react";
+import { authClient } from "@/lib/auth/auth-client";
+import { useRouter } from "next/navigation";
+
+export function NavBarMain() {
+  const locale = useLocale();
+  const t = useTranslations("home.nav");
+  const router = useRouter();
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const { data: session, isPending } = authClient.useSession();
+
+  const navItems = [
+    { name: t("doctors"), link: "/doctors" },
+    { name: t("categories"), link: "/categories" },
+    { name: t("contact"), link: "/contact" },
+    { name: t("faq"), link: "/faq" },
+  ];
+
+  const authHref = session ? `/${locale}/dashboard` : `/${locale}/sign-in`;
+  const userId = session?.user?.id;
+
+  async function handleLogout() {
+    await authClient.signOut();
+    setIsUserMenuOpen(false);
+    setIsMobileMenuOpen(false);
+    router.push(`/`);
+    router.refresh();
+  }
+
+  return (
+    <div className="relative w-full">
+      <Navbar>
+        <NavBody>
+          <NavbarLogo />
+          <NavItems items={navItems} />
+
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+
+            {!isPending && session ? (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsUserMenuOpen((prev) => !prev)}
+                  className="flex h-10 items-center justify-center rounded-full bg-white px-3 shadow-sm transition hover:bg-[#283C5D] cursor-pointer hover:scale-[0.95] active:scale-[1.01] hover:text-white"
+                >
+                  <Layers2 size={22} className="text-[#283C5D] hover:text-white" />
+                </button>
+
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 top-12 z-[9999] w-56 overflow-hidden rounded-2xl border border-[#283C5D]/10 bg-white p-2 shadow-xl shadow-[#283C5D]/15">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        router.push(`/${locale}/dashboard`);
+                      }}
+                      className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-[#283C5D] transition hover:bg-[#283C5D] cursor-pointer hover:text-white"
+                    >
+                      <MessageCircle className="h-5 w-5" />
+                      {t("messages")}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        router.push(`/${locale}/dashboard/${userId}`);
+                      }}
+                      className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-[#283C5D] transition hover:bg-[#283C5D] cursor-pointer hover:text-white"
+                    >
+                      <UserRoundPen className="h-5 w-5" />
+                      {t("profile")}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-red-600 transition hover:bg-red-100 cursor-pointer"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      {t("logout")}
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <NavbarButton
+                href={authHref}
+                variant="secondary"
+                className="bg-white hover:bg-[#283C5D] cursor-pointer hover:text-white active:scale-[0.97]"
+              >
+                {t("signIn")}
+              </NavbarButton>
+            )}
+          </div>
+        </NavBody>
+
+        <MobileNav>
+          <MobileNavHeader>
+            <NavbarLogo />
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          </MobileNavHeader>
+
+          <MobileNavMenu
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          >
+            {navItems.map((item, idx) => (
+              <a
+                key={`mobile-link-${idx}`}
+                href={`/${locale}${item.link}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="relative text-neutral-600 dark:text-neutral-300"
+              >
+                <span className="block">{item.name}</span>
+              </a>
+            ))}
+
+            <div className="flex w-full flex-col gap-4">
+              <LanguageSwitcher />
+
+              {!isPending && session ? (
+                <div className="flex w-full flex-col gap-2 rounded-2xl border border-[#283C5D]/10 bg-white p-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      router.push(`/${locale}/dashboard`);
+                    }}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-[#283C5D] transition hover:bg-[#FAF9F7]"
+                  >
+                    <MessageCircle size={20} />
+                    {t("messages")}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      router.push(`/${locale}/dashboard/${userId}`);
+                    }}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-[#283C5D] transition hover:bg-[#FAF9F7]"
+                  >
+                    <UserRoundPen size={20} />
+                    {t("profile")}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                  >
+                    <LogOut size={20} />
+                    {t("logout")}
+                  </button>
+                </div>
+              ) : (
+                <NavbarButton
+                  href={authHref}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  variant="secondary"
+                  className="w-full bg-white"
+                >
+                  {t("signIn")}
+                </NavbarButton>
+              )}
+            </div>
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
+    </div>
+  );
+}

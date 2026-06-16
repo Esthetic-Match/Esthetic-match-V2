@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { CalendarDays, Loader2, Plus, Pencil, ExternalLink } from "lucide-react";
 import CardTitle from "../UI/CardTitle";
 import PremiumLockedContent from "../UI/PremiumLockedContent";
@@ -25,22 +25,13 @@ export default function BookingLinks({
   const t = useTranslations("dashboard");
   const isStandard = paidPlan === "standard";
 
-const initialLinks = useMemo(
-  () => normalizeBookingLinks(bookingLinks),
-  [bookingLinks]
+const [links, setLinks] = useState<string[]>(() =>
+  normalizeBookingLinks(bookingLinks)
 );
 
-const [links, setLinks] = useState<string[]>(initialLinks);
-const [editingIndexes, setEditingIndexes] = useState<boolean[]>(
-  initialLinks.map((link) => !link)
+const [editingIndexes, setEditingIndexes] = useState<boolean[]>(() =>
+  normalizeBookingLinks(bookingLinks).map((link) => !link)
 );
-
-useEffect(() => {
-  const nextLinks = normalizeBookingLinks(bookingLinks);
-
-  setLinks(nextLinks);
-  setEditingIndexes(nextLinks.map((link) => !link));
-}, [bookingLinks]);
 
   const [isSaving, setIsSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");

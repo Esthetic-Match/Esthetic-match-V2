@@ -1,72 +1,51 @@
 // app/api/doctor-cases/route.ts
 
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/database/prisma";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
-export async function POST(req: Request) {
-  try {
-    const { doctorId, patientId, procedureId, title } = await req.json();
+export const POST = withApiHandler(async (req: Request) => {
+  const { doctorId, patientId, procedureId, title } = await req.json();
 
-    if (!doctorId) {
-      return NextResponse.json(
-        { error: "Missing doctorId" },
-        { status: 400 }
-      );
-    }
-
-    const createdCase = await prisma.beforeAfterCase.create({
-      data: {
-        doctorId,
-        patientId: patientId || null,
-        procedure: procedureId || null,
-        title: title || null,
-      },
-    });
-
-    return NextResponse.json(createdCase);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to create case" },
-      { status: 500 }
-    );
+  if (!doctorId) {
+    throw new ApiError("Missing doctorId", 400, "DOCTOR_ID_REQUIRED");
   }
-}
 
-export async function GET(req: Request) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const doctorId = searchParams.get("doctorId");
+  const createdCase = await prisma.beforeAfterCase.create({
+    data: {
+      doctorId,
+      patientId: patientId || null,
+      procedure: procedureId || null,
+      title: title || null,
+    },
+  });
 
-    if (!doctorId) {
-      return NextResponse.json(
-        { error: "Missing doctorId" },
-        { status: 400 }
-      );
-    }
+  return apiSuccess(createdCase);
+});
 
-    const cases = await prisma.beforeAfterCase.findMany({
-      where: {
-        doctorId,
-        beforeImage: {
-          not: null,
-        },
-        afterImage: {
-          not: null,
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 3,
-    });
+export const GET = withApiHandler(async (req: Request) => {
+  const { searchParams } = new URL(req.url);
+  const doctorId = searchParams.get("doctorId");
 
-    return NextResponse.json(cases);
-  } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: "Failed to fetch cases" },
-      { status: 500 }
-    );
+  if (!doctorId) {
+    throw new ApiError("Missing doctorId", 400, "DOCTOR_ID_REQUIRED");
   }
-}
+
+  const cases = await prisma.beforeAfterCase.findMany({
+    where: {
+      doctorId,
+      beforeImage: {
+        not: null,
+      },
+      afterImage: {
+        not: null,
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 3,
+  });
+
+  return apiSuccess(cases);
+});

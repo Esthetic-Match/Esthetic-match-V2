@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
-import { storage } from "@/lib/gcs";
-import { auth } from "@/lib/auth";
+import { storage } from "@/lib/google/gcs";
+import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { randomUUID } from "crypto";
+import { ApiError, apiSuccess } from "@/lib/api/error-handler";
+import { withApiHandler } from "@/lib/api/with-api-handler";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
@@ -17,30 +18,42 @@ function cleanPath(path: string) {
   return path.replace(/^\/+|\/+$/g, "");
 }
 
-export async function POST(req: Request) {
+export const POST = withApiHandler(async (req: Request) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
   const {
     contentType,
     type = "medical",
-    access = "private", 
+    access = "private",
     folder,
   } = await req.json();
 
   if (!ALLOWED_TYPES.includes(contentType)) {
-    return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+    throw new ApiError("Invalid file type", 400, "INVALID_FILE_TYPE");
   }
 
   const bucketName =
     access === "public"
-      ? process.env.GCS_PUBLIC_BUCKET_NAME!
-      : process.env.GCS_PRIVATE_BUCKET_NAME!;
+      ? process.env.GCS_PUBLIC_BUCKET_NAME
+      : process.env.GCS_PRIVATE_BUCKET_NAME;
+
+  if (!bucketName) {
+    throw new ApiError(
+      access === "public"
+        ? "Missing GCS_PUBLIC_BUCKET_NAME"
+        : "Missing GCS_PRIVATE_BUCKET_NAME",
+      500,
+      access === "public"
+        ? "GCS_PUBLIC_BUCKET_NAME_MISSING"
+        : "GCS_PRIVATE_BUCKET_NAME_MISSING"
+    );
+  }
 
   const bucket = storage.bucket(bucketName);
 
@@ -57,28 +70,28 @@ export async function POST(req: Request) {
 
   // Security check
   const isAdmin = session.user.role === "ADMIN";
-  
+
   if (
     safeFolder.startsWith("doctor-profile") &&
     !isAdmin &&
     !safeFolder.includes(session.user.id)
   ) {
-    return NextResponse.json({ error: "Forbidden path" }, { status: 403 });
+    throw new ApiError("Forbidden path", 403, "FORBIDDEN_PATH");
   }
-  
+
   if (
     safeFolder.startsWith("conversations") &&
     !isAdmin &&
     !safeFolder.includes(session.user.id)
   ) {
-    return NextResponse.json({ error: "Forbidden path" }, { status: 403 });
+    throw new ApiError("Forbidden path", 403, "FORBIDDEN_PATH");
   }
 
   if (
     safeFolder.startsWith("conversations") &&
     !safeFolder.includes(session.user.id)
   ) {
-    return NextResponse.json({ error: "Forbidden path" }, { status: 403 });
+    throw new ApiError("Forbidden path", 403, "FORBIDDEN_PATH");
   }
 
   const objectPath = `${safeFolder}/${randomUUID()}.${ext}`;
@@ -95,9 +108,9 @@ export async function POST(req: Request) {
       ? `https://storage.googleapis.com/${bucketName}/${objectPath}`
       : null;
 
-  return NextResponse.json({
+  return apiSuccess({
     uploadUrl,
     objectPath,
     publicUrl,
   });
-}
+});

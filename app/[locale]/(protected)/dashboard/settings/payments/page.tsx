@@ -1,10 +1,8 @@
-import Link from "next/link";
-import { CheckCircle2 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { stripe } from "@/lib/stripe";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import { stripe } from "@/lib/thirdParty/stripe";
 import { redirect } from "@/i18n/navigation";
 
 async function refreshStripeConnectStatus() {
@@ -69,7 +67,7 @@ export default async function PaymentsPage({
 
   return (
     <main className="flex min-h-[60vh] items-center justify-center bg-[#FAF9F7]">
-      <p className="text-sm text-[#283C5D]/60">Payments Settings</p>
+      <p className="text-sm text-[#283C5D]/60">{t("Payment Details")}</p>
     </main>
   );
 }

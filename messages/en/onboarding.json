@@ -5,6 +5,36 @@
     "continue": "Continue",
     "saving": "Saving...",
     "submit": "Submit",
+    "onboardingComplete": {
+    "eyebrow": "Onboarding complete",
+    "title": "Congratulations, your profile is now live!",
+    "description": "Patients can now discover your profile on Esthetic Match. There is one final step required to unlock payments and revenue from your services.",
+    "verification": {
+      "title": "Complete your business verification",
+      "duration": "~10 minutes",
+      "description": "To receive patient payments and generate revenue from your services on Esthetic Match, you need to complete the business verification step through Stripe."
+    },
+    "later": {
+      "title": "You can do it later",
+      "description": "Your profile will stay live, but patients will not be able to pay you yet."
+    },
+    "revenue": {
+      "title": "Unlock revenue",
+      "description": "Complete verification now to activate payments and start accepting paid bookings."
+    },
+    "stripe": {
+      "title": "Powered by Stripe",
+      "description": "Stripe handles business verification and secure payment setup."
+    },
+    "buttons": {
+      "doLater": "Do it later",
+      "doNow": "Do it now",
+      "redirecting": "Redirecting..."
+    },
+    "errors": {
+      "stripeFailed": "Could not start Stripe onboarding."
+    }
+  },
     "specialtyStepper": {
       "selectSpecialty": "Select Specialty",
       "selectTopProcedures": "Select Top 3 Procedure",
@@ -32,67 +62,12 @@
           "surgery": "Surgery",
           "associatedSpecialties": "Associated Specialties",
           "other": "Other"
-        },
-        "items": {
-          "aesthetic_doctor": {
-            "label": "Aesthetic Doctor",
-            "description": "Injections, lasers, aesthetic treatments"
-          },
-          "dermatologist": {
-            "label": "Dermatologist",
-            "description": "Skin, hair, dermatological laser"
-          },
-          "plastic_surgeon": {
-            "label": "Plastic Surgeon",
-            "description": "Aesthetic & reconstructive surgery"
-          },
-          "maxillofacial_surgeon": {
-            "label": "Maxillofacial Surgeon",
-            "description": "Maxillofacial, trauma, aesthetic"
-          },
-          "ent_surgeon": {
-            "label": "ENT Surgeon",
-            "description": "Otorhinolaryngology, cervico-facial surgery"
-          },
-          "ophthalmologist": {
-            "label": "Ophthalmologist",
-            "description": "Ocular surgery, aesthetic eye medicine"
-          },
-          "dentist": {
-            "label": "Dentist",
-            "description": "Aesthetic dentistry, rehabilitation"
-          },
-          "orthodontist": {
-            "label": "Orthodontist",
-            "description": "Orthodontics, teeth alignment"
-          },
-          "oculoplastic_surgeon": {
-            "label": "Oculoplastic Surgeon",
-            "description": "Eye plastic & reconstructive surgery"
-          },
-          "reconstructive_surgeon": {
-            "label": "Reconstructive Surgeon",
-            "description": "Advanced reconstructive procedures"
-          },
-          "other_specialty": {
-            "label": "Other Specialty",
-            "description": "Specify your specialty"
-          }
-    }
+        }
     },
     "category": {
-        "heading": "Select your domain of expertise and the procedures you offer",
-        "NON-SURGICAL FACE": "Aesthetic medicine face",
-        "NON-SURGICAL BODY": "Aesthetic medicine face",
-        "AESTHETIC DENTISTRY": "Aesthetic dentistry",
-        "HAIR MEDICINE":  "Hair medicine",
-        "MUSCLE TONE & EMS": "Muscle tone & EMS",
-        "IV THERAPY": "IV therapy",
-        "WELLNESS & DRAINAGE": "Wellness & drainage",
-        "SURGICAL FACE": "Surgical face",
-        "SURGICAL BODY": "Surgical body",
-        "LONGEVITY MEDICINE": "Longevity medicine",
-        "OTHER": "Other",
+        "title": "Select your domain of expertise and the procedures you offer",
+        "subtitle": "Choose the categories and procedures that best represent your practice.",
+        "note": "You can modify them later.",
         "No categories": "No categories available for the selected specialties."
     },
     "procedure":{
@@ -123,8 +98,10 @@
         "description": "Stripe handles payment collection, doctor payouts, and card processing. You will be redirected to Stripe to connect your account."
       },
       "buttons": {
+        "finish": "Finish",
         "finishLater": "Save and finish later",
         "connectStripe": "Save prices & connect Stripe",
+        "next": "Save & Connect Stripe",
         "saving": "Saving..."
       },
           "currency": {

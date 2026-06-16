@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import Settings from "@/components/settings/Settings";
+import { auth } from "@/lib/auth/auth";
+import { prisma } from "@/lib/database/prisma";
+import Settings from "@/components/dashboard/settings/Settings";
 
 export default async function SettingsPage() {
   const session = await auth.api.getSession({
