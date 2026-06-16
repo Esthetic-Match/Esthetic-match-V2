@@ -52,7 +52,10 @@
     "reviews": "avis",
     "free": "Gratuit",
     "exploreByCategoryEyebrow": "Trouvez le bon traitement",
-    "exploreByCategoryDescription": "Parcourez les catégories de médecine esthétique, chirurgie esthétique, esthétique dentaire, soins de la peau, restauration capillaire et bien-être pour trouver des médecins de confiance près de chez vous."
+    "exploreByCategoryDescription": "Parcourez les catégories de médecine esthétique, chirurgie esthétique, esthétique dentaire, soins de la peau, restauration capillaire et bien-être pour trouver des médecins de confiance près de chez vous.",
+    "agree": "J’accepte les",
+    "privacyPolicy": "Conditions d’utilisation",
+    "termsOfUse": "Politique de confidentialité"
   },
    "doctors": {
       "hero": {

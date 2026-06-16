@@ -30,6 +30,9 @@
     "signUpForm":{
     "heading": "Créez votre profil",
     "subheading": "sur Esthetic Match en ajoutant les détails de votre compte",
+    "agree": "J’accepte les",
+    "privacyPolicy": "Conditions d’utilisation",
+    "termsOfUse": "Politique de confidentialité",
     "FullName": "Nom complet",
     "NameDescription": "Entrez votre nom complet",
     "Email": "Email",
