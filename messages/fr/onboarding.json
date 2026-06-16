@@ -98,6 +98,7 @@
         "description": "Stripe gère l’encaissement des paiements, les virements aux praticiens et le traitement des cartes bancaires. Vous serez redirigé vers Stripe pour connecter votre compte."
       },
       "buttons": {
+        "finish": "Terminer",
         "finishLater": "Enregistrer et terminer plus tard",
         "connectStripe": "Enregistrer les tarifs et connecter Stripe",
         "next": "Enregistrer et connecter Stripe",

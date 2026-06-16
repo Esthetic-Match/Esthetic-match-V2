@@ -98,6 +98,7 @@
         "description": "Stripe handles payment collection, doctor payouts, and card processing. You will be redirected to Stripe to connect your account."
       },
       "buttons": {
+        "finish": "Finish",
         "finishLater": "Save and finish later",
         "connectStripe": "Save prices & connect Stripe",
         "next": "Save & Connect Stripe",
