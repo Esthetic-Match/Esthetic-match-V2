@@ -3,11 +3,8 @@
 import { useState } from "react";
 import {
   Loader2,
-  TriangleAlert,
-  CreditCard,
   CheckCircle2,
   Clock,
-  Wallet,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
