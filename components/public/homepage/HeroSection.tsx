@@ -8,15 +8,20 @@ export default async function HomeSection() {
   return (
     <>
       <section className="relative min-h-[720px] overflow-hidden bg-[#07182A] text-white">
-        <video
-          className="absolute inset-0 h-full w-full object-cover object-start"
-          src="/videos/hero-video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        />
+        <div className="pointer-events-none absolute inset-0">
+          <video
+            className="h-full w-full object-cover object-start"
+            src="/videos/hero-video.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            controls={false}
+            tabIndex={-1}
+            aria-hidden="true"
+          />
+        </div>
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#07182A] via-[#07182A]/25 to-[#07182A]/10" />
 

@@ -15,6 +15,7 @@ type BookingAndPricesProps = {
   paidPlan?:  string| null;
   bookingLinks?: []|null;
   currency?: string | null;
+  onlineActive?: boolean | null;
   onUpdateProfile: (
     data: Partial<Omit<DoctorProfileData, "id" | "userId" | "user">>
   ) => void | Promise<void>;
@@ -32,6 +33,7 @@ export default function BookingAndPrices({
   googleRating,
   paidPlan,
   bookingLinks,
+  onlineActive,
   currency,
 }: BookingAndPricesProps) {
   return (
@@ -41,6 +43,7 @@ export default function BookingAndPrices({
           inClinicPrice={inClinicPrice}
           onlineConsulPrice={onlineConsulPrice}
           onUpdateProfile={onUpdateProfile}
+          onlineActive={onlineActive}
           currency={currency}
         />
 

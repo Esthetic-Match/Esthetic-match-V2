@@ -28,6 +28,7 @@ const allowedFields = [
   "otherSpecialtyText",
   "inClinicPrice",
   "onlineConsulPrice",
+  "onlineActive",
   "socialMediaLink",
   "bookingLinks",
   "inClinicLink",

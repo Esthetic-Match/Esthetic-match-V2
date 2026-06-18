@@ -101,6 +101,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           clinicName={profile?.clinicName}
           onUpdateProfile={updateDoctorProfile}
           workLatitude={profile?.workLatitude}
+          onlineActive={profile?.onlineActive}
           workLongitude={profile?.workLongitude}
           googlePlaceId={profile?.googlePlaceId}
           googleReviewCount={profile?.googleReviewCount}

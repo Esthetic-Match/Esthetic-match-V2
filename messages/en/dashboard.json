@@ -51,7 +51,12 @@
   "consultationPrices": {
     "title": "Consultation Prices",
     "inClinic": "In-clinic consultation",
-    "online": "Online pre-consultation"
+    "online": "Online pre-consultation",
+    "onlineActive": "Online consultation availability",
+    "onlineActiveEnabled": "Patients can book online consultations.",
+    "onlineActiveDisabled": "Online consultations are currently disabled.",
+    "active": "Active",
+    "inactive": "Inactive"
   },
   "booking": {
     "title": "Booking Links",

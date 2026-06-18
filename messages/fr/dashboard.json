@@ -51,7 +51,12 @@
   "consultationPrices": {
     "title": "Tarifs des consultations",
     "inClinic": "Consultation en clinique",
-    "online": "Pré-consultation en ligne"
+    "online": "Pré-consultation en ligne",
+    "onlineActive": "Disponibilité des consultations en ligne",
+    "onlineActiveEnabled": "Les patients peuvent réserver des consultations en ligne.",
+    "onlineActiveDisabled": "Les consultations en ligne sont actuellement désactivées.",
+    "active": "Actif",
+    "inactive": "Inactif"
   },
   "booking": {
     "title": "Prendre rendez-vous en cabinet",
