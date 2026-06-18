@@ -30,6 +30,7 @@ export type DoctorProfileData = {
   onlineActive: boolean | null;
   googleRating?: number | null;
   googleReviewCount?: number | null;
+  stripeConnectOnboardingComplete?: boolean | null;
   bookingLinks?: []| null;
   inClinicLink?: string| null;
   currency?: string | null;

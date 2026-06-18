@@ -13,6 +13,7 @@ type BookingAndPricesProps = {
   googleRating?: number | null;
   googleReviewCount?: number | null;
   paidPlan?:  string| null;
+  stripeConnectOnboardingComplete?: boolean | null;
   bookingLinks?: []|null;
   currency?: string | null;
   onlineActive?: boolean | null;
@@ -33,6 +34,7 @@ export default function BookingAndPrices({
   googleRating,
   paidPlan,
   bookingLinks,
+  stripeConnectOnboardingComplete,
   onlineActive,
   currency,
 }: BookingAndPricesProps) {
@@ -44,6 +46,7 @@ export default function BookingAndPrices({
           onlineConsulPrice={onlineConsulPrice}
           onUpdateProfile={onUpdateProfile}
           onlineActive={onlineActive}
+          stripeConnectOnboardingComplete={stripeConnectOnboardingComplete}
           currency={currency}
         />
 

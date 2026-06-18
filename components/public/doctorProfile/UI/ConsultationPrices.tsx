@@ -1,14 +1,20 @@
-import { Info, MonitorCheck, Stethoscope, WalletCards } from "lucide-react";
+import {
+  Info,
+  MonitorCheck,
+  Stethoscope,
+  WalletCards,
+  CircleDollarSign,
+} from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import StripeConsultationCheckOutButton from "@/components/public/doctorProfile/UI/StripeConsultationCheckOutButton";
 import FreeOnlineConsultationButton from "./FreeOnlineConsultationButton";
-import { useTranslations } from "next-intl";
 
 type ConsultationPricesProps = {
   doctorProfileId: string;
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
   onlineActive: boolean;
+  stripeConnectOnboardingComplete?: boolean | null;
   currency: string | null;
 };
 
@@ -46,14 +52,15 @@ function ConsultationCard({
   consultationType,
   doctorProfileId,
   currency,
+  freeLabel,
 }: {
   label: string;
   price: number | null;
   consultationType: "IN_CLINIC" | "ONLINE";
   doctorProfileId: string;
   currency: string | null;
+  freeLabel: string;
 }) {
-  const t =  useTranslations("doctor.doctor.profile.stickyContactBanner");
   const formattedPrice = formatPrice(price, currency);
   const isOnline = consultationType === "ONLINE";
   const isOnlineFree = isOnline && isFreePrice(price);
@@ -99,7 +106,7 @@ function ConsultationCard({
                 : "text-2xl font-semibold text-[#283C5D]"
             }
           >
-            {formattedPrice === "Free" ? t("free") : formattedPrice}
+            {formattedPrice === "Free" ? freeLabel : formattedPrice}
           </p>
         </div>
       </div>
@@ -122,19 +129,41 @@ function ConsultationCard({
   );
 }
 
+function EmptyPricesState({ title }: { title: string }) {
+  return (
+    <div className="flex min-h-[190px] flex-col items-center justify-center rounded-3xl bg-white px-6 py-10 text-center">
+      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#F8F0E3] text-[#D8BD8D] shadow-[0_10px_30px_rgba(216,189,141,0.22)] ring-1 ring-[#D8BD8D]/20">
+        <CircleDollarSign size={34} strokeWidth={1.7} />
+      </div>
+
+      <p className="mt-8 max-w-xs text-center text-sm font-medium leading-7 text-[#7A87A3]">
+        {title}
+      </p>
+    </div>
+  );
+}
+
 export default async function ConsultationPrices({
   doctorProfileId,
   inClinicPrice,
   onlineConsulPrice,
   onlineActive,
+  stripeConnectOnboardingComplete,
   currency,
 }: ConsultationPricesProps) {
   const t = await getTranslations("doctor.doctor.profile.consultationPrices");
+  const stickyT = await getTranslations(
+    "doctor.doctor.profile.stickyContactBanner"
+  );
+
+  const canShowOnlineConsultation = Boolean(stripeConnectOnboardingComplete);
 
   const shouldShowInClinic =
     inClinicPrice !== null && inClinicPrice !== undefined;
 
-  const shouldShowOnline = onlineActive;
+  const shouldShowOnline = canShowOnlineConsultation && onlineActive;
+
+  const shouldShowEmptyState = !shouldShowInClinic && !shouldShowOnline;
 
   return (
     <article
@@ -169,6 +198,12 @@ export default async function ConsultationPrices({
       </div>
 
       <div className="mt-8 flex flex-col gap-4">
+        {shouldShowEmptyState ? (
+          <EmptyPricesState
+            title={t("emptyStateTitle")}
+          />
+        ) : null}
+
         {shouldShowOnline ? (
           <ConsultationCard
             label={t("online")}
@@ -176,6 +211,7 @@ export default async function ConsultationPrices({
             consultationType="ONLINE"
             doctorProfileId={doctorProfileId}
             currency={currency}
+            freeLabel={stickyT("free")}
           />
         ) : null}
 
@@ -186,6 +222,7 @@ export default async function ConsultationPrices({
             consultationType="IN_CLINIC"
             doctorProfileId={doctorProfileId}
             currency={currency}
+            freeLabel={stickyT("free")}
           />
         ) : null}
       </div>

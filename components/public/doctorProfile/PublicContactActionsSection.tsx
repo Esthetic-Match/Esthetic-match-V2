@@ -24,6 +24,7 @@ type PublicContactActionsSectionProps = {
     googleReviewCount: number | null;
     googleRating: number | null;
     currency: string | null;
+    stripeConnectOnboardingComplete: boolean;
   };
 };
 
@@ -47,6 +48,7 @@ export default async function PublicContactActionsSection({
           inClinicPrice={doctorProfile.inClinicPrice}
           onlineConsulPrice={doctorProfile.onlineConsulPrice}
           onlineActive={doctorProfile.onlineActive}
+          stripeConnectOnboardingComplete={doctorProfile.stripeConnectOnboardingComplete}
           currency={doctorProfile.currency}
         />
 

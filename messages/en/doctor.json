@@ -35,6 +35,7 @@
         "messageNow": "Message Now",
         "commissionInfoAriaLabel": "Platform commission information",
         "commissionInfo": "Esthetic Match applies a 15% platform commission to paid consultations to support secure payments, messaging, and platform operations.",
+        "emptyStateTitle": "This doctor has not declared consultation prices yet.",
         "errors": {
           "checkoutFailed": "Failed to create checkout session",
           "paymentFailed": "Payment failed"

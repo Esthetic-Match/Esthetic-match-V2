@@ -43,8 +43,6 @@ export default function PaymentDetails({
   const [successMessage, setSuccessMessage] = useState("");
 
   const isConnected =
-    Boolean(profile?.stripeConnectAccountId) &&
-    Boolean(profile?.stripeConnectChargesEnabled) &&
     Boolean(profile?.stripeConnectOnboardingComplete);
 
   const hasCurrencyChanged =

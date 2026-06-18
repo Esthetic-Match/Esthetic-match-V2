@@ -55,6 +55,8 @@
     "onlineActive": "Online consultation availability",
     "onlineActiveEnabled": "Patients can book online consultations.",
     "onlineActiveDisabled": "Online consultations are currently disabled.",
+    "stripeOnboardingRequired": "Complete business verification to activate online consultations.",
+    "Instructions": "You can do this by going to Settings > Payment details.",
     "active": "Active",
     "inactive": "Inactive"
   },

@@ -104,6 +104,7 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
           onlineActive={profile?.onlineActive}
           workLongitude={profile?.workLongitude}
           googlePlaceId={profile?.googlePlaceId}
+          stripeConnectOnboardingComplete={profile?.stripeConnectOnboardingComplete}
           googleReviewCount={profile?.googleReviewCount}
           googleRating={profile?.googleRating}
           paidPlan={profile?.paidPlan}
