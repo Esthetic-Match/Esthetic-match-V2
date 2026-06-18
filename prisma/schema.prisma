@@ -91,7 +91,7 @@ model DoctorProfile {
 
   inClinicPrice         Float?
   onlineConsulPrice     Float?
-  onlineActive          Boolean @default(true)
+  onlineActive          Boolean @default(false)
   inClinicLink          String?
 
   stripeSubscriptionId       String?
