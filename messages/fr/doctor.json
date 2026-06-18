@@ -35,6 +35,7 @@
         "messageNow": "Envoyer un message",
         "commissionInfoAriaLabel": "Informations sur la commission de la plateforme",
         "commissionInfo": "Esthetic Match applique une commission de plateforme de 15 % sur les consultations payantes afin de soutenir les paiements sécurisés, la messagerie et le fonctionnement de la plateforme.",
+        "emptyStateTitle": "Ce médecin n’a pas encore renseigné ses tarifs de consultation.",
         "errors": {
           "checkoutFailed": "Échec de la création de la session de paiement",
           "paymentFailed": "Le paiement a échoué"

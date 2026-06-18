@@ -55,6 +55,8 @@
     "onlineActive": "Disponibilité des consultations en ligne",
     "onlineActiveEnabled": "Les patients peuvent réserver des consultations en ligne.",
     "onlineActiveDisabled": "Les consultations en ligne sont actuellement désactivées.",
+    "stripeOnboardingRequired": "Complétez la vérification professionnelle pour activer les consultations en ligne.",
+    "Instructions": "Vous pouvez le faire en vous rendant dans Paramètres > Détails de paiement.",
     "active": "Actif",
     "inactive": "Inactif"
   },
