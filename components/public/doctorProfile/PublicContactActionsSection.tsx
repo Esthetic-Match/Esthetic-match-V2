@@ -19,6 +19,7 @@ type PublicContactActionsSectionProps = {
     inClinicPrice: number | null;
     onlineConsulPrice: number | null;
     bookingLink: string | null;
+    onlineActive: boolean;
     socialMediaLink: string | null;
     googleReviewCount: number | null;
     googleRating: number | null;
@@ -45,6 +46,7 @@ export default async function PublicContactActionsSection({
           doctorProfileId={doctorProfile.id}
           inClinicPrice={doctorProfile.inClinicPrice}
           onlineConsulPrice={doctorProfile.onlineConsulPrice}
+          onlineActive={doctorProfile.onlineActive}
           currency={doctorProfile.currency}
         />
 

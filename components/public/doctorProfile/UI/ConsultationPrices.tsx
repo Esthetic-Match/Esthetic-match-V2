@@ -8,6 +8,7 @@ type ConsultationPricesProps = {
   doctorProfileId: string;
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
+  onlineActive: boolean;
   currency: string | null;
 };
 
@@ -125,6 +126,7 @@ export default async function ConsultationPrices({
   doctorProfileId,
   inClinicPrice,
   onlineConsulPrice,
+  onlineActive,
   currency,
 }: ConsultationPricesProps) {
   const t = await getTranslations("doctor.doctor.profile.consultationPrices");
@@ -132,7 +134,7 @@ export default async function ConsultationPrices({
   const shouldShowInClinic =
     inClinicPrice !== null && inClinicPrice !== undefined;
 
-  const shouldShowOnline = true;
+  const shouldShowOnline = onlineActive;
 
   return (
     <article

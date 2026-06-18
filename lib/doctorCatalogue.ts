@@ -113,6 +113,159 @@ export const DoctorCatalog = {
     ],
   },
   categories: [
+        {
+      key: "SURGICAL FACE",
+      id: "surgical_face",
+      slug: "surgical-face",
+      href: "/categories/surgical-face",
+      homeImage: "/images/home/categories/surgical-face.png",
+      dashboardImage: "/images/dashboard/categories/surgical-face.svg",
+      icon: "/images/home/categories/icons/surgical-face.svg",
+      category: "surgical_face",
+      subcategories: [
+        {
+          subcategory: "facelifts_and_lifting",
+          procedures: [
+            { name: "Mini Facelift", id: "mini_facelift" },
+            { name: "Midface Lift", id: "midface_lift" },
+            { name: "Facelift", id: "facelift" },
+            { name: "Temporal Lift", id: "temporal_lift" },
+            { name: "Neck Lift", id: "neck_lift" },
+            { name: "FaceTite skin tightening", id: "facetite_rf" },
+            { name: "Lower Face & Neck Skin Tightening", id: "lower_face_neck_tightening" }
+          ]
+        },
+        {
+          subcategory: "eyes_and_brows",
+          procedures: [
+            { name: "Canthopexy / Cat Eye Surgery", id: "canthopexy" },
+            { name: "Brow Lift", id: "brow_lift" },
+            { name: "Upper Blepharoplasty", id: "upper_blepharoplasty" },
+            { name: "Lower Blepharoplasty", id: "lower_blepharoplasty" }
+          ]
+        },
+        {
+          subcategory: "nose",
+          procedures: [
+            { name: "Rhinoplasty", id: "rhinoplasty" },
+            { name: "Rhinoseptoplasty (nose deviation)", id: "rhinoseptoplasty" },
+            { name: "Ultrasonic Rhinoplasty", id: "ultrasonic_rhinoplasty" },
+            { name: "Revision Rhinoplasty", id: "revision_rhinoplasty" },
+            { name: "Preservation Rhinoplasty", id: "preservation_rhinoplasty" },
+            { name: "Ethnic / Wide Nose Rhinoplasty", id: "ethnic_rhinoplasty" }
+          ]
+        },
+        {
+          subcategory: "face_contouring_and_features",
+          procedures: [
+            { name: "Genioplasty", id: "genioplasty" },
+            { name: "Otoplasty", id: "otoplasty" },
+            { name: "Lip Lift / Bullhorn Lip Lift", id: "lip_lift" },
+            { name: "Buccal Fat Removal / Bichectomy", id: "buccal_fat_removal" },
+            { name: "Facial Feminization Surgery", id: "facial_feminization" },
+            { name: "Orthognathic Surgery", id: "orthognathic_surgery" }
+          ]
+        },
+        {
+          subcategory: "lipofilling_and_fat_transfer",
+          procedures: [
+            { name: "Facial Lipofilling (Tear Trough)", id: "lipofilling_tear_trough" },
+            { name: "Facial Lipofilling (face)", id: "lipofilling_face" }
+          ]
+        }
+      ]
+    },
+    {
+      key: "SURGICAL BODY",
+      id: "surgical_body",
+      slug: "surgical-body",
+      href: "/categories/surgical-body",
+      homeImage: "/images/home/categories/surgical-body.png",
+      dashboardImage: "/images/dashboard/categories/surgical-body.svg",
+      icon: "/images/home/categories/icons/surgical-body.svg",
+      category: "surgical_body",
+      subcategories: [
+        {
+          subcategory: "liposuction",
+          procedures: [
+            { name: "Liposuction (Abdomen)", id: "lipo_abdomen" },
+            { name: "Liposuction (Arms)", id: "lipo_arms" },
+            { name: "Liposuction (Thighs)", id: "lipo_thighs" },
+            { name: "Liposuction (Neck)", id: "lipo_neck" },
+            { name: "Liposuction (Knees / Other)", id: "lipo_knees" },
+            { name: "Liposuction (Genitals)", id: "lipo_genitals" },
+            { name: "Liposuction (Buttocks)", id: "lipo_buttocks" },
+            { name: "Liposuction for Lipedema", id: "lipo_lipedema" },
+            { name: "Abdominal Liposculpture", id: "liposculpture_abdomen" },
+            { name: "VASER Liposuction", id: "vaser_liposuction" },
+            { name: "360° Liposuction", id: "liposuction_360" }
+          ]
+        },
+        {
+          subcategory: "body_contouring_and_lifting",
+          procedures: [
+				    { name: "Body Lift", id: "body_lift" },
+				    { name: "Arm Lift (Brachioplasty)", id: "arm_lift" },
+				    { name: "Thigh Lift", id: "thigh_lift" },
+				    { name: "Abdominoplasty / Tummy Tuck", id: "abdominoplasty" },
+				    { name: "Rib Remodeling / Rib Removal", id: "rib_remodeling" },
+				    { name: "Bodytite", id: "bodytite" },
+				    { name: "J-Plasma Renuvion", id: "j_plasma_renuvion" },
+            { name: "High-Definition Liposuction (HD Lipo)", id: "hd_liposuction" },
+			      { name: "Cellulite Surgery (Subcision)", id: "cellulite_subcision" },
+			      { name: "Quantum skin retraction", id: "Quantum_radiofrequency" }
+          ]
+        },
+        {
+          subcategory: "buttocks",
+          procedures: [
+            { name: "Brazilian Butt Lift (BBL)", id: "bbl_surgical" },
+            { name: "Buttocks implant Augmentation", id: "buttocks_implant_augmentation" }
+          ]
+        },
+        {
+          subcategory: "breast_surgery",
+          procedures: [
+				    { name: "Breast Augmentation", id: "breast_augmentation" },
+				    { name: "Breast Augmentation (Lipofilling)", id: "breast_augmentation_lipofilling" },
+				    { name: "MIA Breast Augmentation", id: "mia_breast_augmentation" },
+				    { name: "Breast Reduction", id: "breast_reduction" },
+				    { name: "Breast Implant Replacement", id: "breast_implant_replacement" },
+				    { name: "Breast Implant Removal", id: "breast_implant_removal" },
+				    { name: "Breast Lifting / Mastopexy", id: "mastopexy" },
+				    { name: "Preserved Internal Bra Lifting", id: "preserved_internal_bra_lifting" },
+				    { name: "Internal Bra Lifting", id: "internal_bra_lifting" },
+				    { name: "Inverted Nipple Correction", id: "nipple_correction" },
+				    { name: "Breast Reconstruction", id: "breast_reconstruction" },
+				    { name: "Correction of Breast Asymmetry", id: "breast_asymmetry" },
+            { name: "Internal Bra Matrix", id: "internal_bra_matrix" },
+			      { name: "Breast Lift with Implants", id: "mastopexy_with_implants" }
+          ]
+        },
+        {
+          subcategory: "intimate_and_genital_surgery",
+          procedures: [
+            { name: "Penis Enlargement", id: "penis_enlargement" },
+            { name: "Penoplasty", id: "penoplasty" },
+            { name: "Circumcision", id: "circumcision" },
+            { name: "G-Spot Augmentation", id: "g_spot_augmentation" },
+            { name: "Hymenoplasty", id: "hymenoplasty" },
+            { name: "Mons Pubis Liposuction", id: "mons_pubis_liposuction" },
+            { name: "Labiaplasty / Nymphoplasty", id: "labiaplasty" },
+            { name: "Vaginoplasty", id: "vaginoplasty" },
+            { name: "Perineoplasty", id: "perineoplasty" }
+          ]
+        },
+        {
+          subcategory: "foot_surgery",
+          procedures: [
+            { name: "Forefoot Aesthetic Surgery", id: "forefoot_surgery" },
+            { name: "Hallux Valgus Surgery", id: "hallux_valgus" },
+            { name: "Hammer Toe Surgery", id: "hammer_toe" }
+          ]
+        }
+      ]
+    },
     {
       key: "AESTHETIC MEDICINE FACE",
       id: "aesthetic_medicine_face",
@@ -451,159 +604,6 @@ export const DoctorCatalog = {
           procedures: [
             { name: "Infrared Sauna", id: "infrared_sauna" },
             { name: "Wellness Analysis", id: "wellness_analysis" }
-          ]
-        }
-      ]
-    },
-    {
-      key: "SURGICAL FACE",
-      id: "surgical_face",
-      slug: "surgical-face",
-      href: "/categories/surgical-face",
-      homeImage: "/images/home/categories/surgical-face.png",
-      dashboardImage: "/images/dashboard/categories/surgical-face.svg",
-      icon: "/images/home/categories/icons/surgical-face.svg",
-      category: "surgical_face",
-      subcategories: [
-        {
-          subcategory: "facelifts_and_lifting",
-          procedures: [
-            { name: "Mini Facelift", id: "mini_facelift" },
-            { name: "Midface Lift", id: "midface_lift" },
-            { name: "Facelift", id: "facelift" },
-            { name: "Temporal Lift", id: "temporal_lift" },
-            { name: "Neck Lift", id: "neck_lift" },
-            { name: "FaceTite skin tightening", id: "facetite_rf" },
-            { name: "Lower Face & Neck Skin Tightening", id: "lower_face_neck_tightening" }
-          ]
-        },
-        {
-          subcategory: "eyes_and_brows",
-          procedures: [
-            { name: "Canthopexy / Cat Eye Surgery", id: "canthopexy" },
-            { name: "Brow Lift", id: "brow_lift" },
-            { name: "Upper Blepharoplasty", id: "upper_blepharoplasty" },
-            { name: "Lower Blepharoplasty", id: "lower_blepharoplasty" }
-          ]
-        },
-        {
-          subcategory: "nose",
-          procedures: [
-            { name: "Rhinoplasty", id: "rhinoplasty" },
-            { name: "Rhinoseptoplasty (nose deviation)", id: "rhinoseptoplasty" },
-            { name: "Ultrasonic Rhinoplasty", id: "ultrasonic_rhinoplasty" },
-            { name: "Revision Rhinoplasty", id: "revision_rhinoplasty" },
-            { name: "Preservation Rhinoplasty", id: "preservation_rhinoplasty" },
-            { name: "Ethnic / Wide Nose Rhinoplasty", id: "ethnic_rhinoplasty" }
-          ]
-        },
-        {
-          subcategory: "face_contouring_and_features",
-          procedures: [
-            { name: "Genioplasty", id: "genioplasty" },
-            { name: "Otoplasty", id: "otoplasty" },
-            { name: "Lip Lift / Bullhorn Lip Lift", id: "lip_lift" },
-            { name: "Buccal Fat Removal / Bichectomy", id: "buccal_fat_removal" },
-            { name: "Facial Feminization Surgery", id: "facial_feminization" },
-            { name: "Orthognathic Surgery", id: "orthognathic_surgery" }
-          ]
-        },
-        {
-          subcategory: "lipofilling_and_fat_transfer",
-          procedures: [
-            { name: "Facial Lipofilling (Tear Trough)", id: "lipofilling_tear_trough" },
-            { name: "Facial Lipofilling (face)", id: "lipofilling_face" }
-          ]
-        }
-      ]
-    },
-    {
-      key: "SURGICAL BODY",
-      id: "surgical_body",
-      slug: "surgical-body",
-      href: "/categories/surgical-body",
-      homeImage: "/images/home/categories/surgical-body.png",
-      dashboardImage: "/images/dashboard/categories/surgical-body.svg",
-      icon: "/images/home/categories/icons/surgical-body.svg",
-      category: "surgical_body",
-      subcategories: [
-        {
-          subcategory: "liposuction",
-          procedures: [
-            { name: "Liposuction (Abdomen)", id: "lipo_abdomen" },
-            { name: "Liposuction (Arms)", id: "lipo_arms" },
-            { name: "Liposuction (Thighs)", id: "lipo_thighs" },
-            { name: "Liposuction (Neck)", id: "lipo_neck" },
-            { name: "Liposuction (Knees / Other)", id: "lipo_knees" },
-            { name: "Liposuction (Genitals)", id: "lipo_genitals" },
-            { name: "Liposuction (Buttocks)", id: "lipo_buttocks" },
-            { name: "Liposuction for Lipedema", id: "lipo_lipedema" },
-            { name: "Abdominal Liposculpture", id: "liposculpture_abdomen" },
-            { name: "VASER Liposuction", id: "vaser_liposuction" },
-            { name: "360° Liposuction", id: "liposuction_360" }
-          ]
-        },
-        {
-          subcategory: "body_contouring_and_lifting",
-          procedures: [
-				    { name: "Body Lift", id: "body_lift" },
-				    { name: "Arm Lift (Brachioplasty)", id: "arm_lift" },
-				    { name: "Thigh Lift", id: "thigh_lift" },
-				    { name: "Abdominoplasty / Tummy Tuck", id: "abdominoplasty" },
-				    { name: "Rib Remodeling / Rib Removal", id: "rib_remodeling" },
-				    { name: "Bodytite", id: "bodytite" },
-				    { name: "J-Plasma Renuvion", id: "j_plasma_renuvion" },
-            { name: "High-Definition Liposuction (HD Lipo)", id: "hd_liposuction" },
-			      { name: "Cellulite Surgery (Subcision)", id: "cellulite_subcision" },
-			      { name: "Quantum skin retraction", id: "Quantum_radiofrequency" }
-          ]
-        },
-        {
-          subcategory: "buttocks",
-          procedures: [
-            { name: "Brazilian Butt Lift (BBL)", id: "bbl_surgical" },
-            { name: "Buttocks implant Augmentation", id: "buttocks_implant_augmentation" }
-          ]
-        },
-        {
-          subcategory: "breast_surgery",
-          procedures: [
-				    { name: "Breast Augmentation", id: "breast_augmentation" },
-				    { name: "Breast Augmentation (Lipofilling)", id: "breast_augmentation_lipofilling" },
-				    { name: "MIA Breast Augmentation", id: "mia_breast_augmentation" },
-				    { name: "Breast Reduction", id: "breast_reduction" },
-				    { name: "Breast Implant Replacement", id: "breast_implant_replacement" },
-				    { name: "Breast Implant Removal", id: "breast_implant_removal" },
-				    { name: "Breast Lifting / Mastopexy", id: "mastopexy" },
-				    { name: "Preserved Internal Bra Lifting", id: "preserved_internal_bra_lifting" },
-				    { name: "Internal Bra Lifting", id: "internal_bra_lifting" },
-				    { name: "Inverted Nipple Correction", id: "nipple_correction" },
-				    { name: "Breast Reconstruction", id: "breast_reconstruction" },
-				    { name: "Correction of Breast Asymmetry", id: "breast_asymmetry" },
-            { name: "Internal Bra Matrix", id: "internal_bra_matrix" },
-			      { name: "Breast Lift with Implants", id: "mastopexy_with_implants" }
-          ]
-        },
-        {
-          subcategory: "intimate_and_genital_surgery",
-          procedures: [
-            { name: "Penis Enlargement", id: "penis_enlargement" },
-            { name: "Penoplasty", id: "penoplasty" },
-            { name: "Circumcision", id: "circumcision" },
-            { name: "G-Spot Augmentation", id: "g_spot_augmentation" },
-            { name: "Hymenoplasty", id: "hymenoplasty" },
-            { name: "Mons Pubis Liposuction", id: "mons_pubis_liposuction" },
-            { name: "Labiaplasty / Nymphoplasty", id: "labiaplasty" },
-            { name: "Vaginoplasty", id: "vaginoplasty" },
-            { name: "Perineoplasty", id: "perineoplasty" }
-          ]
-        },
-        {
-          subcategory: "foot_surgery",
-          procedures: [
-            { name: "Forefoot Aesthetic Surgery", id: "forefoot_surgery" },
-            { name: "Hallux Valgus Surgery", id: "hallux_valgus" },
-            { name: "Hammer Toe Surgery", id: "hammer_toe" }
           ]
         }
       ]
