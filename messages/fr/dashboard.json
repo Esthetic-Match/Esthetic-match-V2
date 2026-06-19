@@ -148,6 +148,7 @@
     "sidebar": {
       "messages": "Messages",
       "profile": "Profil",
+      "bookingHistory": "Réservations Précédentes",
       "settings": "Paramètres",
       "logout": "Déconnexion",
       "avatarAlt": "Avatar",
@@ -214,5 +215,58 @@
         "emptyTitle": "Aucune procédure trouvée",
         "emptyDescription": "Ajoutez d’abord des procédures à votre profil praticien."
       }
+    },
+    "patientBookings": {
+      "eyebrow": "Paiements et réservations",
+      "title": "Historique des réservations",
+      "description": "Consultez vos anciennes réservations de consultation, le statut du paiement, les dates et les informations de paiement Stripe.",
+      "loading": "Chargement de votre historique de réservation...",
+      "fallbackDoctorName": "Médecin",
+      "summary": {
+        "totalBookings": "Réservations totales",
+        "totalPaid": "Total payé",
+        "paidBookings": "Réservations payées"
+      },
+      "consultationTypes": {
+        "inClinic": "Consultation en cabinet",
+        "online": "Consultation en ligne"
+      },
+      "statuses": {
+        "paid": "Payé",
+        "pending": "En attente",
+        "processing": "En cours",
+        "failed": "Échoué",
+        "cancelled": "Annulé",
+        "refunded": "Remboursé"
+      },
+      "actions": {
+        "openStripe": "Ouvrir le portail Stripe",
+        "manageInStripe": "Gérer dans Stripe",
+        "viewDoctor": "Voir le médecin",
+        "findDoctors": "Trouver des médecins",
+        "requestRefund": "Demander un remboursement"
+      },
+      "empty": {
+        "title": "Aucune réservation pour le moment",
+        "description": "Une fois une consultation réservée, les détails de paiement et de réservation apparaîtront ici."
+      },
+      "refund": {
+        "eyebrow": "Demande de remboursement",
+        "title": "Demander un remboursement",
+        "description": "Expliquez pourquoi vous demandez un remboursement. Votre demande sera examinée avant tout remboursement.",
+        "reasonLabel": "Motif du remboursement",
+        "reasonPlaceholder": "Expliquez pourquoi vous souhaitez demander un remboursement...",
+        "submit": "Envoyer la demande",
+        "cancel": "Annuler",
+        "close": "Fermer la demande de remboursement",
+        "success": "Votre demande de remboursement a été envoyée avec succès."
+      },
+      "errors": {
+        "fetchFailed": "Impossible de charger votre historique de réservation.",
+        "portalFailed": "Impossible d’ouvrir le portail Stripe.",
+        "refundReasonRequired": "Veuillez indiquer le motif de votre demande de remboursement.",
+        "refundRequestFailed": "Impossible d’envoyer votre demande de remboursement."
+      }
     }
 }
+

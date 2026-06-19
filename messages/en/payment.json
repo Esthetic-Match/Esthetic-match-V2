@@ -1,0 +1,44 @@
+{
+  "booking": {
+    "success": {
+      "eyebrow": "Booking confirmation",
+      "title": {
+        "paid": "Payment successful",
+        "pending": "Payment is being confirmed"
+      },
+      "description": {
+        "inClinicPaid": "You can now view this doctor’s contact and clinic details.",
+        "onlinePaid": "Your online consultation chat access is now active.",
+        "pending": "Stripe is still confirming your payment. This usually updates automatically after a few moments."
+      },
+      "consultationType": {
+        "inClinic": "In-clinic consultation",
+        "online": "Online consultation"
+      },
+      "paidAmount": "Paid amount: €{amount}",
+      "inClinicAccess": {
+        "title": "Doctor contact access unlocked",
+        "clinic": "Clinic: {clinic}",
+        "address": "Address: {address}",
+        "city": "City: {city}"
+      },
+      "onlineAccess": {
+        "title": "Chat access unlocked",
+        "description": "You can now message the doctor through your account."
+      },
+      "stripeSecure": "Payment processed securely by Stripe.",
+      "actions": {
+        "backToDoctorProfile": "Back to doctor profile",
+        "goToMessages": "Go to messages",
+        "goToDashboard": "Go to dashboard",
+        "openBookingLink": "Open booking link"
+      },
+      "error": {
+        "title": "Booking issue",
+        "missingBookingId": "Missing booking ID.",
+        "bookingNotFound": "Booking not found.",
+        "noAccess": "You do not have access to this booking."
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ import {
   IconUserBolt,
   IconShieldLock,
 } from "@tabler/icons-react";
+import { History } from 'lucide-react';
 import { motion } from "motion/react";
 import Image from "next/image";
 import { DM_Sans } from "next/font/google";
@@ -42,6 +43,7 @@ export function NavPanel({ children }: NavPanelProps) {
   }
 
 const isAdmin = session?.user?.role === "ADMIN";
+const isPatient = session?.user?.role === "PATIENT";
 
 const links = [
   {
@@ -54,6 +56,15 @@ const links = [
     href: `/dashboard/${userId}`,
     icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
   },
+    ...(isPatient
+    ? [
+        {
+          label: t("sidebar.bookingHistory"),
+          href: "/dashboard/bookingHistory",
+          icon: <History className="h-5 w-5 shrink-0 text-white" />,
+        },
+      ]
+    : []),
   {
     label: t("sidebar.settings"),
     href: "/dashboard/settings",

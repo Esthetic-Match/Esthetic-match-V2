@@ -148,6 +148,7 @@
     "sidebar": {
       "messages": "Messages",
       "profile": "Profile",
+      "bookingHistory": "Booking History",
       "settings": "Settings",
       "logout": "Logout",
       "avatarAlt": "Avatar",
@@ -214,5 +215,57 @@
         "emptyTitle": "No procedures found",
         "emptyDescription": "Add procedures to your doctor profile first."
       }
-    }
+    },
+   "patientBookings": {
+  "eyebrow": "Payments & bookings",
+  "title": "Booking history",
+  "description": "Review your previous consultation bookings, payment status, dates, and Stripe payment details.",
+  "loading": "Loading your booking history...",
+  "fallbackDoctorName": "Doctor",
+  "summary": {
+    "totalBookings": "Total bookings",
+    "totalPaid": "Total paid",
+    "paidBookings": "Paid bookings"
+  },
+  "consultationTypes": {
+    "inClinic": "In-clinic consultation",
+    "online": "Online consultation"
+  },
+  "statuses": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "processing": "Processing",
+    "failed": "Failed",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded"
+  },
+  "actions": {
+    "openStripe": "Open Stripe portal",
+    "manageInStripe": "Manage in Stripe",
+    "viewDoctor": "View doctor",
+    "findDoctors": "Find doctors",
+    "requestRefund": "Request refund"
+  },
+  "empty": {
+    "title": "No bookings yet",
+    "description": "Once you book a consultation, your payment and booking details will appear here."
+  },
+  "refund": {
+    "eyebrow": "Refund request",
+    "title": "Request a refund",
+    "description": "Tell us why you are requesting a refund. Your request will be reviewed before any refund is processed.",
+    "reasonLabel": "Reason for refund",
+    "reasonPlaceholder": "Explain why you would like to request a refund...",
+    "submit": "Submit request",
+    "cancel": "Cancel",
+    "close": "Close refund request",
+    "success": "Your refund request has been submitted successfully."
+  },
+  "errors": {
+    "fetchFailed": "Could not load your booking history.",
+    "portalFailed": "Could not open Stripe Portal.",
+    "refundReasonRequired": "Please enter a reason for your refund request.",
+    "refundRequestFailed": "Could not submit your refund request."
+  }
+}
 }

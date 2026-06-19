@@ -1,0 +1,44 @@
+{
+  "booking": {
+    "success": {
+      "eyebrow": "Confirmation de réservation",
+      "title": {
+        "paid": "Paiement réussi",
+        "pending": "Paiement en cours de confirmation"
+      },
+      "description": {
+        "inClinicPaid": "Vous pouvez maintenant consulter les coordonnées du médecin et les informations de la clinique.",
+        "onlinePaid": "Votre accès au chat de consultation en ligne est maintenant actif.",
+        "pending": "Stripe est encore en train de confirmer votre paiement. Cela se met généralement à jour automatiquement après quelques instants."
+      },
+      "consultationType": {
+        "inClinic": "Consultation en cabinet",
+        "online": "Consultation en ligne"
+      },
+      "paidAmount": "Montant payé : {amount} €",
+      "inClinicAccess": {
+        "title": "Accès aux coordonnées du médecin débloqué",
+        "clinic": "Clinique : {clinic}",
+        "address": "Adresse : {address}",
+        "city": "Ville : {city}"
+      },
+      "onlineAccess": {
+        "title": "Accès au chat débloqué",
+        "description": "Vous pouvez maintenant envoyer un message au médecin depuis votre compte."
+      },
+      "stripeSecure": "Paiement traité de manière sécurisée par Stripe.",
+      "actions": {
+        "backToDoctorProfile": "Retour au profil du médecin",
+        "goToMessages": "Accéder aux messages",
+        "goToDashboard": "Aller au tableau de bord",
+        "openBookingLink": "Ouvrir le lien de réservation"
+      },
+      "error": {
+        "title": "Problème de réservation",
+        "missingBookingId": "Identifiant de réservation manquant.",
+        "bookingNotFound": "Réservation introuvable.",
+        "noAccess": "Vous n’avez pas accès à cette réservation."
+      }
+    }
+  }
+}
