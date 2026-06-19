@@ -275,10 +275,12 @@ async function handleEndConversation(conversationId: string) {
   }
 }
 
-async function sendImageMessage(file: File) {
-  if (!selectedConversationId || uploadingImage) return;
+async function sendImageMessage(file: File, text?: string) {
+  if (!selectedConversationId || uploadingImage || sending) return;
 
   if (selectedConversation?.status !== "ACTIVE") return;
+  
+  const cleanText = text?.trim() || "";
   
 
   try {
@@ -326,6 +328,7 @@ async function sendImageMessage(file: File) {
         },
         body: JSON.stringify({
           messageType: "IMAGE",
+          text: cleanText || null,
           attachment: {
             objectPath,
             fileName: file.name,
@@ -342,6 +345,8 @@ async function sendImageMessage(file: File) {
       throw new Error("Failed to send image message");
     }
     const data: { message: Message } = await messageRes.json();
+
+    setMessageText("");
 
     setMessages((current) => [...current, data.message]);
 

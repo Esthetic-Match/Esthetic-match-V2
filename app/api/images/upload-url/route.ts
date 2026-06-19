@@ -18,6 +18,14 @@ function cleanPath(path: string) {
   return path.replace(/^\/+|\/+$/g, "");
 }
 
+function withEnvironmentPrefix(path: string) {
+  const isDevelopment = process.env.DEVELOPMENT === "true";
+
+  if (!isDevelopment) return path;
+
+  return `DEV/${cleanPath(path)}`;
+}
+
 export const POST = withApiHandler(async (req: Request) => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -68,7 +76,6 @@ export const POST = withApiHandler(async (req: Request) => {
           ? `doctor-profile/${session.user.id}/avatar`
           : `medical-images/${session.user.id}`;
 
-  // Security check
   const isAdmin = session.user.role === "ADMIN";
 
   if (
@@ -87,14 +94,9 @@ export const POST = withApiHandler(async (req: Request) => {
     throw new ApiError("Forbidden path", 403, "FORBIDDEN_PATH");
   }
 
-  if (
-    safeFolder.startsWith("conversations") &&
-    !safeFolder.includes(session.user.id)
-  ) {
-    throw new ApiError("Forbidden path", 403, "FORBIDDEN_PATH");
-  }
-
-  const objectPath = `${safeFolder}/${randomUUID()}.${ext}`;
+  const objectPath = withEnvironmentPrefix(
+    `${safeFolder}/${randomUUID()}.${ext}`
+  );
 
   const [uploadUrl] = await bucket.file(objectPath).getSignedUrl({
     version: "v4",
