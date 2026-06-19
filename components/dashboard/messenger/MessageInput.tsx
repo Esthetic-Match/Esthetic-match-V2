@@ -9,8 +9,8 @@ type MessageInputProps = {
   isDisabled?: boolean;
   placeholder: string;
   onChange: (value: string) => void;
-  onSend: () => void;
-  onSendImage: (file: File) => void;
+  onSendText: () => void;
+  onSendImage: (file: File, text?: string) => void;
 };
 
 export default function MessageInput({
@@ -20,7 +20,7 @@ export default function MessageInput({
   isDisabled = false,
   placeholder,
   onChange,
-  onSend,
+  onSendText,
   onSendImage,
 }: MessageInputProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -29,15 +29,19 @@ export default function MessageInput({
   const disabled = isDisabled || sending || uploadingImage;
   const previewUrl = selectedImage ? URL.createObjectURL(selectedImage) : null;
 
-  function handleSend() {
-    if (selectedImage) {
-      onSendImage(selectedImage);
-      setSelectedImage(null);
-      return;
-    }
+function handleSend() {
+  const cleanText = value.trim();
 
-    onSend();
+  if (!cleanText && !selectedImage) return;
+
+  if (selectedImage) {
+    onSendImage(selectedImage, cleanText);
+    setSelectedImage(null);
+    return;
   }
+
+  onSendText();
+}
 
 return (
   <div className="border-t border-[#283C5D]/10 bg-white p-2 sm:p-3 lg:p-5">
