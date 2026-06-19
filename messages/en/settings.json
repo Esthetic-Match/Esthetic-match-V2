@@ -91,7 +91,9 @@
     "emptyCategories": "Select a category to view its linked procedures.",
     "cancel": "Cancel",
     "saving": "Saving...",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all"
   },
   "specialtiesModal": {
     "profileLabel": "Doctor Profile",
