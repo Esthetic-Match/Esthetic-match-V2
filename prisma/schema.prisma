@@ -55,6 +55,7 @@ model User {
   patientConsultationBookings ConsultationBooking[] @relation("PatientConsultationBookings")
   inClinicConsultationAccesses InClinicConsultationAccess[] @relation("PatientInClinicAccesses")
   onlineConsultationAccesses   OnlineConsultationAccess[] @relation("PatientOnlineAccesses")
+  patientConsultationRefundRequests ConsultationRefundRequest[] @relation("PatientConsultationRefundRequests")
 
   patientConversations Conversation[] @relation("PatientConversations")
   sentMessages          Message[]      @relation("MessageSender")
@@ -115,6 +116,7 @@ model DoctorProfile {
   consultationBookings ConsultationBooking[]
   inClinicConsultationAccesses InClinicConsultationAccess[]
   onlineConsultationAccesses   OnlineConsultationAccess[]
+  consultationRefundRequests ConsultationRefundRequest[]
 
   conversations Conversation[] @relation("DoctorConversations")
 
@@ -173,6 +175,7 @@ model ConsultationBooking {
   stripePaymentIntentId   String? @unique
   stripeChargeId          String?
   stripeTransferId        String?
+
   paymentConfirmedEmailSentAt DateTime?
   paymentProcessingEmailSentAt DateTime?
   paymentFailedEmailSentAt DateTime?
@@ -186,6 +189,8 @@ model ConsultationBooking {
   inClinicAccess InClinicConsultationAccess?
   onlineAccess   OnlineConsultationAccess?
 
+  refundRequests ConsultationRefundRequest[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -194,6 +199,33 @@ model ConsultationBooking {
   @@index([consultationType])
   @@index([status])
   @@map("consultation_booking")
+}
+
+model ConsultationRefundRequest {
+  id String @id @default(cuid())
+
+  bookingId String
+  booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  patientUserId String
+  patientUser   User @relation("PatientConsultationRefundRequests", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  reason    String
+  status    String @default("pending") // pending | approved | rejected | refunded
+  adminNote String?
+
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime?
+  refundedAt DateTime?
+
+  @@index([bookingId])
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([status])
+  @@map("consultation_refund_request")
 }
 
 model InClinicConsultationAccess {

@@ -59,6 +59,101 @@ async function getBookingEmailContext(bookingId: string) {
   };
 }
 
+function escapeHtml(value?: string | null) {
+  if (!value) return "";
+
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+async function sendDoctorPaidConsultationEmail(bookingId: string) {
+  const booking = await prisma.consultationBooking.findUnique({
+    where: {
+      id: bookingId,
+    },
+    include: {
+      patientUser: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+      doctorProfile: {
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!booking) return;
+
+  const doctorEmail = booking.doctorProfile.user.email;
+
+  if (!doctorEmail) return;
+
+  const appUrl =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.BETTER_AUTH_URL ||
+    "http://localhost:3000";
+
+  const dashboardUrl = `${appUrl}/dashboard`;
+
+  const doctorName = escapeHtml(
+    booking.doctorProfile.user.name || booking.doctorProfile.clinicName
+  );
+
+  const patientName = escapeHtml(booking.patientUser.name || "A patient");
+  const patientEmail = escapeHtml(booking.patientUser.email || "Not available");
+  const clinicName = escapeHtml(booking.doctorProfile.clinicName);
+  const consultationType = getConsultationTypeLabel(booking.consultationType);
+  const amount = formatAmount(booking.amount, booking.currency);
+
+  await sendEmail({
+    to: doctorEmail,
+    subject: "New paid consultation booking",
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #283C5D; line-height: 1.6;">
+        <h1 style="margin-bottom: 12px;">New paid consultation booking</h1>
+
+        <p>Hello ${doctorName || "Doctor"},</p>
+
+        <p>A patient has completed payment for a consultation on Esthetic Match.</p>
+
+        <div style="background: #FAF9F7; padding: 16px; border-radius: 16px; margin: 24px 0;">
+          <p><strong>Patient:</strong> ${patientName}</p>
+          <p><strong>Patient email:</strong> ${patientEmail}</p>
+          <p><strong>Clinic:</strong> ${clinicName}</p>
+          <p><strong>Consultation type:</strong> ${consultationType}</p>
+          <p><strong>Paid amount:</strong> ${amount}</p>
+        </div>
+
+        <p>You can view and manage this consultation from your dashboard.</p>
+
+        <p style="margin: 28px 0;">
+          <a
+            href="${dashboardUrl}"
+            style="background: #283C5D; color: #ffffff; padding: 12px 20px; border-radius: 999px; text-decoration: none; display: inline-block;"
+          >
+            Open dashboard
+          </a>
+        </p>
+
+        <p>Thank you,<br />Esthetic Match</p>
+      </div>
+    `,
+  });
+}
+
 async function sendConsultationPaymentConfirmedEmail(bookingId: string) {
   const context = await getBookingEmailContext(bookingId);
 
@@ -257,7 +352,9 @@ async function handleConsultationPaymentConfirmed({
 
   if (!existingBooking) return;
 
-  const shouldSendEmail = !existingBooking.paidAt;
+  const isFirstPaidConfirmation = !existingBooking.paidAt;
+  const shouldSendPatientEmail = !existingBooking.paymentConfirmedEmailSentAt;
+  const shouldSendDoctorEmail = isFirstPaidConfirmation;
 
   const booking = await prisma.consultationBooking.update({
     where: { id: bookingId },
@@ -271,8 +368,27 @@ async function handleConsultationPaymentConfirmed({
 
   await unlockConsultationAccess(booking);
 
-  if (shouldSendEmail) {
-    await sendConsultationPaymentConfirmedEmail(booking.id);
+  if (shouldSendPatientEmail) {
+    try {
+      await sendConsultationPaymentConfirmedEmail(booking.id);
+
+      await prisma.consultationBooking.update({
+        where: { id: booking.id },
+        data: {
+          paymentConfirmedEmailSentAt: new Date(),
+        },
+      });
+    } catch (emailError) {
+      console.error("Patient payment confirmation email failed:", emailError);
+    }
+  }
+
+  if (shouldSendDoctorEmail) {
+    try {
+      await sendDoctorPaidConsultationEmail(booking.id);
+    } catch (emailError) {
+      console.error("Doctor paid consultation email failed:", emailError);
+    }
   }
 }
 

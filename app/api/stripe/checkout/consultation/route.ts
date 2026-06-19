@@ -167,54 +167,58 @@ export async function POST(req: Request) {
       process.env.BETTER_AUTH_URL ||
       "http://localhost:3000";
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
-      customer: stripeCustomerId,
-
-      success_url: `${appUrl}/booking/success?bookingId=${booking.id}`,
-      cancel_url: `${appUrl}/doctor/${doctorProfile.userId}`,
-
-      line_items: [
-        {
-          quantity: 1,
-          price_data: {
-            currency,
-            unit_amount: amount,
-            product_data: {
-              name:
-                consultationType === "IN_CLINIC"
-                  ? `In-clinic consultation with ${doctorProfile.clinicName}`
-                  : `Online consultation with ${doctorProfile.clinicName}`,
-              description: "Includes a 15% platform service fee.",
-            },
+  const checkoutSession = await stripe.checkout.sessions.create({
+    mode: "payment",
+    customer: stripeCustomerId,
+  
+    success_url: `${appUrl}/booking/success?bookingId=${booking.id}`,
+    cancel_url: `${appUrl}/doctor/${doctorProfile.userId}`,
+  
+    invoice_creation: {
+      enabled: true,
+    },
+  
+    line_items: [
+      {
+        quantity: 1,
+        price_data: {
+          currency,
+          unit_amount: amount,
+          product_data: {
+            name:
+              consultationType === "IN_CLINIC"
+                ? `In-clinic consultation with ${doctorProfile.clinicName}`
+                : `Online consultation with ${doctorProfile.clinicName}`,
+            description: "Includes a 15% platform service fee.",
           },
         },
-      ],
-
-      payment_intent_data: {
-        application_fee_amount: platformFee,
-        transfer_data: {
-          destination: doctorProfile.stripeConnectAccountId,
-        },
-        metadata: {
-          bookingId: booking.id,
-          doctorProfileId: doctorProfile.id,
-          patientUserId: session.user.id,
-          consultationType,
-          currency,
-          stripeCustomerId,
-        },
       },
-
+    ],
+  
+    payment_intent_data: {
+      application_fee_amount: platformFee,
+      transfer_data: {
+        destination: doctorProfile.stripeConnectAccountId,
+      },
       metadata: {
         bookingId: booking.id,
-        currency,
-        patientUserId: session.user.id,
         doctorProfileId: doctorProfile.id,
+        patientUserId: session.user.id,
         consultationType,
+        currency,
         stripeCustomerId,
       },
-    });
+    },
+  
+    metadata: {
+      bookingId: booking.id,
+      currency,
+      patientUserId: session.user.id,
+      doctorProfileId: doctorProfile.id,
+      consultationType,
+      stripeCustomerId,
+    },
+  });
 
     await prisma.consultationBooking.update({
       where: { id: booking.id },

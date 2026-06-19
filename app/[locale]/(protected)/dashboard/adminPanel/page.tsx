@@ -5,6 +5,7 @@ import ConsultationBookingsAnalytics from "@/components/dashboard/admin/Consulta
 import ConsultationBookingsTable from "@/components/dashboard/admin/ConsultationBookingsTable";
 import DoctorPlansCard from "@/components/dashboard/admin/DoctorPlansCard";
 import DoctorProfilesPlanTable from "@/components/dashboard/admin/DoctorProfilesPlanTable";
+import RefundRequestsManager from "@/components/dashboard/admin/RefundRequestsManager";
 
 export default function AdminPanelPage() {
   return (
@@ -44,6 +45,10 @@ export default function AdminPanelPage() {
 
         <div className="mt-8">
           <ConsultationBookingsTable />
+        </div>
+
+        <div className="mt-8">
+          <RefundRequestsManager />
         </div>
 
         <div className="mt-8">
