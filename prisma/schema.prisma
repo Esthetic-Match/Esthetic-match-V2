@@ -173,6 +173,9 @@ model ConsultationBooking {
   stripePaymentIntentId   String? @unique
   stripeChargeId          String?
   stripeTransferId        String?
+  paymentConfirmedEmailSentAt DateTime?
+  paymentProcessingEmailSentAt DateTime?
+  paymentFailedEmailSentAt DateTime?
 
   status String @default("pending") // pending | paid | cancelled | refunded | failed
 

@@ -5,6 +5,7 @@ import { CheckCircle2, Clock, MessageCircle, MapPin, ShieldCheck } from "lucide-
 import { redirect } from "@/i18n/navigation";
 import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/database/prisma";
+import { getTranslations } from "next-intl/server";
 
 type BookingSuccessPageProps = {
   searchParams: Promise<{
@@ -22,6 +23,8 @@ export default async function BookingSuccessPage({
   const { bookingId } = await searchParams;
   const { locale } = await params;
 
+    const t = await getTranslations("payment.booking.success");
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -34,7 +37,13 @@ export default async function BookingSuccessPage({
   }
 
   if (!bookingId) {
-    return <BookingErrorCard message="Missing booking ID." locale={locale} />;
+    return (
+      <BookingErrorCard
+        title={t("error.title")}
+        message={t("error.missingBookingId")}
+        dashboardLabel={t("actions.goToDashboard")}
+      />
+    );
   }
 
   const booking = await prisma.consultationBooking.findUnique({
@@ -53,14 +62,21 @@ export default async function BookingSuccessPage({
   });
 
   if (!booking) {
-    return <BookingErrorCard message="Booking not found." locale={locale} />;
+    return (
+      <BookingErrorCard
+        title={t("error.title")}
+        message={t("error.bookingNotFound")}
+        dashboardLabel={t("actions.goToDashboard")}
+      />
+    );
   }
 
   if (booking.patientUserId !== session?.user.id) {
     return (
       <BookingErrorCard
-        message="You do not have access to this booking."
-        locale={locale}
+        title={t("error.title")}
+        message={t("error.noAccess")}
+        dashboardLabel={t("actions.goToDashboard")}
       />
     );
   }
@@ -89,19 +105,19 @@ export default async function BookingSuccessPage({
           </div>
 
           <p className="mt-6 text-xs font-medium uppercase tracking-[0.25em] text-[#283C5D]/50">
-            Booking confirmation
+            {t("eyebrow")}
           </p>
 
           <h1 className="mt-3 text-3xl font-semibold text-[#283C5D] md:text-4xl">
-            {isPaid ? "Payment successful" : "Payment is being confirmed"}
+            {isPaid ? t("title.paid") : t("title.pending")}
           </h1>
 
           <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-[#283C5D]/70">
             {isPaid
               ? isInClinic
-                ? "You can now view this doctor’s contact and clinic details."
-                : "Your online consultation chat access is now active."
-              : "Stripe is still confirming your payment. This usually updates automatically after a few moments."}
+                ? t("description.inClinicPaid")
+                : t("description.onlinePaid")
+              : t("description.pending")}
           </p>
 
           <div className="mt-8 rounded-3xl bg-[#FAF9F7] p-5 text-left">
@@ -112,7 +128,9 @@ export default async function BookingSuccessPage({
 
               <div>
                 <p className="text-sm font-semibold text-[#283C5D]">
-                  {isInClinic ? "In-clinic consultation" : "Online consultation"}
+                  {isInClinic
+                    ? t("consultationType.inClinic")
+                    : t("consultationType.online")}
                 </p>
 
                 <p className="mt-1 text-sm text-[#283C5D]/60">
@@ -120,7 +138,7 @@ export default async function BookingSuccessPage({
                 </p>
 
                 <p className="mt-1 text-sm text-[#283C5D]/60">
-                  Paid amount: €{price}
+                  {t("paidAmount", { amount: price })}
                 </p>
               </div>
             </div>
@@ -129,21 +147,25 @@ export default async function BookingSuccessPage({
           {isPaid && isInClinic && booking.inClinicAccess?.approvedToView ? (
             <div className="mt-5 rounded-3xl border border-[#283C5D]/10 bg-white p-5 text-left">
               <p className="text-sm font-semibold text-[#283C5D]">
-                Doctor contact access unlocked
+                {t("inClinicAccess.title")}
               </p>
 
               <div className="mt-3 space-y-2 text-sm text-[#283C5D]/70">
-                <p>Clinic: {doctor.clinicName}</p>
-                <p>Address: {doctor.workAddress}</p>
-                {doctor.city ? <p>City: {doctor.city}</p> : null}
+                <p>{t("inClinicAccess.clinic", { clinic: doctor.clinicName })}</p>
+                <p>{t("inClinicAccess.address", { address: doctor.workAddress })}</p>
+
+                {doctor.city ? (
+                  <p>{t("inClinicAccess.city", { city: doctor.city })}</p>
+                ) : null}
+
                 {doctor.inClinicLink ? (
                   <a
-                    href={doctor.inClinicLink}
+                    href={`/doctors/${doctor.slug}`}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex text-[#283C5D] underline"
                   >
-                    Open booking link
+                    {t("actions.openBookingLink")}
                   </a>
                 ) : null}
               </div>
@@ -153,43 +175,36 @@ export default async function BookingSuccessPage({
           {isPaid && isOnline && booking.onlineAccess?.activeChat ? (
             <div className="mt-5 rounded-3xl border border-[#283C5D]/10 bg-white p-5 text-left">
               <p className="text-sm font-semibold text-[#283C5D]">
-                Chat access unlocked
+                {t("onlineAccess.title")}
               </p>
 
               <p className="mt-2 text-sm text-[#283C5D]/70">
-                You can now message the doctor through your account.
+                {t("onlineAccess.description")}
               </p>
             </div>
           ) : null}
 
           <div className="mt-6 flex items-center justify-center gap-2 rounded-full bg-gray-100 px-4 py-3 text-sm text-[#283C5D]/60">
             <ShieldCheck size={18} className="text-[#283C5D]" />
-            Payment processed securely by Stripe.
+            {t("stripeSecure")}
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href={`/doctors/${doctor.slug}`}
+              className="inline-flex cursor-pointer items-center justify-center rounded-full border border-black/10 px-6 py-3 text-sm font-medium text-black/60 transition hover:bg-[#283C5D] hover:text-white"
+            >
+              {t("actions.backToDoctorProfile")}
+            </Link>
+
             {isPaid && isOnline ? (
               <Link
-                href={`/${locale}/dashboard/messages`}
-                className="inline-flex items-center justify-center rounded-full bg-[#283C5D] px-6 py-3 text-sm font-medium text-white transition hover:opacity-90"
+                href="/dashboard"
+                className="inline-flex cursor-pointer items-center justify-center rounded-full bg-[#283C5D] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#D8BD8D] hover:text-black"
               >
-                Go to messages
+                {t("actions.goToMessages")}
               </Link>
             ) : null}
-
-            <Link
-              href={`/${locale}/dashboard`}
-              className="inline-flex items-center justify-center rounded-full border border-[#283C5D] px-6 py-3 text-sm font-medium text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white"
-            >
-              Go to dashboard
-            </Link>
-
-            <Link
-              href={`/${locale}/doctor/${doctor.userId}`}
-              className="inline-flex items-center justify-center rounded-full border border-black/10 px-6 py-3 text-sm font-medium text-black/60 transition hover:bg-gray-100"
-            >
-              Back to doctor profile
-            </Link>
           </div>
         </div>
       </section>
@@ -198,11 +213,13 @@ export default async function BookingSuccessPage({
 }
 
 function BookingErrorCard({
+  title,
   message,
-  locale,
+  dashboardLabel,
 }: {
+  title: string;
   message: string;
-  locale: string;
+  dashboardLabel: string;
 }) {
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#FAF9F7] px-4">
@@ -212,16 +229,16 @@ function BookingErrorCard({
         </div>
 
         <h1 className="mt-5 text-2xl font-semibold text-[#283C5D]">
-          Booking issue
+          {title}
         </h1>
 
         <p className="mt-3 text-sm text-[#283C5D]/60">{message}</p>
 
         <Link
-          href={`/${locale}/dashboard`}
+          href="/dashboard"
           className="mt-6 inline-flex items-center justify-center rounded-full bg-[#283C5D] px-6 py-3 text-sm font-medium text-white transition hover:opacity-90"
         >
-          Go to dashboard
+          {dashboardLabel}
         </Link>
       </div>
     </main>
