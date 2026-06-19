@@ -92,7 +92,9 @@
     "emptyCategories": "Sélectionnez une catégorie pour voir les procédures associées.",
     "cancel": "Annuler",
     "saving": "Enregistrement...",
-    "saveChanges": "Enregistrer les modifications"
+    "saveChanges": "Enregistrer les modifications",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner"
   },
   "specialtiesModal": {
     "profileLabel": "Profil du médecin",

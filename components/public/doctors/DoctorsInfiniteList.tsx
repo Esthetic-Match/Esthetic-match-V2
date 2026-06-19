@@ -12,6 +12,9 @@ type DoctorFilters = {
   procedures?: string;
   location?: string;
   minRating?: string;
+  topThreeOnly?: string;
+  maxInClinicPrice?: string;
+  maxOnlineConsultationPrice?: string;
 };
 
 type Props = {
@@ -43,12 +46,15 @@ export default function DoctorsInfiniteList({
     setLoading(true);
 
     const params = new URLSearchParams();
-    if (filters?.q)          params.set("q", filters.q);
-    if (filters?.specialty)  params.set("specialty", filters.specialty);
-    if (filters?.category)   params.set("category", filters.category);
-    if (filters?.procedures) params.set("procedures", filters.procedures);
-    if (filters?.location)   params.set("location", filters.location);
-    if (filters?.minRating)  params.set("minRating", filters.minRating);
+    if (filters?.q)                          params.set("q", filters.q);
+    if (filters?.specialty)                  params.set("specialty", filters.specialty);
+    if (filters?.category)                   params.set("category", filters.category);
+    if (filters?.procedures)                 params.set("procedures", filters.procedures);
+    if (filters?.location)                   params.set("location", filters.location);
+    if (filters?.minRating)                  params.set("minRating", filters.minRating);
+    if (filters?.topThreeOnly)               params.set("topThreeOnly", filters.topThreeOnly);
+    if (filters?.maxInClinicPrice)           params.set("maxInClinicPrice", filters.maxInClinicPrice);
+    if (filters?.maxOnlineConsultationPrice) params.set("maxOnlineConsultationPrice", filters.maxOnlineConsultationPrice);
     params.set("page", String(page));
     params.set("limit", String(limit));
 
@@ -102,8 +108,6 @@ export default function DoctorsInfiniteList({
         ))}
       </div>
 
-      <div ref={sentinelRef} className="h-1" />
-
       {loading && (
         <div className="mt-8 flex justify-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#d8bd8d] border-t-transparent" />
@@ -118,8 +122,8 @@ export default function DoctorsInfiniteList({
         </div>
       )}
 
-        {/* Sentinel sits at the very bottom — triggers fetch when scrolled into view */}
-        <div ref={sentinelRef} className="h-1" />
+      {/* Sentinel — triggers infinite load when scrolled into view */}
+      <div ref={sentinelRef} className="h-1" />
     </>
   );
 }

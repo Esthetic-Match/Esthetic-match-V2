@@ -99,7 +99,13 @@
         "chooseCategoryFirst": "Choisissez une catégorie pour voir les procédures",
         "selectedProcedures": "Procédures sélectionnées",
         "selectProcedures": "Sélectionnez des procédures parmi vos catégories choisies",
-        "filters": "Filtres"
+        "filters": "Filtres",
+        "topThreeOnly": "Procédures dans top 3 uniquement",
+        "topThreeOnlyHelper": "Sélectionnez d’abord une ou plusieurs procédures. Ce filtre affichera uniquement les médecins qui ont au moins une procédure sélectionnée dans leur top 3.",
+        "maxInClinicPrice": "Prix maximum de consultation en cabinet",
+        "maxOnlineConsultationPrice": "Prix maximum de consultation en ligne",
+        "selectAllProcedures": "Tout sélectionner",
+        "deselectAllProcedures": "Tout désélectionner"
       }
     },
     "contact": {
