@@ -60,12 +60,12 @@ export default function PageLoadGate({ children }: PageLoadGateProps) {
             <Image
               src="/logo.svg"
               alt="Esthetic Match"
-              width={120}
+              width={90}
               height={40}
               priority
               className="h-auto w-[90px] sm:w-[120px]"
             />
-            <Loading />
+            <Loading variant="compact" label="Chargement…" />
           </div>
         </div>
       )}
