@@ -3,8 +3,6 @@ import { headers } from "next/headers";
 import DoctorsInfiniteList from "./DoctorsInfiniteList";
 import type { DoctorCardData } from "../UI/DoctorCards";
 
-
-
 type DoctorFilters = {
   q?: string;
   specialty?: string;
@@ -12,8 +10,9 @@ type DoctorFilters = {
   procedures?: string;
   location?: string;
   minRating?: string;
-  page?: string;
-  limit?: string;
+  topThreeOnly?: string;
+  maxInClinicPrice?: string;
+  maxOnlineConsultationPrice?: string;
 };
 
 type DoctorsResponse = {
@@ -31,12 +30,15 @@ async function getDoctors(
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
   const params = new URLSearchParams();
-  if (filters?.q)          params.set("q", filters.q);
-  if (filters?.specialty)  params.set("specialty", filters.specialty);
-  if (filters?.category)   params.set("category", filters.category);
-  if (filters?.procedures) params.set("procedures", filters.procedures);
-  if (filters?.location)   params.set("location", filters.location);
-  if (filters?.minRating)  params.set("minRating", filters.minRating);
+  if (filters?.q)                          params.set("q", filters.q);
+  if (filters?.specialty)                  params.set("specialty", filters.specialty);
+  if (filters?.category)                   params.set("category", filters.category);
+  if (filters?.procedures)                 params.set("procedures", filters.procedures);
+  if (filters?.location)                   params.set("location", filters.location);
+  if (filters?.minRating)                  params.set("minRating", filters.minRating);
+  if (filters?.topThreeOnly)               params.set("topThreeOnly", filters.topThreeOnly);
+  if (filters?.maxInClinicPrice)           params.set("maxInClinicPrice", filters.maxInClinicPrice);
+  if (filters?.maxOnlineConsultationPrice) params.set("maxOnlineConsultationPrice", filters.maxOnlineConsultationPrice);
   params.set("page", String(page));
   params.set("limit", String(limit));
 
@@ -64,29 +66,27 @@ export default async function DoctorsListSection({
 }: {
   filters?: DoctorFilters;
 }) {
-  const t        = await getTranslations("home.Home");
-  const listT    = await getTranslations("home.doctors");
+  const t          = await getTranslations("home.Home");
+  const listT      = await getTranslations("home.doctors");
   const specialtyT = await getTranslations("specialitiesName");
 
   const limit = 12;
   const { doctors, hasMore } = await getDoctors(filters, 1, limit);
 
-  // Serialize card translations into a plain object (safe to cross the server→client boundary)
   const cardTranslations = {
     reviews:     t("reviews"),
     free:        t("free"),
     viewProfile: t("viewProfile"),
   };
 
-const allSpecialtyIds = [...new Set(doctors.flatMap((d) => d.specialtyIds))];
+  const allSpecialtyIds = [...new Set(doctors.flatMap((d) => d.specialtyIds))];
 
-const specialtyTranslations = Object.fromEntries(
-  allSpecialtyIds.map((id) => {
-    try   { return [id, specialtyT(id)]; }
-    catch { return [id, id]; }
-  })
-);
-
+  const specialtyTranslations = Object.fromEntries(
+    allSpecialtyIds.map((id) => {
+      try   { return [id, specialtyT(id)]; }
+      catch { return [id, id]; }
+    })
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -123,14 +123,17 @@ const specialtyTranslations = Object.fromEntries(
   };
 
   const doctorsListKey = JSON.stringify({
-  q: filters?.q ?? "",
-  specialty: filters?.specialty ?? "",
-  category: filters?.category ?? "",
-  procedures: filters?.procedures ?? "",
-  location: filters?.location ?? "",
-  minRating: filters?.minRating ?? "",
-  limit,
-});
+    q:                          filters?.q ?? "",
+    specialty:                  filters?.specialty ?? "",
+    category:                   filters?.category ?? "",
+    procedures:                 filters?.procedures ?? "",
+    location:                   filters?.location ?? "",
+    minRating:                  filters?.minRating ?? "",
+    topThreeOnly:               filters?.topThreeOnly ?? "",
+    maxInClinicPrice:           filters?.maxInClinicPrice ?? "",
+    maxOnlineConsultationPrice: filters?.maxOnlineConsultationPrice ?? "",
+    limit,
+  });
 
   return (
     <section

@@ -1,4 +1,3 @@
-
 import HeaderSection from "@/components/public/doctors/HeaderSection";
 import DoctorsListSection from "@/components/public/doctors/DoctorsListSection";
 
@@ -23,7 +22,6 @@ export const metadata = {
   },
 };
 
-
 export default async function DoctorsPage({
   searchParams,
 }: {
@@ -34,6 +32,9 @@ export default async function DoctorsPage({
     procedures?: string;
     location?: string;
     minRating?: string;
+    topThreeOnly?: string;
+    maxInClinicPrice?: string;
+    maxOnlineConsultationPrice?: string;
   }>;
 }) {
   const params = await searchParams;

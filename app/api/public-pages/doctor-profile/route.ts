@@ -14,29 +14,69 @@ function parseList(value: string | null) {
     .filter(Boolean);
 }
 
+function parseNumber(value: string | null): number | null {
+  if (!value) return null;
+  const n = Number(value);
+  return Number.isNaN(n) ? null : n;
+}
+
 export const GET = withApiHandler(async (req: Request) => {
   const { searchParams } = new URL(req.url);
 
+  // ── Search / text ──────────────────────────────────────────────────────
   const q = searchParams.get("q")?.trim();
   const specialty = searchParams.get("specialty")?.trim();
-  const location = searchParams.get("location")?.trim();
-  const minRating = searchParams.get("minRating")?.trim();
 
+  // ── Taxonomy filters ───────────────────────────────────────────────────
+  const categories = parseList(searchParams.get("category"));
+  const procedures = parseList(searchParams.get("procedures"));
+
+  // ── Quick filters ──────────────────────────────────────────────────────
+  const location = searchParams.get("location")?.trim();
+  const minRating = parseNumber(searchParams.get("minRating"));
+
+  // ── New filters ────────────────────────────────────────────────────────
+  // "topThreeOnly" — show doctors where at least one selected procedure
+  // appears in their topThree[] field.
+  const topThreeOnly = searchParams.get("topThreeOnly") === "true";
+
+  // Price ceilings — only applied when the param is present.
+  const maxInClinicPrice = parseNumber(searchParams.get("maxInClinicPrice"));
+  const maxOnlineConsultationPrice = parseNumber(
+    searchParams.get("maxOnlineConsultationPrice")
+  );
+
+  // ── Pagination ─────────────────────────────────────────────────────────
   const page = Math.max(Number(searchParams.get("page") || "1"), 1);
   const limit = Math.min(
     Math.max(Number(searchParams.get("limit") || "10"), 1),
     50
   );
-
   const skip = (page - 1) * limit;
 
-  const categories = parseList(searchParams.get("category"));
-  const procedures = parseList(searchParams.get("procedures"));
-
+  // ── Normalized variants for search ────────────────────────────────────
   const normalizedQ = q ? normalize(q) : undefined;
   const normalizedSpecialty = specialty ? normalize(specialty) : undefined;
 
+  // ── Build the WHERE clause ─────────────────────────────────────────────
+  //
+  // Strategy:
+  //   • "Search-or" conditions (q, specialty, category, procedures) are
+  //     combined with OR — a doctor matches if ANY of them hit.
+  //   • Hard filters (location, rating, price, topThreeOnly) are ANDed on
+  //     top so they always narrow results regardless of search.
+  //
+  // NOTE on topThreeOnly:
+  //   When active AND procedures are selected, we intersect the selected
+  //   procedure ids with the doctor's topThree[] field.
+  //   We still keep the regular `procedures` OR clause so that doctors who
+  //   have those procedures (but not in top-3) are in the search-or pool —
+  //   the topThreeOnly AND filter then narrows to top-3 only.
+  //   If topThreeOnly is on but NO procedures are selected we skip the
+  //   filter (nothing to intersect against).
+
   const searchOrFiltersRaw: (Prisma.DoctorProfileWhereInput | null)[] = [
+    // Free-text search across name, clinic, city, country, and taxonomy ids
     q
       ? {
           OR: [
@@ -47,21 +87,21 @@ export const GET = withApiHandler(async (req: Request) => {
             {
               specialtyIds: {
                 hasSome: [q, normalizedQ].filter(
-                  (value): value is string => Boolean(value)
+                  (v): v is string => Boolean(v)
                 ),
               },
             },
             {
               subcategoryIds: {
                 hasSome: [q, normalizedQ].filter(
-                  (value): value is string => Boolean(value)
+                  (v): v is string => Boolean(v)
                 ),
               },
             },
             {
               procedureIds: {
                 hasSome: [q, normalizedQ].filter(
-                  (value): value is string => Boolean(value)
+                  (v): v is string => Boolean(v)
                 ),
               },
             },
@@ -69,93 +109,111 @@ export const GET = withApiHandler(async (req: Request) => {
         }
       : null,
 
+    // Specialty filter (separate from free-text)
     specialty
       ? {
           specialtyIds: {
             hasSome: [specialty, normalizedSpecialty].filter(
-              (value): value is string => Boolean(value)
+              (v): v is string => Boolean(v)
             ),
           },
         }
       : null,
 
+    // Category — stored as subcategoryIds on the profile
     categories && categories.length > 0
-      ? {
-          subcategoryIds: {
-            hasSome: categories,
-          },
-        }
+      ? { subcategoryIds: { hasSome: categories } }
       : null,
 
+    // Procedures — when topThreeOnly is active we match against topThree[]
+    // only, so doctors who have the procedure outside their top 3 are never
+    // admitted. When topThreeOnly is off we match against the full procedureIds[].
     procedures && procedures.length > 0
-      ? {
-          procedureIds: {
-            hasSome: procedures,
-          },
-        }
+      ? topThreeOnly
+        ? { topThree: { hasSome: procedures } }
+        : { procedureIds: { hasSome: procedures } }
       : null,
   ];
 
   const searchOrFilters = searchOrFiltersRaw.filter(
-    (filter): filter is Prisma.DoctorProfileWhereInput => filter !== null
+    (f): f is Prisma.DoctorProfileWhereInput => f !== null
   );
 
-  const where: Prisma.DoctorProfileWhereInput = {
-    AND: [
-      searchOrFilters.length > 0
-        ? {
-            OR: searchOrFilters,
-          }
-        : {},
+  const andFilters: Prisma.DoctorProfileWhereInput[] = [
+    // Search / taxonomy OR block
+    ...(searchOrFilters.length > 0 ? [{ OR: searchOrFilters }] : []),
 
-      location
-        ? {
+    // Location — city OR country, case-insensitive
+    ...(location
+      ? [
+          {
             OR: [
-              { city: { contains: location, mode: "insensitive" } },
-              {
-                country: {
-                  contains: location,
-                  mode: "insensitive",
-                },
-              },
+              { city: { contains: location, mode: "insensitive" as const } },
+              { country: { contains: location, mode: "insensitive" as const } },
             ],
-          }
-        : {},
+          },
+        ]
+      : []),
 
-      minRating
-        ? {
-            googleRating: {
-              gte: Number(minRating),
-            },
-          }
-        : {},
-    ],
-  };
+    // Minimum Google rating
+    ...(minRating !== null
+      ? [{ googleRating: { gte: minRating, not: null } }]
+      : []),
+
+    // Top-3 filter: already baked into the search-or block above when
+    // topThreeOnly is true — no separate AND needed here.
+
+    // Max in-clinic price.
+    // { not: null, lte: X } is NOT valid Prisma syntax on Float? fields —
+    // the two conditions must be expressed as separate AND clauses.
+    // We use gt: -1 to guarantee the field is non-null (prices are always ≥ 0).
+    ...(maxInClinicPrice !== null
+      ? [
+          {
+            AND: [
+              { inClinicPrice: { gt: -1 } },
+              { inClinicPrice: { lte: maxInClinicPrice } },
+            ],
+          },
+        ]
+      : []),
+
+    // Max online consultation price (same logic)
+    ...(maxOnlineConsultationPrice !== null
+      ? [
+          {
+            AND: [
+              { onlineConsulPrice: { gt: -1 } },
+              { onlineConsulPrice: { lte: maxOnlineConsultationPrice } },
+            ],
+          },
+        ]
+      : []),
+  ];
+
+  const where: Prisma.DoctorProfileWhereInput =
+    andFilters.length > 0 ? { AND: andFilters } : {};
+
+  // ── Query ──────────────────────────────────────────────────────────────
 
   const doctors = await prisma.doctorProfile.findMany({
     skip,
-    take: limit + 1,
+    take: limit + 1, // fetch one extra to determine hasMore
     where,
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: { createdAt: "desc" },
     select: {
       id: true,
       slug: true,
       avatar: true,
       specialtyIds: true,
-
       city: true,
       country: true,
-
       yearsOfExperience: true,
       inClinicPrice: true,
       onlineConsulPrice: true,
       currency: true,
-
       googleRating: true,
       googleReviewCount: true,
-
       user: {
         select: {
           name: true,
@@ -171,28 +229,17 @@ export const GET = withApiHandler(async (req: Request) => {
     id: doctor.id,
     slug: doctor.slug,
     name: doctor.user.name ?? "Doctor",
-
     specialtyIds: doctor.specialtyIds,
-
     city: doctor.city,
     country: doctor.country,
-
     googleRating: doctor.googleRating,
     googleReviewCount: doctor.googleReviewCount,
-
     yearsOfExperience: doctor.yearsOfExperience,
-
     inClinicPrice: doctor.inClinicPrice,
     onlineConsulPrice: doctor.onlineConsulPrice,
     currency: doctor.currency,
-
     avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
   }));
 
-  return apiSuccess({
-    doctors: formattedDoctors,
-    page,
-    limit,
-    hasMore,
-  });
+  return apiSuccess({ doctors: formattedDoctors, page, limit, hasMore });
 });
