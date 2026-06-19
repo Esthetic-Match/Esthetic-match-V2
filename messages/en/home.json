@@ -99,7 +99,13 @@
         "chooseCategoryFirst": "Choose a category to view procedures",
         "selectedProcedures": "Selected procedures",
         "selectProcedures": "Select procedures from your chosen categories",
-        "filters": "Filters"
+        "filters": "Filters",
+        "topThreeOnly": "Show only doctors where selected procedures are in their top 3",
+        "topThreeOnlyHelper": "Select one or more procedures first. This will only show doctors who list any selected procedure in their top 3.",
+        "maxInClinicPrice": "Max in-clinic consultation price",
+        "maxOnlineConsultationPrice": "Max online consultation price",
+        "selectAllProcedures": "Select all procedures",
+        "deselectAllProcedures": "Deselect all procedures"
       }
     },
     "contact": {
