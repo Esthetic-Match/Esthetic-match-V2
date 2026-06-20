@@ -1,5 +1,4 @@
 // app/[locale]/doctors-near-me/page.tsx
-
 import DoctorsNearMeClient from "@/components/public/doctorsNearMe/DoctorsNearMeClient";
 
 export const metadata = {
@@ -9,5 +8,6 @@ export const metadata = {
 };
 
 export default function DoctorsNearMePage() {
-  return <DoctorsNearMeClient />;
+  return <></>;
+  // return <DoctorsNearMeClient />;
 }

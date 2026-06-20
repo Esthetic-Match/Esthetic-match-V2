@@ -141,7 +141,7 @@ export const NavItems = ({ items, className, onItemClick, visible }: NavItemsPro
               {hovered === idx && (
                 <motion.div
                   layoutId="hovered"
-                  className="absolute inset-0 h-full w-full rounded-full bg-white"
+                  className="absolute inset-0 h-full w-full rounded-full bg-white/20"
                 />
               )}
               <span className="relative z-20">{item.name}</span>
@@ -200,7 +200,7 @@ export const NavItems = ({ items, className, onItemClick, visible }: NavItemsPro
             {hovered === idx && (
               <motion.div
                 layoutId="hovered"
-                className="absolute inset-0 h-full w-full rounded-full bg-white"
+                className="absolute inset-0 h-full w-full rounded-full bg-white/20"
               />
             )}
             <span className="relative z-20">{item.name}</span>

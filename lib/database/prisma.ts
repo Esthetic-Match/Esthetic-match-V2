@@ -12,13 +12,10 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is not set");
 }
 
-// ✅ Guard the pool too — same pattern as the PrismaClient
 const pool =
   globalForPrisma.pool ??
   new pg.Pool({
     connectionString,
-    // ✅ Add explicit limits so even if something goes wrong
-    //    the pool can't grow unbounded
     max: 10,
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 5_000,
