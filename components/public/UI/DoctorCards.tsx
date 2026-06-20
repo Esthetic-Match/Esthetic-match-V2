@@ -103,7 +103,7 @@ const shouldShowOnlineCard =
       className="group overflow-hidden rounded-[2rem] border border-[#CEB591]/25 bg-white shadow-[0_24px_70px_rgba(40,60,93,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_90px_rgba(40,60,93,0.14)]"
     >
       <div className="relative h-26 bg-gradient-to-br from-[#F1E1C6] via-white to-[#CEB591]/35">
-        <div className="absolute right-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-[#283C5D] shadow-sm">
+        <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-[#283C5D] shadow-sm">
           <ShieldCheck className="h-3.5 w-3.5 text-[#CEB591]" />
           {t.verifiedProfile}
         </div>
