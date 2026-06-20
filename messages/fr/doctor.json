@@ -1,5 +1,35 @@
 {
   "doctor": {
+   "nearme": {
+  "eyebrow": "Mise en relation basée sur la localisation",
+  "title": "Médecins esthétiques près de chez vous",
+  "description": "Autorisez l’accès à votre localisation et nous afficherons d’abord les praticiens qualifiés dans votre ville.",
+  "permissionCardTitle": "Utiliser votre position actuelle",
+  "permissionCardText": "Votre navigateur vous demandera l’autorisation. Nous utilisons uniquement vos coordonnées pour trouver des médecins à proximité et ne les stockons pas depuis cette page.",
+  "useLocation": "Trouver des médecins près de moi",
+  "loadingLocation": "Vérification de votre localisation dans le navigateur...",
+  "loadingDoctors": "Recherche de médecins dans votre région...",
+  "deniedTitle": "L’autorisation de localisation n’a pas été accordée",
+  "deniedText": "Veuillez activer l’accès à la localisation dans les paramètres de votre navigateur, puis réessayer.",
+  "errorTitle": "Impossible de charger les médecins près de chez vous",
+  "errorText": "Veuillez réessayer ou utiliser la page principale de recherche de médecins pour choisir votre ville manuellement.",
+  "tryAgain": "Réessayer",
+  "foundIn": "Médecins trouvés à",
+  "foundNearby": "Médecins trouvés à proximité",
+  "noDoctorsTitle": "Aucun médecin trouvé dans votre région pour le moment",
+  "noDoctorsText": "Nous n’avons pas trouvé de médecins correspondants dans votre ville actuelle. Essayez la page de recherche complète pour parcourir tous les praticiens disponibles.",
+  "viewProfile": "Voir le profil",
+  "from": "À partir de",
+  "inClinic": "En cabinet",
+  "online": "En ligne",
+  "years": "ans",
+  "experience": "d’expérience",
+  "verifiedProfile": "Profil vérifié",
+  "nearby": "à proximité",
+  "searchAll": "Rechercher tous les médecins",
+  "reviews": "avis",
+  "free": "Gratuit"
+}, 
     "profile": {
       "common": {
         "notAvailable": "Non disponible",

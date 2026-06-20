@@ -1,16 +1,16 @@
-// app/[locale]/doctors-near-me/DoctorsNearMeClient.tsx
-
 "use client";
 
-import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
+import { Link } from "@/i18n/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import DoctorCards, {
   type CardTranslations,
   type DoctorCardData,
   type SpecialtyTranslations,
 } from "@/components/public/UI/DoctorCards";
 import { Loader2, LocateFixed, MapPin, RefreshCw } from "lucide-react";
+
+// ── Types ────────────────────────────────────────────────────────────────────
 
 type DoctorCardDto = {
   id: string;
@@ -50,103 +50,24 @@ type LoadState =
   | "error"
   | "denied";
 
-const COPY = {
-  en: {
-    eyebrow: "Location-based matching",
-    title: "Aesthetic doctors near you",
-    description:
-      "Allow location access and we’ll show qualified practitioners in your city first.",
-    permissionCardTitle: "Use your current location",
-    permissionCardText:
-      "Your browser will ask for permission. We only use your coordinates to find nearby doctors and do not store them from this page.",
-    useLocation: "Find doctors near me",
-    loadingLocation: "Checking your browser location...",
-    loadingDoctors: "Matching you with doctors in your area...",
-    deniedTitle: "Location permission was not granted",
-    deniedText:
-      "Please enable location access in your browser settings, then try again.",
-    errorTitle: "Could not load doctors near you",
-    errorText:
-      "Please try again, or use the main doctor search page to choose your city manually.",
-    tryAgain: "Try again",
-    foundIn: "Doctors found in",
-    foundNearby: "Doctors found nearby",
-    noDoctorsTitle: "No doctors found in your area yet",
-    noDoctorsText:
-      "We could not find matching doctors in your current city. Try the full search page to browse all available practitioners.",
-    viewProfile: "View profile",
-    from: "From",
-    inClinic: "In clinic",
-    online: "Online",
-    years: "years",
-    experience: "experience",
-    verifiedProfile: "Verified profile",
-    nearby: "nearby",
-    searchAll: "Search all doctors",
-    reviews: "reviews",
-    free: "Free",
-  },
-  fr: {
-    eyebrow: "Matching par localisation",
-    title: "Médecins esthétiques près de vous",
-    description:
-      "Autorisez l’accès à votre localisation et nous afficherons d’abord les praticiens qualifiés dans votre ville.",
-    permissionCardTitle: "Utiliser votre position actuelle",
-    permissionCardText:
-      "Votre navigateur demandera votre autorisation. Nous utilisons uniquement vos coordonnées pour trouver des médecins proches et ne les stockons pas depuis cette page.",
-    useLocation: "Trouver des médecins près de moi",
-    loadingLocation: "Vérification de votre localisation...",
-    loadingDoctors: "Recherche de médecins dans votre zone...",
-    deniedTitle: "L’accès à la localisation n’a pas été autorisé",
-    deniedText:
-      "Veuillez activer l’accès à la localisation dans les paramètres de votre navigateur, puis réessayer.",
-    errorTitle: "Impossible de charger les médecins près de vous",
-    errorText:
-      "Veuillez réessayer ou utiliser la page de recherche principale pour choisir votre ville manuellement.",
-    tryAgain: "Réessayer",
-    foundIn: "Médecins trouvés à",
-    foundNearby: "Médecins trouvés à proximité",
-    noDoctorsTitle: "Aucun médecin trouvé dans votre zone pour le moment",
-    noDoctorsText:
-      "Nous n’avons pas trouvé de médecins correspondants dans votre ville actuelle. Essayez la recherche complète pour parcourir les praticiens disponibles.",
-    viewProfile: "Voir le profil",
-    from: "À partir de",
-    inClinic: "En clinique",
-    online: "En ligne",
-    years: "ans",
-    experience: "d’expérience",
-    verifiedProfile: "Profil vérifié",
-    nearby: "à proximité",
-    searchAll: "Rechercher tous les médecins",
-    reviews: "avis",
-    free: "Gratuit",
-  },
-};
+// ── Helpers ──────────────────────────────────────────────────────────────────
 
 function humanizeId(value: string) {
   return value
     .replace(/_/g, " ")
     .replace(/\s+/g, " ")
     .trim()
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+    .replace(/\b\w/g, (l) => l.toUpperCase());
 }
 
-function buildSpecialtyTranslations(
-  doctors: DoctorCardDto[]
-): SpecialtyTranslations {
-  const translations: SpecialtyTranslations = {};
-
-  doctors.forEach((doctor) => {
-    doctor.specialtyIds.forEach((id) => {
-      translations[id] = humanizeId(id);
-    });
-
-    doctor.topThree.forEach((id) => {
-      translations[id] = humanizeId(id);
-    });
-  });
-
-  return translations;
+function buildSpecialtyTranslations(doctors: DoctorCardDto[]): SpecialtyTranslations {
+  const out: SpecialtyTranslations = {};
+  for (const doctor of doctors) {
+    for (const id of [...doctor.specialtyIds, ...doctor.topThree]) {
+      out[id] = humanizeId(id);
+    }
+  }
+  return out;
 }
 
 function toDoctorCardData(doctor: DoctorCardDto): DoctorCardData {
@@ -171,10 +92,13 @@ function toDoctorCardData(doctor: DoctorCardDto): DoctorCardData {
   };
 }
 
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function DoctorsNearMeClient() {
-  const params = useParams<{ locale?: string }>();
-  const locale = params?.locale === "fr" ? "fr" : "en";
-  const copy = COPY[locale];
+  const t = useTranslations("doctor.doctor.nearme");
+  // useLocale() is a stable primitive — only used to forward to the API,
+  // never used in hrefs (your Link from @/i18n/navigation handles that)
+  const locale = useLocale();
 
   const [loadState, setLoadState] = useState<LoadState>("idle");
   const [data, setData] = useState<DoctorsNearMeResponse | null>(null);
@@ -183,78 +107,84 @@ export default function DoctorsNearMeClient() {
   const isLoading =
     loadState === "loading-location" || loadState === "loading-doctors";
 
-  const cardTranslations: CardTranslations = useMemo(() => ({
-    reviews: copy.reviews,
-    free: copy.free,
-    viewProfile: copy.viewProfile,
-    verifiedProfile: copy.verifiedProfile,
-    inClinic: copy.inClinic,
-    online: copy.online,
-    from: copy.from,
-    years: copy.years,
-    experience: copy.experience,
-  }), [locale]);
+  // Stash locale in a ref so the async geolocation callback always reads
+  // the latest value without it ever appearing in a dependency array
+  const localeRef = useRef(locale);
+  useEffect(() => {
+    localeRef.current = locale;
+  }, [locale]);
+
+  const loadDoctorsNearMe = useCallback(() => {
+    setErrorMessage(null);
+    setLoadState("loading-location");
+
+    if (!navigator.geolocation) {
+      setLoadState("error");
+      setErrorMessage("Geolocation is not supported by this browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          setLoadState("loading-doctors");
+
+          const response = await fetch("/api/public-pages/doctors-near-me", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              locale: localeRef.current,
+            }),
+          });
+
+          const result = await response.json().catch(() => null);
+          if (!response.ok) throw new Error(result?.error ?? "Could not load doctors.");
+
+          setData(result as DoctorsNearMeResponse);
+          setLoadState("success");
+        } catch (error) {
+          setLoadState("error");
+          setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+        }
+      },
+      () => setLoadState("denied"),
+      { enableHighAccuracy: false, timeout: 12000, maximumAge: 1000 * 60 * 5 }
+    );
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Intentionally empty — locale is read via localeRef, t is stable from next-intl
+
+  // Runs exactly once on mount
+  useEffect(() => {
+    loadDoctorsNearMe();
+  }, [loadDoctorsNearMe]);
+
+  const cardTranslations: CardTranslations = useMemo(
+    () => ({
+      reviews: t("reviews"),
+      free: t("free"),
+      viewProfile: t("viewProfile"),
+      verifiedProfile: t("verifiedProfile"),
+      inClinic: t("inClinic"),
+      online: t("online"),
+      from: t("from"),
+      years: t("years"),
+      experience: t("experience"),
+    }),
+    [t]
+  );
 
   const specialtyTranslations = useMemo<SpecialtyTranslations>(() => {
     if (!data) return {};
-
     return buildSpecialtyTranslations(data.doctors);
   }, [data]);
 
   const statusText = useMemo(() => {
-    if (loadState === "loading-location") return copy.loadingLocation;
-    if (loadState === "loading-doctors") return copy.loadingDoctors;
+    if (loadState === "loading-location") return t("loadingLocation");
+    if (loadState === "loading-doctors") return t("loadingDoctors");
     return null;
-  }, [locale, loadState]);
-
-// ✅ Stable: COPY[locale] is looked up at call time, not captured as a dependency
-const loadDoctorsNearMe = useCallback(() => {
-  setErrorMessage(null);
-  setLoadState("loading-location");
-
-  if (!navigator.geolocation) {
-    setLoadState("error");
-    setErrorMessage("Geolocation is not supported by this browser.");
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    async (position) => {
-      try {
-        setLoadState("loading-doctors");
-        const response = await fetch("/api/public-pages/doctors-near-me", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            locale,
-          }),
-        });
-
-        const result = await response.json().catch(() => null);
-        if (!response.ok) throw new Error(result?.error || "Could not load doctors.");
-
-        setData(result as DoctorsNearMeResponse);
-        setLoadState("success");
-      } catch (error) {
-        setLoadState("error");
-        // ✅ Read from COPY directly — stable reference
-        setErrorMessage(
-          error instanceof Error ? error.message : COPY[locale].errorText
-        );
-      }
-    },
-    () => setLoadState("denied"),
-    { enableHighAccuracy: false, timeout: 12000, maximumAge: 1000 * 60 * 5 }
-  );
-}, [locale]); // ✅ Only locale — a primitive string, stable between renders
-
-
-useEffect(() => {
-  loadDoctorsNearMe();
-}, [loadDoctorsNearMe]);
-
+  }, [loadState, t]);
 
   return (
     <main className="min-h-screen bg-[#FBF7F0]">
@@ -265,15 +195,15 @@ useEffect(() => {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#CEB591]/30 bg-white/75 px-4 py-2 text-sm font-bold text-[#283C5D] shadow-sm backdrop-blur">
               <LocateFixed className="h-4 w-4 text-[#CEB591]" />
-              {copy.eyebrow}
+              {t("eyebrow")}
             </div>
 
             <h1 className="mt-7 max-w-4xl text-4xl font-bold tracking-tight text-[#283C5D] md:text-6xl">
-              {copy.title}
+              {t("title")}
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-8 text-[#283C5D]/65 md:text-lg">
-              {copy.description}
+              {t("description")}
             </p>
           </div>
 
@@ -289,11 +219,10 @@ useEffect(() => {
 
               <div>
                 <h2 className="text-base font-bold text-[#283C5D]">
-                  {copy.permissionCardTitle}
+                  {t("permissionCardTitle")}
                 </h2>
-
                 <p className="mt-1 text-sm leading-6 text-[#283C5D]/60">
-                  {statusText ?? copy.permissionCardText}
+                  {statusText ?? t("permissionCardText")}
                 </p>
               </div>
             </div>
@@ -309,68 +238,61 @@ useEffect(() => {
               ) : (
                 <RefreshCw className="h-4 w-4" />
               )}
-              {loadState === "idle" ? copy.useLocation : copy.tryAgain}
+              {loadState === "idle" ? t("useLocation") : t("tryAgain")}
             </button>
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-12 md:px-10 md:py-16">
-        {loadState === "denied" ? (
+        {loadState === "denied" && (
           <div className="rounded-[2rem] border border-[#CEB591]/25 bg-white p-8 text-center shadow-[0_24px_70px_rgba(40,60,93,0.08)]">
-            <h2 className="text-2xl font-bold text-[#283C5D]">
-              {copy.deniedTitle}
-            </h2>
+            <h2 className="text-2xl font-bold text-[#283C5D]">{t("deniedTitle")}</h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#283C5D]/60">
-              {copy.deniedText}
+              {t("deniedText")}
             </p>
           </div>
-        ) : null}
+        )}
 
-        {loadState === "error" ? (
+        {loadState === "error" && (
           <div className="rounded-[2rem] border border-[#CEB591]/25 bg-white p-8 text-center shadow-[0_24px_70px_rgba(40,60,93,0.08)]">
-            <h2 className="text-2xl font-bold text-[#283C5D]">
-              {copy.errorTitle}
-            </h2>
+            <h2 className="text-2xl font-bold text-[#283C5D]">{t("errorTitle")}</h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#283C5D]/60">
-              {errorMessage ?? copy.errorText}
+              {errorMessage ?? t("errorText")}
             </p>
           </div>
-        ) : null}
+        )}
 
-        {isLoading ? (
+        {isLoading && (
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, index) => (
+            {Array.from({ length: 6 }).map((_, i) => (
               <div
-                key={index}
+                key={i}
                 className="h-[470px] animate-pulse rounded-[2rem] border border-[#CEB591]/20 bg-white shadow-[0_24px_70px_rgba(40,60,93,0.06)]"
               />
             ))}
           </div>
-        ) : null}
+        )}
 
-        {loadState === "success" && data ? (
+        {loadState === "success" && data && (
           <>
             <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#CEB591]">
-                  {data.matchMode === "city"
-                    ? copy.foundIn
-                    : copy.foundNearby}
+                  {data.matchMode === "city" ? t("foundIn") : t("foundNearby")}
                 </p>
-
                 <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#283C5D]">
                   {data.city
                     ? [data.city, data.country].filter(Boolean).join(", ")
-                    : copy.nearby}
+                    : t("nearby")}
                 </h2>
               </div>
 
               <Link
-                href={`/${locale}/doctors`}
+                href="/doctors"
                 className="inline-flex items-center justify-center rounded-full border border-[#283C5D]/15 bg-white px-5 py-3 text-sm font-bold text-[#283C5D] transition hover:border-[#CEB591] hover:bg-[#F1E1C6]/35"
               >
-                {copy.searchAll}
+                {t("searchAll")}
               </Link>
             </div>
 
@@ -388,23 +310,20 @@ useEffect(() => {
               </div>
             ) : (
               <div className="rounded-[2rem] border border-[#CEB591]/25 bg-white p-8 text-center shadow-[0_24px_70px_rgba(40,60,93,0.08)]">
-                <h2 className="text-2xl font-bold text-[#283C5D]">
-                  {copy.noDoctorsTitle}
-                </h2>
+                <h2 className="text-2xl font-bold text-[#283C5D]">{t("noDoctorsTitle")}</h2>
                 <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#283C5D]/60">
-                  {copy.noDoctorsText}
+                  {t("noDoctorsText")}
                 </p>
-
                 <Link
-                  href={`/${locale}/doctors`}
+                  href="/doctors"
                   className="mt-6 inline-flex items-center justify-center rounded-full bg-[#283C5D] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#1f2f49]"
                 >
-                  {copy.searchAll}
+                  {t("searchAll")}
                 </Link>
               </div>
             )}
           </>
-        ) : null}
+        )}
       </section>
     </main>
   );

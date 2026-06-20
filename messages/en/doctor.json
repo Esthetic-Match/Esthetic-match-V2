@@ -1,5 +1,35 @@
 {
   "doctor": {
+     "nearme": {
+      "eyebrow": "Location-based matching",
+      "title": "Aesthetic doctors near you",
+      "description": "Allow location access and we'll show qualified practitioners in your city first.",
+      "permissionCardTitle": "Use your current location",
+      "permissionCardText": "Your browser will ask for permission. We only use your coordinates to find nearby doctors and do not store them from this page.",
+      "useLocation": "Find doctors near me",
+      "loadingLocation": "Checking your browser location...",
+      "loadingDoctors": "Matching you with doctors in your area...",
+      "deniedTitle": "Location permission was not granted",
+      "deniedText": "Please enable location access in your browser settings, then try again.",
+      "errorTitle": "Could not load doctors near you",
+      "errorText": "Please try again, or use the main doctor search page to choose your city manually.",
+      "tryAgain": "Try again",
+      "foundIn": "Doctors found in",
+      "foundNearby": "Doctors found nearby",
+      "noDoctorsTitle": "No doctors found in your area yet",
+      "noDoctorsText": "We could not find matching doctors in your current city. Try the full search page to browse all available practitioners.",
+      "viewProfile": "View profile",
+      "from": "From",
+      "inClinic": "In clinic",
+      "online": "Online",
+      "years": "years",
+      "experience": "experience",
+      "verifiedProfile": "Verified profile",
+      "nearby": "nearby",
+      "searchAll": "Search all doctors",
+      "reviews": "reviews",
+      "free": "Free"
+    },
     "profile": {
       "common": {
         "notAvailable": "Not available",
