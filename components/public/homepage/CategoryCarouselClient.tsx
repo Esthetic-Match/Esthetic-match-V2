@@ -62,7 +62,7 @@ export default function CategoryCarouselClient({
           <Link
             key={category.id}
             href={category.href}
-            className="group relative h-[210px] min-w-[145px] overflow-hidden rounded-xl bg-[#283C5D] shadow-md sm:h-[230px] sm:min-w-[165px]"
+            className="group relative h-[210px] min-w-[145px] overflow-hidden rounded-xl bg-[#283C5D] shadow-md sm:h-[290px] sm:min-w-[200px]"
           >
             <Image
               src={category.homeImage}

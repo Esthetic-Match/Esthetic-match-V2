@@ -23,6 +23,8 @@ export const GET = withApiHandler(async () => {
       inClinicPrice: true,
       onlineConsulPrice: true,
       currency: true,
+      stripeConnectOnboardingComplete: true,
+      onlineActive: true,
 
       googleRating: true,
       googleReviewCount: true,
@@ -56,6 +58,9 @@ export const GET = withApiHandler(async () => {
     onlineConsulPrice: doctor.onlineConsulPrice,
 
     currency: doctor.currency,
+
+    stripeConnectOnboardingComplete: doctor.stripeConnectOnboardingComplete,
+    onlineActive: doctor.onlineActive,
 
     avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
   }));
