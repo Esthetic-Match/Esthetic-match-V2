@@ -170,6 +170,8 @@
       "signIn": "Sign in",
       "messages": "View Messages",
       "logout": "Logout",
+      "allDoctors": "All Doctors",
+      "doctorsNearMe": "Doctors Near Me",
       "faq": "FAQ"
     },
       "whyDoctorsShouldJoin": {

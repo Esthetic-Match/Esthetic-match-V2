@@ -170,6 +170,8 @@
       "signIn": "Se connecter",
       "messages": "Vos messages",
       "logout": "Se déconnecter",
+      "allDoctors": "Tous les médecins",
+      "doctorsNearMe": "Médecins près de chez moi",
       "faq": "FAQ"
     },
       "whyDoctorsShouldJoin": {

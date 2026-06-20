@@ -28,12 +28,20 @@ export function NavBarMain() {
 
   const { data: session, isPending } = authClient.useSession();
 
-  const navItems = [
-    { name: t("doctors"), link: "/doctors" },
-    { name: t("categories"), link: "/categories" },
-    { name: t("contact"), link: "/contact" },
-    { name: t("faq"), link: "/faq" },
-  ];
+const navItems = [
+  {
+    name: t("doctors"),
+    link: "/doctors",
+    subItems: [
+      { name: t("allDoctors"), link: `/doctors` },
+      { name: t("doctorsNearMe"), link: `/doctors/nearme` },
+    ],
+  },
+  { name: t("categories"), link: "/categories" },
+  { name: t("contact"), link: "/contact" },
+  { name: t("faq"), link: "/faq" },
+];
+
 
   const authHref = session ? `/${locale}/dashboard` : `/${locale}/sign-in`;
   const userId = session?.user?.id;
@@ -128,16 +136,35 @@ export function NavBarMain() {
             isOpen={isMobileMenuOpen}
             onClose={() => setIsMobileMenuOpen(false)}
           >
-            {navItems.map((item, idx) => (
+          {navItems.map((item, idx) =>
+            item.subItems ? (
+              <div key={`mobile-link-${idx}`} className="flex flex-col gap-2 w-full border-b border-neutral-100 pb-4">
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-300 mb-1">
+                  {item.name}
+                </span>
+                {item.subItems.map((sub, subIdx) => (
+                  <a
+                    key={subIdx}
+                    href={sub.link}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-white bg-[#283C5D]/5 hover:bg-[#283C5D] hover:text-white transition-colors"
+                  >
+                    <span>{sub.name}</span>
+                  </a>
+                ))}
+              </div>
+            ) : (
               <a
                 key={`mobile-link-${idx}`}
                 href={`/${locale}${item.link}`}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-neutral-600 dark:text-neutral-300"
+                className="relative text-white"
               >
                 <span className="block">{item.name}</span>
               </a>
-            ))}
+            )
+          )}
+
 
             <div className="flex w-full flex-col gap-4">
               <LanguageSwitcher />
