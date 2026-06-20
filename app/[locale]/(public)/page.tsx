@@ -52,7 +52,7 @@ export default function HomePage() {
             <HomeSection />
             <CategoryCarousel/>
             <ProfileDisplay />
-            {/* <DoctorsNearMeClient /> */}
+            <DoctorsNearMeClient />
             <WhyPatientsUseEstheticMatch />
             <WhyDoctorsShouldJoin />
             <FinalStatement/>
