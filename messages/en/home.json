@@ -47,7 +47,10 @@
     "LONGEVITY MEDICINE": "Longevity medicine",
     "nearbyDoctors": "Recently Added Doctors",
     "viewAllPractitioners": "View all practitioners",
+    "veriiedDoctors": "Verified Doctors",
     "viewProfile": "View profile",
+    "online": "Online",
+    "inClinic": "In clinic",
     "saveDoctor": "Save doctor",
     "reviews": "reviews",
     "free": "Free",
@@ -55,7 +58,7 @@
     "exploreByCategoryDescription": "Browse aesthetic medicine, cosmetic surgery, dental aesthetics, skin treatments, hair restoration, and wellness categories to find trusted doctors near you.",
     "agree": "I agree to the",
     "privacyPolicy": "Privacy Policy",
-     "termsOfUse": "Terms of Use"
+    "termsOfUse": "Terms of Use"
   },
     "doctors": {
       "hero": {

@@ -49,6 +49,9 @@ export default async function ProfileDisplay() {
     reviews:     t("reviews"),
     free:        t("free"),
     viewProfile: t("viewProfile"),
+    verifiedProfile: t("veriiedDoctors"),
+    inClinic:    t("inClinic"),
+    online:      t("online"),
   };
 
   const specialtyTranslations = Object.fromEntries(
@@ -129,6 +132,7 @@ export default async function ProfileDisplay() {
             doctor={doctor}
             t={cardTranslations}
             specialtyT={specialtyTranslations}
+            showDetails={false}
           />
         ))}
       </div>

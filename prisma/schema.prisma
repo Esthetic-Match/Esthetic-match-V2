@@ -123,6 +123,9 @@ model DoctorProfile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([city])
+  @@index([country, city])
+  @@index([workLatitude, workLongitude])
   @@map("doctor_profile")
 }
 
