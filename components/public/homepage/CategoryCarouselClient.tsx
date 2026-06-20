@@ -4,13 +4,18 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
-import type { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { useTranslations } from "next-intl";
 
-type CategoryCarouselItem = (typeof DoctorCatalog.categories)[number];
+export type HomeCategoryCarouselItem = {
+  id: string;
+  key: string;
+  href: string;
+  homeImage: string;
+  icon: string;
+};
 
 type CategoryCarouselProps = {
-  categories: readonly CategoryCarouselItem[];
+  categories: readonly HomeCategoryCarouselItem[];
 };
 
 export default function CategoryCarouselClient({
@@ -68,7 +73,7 @@ export default function CategoryCarouselClient({
               src={category.homeImage}
               alt={category.key}
               fill
-              sizes="180px"
+              sizes="(max-width: 640px) 145px, 200px"
               className="object-cover transition duration-500 group-hover:scale-105"
             />
 
@@ -76,12 +81,13 @@ export default function CategoryCarouselClient({
 
             <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/85 via-black/45 to-transparent backdrop-blur-[1.5px]" />
 
-            <div className="absolute right-4 bottom-4 z-10">
+            <div className="absolute bottom-4 right-4 z-10">
               <div className="relative flex h-10 w-10 items-center justify-center rounded-full">
                 <Image
                   src={category.icon}
                   alt={`${category.key} icon`}
                   fill
+                  sizes="40px"
                   className="scale-[2.2] object-contain transition duration-200 group-hover:scale-[2.6]"
                 />
               </div>
@@ -97,6 +103,7 @@ export default function CategoryCarouselClient({
                   src="/icons/arrow.svg"
                   alt=""
                   fill
+                  sizes="32px"
                   className="scale-[2.8] object-contain transition duration-200 group-hover:translate-x-1"
                 />
               </span>

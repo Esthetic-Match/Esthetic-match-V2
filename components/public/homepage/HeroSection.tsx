@@ -9,18 +9,19 @@ export default async function HomeSection() {
     <>
       <section className="relative min-h-[720px] overflow-hidden bg-[#07182A] text-white">
         <div className="pointer-events-none absolute inset-0">
-          <video
-            className="h-full w-full object-cover object-start"
-            src="/videos/hero-video.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            controls={false}
-            tabIndex={-1}
-            aria-hidden="true"
-          />
+<video
+  className="h-full w-full object-cover object-start"
+  src="/videos/hero-video.mp4"
+  poster="/images/hero-bg.png"
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  controls={false}
+  tabIndex={-1}
+  aria-hidden="true"
+/>
         </div>
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#07182A] via-[#07182A]/25 to-[#07182A]/10" />

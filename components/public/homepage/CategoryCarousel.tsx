@@ -1,13 +1,23 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-import CategoryCarouselClient from "./CategoryCarouselClient";
+import CategoryCarouselClient, {
+  type HomeCategoryCarouselItem,
+} from "./CategoryCarouselClient";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 
 export default async function CategoryCarousel() {
   const t = await getTranslations("home.Home");
 
-  const categories = DoctorCatalog.categories;
+  const categories: HomeCategoryCarouselItem[] = DoctorCatalog.categories.map(
+    (category) => ({
+      id: category.id,
+      key: category.key,
+      href: category.href,
+      homeImage: category.homeImage,
+      icon: category.icon,
+    })
+  );
 
   return (
     <section
@@ -37,10 +47,8 @@ export default async function CategoryCarousel() {
         <div className="mt-4 h-px w-16 bg-[#d8bd8d]" />
       </div>
 
-      {/* Interactive client carousel */}
       <CategoryCarouselClient categories={categories} />
 
-      {/* SEO fallback: crawlable server-rendered links */}
       <nav
         aria-label={t("exploreByCategory", { default: "Explore by category" })}
         className="sr-only"
@@ -48,15 +56,12 @@ export default async function CategoryCarousel() {
         <ul>
           {categories.map((category) => (
             <li key={category.id}>
-              <Link href={category.href}>
-                {category.key}
-              </Link>
+              <Link href={category.href}>{category.key}</Link>
             </li>
           ))}
         </ul>
       </nav>
 
-      {/* Structured data for search engines */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
