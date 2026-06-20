@@ -187,9 +187,10 @@ export default function DoctorsNearMeClient() {
   }, [loadState, t]);
 
   return (
-    <main className="min-h-screen bg-[#FBF7F0]">
+    <main className="min-h-screen bg-white">
       <section className="relative overflow-hidden border-b border-[#CEB591]/20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(206,181,145,0.35),transparent_34%),linear-gradient(135deg,#ffffff_0%,#FBF7F0_48%,rgba(241,225,198,0.55)_100%)]" />
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-[#283C5D]/60 via-transparent to-[#FAF9F7]" />
 
         <div className="relative mx-auto flex max-w-7xl flex-col gap-10 px-6 py-20 md:px-10 lg:flex-row lg:items-end lg:justify-between lg:py-24">
           <div className="max-w-3xl">

@@ -113,7 +113,7 @@ const shouldShowOnlineCard =
             itemProp="aggregateRating"
             itemScope
             itemType="https://schema.org/AggregateRating"
-            className="absolute right-5 top-5 flex items-center gap-1 rounded-full bg-[#283C5D] px-3 py-1.5 text-xs font-bold text-white shadow-sm"
+            className="absolute right-5 top-23 flex items-center gap-1 rounded-full bg-[#283C5D] px-3 py-1.5 text-xs font-bold text-white shadow-sm"
           >
             <Star className="h-3.5 w-3.5 fill-[#CEB591] text-[#CEB591]" />
             <span itemProp="ratingValue">{doctor.googleRating.toFixed(1)}</span>
@@ -206,7 +206,7 @@ const shouldShowOnlineCard =
               : "mt-6 grid grid-cols-1 gap-3"
           }
         >
-          <div className="rounded-2xl bg-[#F8F3EA] p-4">
+          <div className="rounded-2xl bg-[#FCFCFB] p-4">
             <div className="flex items-center gap-2">
               <Building2 className="h-4 w-4 text-[#CEB591]" />
             </div>
@@ -217,7 +217,7 @@ const shouldShowOnlineCard =
           </div>
         
           {shouldShowOnlineCard ? (
-            <div className="rounded-2xl bg-[#F8F3EA] p-4">
+            <div className="rounded-2xl bg-[#FCFCFB] p-4">
               <div className="flex items-center gap-2">
                 <Monitor className="h-4 w-4 text-[#CEB591]" />
               </div>

@@ -8,6 +8,5 @@ export const metadata = {
 };
 
 export default function DoctorsNearMePage() {
-  return <></>;
-  // return <DoctorsNearMeClient />;
+  return <DoctorsNearMeClient />;
 }
