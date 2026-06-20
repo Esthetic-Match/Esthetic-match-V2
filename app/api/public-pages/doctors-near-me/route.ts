@@ -6,6 +6,8 @@ import { prisma } from "@/lib/database/prisma";
 
 export const dynamic = "force-dynamic";
 
+// ── Types ─────────────────────────────────────────────────────────────────────
+
 type GeocodeAddressComponent = {
   long_name: string;
   short_name: string;
@@ -49,6 +51,8 @@ type DoctorCardDto = {
   distanceKm: number | null;
 };
 
+// ── Select ────────────────────────────────────────────────────────────────────
+
 const doctorNearMeSelect = Prisma.validator<Prisma.DoctorProfileSelect>()({
   id: true,
   slug: true,
@@ -81,10 +85,7 @@ type DoctorNearMeResult = Prisma.DoctorProfileGetPayload<{
   select: typeof doctorNearMeSelect;
 }>;
 
-type DoctorDistanceResult = {
-  doctor: DoctorNearMeResult;
-  distanceKm: number;
-};
+// ── Guards ────────────────────────────────────────────────────────────────────
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -94,14 +95,9 @@ function parseDoctorsNearMeBody(
   body: unknown
 ): DoctorsNearMeRequestBody | null {
   if (!isRecord(body)) return null;
-
-  const latitude = body.latitude;
-  const longitude = body.longitude;
-  const locale = body.locale;
-
+  const { latitude, longitude, locale } = body;
   if (typeof latitude !== "number") return null;
   if (typeof longitude !== "number") return null;
-
   return {
     latitude,
     longitude,
@@ -120,6 +116,8 @@ function isValidCoordinate(latitude: number, longitude: number) {
   );
 }
 
+// ── Geo helpers ───────────────────────────────────────────────────────────────
+
 function toRadians(value: number) {
   return (value * Math.PI) / 180;
 }
@@ -135,27 +133,42 @@ function calculateDistanceKm({
   toLatitude: number;
   toLongitude: number;
 }) {
-  const earthRadiusKm = 6371;
-
-  const latitudeDelta = toRadians(toLatitude - fromLatitude);
-  const longitudeDelta = toRadians(toLongitude - fromLongitude);
-
+  const R = 6371;
+  const dLat = toRadians(toLatitude - fromLatitude);
+  const dLon = toRadians(toLongitude - fromLongitude);
   const a =
-    Math.sin(latitudeDelta / 2) * Math.sin(latitudeDelta / 2) +
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(toRadians(fromLatitude)) *
       Math.cos(toRadians(toLatitude)) *
-      Math.sin(longitudeDelta / 2) *
-      Math.sin(longitudeDelta / 2);
-
-  return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
+
+/**
+ * Returns a lat/lng bounding box for a given radius in km.
+ * This lets Postgres filter rows before they hit Node.js memory —
+ * replacing the previous take:300 + in-memory filter pattern.
+ */
+function boundingBox(latitude: number, longitude: number, radiusKm: number) {
+  const latDelta = radiusKm / 111.32;
+  const lngDelta = radiusKm / (111.32 * Math.cos(toRadians(latitude)));
+  return {
+    minLat: latitude - latDelta,
+    maxLat: latitude + latDelta,
+    minLng: longitude - lngDelta,
+    maxLng: longitude + lngDelta,
+  };
+}
+
+// ── Geocoding ─────────────────────────────────────────────────────────────────
 
 function findAddressComponent(
   components: GeocodeAddressComponent[],
   acceptedTypes: string[]
 ) {
-  return components.find((component) =>
-    acceptedTypes.every((type) => component.types.includes(type))
+  return components.find((c) =>
+    acceptedTypes.every((type) => c.types.includes(type))
   )?.long_name;
 }
 
@@ -167,65 +180,58 @@ async function reverseGeocodeCity({
   latitude: number;
   longitude: number;
   locale: string;
-}) {
+}): Promise<{ city: string | null; country: string | null }> {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  if (!apiKey) return { city: null, country: null };
 
-  if (!apiKey) {
-    return {
-      city: null,
-      country: null,
-    };
+  try {
+    const params = new URLSearchParams({
+      latlng: `${latitude},${longitude}`,
+      key: apiKey,
+      language: locale === "fr" ? "fr" : "en",
+    });
+
+    // ✅ 5-second timeout — a hanging geocode call was keeping the request
+    //    open and tying up a Node.js worker indefinitely
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5_000);
+
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?${params.toString()}`,
+      { cache: "no-store", signal: controller.signal }
+    ).finally(() => clearTimeout(timeoutId));
+
+    if (!response.ok) return { city: null, country: null };
+
+    const data: GeocodeResponse = await response.json();
+    if (data.status !== "OK" || !data.results?.length)
+      return { city: null, country: null };
+
+    const components = data.results.flatMap(
+      (r) => r.address_components ?? []
+    );
+
+    const city =
+      findAddressComponent(components, ["locality", "political"]) ||
+      findAddressComponent(components, ["postal_town"]) ||
+      findAddressComponent(components, [
+        "administrative_area_level_2",
+        "political",
+      ]) ||
+      findAddressComponent(components, ["sublocality", "political"]) ||
+      null;
+
+    const country =
+      findAddressComponent(components, ["country", "political"]) || null;
+
+    return { city, country };
+  } catch {
+    // Timeout or network error — degrade gracefully to radius search
+    return { city: null, country: null };
   }
-
-  const params = new URLSearchParams({
-    latlng: `${latitude},${longitude}`,
-    key: apiKey,
-    language: locale === "fr" ? "fr" : "en",
-  });
-
-  const response = await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?${params.toString()}`,
-    { cache: "no-store" }
-  );
-
-  if (!response.ok) {
-    return {
-      city: null,
-      country: null,
-    };
-  }
-
-  const data: GeocodeResponse = await response.json();
-
-  if (data.status !== "OK" || !data.results?.length) {
-    return {
-      city: null,
-      country: null,
-    };
-  }
-
-  const components = data.results.flatMap(
-    (result) => result.address_components ?? []
-  );
-
-  const city =
-    findAddressComponent(components, ["locality", "political"]) ||
-    findAddressComponent(components, ["postal_town"]) ||
-    findAddressComponent(components, [
-      "administrative_area_level_2",
-      "political",
-    ]) ||
-    findAddressComponent(components, ["sublocality", "political"]) ||
-    null;
-
-  const country =
-    findAddressComponent(components, ["country", "political"]) || null;
-
-  return {
-    city,
-    country,
-  };
 }
+
+// ── Formatter ─────────────────────────────────────────────────────────────────
 
 function formatDoctor({
   doctor,
@@ -269,6 +275,8 @@ function formatDoctor({
   };
 }
 
+// ── Handler ───────────────────────────────────────────────────────────────────
+
 export async function POST(req: Request) {
   try {
     const rawBody: unknown = await req.json().catch((): null => null);
@@ -298,9 +306,7 @@ export async function POST(req: Request) {
     });
 
     const baseWhere: Prisma.DoctorProfileWhereInput = {
-      slug: {
-        not: null,
-      },
+      slug: { not: null },
       user: {
         is: {
           role: UserRole.DOCTOR,
@@ -310,22 +316,17 @@ export async function POST(req: Request) {
     };
 
     let doctors: DoctorNearMeResult[] = [];
+    let matchMode: "city" | "radius" = "city";
+    const radiusKm = 50;
 
+    // ── Pass 1: city match ──────────────────────────────────────────────
     if (city) {
       doctors = await prisma.doctorProfile.findMany({
         where: {
           ...baseWhere,
-          city: {
-            equals: city,
-            mode: "insensitive",
-          },
+          city: { equals: city, mode: "insensitive" },
           ...(country
-            ? {
-                country: {
-                  equals: country,
-                  mode: "insensitive",
-                },
-              }
+            ? { country: { equals: country, mode: "insensitive" } }
             : {}),
         },
         select: doctorNearMeSelect,
@@ -333,62 +334,51 @@ export async function POST(req: Request) {
       });
     }
 
-    let matchMode: "city" | "radius" = "city";
-    const radiusKm = 50;
-
+    // ── Pass 2: bounding-box radius match ───────────────────────────────
+    // ✅ Was: take:300 into Node.js memory, filter in JS
+    // Now: Postgres filters by bounding box first, Node.js only receives
+    //      candidates that are plausibly within range (~circumscribed square)
+    //      then we do the precise Haversine check on that small set.
     if (doctors.length === 0) {
       matchMode = "radius";
+      const { minLat, maxLat, minLng, maxLng } = boundingBox(
+        latitude,
+        longitude,
+        radiusKm
+      );
 
-      const candidates: DoctorNearMeResult[] =
-        await prisma.doctorProfile.findMany({
-          where: {
-            ...baseWhere,
-            workLatitude: {
-              not: null,
-            },
-            workLongitude: {
-              not: null,
-            },
-          },
-          select: doctorNearMeSelect,
-          take: 300,
-        });
+      const candidates = await prisma.doctorProfile.findMany({
+        where: {
+          ...baseWhere,
+          workLatitude: { gte: minLat, lte: maxLat },
+          workLongitude: { gte: minLng, lte: maxLng },
+        },
+        select: doctorNearMeSelect,
+        take: 120, // bounding box is already tight — 120 is a safe ceiling
+      });
 
-      const nearbyDoctors: DoctorDistanceResult[] = candidates
+      doctors = candidates
         .filter(
-          (doctor) =>
-            doctor.workLatitude !== null && doctor.workLongitude !== null
+          (d) =>
+            d.workLatitude !== null &&
+            d.workLongitude !== null &&
+            calculateDistanceKm({
+              fromLatitude: latitude,
+              fromLongitude: longitude,
+              toLatitude: d.workLatitude,
+              toLongitude: d.workLongitude,
+            }) <= radiusKm
         )
-        .map((doctor) => ({
-          doctor,
-          distanceKm: calculateDistanceKm({
-            fromLatitude: latitude,
-            fromLongitude: longitude,
-            toLatitude: doctor.workLatitude as number,
-            toLongitude: doctor.workLongitude as number,
-          }),
-        }))
-        .filter((item) => item.distanceKm <= radiusKm)
-        .sort((a, b) => a.distanceKm - b.distanceKm)
         .slice(0, 60);
-
-      doctors = nearbyDoctors.map((item) => item.doctor);
     }
 
+    // ── Format & sort ───────────────────────────────────────────────────
     const formattedDoctors = doctors
-      .map((doctor) =>
-        formatDoctor({
-          doctor,
-          userLatitude: latitude,
-          userLongitude: longitude,
-        })
-      )
+      .map((doctor) => formatDoctor({ doctor, userLatitude: latitude, userLongitude: longitude }))
       .sort((a, b) => {
-        const distanceA = a.distanceKm ?? Number.MAX_SAFE_INTEGER;
-        const distanceB = b.distanceKm ?? Number.MAX_SAFE_INTEGER;
-
-        if (distanceA !== distanceB) return distanceA - distanceB;
-
+        const dA = a.distanceKm ?? Number.MAX_SAFE_INTEGER;
+        const dB = b.distanceKm ?? Number.MAX_SAFE_INTEGER;
+        if (dA !== dB) return dA - dB;
         return (b.googleRating ?? 0) - (a.googleRating ?? 0);
       });
 
@@ -401,7 +391,6 @@ export async function POST(req: Request) {
     });
   } catch (error: unknown) {
     console.error("[DOCTORS_NEAR_ME_ERROR]", error);
-
     return NextResponse.json(
       { error: "Could not load doctors near you." },
       { status: 500 }
