@@ -4,6 +4,7 @@ import pg from "pg";
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
+  pool?: pg.Pool;
 };
 
 const connectionString = process.env.DATABASE_URL;
@@ -11,9 +12,17 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is not set");
 }
 
-const pool = new pg.Pool({
-  connectionString,
-});
+// ✅ Guard the pool too — same pattern as the PrismaClient
+const pool =
+  globalForPrisma.pool ??
+  new pg.Pool({
+    connectionString,
+    // ✅ Add explicit limits so even if something goes wrong
+    //    the pool can't grow unbounded
+    max: 10,
+    idleTimeoutMillis: 30_000,
+    connectionTimeoutMillis: 5_000,
+  });
 
 const adapter = new PrismaPg(pool);
 
@@ -24,5 +33,6 @@ export const prisma =
   });
 
 if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.pool = pool;
   globalForPrisma.prisma = prisma;
 }
