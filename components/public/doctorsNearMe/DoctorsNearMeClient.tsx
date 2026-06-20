@@ -183,30 +183,17 @@ export default function DoctorsNearMeClient() {
   const isLoading =
     loadState === "loading-location" || loadState === "loading-doctors";
 
-  const cardTranslations: CardTranslations = useMemo(
-    () => ({
-      reviews: copy.reviews,
-      free: copy.free,
-      viewProfile: copy.viewProfile,
-      verifiedProfile: copy.verifiedProfile,
-      inClinic: copy.inClinic,
-      online: copy.online,
-      from: copy.from,
-      years: copy.years,
-      experience: copy.experience,
-    }),
-    [
-      copy.experience,
-      copy.free,
-      copy.from,
-      copy.inClinic,
-      copy.online,
-      copy.reviews,
-      copy.verifiedProfile,
-      copy.viewProfile,
-      copy.years,
-    ]
-  );
+  const cardTranslations: CardTranslations = useMemo(() => ({
+    reviews: copy.reviews,
+    free: copy.free,
+    viewProfile: copy.viewProfile,
+    verifiedProfile: copy.verifiedProfile,
+    inClinic: copy.inClinic,
+    online: copy.online,
+    from: copy.from,
+    years: copy.years,
+    experience: copy.experience,
+  }), [locale]);
 
   const specialtyTranslations = useMemo<SpecialtyTranslations>(() => {
     if (!data) return {};
@@ -217,66 +204,57 @@ export default function DoctorsNearMeClient() {
   const statusText = useMemo(() => {
     if (loadState === "loading-location") return copy.loadingLocation;
     if (loadState === "loading-doctors") return copy.loadingDoctors;
-
     return null;
-  }, [copy.loadingDoctors, copy.loadingLocation, loadState]);
+  }, [locale, loadState]);
 
-  const loadDoctorsNearMe = useCallback(() => {
-    setErrorMessage(null);
-    setLoadState("loading-location");
+// ✅ Stable: COPY[locale] is looked up at call time, not captured as a dependency
+const loadDoctorsNearMe = useCallback(() => {
+  setErrorMessage(null);
+  setLoadState("loading-location");
 
-    if (!navigator.geolocation) {
-      setLoadState("error");
-      setErrorMessage("Geolocation is not supported by this browser.");
-      return;
-    }
+  if (!navigator.geolocation) {
+    setLoadState("error");
+    setErrorMessage("Geolocation is not supported by this browser.");
+    return;
+  }
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          setLoadState("loading-doctors");
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      try {
+        setLoadState("loading-doctors");
+        const response = await fetch("/api/public-pages/doctors-near-me", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            locale,
+          }),
+        });
 
-          const response = await fetch("/api/public-pages/doctors-near-me", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              locale,
-            }),
-          });
+        const result = await response.json().catch(() => null);
+        if (!response.ok) throw new Error(result?.error || "Could not load doctors.");
 
-          const result = await response.json().catch(() => null);
-
-          if (!response.ok) {
-            throw new Error(result?.error || "Could not load doctors.");
-          }
-
-          setData(result as DoctorsNearMeResponse);
-          setLoadState("success");
-        } catch (error) {
-          setLoadState("error");
-          setErrorMessage(
-            error instanceof Error ? error.message : copy.errorText
-          );
-        }
-      },
-      () => {
-        setLoadState("denied");
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 12000,
-        maximumAge: 1000 * 60 * 5,
+        setData(result as DoctorsNearMeResponse);
+        setLoadState("success");
+      } catch (error) {
+        setLoadState("error");
+        // ✅ Read from COPY directly — stable reference
+        setErrorMessage(
+          error instanceof Error ? error.message : COPY[locale].errorText
+        );
       }
-    );
-  }, [copy.errorText, locale]);
+    },
+    () => setLoadState("denied"),
+    { enableHighAccuracy: false, timeout: 12000, maximumAge: 1000 * 60 * 5 }
+  );
+}, [locale]); // ✅ Only locale — a primitive string, stable between renders
 
-  useEffect(() => {
-    loadDoctorsNearMe();
-  }, [loadDoctorsNearMe]);
+
+useEffect(() => {
+  loadDoctorsNearMe();
+}, [loadDoctorsNearMe]);
+
 
   return (
     <main className="min-h-screen bg-[#FBF7F0]">
