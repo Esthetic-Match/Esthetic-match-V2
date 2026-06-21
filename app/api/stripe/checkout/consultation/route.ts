@@ -2,45 +2,104 @@
 
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { ConsultationType } from "@prisma/client";
 
 import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/database/prisma";
 import { stripe } from "@/lib/thirdParty/stripe";
 
-const ALLOWED_CURRENCIES = ["eur", "usd", "gbp", "aed", "egp"];
+const ALLOWED_CURRENCIES = ["eur", "usd", "gbp", "aed", "egp"] as const;
 
 const PLATFORM_FEE_PERCENTAGE = 0.15;
 
-function normalizeCurrency(currency?: string | null) {
-  const normalized = currency?.trim().toLowerCase() || "eur";
+type ConsultationType = "IN_CLINIC" | "ONLINE";
 
-  if (!ALLOWED_CURRENCIES.includes(normalized)) {
-    return "eur";
+type AllowedCurrency = (typeof ALLOWED_CURRENCIES)[number];
+
+type ConsultationCheckoutBody = {
+  doctorProfileId: string;
+  consultationType: ConsultationType;
+  currency?: string | null;
+};
+
+type PatientStripeCustomerProfile = {
+  id: string;
+  stripeCustomerId: string | null;
+  user: {
+    id: string;
+    email: string;
+    name: string | null;
+  };
+};
+
+type DoctorCheckoutProfile = {
+  id: string;
+  userId: string;
+  clinicName: string | null;
+  inClinicPrice: number | null;
+  onlineConsulPrice: number | null;
+  stripeConnectAccountId: string | null;
+  stripeConnectChargesEnabled: boolean;
+};
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isConsultationType(value: unknown): value is ConsultationType {
+  return value === "IN_CLINIC" || value === "ONLINE";
+}
+
+function parseCheckoutBody(value: unknown): ConsultationCheckoutBody | null {
+  if (!isRecord(value)) return null;
+
+  if (
+    typeof value.doctorProfileId !== "string" ||
+    !value.doctorProfileId.trim()
+  ) {
+    return null;
   }
 
-  return normalized;
+  if (!isConsultationType(value.consultationType)) {
+    return null;
+  }
+
+  return {
+    doctorProfileId: value.doctorProfileId.trim(),
+    consultationType: value.consultationType,
+    currency: typeof value.currency === "string" ? value.currency : null,
+  };
+}
+
+function normalizeCurrency(currency?: string | null): AllowedCurrency {
+  const normalized = currency?.trim().toLowerCase() || "eur";
+
+  return ALLOWED_CURRENCIES.includes(normalized as AllowedCurrency)
+    ? (normalized as AllowedCurrency)
+    : "eur";
 }
 
 async function getOrCreatePatientStripeCustomer(userId: string) {
-  const patientProfile = await prisma.patientProfile.upsert({
-    where: {
-      userId,
-    },
-    update: {},
-    create: {
-      userId,
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          email: true,
-          name: true,
+  const patientProfile: PatientStripeCustomerProfile =
+    await prisma.patientProfile.upsert({
+      where: {
+        userId,
+      },
+      update: {},
+      create: {
+        userId,
+      },
+      select: {
+        id: true,
+        stripeCustomerId: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+          },
         },
       },
-    },
-  });
+    });
 
   if (patientProfile.stripeCustomerId) {
     return patientProfile.stripeCustomerId;
@@ -78,38 +137,34 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
+    const rawBody = (await req.json().catch(() => null)) as unknown;
+    const body = parseCheckoutBody(rawBody);
 
-    const {
-      doctorProfileId,
-      consultationType,
-      currency: requestedCurrency,
-    }: {
-      doctorProfileId: string;
-      consultationType: ConsultationType;
-      currency?: string | null;
-    } = body;
-
-    if (!doctorProfileId) {
+    if (!body) {
       return NextResponse.json(
-        { error: "Missing doctor profile ID" },
+        { error: "Invalid checkout request body" },
         { status: 400 }
       );
     }
 
-    if (!consultationType) {
-      return NextResponse.json(
-        { error: "Missing consultation type" },
-        { status: 400 }
-      );
-    }
+    const { doctorProfileId, consultationType } = body;
+    const currency = normalizeCurrency(body.currency);
 
-    const currency = normalizeCurrency(requestedCurrency);
-
-    const doctorProfile = await prisma.doctorProfile.findUnique({
-      where: { id: doctorProfileId },
-      include: { user: true },
-    });
+    const doctorProfile: DoctorCheckoutProfile | null =
+      await prisma.doctorProfile.findUnique({
+        where: {
+          id: doctorProfileId,
+        },
+        select: {
+          id: true,
+          userId: true,
+          clinicName: true,
+          inClinicPrice: true,
+          onlineConsulPrice: true,
+          stripeConnectAccountId: true,
+          stripeConnectChargesEnabled: true,
+        },
+      });
 
     if (!doctorProfile) {
       return NextResponse.json({ error: "Doctor not found" }, { status: 404 });
@@ -160,6 +215,9 @@ export async function POST(req: Request) {
         currency,
         status: "pending",
       },
+      select: {
+        id: true,
+      },
     });
 
     const appUrl =
@@ -167,61 +225,67 @@ export async function POST(req: Request) {
       process.env.BETTER_AUTH_URL ||
       "http://localhost:3000";
 
-  const checkoutSession = await stripe.checkout.sessions.create({
-    mode: "payment",
-    customer: stripeCustomerId,
-  
-    success_url: `${appUrl}/booking/success?bookingId=${booking.id}`,
-    cancel_url: `${appUrl}/doctor/${doctorProfile.userId}`,
-  
-    invoice_creation: {
-      enabled: true,
-    },
-  
-    line_items: [
-      {
-        quantity: 1,
-        price_data: {
-          currency,
-          unit_amount: amount,
-          product_data: {
-            name:
-              consultationType === "IN_CLINIC"
-                ? `In-clinic consultation with ${doctorProfile.clinicName}`
-                : `Online consultation with ${doctorProfile.clinicName}`,
-            description: "Includes a 15% platform service fee.",
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: "payment",
+      customer: stripeCustomerId,
+
+      success_url: `${appUrl}/booking/success?bookingId=${booking.id}`,
+      cancel_url: `${appUrl}/doctor/${doctorProfile.userId}`,
+
+      invoice_creation: {
+        enabled: true,
+      },
+
+      line_items: [
+        {
+          quantity: 1,
+          price_data: {
+            currency,
+            unit_amount: amount,
+            product_data: {
+              name:
+                consultationType === "IN_CLINIC"
+                  ? `In-clinic consultation with ${
+                      doctorProfile.clinicName ?? "Doctor"
+                    }`
+                  : `Online consultation with ${
+                      doctorProfile.clinicName ?? "Doctor"
+                    }`,
+              description: "Includes a 15% platform service fee.",
+            },
           },
         },
+      ],
+
+      payment_intent_data: {
+        application_fee_amount: platformFee,
+        transfer_data: {
+          destination: doctorProfile.stripeConnectAccountId,
+        },
+        metadata: {
+          bookingId: booking.id,
+          doctorProfileId: doctorProfile.id,
+          patientUserId: session.user.id,
+          consultationType,
+          currency,
+          stripeCustomerId,
+        },
       },
-    ],
-  
-    payment_intent_data: {
-      application_fee_amount: platformFee,
-      transfer_data: {
-        destination: doctorProfile.stripeConnectAccountId,
-      },
+
       metadata: {
         bookingId: booking.id,
-        doctorProfileId: doctorProfile.id,
-        patientUserId: session.user.id,
-        consultationType,
         currency,
+        patientUserId: session.user.id,
+        doctorProfileId: doctorProfile.id,
+        consultationType,
         stripeCustomerId,
       },
-    },
-  
-    metadata: {
-      bookingId: booking.id,
-      currency,
-      patientUserId: session.user.id,
-      doctorProfileId: doctorProfile.id,
-      consultationType,
-      stripeCustomerId,
-    },
-  });
+    });
 
     await prisma.consultationBooking.update({
-      where: { id: booking.id },
+      where: {
+        id: booking.id,
+      },
       data: {
         stripeCheckoutSessionId: checkoutSession.id,
       },

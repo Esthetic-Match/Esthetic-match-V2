@@ -26,7 +26,85 @@ import SubscriptionPlans from "./SubscriptionPlans";
 import PaymentDetails from "./PaymentDetails";
 import DeleteAccount from "./DeleteAccount";
 import { useSearchParams } from "next/navigation";
-import type { DoctorProfile, PatientProfile, UserRole } from "@prisma/client";
+
+type UserRole = "PATIENT" | "DOCTOR" | "ADMIN";
+
+type PatientProfile = {
+  id: string;
+  userId: string;
+  avatar: string | null;
+  gender: string | null;
+  phoneNumber: string | null;
+  city: string | null;
+  country: string | null;
+  zipCode: string | null;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  googlePlaceId: string | null;
+  favorite: string[];
+  preferredConsultationType: string | null;
+  preferredLanguage: string | null;
+  stripeCustomerId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type DoctorProfile = {
+  id: string;
+  userId: string;
+  slug: string | null;
+
+  avatar: string | null;
+  yearsOfExperience: number | null;
+  clinicName: string;
+  clinicBanner: string | null;
+
+  specialtyIds: string[];
+  subcategoryIds: string[];
+  procedureIds: string[];
+  subzoneIds: string[];
+  topThree: string[];
+
+  workAddress: string;
+  city: string | null;
+  country: string | null;
+  zipCode: string | null;
+  workLatitude: number | null;
+  workLongitude: number | null;
+  googlePlaceId: string | null;
+
+  paidPlan: string | null;
+  currency: string;
+  RPPS: string | null;
+
+  inClinicPrice: number | null;
+  onlineConsulPrice: number | null;
+  onlineActive: boolean;
+  inClinicLink: string | null;
+
+  stripeSubscriptionId: string | null;
+  stripeSubscriptionStatus: string | null;
+  stripeCustomerId: string | null;
+  subscriptionCurrentPeriodEnd: Date | null;
+  subscriptionPlan: string | null;
+
+  stripeConnectAccountId: string | null;
+  stripeConnectOnboardingComplete: boolean;
+  stripeConnectChargesEnabled: boolean;
+  stripeConnectPayoutsEnabled: boolean;
+
+  socialMediaLink: string | null;
+  bookingLinks: string[];
+  googleRating: number | null;
+  googleReviewCount: number | null;
+  googleMapsUri: string | null;
+
+  otherSpecialtyText: string | null;
+
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 type SettingsUser = {
   id: string;

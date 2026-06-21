@@ -4,6 +4,40 @@ import { prisma } from "@/lib/database/prisma";
 import { ApiError, apiSuccess } from "@/lib/api/error-handler";
 import { withApiHandler } from "@/lib/api/with-api-handler";
 
+type ConversationStatus = "ACTIVE" | "CLOSED";
+
+type ConversationListRow = {
+  id: string;
+  onlineAccessId: string;
+  patientUserId: string;
+  doctorProfileId: string;
+  status: ConversationStatus;
+  lastMessageAt: Date | null;
+  closedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  patientUser: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    image: string | null;
+  };
+  doctorProfile: {
+    id: string;
+    clinicName: string;
+    avatar: string | null;
+    user: {
+      id: string;
+      name: string | null;
+      email: string | null;
+      image: string | null;
+    };
+  };
+  _count: {
+    messages: number;
+  };
+};
+
 export const GET = withApiHandler(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -16,7 +50,7 @@ export const GET = withApiHandler(async () => {
   const userId = session.user.id;
   const role = session.user.role;
 
-  const conversations = await prisma.conversation.findMany({
+  const conversations: ConversationListRow[] = await prisma.conversation.findMany({
     where:
       role === "DOCTOR"
         ? {
@@ -27,7 +61,16 @@ export const GET = withApiHandler(async () => {
         : {
             patientUserId: userId,
           },
-    include: {
+    select: {
+      id: true,
+      onlineAccessId: true,
+      patientUserId: true,
+      doctorProfileId: true,
+      status: true,
+      lastMessageAt: true,
+      closedAt: true,
+      createdAt: true,
+      updatedAt: true,
       patientUser: {
         select: {
           id: true,
@@ -79,8 +122,18 @@ export const GET = withApiHandler(async () => {
   });
 
   return apiSuccess({
-    conversations: conversations.map((conversation) => ({
-      ...conversation,
+    conversations: conversations.map((conversation: ConversationListRow) => ({
+      id: conversation.id,
+      onlineAccessId: conversation.onlineAccessId,
+      patientUserId: conversation.patientUserId,
+      doctorProfileId: conversation.doctorProfileId,
+      status: conversation.status,
+      lastMessageAt: conversation.lastMessageAt,
+      closedAt: conversation.closedAt,
+      createdAt: conversation.createdAt,
+      updatedAt: conversation.updatedAt,
+      patientUser: conversation.patientUser,
+      doctorProfile: conversation.doctorProfile,
       unreadCount: conversation._count.messages,
     })),
   });

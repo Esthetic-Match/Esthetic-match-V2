@@ -1,12 +1,40 @@
 // app/api/public-pages/doctors-near-me/route.ts
 
 import { NextResponse } from "next/server";
-import { Prisma, UserRole } from "@prisma/client";
 import { prisma } from "@/lib/database/prisma";
 
 export const dynamic = "force-dynamic";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+type QueryMode = "insensitive";
+
+type StringFilter = {
+  equals?: string;
+  not?: string | null;
+  mode?: QueryMode;
+};
+
+type NumberNullableFilter = {
+  gte?: number;
+  lte?: number;
+};
+
+type UserWhereInput = {
+  role?: "DOCTOR";
+  onboardingCompleted?: boolean;
+};
+
+type UserRelationFilter = {
+  is?: UserWhereInput;
+};
+
+type DoctorProfileWhereInput = {
+  slug?: StringFilter;
+  city?: StringFilter;
+  country?: StringFilter;
+  workLatitude?: NumberNullableFilter;
+  workLongitude?: NumberNullableFilter;
+  user?: UserRelationFilter;
+};
 
 type GeocodeAddressComponent = {
   long_name: string;
@@ -29,6 +57,33 @@ type DoctorsNearMeRequestBody = {
   locale?: string;
 };
 
+type DoctorNearMeResult = {
+  id: string;
+  slug: string | null;
+  avatar: string | null;
+  clinicName: string;
+  city: string | null;
+  country: string | null;
+  specialtyIds: string[];
+  procedureIds: string[];
+  topThree: string[];
+  yearsOfExperience: number | null;
+  googleRating: number | null;
+  googleReviewCount: number | null;
+  inClinicPrice: number | null;
+  onlineConsulPrice: number | null;
+  stripeConnectOnboardingComplete: boolean;
+  onlineActive: boolean;
+  currency: string;
+  workLatitude: number | null;
+  workLongitude: number | null;
+  clinicBanner: string | null;
+  user: {
+    name: string | null;
+    image: string | null;
+  };
+};
+
 type DoctorCardDto = {
   id: string;
   slug: string;
@@ -49,15 +104,12 @@ type DoctorCardDto = {
   onlineActive: boolean;
   currency: string;
   distanceKm: number | null;
-  clinicBanner?: string | null;
+  clinicBanner: string | null;
   workLatitude: number | null;
   workLongitude: number | null;
 };
 
-
-// ── Select ────────────────────────────────────────────────────────────────────
-
-const doctorNearMeSelect = Prisma.validator<Prisma.DoctorProfileSelect>()({
+const doctorNearMeSelect = {
   id: true,
   slug: true,
   avatar: true,
@@ -84,13 +136,7 @@ const doctorNearMeSelect = Prisma.validator<Prisma.DoctorProfileSelect>()({
       image: true,
     },
   },
-});
-
-type DoctorNearMeResult = Prisma.DoctorProfileGetPayload<{
-  select: typeof doctorNearMeSelect;
-}>;
-
-// ── Guards ────────────────────────────────────────────────────────────────────
+} as const;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -100,9 +146,12 @@ function parseDoctorsNearMeBody(
   body: unknown
 ): DoctorsNearMeRequestBody | null {
   if (!isRecord(body)) return null;
+
   const { latitude, longitude, locale } = body;
+
   if (typeof latitude !== "number") return null;
   if (typeof longitude !== "number") return null;
+
   return {
     latitude,
     longitude,
@@ -121,8 +170,6 @@ function isValidCoordinate(latitude: number, longitude: number) {
   );
 }
 
-// ── Geo helpers ───────────────────────────────────────────────────────────────
-
 function toRadians(value: number) {
   return (value * Math.PI) / 180;
 }
@@ -138,26 +185,24 @@ function calculateDistanceKm({
   toLatitude: number;
   toLongitude: number;
 }) {
-  const R = 6371;
+  const earthRadiusKm = 6371;
   const dLat = toRadians(toLatitude - fromLatitude);
   const dLon = toRadians(toLongitude - fromLongitude);
+
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(toRadians(fromLatitude)) *
       Math.cos(toRadians(toLatitude)) *
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-/**
- * Returns a lat/lng bounding box for a given radius in km.
- * This lets Postgres filter rows before they hit Node.js memory —
- * replacing the previous take:300 + in-memory filter pattern.
- */
 function boundingBox(latitude: number, longitude: number, radiusKm: number) {
   const latDelta = radiusKm / 111.32;
   const lngDelta = radiusKm / (111.32 * Math.cos(toRadians(latitude)));
+
   return {
     minLat: latitude - latDelta,
     maxLat: latitude + latDelta,
@@ -166,14 +211,12 @@ function boundingBox(latitude: number, longitude: number, radiusKm: number) {
   };
 }
 
-// ── Geocoding ─────────────────────────────────────────────────────────────────
-
 function findAddressComponent(
   components: GeocodeAddressComponent[],
   acceptedTypes: string[]
 ) {
-  return components.find((c) =>
-    acceptedTypes.every((type) => c.types.includes(type))
+  return components.find((component: GeocodeAddressComponent) =>
+    acceptedTypes.every((type: string) => component.types.includes(type))
   )?.long_name;
 }
 
@@ -187,7 +230,10 @@ async function reverseGeocodeCity({
   locale: string;
 }): Promise<{ city: string | null; country: string | null }> {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  if (!apiKey) return { city: null, country: null };
+
+  if (!apiKey) {
+    return { city: null, country: null };
+  }
 
   try {
     const params = new URLSearchParams({
@@ -196,47 +242,49 @@ async function reverseGeocodeCity({
       language: locale === "fr" ? "fr" : "en",
     });
 
-    // ✅ 5-second timeout — a hanging geocode call was keeping the request
-    //    open and tying up a Node.js worker indefinitely
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5_000);
 
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?${params.toString()}`,
-      { cache: "no-store", signal: controller.signal }
+      {
+        cache: "no-store",
+        signal: controller.signal,
+      }
     ).finally(() => clearTimeout(timeoutId));
 
-    if (!response.ok) return { city: null, country: null };
-
-    const data: GeocodeResponse = await response.json();
-    if (data.status !== "OK" || !data.results?.length)
+    if (!response.ok) {
       return { city: null, country: null };
+    }
 
-    const components = data.results.flatMap(
-      (r) => r.address_components ?? []
+    const data = (await response.json()) as GeocodeResponse;
+
+    if (data.status !== "OK" || !data.results?.length) {
+      return { city: null, country: null };
+    }
+
+    const components = data.results.flatMap((result: GeocodeResult) =>
+      result.address_components ?? []
     );
 
     const city =
-      findAddressComponent(components, ["locality", "political"]) ||
-      findAddressComponent(components, ["postal_town"]) ||
+      findAddressComponent(components, ["locality", "political"]) ??
+      findAddressComponent(components, ["postal_town"]) ??
       findAddressComponent(components, [
         "administrative_area_level_2",
         "political",
-      ]) ||
-      findAddressComponent(components, ["sublocality", "political"]) ||
+      ]) ??
+      findAddressComponent(components, ["sublocality", "political"]) ??
       null;
 
     const country =
-      findAddressComponent(components, ["country", "political"]) || null;
+      findAddressComponent(components, ["country", "political"]) ?? null;
 
     return { city, country };
   } catch {
-    // Timeout or network error — degrade gracefully to radius search
     return { city: null, country: null };
   }
 }
-
-// ── Formatter ─────────────────────────────────────────────────────────────────
 
 function formatDoctor({
   doctor,
@@ -257,37 +305,35 @@ function formatDoctor({
         })
       : null;
 
-return {
-  id: doctor.id,
-  slug: doctor.slug ?? "",
-  name: doctor.user.name ?? "Doctor",
-  avatar: doctor.avatar ?? doctor.user.image,
-  clinicName: doctor.clinicName,
-  city: doctor.city,
-  country: doctor.country,
-  specialtyIds: doctor.specialtyIds,
-  procedureIds: doctor.procedureIds,
-  topThree: doctor.topThree,
-  yearsOfExperience: doctor.yearsOfExperience,
-  googleRating: doctor.googleRating,
-  googleReviewCount: doctor.googleReviewCount,
-  inClinicPrice: doctor.inClinicPrice,
-  onlineConsulPrice: doctor.onlineConsulPrice,
-  stripeConnectOnboardingComplete: doctor.stripeConnectOnboardingComplete,
-  onlineActive: doctor.onlineActive,
-  currency: doctor.currency,
-  distanceKm: distanceKm ? Number(distanceKm.toFixed(1)) : null,
-  clinicBanner: doctor.clinicBanner,
-  workLatitude: doctor.workLatitude,
-  workLongitude: doctor.workLongitude,
-};
+  return {
+    id: doctor.id,
+    slug: doctor.slug ?? "",
+    name: doctor.user.name ?? "Doctor",
+    avatar: doctor.avatar ?? doctor.user.image,
+    clinicName: doctor.clinicName,
+    city: doctor.city,
+    country: doctor.country,
+    specialtyIds: doctor.specialtyIds,
+    procedureIds: doctor.procedureIds,
+    topThree: doctor.topThree,
+    yearsOfExperience: doctor.yearsOfExperience,
+    googleRating: doctor.googleRating,
+    googleReviewCount: doctor.googleReviewCount,
+    inClinicPrice: doctor.inClinicPrice,
+    onlineConsulPrice: doctor.onlineConsulPrice,
+    stripeConnectOnboardingComplete: doctor.stripeConnectOnboardingComplete,
+    onlineActive: doctor.onlineActive,
+    currency: doctor.currency,
+    distanceKm: distanceKm !== null ? Number(distanceKm.toFixed(1)) : null,
+    clinicBanner: doctor.clinicBanner,
+    workLatitude: doctor.workLatitude,
+    workLongitude: doctor.workLongitude,
+  };
 }
-
-// ── Handler ───────────────────────────────────────────────────────────────────
 
 export async function POST(req: Request) {
   try {
-    const rawBody: unknown = await req.json().catch((): null => null);
+    const rawBody = (await req.json().catch(() => null)) as unknown;
     const body = parseDoctorsNearMeBody(rawBody);
 
     if (!body) {
@@ -313,11 +359,13 @@ export async function POST(req: Request) {
       locale,
     });
 
-    const baseWhere: Prisma.DoctorProfileWhereInput = {
-      slug: { not: null },
+    const baseWhere: DoctorProfileWhereInput = {
+      slug: {
+        not: null,
+      },
       user: {
         is: {
-          role: UserRole.DOCTOR,
+          role: "DOCTOR",
           onboardingCompleted: true,
         },
       },
@@ -327,14 +375,21 @@ export async function POST(req: Request) {
     let matchMode: "city" | "radius" = "city";
     const radiusKm = 50;
 
-    // ── Pass 1: city match ──────────────────────────────────────────────
     if (city) {
       doctors = await prisma.doctorProfile.findMany({
         where: {
           ...baseWhere,
-          city: { equals: city, mode: "insensitive" },
+          city: {
+            equals: city,
+            mode: "insensitive",
+          },
           ...(country
-            ? { country: { equals: country, mode: "insensitive" } }
+            ? {
+                country: {
+                  equals: country,
+                  mode: "insensitive",
+                },
+              }
             : {}),
         },
         select: doctorNearMeSelect,
@@ -342,52 +397,71 @@ export async function POST(req: Request) {
       });
     }
 
-    // ── Pass 2: bounding-box radius match ───────────────────────────────
-    // ✅ Was: take:300 into Node.js memory, filter in JS
-    // Now: Postgres filters by bounding box first, Node.js only receives
-    //      candidates that are plausibly within range (~circumscribed square)
-    //      then we do the precise Haversine check on that small set.
     if (doctors.length === 0) {
       matchMode = "radius";
+
       const { minLat, maxLat, minLng, maxLng } = boundingBox(
         latitude,
         longitude,
         radiusKm
       );
 
-      const candidates = await prisma.doctorProfile.findMany({
-        where: {
-          ...baseWhere,
-          workLatitude: { gte: minLat, lte: maxLat },
-          workLongitude: { gte: minLng, lte: maxLng },
-        },
-        select: doctorNearMeSelect,
-        take: 120, // bounding box is already tight — 120 is a safe ceiling
-      });
+      const candidates: DoctorNearMeResult[] =
+        await prisma.doctorProfile.findMany({
+          where: {
+            ...baseWhere,
+            workLatitude: {
+              gte: minLat,
+              lte: maxLat,
+            },
+            workLongitude: {
+              gte: minLng,
+              lte: maxLng,
+            },
+          },
+          select: doctorNearMeSelect,
+          take: 120,
+        });
 
       doctors = candidates
-        .filter(
-          (d) =>
-            d.workLatitude !== null &&
-            d.workLongitude !== null &&
+        .filter((doctor: DoctorNearMeResult) => {
+          if (doctor.workLatitude === null || doctor.workLongitude === null) {
+            return false;
+          }
+
+          return (
             calculateDistanceKm({
               fromLatitude: latitude,
               fromLongitude: longitude,
-              toLatitude: d.workLatitude,
-              toLongitude: d.workLongitude,
+              toLatitude: doctor.workLatitude,
+              toLongitude: doctor.workLongitude,
             }) <= radiusKm
-        )
+          );
+        })
         .slice(0, 60);
     }
 
-    // ── Format & sort ───────────────────────────────────────────────────
     const formattedDoctors = doctors
-      .map((doctor) => formatDoctor({ doctor, userLatitude: latitude, userLongitude: longitude }))
-      .sort((a, b) => {
-        const dA = a.distanceKm ?? Number.MAX_SAFE_INTEGER;
-        const dB = b.distanceKm ?? Number.MAX_SAFE_INTEGER;
-        if (dA !== dB) return dA - dB;
-        return (b.googleRating ?? 0) - (a.googleRating ?? 0);
+      .map((doctor: DoctorNearMeResult) =>
+        formatDoctor({
+          doctor,
+          userLatitude: latitude,
+          userLongitude: longitude,
+        })
+      )
+      .sort((firstDoctor: DoctorCardDto, secondDoctor: DoctorCardDto) => {
+        const firstDistance =
+          firstDoctor.distanceKm ?? Number.MAX_SAFE_INTEGER;
+        const secondDistance =
+          secondDoctor.distanceKm ?? Number.MAX_SAFE_INTEGER;
+
+        if (firstDistance !== secondDistance) {
+          return firstDistance - secondDistance;
+        }
+
+        return (
+          (secondDoctor.googleRating ?? 0) - (firstDoctor.googleRating ?? 0)
+        );
       });
 
     return NextResponse.json({
@@ -399,6 +473,7 @@ export async function POST(req: Request) {
     });
   } catch (error: unknown) {
     console.error("[DOCTORS_NEAR_ME_ERROR]", error);
+
     return NextResponse.json(
       { error: "Could not load doctors near you." },
       { status: 500 }

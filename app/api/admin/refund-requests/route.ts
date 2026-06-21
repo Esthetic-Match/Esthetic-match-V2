@@ -7,6 +7,45 @@ import { prisma } from "@/lib/database/prisma";
 import { ApiError, apiSuccess } from "@/lib/api/error-handler";
 import { withApiHandler } from "@/lib/api/with-api-handler";
 
+type AdminRefundRequestRow = {
+  id: string;
+  bookingId: string;
+  patientUserId: string;
+  doctorProfileId: string;
+  reason: string;
+  status: string;
+  adminNote: string | null;
+  createdAt: Date;
+  reviewedAt: Date | null;
+  refundedAt: Date | null;
+  booking: {
+    id: string;
+    consultationType: string;
+    amount: number;
+    currency: string;
+    status: string;
+    paidAt: Date | null;
+    refundedAt: Date | null;
+    stripePaymentIntentId: string | null;
+    patientUser: {
+      id: string;
+      name: string | null;
+      email: string | null;
+      image: string | null;
+    };
+    doctorProfile: {
+      id: string;
+      clinicName: string | null;
+      avatar: string | null;
+      user: {
+        name: string | null;
+        email: string | null;
+        image: string | null;
+      };
+    };
+  };
+};
+
 function requireAdmin(session: Awaited<ReturnType<typeof auth.api.getSession>>) {
   const role = (session?.user as { role?: string | null } | undefined)?.role;
 
@@ -26,39 +65,61 @@ export const GET = withApiHandler(async () => {
 
   requireAdmin(session);
 
-  const refundRequests = await prisma.consultationRefundRequest.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      booking: {
-        include: {
-          patientUser: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              image: true,
+  const refundRequests: AdminRefundRequestRow[] =
+    await prisma.consultationRefundRequest.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        bookingId: true,
+        patientUserId: true,
+        doctorProfileId: true,
+        reason: true,
+        status: true,
+        adminNote: true,
+        createdAt: true,
+        reviewedAt: true,
+        refundedAt: true,
+        booking: {
+          select: {
+            id: true,
+            consultationType: true,
+            amount: true,
+            currency: true,
+            status: true,
+            paidAt: true,
+            refundedAt: true,
+            stripePaymentIntentId: true,
+            patientUser: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+              },
             },
-          },
-          doctorProfile: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  image: true,
+            doctorProfile: {
+              select: {
+                id: true,
+                clinicName: true,
+                avatar: true,
+                user: {
+                  select: {
+                    name: true,
+                    email: true,
+                    image: true,
+                  },
                 },
               },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  return apiSuccess({
-    refundRequests: refundRequests.map((request) => ({
+  const formattedRefundRequests = refundRequests.map(
+    (request: AdminRefundRequestRow) => ({
       id: request.id,
       bookingId: request.bookingId,
       patientUserId: request.patientUserId,
@@ -91,9 +152,13 @@ export const GET = withApiHandler(async () => {
         email: request.booking.doctorProfile.user.email,
         clinicName: request.booking.doctorProfile.clinicName,
         avatar:
-          request.booking.doctorProfile.avatar ||
+          request.booking.doctorProfile.avatar ??
           request.booking.doctorProfile.user.image,
       },
-    })),
+    })
+  );
+
+  return apiSuccess({
+    refundRequests: formattedRefundRequests,
   });
 });

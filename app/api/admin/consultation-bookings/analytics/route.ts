@@ -4,6 +4,20 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/database/prisma";
 
+type BookingAnalyticsRow = {
+  createdAt: Date;
+  amount: number;
+  platformFee: number;
+  doctorAmount: number;
+  currency: string;
+};
+
+type BookingTotals = {
+  totalAmount: number;
+  totalPlatformFee: number;
+  totalDoctorAmount: number;
+};
+
 export async function GET() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -17,22 +31,24 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const bookings = await prisma.consultationBooking.findMany({
-    orderBy: { createdAt: "asc" },
-    select: {
-      createdAt: true,
-      amount: true,
-      platformFee: true,
-      doctorAmount: true,
-      currency: true,
-    },
-  });
+  const bookings: BookingAnalyticsRow[] =
+    await prisma.consultationBooking.findMany({
+      orderBy: { createdAt: "asc" },
+      select: {
+        createdAt: true,
+        amount: true,
+        platformFee: true,
+        doctorAmount: true,
+        currency: true,
+      },
+    });
 
-  const totals = bookings.reduce(
+  const totals = bookings.reduce<BookingTotals>(
     (acc, booking) => {
       acc.totalAmount += booking.amount;
       acc.totalPlatformFee += booking.platformFee;
       acc.totalDoctorAmount += booking.doctorAmount;
+
       return acc;
     },
     {

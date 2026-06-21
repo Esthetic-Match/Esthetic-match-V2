@@ -11,6 +11,94 @@ type RouteParams = {
   }>;
 };
 
+type MessageType = "TEXT" | "IMAGE" | "MIXED";
+type MessageSenderRole = "PATIENT" | "DOCTOR";
+
+function isMessageType(value: unknown): value is MessageType {
+  return value === "TEXT" || value === "IMAGE" || value === "MIXED";
+}
+
+type MessageAttachmentRow = {
+  id: string;
+  conversationId: string;
+  messageId: string;
+  uploadedByUserId: string;
+  objectPath: string;
+  fileName: string | null;
+  contentType: string;
+  sizeBytes: number | null;
+  createdAt: Date;
+};
+
+type MessageWithAttachments = {
+  id: string;
+  conversationId: string;
+  senderUserId: string;
+  senderRole: string;
+  messageType: string;
+  ciphertext: string | null;
+  iv: string | null;
+  authTag: string | null;
+  readAt: Date | null;
+  editedAt: Date | null;
+  deletedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  attachments: MessageAttachmentRow[];
+};
+
+type AuthorizedConversation = {
+  id: string;
+  patientUserId: string;
+  doctorProfileId: string;
+  status: string;
+  doctorProfile: {
+    id: string;
+    userId: string;
+  };
+};
+
+type MessageTransactionClient = Pick<typeof prisma, "message" | "conversation">;
+
+type MessageRequestBody = {
+  text?: unknown;
+  messageType?: unknown;
+  attachment?: unknown;
+};
+
+type AttachmentInput = {
+  objectPath: string;
+  fileName?: string | null;
+  contentType: string;
+  sizeBytes?: number | null;
+};
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function parseAttachment(value: unknown): AttachmentInput | null {
+  if (!isRecord(value)) return null;
+
+  if (typeof value.objectPath !== "string" || !value.objectPath.trim()) {
+    return null;
+  }
+
+  if (typeof value.contentType !== "string" || !value.contentType.trim()) {
+    return null;
+  }
+
+  return {
+    objectPath: value.objectPath.trim(),
+    fileName:
+      typeof value.fileName === "string" && value.fileName.trim()
+        ? value.fileName.trim()
+        : null,
+    contentType: value.contentType.trim(),
+    sizeBytes: typeof value.sizeBytes === "number" ? value.sizeBytes : null,
+  };
+}
+
 async function getSessionUser() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -19,12 +107,19 @@ async function getSessionUser() {
   return session?.user ?? null;
 }
 
-async function getAuthorizedConversation(conversationId: string, userId: string) {
+async function getAuthorizedConversation(
+  conversationId: string,
+  userId: string
+): Promise<AuthorizedConversation | null> {
   const conversation = await prisma.conversation.findUnique({
     where: {
       id: conversationId,
     },
-    include: {
+    select: {
+      id: true,
+      patientUserId: true,
+      doctorProfileId: true,
+      status: true,
       doctorProfile: {
         select: {
           id: true,
@@ -76,13 +171,38 @@ export async function GET(_req: Request, { params }: RouteParams) {
     },
   });
 
-  const messages = await prisma.message.findMany({
+  const messages: MessageWithAttachments[] = await prisma.message.findMany({
     where: {
       conversationId,
       deletedAt: null,
     },
-    include: {
-      attachments: true,
+    select: {
+      id: true,
+      conversationId: true,
+      senderUserId: true,
+      senderRole: true,
+      messageType: true,
+      ciphertext: true,
+      iv: true,
+      authTag: true,
+      readAt: true,
+      editedAt: true,
+      deletedAt: true,
+      createdAt: true,
+      updatedAt: true,
+      attachments: {
+        select: {
+          id: true,
+          conversationId: true,
+          messageId: true,
+          uploadedByUserId: true,
+          objectPath: true,
+          fileName: true,
+          contentType: true,
+          sizeBytes: true,
+          createdAt: true,
+        },
+      },
     },
     orderBy: {
       createdAt: "asc",
@@ -91,33 +211,29 @@ export async function GET(_req: Request, { params }: RouteParams) {
 
   return NextResponse.json({
     messages: await Promise.all(
-      messages.map(async (message) => ({
+      messages.map(async (message: MessageWithAttachments) => ({
         id: message.id,
         conversationId: message.conversationId,
         senderUserId: message.senderUserId,
         senderRole: message.senderRole,
         messageType: message.messageType,
-
         text:
           message.ciphertext && message.iv
             ? decryptMessage({
                 ciphertext: message.ciphertext,
                 iv: message.iv,
-                authTag: message.authTag,
+                authTag: message.authTag ?? "",
               })
             : "",
-
         attachments: await Promise.all(
-          message.attachments.map(async (attachment) => {
+          message.attachments.map(async (attachment: MessageAttachmentRow) => {
             const bucket = storage.bucket(process.env.GCS_PRIVATE_BUCKET_NAME!);
 
-            const [readUrl] = await bucket
-              .file(attachment.objectPath)
-              .getSignedUrl({
-                version: "v4",
-                action: "read",
-                expires: Date.now() + 10 * 60 * 1000,
-              });
+            const [readUrl] = await bucket.file(attachment.objectPath).getSignedUrl({
+              version: "v4",
+              action: "read",
+              expires: Date.now() + 10 * 60 * 1000,
+            });
 
             return {
               id: attachment.id,
@@ -130,7 +246,6 @@ export async function GET(_req: Request, { params }: RouteParams) {
             };
           })
         ),
-
         readAt: message.readAt,
         editedAt: message.editedAt,
         deletedAt: message.deletedAt,
@@ -159,32 +274,36 @@ export async function POST(req: Request, { params }: RouteParams) {
     );
   }
 
-  const body = await req.json();
+const body = (await req.json().catch(() => null)) as MessageRequestBody | null;
 
-  const text = String(body.text || "").trim();
-  const messageType = body.messageType || "TEXT";
-  const attachment = body.attachment;
+const text =
+  body && typeof body.text === "string" ? body.text.trim() : "";
 
-  if (messageType === "TEXT" && !text) {
-    return NextResponse.json(
-      { error: "Message text is required" },
-      { status: 400 }
-    );
-  }
+const attachment = parseAttachment(body?.attachment);
 
-  if (messageType === "IMAGE" && !attachment?.objectPath) {
-    return NextResponse.json(
-      { error: "Image attachment is required" },
-      { status: 400 }
-    );
-  }
+const messageType: MessageType =
+  body && isMessageType(body.messageType) ? body.messageType : "TEXT";
 
-  if (text.length > 3000) {
-    return NextResponse.json(
-      { error: "Message is too long" },
-      { status: 400 }
-    );
-  }
+if (messageType === "TEXT" && !text) {
+  return NextResponse.json(
+    { error: "Message text is required" },
+    { status: 400 }
+  );
+}
+
+if (messageType === "IMAGE" && !attachment) {
+  return NextResponse.json(
+    { error: "Image attachment is required" },
+    { status: 400 }
+  );
+}
+
+if (messageType === "MIXED" && (!text || !attachment)) {
+  return NextResponse.json(
+    { error: "Mixed messages require text and an image attachment" },
+    { status: 400 }
+  );
+}
 
   const encrypted = text
     ? encryptMessage(text)
@@ -197,46 +316,70 @@ export async function POST(req: Request, { params }: RouteParams) {
   const senderRole =
     conversation.doctorProfile.userId === user.id ? "DOCTOR" : "PATIENT";
 
-  const message = await prisma.$transaction(async (tx) => {
-    const createdMessage = await tx.message.create({
-      data: {
-        conversationId,
-        senderUserId: user.id,
-        senderRole,
-        messageType,
-        ciphertext: encrypted.ciphertext,
-        iv: encrypted.iv,
-        authTag: encrypted.authTag,
-        attachments:
-          messageType === "IMAGE"
-            ? {
-                create: {
-                  conversationId,
-                  uploadedByUserId: user.id,
-                  objectPath: attachment.objectPath,
-                  fileName: attachment.fileName || null,
-                  contentType: attachment.contentType,
-                  sizeBytes: attachment.sizeBytes || null,
-                },
-              }
-            : undefined,
-      },
-      include: {
-        attachments: true,
-      },
-    });
+  const message = await prisma.$transaction(
+    async (tx: MessageTransactionClient) => {
+      const createdMessage = await tx.message.create({
+        data: {
+          conversationId,
+          senderUserId: user.id,
+          senderRole,
+          messageType,
+          ciphertext: encrypted.ciphertext,
+          iv: encrypted.iv,
+          authTag: encrypted.authTag,
+attachments:
+  (messageType === "IMAGE" || messageType === "MIXED") && attachment
+    ? {
+        create: {
+          conversationId,
+          uploadedByUserId: user.id,
+          objectPath: attachment.objectPath,
+          fileName: attachment.fileName ?? null,
+          contentType: attachment.contentType,
+          sizeBytes: attachment.sizeBytes ?? null,
+        },
+      }
+    : undefined,
+        },
+        select: {
+          id: true,
+          conversationId: true,
+          senderUserId: true,
+          senderRole: true,
+          messageType: true,
+          readAt: true,
+          editedAt: true,
+          deletedAt: true,
+          createdAt: true,
+          updatedAt: true,
+          attachments: {
+            select: {
+              id: true,
+              conversationId: true,
+              messageId: true,
+              uploadedByUserId: true,
+              objectPath: true,
+              fileName: true,
+              contentType: true,
+              sizeBytes: true,
+              createdAt: true,
+            },
+          },
+        },
+      });
 
-    await tx.conversation.update({
-      where: {
-        id: conversationId,
-      },
-      data: {
-        lastMessageAt: createdMessage.createdAt,
-      },
-    });
+      await tx.conversation.update({
+        where: {
+          id: conversationId,
+        },
+        data: {
+          lastMessageAt: createdMessage.createdAt,
+        },
+      });
 
-    return createdMessage;
-  });
+      return createdMessage;
+    }
+  );
 
   return NextResponse.json({
     message: {

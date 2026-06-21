@@ -28,6 +28,10 @@ const allowedFields = [
   "favorite",
 ] as const;
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
 export const GET = withApiHandler<RouteContext>(
   async (_req: Request, context) => {
     const { userId } = await context.params;
@@ -93,33 +97,40 @@ export const PATCH = withApiHandler<RouteContext>(
       );
     }
 
-    const body = await req.json();
+const rawBody = (await req.json().catch(() => null)) as unknown;
 
-    const updateData: Record<string, unknown> = {};
+if (!isRecord(rawBody)) {
+  throw new ApiError("Invalid request body.", 400, "INVALID_REQUEST_BODY");
+}
 
-    for (const field of allowedFields) {
-      if (field in body) {
-        updateData[field] = body[field];
-      }
-    }
+const body: Record<string, unknown> = rawBody;
 
-    if ("favorite" in body) {
-      const currentProfile = await prisma.patientProfile.findUnique({
-        where: { userId: session.user.id },
-        select: { favorite: true },
-      });
+const updateData: Record<string, unknown> = {};
 
-      const currentFavorites = currentProfile?.favorite ?? [];
-      const doctorProfileId = Array.isArray(body.favorite)
-        ? body.favorite[0]
-        : body.favorite;
+for (const field of allowedFields) {
+  if (field in body) {
+    updateData[field] = body[field];
+  }
+}
 
-      if (typeof doctorProfileId === "string") {
-        updateData.favorite = currentFavorites.includes(doctorProfileId)
-          ? currentFavorites.filter((id) => id !== doctorProfileId)
-          : [...currentFavorites, doctorProfileId];
-      }
-    }
+if ("favorite" in body) {
+  const currentProfile = await prisma.patientProfile.findUnique({
+    where: { userId: session.user.id },
+    select: { favorite: true },
+  });
+
+  const currentFavorites: string[] = currentProfile?.favorite ?? [];
+
+  const doctorProfileId = Array.isArray(body.favorite)
+    ? body.favorite[0]
+    : body.favorite;
+
+  if (typeof doctorProfileId === "string") {
+    updateData.favorite = currentFavorites.includes(doctorProfileId)
+      ? currentFavorites.filter((id: string) => id !== doctorProfileId)
+      : [...currentFavorites, doctorProfileId];
+  }
+}
 
     if (Object.keys(updateData).length === 0) {
       throw new ApiError(

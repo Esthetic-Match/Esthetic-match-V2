@@ -64,24 +64,54 @@ export const GET = withApiHandler<unknown, NextRequest>(async (req) => {
     throw new ApiError("Missing doctorId", 400, "DOCTOR_ID_REQUIRED");
   }
 
-  const cases = await prisma.beforeAfterCase.findMany({
+type BeforeAfterGalleryCaseRow = {
+  beforeImage: string | null;
+  afterImage: string | null;
+  isPublic: boolean;
+};
+
+type CompleteBeforeAfterGalleryCaseRow = {
+  beforeImage: string;
+  afterImage: string;
+  isPublic: boolean;
+};
+
+function hasCompleteImages(
+  item: BeforeAfterGalleryCaseRow
+): item is CompleteBeforeAfterGalleryCaseRow {
+  return item.beforeImage !== null && item.afterImage !== null;
+}
+
+const cases: BeforeAfterGalleryCaseRow[] =
+  await prisma.beforeAfterCase.findMany({
     where: {
       doctorId,
-      beforeImage: { not: null },
-      afterImage: { not: null },
+      beforeImage: {
+        not: null,
+      },
+      afterImage: {
+        not: null,
+      },
+    },
+    select: {
+      beforeImage: true,
+      afterImage: true,
+      isPublic: true,
     },
     orderBy: {
       createdAt: "desc",
     },
   });
 
-  const gallery = await Promise.all(
-    cases.map(async (item) => ({
-      beforeImageUrl: await getSignedImageUrl(item.beforeImage!),
-      afterImageUrl: await getSignedImageUrl(item.afterImage!),
-      isPublic: item.isPublic,
-    }))
-  );
+const completeCases = cases.filter(hasCompleteImages);
+
+const gallery = await Promise.all(
+  completeCases.map(async (item: CompleteBeforeAfterGalleryCaseRow) => ({
+    beforeImageUrl: await getSignedImageUrl(item.beforeImage),
+    afterImageUrl: await getSignedImageUrl(item.afterImage),
+    isPublic: item.isPublic,
+  }))
+);
 
   return apiSuccess(gallery);
 });
