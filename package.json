@@ -7,7 +7,7 @@
     "stripe": "stripe listen --forward-to localhost:3000/api/stripe/webhook",
     "build": "next build",
     "start": "next start",
-    "deploy": "npx prisma generate && npx auth@latest generate && npx prisma migrate deploy",
+    "deploy": "npx prisma migrate deploy",
     "lint": "eslint",
     "fix:social-links": "tsx -r dotenv/config scripts/fix-social-media-links.ts"
   },
