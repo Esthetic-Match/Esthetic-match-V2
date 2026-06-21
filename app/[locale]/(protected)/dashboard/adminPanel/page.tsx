@@ -1,6 +1,7 @@
 import AdminDoctorMediaManager from "@/components/dashboard/admin/AdminDoctorMediaManager";
 import AdminStatsCards from "@/components/dashboard/admin/AdminStatsCards";
 import AdminUsersTable from "@/components/dashboard/admin/AdminUsersTable";
+import CatalogueAdminManager from "@/components/dashboard/admin/CatalogueAdminManager";
 import ConsultationBookingsAnalytics from "@/components/dashboard/admin/ConsultationBookingsAnalytics";
 import ConsultationBookingsTable from "@/components/dashboard/admin/ConsultationBookingsTable";
 import DoctorPlansCard from "@/components/dashboard/admin/DoctorPlansCard";
@@ -53,6 +54,10 @@ export default function AdminPanelPage() {
 
         <div className="mt-8">
           <AdminUsersTable />
+        </div>
+
+        <div className="mt-8">
+          <CatalogueAdminManager />
         </div>
       </div>
     </main>
