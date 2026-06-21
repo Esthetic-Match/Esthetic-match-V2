@@ -172,6 +172,8 @@
       "logout": "Logout",
       "allDoctors": "All Doctors",
       "doctorsNearMe": "Doctors Near Me",
+      "surgicalDoctors": "Surgical Doctors",
+      "nonSurgicalDoctors": "Non-surgical Doctors",
       "faq": "FAQ"
     },
       "whyDoctorsShouldJoin": {
