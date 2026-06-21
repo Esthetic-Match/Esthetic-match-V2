@@ -43,14 +43,17 @@ type DoctorCardDto = {
   yearsOfExperience: number | null;
   googleRating: number | null;
   googleReviewCount: number | null;
-  stripeConnectOnboardingComplete: boolean;
-  onlineActive: boolean;
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
+  stripeConnectOnboardingComplete: boolean;
+  onlineActive: boolean;
   currency: string;
   distanceKm: number | null;
   clinicBanner?: string | null;
+  workLatitude: number | null;
+  workLongitude: number | null;
 };
+
 
 // ── Select ────────────────────────────────────────────────────────────────────
 
@@ -254,28 +257,30 @@ function formatDoctor({
         })
       : null;
 
-  return {
-    id: doctor.id,
-    slug: doctor.slug ?? "",
-    name: doctor.user.name ?? "Doctor",
-    avatar: doctor.avatar ?? doctor.user.image,
-    clinicName: doctor.clinicName,
-    city: doctor.city,
-    country: doctor.country,
-    specialtyIds: doctor.specialtyIds,
-    procedureIds: doctor.procedureIds,
-    topThree: doctor.topThree,
-    yearsOfExperience: doctor.yearsOfExperience,
-    googleRating: doctor.googleRating,
-    googleReviewCount: doctor.googleReviewCount,
-    inClinicPrice: doctor.inClinicPrice,
-    onlineConsulPrice: doctor.onlineConsulPrice,
-    stripeConnectOnboardingComplete: doctor.stripeConnectOnboardingComplete,
-    onlineActive: doctor.onlineActive,
-    currency: doctor.currency,
-    clinicBanner: doctor.clinicBanner,
-    distanceKm: distanceKm !== null ? Number(distanceKm.toFixed(1)) : null,
-  };
+return {
+  id: doctor.id,
+  slug: doctor.slug ?? "",
+  name: doctor.user.name ?? "Doctor",
+  avatar: doctor.avatar ?? doctor.user.image,
+  clinicName: doctor.clinicName,
+  city: doctor.city,
+  country: doctor.country,
+  specialtyIds: doctor.specialtyIds,
+  procedureIds: doctor.procedureIds,
+  topThree: doctor.topThree,
+  yearsOfExperience: doctor.yearsOfExperience,
+  googleRating: doctor.googleRating,
+  googleReviewCount: doctor.googleReviewCount,
+  inClinicPrice: doctor.inClinicPrice,
+  onlineConsulPrice: doctor.onlineConsulPrice,
+  stripeConnectOnboardingComplete: doctor.stripeConnectOnboardingComplete,
+  onlineActive: doctor.onlineActive,
+  currency: doctor.currency,
+  distanceKm: distanceKm ? Number(distanceKm.toFixed(1)) : null,
+  clinicBanner: doctor.clinicBanner,
+  workLatitude: doctor.workLatitude,
+  workLongitude: doctor.workLongitude,
+};
 }
 
 // ── Handler ───────────────────────────────────────────────────────────────────
