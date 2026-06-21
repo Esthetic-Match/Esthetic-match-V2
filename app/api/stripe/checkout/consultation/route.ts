@@ -232,7 +232,7 @@ export async function POST(req: Request) {
       customer: stripeCustomerId,
 
       success_url: `${appUrl}/booking/success?bookingId=${booking.id}`,
-      cancel_url: `${appUrl}/doctor/${doctorProfile.slug}`,
+      cancel_url: `${appUrl}/doctors/${doctorProfile.slug}`,
 
       invoice_creation: {
         enabled: true,
