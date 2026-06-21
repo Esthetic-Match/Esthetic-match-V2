@@ -36,6 +36,7 @@ type DoctorCheckoutProfile = {
   userId: string;
   clinicName: string | null;
   inClinicPrice: number | null;
+  slug: string | null;
   onlineConsulPrice: number | null;
   stripeConnectAccountId: string | null;
   stripeConnectChargesEnabled: boolean;
@@ -159,6 +160,7 @@ export async function POST(req: Request) {
           id: true,
           userId: true,
           clinicName: true,
+          slug: true,
           inClinicPrice: true,
           onlineConsulPrice: true,
           stripeConnectAccountId: true,
@@ -230,7 +232,7 @@ export async function POST(req: Request) {
       customer: stripeCustomerId,
 
       success_url: `${appUrl}/booking/success?bookingId=${booking.id}`,
-      cancel_url: `${appUrl}/doctor/${doctorProfile.userId}`,
+      cancel_url: `${appUrl}/doctor/${doctorProfile.slug}`,
 
       invoice_creation: {
         enabled: true,
