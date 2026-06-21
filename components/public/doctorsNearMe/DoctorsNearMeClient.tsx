@@ -9,6 +9,7 @@ import DoctorCards, {
   type SpecialtyTranslations,
 } from "@/components/public/UI/DoctorCards";
 import { Loader2, LocateFixed, MapPin, RefreshCw } from "lucide-react";
+import NearbyDoctorsMap from "./NearbyDoctorsMap";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -33,7 +34,11 @@ type DoctorCardDto = {
   currency: string;
   distanceKm: number | null;
   clinicBanner?: string | null;
+  workLatitude: number | null;
+  workLongitude: number | null;
 };
+
+
 
 type DoctorsNearMeResponse = {
   city: string | null;
@@ -105,6 +110,7 @@ export default function DoctorsNearMeClient() {
   const [loadState, setLoadState] = useState<LoadState>("idle");
   const [data, setData] = useState<DoctorsNearMeResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
 
   const isLoading =
     loadState === "loading-location" || loadState === "loading-doctors";
@@ -300,17 +306,74 @@ export default function DoctorsNearMeClient() {
             </div>
 
             {data.doctors.length > 0 ? (
-              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {data.doctors.map((doctor) => (
-                  <DoctorCards
-                    key={doctor.id}
-                    doctor={toDoctorCardData(doctor)}
-                    t={cardTranslations}
-                    specialtyT={specialtyTranslations}
-                    showDetails={true}
-                  />
-                ))}
-              </div>
+<div className="grid gap-6 lg:grid-cols-[minmax(360px,460px)_minmax(0,1fr)] xl:grid-cols-[minmax(400px,500px)_minmax(0,1fr)]">
+  <div className="min-w-0 lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)]">
+    <NearbyDoctorsMap
+      doctors={data.doctors}
+      selectedDoctorId={selectedDoctorId}
+      className="h-full lg:[&>div:last-child]:h-[calc(100vh-14rem)]"
+    />
+  </div>
+
+  <aside className="min-w-0 rounded-[2rem] border border-[#CEB591]/25 bg-white/80 p-4 shadow-[0_24px_70px_rgba(40,60,93,0.08)] backdrop-blur">
+    <div className="mb-4 flex items-end justify-between gap-4 border-b border-[#CEB591]/20 pb-4">
+      <div>
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#CEB591]">
+          {t("doctorsIn")}
+        </p>
+
+        <h3 className="mt-1 text-xl font-bold tracking-tight text-[#283C5D]">
+          {t("nearbyDoctors")}
+        </h3>
+      </div>
+
+      <span className="rounded-full bg-[#F1E1C6]/60 px-3 py-1.5 text-xs font-bold text-[#283C5D]">
+        {data.doctors.length}
+      </span>
+    </div>
+
+    <div className="max-h-[calc(100vh-15rem)] overflow-y-auto pr-1 [scrollbar-width:thin] [scrollbar-color:#CEB591_transparent]">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2">
+        {data.doctors.map((doctor) => {
+          const isSelected = selectedDoctorId === doctor.id;
+
+          return (
+            <div
+              key={doctor.id}
+              role="button"
+              tabIndex={0}
+              onClick={(event) => {
+                const target = event.target;
+
+                if (!(target instanceof Element)) return;
+                if (target.closest("a, button")) return;
+
+                setSelectedDoctorId(doctor.id);
+              }}
+              onKeyDown={(event) => {
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                setSelectedDoctorId(doctor.id);
+              }}
+              className={`cursor-pointer rounded-[2rem] transition ${
+                isSelected
+                  ? "ring-offset-white"
+                  : "hover:-translate-y-0.5"
+              }`}
+            >
+              <DoctorCards
+                doctor={toDoctorCardData(doctor)}
+                t={cardTranslations}
+                specialtyT={specialtyTranslations}
+                showDetails={false}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </aside>
+</div>
             ) : (
               <div className="rounded-[2rem] border border-[#CEB591]/25 bg-white p-8 text-center shadow-[0_24px_70px_rgba(40,60,93,0.08)]">
                 <h2 className="text-2xl font-bold text-[#283C5D]">{t("noDoctorsTitle")}</h2>

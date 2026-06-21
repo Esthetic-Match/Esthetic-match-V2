@@ -28,7 +28,11 @@
   "nearby": "à proximité",
   "searchAll": "Rechercher tous les médecins",
   "reviews": "avis",
-  "free": "Gratuit"
+  "free": "Gratuit",
+  "nearbyDoctors": "Médecins à proximité",
+  "doctorsIn": "Médecins dans votre région",
+  "doctorMap": "Carte des médecins",
+  "location": "Localisation"
 }, 
     "profile": {
       "common": {

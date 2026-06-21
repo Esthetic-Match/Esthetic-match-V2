@@ -28,7 +28,11 @@
       "nearby": "nearby",
       "searchAll": "Search all doctors",
       "reviews": "reviews",
-      "free": "Free"
+      "free": "Free",
+      "nearbyDoctors": "Nearby Doctors",
+      "doctorsIn": "Doctors in your area",
+      "doctorMap": "Doctor map",
+      "location": "Location"
     },
     "profile": {
       "common": {
