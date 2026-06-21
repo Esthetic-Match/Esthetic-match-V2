@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AlertCircle,
   CheckCircle2,
@@ -85,6 +85,39 @@ function formatConsultationType(type: string) {
   return type === "IN_CLINIC" ? "In-clinic consultation" : "Online consultation";
 }
 
+type RefundRequestsApiEnvelope = {
+  data?: RefundRequestsResponse;
+  refundRequests?: RefundRequest[];
+  error?: string;
+};
+
+function getApiErrorMessage(value: unknown, fallback: string) {
+  if (typeof value !== "object" || value === null) return fallback;
+
+  const candidate = value as { error?: unknown };
+
+  return typeof candidate.error === "string" ? candidate.error : fallback;
+}
+
+function getRefundRequestsPayload(value: unknown): RefundRequestsResponse | null {
+  if (typeof value !== "object" || value === null) return null;
+
+  const candidate = value as RefundRequestsApiEnvelope;
+
+  if (candidate.data && Array.isArray(candidate.data.refundRequests)) {
+    return candidate.data;
+  }
+
+  if (Array.isArray(candidate.refundRequests)) {
+    return {
+      refundRequests: candidate.refundRequests,
+      error: candidate.error,
+    };
+  }
+
+  return null;
+}
+
 export default function RefundRequestsManager() {
   const [refundRequests, setRefundRequests] = useState<RefundRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -147,31 +180,53 @@ export default function RefundRequestsManager() {
     setAdminNote("");
   }
 
-  async function fetchRefundRequests() {
+const requestRefundRequests = useCallback(async (): Promise<RefundRequest[]> => {
+  const res = await fetch("/api/admin/refund-requests", {
+    method: "GET",
+    cache: "no-store",
+  });
+
+  const rawData = (await res.json().catch(() => null)) as unknown;
+
+  if (!res.ok) {
+    throw new Error(
+      getApiErrorMessage(rawData, "Could not load refund requests.")
+    );
+  }
+
+  const payload = getRefundRequestsPayload(rawData);
+
+  if (!payload) {
+    throw new Error("Could not load refund requests.");
+  }
+
+  return payload.refundRequests;
+}, []);
+
+const fetchRefundRequests = useCallback(
+  async ({ showLoading = true }: { showLoading?: boolean } = {}) => {
     try {
-      setIsLoading(true);
-      setError(null);
-
-      const res = await fetch("/api/admin/refund-requests", {
-        method: "GET",
-        cache: "no-store",
-      });
-
-      const data = (await res.json()) as RefundRequestsResponse;
-
-      if (!res.ok) {
-        throw new Error(data.error || "Could not load refund requests.");
+      if (showLoading) {
+        setIsLoading(true);
       }
 
-      setRefundRequests(data.refundRequests || []);
+      setError(null);
+
+      const nextRefundRequests = await requestRefundRequests();
+
+      setRefundRequests(nextRefundRequests);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Could not load refund requests."
       );
     } finally {
-      setIsLoading(false);
+      if (showLoading) {
+        setIsLoading(false);
+      }
     }
-  }
+  },
+  [requestRefundRequests]
+);
 
   async function submitAction() {
     if (!selectedRequest || !selectedAction) return;
@@ -215,9 +270,32 @@ export default function RefundRequestsManager() {
     }
   }
 
-  useEffect(() => {
-    fetchRefundRequests();
-  }, []);
+useEffect(() => {
+  let isMounted = true;
+
+  requestRefundRequests()
+    .then((nextRefundRequests) => {
+      if (!isMounted) return;
+
+      setRefundRequests(nextRefundRequests);
+    })
+    .catch((err: unknown) => {
+      if (!isMounted) return;
+
+      setError(
+        err instanceof Error ? err.message : "Could not load refund requests."
+      );
+    })
+    .finally(() => {
+      if (!isMounted) return;
+
+      setIsLoading(false);
+    });
+
+  return () => {
+    isMounted = false;
+  };
+}, [requestRefundRequests]);
 
   return (
     <section className="w-full space-y-6">
@@ -240,7 +318,7 @@ export default function RefundRequestsManager() {
 
           <button
             type="button"
-            onClick={fetchRefundRequests}
+            onClick={() => fetchRefundRequests({ showLoading: true })}
             disabled={isLoading}
             className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-[#283C5D] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#D8BD8D] hover:text-black disabled:cursor-not-allowed disabled:opacity-60"
           >

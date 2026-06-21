@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pencil, WalletCards, X } from "lucide-react";
 import CardTitle from "@/components/dashboard/profile/UI/CardTitle";
 import PriceRow from "@/components/dashboard/profile/UI/PriceRow";
@@ -35,32 +35,32 @@ export default function ConsultationPrices({
   const effectiveOnlineActive =
     canActivateOnlineConsultation && Boolean(onlineActive);
 
-  const [isEditing, setIsEditing] = useState(false);
+const [isEditing, setIsEditing] = useState(false);
+const [clinicPriceValue, setClinicPriceValue] = useState("");
+const [onlinePriceValue, setOnlinePriceValue] = useState("");
+const [onlineActiveValue, setOnlineActiveValue] = useState(false);
 
-  const [clinicPriceValue, setClinicPriceValue] = useState(
-    inClinicPrice?.toString() || ""
-  );
+function getClinicPriceDraft() {
+  return inClinicPrice?.toString() ?? "";
+}
 
-  const [onlinePriceValue, setOnlinePriceValue] = useState(
-    onlineConsulPrice?.toString() || ""
-  );
+function getOnlinePriceDraft() {
+  return onlineConsulPrice?.toString() ?? "";
+}
 
-  const [onlineActiveValue, setOnlineActiveValue] = useState(
-    effectiveOnlineActive
-  );
+function handleEdit() {
+  setClinicPriceValue(getClinicPriceDraft());
+  setOnlinePriceValue(getOnlinePriceDraft());
+  setOnlineActiveValue(effectiveOnlineActive);
+  setIsEditing(true);
+}
 
-  useEffect(() => {
-    setClinicPriceValue(inClinicPrice?.toString() || "");
-    setOnlinePriceValue(onlineConsulPrice?.toString() || "");
-    setOnlineActiveValue(effectiveOnlineActive);
-  }, [inClinicPrice, onlineConsulPrice, effectiveOnlineActive]);
-
-  function handleCancel() {
-    setClinicPriceValue(inClinicPrice?.toString() || "");
-    setOnlinePriceValue(onlineConsulPrice?.toString() || "");
-    setOnlineActiveValue(effectiveOnlineActive);
-    setIsEditing(false);
-  }
+function handleCancel() {
+  setClinicPriceValue(getClinicPriceDraft());
+  setOnlinePriceValue(getOnlinePriceDraft());
+  setOnlineActiveValue(effectiveOnlineActive);
+  setIsEditing(false);
+}
 
   async function handleSave() {
     await onUpdateProfile({
@@ -110,7 +110,7 @@ export default function ConsultationPrices({
         ) : (
           <button
             type="button"
-            onClick={() => setIsEditing(true)}
+            onClick={handleEdit}
             className="flex h-8 w-10 cursor-pointer items-center justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.98]"
           >
             <Pencil size={15} />

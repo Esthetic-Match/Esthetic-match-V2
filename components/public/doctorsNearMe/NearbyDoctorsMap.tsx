@@ -301,9 +301,15 @@ export default function NearbyDoctorsMap({
   const markersRef = useRef<Map<string, google.maps.Marker>>(new Map());
   const infoWindowsRef = useRef<Map<string, google.maps.InfoWindow>>(new Map());
 
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [mapLoadErrorMessage, setMapLoadErrorMessage] = useState<string | null>(null);
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_API_KEY ?? "";
+
+  const configurationErrorMessage = apiKey
+  ? null
+  : "Google Maps is not configured.";
+
+const errorMessage = configurationErrorMessage ?? mapLoadErrorMessage;
 
   const doctorsWithLocation = useMemo(
     () =>
@@ -317,128 +323,126 @@ export default function NearbyDoctorsMap({
     [doctors]
   );
 
-  useEffect(() => {
-    if (!apiKey) {
-      setErrorMessage("Google Maps is not configured.");
-      return;
-    }
+useEffect(() => {
+  if (!apiKey) {
+    return;
+  }
 
-    if (!mapElementRef.current || doctorsWithLocation.length === 0) {
-      return;
-    }
+  if (!mapElementRef.current || doctorsWithLocation.length === 0) {
+    return;
+  }
 
-    let isMounted = true;
+  let isMounted = true;
 
-    async function initializeMap() {
-      try {
-        await loadGoogleMaps(apiKey);
+  async function initializeMap() {
+    try {
+      await loadGoogleMaps(apiKey);
 
-        if (!isMounted || !mapElementRef.current) return;
+      if (!isMounted || !mapElementRef.current) return;
 
-        markersRef.current.forEach((marker) => marker.setMap(null));
-        infoWindowsRef.current.forEach((infoWindow) => infoWindow.close());
-        markersRef.current.clear();
-        infoWindowsRef.current.clear();
-
-        const firstDoctor = doctorsWithLocation[0];
-
-        if (
-          firstDoctor.workLatitude === null ||
-          firstDoctor.workLongitude === null
-        ) {
-          return;
-        }
-
-        const map = new google.maps.Map(mapElementRef.current, {
-          center: {
-            lat: firstDoctor.workLatitude,
-            lng: firstDoctor.workLongitude,
-          },
-          zoom: 13,
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: true,
-          clickableIcons: false,
-          styles: [
-            {
-              featureType: "poi.business",
-              stylers: [{ visibility: "off" }],
-            },
-            {
-              featureType: "transit",
-              stylers: [{ visibility: "off" }],
-            },
-          ],
-        });
-
-        googleMapRef.current = map;
-
-        const bounds = new google.maps.LatLngBounds();
-
-        doctorsWithLocation.forEach((doctor) => {
-          if (
-            doctor.workLatitude === null ||
-            doctor.workLongitude === null
-          ) {
-            return;
-          }
-
-          const position = {
-            lat: doctor.workLatitude,
-            lng: doctor.workLongitude,
-          };
-
-          bounds.extend(position);
-
-          const marker = new google.maps.Marker({
-            position,
-            map,
-            title: doctor.name,
-          });
-
-          const infoWindow = new google.maps.InfoWindow({
-            content: createInfoWindowContent(doctor),
-            maxWidth: 320,
-            pixelOffset: new google.maps.Size(0, -8),
-          });
-
-          marker.addListener("click", () => {
-            infoWindowsRef.current.forEach((windowItem) => windowItem.close());
-            infoWindow.open({
-              map,
-              anchor: marker,
-            });
-          });
-
-          markersRef.current.set(doctor.id, marker);
-          infoWindowsRef.current.set(doctor.id, infoWindow);
-        });
-
-        if (doctorsWithLocation.length === 1) {
-          map.setZoom(14);
-          map.setCenter(bounds.getCenter());
-        } else {
-          map.fitBounds(bounds, 80);
-        }
-      } catch (error) {
-        setErrorMessage(
-          error instanceof Error ? error.message : "Could not load Google Maps."
-        );
-      }
-    }
-
-    void initializeMap();
-
-    return () => {
-      isMounted = false;
+      setMapLoadErrorMessage(null);
 
       markersRef.current.forEach((marker) => marker.setMap(null));
       infoWindowsRef.current.forEach((infoWindow) => infoWindow.close());
       markersRef.current.clear();
       infoWindowsRef.current.clear();
-      googleMapRef.current = null;
-    };
-  }, [apiKey, doctorsWithLocation]);
+
+      const firstDoctor = doctorsWithLocation[0];
+
+      if (
+        firstDoctor.workLatitude === null ||
+        firstDoctor.workLongitude === null
+      ) {
+        return;
+      }
+
+      const map = new google.maps.Map(mapElementRef.current, {
+        center: {
+          lat: firstDoctor.workLatitude,
+          lng: firstDoctor.workLongitude,
+        },
+        zoom: 13,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+        clickableIcons: false,
+        styles: [
+          {
+            featureType: "poi.business",
+            stylers: [{ visibility: "off" }],
+          },
+          {
+            featureType: "transit",
+            stylers: [{ visibility: "off" }],
+          },
+        ],
+      });
+
+      googleMapRef.current = map;
+
+      const bounds = new google.maps.LatLngBounds();
+
+      doctorsWithLocation.forEach((doctor) => {
+        if (doctor.workLatitude === null || doctor.workLongitude === null) {
+          return;
+        }
+
+        const position = {
+          lat: doctor.workLatitude,
+          lng: doctor.workLongitude,
+        };
+
+        bounds.extend(position);
+
+        const marker = new google.maps.Marker({
+          position,
+          map,
+          title: doctor.name,
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: createInfoWindowContent(doctor),
+          maxWidth: 320,
+          pixelOffset: new google.maps.Size(0, -8),
+        });
+
+        marker.addListener("click", () => {
+          infoWindowsRef.current.forEach((windowItem) => windowItem.close());
+          infoWindow.open({
+            map,
+            anchor: marker,
+          });
+        });
+
+        markersRef.current.set(doctor.id, marker);
+        infoWindowsRef.current.set(doctor.id, infoWindow);
+      });
+
+      if (doctorsWithLocation.length === 1) {
+        map.setZoom(14);
+        map.setCenter(bounds.getCenter());
+      } else {
+        map.fitBounds(bounds, 80);
+      }
+    } catch (error) {
+      setMapLoadErrorMessage(
+        error instanceof Error ? error.message : "Could not load Google Maps."
+      );
+    }
+  }
+
+  void initializeMap();
+
+  return () => {
+    isMounted = false;
+
+    markersRef.current.forEach((marker) => marker.setMap(null));
+    infoWindowsRef.current.forEach((infoWindow) => infoWindow.close());
+    markersRef.current.clear();
+    infoWindowsRef.current.clear();
+    googleMapRef.current = null;
+  };
+}, [apiKey, doctorsWithLocation]);
 
   useEffect(() => {
     if (!selectedDoctorId) return;

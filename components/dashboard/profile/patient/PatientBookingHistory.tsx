@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   AlertCircle,
@@ -42,6 +42,39 @@ type BookingsResponse = {
   bookings: PatientBooking[];
   error?: string;
 };
+
+type BookingsApiEnvelope = {
+  data?: BookingsResponse;
+  bookings?: PatientBooking[];
+  error?: string;
+};
+
+function getApiErrorMessage(value: unknown, fallback: string) {
+  if (typeof value !== "object" || value === null) return fallback;
+
+  const candidate = value as { error?: unknown };
+
+  return typeof candidate.error === "string" ? candidate.error : fallback;
+}
+
+function getBookingsPayload(value: unknown): BookingsResponse | null {
+  if (typeof value !== "object" || value === null) return null;
+
+  const candidate = value as BookingsApiEnvelope;
+
+  if (candidate.data && Array.isArray(candidate.data.bookings)) {
+    return candidate.data;
+  }
+
+  if (Array.isArray(candidate.bookings)) {
+    return {
+      bookings: candidate.bookings,
+      error: candidate.error,
+    };
+  }
+
+  return null;
+}
 
 function getStatusClass(status: string) {
   switch (status) {
@@ -154,29 +187,49 @@ export default function PatientBookingHistory() {
     setRefundReason("");
   }
 
-  async function fetchBookings() {
+const requestBookings = useCallback(async (): Promise<PatientBooking[]> => {
+  const res = await fetch("/api/patient-profile/bookings", {
+    method: "GET",
+    cache: "no-store",
+  });
+
+  const rawData = (await res.json().catch(() => null)) as unknown;
+
+  if (!res.ok) {
+    throw new Error(getApiErrorMessage(rawData, t("errors.fetchFailed")));
+  }
+
+  const payload = getBookingsPayload(rawData);
+
+  if (!payload) {
+    throw new Error(t("errors.fetchFailed"));
+  }
+
+  return payload.bookings;
+}, [t]);
+
+const fetchBookings = useCallback(
+  async ({ showLoading = true }: { showLoading?: boolean } = {}) => {
     try {
-      setIsLoading(true);
-      setError(null);
-
-      const res = await fetch("/api/patient-profile/bookings", {
-        method: "GET",
-        cache: "no-store",
-      });
-
-      const data = (await res.json()) as BookingsResponse;
-
-      if (!res.ok) {
-        throw new Error(data.error || t("errors.fetchFailed"));
+      if (showLoading) {
+        setIsLoading(true);
       }
 
-      setBookings(data.bookings || []);
+      setError(null);
+
+      const nextBookings = await requestBookings();
+
+      setBookings(nextBookings);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("errors.fetchFailed"));
     } finally {
-      setIsLoading(false);
+      if (showLoading) {
+        setIsLoading(false);
+      }
     }
-  }
+  },
+  [requestBookings, t]
+);
 
   async function openStripePortal() {
     try {
@@ -243,7 +296,7 @@ export default function PatientBookingHistory() {
       setSelectedRefundBooking(null);
       setRefundReason("");
 
-      await fetchBookings();
+      await fetchBookings({ showLoading: false });
     } catch (err) {
       setError(
         err instanceof Error ? err.message : t("errors.refundRequestFailed")
@@ -253,10 +306,30 @@ export default function PatientBookingHistory() {
     }
   }
 
-  useEffect(() => {
-    fetchBookings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+useEffect(() => {
+  let isMounted = true;
+
+  requestBookings()
+    .then((nextBookings) => {
+      if (!isMounted) return;
+
+      setBookings(nextBookings);
+    })
+    .catch((err: unknown) => {
+      if (!isMounted) return;
+
+      setError(err instanceof Error ? err.message : t("errors.fetchFailed"));
+    })
+    .finally(() => {
+      if (!isMounted) return;
+
+      setIsLoading(false);
+    });
+
+  return () => {
+    isMounted = false;
+  };
+}, [requestBookings, t]);
 
   return (
     <section className="w-full space-y-6">

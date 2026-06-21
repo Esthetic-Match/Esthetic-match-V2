@@ -99,6 +99,22 @@ function toDoctorCardData(doctor: DoctorCardDto): DoctorCardData {
   };
 }
 
+function isDoctorsNearMeResponse(value: unknown): value is DoctorsNearMeResponse {
+  if (typeof value !== "object" || value === null) return false;
+
+  const candidate = value as Partial<DoctorsNearMeResponse>;
+
+  return Array.isArray(candidate.doctors);
+}
+
+function getApiErrorMessage(value: unknown, fallback: string) {
+  if (typeof value !== "object" || value === null) return fallback;
+
+  const candidate = value as { error?: unknown };
+
+  return typeof candidate.error === "string" ? candidate.error : fallback;
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function DoctorsNearMeClient() {
@@ -107,7 +123,7 @@ export default function DoctorsNearMeClient() {
   // never used in hrefs (your Link from @/i18n/navigation handles that)
   const locale = useLocale();
 
-  const [loadState, setLoadState] = useState<LoadState>("idle");
+  const [loadState, setLoadState] = useState<LoadState>("loading-location");
   const [data, setData] = useState<DoctorsNearMeResponse | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
@@ -122,51 +138,114 @@ export default function DoctorsNearMeClient() {
     localeRef.current = locale;
   }, [locale]);
 
-  const loadDoctorsNearMe = useCallback(() => {
-    setErrorMessage(null);
-    setLoadState("loading-location");
+const fetchDoctorsForPosition = useCallback(
+  async (position: GeolocationPosition): Promise<DoctorsNearMeResponse> => {
+    const response = await fetch("/api/public-pages/doctors-near-me", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        locale: localeRef.current,
+      }),
+    });
 
-    if (!navigator.geolocation) {
-      setLoadState("error");
-      setErrorMessage("Geolocation is not supported by this browser.");
-      return;
+    const result = (await response.json().catch(() => null)) as unknown;
+
+    if (!response.ok) {
+      throw new Error(getApiErrorMessage(result, "Could not load doctors."));
     }
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          setLoadState("loading-doctors");
+    if (!isDoctorsNearMeResponse(result)) {
+      throw new Error("Could not load doctors.");
+    }
 
-          const response = await fetch("/api/public-pages/doctors-near-me", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              locale: localeRef.current,
-            }),
-          });
+    return result;
+  },
+  []
+);
 
-          const result = await response.json().catch(() => null);
-          if (!response.ok) throw new Error(result?.error ?? "Could not load doctors.");
+const handleDoctorsNearMeSuccess = useCallback(
+  async (position: GeolocationPosition) => {
+    try {
+      setLoadState("loading-doctors");
 
-          setData(result as DoctorsNearMeResponse);
-          setLoadState("success");
-        } catch (error) {
-          setLoadState("error");
-          setErrorMessage(error instanceof Error ? error.message : t("errorText"));
-        }
-      },
-      () => setLoadState("denied"),
-      { enableHighAccuracy: false, timeout: 12000, maximumAge: 1000 * 60 * 5 }
-    );
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  // Intentionally empty — locale is read via localeRef, t is stable from next-intl
+      const result = await fetchDoctorsForPosition(position);
 
-  // Runs exactly once on mount
-  useEffect(() => {
-    loadDoctorsNearMe();
-  }, [loadDoctorsNearMe]);
+      setData(result);
+      setSelectedDoctorId(result.doctors[0]?.id ?? null);
+      setLoadState("success");
+    } catch (error) {
+      setLoadState("error");
+      setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+    }
+  },
+  [fetchDoctorsForPosition, t]
+);
+
+const loadDoctorsNearMe = useCallback(() => {
+  setErrorMessage(null);
+  setLoadState("loading-location");
+
+  if (!navigator.geolocation) {
+    setLoadState("error");
+    setErrorMessage("Geolocation is not supported by this browser.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      void handleDoctorsNearMeSuccess(position);
+    },
+    () => {
+      setLoadState("denied");
+    },
+    {
+      enableHighAccuracy: false,
+      timeout: 12000,
+      maximumAge: 1000 * 60 * 5,
+    }
+  );
+}, [handleDoctorsNearMeSuccess]);
+
+useEffect(() => {
+  let isMounted = true;
+
+  if (!navigator.geolocation) {
+    queueMicrotask(() => {
+      if (!isMounted) return;
+
+      setLoadState("error");
+      setErrorMessage("Geolocation is not supported by this browser.");
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      if (!isMounted) return;
+
+      void handleDoctorsNearMeSuccess(position);
+    },
+    () => {
+      if (!isMounted) return;
+
+      setLoadState("denied");
+    },
+    {
+      enableHighAccuracy: false,
+      timeout: 12000,
+      maximumAge: 1000 * 60 * 5,
+    }
+  );
+
+  return () => {
+    isMounted = false;
+  };
+}, [handleDoctorsNearMeSuccess]);
 
   const cardTranslations: CardTranslations = useMemo(
     () => ({

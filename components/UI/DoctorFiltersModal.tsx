@@ -185,16 +185,11 @@ export default function DoctorFiltersModal({
   const [selectedProcedureIds, setSelectedProcedureIds] = useState<string[]>([]);
   const [isQuickFiltersOpen, setIsQuickFiltersOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
-  const [mounted, setMounted] = useState(false);
 
   // ── New filter state ───────────────────────────────────────────────────
   const [showOnlyTopProcedures, setShowOnlyTopProcedures] = useState(false);
   const [maxInClinicPrice, setMaxInClinicPrice] = useState(PRICE_MAX);
   const [maxOnlinePrice, setMaxOnlinePrice] = useState(PRICE_MAX);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // ── Derived state ──────────────────────────────────────────────────────
 
@@ -250,7 +245,7 @@ export default function DoctorFiltersModal({
     };
   }, [isOpen]);
 
-  if (!mounted || !isOpen) return null;
+  if (!isOpen || typeof document === "undefined") return null;
 
   // ── Handlers ───────────────────────────────────────────────────────────
 

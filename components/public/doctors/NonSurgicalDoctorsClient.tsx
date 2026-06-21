@@ -110,7 +110,7 @@ export default function NonSurgicalDoctorsClient() {
   const t = useTranslations("doctor.doctor.nonSurgicalSpecialists");
   const specialtyT = useTranslations("specialitiesName");
 
-  const [loadState, setLoadState] = useState<LoadState>("idle");
+  const [loadState, setLoadState] = useState<LoadState>("loading");
   const [doctors, setDoctors] = useState<DoctorApiItem[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
@@ -152,53 +152,80 @@ export default function NonSurgicalDoctorsClient() {
     return translations;
   }, [doctors, specialtyT]);
 
-  const fetchDoctors = useCallback(
-    async ({ nextPage, append }: { nextPage: number; append: boolean }) => {
-      setLoadState("loading");
-      setErrorMessage(null);
+const requestDoctors = useCallback(
+  async (nextPage: number): Promise<DoctorsApiPayload> => {
+    const searchParams = new URLSearchParams({
+      specialty: NON_SURGICAL_SPECIALTIES.join(","),
+      page: String(nextPage),
+      limit: "12",
+    });
 
-      try {
-        const searchParams = new URLSearchParams({
-          specialty: NON_SURGICAL_SPECIALTIES.join(","),
-          page: String(nextPage),
-          limit: "12",
-        });
-
-        const response = await fetch(
-          `/api/public-pages/doctor-profile?${searchParams.toString()}`,
-          {
-            method: "GET",
-            cache: "no-store",
-          }
-        );
-
-        const result = (await response.json().catch(() => null)) as
-          | DoctorsApiResponse
-          | null;
-
-        if (!response.ok || !result) {
-          throw new Error(t("errorText"));
-        }
-
-        const payload = getDoctorsPayload(result);
-
-        setDoctors((currentDoctors) =>
-          append ? [...currentDoctors, ...payload.doctors] : payload.doctors
-        );
-        setPage(payload.page);
-        setHasMore(payload.hasMore);
-        setLoadState("success");
-      } catch (error) {
-        setLoadState("error");
-        setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+    const response = await fetch(
+      `/api/public-pages/doctor-profile?${searchParams.toString()}`,
+      {
+        method: "GET",
+        cache: "no-store",
       }
-    },
-    [t]
-  );
+    );
 
-  useEffect(() => {
-    void fetchDoctors({ nextPage: 1, append: false });
-  }, [fetchDoctors]);
+    const result = (await response.json().catch(() => null)) as
+      | DoctorsApiResponse
+      | null;
+
+    if (!response.ok || !result) {
+      throw new Error(t("errorText"));
+    }
+
+    return getDoctorsPayload(result);
+  },
+  [t]
+);
+
+const fetchDoctors = useCallback(
+  async ({ nextPage, append }: { nextPage: number; append: boolean }) => {
+    setLoadState("loading");
+    setErrorMessage(null);
+
+    try {
+      const payload = await requestDoctors(nextPage);
+
+      setDoctors((currentDoctors) =>
+        append ? [...currentDoctors, ...payload.doctors] : payload.doctors
+      );
+      setPage(payload.page);
+      setHasMore(payload.hasMore);
+      setLoadState("success");
+    } catch (error) {
+      setLoadState("error");
+      setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+    }
+  },
+  [requestDoctors, t]
+);
+
+useEffect(() => {
+  let isMounted = true;
+
+  requestDoctors(1)
+    .then((payload) => {
+      if (!isMounted) return;
+
+      setDoctors(payload.doctors);
+      setPage(payload.page);
+      setHasMore(payload.hasMore);
+      setLoadState("success");
+    })
+    .catch((error: unknown) => {
+      if (!isMounted) return;
+
+      setLoadState("error");
+      setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+    });
+
+  return () => {
+    isMounted = false;
+  };
+}, [requestDoctors, t]);
 
   const isLoading = loadState === "loading";
 

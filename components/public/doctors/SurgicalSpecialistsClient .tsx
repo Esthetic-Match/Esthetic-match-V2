@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowRight, Loader2, RefreshCw, ShieldCheck, Sparkles } from "lucide-react";
@@ -118,7 +118,7 @@ export default function SurgicalSpecialistsClient() {
   const t = useTranslations("doctor.doctor.surgicalSpecialists");
   const specialtyT = useTranslations("specialitiesName");
 
-  const [loadState, setLoadState] = useState<LoadState>("idle");
+  const [loadState, setLoadState] = useState<LoadState>("loading");
   const [doctors, setDoctors] = useState<DoctorApiItem[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
@@ -150,50 +150,80 @@ export default function SurgicalSpecialistsClient() {
     return buildSpecialtyTranslations(allSpecialtyIds, specialtyT);
   }, [doctors, specialtyT]);
 
-  const fetchDoctors = useCallback(
-    async ({ nextPage, append }: { nextPage: number; append: boolean }) => {
-      setLoadState("loading");
-      setErrorMessage(null);
+const initialFetchStartedRef = useRef(false);
 
-      try {
-        const searchParams = new URLSearchParams({
-          specialty: SURGICAL_SPECIALTIES.join(","),
-          page: String(nextPage),
-          limit: "12",
-        });
+const requestDoctors = useCallback(
+  async (nextPage: number) => {
+    const searchParams = new URLSearchParams({
+      specialty: SURGICAL_SPECIALTIES.join(","),
+      page: String(nextPage),
+      limit: "12",
+    });
 
-        const response = await fetch(`/api/public-pages/doctor-profile?${searchParams.toString()}`, {
-          method: "GET",
-          cache: "no-store",
-        });
-
-        const result = (await response.json().catch(() => null)) as
-          | DoctorsApiResponse
-          | null;
-
-        if (!response.ok || !result) {
-          throw new Error(t("errorText"));
-        }
-
-        const payload = getDoctorsPayload(result);
-
-        setDoctors((currentDoctors) =>
-          append ? [...currentDoctors, ...payload.doctors] : payload.doctors
-        );
-        setPage(payload.page);
-        setHasMore(payload.hasMore);
-        setLoadState("success");
-      } catch (error) {
-        setLoadState("error");
-        setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+    const response = await fetch(
+      `/api/public-pages/doctor-profile?${searchParams.toString()}`,
+      {
+        method: "GET",
+        cache: "no-store",
       }
-    },
-    [t]
-  );
+    );
 
-  useEffect(() => {
-    void fetchDoctors({ nextPage: 1, append: false });
-  }, [fetchDoctors]);
+    const result = (await response.json().catch(() => null)) as
+      | DoctorsApiResponse
+      | null;
+
+    if (!response.ok || !result) {
+      throw new Error(t("errorText"));
+    }
+
+    return getDoctorsPayload(result);
+  },
+  [t]
+);
+
+const fetchDoctors = useCallback(
+  async ({ nextPage, append }: { nextPage: number; append: boolean }) => {
+    setLoadState("loading");
+    setErrorMessage(null);
+
+    try {
+      const payload = await requestDoctors(nextPage);
+
+      setDoctors((currentDoctors) =>
+        append ? [...currentDoctors, ...payload.doctors] : payload.doctors
+      );
+      setPage(payload.page);
+      setHasMore(payload.hasMore);
+      setLoadState("success");
+    } catch (error) {
+      setLoadState("error");
+      setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+    }
+  },
+  [requestDoctors, t]
+);
+
+useEffect(() => {
+  if (initialFetchStartedRef.current) return;
+
+  initialFetchStartedRef.current = true;
+
+  async function loadInitialDoctors() {
+    try {
+      const payload = await requestDoctors(1);
+
+      setDoctors(payload.doctors);
+      setPage(payload.page);
+      setHasMore(payload.hasMore);
+      setLoadState("success");
+    } catch (error) {
+      setLoadState("error");
+      setErrorMessage(error instanceof Error ? error.message : t("errorText"));
+    }
+  }
+
+  void loadInitialDoctors();
+}, [requestDoctors, t]);
 
   const isLoading = loadState === "loading";
 
