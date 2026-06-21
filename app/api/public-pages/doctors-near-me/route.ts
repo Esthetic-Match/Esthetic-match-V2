@@ -49,6 +49,7 @@ type DoctorCardDto = {
   onlineConsulPrice: number | null;
   currency: string;
   distanceKm: number | null;
+  clinicBanner?: string | null;
 };
 
 // ── Select ────────────────────────────────────────────────────────────────────
@@ -73,6 +74,7 @@ const doctorNearMeSelect = Prisma.validator<Prisma.DoctorProfileSelect>()({
   currency: true,
   workLatitude: true,
   workLongitude: true,
+  clinicBanner: true,
   user: {
     select: {
       name: true,
@@ -271,6 +273,7 @@ function formatDoctor({
     stripeConnectOnboardingComplete: doctor.stripeConnectOnboardingComplete,
     onlineActive: doctor.onlineActive,
     currency: doctor.currency,
+    clinicBanner: doctor.clinicBanner,
     distanceKm: distanceKm !== null ? Number(distanceKm.toFixed(1)) : null,
   };
 }

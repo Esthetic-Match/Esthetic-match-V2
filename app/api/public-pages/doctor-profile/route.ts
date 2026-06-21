@@ -216,6 +216,7 @@ export const GET = withApiHandler(async (req: Request) => {
       googleReviewCount: true,
       stripeConnectOnboardingComplete: true,
       onlineActive: true,
+      clinicBanner: true,
       user: {
         select: {
           name: true,
@@ -243,6 +244,7 @@ export const GET = withApiHandler(async (req: Request) => {
     stripeConnectOnboardingComplete: doctor.stripeConnectOnboardingComplete,
     onlineActive: doctor.onlineActive,
     avatar: doctor.avatar ?? doctor.user.image ?? "/images/default-doctor.png",
+    clinicBanner: doctor.clinicBanner,
   }));
 
   return apiSuccess({ doctors: formattedDoctors, page, limit, hasMore });

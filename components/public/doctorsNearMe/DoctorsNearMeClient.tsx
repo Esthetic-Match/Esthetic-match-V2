@@ -32,6 +32,7 @@ type DoctorCardDto = {
   onlineActive?: boolean;
   currency: string;
   distanceKm: number | null;
+  clinicBanner?: string | null;
 };
 
 type DoctorsNearMeResponse = {
@@ -89,6 +90,7 @@ function toDoctorCardData(doctor: DoctorCardDto): DoctorCardData {
     currency: doctor.currency,
     clinicName: doctor.clinicName,
     topThree: doctor.topThree,
+    clinicBanner: doctor.clinicBanner,
   };
 }
 
