@@ -17,6 +17,7 @@ type PublicDoctor = {
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
   currency: string;
+  clinicBanner?: string | null;
 };
 
 async function getMostRecentDoctors(): Promise<PublicDoctor[]> {
@@ -132,7 +133,7 @@ export default async function ProfileDisplay() {
             doctor={doctor}
             t={cardTranslations}
             specialtyT={specialtyTranslations}
-            showDetails={false}
+            showDetails={true}
           />
         ))}
       </div>
