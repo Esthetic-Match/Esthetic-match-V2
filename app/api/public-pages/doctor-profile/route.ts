@@ -25,7 +25,7 @@ export const GET = withApiHandler(async (req: Request) => {
 
   // ── Search / text ──────────────────────────────────────────────────────
   const q = searchParams.get("q")?.trim();
-  const specialty = searchParams.get("specialty")?.trim();
+  const specialties = parseList(searchParams.get("specialty"));
 
   // ── Taxonomy filters ───────────────────────────────────────────────────
   const categories = parseList(searchParams.get("category"));
@@ -56,7 +56,10 @@ export const GET = withApiHandler(async (req: Request) => {
 
   // ── Normalized variants for search ────────────────────────────────────
   const normalizedQ = q ? normalize(q) : undefined;
-  const normalizedSpecialty = specialty ? normalize(specialty) : undefined;
+  const normalizedSpecialties =
+  specialties && specialties.length > 0
+    ? specialties.flatMap((item) => [item, normalize(item)])
+    : [];
 
   // ── Build the WHERE clause ─────────────────────────────────────────────
   //
@@ -75,73 +78,79 @@ export const GET = withApiHandler(async (req: Request) => {
   //   If topThreeOnly is on but NO procedures are selected we skip the
   //   filter (nothing to intersect against).
 
-  const searchOrFiltersRaw: (Prisma.DoctorProfileWhereInput | null)[] = [
-    // Free-text search across name, clinic, city, country, and taxonomy ids
-    q
-      ? {
-          OR: [
-            { user: { name: { contains: q, mode: "insensitive" } } },
-            { clinicName: { contains: q, mode: "insensitive" } },
-            { city: { contains: q, mode: "insensitive" } },
-            { country: { contains: q, mode: "insensitive" } },
-            {
-              specialtyIds: {
-                hasSome: [q, normalizedQ].filter(
-                  (v): v is string => Boolean(v)
-                ),
-              },
+const searchOrFiltersRaw: (Prisma.DoctorProfileWhereInput | null)[] = [
+  q
+    ? {
+        OR: [
+          { user: { name: { contains: q, mode: "insensitive" } } },
+          { clinicName: { contains: q, mode: "insensitive" } },
+          { city: { contains: q, mode: "insensitive" } },
+          { country: { contains: q, mode: "insensitive" } },
+          {
+            specialtyIds: {
+              hasSome: [q, normalizedQ].filter(
+                (v): v is string => Boolean(v)
+              ),
             },
-            {
-              subcategoryIds: {
-                hasSome: [q, normalizedQ].filter(
-                  (v): v is string => Boolean(v)
-                ),
-              },
-            },
-            {
-              procedureIds: {
-                hasSome: [q, normalizedQ].filter(
-                  (v): v is string => Boolean(v)
-                ),
-              },
-            },
-          ],
-        }
-      : null,
-
-    // Specialty filter (separate from free-text)
-    specialty
-      ? {
-          specialtyIds: {
-            hasSome: [specialty, normalizedSpecialty].filter(
-              (v): v is string => Boolean(v)
-            ),
           },
-        }
-      : null,
+          {
+            subcategoryIds: {
+              hasSome: [q, normalizedQ].filter(
+                (v): v is string => Boolean(v)
+              ),
+            },
+          },
+          {
+            procedureIds: {
+              hasSome: [q, normalizedQ].filter(
+                (v): v is string => Boolean(v)
+              ),
+            },
+          },
+        ],
+      }
+    : null,
 
-    // Category — stored as subcategoryIds on the profile
-    categories && categories.length > 0
-      ? { subcategoryIds: { hasSome: categories } }
-      : null,
+  specialties && specialties.length > 0
+    ? {
+        specialtyIds: {
+          hasSome: normalizedSpecialties,
+        },
+      }
+    : null,
 
-    // Procedures — when topThreeOnly is active we match against topThree[]
-    // only, so doctors who have the procedure outside their top 3 are never
-    // admitted. When topThreeOnly is off we match against the full procedureIds[].
-    procedures && procedures.length > 0
-      ? topThreeOnly
-        ? { topThree: { hasSome: procedures } }
-        : { procedureIds: { hasSome: procedures } }
-      : null,
-  ];
+  categories && categories.length > 0
+    ? { subcategoryIds: { hasSome: categories } }
+    : null,
+
+  procedures && procedures.length > 0
+    ? topThreeOnly
+      ? { topThree: { hasSome: procedures } }
+      : { procedureIds: { hasSome: procedures } }
+    : null,
+];
 
   const searchOrFilters = searchOrFiltersRaw.filter(
     (f): f is Prisma.DoctorProfileWhereInput => f !== null
   );
 
+  
+  const publicProfileFilter: Prisma.DoctorProfileWhereInput = {
+  slug: {
+    not: null,
+  },
+  user: {
+    is: {
+      role: "DOCTOR",
+      onboardingCompleted: true,
+    },
+  },
+};
+
   const andFilters: Prisma.DoctorProfileWhereInput[] = [
-    // Search / taxonomy OR block
-    ...(searchOrFilters.length > 0 ? [{ OR: searchOrFilters }] : []),
+  publicProfileFilter,
+
+  ...(searchOrFilters.length > 0 ? [{ OR: searchOrFilters }] : []),
 
     // Location — city OR country, case-insensitive
     ...(location
@@ -190,6 +199,7 @@ export const GET = withApiHandler(async (req: Request) => {
         ]
       : []),
   ];
+
 
   const where: Prisma.DoctorProfileWhereInput =
     andFilters.length > 0 ? { AND: andFilters } : {};

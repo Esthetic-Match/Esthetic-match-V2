@@ -34,6 +34,8 @@ const navItems = [
     link: "/doctors",
     subItems: [
       { name: t("allDoctors"), link: `/doctors` },
+      { name: t("surgicalDoctors"), link: `/doctors/surgical` },
+      { name: t("nonSurgicalDoctors"), link: `/doctors/non-surgical` },
       { name: t("doctorsNearMe"), link: `/doctors/nearme` },
     ],
   },

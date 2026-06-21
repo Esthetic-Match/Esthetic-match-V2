@@ -172,6 +172,8 @@
       "logout": "Se déconnecter",
       "allDoctors": "Tous les médecins",
       "doctorsNearMe": "Médecins près de chez moi",
+      "surgicalDoctors": "Chirurgie esthétique",
+      "nonSurgicalDoctors": "Médecine esthétique",
       "faq": "FAQ"
     },
       "whyDoctorsShouldJoin": {
