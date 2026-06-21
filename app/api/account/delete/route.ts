@@ -4,6 +4,11 @@ import { prisma } from "@/lib/database/prisma";
 import { ApiError, apiSuccess } from "@/lib/api/error-handler";
 import { withApiHandler } from "@/lib/api/with-api-handler";
 
+type TransactionClient = Omit<
+  typeof prisma,
+  "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
+>;
+
 export const DELETE = withApiHandler(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -31,7 +36,7 @@ export const DELETE = withApiHandler(async () => {
     throw new ApiError("User not found", 404, "USER_NOT_FOUND");
   }
 
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: TransactionClient) => {
     if (user.doctorProfile?.id) {
       await tx.beforeAfterCase.deleteMany({
         where: {
