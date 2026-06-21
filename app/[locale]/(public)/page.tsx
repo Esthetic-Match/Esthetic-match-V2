@@ -42,7 +42,7 @@ export default function HomePage() {
   return (
     <>  
         <main className="relative min-h-screen overflow-x-hidden bg-[#FAF9F7] text-[#283C5D]">
-          <script
+          {/* <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
@@ -54,7 +54,7 @@ export default function HomePage() {
             <WhyPatientsUseEstheticMatch />
             <WhyDoctorsShouldJoin />
             <FinalStatement/>
-          </section>
+          </section> */}
         </main>
     </>
   );
