@@ -376,6 +376,19 @@ export const DoctorCatalog = {
           ]
         },
         {
+          subcategory: "botulinum_toxin",
+          procedures: [
+				    { name: "Botulinum Toxin", id: "botulinum_toxin" },
+				    { name: "Lip Flip", id: "lip_flip" },
+				    { name: "Nose Botox", id: "nose_botox" },
+				    { name: "Masseter Botox", id: "masseter_botox" },
+				    { name: "Baby Botox", id: "baby_botox" },
+				    { name: "Full Face Botox", id: "full_face_botox" },
+				    { name: "DAO Botox", id: "dao_botox" },
+            { name: "Neck lift Nefertiti", id: "Neck_lift_botox" }
+          ]
+        },
+        {
           subcategory: "skin_diagnosis",
           procedures: [
             { name: "Skin Analysis / VISIA", id: "skin_analysis" }
