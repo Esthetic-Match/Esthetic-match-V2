@@ -42,5 +42,6 @@ export type DoctorProfileData = {
     email: string;
     image: string | null;
     role: string;
+    onboardingCompleted: boolean;
   };
 };

@@ -246,6 +246,27 @@ export const GET = withApiHandler(async () => {
     throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
   }
 
+  const currentUser = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      id: true,
+      onboardingCompleted: true,
+    },
+  });
+
+  if (!currentUser) {
+    throw new ApiError("Unauthorized", 401, "UNAUTHORIZED");
+  }
+
+  if (!currentUser.onboardingCompleted) {
+    return apiSuccess({
+      onboardingCompleted: false,
+      profile: null,
+    });
+  }
+
   const profile = await prisma.doctorProfile.findUnique({
     where: {
       userId: session.user.id,
@@ -258,12 +279,14 @@ export const GET = withApiHandler(async () => {
           email: true,
           image: true,
           role: true,
+          onboardingCompleted: true,
         },
       },
     },
   });
 
   return apiSuccess({
+    onboardingCompleted: true,
     profile,
   });
 });
