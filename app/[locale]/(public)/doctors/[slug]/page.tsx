@@ -190,11 +190,11 @@ export default async function Profilepage({
         doctorProfile={doctorProfile}
       />
 
-      <PublicExpertiseSection
+      <PublicContactActionsSection
         doctorProfile={doctorProfile}
       />
 
-      <PublicContactActionsSection
+      <PublicExpertiseSection
         doctorProfile={doctorProfile}
       />
 
@@ -214,6 +214,10 @@ export default async function Profilepage({
           doctorProfile.onlineConsulPrice
         }
         currency={doctorProfile.currency}
+        onlineActive={doctorProfile.onlineActive}
+        stripeConnectOnboardingComplete={
+          doctorProfile.stripeConnectOnboardingComplete
+        }
       />
     </main>
   );
