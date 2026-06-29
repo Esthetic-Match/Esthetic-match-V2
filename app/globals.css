@@ -168,3 +168,30 @@
     transform: translate(0, 0);
   }
 }
+
+.esthetic-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(40, 60, 93, 0.75) rgba(40, 60, 93, 0.08);
+}
+
+.esthetic-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.esthetic-scrollbar::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: rgba(40, 60, 93, 0.08);
+}
+
+.esthetic-scrollbar::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(40, 60, 93, 0.75);
+  background-clip: content-box;
+}
+
+.esthetic-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(216, 189, 141, 0.9);
+  background-clip: content-box;
+}
