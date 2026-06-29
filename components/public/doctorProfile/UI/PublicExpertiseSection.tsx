@@ -2,6 +2,12 @@ import { Sparkle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
+import {
+  PublicExpertiseTabs,
+  type PublicExpertiseCategoryGroup,
+  type PublicExpertiseProcedure,
+  type PublicExpertiseSubcategoryGroup,
+} from "./PublicExpertiseTabs";
 
 type PublicExpertiseSectionProps = {
   doctorProfile: {
@@ -19,41 +25,45 @@ export default async function PublicExpertiseSection({
   const proceduresT = await getTranslations("proceduresName");
   const subcategoryT = await getTranslations("subcategoriesName");
 
-  const selectedProcedureIds =
-    doctorProfile.procedureIds ?? [];
+  const selectedProcedureIds = doctorProfile.procedureIds ?? [];
+  const selectedSubcategoryIds = doctorProfile.subcategoryIds ?? [];
 
-  const selectedSubcategoryIds =
-    doctorProfile.subcategoryIds ?? [];
-
-  const groupedProceduresByCategory =
+  const groupedProceduresByCategory: PublicExpertiseCategoryGroup[] =
     DoctorCatalog.categories
-      .map((category) => ({
-        categoryId: category.category,
-
-        subcategories: category.subcategories
-          .map((subcategory) => ({
-            subcategoryId:
-              subcategory.subcategory,
-
-            procedures:
-              subcategory.procedures.filter(
-                (procedure) =>
-                  selectedProcedureIds.includes(
-                    procedure.id
+      .map((category): PublicExpertiseCategoryGroup => {
+        const subcategories: PublicExpertiseSubcategoryGroup[] =
+          category.subcategories
+            .map((subcategory): PublicExpertiseSubcategoryGroup => {
+              const procedures: PublicExpertiseProcedure[] =
+                subcategory.procedures
+                  .filter((procedure): boolean =>
+                    selectedProcedureIds.includes(procedure.id)
                   )
-              ),
-          }))
-          .filter(
-            (subcategory) =>
-              selectedSubcategoryIds.includes(
-                subcategory.subcategoryId
-              ) ||
-              subcategory.procedures.length > 0
-          ),
-      }))
+                  .map((procedure): PublicExpertiseProcedure => ({
+                    id: procedure.id,
+                    label: proceduresT(procedure.id),
+                  }));
+
+              return {
+                subcategoryId: subcategory.subcategory,
+                label: subcategoryT(subcategory.subcategory),
+                procedures,
+              };
+            })
+            .filter(
+              (subcategory): boolean =>
+                selectedSubcategoryIds.includes(subcategory.subcategoryId) ||
+                subcategory.procedures.length > 0
+            );
+
+        return {
+          categoryId: category.category,
+          label: categoriesT(category.category),
+          subcategories,
+        };
+      })
       .filter(
-        (category) =>
-          category.subcategories.length > 0
+        (category): boolean => category.subcategories.length > 0
       );
 
   return (
@@ -63,10 +73,7 @@ export default async function PublicExpertiseSection({
         className="mt-6 rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8"
       >
         <div className="mb-7 flex items-center gap-3">
-          <Sparkle
-            size={20}
-            className="text-[#d8bd8d]"
-          />
+          <Sparkle size={20} className="text-[#d8bd8d]" />
 
           <h2
             id="doctor-expertise-title"
@@ -76,83 +83,11 @@ export default async function PublicExpertiseSection({
           </h2>
         </div>
 
-        {groupedProceduresByCategory.length >
-        0 ? (
-          <div className="space-y-8">
-            {groupedProceduresByCategory.map(
-              (category) => (
-                <div key={category.categoryId}>
-                  <div className="mb-4 flex items-center justify-center gap-3">
-                    <div className="h-px w-8 bg-[#d8bd8d]" />
-
-                    <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-[#283C5D]">
-                      {categoriesT(
-                        category.categoryId
-                      )}
-                    </h3>
-                    <div className="h-px w-8 bg-[#d8bd8d]" />
-                  </div>
-
-                  <div className="space-y-5 text-center">
-                    {category.subcategories.map(
-                      (subcategory) => (
-                        <div
-                          key={
-                            subcategory.subcategoryId
-                          }
-                        >
-                          <h4 className="mb-3 text-sm font-semibold text-[#283C5D]/80">
-                            {subcategoryT(
-                              subcategory.subcategoryId
-                            )}
-                          </h4>
-
-                          {subcategory.procedures
-                            .length > 0 ? (
-                            <ul
-                              itemProp="knowsAbout"
-                              className="flex flex-wrap gap-3 justify-center"
-                              aria-label={t(
-                                "expertise.aria"
-                              )}
-                            >
-                              {subcategory.procedures.map(
-                                (procedure) => (
-                                  <li
-                                    key={
-                                      procedure.id
-                                    }
-                                    className="mb-2"
-                                  >
-                                    <span className="inline-flex max-w-full whitespace-normal break-words rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#283C5D] shadow-sm">
-                                      {proceduresT(
-                                        procedure.id
-                                      )}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          ) : (
-                            <p className="text-sm text-[#283C5D]/45">
-                              {t(
-                                "expertise.noProcedures"
-                              )}
-                            </p>
-                          )}
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        ) : (
-          <p className="text-sm text-[#283C5D]/45">
-            {t("expertise.noProcedures")}
-          </p>
-        )}
+        <PublicExpertiseTabs
+          categories={groupedProceduresByCategory}
+          ariaLabel={t("expertise.aria")}
+          noProceduresLabel={t("expertise.noProcedures")}
+        />
       </section>
     </div>
   );
