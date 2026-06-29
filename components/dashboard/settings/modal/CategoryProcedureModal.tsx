@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { X, CheckCheck, XCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import { cn } from "@/lib/utils/utils";
 import { getVisibleCategories } from "@/components/public/signup/util/utils";
 import { useTranslations } from "next-intl";
+import { ProceduresSearchBar } from "@/components/UI/ProceduresSearchBar";
 
 type CategoryProcedureModalProps = {
   open: boolean;
@@ -31,8 +32,26 @@ type CategoryItem = {
   }[];
 };
 
+type SubcategoryItem = CategoryItem["subcategories"][number];
+
+type ProcedureItem = SubcategoryItem["procedures"][number];
+
+type FilteredSubcategory = {
+  subcategory: string;
+  procedures: ProcedureItem[];
+};
+
+type FilteredCategory = {
+  category: string;
+  subcategories: FilteredSubcategory[];
+};
+
 function getVisibleCategoriesFallback(selectedSpecialties: string[]) {
   return getVisibleCategories(selectedSpecialties);
+}
+
+function normalizeSearchValue(value: string) {
+  return value.trim().toLowerCase();
 }
 
 export default function CategoryProcedureModal({
@@ -49,35 +68,32 @@ export default function CategoryProcedureModal({
   const subcategoryT = useTranslations("subcategoriesName");
   const router = useRouter();
 
+  const wasOpenRef = useRef(false);
+
   const [localCategoryIds, setLocalCategoryIds] =
     useState<string[]>(selectedCategoryIds);
+
   const [localProcedureIds, setLocalProcedureIds] =
     useState<string[]>(selectedProcedureIds);
+
+  const [procedureSearchQuery, setProcedureSearchQuery] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
-  const [wasOpen, setWasOpen] = useState(open);
-  const [previousSelectedCategoryIds, setPreviousSelectedCategoryIds] =
-    useState(selectedCategoryIds);
-  const [previousSelectedProcedureIds, setPreviousSelectedProcedureIds] =
-    useState(selectedProcedureIds);
+  useEffect(() => {
+    if (open && !wasOpenRef.current) {
+      setLocalCategoryIds(selectedCategoryIds);
+      setLocalProcedureIds(selectedProcedureIds);
+      setProcedureSearchQuery("");
+    }
 
-  if (
-    open &&
-    (!wasOpen ||
-      previousSelectedCategoryIds !== selectedCategoryIds ||
-      previousSelectedProcedureIds !== selectedProcedureIds)
-  ) {
-    setLocalCategoryIds(selectedCategoryIds);
-    setLocalProcedureIds(selectedProcedureIds);
-    setPreviousSelectedCategoryIds(selectedCategoryIds);
-    setPreviousSelectedProcedureIds(selectedProcedureIds);
-    setWasOpen(true);
-  }
+    if (!open && wasOpenRef.current) {
+      setIsCategoriesOpen(false);
+      setProcedureSearchQuery("");
+    }
 
-  if (!open && wasOpen) {
-    setWasOpen(false);
-  }
+    wasOpenRef.current = open;
+  }, [open, selectedCategoryIds, selectedProcedureIds]);
 
   const visibleCategories = useMemo(() => {
     return getVisibleCategoriesFallback(specialtyIds);
@@ -87,6 +103,7 @@ export default function CategoryProcedureModal({
     const visibleCategoryNames = new Set(
       visibleCategories.map((category) => category.category)
     );
+
     return DoctorCatalog.categories.filter(
       (category) => !visibleCategoryNames.has(category.category)
     );
@@ -104,24 +121,66 @@ export default function CategoryProcedureModal({
     );
   }, [visibleCategories, localCategoryIds]);
 
-  /** All procedure ids that belong to the currently selected categories */
-  const allVisibleProcedureIds = useMemo<string[]>(() => {
-    return selectedCategories.flatMap((category) =>
+  const filteredSelectedCategories = useMemo<FilteredCategory[]>(() => {
+    const normalizedQuery = normalizeSearchValue(procedureSearchQuery);
+
+    return selectedCategories
+      .map((category): FilteredCategory => {
+        const subcategories = category.subcategories
+          .map((subcategory): FilteredSubcategory => {
+            const procedures = subcategory.procedures.filter(
+              (procedure): boolean => {
+                if (normalizedQuery.length === 0) {
+                  return true;
+                }
+
+                const translatedProcedureName = procedureT(
+                  procedure.id
+                ).toLowerCase();
+
+                const procedureName = procedure.name.toLowerCase();
+                const procedureId = procedure.id.toLowerCase();
+
+                return (
+                  translatedProcedureName.includes(normalizedQuery) ||
+                  procedureName.includes(normalizedQuery) ||
+                  procedureId.includes(normalizedQuery)
+                );
+              }
+            );
+
+            return {
+              subcategory: subcategory.subcategory,
+              procedures,
+            };
+          })
+          .filter(
+            (subcategory): boolean => subcategory.procedures.length > 0
+          );
+
+        return {
+          category: category.category,
+          subcategories,
+        };
+      })
+      .filter((category): boolean => category.subcategories.length > 0);
+  }, [selectedCategories, procedureSearchQuery, procedureT]);
+
+  const visibleProcedureIds = useMemo<string[]>(() => {
+    return filteredSelectedCategories.flatMap((category) =>
       category.subcategories.flatMap((subcategory) =>
         subcategory.procedures.map((procedure) => procedure.id)
       )
     );
-  }, [selectedCategories]);
+  }, [filteredSelectedCategories]);
 
   const allVisibleSelected =
-    allVisibleProcedureIds.length > 0 &&
-    allVisibleProcedureIds.every((id) => localProcedureIds.includes(id));
+    visibleProcedureIds.length > 0 &&
+    visibleProcedureIds.every((id) => localProcedureIds.includes(id));
 
-  const anyVisibleSelected = allVisibleProcedureIds.some((id) =>
+  const anyVisibleSelected = visibleProcedureIds.some((id) =>
     localProcedureIds.includes(id)
   );
-
-  // ── Handlers ─────────────────────────────────────────────────────────
 
   function getProcedureIdsForCategory(category: CategoryItem) {
     return category.subcategories.flatMap((subcategory) =>
@@ -135,10 +194,17 @@ export default function CategoryProcedureModal({
 
     if (isSelected) {
       const linkedProcedureIds = getProcedureIdsForCategory(category);
-      setLocalCategoryIds((prev) => prev.filter((item) => item !== categoryId));
-      setLocalProcedureIds((prev) =>
-        prev.filter((procedureId) => !linkedProcedureIds.includes(procedureId))
+
+      setLocalCategoryIds((prev) =>
+        prev.filter((item) => item !== categoryId)
       );
+
+      setLocalProcedureIds((prev) =>
+        prev.filter(
+          (procedureId) => !linkedProcedureIds.includes(procedureId)
+        )
+      );
+
       return;
     }
 
@@ -156,19 +222,24 @@ export default function CategoryProcedureModal({
   function selectAllProcedures() {
     setLocalProcedureIds((prev) => {
       const next = new Set(prev);
-      allVisibleProcedureIds.forEach((id) => next.add(id));
+
+      visibleProcedureIds.forEach((id) => {
+        next.add(id);
+      });
+
       return Array.from(next);
     });
   }
 
   function deselectAllProcedures() {
     setLocalProcedureIds((prev) =>
-      prev.filter((id) => !allVisibleProcedureIds.includes(id))
+      prev.filter((id) => !visibleProcedureIds.includes(id))
     );
   }
 
   async function handleSave() {
     setIsSaving(true);
+
     try {
       const payload = {
         subcategoryIds: localCategoryIds,
@@ -181,7 +252,9 @@ export default function CategoryProcedureModal({
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Could not update doctor profile.");
+      if (!res.ok) {
+        throw new Error("Could not update doctor profile.");
+      }
 
       onSaved?.(payload);
       router.refresh();
@@ -191,18 +264,22 @@ export default function CategoryProcedureModal({
     }
   }
 
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
+
+  const hasSelectedCategories = selectedCategories.length > 0;
+  const hasFilteredProcedures = filteredSelectedCategories.length > 0;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
-      <div className="relative max-h-[88vh] w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl">
-
-        {/* ── Header ── */}
+      <div className="relative max-h-[108vh] w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-black/10 px-6 py-5">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#d8bd8d]">
               {t("proceduresModal.profileLabel")}
             </p>
+
             <h2 className="mt-1 text-2xl font-semibold text-[#283C5D]">
               {t("proceduresModal.title")}
             </h2>
@@ -217,37 +294,40 @@ export default function CategoryProcedureModal({
           </button>
         </div>
 
-        {/* ── Body ── */}
         <div className="grid h-[64vh] grid-cols-1 overflow-hidden md:grid-cols-[0.85fr_1.4fr]">
-
-          {/* Left: Categories */}
-          <div className="border-b border-black/10 bg-[#FAF9F7] md:border-b-0 md:border-r md:h-full md:overflow-y-auto">
-
-            {/* Mobile: collapsible toggle header */}
+          <div className="esthetic-scrollbar border-b border-black/10 bg-[#FAF9F7] md:h-full md:overflow-y-auto md:border-b-0 md:border-r">
             <div className="md:hidden">
               <button
                 type="button"
                 onClick={() => setIsCategoriesOpen((prev) => !prev)}
-                className="flex w-full items-center justify-between px-6 py-4 text-sm font-semibold text-[#283C5D] transition active:scale-[0.98] cursor-pointer"
+                className="flex w-full cursor-pointer items-center justify-between px-6 py-4 text-sm font-semibold text-[#283C5D] transition active:scale-[0.98]"
               >
                 <span className="text-sm font-semibold uppercase tracking-[0.25em]">
                   {t("proceduresModal.categories")}
                 </span>
-                {isCategoriesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+
+                {isCategoriesOpen ? (
+                  <ChevronUp size={16} />
+                ) : (
+                  <ChevronDown size={16} />
+                )}
               </button>
             </div>
 
-            {/* Desktop: always-visible header */}
-            <div className="hidden md:block px-6 pt-6 pb-4">
+            <div className="hidden px-6 pb-4 pt-6 md:block">
               <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
                 {t("proceduresModal.categories")}
               </h3>
             </div>
 
-            {/* Content — visible always on desktop, toggled on mobile */}
-            <div className={cn("px-6 pb-6 space-y-5", isCategoriesOpen ? "block" : "hidden md:block")}>
+            <div
+              className={cn(
+                "space-y-5 px-6 pb-6",
+                isCategoriesOpen ? "block" : "hidden md:block"
+              )}
+            >
               <div className="space-y-3">
-                {selectedCategories.length > 0 && (
+                {selectedCategories.length > 0 ? (
                   <div className="flex flex-wrap gap-2">
                     {selectedCategories.map((category) => (
                       <button
@@ -260,11 +340,12 @@ export default function CategoryProcedureModal({
                       </button>
                     ))}
                   </div>
-                )}
+                ) : null}
 
-                {selectedCategories.length > 0 && unselectedCategories.length > 0 && (
+                {selectedCategories.length > 0 &&
+                unselectedCategories.length > 0 ? (
                   <div className="h-px w-full bg-black/10" />
-                )}
+                ) : null}
 
                 <div className="flex flex-wrap gap-2">
                   {unselectedCategories.map((category) => (
@@ -280,11 +361,12 @@ export default function CategoryProcedureModal({
                 </div>
               </div>
 
-              {unavailableCategories.length > 0 && (
+              {unavailableCategories.length > 0 ? (
                 <div className="border-t border-black/10 pt-5">
                   <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#283C5D]/45">
                     {t("proceduresModal.outsideSpecialties")}
                   </p>
+
                   <div className="flex flex-wrap gap-2">
                     {unavailableCategories.map((category) => (
                       <button
@@ -298,18 +380,18 @@ export default function CategoryProcedureModal({
                     ))}
                   </div>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
 
-          {/* Right: Procedures */}
-          <div className="h-full overflow-y-auto bg-white p-6">
-            <div className="sticky -top-6 z-10 mb-4 bg-white pb-4 pt-5">
+          <div className="esthetic-scrollbar h-full overflow-y-auto bg-white p-6">
+            <div className="sticky -top-60 z-10 mb-4 bg-white pb-4 pt-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
                     {t("proceduresModal.procedures")}
                   </h3>
+
                   <p className="mt-1 text-xs text-[#283C5D]/55">
                     {t("proceduresModal.description")}
                   </p>
@@ -322,15 +404,24 @@ export default function CategoryProcedureModal({
                 </p>
               </div>
 
-              {/* Select All / Deselect All — only when categories are selected */}
-              {allVisibleProcedureIds.length > 0 && (
+              {hasSelectedCategories ? (
+                <ProceduresSearchBar
+                  value={procedureSearchQuery}
+                  onChange={setProcedureSearchQuery}
+                  placeholder="Search procedures"
+                  ariaLabel="Search procedures"
+                  className="mt-4"
+                />
+              ) : null}
+
+              {visibleProcedureIds.length > 0 ? (
                 <div className="mt-3 flex items-center gap-2">
                   <button
                     type="button"
                     onClick={selectAllProcedures}
                     disabled={allVisibleSelected}
                     className={cn(
-                      "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] cursor-pointer",
+                      "flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97]",
                       allVisibleSelected
                         ? "cursor-not-allowed border-black/5 bg-[#FAF9F7] text-[#283C5D]/30"
                         : "border-[#283C5D]/20 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
@@ -345,7 +436,7 @@ export default function CategoryProcedureModal({
                     onClick={deselectAllProcedures}
                     disabled={!anyVisibleSelected}
                     className={cn(
-                      "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] cursor-pointer",
+                      "flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97]",
                       !anyVisibleSelected
                         ? "cursor-not-allowed border-black/5 bg-[#FAF9F7] text-[#283C5D]/30"
                         : "border-red-200 bg-white text-[#A74848] hover:border-red-500 hover:bg-[#A74848] hover:text-white"
@@ -355,16 +446,20 @@ export default function CategoryProcedureModal({
                     {t("proceduresModal.deselectAll")}
                   </button>
                 </div>
-              )}
+              ) : null}
             </div>
 
-            {selectedCategories.length === 0 ? (
+            {!hasSelectedCategories ? (
               <div className="rounded-2xl border border-dashed border-black/10 bg-[#FAF9F7] p-6 text-sm text-[#283C5D]/60">
                 {t("proceduresModal.emptyCategories")}
               </div>
+            ) : !hasFilteredProcedures ? (
+              <div className="rounded-2xl border border-dashed border-black/10 bg-[#FAF9F7] p-6 text-sm text-[#283C5D]/60">
+                No procedures found.
+              </div>
             ) : (
               <div className="space-y-6 pb-6">
-                {selectedCategories.map((category) => (
+                {filteredSelectedCategories.map((category) => (
                   <div key={category.category} className="space-y-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
                       {categoryT(category.category)}
@@ -381,7 +476,10 @@ export default function CategoryProcedureModal({
 
                         <div className="flex flex-wrap gap-2">
                           {subcategory.procedures.map((procedure) => {
-                            const isSelected = localProcedureIds.includes(procedure.id);
+                            const isSelected = localProcedureIds.includes(
+                              procedure.id
+                            );
+
                             return (
                               <button
                                 key={procedure.id}
@@ -408,7 +506,6 @@ export default function CategoryProcedureModal({
           </div>
         </div>
 
-        {/* ── Footer ── */}
         <div className="flex items-center justify-end gap-3 border-t border-black/10 px-6 py-5">
           <button
             type="button"
