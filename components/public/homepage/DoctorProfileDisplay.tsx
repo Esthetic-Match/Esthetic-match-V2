@@ -117,13 +117,6 @@ export default async function ProfileDisplay() {
           </h2>
           <div className="mt-2 h-px w-16 bg-[#d8bd8d]" />
         </div>
-
-        <Link
-          href="/doctors"
-          className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#d8bd8d] transition hover:text-[#283C5D]"
-        >
-          {t("viewAllPractitioners")} →
-        </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -131,7 +124,6 @@ export default async function ProfileDisplay() {
           <DoctorCards
             key={doctor.id}
             doctor={doctor}
-            t={cardTranslations}
             specialtyT={specialtyTranslations}
             showDetails={true}
           />

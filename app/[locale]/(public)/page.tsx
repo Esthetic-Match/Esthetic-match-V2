@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import AmbientBackground from "@/components/UI/BlueAmbientBackground";
 import HomeSection from "@/components/public/homepage/HeroSection"
 import CategoryCarousel from "@/components/public/homepage/CategoryCarousel";
-import ProfileDisplay from "@/components/public/homepage/DoctorProfileDisplay";
 import WhyDoctorsShouldJoin from "@/components/public/homepage/WhyDoctorsShouldJoin";
 import WhyPatientsUseEstheticMatch from "@/components/public/homepage/WhyPatientsUseEstheticMatch";
 import { FinalStatement } from "@/components/public/homepage/FinalStatement";
+import DoctorsNearMeClient from "@/components/public/doctorsNearMe/DoctorsNearMeClient";
 
 export const metadata: Metadata = {
   title: "Esthetic Match | Find Trusted Aesthetic Doctors",
@@ -50,7 +50,7 @@ export default function HomePage() {
           <section aria-label="Esthetic Match homepage content">
             <HomeSection />
             <CategoryCarousel/>
-            <ProfileDisplay />
+            <DoctorsNearMeClient />
             <WhyPatientsUseEstheticMatch />
             <WhyDoctorsShouldJoin />
             <FinalStatement/>

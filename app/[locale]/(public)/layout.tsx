@@ -20,10 +20,8 @@ export default async function LocaleLayout({
         strategy="beforeInteractive"
       />
         <PublicNavbarVisibility /> 
-        <PageLoadGate>
           {children}
-          <FooterVisibility />
-        </PageLoadGate>
+        <FooterVisibility />
     </>
   );
 }
