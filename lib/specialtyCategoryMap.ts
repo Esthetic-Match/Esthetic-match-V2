@@ -1,61 +1,75 @@
 export const SPECIALTY_CATEGORY_MAP: Record<string, string[]> = {
-  aesthetic_doctor: [
-    "aesthetic_medicine_face",
-    "aesthetic_medicine_body",
-    "hair_medicine",
-    "muscle_tone_and_ems",
-    "iv_therapy",
-    "wellness_and_postoperative",
-    "longevity",
-  ],
-  plastic_surgeon: [
-    "surgical_face",
-    "surgical_body",
-    "aesthetic_medicine_face",
-    "aesthetic_medicine_body",
-    "hair_medicine",
-    "longevity",
-  ],
-  reconstructive_surgeon: [
-    "surgical_face",
-    "surgical_body",
-    "aesthetic_medicine_face",
-    "aesthetic_medicine_body",
-    "longevity",
-  ],
-  dermatologist: [
-    "aesthetic_medicine_face",
-    "aesthetic_medicine_body",
-    "hair_medicine",
-    "longevity",
-    "iv_therapy",
-  ],
-  general_practitioner: [
-    "aesthetic_medicine_face",
-    "iv_therapy",
-    "wellness_and_postoperative",
-    "longevity",
-    "aesthetic_medicine_body",
-  ],
-  ophthalmologist: ["aesthetic_medicine_face", "longevity"],
-  oculoplastic_surgeon: ["surgical_face", "aesthetic_medicine_face", "longevity"],
-  dentist: ["aesthetic_dentistry"],
-  maxillofacial_surgeon: [
-    "surgical_face",
-    "aesthetic_dentistry",
-    "aesthetic_medicine_face",
-  ],
-  ent_surgeon: ["surgical_face", "aesthetic_medicine_face"],
-  orthodontist: ["aesthetic_dentistry"],
-  other_specialty: [
-    "aesthetic_medicine_face",
-    "aesthetic_medicine_body",
-    "hair_medicine",
-    "muscle_tone_and_ems",
-    "iv_therapy",
-    "wellness_and_postoperative",
-    "surgical_face",
-    "surgical_body",
-    "longevity",
-  ],
+"aesthetic_doctor": [
+"aesthetic_medicine_face",
+"aesthetic_medicine_body",
+"hair_medicine",
+"muscle_tone_and_ems",
+"iv_therapy",
+"wellness_and_postoperative",
+"longevity"
+],
+"plastic_surgeon": [
+"surgical_face",
+"surgical_body",
+"aesthetic_medicine_face",
+"aesthetic_medicine_body",
+"hair_medicine",
+"longevity"
+],
+"reconstructive_surgeon": [
+"surgical_face",
+"surgical_body",
+"aesthetic_medicine_face",
+"aesthetic_medicine_body",
+"longevity"
+],
+"dermatologist": [
+"aesthetic_medicine_face",
+"aesthetic_medicine_body",
+"hair_medicine",
+"longevity",
+"iv_therapy"
+],
+"general_practitioner": [
+"aesthetic_medicine_face",
+"iv_therapy",
+"wellness_and_postoperative",
+"longevity",
+"aesthetic_medicine_body"
+],
+"ophthalmologist": [
+"aesthetic_medicine_face",
+"longevity"
+],
+"oculoplastic_surgeon": [
+"surgical_face",
+"aesthetic_medicine_face",
+"longevity"
+],
+"dentist": [
+"aesthetic_dentistry"
+],
+"maxillofacial_surgeon": [
+"surgical_face",
+"aesthetic_dentistry",
+"aesthetic_medicine_face"
+],
+"ent_surgeon": [
+"surgical_face",
+"aesthetic_medicine_face"
+],
+"orthodontist": [
+"aesthetic_dentistry"
+],
+"other_specialty": [
+"aesthetic_medicine_face",
+"aesthetic_medicine_body",
+"hair_medicine",
+"muscle_tone_and_ems",
+"iv_therapy",
+"wellness_and_postoperative",
+"surgical_face",
+"surgical_body",
+"longevity"
+]
 };

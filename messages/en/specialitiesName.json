@@ -1,14 +1,14 @@
 {
-  "aesthetic_doctor": "Aesthetic Doctor (DIU)",
-  "plastic_surgeon": "Plastic Surgeon",
-  "reconstructive_surgeon": "Reconstructive Surgeon",
-  "dermatologist": "Dermatologist",
-  "general_practitioner": "General Practitioner",
-  "ophthalmologist": "Ophthalmologist",
-  "oculoplastic_surgeon": "Oculoplastic Surgeon",
-  "dentist": "Dentist",
-  "maxillofacial_surgeon": "Maxillofacial Surgeon",
-  "ent_surgeon": "ENT Surgeon",
-  "orthodontist": "Orthodontist",
-  "other_specialty": "Other Specialty"
+"aesthetic_doctor": "Aesthetic Doctor (DIU)",
+"plastic_surgeon": "Plastic Surgeon",
+"reconstructive_surgeon": "Reconstructive Surgeon",
+"dermatologist": "Dermatologist",
+"general_practitioner": "General Practitioner",
+"ophthalmologist": "Ophthalmologist",
+"oculoplastic_surgeon": "Oculoplastic Surgeon",
+"dentist": "Dentist",
+"maxillofacial_surgeon": "Maxillofacial Surgeon",
+"ent_surgeon": "ENT Surgeon",
+"orthodontist": "Orthodontist",
+"other_specialty": "Other Specialty"
 }
