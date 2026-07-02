@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import DoctorCards from "../UI/DoctorCards";
-import type { CardTranslations, SpecialtyTranslations, DoctorCardData } from "../UI/DoctorCards";
+import type { SpecialtyTranslations, DoctorCardData } from "../UI/DoctorCards";
 import { Check } from "lucide-react";
 
 type DoctorFilters = {
@@ -22,7 +22,6 @@ type Props = {
   initialHasMore: boolean;
   filters?: DoctorFilters;
   limit: number;
-  t: CardTranslations;
   specialtyT: SpecialtyTranslations;
 };
 
@@ -31,7 +30,6 @@ export default function DoctorsInfiniteList({
   initialHasMore,
   filters,
   limit,
-  t,
   specialtyT,
 }: Props) {
   const [doctors, setDoctors] = useState<DoctorCardData[]>(initialDoctors);
@@ -102,7 +100,6 @@ export default function DoctorsInfiniteList({
           <DoctorCards
             key={doctor.id}
             doctor={doctor}
-            t={t}
             specialtyT={specialtyT}
           />
         ))}

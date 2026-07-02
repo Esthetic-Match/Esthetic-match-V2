@@ -4,7 +4,6 @@ import { Link } from "@/i18n/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import DoctorCards, {
-  type CardTranslations,
   type DoctorCardData,
   type SpecialtyTranslations,
 } from "@/components/public/UI/DoctorCards";
@@ -247,21 +246,6 @@ useEffect(() => {
   };
 }, [handleDoctorsNearMeSuccess]);
 
-  const cardTranslations: CardTranslations = useMemo(
-    () => ({
-      reviews: t("reviews"),
-      free: t("free"),
-      viewProfile: t("viewProfile"),
-      verifiedProfile: t("verifiedProfile"),
-      inClinic: t("inClinic"),
-      online: t("online"),
-      from: t("from"),
-      years: t("years"),
-      experience: t("experience"),
-    }),
-    [t]
-  );
-
   const specialtyTranslations = useMemo<SpecialtyTranslations>(() => {
     if (!data) return {};
     return buildSpecialtyTranslations(data.doctors);
@@ -439,7 +423,6 @@ useEffect(() => {
             >
               <DoctorCards
                 doctor={toDoctorCardData(doctor)}
-                t={cardTranslations}
                 specialtyT={specialtyTranslations}
                 showDetails={false}
               />

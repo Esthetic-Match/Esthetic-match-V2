@@ -73,12 +73,6 @@ export default async function DoctorsListSection({
   const limit = 12;
   const { doctors, hasMore } = await getDoctors(filters, 1, limit);
 
-  const cardTranslations = {
-    reviews:     t("reviews"),
-    free:        t("free"),
-    viewProfile: t("viewProfile"),
-  };
-
   const allSpecialtyIds = [...new Set(doctors.flatMap((d) => d.specialtyIds))];
 
   const specialtyTranslations = Object.fromEntries(
@@ -173,7 +167,6 @@ export default async function DoctorsListSection({
           initialHasMore={hasMore}
           filters={filters}
           limit={limit}
-          t={cardTranslations}
           specialtyT={specialtyTranslations}
         />
       )}

@@ -1,4 +1,3 @@
-import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import DoctorCards from "@/components/public/UI/DoctorCards";
@@ -45,15 +44,6 @@ export default async function ProfileDisplay() {
 
   // Collect only the specialty IDs actually used by these doctors
   const allSpecialtyIds = [...new Set(doctors.flatMap((d) => d.specialtyIds))];
-
-  const cardTranslations = {
-    reviews:     t("reviews"),
-    free:        t("free"),
-    viewProfile: t("viewProfile"),
-    verifiedProfile: t("veriiedDoctors"),
-    inClinic:    t("inClinic"),
-    online:      t("online"),
-  };
 
   const specialtyTranslations = Object.fromEntries(
     allSpecialtyIds.map((id) => {

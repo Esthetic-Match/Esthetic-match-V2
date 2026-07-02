@@ -7,7 +7,6 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ArrowRight, Loader2, RefreshCw, ShieldCheck, Sparkles } from "lucide-react";
 import DoctorCards, {
-  type CardTranslations,
   type DoctorCardData,
   type SpecialtyTranslations,
 } from "@/components/public/UI/DoctorCards";
@@ -123,21 +122,6 @@ export default function SurgicalSpecialistsClient() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const cardTranslations: CardTranslations = useMemo(
-    () => ({
-      reviews: t("reviews"),
-      free: t("free"),
-      viewProfile: t("viewProfile"),
-      verifiedProfile: t("verifiedProfile"),
-      inClinic: t("inClinic"),
-      online: t("online"),
-      from: t("from"),
-      years: t("years"),
-      experience: t("experience"),
-    }),
-    [t]
-  );
 
   const specialtyTranslations = useMemo<SpecialtyTranslations>(() => {
     const allSpecialtyIds = [
@@ -343,7 +327,6 @@ useEffect(() => {
                 <DoctorCards
                   key={doctor.id}
                   doctor={toDoctorCardData(doctor)}
-                  t={cardTranslations}
                   specialtyT={specialtyTranslations}
                   showDetails
                 />
