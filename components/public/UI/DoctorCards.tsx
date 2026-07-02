@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
   Building2,
@@ -32,23 +33,10 @@ export type DoctorCardData = {
   clinicBanner?: string | null;
 };
 
-export type CardTranslations = {
-  reviews: string;
-  free: string;
-  viewProfile: string;
-  verifiedProfile?: string;
-  inClinic?: string;
-  online?: string;
-  from?: string;
-  years?: string;
-  experience?: string;
-};
-
 export type SpecialtyTranslations = Record<string, string>;
 
 type DoctorCardProps = {
   doctor: DoctorCardData;
-  t: CardTranslations;
   specialtyT: SpecialtyTranslations;
   showDetails?: boolean;
   showSpecialties?: boolean;
@@ -70,11 +58,12 @@ const FALLBACK_BANNER_CLASS =
 
 export default function DoctorCards({
   doctor,
-  t,
   specialtyT,
   showDetails = true,
   showSpecialties = true,
 }: DoctorCardProps) {
+  const t = useTranslations("home.Home");
+
   const specialties = doctor.specialtyIds;
 
   const mainTags =
@@ -111,7 +100,9 @@ export default function DoctorCards({
     >
       {/* ── Banner ── */}
       <div
-        className={`relative h-28 shrink-0 ${hasBanner ? "" : FALLBACK_BANNER_CLASS}`}
+        className={`relative h-28 shrink-0 ${
+          hasBanner ? "" : FALLBACK_BANNER_CLASS
+        }`}
       >
         {hasBanner ? (
           <Image
@@ -127,7 +118,7 @@ export default function DoctorCards({
         {/* Verified badge */}
         <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-[#283C5D] shadow-sm">
           <ShieldCheck className="h-3.5 w-3.5 text-[#CEB591]" />
-          {t.verifiedProfile}
+          {t("veriiedDoctors")}
         </div>
 
         {/* Rating badge */}
@@ -153,7 +144,7 @@ export default function DoctorCards({
           <Image
             src={doctor.avatar || "/images/default-doctor.png"}
             alt={`${doctor.name}, ${specialties
-              .map((id) => specialtyT[id] ?? id)
+              .map((id: string) => specialtyT[id] ?? id)
               .join(", ")}`}
             fill
             sizes="96px"
@@ -165,7 +156,6 @@ export default function DoctorCards({
 
       {/* ── Body — grows to fill card height ── */}
       <div className="flex flex-1 flex-col px-6 pb-6 pt-16">
-
         {/* Doctor name + clinic */}
         <div>
           <h3
@@ -198,8 +188,7 @@ export default function DoctorCards({
           <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#F8F3EA] px-3 py-2 text-xs font-semibold text-[#283C5D]/70">
             <BriefcaseBusiness className="h-4 w-4 text-[#CEB591]" />
             <span>
-              {doctor.yearsOfExperience}+ {t.years ?? "yrs"}{" "}
-              {t.experience ?? "experience"}
+              {doctor.yearsOfExperience}+ {t("years")} {t("experience")}
             </span>
           </div>
         ) : null}
@@ -210,8 +199,9 @@ export default function DoctorCards({
             <p className="mb-2.5 text-center text-[10px] font-semibold uppercase tracking-widest text-[#283C5D]/40">
               Specialties
             </p>
+
             <div className="flex flex-wrap items-center justify-center gap-2">
-              {visibleTags.map((id) => (
+              {visibleTags.map((id: string) => (
                 <span
                   key={id}
                   itemProp="medicalSpecialty"
@@ -232,6 +222,10 @@ export default function DoctorCards({
 
         {/* ── Footer — pushed to bottom via mt-auto ── */}
         <div className="mt-auto pt-6">
+          <p className="mb-2 text-xs font-semibold leading-snug text-[#283C5D]/55">
+            {t("consultationPricesTitle")}
+          </p>
+
           {/* Price cards */}
           <div
             className={
@@ -243,40 +237,38 @@ export default function DoctorCards({
             <div className="flex flex-col rounded-2xl bg-[#FCFCFB] p-4">
               <div className="flex items-center gap-1.5">
                 <Building2 className="h-3.5 w-3.5 shrink-0 text-[#CEB591]" />
-                {t.inClinic ? (
-                  <span className="text-xs font-medium leading-tight text-[#283C5D]/50">
-                    {t.inClinic}
-                  </span>
-                ) : null}
+                <span className="text-xs font-medium leading-tight text-[#283C5D]/50">
+                  {t("inClinic")}
+                </span>
               </div>
+          
               <p className="mt-auto pt-2 text-sm font-bold text-[#283C5D]">
-                {inClinicPrice ? inClinicPrice : t.free}
+                {inClinicPrice ? inClinicPrice : t("free")}
               </p>
             </div>
-
+          
             {shouldShowOnlineCard ? (
               <div className="flex flex-col rounded-2xl bg-[#FCFCFB] p-4">
                 <div className="flex items-center gap-1.5">
                   <Monitor className="h-3.5 w-3.5 shrink-0 text-[#CEB591]" />
-                  {t.online ? (
-                    <span className="text-xs font-medium leading-tight text-[#283C5D]/50">
-                      {t.online}
-                    </span>
-                  ) : null}
+                  <span className="text-xs font-medium leading-tight text-[#283C5D]/50">
+                    {t("online")}
+                  </span>
                 </div>
+            
                 <p className="mt-auto pt-2 text-sm font-bold text-[#283C5D]">
-                  {onlinePrice ? onlinePrice : t.free}
+                  {onlinePrice ? onlinePrice : t("free")}
                 </p>
               </div>
             ) : null}
           </div>
-
+          
           {/* CTA button */}
           <Link
             href={`/doctors/${doctor.slug}`}
             className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-[#283C5D] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#D0B796] hover:text-[#283C5D] active:scale-[0.98]"
           >
-            {t.viewProfile}
+            {t("viewProfile")}
           </Link>
         </div>
       </div>

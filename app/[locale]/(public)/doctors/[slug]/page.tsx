@@ -209,7 +209,7 @@ export default async function Profilepage({
 
       <DoctorQuestionStickyBanner
         doctorProfileId={doctorProfile.id}
-        doctorName={doctorProfile.clinicName}
+        doctorName={doctorProfile.user.name}
         onlineConsulPrice={
           doctorProfile.onlineConsulPrice
         }

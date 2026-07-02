@@ -1,5 +1,6 @@
 import HeaderSection from "@/components/public/doctors/HeaderSection";
 import DoctorsListSection from "@/components/public/doctors/DoctorsListSection";
+import ProfileDisplay from "@/components/public/homepage/DoctorProfileDisplay";
 
 export const metadata = {
   title: "Find Aesthetic Doctors | Esthetic Match",
@@ -42,6 +43,7 @@ export default async function DoctorsPage({
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
       <HeaderSection initialQuery={params.q ?? ""} />
+      <ProfileDisplay />
       <DoctorsListSection filters={params} />
     </main>
   );

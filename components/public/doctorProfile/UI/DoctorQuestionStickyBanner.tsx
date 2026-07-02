@@ -222,63 +222,63 @@ export default function DoctorQuestionStickyBanner({
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-4 z-50 px-3 sm:px-4 md:bottom-6">
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 rounded-3xl border border-[#d8bd8d]/40 bg-white/95 p-4 shadow-2xl shadow-[#283C5D]/10 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:p-5">
-        <div className="flex min-w-0 flex-1 items-start gap-4">
-          {canFavorite ? (
-            <button
-              type="button"
-              onClick={handleFavorite}
-              disabled={isLoading}
-              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:opacity-80 sm:h-12 sm:w-12 ${
-                isFavorited
-                  ? "bg-[#d8bd8d] text-white"
-                  : "bg-[#283c5d] text-[#d8bd8d]"
-              }`}
-            >
-              {isLoading ? (
-                <Loader2 size={18} className="animate-spin" />
-              ) : (
-                <Heart
-                  size={18}
-                  className={isFavorited ? "fill-current" : ""}
-                />
-              )}
-            </button>
-          ) : null}
-
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold leading-snug text-[#283C5D] sm:text-base">
-              {t("title", { doctorName })}
-            </p>
-
-            <p className="mt-1 text-xs font-medium leading-relaxed text-[#283C5D]/55 sm:text-sm">
-              {t("subtitle")}
-            </p>
-
-            <p className="mt-2 text-sm font-bold text-[#d8bd8d] sm:hidden">
-              {isFree ? t("free") : t("fromPrice", { price: formattedPrice })}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex shrink-0 items-center justify-between gap-3 sm:justify-end">
-          <p className="text-sm font-bold text-[#d8bd8d] max-sm:hidden">
-            {isFree ? t("free") : t("fromPrice", { price: formattedPrice })}
-          </p>
-
-          {isFree ? (
-            <FreeOnlineConsultationButton doctorProfileId={doctorProfileId} />
+<div className="fixed inset-x-0 bottom-4 z-50 px-3 sm:px-4 md:bottom-6">
+  <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 rounded-3xl border border-[#d8bd8d]/45 bg-[#283C5D]/95 p-4 shadow-2xl shadow-[#283C5D]/25 backdrop-blur-md sm:flex-row sm:items-center sm:justify-between sm:p-5">
+    <div className="flex min-w-0 flex-1 items-start gap-4">
+      {canFavorite ? (
+        <button
+          type="button"
+          onClick={handleFavorite}
+          disabled={isLoading}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition hover:opacity-80 sm:h-12 sm:w-12 ${
+            isFavorited
+              ? "border-[#d8bd8d] bg-[#d8bd8d] text-[#283C5D]"
+              : "border-white/15 bg-white/10 text-[#d8bd8d]"
+          }`}
+        >
+          {isLoading ? (
+            <Loader2 size={18} className="animate-spin" />
           ) : (
-            <StripeConsultationCheckOutButton
-              doctorProfileId={doctorProfileId}
-              consultationType="ONLINE"
-              price={onlineConsulPrice}
-              currency={currency}
+            <Heart
+              size={18}
+              className={isFavorited ? "fill-current" : ""}
             />
           )}
-        </div>
+        </button>
+      ) : null}
+
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-bold leading-snug text-white sm:text-base">
+          {t("title", { doctorName })}
+        </p>
+
+        <p className="mt-1 text-xs font-medium leading-relaxed text-white/65 sm:text-sm">
+          {t("subtitle")}
+        </p>
+
+        <p className="mt-2 text-sm font-bold text-[#d8bd8d] sm:hidden">
+          {isFree ? t("free") : t("fromPrice", { price: formattedPrice })}
+        </p>
       </div>
     </div>
+
+    <div className="flex shrink-0 items-center justify-between gap-3 sm:justify-end">
+      <p className="text-sm font-bold text-[#d8bd8d] max-sm:hidden">
+        {isFree ? t("free") : t("fromPrice", { price: formattedPrice })}
+      </p>
+
+      {isFree ? (
+        <FreeOnlineConsultationButton doctorProfileId={doctorProfileId} />
+      ) : (
+        <StripeConsultationCheckOutButton
+          doctorProfileId={doctorProfileId}
+          consultationType="ONLINE"
+          price={onlineConsulPrice}
+          currency={currency}
+        />
+      )}
+    </div>
+  </div>
+</div>
   );
 }

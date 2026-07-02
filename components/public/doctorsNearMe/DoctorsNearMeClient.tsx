@@ -276,9 +276,6 @@ useEffect(() => {
   return (
     <main className="min-h-screen bg-white">
       <section className="relative overflow-hidden border-b border-[#CEB591]/20">
-      
-      <div className="absolute inset-0 bg-gradient-to-b from-[#283C5D]/60 via-transparent to-[#FAF9F7]" />
-
         <div className="relative mx-auto flex max-w-7xl flex-col gap-10 px-6 py-20 md:px-10 lg:flex-row lg:items-end lg:justify-between lg:py-24">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-[#CEB591]/30 bg-white/75 px-4 py-2 text-sm font-bold text-[#283C5D] shadow-sm backdrop-blur">
