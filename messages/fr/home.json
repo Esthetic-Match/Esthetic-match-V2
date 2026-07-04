@@ -114,6 +114,13 @@
         "deselectAllProcedures": "Tout désélectionner"
       }
     },
+    "instagramReels": {
+      "eyebrow": "Instagram",
+      "title": "Découvrez-en plus avec Esthetic Match",
+      "description": "Découvrez les conseils, les traitements et les inspirations partagés par notre communauté.",
+      "loading": "Chargement des Reels Instagram",
+      "iframeTitle": "Reel Instagram {shortcode}"
+    },
     "contact": {
       "seo": {
         "title": "Contactez-nous | Esthetic Match",

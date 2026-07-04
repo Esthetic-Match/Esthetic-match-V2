@@ -111,3 +111,8 @@ export type Message = Prisma.MessageModel
  * 
  */
 export type MessageAttachment = Prisma.MessageAttachmentModel
+/**
+ * Model InstagramReel
+ * 
+ */
+export type InstagramReel = Prisma.InstagramReelModel

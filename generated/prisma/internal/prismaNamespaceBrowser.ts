@@ -64,7 +64,8 @@ export const ModelName = {
   BeforeAfterCase: 'BeforeAfterCase',
   Conversation: 'Conversation',
   Message: 'Message',
-  MessageAttachment: 'MessageAttachment'
+  MessageAttachment: 'MessageAttachment',
+  InstagramReel: 'InstagramReel'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -356,6 +357,17 @@ export const MessageAttachmentScalarFieldEnum = {
 } as const
 
 export type MessageAttachmentScalarFieldEnum = (typeof MessageAttachmentScalarFieldEnum)[keyof typeof MessageAttachmentScalarFieldEnum]
+
+
+export const InstagramReelScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InstagramReelScalarFieldEnum = (typeof InstagramReelScalarFieldEnum)[keyof typeof InstagramReelScalarFieldEnum]
 
 
 export const SortOrder = {
