@@ -363,6 +363,7 @@ export const InstagramReelScalarFieldEnum = {
   id: 'id',
   url: 'url',
   sortOrder: 'sortOrder',
+  doctorProfileId: 'doctorProfileId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

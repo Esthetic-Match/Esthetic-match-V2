@@ -161,6 +161,17 @@
         "googleUser": "Utilisateur Google",
         "viewMore": "Voir plus sur Google"
       },
+      "doctorInstagramReels": {
+        "eyebrow": "Sur Instagram",
+        "singleTitle": "Découvrez-en plus sur ce médecin",
+        "singleDescription": "Découvrez le travail, les traitements et l'approche esthétique du médecin à travers une sélection de ses contenus Instagram.",
+        "multipleTitle": "Contenus Instagram à découvrir",
+        "multipleDescription": "Explorez une sélection de contenus de ce médecin et découvrez ses traitements, ses résultats et son approche esthétique.",
+        "watchTitle": "Regarder le Reel",
+        "watchDescription": "Lisez la vidéo directement depuis ce profil",
+        "reelLabel": "Reel Instagram",
+        "iframeTitle": "Reel Instagram {shortcode}"
+      },
       "gallery": {
         "title": "Galerie de photo",
         "before": "Avant",

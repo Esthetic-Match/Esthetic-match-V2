@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+
 import { ApiError, apiSuccess } from "@/lib/api/error-handler";
 import { withApiHandler } from "@/lib/api/with-api-handler";
 import { auth } from "@/lib/auth/auth";
@@ -9,18 +10,19 @@ export const dynamic = "force-dynamic";
 type InstagramReelUpdateData = {
   url?: string;
   sortOrder?: number;
+  doctorProfileId?: string | null;
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
-function normalizeInstagramReelUrl(value: unknown): string {
+function normalizeInstagramUrl(value: unknown): string {
   if (typeof value !== "string" || !value.trim()) {
     throw new ApiError(
-      "Instagram Reel URL is required.",
+      "Instagram URL is required.",
       400,
-      "INVALID_INSTAGRAM_REEL_URL"
+      "INVALID_INSTAGRAM_URL"
     );
   }
 
@@ -30,9 +32,9 @@ function normalizeInstagramReelUrl(value: unknown): string {
     parsedUrl = new URL(value.trim());
   } catch {
     throw new ApiError(
-      "Invalid Instagram Reel URL.",
+      "Invalid Instagram URL.",
       400,
-      "INVALID_INSTAGRAM_REEL_URL"
+      "INVALID_INSTAGRAM_URL"
     );
   }
 
@@ -54,29 +56,30 @@ function normalizeInstagramReelUrl(value: unknown): string {
     .split("/")
     .filter((part: string) => part.length > 0);
 
-  const reelIndex = pathParts.findIndex(
-    (part: string) => part === "reel"
+  const contentTypeIndex = pathParts.findIndex(
+    (part: string) => part === "reel" || part === "p"
   );
 
-  if (reelIndex === -1) {
+  if (contentTypeIndex === -1) {
     throw new ApiError(
-      "The URL must be a valid Instagram Reel URL.",
+      "The URL must be a valid Instagram Reel or post URL.",
       400,
-      "INVALID_INSTAGRAM_REEL_URL"
+      "INVALID_INSTAGRAM_URL"
     );
   }
 
-  const shortcode = pathParts[reelIndex + 1];
+  const contentType = pathParts[contentTypeIndex];
+  const shortcode = pathParts[contentTypeIndex + 1];
 
   if (!shortcode) {
     throw new ApiError(
-      "The URL must contain a valid Instagram Reel shortcode.",
+      "The Instagram URL does not contain a valid shortcode.",
       400,
-      "INVALID_INSTAGRAM_REEL_URL"
+      "INVALID_INSTAGRAM_URL"
     );
   }
 
-  return `https://www.instagram.com/reel/${shortcode}/`;
+  return `https://www.instagram.com/${contentType}/${shortcode}/`;
 }
 
 function readSortOrder(
@@ -93,7 +96,7 @@ function readSortOrder(
     value < 0
   ) {
     throw new ApiError(
-      "sortOrder must be a positive integer.",
+      "sortOrder must be a non-negative integer.",
       400,
       "INVALID_SORT_ORDER"
     );
@@ -107,7 +110,15 @@ async function requireAdmin(): Promise<void> {
     headers: await headers(),
   });
 
-  if (!session?.user || session.user.role !== "ADMIN") {
+  if (!session?.user) {
+    throw new ApiError(
+      "Authentication required.",
+      401,
+      "UNAUTHORIZED"
+    );
+  }
+
+  if (session.user.role !== "ADMIN") {
     throw new ApiError(
       "Administrator access required.",
       403,
@@ -116,12 +127,62 @@ async function requireAdmin(): Promise<void> {
   }
 }
 
+async function validateDoctorProfileId(
+  value: unknown
+): Promise<string | null> {
+  if (
+    value === undefined ||
+    value === null ||
+    value === ""
+  ) {
+    return null;
+  }
+
+  if (typeof value !== "string" || !value.trim()) {
+    throw new ApiError(
+      "Invalid doctor profile ID.",
+      400,
+      "INVALID_DOCTOR_PROFILE_ID"
+    );
+  }
+
+  const doctorProfile = await prisma.doctorProfile.findUnique({
+    where: {
+      id: value.trim(),
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!doctorProfile) {
+    throw new ApiError(
+      "Doctor profile not found.",
+      404,
+      "DOCTOR_PROFILE_NOT_FOUND"
+    );
+  }
+
+  return doctorProfile.id;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                    GET                                     */
 /* -------------------------------------------------------------------------- */
 
-export const GET = withApiHandler(async () => {
+export const GET = withApiHandler(async (req: Request) => {
+  const requestUrl = new URL(req.url);
+
+  const doctorProfileId =
+    requestUrl.searchParams.get("doctorProfileId");
+
   const reels = await prisma.instagramReel.findMany({
+    where: doctorProfileId
+      ? {
+          doctorProfileId,
+        }
+      : undefined,
+
     orderBy: [
       {
         sortOrder: "asc",
@@ -130,6 +191,30 @@ export const GET = withApiHandler(async () => {
         createdAt: "asc",
       },
     ],
+
+    select: {
+      id: true,
+      url: true,
+      sortOrder: true,
+      doctorProfileId: true,
+      createdAt: true,
+      updatedAt: true,
+
+      doctorProfile: {
+        select: {
+          id: true,
+          slug: true,
+          clinicName: true,
+          avatar: true,
+
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   return apiSuccess({
@@ -154,7 +239,10 @@ export const POST = withApiHandler(async (req: Request) => {
     );
   }
 
-  const url = normalizeInstagramReelUrl(body.url);
+  const url = normalizeInstagramUrl(body.url);
+
+  const doctorProfileId =
+    await validateDoctorProfileId(body.doctorProfileId);
 
   const existingReel = await prisma.instagramReel.findUnique({
     where: {
@@ -182,7 +270,8 @@ export const POST = withApiHandler(async (req: Request) => {
     },
   });
 
-  const defaultSortOrder = (lastReel?.sortOrder ?? -1) + 1;
+  const defaultSortOrder =
+    (lastReel?.sortOrder ?? -1) + 1;
 
   const sortOrder = readSortOrder(
     body.sortOrder,
@@ -193,6 +282,31 @@ export const POST = withApiHandler(async (req: Request) => {
     data: {
       url,
       sortOrder,
+      doctorProfileId,
+    },
+
+    select: {
+      id: true,
+      url: true,
+      sortOrder: true,
+      doctorProfileId: true,
+      createdAt: true,
+      updatedAt: true,
+
+      doctorProfile: {
+        select: {
+          id: true,
+          slug: true,
+          clinicName: true,
+          avatar: true,
+
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -218,7 +332,10 @@ export const PATCH = withApiHandler(async (req: Request) => {
     );
   }
 
-  if (typeof body.id !== "string" || !body.id.trim()) {
+  if (
+    typeof body.id !== "string" ||
+    !body.id.trim()
+  ) {
     throw new ApiError(
       "Instagram Reel ID is required.",
       400,
@@ -226,11 +343,21 @@ export const PATCH = withApiHandler(async (req: Request) => {
     );
   }
 
-  const existingReel = await prisma.instagramReel.findUnique({
-    where: {
-      id: body.id,
-    },
-  });
+  const reelId = body.id.trim();
+
+  const existingReel =
+    await prisma.instagramReel.findUnique({
+      where: {
+        id: reelId,
+      },
+
+      select: {
+        id: true,
+        url: true,
+        sortOrder: true,
+        doctorProfileId: true,
+      },
+    });
 
   if (!existingReel) {
     throw new ApiError(
@@ -243,18 +370,23 @@ export const PATCH = withApiHandler(async (req: Request) => {
   const data: InstagramReelUpdateData = {};
 
   if (body.url !== undefined) {
-    const normalizedUrl = normalizeInstagramReelUrl(body.url);
+    const normalizedUrl = normalizeInstagramUrl(body.url);
 
-    const duplicateReel = await prisma.instagramReel.findUnique({
-      where: {
-        url: normalizedUrl,
-      },
-      select: {
-        id: true,
-      },
-    });
+    const duplicateReel =
+      await prisma.instagramReel.findUnique({
+        where: {
+          url: normalizedUrl,
+        },
 
-    if (duplicateReel && duplicateReel.id !== body.id) {
+        select: {
+          id: true,
+        },
+      });
+
+    if (
+      duplicateReel &&
+      duplicateReel.id !== reelId
+    ) {
       throw new ApiError(
         "This Instagram Reel has already been added.",
         409,
@@ -272,6 +404,13 @@ export const PATCH = withApiHandler(async (req: Request) => {
     );
   }
 
+  if (body.doctorProfileId !== undefined) {
+    data.doctorProfileId =
+      await validateDoctorProfileId(
+        body.doctorProfileId
+      );
+  }
+
   if (Object.keys(data).length === 0) {
     throw new ApiError(
       "No changes were provided.",
@@ -282,9 +421,34 @@ export const PATCH = withApiHandler(async (req: Request) => {
 
   const reel = await prisma.instagramReel.update({
     where: {
-      id: body.id,
+      id: reelId,
     },
+
     data,
+
+    select: {
+      id: true,
+      url: true,
+      sortOrder: true,
+      doctorProfileId: true,
+      createdAt: true,
+      updatedAt: true,
+
+      doctorProfile: {
+        select: {
+          id: true,
+          slug: true,
+          clinicName: true,
+          avatar: true,
+
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   return apiSuccess({
@@ -296,51 +460,61 @@ export const PATCH = withApiHandler(async (req: Request) => {
 /*                                   DELETE                                   */
 /* -------------------------------------------------------------------------- */
 
-export const DELETE = withApiHandler(async (req: Request) => {
-  await requireAdmin();
+export const DELETE = withApiHandler(
+  async (req: Request) => {
+    await requireAdmin();
 
-  const body: unknown = await req.json();
+    const body: unknown = await req.json();
 
-  if (!isRecord(body)) {
-    throw new ApiError(
-      "Invalid request body.",
-      400,
-      "INVALID_REQUEST_BODY"
-    );
+    if (!isRecord(body)) {
+      throw new ApiError(
+        "Invalid request body.",
+        400,
+        "INVALID_REQUEST_BODY"
+      );
+    }
+
+    if (
+      typeof body.id !== "string" ||
+      !body.id.trim()
+    ) {
+      throw new ApiError(
+        "Instagram Reel ID is required.",
+        400,
+        "INSTAGRAM_REEL_ID_REQUIRED"
+      );
+    }
+
+    const reelId = body.id.trim();
+
+    const existingReel =
+      await prisma.instagramReel.findUnique({
+        where: {
+          id: reelId,
+        },
+
+        select: {
+          id: true,
+        },
+      });
+
+    if (!existingReel) {
+      throw new ApiError(
+        "Instagram Reel not found.",
+        404,
+        "INSTAGRAM_REEL_NOT_FOUND"
+      );
+    }
+
+    await prisma.instagramReel.delete({
+      where: {
+        id: reelId,
+      },
+    });
+
+    return apiSuccess({
+      deleted: true,
+      id: reelId,
+    });
   }
-
-  if (typeof body.id !== "string" || !body.id.trim()) {
-    throw new ApiError(
-      "Instagram Reel ID is required.",
-      400,
-      "INSTAGRAM_REEL_ID_REQUIRED"
-    );
-  }
-
-  const existingReel = await prisma.instagramReel.findUnique({
-    where: {
-      id: body.id,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (!existingReel) {
-    throw new ApiError(
-      "Instagram Reel not found.",
-      404,
-      "INSTAGRAM_REEL_NOT_FOUND"
-    );
-  }
-
-  await prisma.instagramReel.delete({
-    where: {
-      id: body.id,
-    },
-  });
-
-  return apiSuccess({
-    deleted: true,
-  });
-});
+);
