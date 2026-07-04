@@ -11,6 +11,7 @@ import ConsultationBookingsTable from "@/components/dashboard/admin/Consultation
 import DoctorPlansCard from "@/components/dashboard/admin/DoctorPlansCard";
 import DoctorProfilesPlanTable from "@/components/dashboard/admin/DoctorProfilesPlanTable";
 import RefundRequestsManager from "@/components/dashboard/admin/RefundRequestsManager";
+import InstagramReelsAdmin from "@/components/dashboard/admin/InstagramReelsAdmin";
 
 const ADMIN_TAB_IDS = [
   "overview",
@@ -100,6 +101,7 @@ function TabPanel({
         <div className="grid gap-5 md:grid-cols-3">
           <AdminStatsCards />
         </div>
+        <InstagramReelsAdmin/>
       </section>
     );
   }

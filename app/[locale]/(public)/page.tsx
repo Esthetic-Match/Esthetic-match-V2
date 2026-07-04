@@ -6,6 +6,7 @@ import WhyDoctorsShouldJoin from "@/components/public/homepage/WhyDoctorsShouldJ
 import WhyPatientsUseEstheticMatch from "@/components/public/homepage/WhyPatientsUseEstheticMatch";
 import { FinalStatement } from "@/components/public/homepage/FinalStatement";
 import DoctorsNearMeClient from "@/components/public/doctorsNearMe/DoctorsNearMeClient";
+import InstagramReelsSection from "@/components/public/homepage/InstagramReelsSection";
 
 export const metadata: Metadata = {
   title: "Esthetic Match | Find Trusted Aesthetic Doctors",
@@ -51,6 +52,7 @@ export default function HomePage() {
             <HomeSection />
             <CategoryCarousel/>
             <DoctorsNearMeClient />
+            <InstagramReelsSection />
             <WhyPatientsUseEstheticMatch />
             <WhyDoctorsShouldJoin />
             <FinalStatement/>

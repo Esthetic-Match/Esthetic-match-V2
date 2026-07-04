@@ -397,7 +397,8 @@ export const ModelName = {
   BeforeAfterCase: 'BeforeAfterCase',
   Conversation: 'Conversation',
   Message: 'Message',
-  MessageAttachment: 'MessageAttachment'
+  MessageAttachment: 'MessageAttachment',
+  InstagramReel: 'InstagramReel'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "doctorProfile" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment"
+    modelProps: "user" | "doctorProfile" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1453,6 +1454,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    InstagramReel: {
+      payload: Prisma.$InstagramReelPayload<ExtArgs>
+      fields: Prisma.InstagramReelFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InstagramReelFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InstagramReelFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>
+        }
+        findFirst: {
+          args: Prisma.InstagramReelFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InstagramReelFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>
+        }
+        findMany: {
+          args: Prisma.InstagramReelFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>[]
+        }
+        create: {
+          args: Prisma.InstagramReelCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>
+        }
+        createMany: {
+          args: Prisma.InstagramReelCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InstagramReelCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>[]
+        }
+        delete: {
+          args: Prisma.InstagramReelDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>
+        }
+        update: {
+          args: Prisma.InstagramReelUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>
+        }
+        deleteMany: {
+          args: Prisma.InstagramReelDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InstagramReelUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InstagramReelUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>[]
+        }
+        upsert: {
+          args: Prisma.InstagramReelUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InstagramReelPayload>
+        }
+        aggregate: {
+          args: Prisma.InstagramReelAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInstagramReel>
+        }
+        groupBy: {
+          args: Prisma.InstagramReelGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InstagramReelGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InstagramReelCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InstagramReelCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1767,6 +1842,17 @@ export const MessageAttachmentScalarFieldEnum = {
 export type MessageAttachmentScalarFieldEnum = (typeof MessageAttachmentScalarFieldEnum)[keyof typeof MessageAttachmentScalarFieldEnum]
 
 
+export const InstagramReelScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InstagramReelScalarFieldEnum = (typeof InstagramReelScalarFieldEnum)[keyof typeof InstagramReelScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2053,6 +2139,7 @@ export type GlobalOmitConfig = {
   conversation?: Prisma.ConversationOmit
   message?: Prisma.MessageOmit
   messageAttachment?: Prisma.MessageAttachmentOmit
+  instagramReel?: Prisma.InstagramReelOmit
 }
 
 /* Types for Logging */
