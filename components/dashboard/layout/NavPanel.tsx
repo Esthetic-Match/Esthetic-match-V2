@@ -130,7 +130,7 @@ export function NavPanel({ children }: NavPanelProps) {
         </Sidebar>
       </aside>
 
-      <main className="min-h-screen flex-1 overflow-x-hidden rounded-tl-2xl bg-white">
+      <main className="min-h-screen flex-1 overflow-x-hidden md:rounded-tl-2xl bg-white">
         {children}
       </main>
     </div>
