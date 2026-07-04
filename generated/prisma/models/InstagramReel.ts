@@ -38,6 +38,7 @@ export type InstagramReelMinAggregateOutputType = {
   id: string | null
   url: string | null
   sortOrder: number | null
+  doctorProfileId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,6 +47,7 @@ export type InstagramReelMaxAggregateOutputType = {
   id: string | null
   url: string | null
   sortOrder: number | null
+  doctorProfileId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +56,7 @@ export type InstagramReelCountAggregateOutputType = {
   id: number
   url: number
   sortOrder: number
+  doctorProfileId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -72,6 +75,7 @@ export type InstagramReelMinAggregateInputType = {
   id?: true
   url?: true
   sortOrder?: true
+  doctorProfileId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -80,6 +84,7 @@ export type InstagramReelMaxAggregateInputType = {
   id?: true
   url?: true
   sortOrder?: true
+  doctorProfileId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +93,7 @@ export type InstagramReelCountAggregateInputType = {
   id?: true
   url?: true
   sortOrder?: true
+  doctorProfileId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -183,6 +189,7 @@ export type InstagramReelGroupByOutputType = {
   id: string
   url: string
   sortOrder: number
+  doctorProfileId: string | null
   createdAt: Date
   updatedAt: Date
   _count: InstagramReelCountAggregateOutputType | null
@@ -214,16 +221,20 @@ export type InstagramReelWhereInput = {
   id?: Prisma.StringFilter<"InstagramReel"> | string
   url?: Prisma.StringFilter<"InstagramReel"> | string
   sortOrder?: Prisma.IntFilter<"InstagramReel"> | number
+  doctorProfileId?: Prisma.StringNullableFilter<"InstagramReel"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InstagramReel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InstagramReel"> | Date | string
+  doctorProfile?: Prisma.XOR<Prisma.DoctorProfileNullableScalarRelationFilter, Prisma.DoctorProfileWhereInput> | null
 }
 
 export type InstagramReelOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  doctorProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  doctorProfile?: Prisma.DoctorProfileOrderByWithRelationInput
 }
 
 export type InstagramReelWhereUniqueInput = Prisma.AtLeast<{
@@ -233,14 +244,17 @@ export type InstagramReelWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.InstagramReelWhereInput[]
   NOT?: Prisma.InstagramReelWhereInput | Prisma.InstagramReelWhereInput[]
   sortOrder?: Prisma.IntFilter<"InstagramReel"> | number
+  doctorProfileId?: Prisma.StringNullableFilter<"InstagramReel"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InstagramReel"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InstagramReel"> | Date | string
+  doctorProfile?: Prisma.XOR<Prisma.DoctorProfileNullableScalarRelationFilter, Prisma.DoctorProfileWhereInput> | null
 }, "id" | "url">
 
 export type InstagramReelOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  doctorProfileId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.InstagramReelCountOrderByAggregateInput
@@ -257,6 +271,7 @@ export type InstagramReelScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"InstagramReel"> | string
   url?: Prisma.StringWithAggregatesFilter<"InstagramReel"> | string
   sortOrder?: Prisma.IntWithAggregatesFilter<"InstagramReel"> | number
+  doctorProfileId?: Prisma.StringNullableWithAggregatesFilter<"InstagramReel"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InstagramReel"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InstagramReel"> | Date | string
 }
@@ -267,12 +282,14 @@ export type InstagramReelCreateInput = {
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  doctorProfile?: Prisma.DoctorProfileCreateNestedOneWithoutInstagramReelsInput
 }
 
 export type InstagramReelUncheckedCreateInput = {
   id?: string
   url: string
   sortOrder?: number
+  doctorProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -283,12 +300,14 @@ export type InstagramReelUpdateInput = {
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  doctorProfile?: Prisma.DoctorProfileUpdateOneWithoutInstagramReelsNestedInput
 }
 
 export type InstagramReelUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  doctorProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,6 +316,7 @@ export type InstagramReelCreateManyInput = {
   id?: string
   url: string
   sortOrder?: number
+  doctorProfileId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -313,14 +333,26 @@ export type InstagramReelUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  doctorProfileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InstagramReelListRelationFilter = {
+  every?: Prisma.InstagramReelWhereInput
+  some?: Prisma.InstagramReelWhereInput
+  none?: Prisma.InstagramReelWhereInput
+}
+
+export type InstagramReelOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type InstagramReelCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  doctorProfileId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -333,6 +365,7 @@ export type InstagramReelMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  doctorProfileId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -341,6 +374,7 @@ export type InstagramReelMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   url?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  doctorProfileId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -349,49 +383,196 @@ export type InstagramReelSumOrderByAggregateInput = {
   sortOrder?: Prisma.SortOrder
 }
 
+export type InstagramReelCreateNestedManyWithoutDoctorProfileInput = {
+  create?: Prisma.XOR<Prisma.InstagramReelCreateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput> | Prisma.InstagramReelCreateWithoutDoctorProfileInput[] | Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput[]
+  connectOrCreate?: Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput | Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput[]
+  createMany?: Prisma.InstagramReelCreateManyDoctorProfileInputEnvelope
+  connect?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+}
+
+export type InstagramReelUncheckedCreateNestedManyWithoutDoctorProfileInput = {
+  create?: Prisma.XOR<Prisma.InstagramReelCreateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput> | Prisma.InstagramReelCreateWithoutDoctorProfileInput[] | Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput[]
+  connectOrCreate?: Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput | Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput[]
+  createMany?: Prisma.InstagramReelCreateManyDoctorProfileInputEnvelope
+  connect?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+}
+
+export type InstagramReelUpdateManyWithoutDoctorProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.InstagramReelCreateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput> | Prisma.InstagramReelCreateWithoutDoctorProfileInput[] | Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput[]
+  connectOrCreate?: Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput | Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput[]
+  upsert?: Prisma.InstagramReelUpsertWithWhereUniqueWithoutDoctorProfileInput | Prisma.InstagramReelUpsertWithWhereUniqueWithoutDoctorProfileInput[]
+  createMany?: Prisma.InstagramReelCreateManyDoctorProfileInputEnvelope
+  set?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  disconnect?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  delete?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  connect?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  update?: Prisma.InstagramReelUpdateWithWhereUniqueWithoutDoctorProfileInput | Prisma.InstagramReelUpdateWithWhereUniqueWithoutDoctorProfileInput[]
+  updateMany?: Prisma.InstagramReelUpdateManyWithWhereWithoutDoctorProfileInput | Prisma.InstagramReelUpdateManyWithWhereWithoutDoctorProfileInput[]
+  deleteMany?: Prisma.InstagramReelScalarWhereInput | Prisma.InstagramReelScalarWhereInput[]
+}
+
+export type InstagramReelUncheckedUpdateManyWithoutDoctorProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.InstagramReelCreateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput> | Prisma.InstagramReelCreateWithoutDoctorProfileInput[] | Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput[]
+  connectOrCreate?: Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput | Prisma.InstagramReelCreateOrConnectWithoutDoctorProfileInput[]
+  upsert?: Prisma.InstagramReelUpsertWithWhereUniqueWithoutDoctorProfileInput | Prisma.InstagramReelUpsertWithWhereUniqueWithoutDoctorProfileInput[]
+  createMany?: Prisma.InstagramReelCreateManyDoctorProfileInputEnvelope
+  set?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  disconnect?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  delete?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  connect?: Prisma.InstagramReelWhereUniqueInput | Prisma.InstagramReelWhereUniqueInput[]
+  update?: Prisma.InstagramReelUpdateWithWhereUniqueWithoutDoctorProfileInput | Prisma.InstagramReelUpdateWithWhereUniqueWithoutDoctorProfileInput[]
+  updateMany?: Prisma.InstagramReelUpdateManyWithWhereWithoutDoctorProfileInput | Prisma.InstagramReelUpdateManyWithWhereWithoutDoctorProfileInput[]
+  deleteMany?: Prisma.InstagramReelScalarWhereInput | Prisma.InstagramReelScalarWhereInput[]
+}
+
+export type InstagramReelCreateWithoutDoctorProfileInput = {
+  id?: string
+  url: string
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InstagramReelUncheckedCreateWithoutDoctorProfileInput = {
+  id?: string
+  url: string
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InstagramReelCreateOrConnectWithoutDoctorProfileInput = {
+  where: Prisma.InstagramReelWhereUniqueInput
+  create: Prisma.XOR<Prisma.InstagramReelCreateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput>
+}
+
+export type InstagramReelCreateManyDoctorProfileInputEnvelope = {
+  data: Prisma.InstagramReelCreateManyDoctorProfileInput | Prisma.InstagramReelCreateManyDoctorProfileInput[]
+  skipDuplicates?: boolean
+}
+
+export type InstagramReelUpsertWithWhereUniqueWithoutDoctorProfileInput = {
+  where: Prisma.InstagramReelWhereUniqueInput
+  update: Prisma.XOR<Prisma.InstagramReelUpdateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedUpdateWithoutDoctorProfileInput>
+  create: Prisma.XOR<Prisma.InstagramReelCreateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedCreateWithoutDoctorProfileInput>
+}
+
+export type InstagramReelUpdateWithWhereUniqueWithoutDoctorProfileInput = {
+  where: Prisma.InstagramReelWhereUniqueInput
+  data: Prisma.XOR<Prisma.InstagramReelUpdateWithoutDoctorProfileInput, Prisma.InstagramReelUncheckedUpdateWithoutDoctorProfileInput>
+}
+
+export type InstagramReelUpdateManyWithWhereWithoutDoctorProfileInput = {
+  where: Prisma.InstagramReelScalarWhereInput
+  data: Prisma.XOR<Prisma.InstagramReelUpdateManyMutationInput, Prisma.InstagramReelUncheckedUpdateManyWithoutDoctorProfileInput>
+}
+
+export type InstagramReelScalarWhereInput = {
+  AND?: Prisma.InstagramReelScalarWhereInput | Prisma.InstagramReelScalarWhereInput[]
+  OR?: Prisma.InstagramReelScalarWhereInput[]
+  NOT?: Prisma.InstagramReelScalarWhereInput | Prisma.InstagramReelScalarWhereInput[]
+  id?: Prisma.StringFilter<"InstagramReel"> | string
+  url?: Prisma.StringFilter<"InstagramReel"> | string
+  sortOrder?: Prisma.IntFilter<"InstagramReel"> | number
+  doctorProfileId?: Prisma.StringNullableFilter<"InstagramReel"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"InstagramReel"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InstagramReel"> | Date | string
+}
+
+export type InstagramReelCreateManyDoctorProfileInput = {
+  id?: string
+  url: string
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InstagramReelUpdateWithoutDoctorProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InstagramReelUncheckedUpdateWithoutDoctorProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type InstagramReelUncheckedUpdateManyWithoutDoctorProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type InstagramReelSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   url?: boolean
   sortOrder?: boolean
+  doctorProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  doctorProfile?: boolean | Prisma.InstagramReel$doctorProfileArgs<ExtArgs>
 }, ExtArgs["result"]["instagramReel"]>
 
 export type InstagramReelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   url?: boolean
   sortOrder?: boolean
+  doctorProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  doctorProfile?: boolean | Prisma.InstagramReel$doctorProfileArgs<ExtArgs>
 }, ExtArgs["result"]["instagramReel"]>
 
 export type InstagramReelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   url?: boolean
   sortOrder?: boolean
+  doctorProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  doctorProfile?: boolean | Prisma.InstagramReel$doctorProfileArgs<ExtArgs>
 }, ExtArgs["result"]["instagramReel"]>
 
 export type InstagramReelSelectScalar = {
   id?: boolean
   url?: boolean
   sortOrder?: boolean
+  doctorProfileId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type InstagramReelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["instagramReel"]>
+export type InstagramReelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "sortOrder" | "doctorProfileId" | "createdAt" | "updatedAt", ExtArgs["result"]["instagramReel"]>
+export type InstagramReelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  doctorProfile?: boolean | Prisma.InstagramReel$doctorProfileArgs<ExtArgs>
+}
+export type InstagramReelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  doctorProfile?: boolean | Prisma.InstagramReel$doctorProfileArgs<ExtArgs>
+}
+export type InstagramReelIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  doctorProfile?: boolean | Prisma.InstagramReel$doctorProfileArgs<ExtArgs>
+}
 
 export type $InstagramReelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InstagramReel"
-  objects: {}
+  objects: {
+    doctorProfile: Prisma.$DoctorProfilePayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     url: string
     sortOrder: number
+    doctorProfileId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["instagramReel"]>
@@ -788,6 +969,7 @@ readonly fields: InstagramReelFieldRefs;
  */
 export interface Prisma__InstagramReelClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  doctorProfile<T extends Prisma.InstagramReel$doctorProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InstagramReel$doctorProfileArgs<ExtArgs>>): Prisma.Prisma__DoctorProfileClient<runtime.Types.Result.GetResult<Prisma.$DoctorProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -820,6 +1002,7 @@ export interface InstagramReelFieldRefs {
   readonly id: Prisma.FieldRef<"InstagramReel", 'String'>
   readonly url: Prisma.FieldRef<"InstagramReel", 'String'>
   readonly sortOrder: Prisma.FieldRef<"InstagramReel", 'Int'>
+  readonly doctorProfileId: Prisma.FieldRef<"InstagramReel", 'String'>
   readonly createdAt: Prisma.FieldRef<"InstagramReel", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"InstagramReel", 'DateTime'>
 }
@@ -839,6 +1022,10 @@ export type InstagramReelFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
+  /**
    * Filter, which InstagramReel to fetch.
    */
   where: Prisma.InstagramReelWhereUniqueInput
@@ -857,6 +1044,10 @@ export type InstagramReelFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
+  /**
    * Filter, which InstagramReel to fetch.
    */
   where: Prisma.InstagramReelWhereUniqueInput
@@ -874,6 +1065,10 @@ export type InstagramReelFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the InstagramReel
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
   /**
    * Filter, which InstagramReel to fetch.
    */
@@ -923,6 +1118,10 @@ export type InstagramReelFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
+  /**
    * Filter, which InstagramReel to fetch.
    */
   where?: Prisma.InstagramReelWhereInput
@@ -970,6 +1169,10 @@ export type InstagramReelFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the InstagramReel
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
   /**
    * Filter, which InstagramReels to fetch.
    */
@@ -1019,6 +1222,10 @@ export type InstagramReelCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
+  /**
    * The data needed to create a InstagramReel.
    */
   data: Prisma.XOR<Prisma.InstagramReelCreateInput, Prisma.InstagramReelUncheckedCreateInput>
@@ -1052,6 +1259,10 @@ export type InstagramReelCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.InstagramReelCreateManyInput | Prisma.InstagramReelCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1066,6 +1277,10 @@ export type InstagramReelUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the InstagramReel
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
   /**
    * The data needed to update a InstagramReel.
    */
@@ -1118,6 +1333,10 @@ export type InstagramReelUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many InstagramReels to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1132,6 +1351,10 @@ export type InstagramReelUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the InstagramReel
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
   /**
    * The filter to search for the InstagramReel to update in case it exists.
    */
@@ -1159,6 +1382,10 @@ export type InstagramReelDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
+  /**
    * Filter which InstagramReel to delete.
    */
   where: Prisma.InstagramReelWhereUniqueInput
@@ -1179,6 +1406,25 @@ export type InstagramReelDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * InstagramReel.doctorProfile
+ */
+export type InstagramReel$doctorProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DoctorProfile
+   */
+  select?: Prisma.DoctorProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DoctorProfile
+   */
+  omit?: Prisma.DoctorProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DoctorProfileInclude<ExtArgs> | null
+  where?: Prisma.DoctorProfileWhereInput
+}
+
+/**
  * InstagramReel without action
  */
 export type InstagramReelDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1190,4 +1436,8 @@ export type InstagramReelDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the InstagramReel
    */
   omit?: Prisma.InstagramReelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InstagramReelInclude<ExtArgs> | null
 }

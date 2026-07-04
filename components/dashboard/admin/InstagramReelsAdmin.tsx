@@ -2,18 +2,44 @@
 
 import { useEffect, useState } from "react";
 import {
-  RadioTower,
+  Check,
+  Aperture ,
   Link2,
   LoaderCircle,
   Plus,
   Save,
+  Search,
+  Stethoscope,
   Trash2,
+  UserRound,
+  X,
 } from "lucide-react";
+
+type DoctorOption = {
+  id: string;
+  name: string;
+  clinicName: string | null;
+  avatar: string | null;
+  city: string | null;
+  country: string | null;
+};
+
+type ReelDoctorProfile = {
+  id: string;
+  slug: string | null;
+  clinicName: string;
+  avatar: string | null;
+  user: {
+    name: string;
+  };
+};
 
 type InstagramReelRecord = {
   id: string;
   url: string;
   sortOrder: number;
+  doctorProfileId: string | null;
+  doctorProfile: ReelDoctorProfile | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -21,55 +47,22 @@ type InstagramReelRecord = {
 type ReelDraft = {
   url: string;
   sortOrder: number;
+  doctorProfileId: string | null;
+};
+
+type DoctorSelectorModalProps = {
+  isOpen: boolean;
+  selectedDoctorProfileId: string | null;
+  onClose: () => void;
+  onSelect: (doctor: DoctorOption | null) => void;
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
-function parseReels(payload: unknown): InstagramReelRecord[] {
-  if (!isRecord(payload)) {
-    return [];
-  }
-
-  const possibleReels = Array.isArray(payload.reels)
-    ? payload.reels
-    : isRecord(payload.data) && Array.isArray(payload.data.reels)
-      ? payload.data.reels
-      : [];
-
-  return possibleReels.reduce<InstagramReelRecord[]>(
-    (records, item: unknown) => {
-      if (!isRecord(item)) {
-        return records;
-      }
-
-      if (
-        typeof item.id !== "string" ||
-        typeof item.url !== "string" ||
-        typeof item.sortOrder !== "number"
-      ) {
-        return records;
-      }
-
-      records.push({
-        id: item.id,
-        url: item.url,
-        sortOrder: item.sortOrder,
-        createdAt:
-          typeof item.createdAt === "string"
-            ? item.createdAt
-            : "",
-        updatedAt:
-          typeof item.updatedAt === "string"
-            ? item.updatedAt
-            : "",
-      });
-
-      return records;
-    },
-    []
-  );
+function readNullableString(value: unknown): string | null {
+  return typeof value === "string" ? value : null;
 }
 
 async function parseJsonResponse(
@@ -91,13 +84,501 @@ async function parseJsonResponse(
   }
 }
 
-export default function InstagramReelsAdmin() {
-  const [reels, setReels] = useState<InstagramReelRecord[]>([]);
-  const [drafts, setDrafts] = useState<Record<string, ReelDraft>>(
-    {}
+function getPayloadRecord(
+  payload: unknown
+): Record<string, unknown> | null {
+  if (!isRecord(payload)) {
+    return null;
+  }
+
+  if (isRecord(payload.data)) {
+    return payload.data;
+  }
+
+  return payload;
+}
+
+function parseDoctorOptions(payload: unknown): DoctorOption[] {
+  const record = getPayloadRecord(payload);
+
+  if (!record) {
+    return [];
+  }
+
+  const possibleDoctors = Array.isArray(record.doctors)
+    ? record.doctors
+    : [];
+
+  return possibleDoctors.reduce<DoctorOption[]>(
+    (doctors: DoctorOption[], item: unknown) => {
+      if (!isRecord(item) || typeof item.id !== "string") {
+        return doctors;
+      }
+
+      const user = isRecord(item.user) ? item.user : null;
+
+      const directName = readNullableString(item.name);
+      const userName = user
+        ? readNullableString(user.name)
+        : null;
+
+      doctors.push({
+        id: item.id,
+        name: directName ?? userName ?? "Unnamed doctor",
+        clinicName: readNullableString(item.clinicName),
+        avatar: readNullableString(item.avatar),
+        city: readNullableString(item.city),
+        country: readNullableString(item.country),
+      });
+
+      return doctors;
+    },
+    []
+  );
+}
+
+function readHasMore(payload: unknown): boolean {
+  const record = getPayloadRecord(payload);
+
+  if (!record) {
+    return false;
+  }
+
+  return record.hasMore === true;
+}
+
+function parseReelDoctorProfile(
+  value: unknown
+): ReelDoctorProfile | null {
+  if (!isRecord(value)) {
+    return null;
+  }
+
+  if (
+    typeof value.id !== "string" ||
+    typeof value.clinicName !== "string"
+  ) {
+    return null;
+  }
+
+  const user = isRecord(value.user) ? value.user : null;
+
+  if (!user || typeof user.name !== "string") {
+    return null;
+  }
+
+  return {
+    id: value.id,
+    slug: readNullableString(value.slug),
+    clinicName: value.clinicName,
+    avatar: readNullableString(value.avatar),
+    user: {
+      name: user.name,
+    },
+  };
+}
+
+function parseReels(payload: unknown): InstagramReelRecord[] {
+  const record = getPayloadRecord(payload);
+
+  if (!record || !Array.isArray(record.reels)) {
+    return [];
+  }
+
+  return record.reels.reduce<InstagramReelRecord[]>(
+    (reels: InstagramReelRecord[], item: unknown) => {
+      if (!isRecord(item)) {
+        return reels;
+      }
+
+      if (
+        typeof item.id !== "string" ||
+        typeof item.url !== "string" ||
+        typeof item.sortOrder !== "number"
+      ) {
+        return reels;
+      }
+
+      reels.push({
+        id: item.id,
+        url: item.url,
+        sortOrder: item.sortOrder,
+        doctorProfileId: readNullableString(
+          item.doctorProfileId
+        ),
+        doctorProfile: parseReelDoctorProfile(
+          item.doctorProfile
+        ),
+        createdAt:
+          typeof item.createdAt === "string"
+            ? item.createdAt
+            : "",
+        updatedAt:
+          typeof item.updatedAt === "string"
+            ? item.updatedAt
+            : "",
+      });
+
+      return reels;
+    },
+    []
+  );
+}
+
+function getDoctorLabel(doctor: DoctorOption): string {
+  if (doctor.clinicName) {
+    return `${doctor.name} — ${doctor.clinicName}`;
+  }
+
+  return doctor.name;
+}
+
+function DoctorSelectorModal({
+  isOpen,
+  selectedDoctorProfileId,
+  onClose,
+  onSelect,
+}: DoctorSelectorModalProps) {
+  const [doctors, setDoctors] = useState<DoctorOption[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(
+    null
   );
 
+  useEffect(() => {
+    if (!isOpen || hasLoaded) {
+      return;
+    }
+
+    let isActive = true;
+
+    async function loadAllDoctors(): Promise<void> {
+      setIsLoading(true);
+      setErrorMessage(null);
+
+      try {
+        const allDoctors: DoctorOption[] = [];
+
+        let page = 1;
+        let hasMore = true;
+
+        while (hasMore) {
+          const response = await fetch(
+            `/api/public-pages/doctor-profile?page=${page}&limit=100`,
+            {
+              method: "GET",
+              cache: "no-store",
+            }
+          );
+
+          const payload = await parseJsonResponse(response);
+
+          if (!response.ok) {
+            console.error("Doctor fetch failed:", payload);
+            throw new Error("Could not load doctors.");
+          }
+
+          const pageDoctors = parseDoctorOptions(payload);
+
+          allDoctors.push(...pageDoctors);
+
+          hasMore = readHasMore(payload);
+          page += 1;
+
+          if (pageDoctors.length === 0) {
+            hasMore = false;
+          }
+        }
+
+        if (!isActive) {
+          return;
+        }
+
+        const uniqueDoctors = Array.from(
+          new Map(
+            allDoctors.map((doctor: DoctorOption) => [
+              doctor.id,
+              doctor,
+            ])
+          ).values()
+        );
+
+        setDoctors(uniqueDoctors);
+        setHasLoaded(true);
+      } catch (error) {
+        console.error("Could not load doctors:", error);
+
+        if (!isActive) {
+          return;
+        }
+
+        setErrorMessage("Could not load doctor profiles.");
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void loadAllDoctors();
+
+    return () => {
+      isActive = false;
+    };
+  }, [isOpen, hasLoaded]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSearchQuery("");
+    }
+  }, [isOpen]);
+
+  if (!isOpen) {
+    return null;
+  }
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+  const filteredDoctors = doctors.filter(
+    (doctor: DoctorOption) => {
+      if (!normalizedSearch) {
+        return true;
+      }
+
+      const searchableText = [
+        doctor.name,
+        doctor.clinicName ?? "",
+        doctor.city ?? "",
+        doctor.country ?? "",
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return searchableText.includes(normalizedSearch);
+    }
+  );
+
+  return (
+    <div className="fixed inset-0 z-[150] flex items-center justify-center bg-[#182438]/60 px-4 py-6 backdrop-blur-md">
+      <div className="flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-[2rem] border border-white/20 bg-white shadow-[0_35px_100px_rgba(40,60,93,0.30)]">
+        <div className="flex items-start justify-between border-b border-[#E7DDD0] px-5 py-5 md:px-7">
+          <div className="flex items-center gap-3">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#283C5D] text-[#D8BD8D]">
+              <Stethoscope size={20} />
+            </span>
+
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#D8BD8D]">
+                Doctor profile
+              </p>
+
+              <h2 className="mt-1 text-xl font-semibold text-[#283C5D]">
+                Connect Reel to a doctor
+              </h2>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#E7DDD0] text-[#283C5D] transition hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
+            aria-label="Close doctor selector"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <div className="border-b border-[#E7DDD0] bg-[#FAF9F7] px-5 py-4 md:px-7">
+          <div className="relative">
+            <Search
+              size={18}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#D8BD8D]"
+            />
+
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(event) =>
+                setSearchQuery(event.target.value)
+              }
+              placeholder="Search doctor, clinic or city..."
+              autoFocus
+              className="h-12 w-full rounded-full border border-[#E7DDD0] bg-white pl-11 pr-4 text-sm text-[#283C5D] outline-none transition placeholder:text-[#283C5D]/35 focus:border-[#D8BD8D] focus:ring-4 focus:ring-[#D8BD8D]/10"
+            />
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-4 md:p-5">
+          <button
+            type="button"
+            onClick={() => onSelect(null)}
+            className={`mb-3 flex w-full items-center justify-between rounded-[1.25rem] border p-4 text-left transition ${
+              selectedDoctorProfileId === null
+                ? "border-[#D8BD8D] bg-[#FFF9ED]"
+                : "border-[#E7DDD0] bg-[#FAF9F7] hover:border-[#D8BD8D]"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#D8BD8D] shadow-sm">
+                <Aperture  size={18} />
+              </span>
+
+              <div>
+                <p className="text-sm font-semibold text-[#283C5D]">
+                  General Esthetic Match Reel
+                </p>
+
+                <p className="mt-0.5 text-xs text-[#283C5D]/50">
+                  Do not connect this Reel to a doctor profile
+                </p>
+              </div>
+            </div>
+
+            {selectedDoctorProfileId === null ? (
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#D8BD8D] text-[#283C5D]">
+                <Check size={15} />
+              </span>
+            ) : null}
+          </button>
+
+          {isLoading ? (
+            <div className="flex min-h-56 items-center justify-center">
+              <div className="flex flex-col items-center gap-3">
+                <LoaderCircle
+                  size={24}
+                  className="animate-spin text-[#D8BD8D]"
+                />
+
+                <p className="text-sm text-[#283C5D]/55">
+                  Loading doctor profiles...
+                </p>
+              </div>
+            </div>
+          ) : null}
+
+          {errorMessage ? (
+            <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              {errorMessage}
+            </div>
+          ) : null}
+
+          {!isLoading && !errorMessage ? (
+            <div className="space-y-2">
+              {filteredDoctors.map((doctor: DoctorOption) => {
+                const isSelected =
+                  selectedDoctorProfileId === doctor.id;
+
+                const location = [
+                  doctor.city,
+                  doctor.country,
+                ]
+                  .filter(
+                    (value: string | null): value is string =>
+                      value !== null
+                  )
+                  .join(", ");
+
+                return (
+                  <button
+                    key={doctor.id}
+                    type="button"
+                    onClick={() => onSelect(doctor)}
+                    className={`flex w-full items-center justify-between gap-4 rounded-[1.25rem] border p-4 text-left transition ${
+                      isSelected
+                        ? "border-[#D8BD8D] bg-[#FFF9ED]"
+                        : "border-[#E7DDD0] bg-white hover:border-[#D8BD8D] hover:bg-[#FAF9F7]"
+                    }`}
+                  >
+                    <div className="flex min-w-0 items-center gap-3">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#283C5D] text-white">
+                        {doctor.avatar ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={doctor.avatar}
+                            alt=""
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <UserRound size={18} />
+                        )}
+                      </span>
+
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-[#283C5D]">
+                          {doctor.name}
+                        </p>
+
+                        {doctor.clinicName ? (
+                          <p className="mt-0.5 truncate text-xs text-[#283C5D]/60">
+                            {doctor.clinicName}
+                          </p>
+                        ) : null}
+
+                        {location ? (
+                          <p className="mt-0.5 truncate text-xs text-[#283C5D]/40">
+                            {location}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    {isSelected ? (
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D8BD8D] text-[#283C5D]">
+                        <Check size={15} />
+                      </span>
+                    ) : null}
+                  </button>
+                );
+              })}
+
+              {filteredDoctors.length === 0 ? (
+                <div className="rounded-[1.5rem] border border-dashed border-[#D8BD8D]/60 bg-[#FAF9F7] px-6 py-10 text-center">
+                  <Search
+                    size={24}
+                    className="mx-auto text-[#D8BD8D]"
+                  />
+
+                  <p className="mt-3 font-semibold text-[#283C5D]">
+                    No doctor found
+                  </p>
+
+                  <p className="mt-1 text-sm text-[#283C5D]/50">
+                    Try a different name, clinic or city.
+                  </p>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function InstagramReelsAdmin() {
+  const [reels, setReels] = useState<InstagramReelRecord[]>([]);
+  const [drafts, setDrafts] = useState<
+    Record<string, ReelDraft>
+  >({});
+
   const [newUrl, setNewUrl] = useState("");
+  const [
+    newDoctorProfileId,
+    setNewDoctorProfileId,
+  ] = useState<string | null>(null);
+
+  const [newDoctor, setNewDoctor] =
+    useState<DoctorOption | null>(null);
+
+  const [
+    doctorModalTarget,
+    setDoctorModalTarget,
+  ] = useState<"new" | string | null>(null);
+
+  const [selectedDraftDoctors, setSelectedDraftDoctors] =
+    useState<Record<string, DoctorOption | null>>({});
 
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
@@ -117,12 +598,15 @@ export default function InstagramReelsAdmin() {
       const payload = await parseJsonResponse(response);
 
       if (!response.ok) {
+        console.error("Load Reels failed:", payload);
         throw new Error("Could not load Instagram Reels.");
       }
 
       const nextReels = parseReels(payload);
 
-      const nextDrafts = nextReels.reduce<Record<string, ReelDraft>>(
+      const nextDrafts = nextReels.reduce<
+        Record<string, ReelDraft>
+      >(
         (
           result: Record<string, ReelDraft>,
           reel: InstagramReelRecord
@@ -130,6 +614,33 @@ export default function InstagramReelsAdmin() {
           result[reel.id] = {
             url: reel.url,
             sortOrder: reel.sortOrder,
+            doctorProfileId: reel.doctorProfileId,
+          };
+
+          return result;
+        },
+        {}
+      );
+
+      const nextDraftDoctors = nextReels.reduce<
+        Record<string, DoctorOption | null>
+      >(
+        (
+          result: Record<string, DoctorOption | null>,
+          reel: InstagramReelRecord
+        ) => {
+          if (!reel.doctorProfile) {
+            result[reel.id] = null;
+            return result;
+          }
+
+          result[reel.id] = {
+            id: reel.doctorProfile.id,
+            name: reel.doctorProfile.user.name,
+            clinicName: reel.doctorProfile.clinicName,
+            avatar: reel.doctorProfile.avatar,
+            city: null,
+            country: null,
           };
 
           return result;
@@ -139,6 +650,7 @@ export default function InstagramReelsAdmin() {
 
       setReels(nextReels);
       setDrafts(nextDrafts);
+      setSelectedDraftDoctors(nextDraftDoctors);
     } catch (error) {
       console.error("Could not load Instagram Reels:", error);
       setErrorMessage("Could not load Instagram Reels.");
@@ -154,15 +666,49 @@ export default function InstagramReelsAdmin() {
   function updateDraft(
     id: string,
     field: keyof ReelDraft,
-    value: string | number
+    value: string | number | null
   ): void {
-    setDrafts((current: Record<string, ReelDraft>) => ({
-      ...current,
-      [id]: {
-        ...current[id],
-        [field]: value,
-      },
-    }));
+    setDrafts(
+      (
+        current: Record<string, ReelDraft>
+      ): Record<string, ReelDraft> => ({
+        ...current,
+        [id]: {
+          ...current[id],
+          [field]: value,
+        },
+      })
+    );
+  }
+
+  function handleDoctorSelected(
+    doctor: DoctorOption | null
+  ): void {
+    if (doctorModalTarget === "new") {
+      setNewDoctor(doctor);
+      setNewDoctorProfileId(doctor?.id ?? null);
+      setDoctorModalTarget(null);
+      return;
+    }
+
+    if (typeof doctorModalTarget === "string") {
+      updateDraft(
+        doctorModalTarget,
+        "doctorProfileId",
+        doctor?.id ?? null
+      );
+
+      setSelectedDraftDoctors(
+        (
+          current: Record<string, DoctorOption | null>
+        ): Record<string, DoctorOption | null> => ({
+          ...current,
+          [doctorModalTarget]: doctor,
+        })
+      );
+
+      setDoctorModalTarget(null);
+    }
   }
 
   async function handleCreate(): Promise<void> {
@@ -183,6 +729,7 @@ export default function InstagramReelsAdmin() {
         },
         body: JSON.stringify({
           url: cleanUrl,
+          doctorProfileId: newDoctorProfileId,
         }),
       });
 
@@ -194,6 +741,9 @@ export default function InstagramReelsAdmin() {
       }
 
       setNewUrl("");
+      setNewDoctor(null);
+      setNewDoctorProfileId(null);
+
       await loadReels();
     } catch (error) {
       console.error("Could not create Instagram Reel:", error);
@@ -223,6 +773,7 @@ export default function InstagramReelsAdmin() {
           id,
           url: draft.url,
           sortOrder: draft.sortOrder,
+          doctorProfileId: draft.doctorProfileId,
         }),
       });
 
@@ -273,196 +824,274 @@ export default function InstagramReelsAdmin() {
     }
   }
 
+  const modalSelectedDoctorProfileId =
+    doctorModalTarget === "new"
+      ? newDoctorProfileId
+      : typeof doctorModalTarget === "string"
+        ? drafts[doctorModalTarget]?.doctorProfileId ?? null
+        : null;
+
   return (
-    <section className="rounded-[2rem] border border-[#E7DDD0] bg-white p-5 shadow-[0_24px_70px_rgba(40,60,93,0.10)] md:p-8">
-      <div className="flex flex-col gap-6 border-b border-[#E7DDD0] pb-6 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-4">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#283C5D] text-[#D8BD8D] shadow-[0_12px_30px_rgba(40,60,93,0.20)]">
-            <RadioTower  size={22} />
-          </span>
+    <>
+      <section className="rounded-[2rem] border border-[#E7DDD0] bg-white p-5 shadow-[0_24px_70px_rgba(40,60,93,0.10)] md:p-8">
+        <div className="flex flex-col gap-6 border-b border-[#E7DDD0] pb-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#283C5D] text-[#D8BD8D] shadow-[0_12px_30px_rgba(40,60,93,0.20)]">
+              <Aperture  size={22} />
+            </span>
 
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#D8BD8D]">
-              Social content
-            </p>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#D8BD8D]">
+                Social content
+              </p>
 
-            <h2 className="mt-1 text-xl font-semibold text-[#283C5D]">
-              Instagram Reels
-            </h2>
+              <h2 className="mt-1 text-xl font-semibold text-[#283C5D]">
+                Instagram Reels
+              </h2>
 
-            <p className="mt-1 text-sm text-[#283C5D]/55">
-              Manage the Reels displayed on Esthetic Match.
-            </p>
-          </div>
-        </div>
-
-        <span className="w-fit rounded-full border border-[#E7DDD0] bg-[#FAF9F7] px-4 py-2 text-xs font-semibold text-[#283C5D]/65">
-          {reels.length} {reels.length === 1 ? "Reel" : "Reels"}
-        </span>
-      </div>
-
-      <div className="mt-6 rounded-[1.5rem] border border-[#E7DDD0] bg-[#FAF9F7] p-4 md:p-5">
-        <label
-          htmlFor="new-instagram-reel"
-          className="text-sm font-semibold text-[#283C5D]"
-        >
-          Add Instagram Reel
-        </label>
-
-        <p className="mt-1 text-xs text-[#283C5D]/50">
-          Paste the complete public Instagram Reel URL.
-        </p>
-
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-          <div className="relative flex-1">
-            <Link2
-              size={17}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D8BD8D]"
-            />
-
-            <input
-              id="new-instagram-reel"
-              type="url"
-              value={newUrl}
-              onChange={(event) => setNewUrl(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  event.preventDefault();
-                  void handleCreate();
-                }
-              }}
-              placeholder="https://www.instagram.com/reel/..."
-              className="h-12 w-full rounded-full border border-[#E7DDD0] bg-white pl-11 pr-4 text-sm text-[#283C5D] outline-none transition placeholder:text-[#283C5D]/30 focus:border-[#D8BD8D] focus:ring-4 focus:ring-[#D8BD8D]/10"
-            />
-          </div>
-
-          <button
-            type="button"
-            onClick={() => void handleCreate()}
-            disabled={isCreating || !newUrl.trim()}
-            className="flex h-12 items-center justify-center gap-2 rounded-full bg-[#283C5D] px-6 text-sm font-semibold text-white transition duration-300 hover:bg-[#D8BD8D] hover:text-[#283C5D] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {isCreating ? (
-              <LoaderCircle size={17} className="animate-spin" />
-            ) : (
-              <Plus size={17} />
-            )}
-
-            Add Reel
-          </button>
-        </div>
-      </div>
-
-      {errorMessage ? (
-        <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {errorMessage}
-        </div>
-      ) : null}
-
-      <div className="mt-6 space-y-3">
-        {isLoading ? (
-          <>
-            {[0, 1, 2].map((item: number) => (
-              <div
-                key={item}
-                className="h-20 animate-pulse rounded-[1.5rem] bg-[#FAF9F7]"
-              />
-            ))}
-          </>
-        ) : null}
-
-        {!isLoading && reels.length === 0 ? (
-          <div className="rounded-[1.5rem] border border-dashed border-[#D8BD8D]/60 bg-[#FAF9F7] px-6 py-12 text-center">
-            <RadioTower 
-              size={26}
-              className="mx-auto text-[#D8BD8D]"
-            />
-
-            <p className="mt-3 font-semibold text-[#283C5D]">
-              No Instagram Reels yet
-            </p>
-
-            <p className="mt-1 text-sm text-[#283C5D]/50">
-              Add the first Reel using the field above.
-            </p>
-          </div>
-        ) : null}
-
-        {reels.map((reel: InstagramReelRecord) => {
-          const draft = drafts[reel.id];
-
-          if (!draft) {
-            return null;
-          }
-
-          const isBusy = busyId === reel.id;
-
-          return (
-            <div
-              key={reel.id}
-              className="flex flex-col gap-3 rounded-[1.5rem] border border-[#E7DDD0] bg-[#FAF9F7] p-4 transition hover:border-[#D8BD8D] md:flex-row md:items-center"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#283C5D] text-[#D8BD8D]">
-                <RadioTower  size={17} />
-              </span>
-
-              <input
-                type="url"
-                value={draft.url}
-                onChange={(event) =>
-                  updateDraft(reel.id, "url", event.target.value)
-                }
-                className="h-11 min-w-0 flex-1 rounded-full border border-[#E7DDD0] bg-white px-4 text-sm text-[#283C5D] outline-none transition focus:border-[#D8BD8D]"
-              />
-
-              <input
-                type="number"
-                min={0}
-                value={draft.sortOrder}
-                onChange={(event) =>
-                  updateDraft(
-                    reel.id,
-                    "sortOrder",
-                    Number(event.target.value)
-                  )
-                }
-                className="h-11 w-full rounded-full border border-[#E7DDD0] bg-white px-4 text-center text-sm text-[#283C5D] outline-none transition focus:border-[#D8BD8D] md:w-20"
-                aria-label="Sort order"
-              />
-
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => void handleSave(reel.id)}
-                  disabled={isBusy}
-                  className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-[#283C5D] px-4 text-sm font-semibold text-white transition hover:bg-[#D8BD8D] hover:text-[#283C5D] disabled:opacity-50 md:flex-none"
-                >
-                  {isBusy ? (
-                    <LoaderCircle
-                      size={16}
-                      className="animate-spin"
-                    />
-                  ) : (
-                    <Save size={16} />
-                  )}
-
-                  Save
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => void handleDelete(reel.id)}
-                  disabled={isBusy}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-red-200 bg-white text-red-500 transition hover:bg-red-50 disabled:opacity-50"
-                  aria-label="Delete Reel"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
+              <p className="mt-1 text-sm text-[#283C5D]/55">
+                Manage Reels and connect them to doctor profiles.
+              </p>
             </div>
-          );
-        })}
-      </div>
-    </section>
+          </div>
+
+          <span className="w-fit rounded-full border border-[#E7DDD0] bg-[#FAF9F7] px-4 py-2 text-xs font-semibold text-[#283C5D]/65">
+            {reels.length} {reels.length === 1 ? "Reel" : "Reels"}
+          </span>
+        </div>
+
+        <div className="mt-6 rounded-[1.5rem] border border-[#E7DDD0] bg-[#FAF9F7] p-4 md:p-5">
+          <label
+            htmlFor="new-instagram-reel"
+            className="text-sm font-semibold text-[#283C5D]"
+          >
+            Add Instagram Reel
+          </label>
+
+          <p className="mt-1 text-xs text-[#283C5D]/50">
+            Paste the Reel URL and optionally connect it to a doctor.
+          </p>
+
+          <div className="mt-4 flex flex-col gap-3">
+            <div className="relative">
+              <Link2
+                size={17}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#D8BD8D]"
+              />
+
+              <input
+                id="new-instagram-reel"
+                type="url"
+                value={newUrl}
+                onChange={(event) =>
+                  setNewUrl(event.target.value)
+                }
+                placeholder="https://www.instagram.com/reel/..."
+                className="h-12 w-full rounded-full border border-[#E7DDD0] bg-white pl-11 pr-4 text-sm text-[#283C5D] outline-none transition placeholder:text-[#283C5D]/30 focus:border-[#D8BD8D] focus:ring-4 focus:ring-[#D8BD8D]/10"
+              />
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={() => setDoctorModalTarget("new")}
+                className="flex h-12 flex-1 items-center justify-between rounded-full border border-[#E7DDD0] bg-white px-4 text-left transition hover:border-[#D8BD8D]"
+              >
+                <span className="flex min-w-0 items-center gap-2">
+                  <Stethoscope
+                    size={17}
+                    className="shrink-0 text-[#D8BD8D]"
+                  />
+
+                  <span className="truncate text-sm font-medium text-[#283C5D]">
+                    {newDoctor
+                      ? getDoctorLabel(newDoctor)
+                      : "Connect to doctor profile"}
+                  </span>
+                </span>
+
+                <Search
+                  size={16}
+                  className="shrink-0 text-[#283C5D]/40"
+                />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => void handleCreate()}
+                disabled={isCreating || !newUrl.trim()}
+                className="flex h-12 items-center justify-center gap-2 rounded-full bg-[#283C5D] px-6 text-sm font-semibold text-white transition duration-300 hover:bg-[#D8BD8D] hover:text-[#283C5D] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isCreating ? (
+                  <LoaderCircle
+                    size={17}
+                    className="animate-spin"
+                  />
+                ) : (
+                  <Plus size={17} />
+                )}
+
+                Add Reel
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {errorMessage ? (
+          <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {errorMessage}
+          </div>
+        ) : null}
+
+        <div className="mt-6 space-y-3">
+          {isLoading
+            ? [0, 1, 2].map((item: number) => (
+                <div
+                  key={item}
+                  className="h-24 animate-pulse rounded-[1.5rem] bg-[#FAF9F7]"
+                />
+              ))
+            : null}
+
+          {!isLoading && reels.length === 0 ? (
+            <div className="rounded-[1.5rem] border border-dashed border-[#D8BD8D]/60 bg-[#FAF9F7] px-6 py-12 text-center">
+              <Aperture
+                size={26}
+                className="mx-auto text-[#D8BD8D]"
+              />
+
+              <p className="mt-3 font-semibold text-[#283C5D]">
+                No Instagram Reels yet
+              </p>
+            </div>
+          ) : null}
+
+          {reels.map((reel: InstagramReelRecord) => {
+            const draft = drafts[reel.id];
+
+            if (!draft) {
+              return null;
+            }
+
+            const selectedDoctor =
+              selectedDraftDoctors[reel.id] ?? null;
+
+            const isBusy = busyId === reel.id;
+
+            return (
+              <div
+                key={reel.id}
+                className="rounded-[1.5rem] border border-[#E7DDD0] bg-[#FAF9F7] p-4 transition hover:border-[#D8BD8D]"
+              >
+                <div className="flex flex-col gap-3 md:flex-row md:items-center">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#283C5D] text-[#D8BD8D]">
+                    <Aperture  size={17} />
+                  </span>
+
+                  <input
+                    type="url"
+                    value={draft.url}
+                    onChange={(event) =>
+                      updateDraft(
+                        reel.id,
+                        "url",
+                        event.target.value
+                      )
+                    }
+                    className="h-11 min-w-0 flex-1 rounded-full border border-[#E7DDD0] bg-white px-4 text-sm text-[#283C5D] outline-none transition focus:border-[#D8BD8D]"
+                  />
+
+                  <input
+                    type="number"
+                    min={0}
+                    value={draft.sortOrder}
+                    onChange={(event) =>
+                      updateDraft(
+                        reel.id,
+                        "sortOrder",
+                        Number(event.target.value)
+                      )
+                    }
+                    className="h-11 w-full rounded-full border border-[#E7DDD0] bg-white px-4 text-center text-sm text-[#283C5D] outline-none transition focus:border-[#D8BD8D] md:w-20"
+                    aria-label="Sort order"
+                  />
+                </div>
+
+                <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setDoctorModalTarget(reel.id)
+                    }
+                    className="flex h-11 min-w-0 flex-1 items-center justify-between rounded-full border border-[#E7DDD0] bg-white px-4 text-left transition hover:border-[#D8BD8D]"
+                  >
+                    <span className="flex min-w-0 items-center gap-2">
+                      <Stethoscope
+                        size={16}
+                        className="shrink-0 text-[#D8BD8D]"
+                      />
+
+                      <span className="truncate text-sm font-medium text-[#283C5D]">
+                        {selectedDoctor
+                          ? getDoctorLabel(selectedDoctor)
+                          : "General Esthetic Match Reel"}
+                      </span>
+                    </span>
+
+                    <Search
+                      size={15}
+                      className="shrink-0 text-[#283C5D]/40"
+                    />
+                  </button>
+
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void handleSave(reel.id)
+                      }
+                      disabled={isBusy}
+                      className="flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-[#283C5D] px-5 text-sm font-semibold text-white transition hover:bg-[#D8BD8D] hover:text-[#283C5D] disabled:opacity-50 sm:flex-none"
+                    >
+                      {isBusy ? (
+                        <LoaderCircle
+                          size={16}
+                          className="animate-spin"
+                        />
+                      ) : (
+                        <Save size={16} />
+                      )}
+
+                      Save
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        void handleDelete(reel.id)
+                      }
+                      disabled={isBusy}
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-red-200 bg-white text-red-500 transition hover:bg-red-50 disabled:opacity-50"
+                      aria-label="Delete Reel"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <DoctorSelectorModal
+        isOpen={doctorModalTarget !== null}
+        selectedDoctorProfileId={
+          modalSelectedDoctorProfileId
+        }
+        onClose={() => setDoctorModalTarget(null)}
+        onSelect={handleDoctorSelected}
+      />
+    </>
   );
 }

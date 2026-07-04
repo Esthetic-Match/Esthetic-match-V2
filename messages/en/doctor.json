@@ -161,6 +161,17 @@
         "googleUser": "Google user",
         "viewMore": "View more on Google"
       },
+      "doctorInstagramReels": {
+        "eyebrow": "From Instagram",
+        "singleTitle": "See more from this doctor",
+        "singleDescription": "Discover a closer look at the doctor's work, treatments and aesthetic approach through their latest featured Instagram content.",
+        "multipleTitle": "Featured Instagram content",
+        "multipleDescription": "Explore selected content from this doctor and discover more about their treatments, results and aesthetic approach.",
+        "watchTitle": "Watch the Reel",
+        "watchDescription": "Play directly from this profile",
+        "reelLabel": "Instagram Reel",
+        "iframeTitle": "Instagram Reel {shortcode}"
+      },
       "gallery": {
         "title": "Photo Gallery",
         "before": "Before",
@@ -187,7 +198,7 @@
         "fromPrice": "from {price}"
       }
     },
-        "bookingConfirmation": {
+    "bookingConfirmation": {
       "eyebrow": "Booking confirmation",
       "paymentSuccessful": "Payment successful",
       "paymentPending": "Payment is being confirmed",

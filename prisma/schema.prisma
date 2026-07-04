@@ -69,57 +69,59 @@ model DoctorProfile {
   id     String @id @default(cuid())
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  slug   String?  @unique
+  slug   String? @unique
 
-  avatar                String?
-  yearsOfExperience     Float?
-  clinicName            String
-  clinicBanner          String?
-  specialtyIds          String[]
-  subcategoryIds        String[]
-  procedureIds          String[]
-  subzoneIds            String[]
-  topThree              String[]
-  workAddress           String
-  city                  String?
-  country               String?
-  zipCode               String?
-  workLatitude          Float?
-  workLongitude         Float?
-  googlePlaceId         String?
-  paidPlan              String? @default("free")
-  currency              String @default("eur")
-  RPPS                  String?
+  avatar            String?
+  yearsOfExperience Float?
+  clinicName        String
+  clinicBanner      String?
+  specialtyIds      String[]
+  subcategoryIds    String[]
+  procedureIds      String[]
+  subzoneIds        String[]
+  topThree          String[]
+  workAddress       String
+  city              String?
+  country           String?
+  zipCode           String?
+  workLatitude      Float?
+  workLongitude     Float?
+  googlePlaceId     String?
+  paidPlan          String? @default("free")
+  currency          String @default("eur")
+  RPPS              String?
 
-  inClinicPrice         Float?
-  onlineConsulPrice     Float?
-  onlineActive          Boolean @default(true)
-  inClinicLink          String?
+  inClinicPrice     Float?
+  onlineConsulPrice Float?
+  onlineActive      Boolean @default(true)
+  inClinicLink      String?
 
-  stripeSubscriptionId       String?
-  stripeSubscriptionStatus   String?
-  stripeCustomerId           String?
-  subscriptionCurrentPeriodEnd DateTime?
-  subscriptionPlan           String? @default("free")
-  stripeConnectAccountId String?
-  stripeConnectOnboardingComplete Boolean @default(false)
-  stripeConnectChargesEnabled Boolean @default(false)
-  stripeConnectPayoutsEnabled Boolean @default(false)
+  stripeSubscriptionId             String?
+  stripeSubscriptionStatus         String?
+  stripeCustomerId                 String?
+  subscriptionCurrentPeriodEnd     DateTime?
+  subscriptionPlan                 String? @default("free")
+  stripeConnectAccountId           String?
+  stripeConnectOnboardingComplete  Boolean @default(false)
+  stripeConnectChargesEnabled      Boolean @default(false)
+  stripeConnectPayoutsEnabled      Boolean @default(false)
 
-  socialMediaLink       String?
-  bookingLinks          String[]
-  googleRating          Float?
-  googleReviewCount     Int?
-  googleMapsUri         String?
+  socialMediaLink   String?
+  bookingLinks      String[]
+  googleRating      Float?
+  googleReviewCount Int?
+  googleMapsUri     String?
 
   otherSpecialtyText String?
 
-  consultationBookings ConsultationBooking[]
-  inClinicConsultationAccesses InClinicConsultationAccess[]
-  onlineConsultationAccesses   OnlineConsultationAccess[]
-  consultationRefundRequests ConsultationRefundRequest[]
+  consultationBookings             ConsultationBooking[]
+  inClinicConsultationAccesses     InClinicConsultationAccess[]
+  onlineConsultationAccesses       OnlineConsultationAccess[]
+  consultationRefundRequests       ConsultationRefundRequest[]
 
   conversations Conversation[] @relation("DoctorConversations")
+
+  instagramReels InstagramReel[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -447,13 +449,19 @@ model MessageAttachment {
 }
 
 model InstagramReel {
-  id        String   @id @default(cuid())
-  url       String   @unique
-  sortOrder Int      @default(0)
+  id        String @id @default(cuid())
+  url       String @unique
+  sortOrder Int    @default(0)
+
+  doctorProfileId String?
+  doctorProfile   DoctorProfile? @relation(fields: [doctorProfileId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([sortOrder])
+  @@index([doctorProfileId])
+  @@index([doctorProfileId, sortOrder])
+
   @@map("instagram_reel")
 }
