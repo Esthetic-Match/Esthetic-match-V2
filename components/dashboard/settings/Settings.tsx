@@ -13,8 +13,8 @@ import {
   Trash2,
   Gem,
   Landmark,
-  LayoutList ,
   X,
+  ClipboardList,
 } from "lucide-react";
 import TermsAndConditions from "./TermsAndCondition";
 import LanguageSelector from "./LanguageSelector";
@@ -218,9 +218,10 @@ function SettingsSidebar({
   return (
     <aside className="w-full bg-[#283c5d] p-4 md:h-full md:w-80">
       {/* Mobile Header */}
-      <div className="flex items-center justify-between md:hidden">
+      <div className="flex flex-col items-center gap-3 text-center md:hidden">
         <div>
           <p className="text-xs text-white/60">{t("title")}</p>
+
           <h1 className="text-lg font-semibold text-white">
             {t(`pages.${activePage}`)}
           </h1>
@@ -229,9 +230,13 @@ function SettingsSidebar({
         <button
           type="button"
           onClick={() => setIsMobileOpen((prev) => !prev)}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 active:scale-[0.98]"
+          className="flex h-9 min-w-[96px] items-center justify-center rounded-full bg-[#D8BD8D] px-6 text-[#283C5D] transition hover:bg-[#F6C467] active:scale-[0.98]"
         >
-          {isMobileOpen ? <X size={20} /> : <LayoutList  size={20} />}
+          {isMobileOpen ? (
+            <X size={18} className="shrink-0" />
+          ) : (
+            <ClipboardList size={18} className="shrink-0" />
+          )}
         </button>
       </div>
 
@@ -361,8 +366,8 @@ const [activePage, setActivePage] =
   }, []);
 
   return (
-    <div className="h-screen w-full pl-2 pt-2">
-      <div className="mx-auto flex h-full w-full max-w-8xl overflow-hidden rounded-t-xl rounded-tr-xl rounded-br-xl bg-white shadow-xl max-md:flex-col">
+    <div className="h-screen w-full pl-2 pt-2 pr-2">
+      <div className="mx-auto flex h-full w-full max-w-8xl overflow-hidden rounded-xl bg-white shadow-xl max-md:flex-col">
         <SettingsSidebar
           activePage={activePage}
           setActivePage={setActivePage}

@@ -36,7 +36,8 @@ export default function ClinicBanner({
       <button
         type="button"
         onClick={onEdit}
-        className="absolute top-4 right-4 z-10 flex items-center cursor-pointer gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-medium text-[#283C5D] shadow-md transition hover:bg-white active:scale-[0.98]"
+        className="absolute top-4 left-4 z-10 flex items-center cursor-pointer gap-2 rounded-full 
+        bg-white/90 px-4 py-2 text-xs font-medium text-[#283C5D] shadow-md transition hover:bg-[#283C5D] hover:text-white active:scale-[0.98]"
       >
         <Pencil size={14} />
       </button>

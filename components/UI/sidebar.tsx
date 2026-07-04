@@ -70,11 +70,16 @@ export const Sidebar = ({
   );
 };
 
-export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {
+type SidebarBodyProps = {
+  children?: React.ReactNode;
+  className?: string;
+};
+
+export const SidebarBody = ({ children, className }: SidebarBodyProps) => {
   return (
     <>
-      <DesktopSidebar {...props} />
-      <MobileSidebar {...(props as React.ComponentProps<"div">)} />
+      <DesktopSidebar className={className}>{children}</DesktopSidebar>
+      <MobileSidebar className={className}>{children}</MobileSidebar>
     </>
   );
 };
@@ -82,75 +87,71 @@ export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {
 export const DesktopSidebar = ({
   className,
   children,
-  ...props
-}: React.ComponentProps<typeof motion.div>) => {
+}: SidebarBodyProps) => {
   const { open, setOpen, animate } = useSidebar();
+
   return (
-    <>
-      <motion.div
-        className={cn(
-          "h-full px-4 py-4 hidden md:flex md:flex-col bg-[#283C5D] w-[300px] shrink-0",
-          className
-        )}
-        animate={{
-          width: animate ? (open ? "300px" : "60px") : "300px",
-        }}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
-        {...props}
-      >
-        {children}
-      </motion.div>
-    </>
+    <motion.div
+      className={cn(
+        "hidden h-full w-[300px] shrink-0 bg-[#283C5D] px-4 py-4 md:flex md:flex-col",
+        className
+      )}
+      animate={{
+        width: animate ? (open ? "300px" : "60px") : "300px",
+      }}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      {children}
+    </motion.div>
   );
 };
 
 export const MobileSidebar = ({
   className,
   children,
-  ...props
-}: React.ComponentProps<"div">) => {
+}: SidebarBodyProps) => {
   const { open, setOpen } = useSidebar();
+
   return (
     <>
-      <div
-        className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center text-white justify-between bg-[#283C5D] w-full "
-        )}
-        {...props}
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="fixed right-4 top-4 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#283C5D] text-white shadow-[0_14px_35px_rgba(40,60,93,0.25)] transition hover:bg-[#D8BD8D] hover:text-[#283C5D] md:hidden"
+        aria-label="Open menu"
       >
-        <div className="flex justify-end z-20 w-full">
-          <IconMenu2
-            className="text-white"
-            onClick={() => setOpen(!open)}
-          />
-        </div>
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ x: "-100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "-100%", opacity: 0 }}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-              }}
-              className={cn(
-                "fixed h-full w-full inset-0 bg-[#283C5D] p-10 z-[100] flex flex-col justify-between",
-                className
-              )}
+        <IconMenu2 size={22} />
+      </button>
+
+      <AnimatePresence>
+        {open ? (
+          <motion.div
+            initial={{ x: "-100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "-100%", opacity: 0 }}
+            transition={{
+              duration: 0.3,
+              ease: "easeInOut",
+            }}
+            className={cn(
+              "fixed inset-0 z-[100] flex h-full w-full flex-col justify-between bg-[#283C5D] p-10 md:hidden",
+              className
+            )}
+          >
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="absolute right-10 top-10 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white transition hover:bg-white hover:text-[#283C5D]"
+              aria-label="Close menu"
             >
-              <div
-                className="absolute right-10 top-10 z-50 text-white"
-                onClick={() => setOpen(!open)}
-              >
-                <IconX />
-              </div>
-              {children}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+              <IconX size={22} />
+            </button>
+
+            {children}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </>
   );
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { ReactNode } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/UI/sidebar";
 import {
   IconArrowLeft,
@@ -9,7 +10,7 @@ import {
   IconUserBolt,
   IconShieldLock,
 } from "@tabler/icons-react";
-import { History } from 'lucide-react';
+import { History } from "lucide-react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { DM_Sans } from "next/font/google";
@@ -24,7 +25,13 @@ const dmSans = DM_Sans({
 });
 
 type NavPanelProps = {
-  children: React.ReactNode;
+  children: ReactNode;
+};
+
+type SidebarItem = {
+  label: string;
+  href: string;
+  icon: ReactNode;
 };
 
 export function NavPanel({ children }: NavPanelProps) {
@@ -35,6 +42,11 @@ export function NavPanel({ children }: NavPanelProps) {
   const { data: session } = authClient.useSession();
 
   const userId = session?.user?.id;
+  const userRole = session?.user?.role;
+
+  const isAdmin = userRole === "ADMIN";
+  const isPatient = userRole === "PATIENT";
+  const showUserDashboardLinks = Boolean(userId) && !isAdmin;
 
   async function handleSignOut() {
     await authClient.signOut();
@@ -42,35 +54,34 @@ export function NavPanel({ children }: NavPanelProps) {
     router.refresh();
   }
 
-const isAdmin = session?.user?.role === "ADMIN";
-const isPatient = session?.user?.role === "PATIENT";
+  const links: SidebarItem[] = [
+    ...(showUserDashboardLinks
+      ? [
+          {
+            label: t("sidebar.messages"),
+            href: "/dashboard/messages",
+            icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />,
+          },
+          {
+            label: t("sidebar.profile"),
+            href: `/dashboard/${userId}`,
+            icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
+          },
+        ]
+      : []),
 
-const links = [
-  {
-    label: t("sidebar.messages"),
-    href: "/dashboard/messages",
-    icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />,
-  },
-  {
-    label: t("sidebar.profile"),
-    href: `/dashboard/${userId}`,
-    icon: <IconUserBolt className="h-5 w-5 shrink-0 text-white" />,
-  },
     ...(isPatient
-    ? [
-        {
-          label: t("sidebar.bookingHistory"),
-          href: "/dashboard/bookingHistory",
-          icon: <History className="h-5 w-5 shrink-0 text-white" />,
-        },
-      ]
-    : []),
-  {
-    label: t("sidebar.settings"),
-    href: "/dashboard/settings",
-    icon: <IconSettings className="h-5 w-5 shrink-0 text-white" />,
-  },
-  ...(isAdmin
+      ? [
+          {
+            label: t("sidebar.bookingHistory"),
+            href: "/dashboard/bookingHistory",
+            icon: <History className="h-5 w-5 shrink-0 text-white" />,
+          },
+        ]
+      : []),
+
+
+        ...(isAdmin
     ? [
         {
           label: t("sidebar.adminPanel"),
@@ -79,40 +90,51 @@ const links = [
         },
       ]
     : []),
-  {
-    label: t("sidebar.logout"),
-    href: "/",
-    icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />,
-  },
-];
+
+    {
+      label: t("sidebar.settings"),
+      href: "/dashboard/settings",
+      icon: <IconSettings className="h-5 w-5 shrink-0 text-white" />,
+    },
+
+    {
+      label: t("sidebar.logout"),
+      href: "/",
+      icon: <IconArrowLeft className="h-5 w-5 shrink-0 text-white" />,
+    },
+  ];
 
   return (
-<div className={`flex min-h-screen w-full bg-[#283C5D] ${dmSans.className}`}>
-  <aside className="sticky top-0 h-screen shrink-0 z-25">
-    <Sidebar open={open} setOpen={setOpen}>
-      <SidebarBody className="justify-between gap-10">
-        <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
-          {open ? <Logo /> : <LogoIcon />}
+    <div className={`flex min-h-screen w-full bg-[#283C5D] ${dmSans.className}`}>
+      <aside className="sticky top-0 z-25 h-screen shrink-0">
+        <Sidebar open={open} setOpen={setOpen}>
+          <SidebarBody className="justify-between gap-10">
+            <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+              {open ? <Logo /> : <LogoIcon />}
 
-          <div className="mt-8 flex flex-col gap-2">
-            {links.map((link, idx) => (
-              <SidebarLink
-                key={idx}
-                link={link}
-                onClick={link.label === t("sidebar.logout") ? handleSignOut : undefined}
-              />
-            ))}
-          </div>
-        </div>
-      </SidebarBody>
-    </Sidebar>
-  </aside>
+              <div className="mt-8 flex flex-col gap-2">
+                {links.map((link: SidebarItem) => (
+                  <SidebarLink
+                    key={link.href}
+                    link={link}
+                    onClick={
+                      link.label === t("sidebar.logout")
+                        ? handleSignOut
+                        : undefined
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          </SidebarBody>
+        </Sidebar>
+      </aside>
 
-  <main className="min-h-screen flex-1 overflow-x-hidden rounded-tl-2xl bg-white">
-    {children}
-  </main>
-</div>
-);
+      <main className="min-h-screen flex-1 overflow-x-hidden md:rounded-tl-2xl bg-white">
+        {children}
+      </main>
+    </div>
+  );
 }
 
 export const Logo = () => {
@@ -142,7 +164,6 @@ export const Logo = () => {
   );
 };
 
-///////////////////////////////////////////////////////////////////////////////////// LOGO ICON /////////////////////////////////////////////////////////////////////////
 export const LogoIcon = () => {
   return (
     <Link

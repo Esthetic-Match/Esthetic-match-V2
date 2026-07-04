@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 
 type GooglePlaceMatch = {
   id: string;
-  name: string; 
+  name: string;
   displayName: {
     text: string;
   };
@@ -17,15 +17,20 @@ type GooglePlaceMatch = {
   googleMapsUri?: string | null;
 };
 
-type GoogleReviewsPickerProps = {
+type GooglePlaceDetails = {
+  id: string | null;
+  rating: number | null;
+  userRatingCount: number | null;
+  googleMapsUri: string | null;
+};
+
+type GoogleReviewsButtonProps = {
   clinicName?: string | null;
   workLatitude?: number | null;
   workLongitude?: number | null;
   googlePlaceId?: string | null;
-
   googleRating?: number | null;
   googleReviewCount?: number | null;
-
   onSaved?: (data: {
     googlePlaceId: string | null;
     googleRating: number | null;
@@ -34,17 +39,116 @@ type GoogleReviewsPickerProps = {
   }) => void;
 };
 
-async function parseJsonResponse(res: Response) {
-  const raw = await res.text();
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function readNullableString(value: unknown): string | null {
+  return typeof value === "string" ? value : null;
+}
+
+function readNullableNumber(value: unknown): number | null {
+  return typeof value === "number" ? value : null;
+}
+
+async function parseJsonResponse(response: Response): Promise<unknown> {
+  const raw = await response.text();
+
+  if (!raw) return {};
 
   try {
-    return raw ? JSON.parse(raw) : {};
+    const parsed: unknown = JSON.parse(raw);
+    return parsed;
   } catch {
     return { error: raw };
   }
 }
 
-export default function GoogleReviewsPicker({
+function normalizePlaceMatch(value: unknown): GooglePlaceMatch | null {
+  if (!isRecord(value)) return null;
+
+  const rawId = readNullableString(value.id);
+  const rawName = readNullableString(value.name);
+  const id = rawId ?? rawName;
+  const name = rawName ?? rawId;
+
+  if (!id || !name) return null;
+
+  const displayName = isRecord(value.displayName)
+    ? readNullableString(value.displayName.text)
+    : null;
+
+  if (!displayName) return null;
+
+  return {
+    id,
+    name,
+    displayName: {
+      text: displayName,
+    },
+    formattedAddress: readNullableString(value.formattedAddress),
+    rating: readNullableNumber(value.rating),
+    userRatingCount: readNullableNumber(value.userRatingCount),
+    googleMapsUri: readNullableString(value.googleMapsUri),
+  };
+}
+
+function getPlacesFromPayload(payload: unknown): GooglePlaceMatch[] {
+  if (!isRecord(payload) || !Array.isArray(payload.places)) return [];
+
+  return payload.places.reduce<GooglePlaceMatch[]>((places, place) => {
+    const normalizedPlace = normalizePlaceMatch(place);
+
+    if (normalizedPlace) {
+      places.push(normalizedPlace);
+    }
+
+    return places;
+  }, []);
+}
+
+function getPlaceDetailsFromPayload(payload: unknown): GooglePlaceDetails | null {
+  if (!isRecord(payload) || !isRecord(payload.place)) return null;
+
+  return {
+    id: readNullableString(payload.place.id),
+    rating: readNullableNumber(payload.place.rating),
+    userRatingCount: readNullableNumber(payload.place.userRatingCount),
+    googleMapsUri: readNullableString(payload.place.googleMapsUri),
+  };
+}
+
+function GoogleRatingStars({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center justify-center gap-1.5">
+      {[0, 1, 2, 3, 4].map((starIndex: number) => {
+        const fillPercentage =
+          Math.min(Math.max(rating - starIndex, 0), 1) * 100;
+
+        return (
+          <span key={starIndex} className="relative h-6 w-6">
+            <Star
+              size={24}
+              className="absolute left-0 top-0 fill-[#E9E1D4] text-[#E9E1D4] transition-colors duration-700 ease-out group-hover:fill-[#283C5D]/20 group-hover:text-[#283C5D]/20"
+            />
+
+            <span
+              className="absolute left-0 top-0 overflow-hidden"
+              style={{ width: `${fillPercentage}%` }}
+            >
+              <Star
+                size={24}
+                className="fill-[#D8BD8D] text-[#D8BD8D] transition-colors duration-700 ease-out group-hover:fill-[#283C5D] group-hover:text-[#283C5D]"
+              />
+            </span>
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function GoogleReviewsButton({
   clinicName,
   workLatitude,
   workLongitude,
@@ -52,8 +156,9 @@ export default function GoogleReviewsPicker({
   googleRating,
   googleReviewCount,
   onSaved,
-}: GoogleReviewsPickerProps) {
+}: GoogleReviewsButtonProps) {
   const t = useTranslations("dashboard");
+
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState(clinicName ?? "");
   const [matches, setMatches] = useState<GooglePlaceMatch[]>([]);
@@ -65,14 +170,17 @@ export default function GoogleReviewsPicker({
   const [savedRating, setSavedRating] = useState<number | null>(
     googleRating ?? null
   );
-
   const [savedReviewCount, setSavedReviewCount] = useState<number | null>(
     googleReviewCount ?? null
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  async function handleSearch(nextQuery = query) {
-    const cleanQuery = nextQuery.trim();
+  const displayedRating = savedRating ?? googleRating;
+  const displayedReviewCount = savedReviewCount ?? googleReviewCount;
+  const isConnected = selectedPlaceId != null;
+
+  async function handleSearch(nextQuery?: string): Promise<void> {
+    const cleanQuery = (nextQuery ?? query).trim();
 
     if (!cleanQuery) {
       setMatches([]);
@@ -83,7 +191,7 @@ export default function GoogleReviewsPicker({
     setErrorMessage(null);
 
     try {
-      const res = await fetch("/api/google-places/search", {
+      const response = await fetch("/api/google-places/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,16 +203,16 @@ export default function GoogleReviewsPicker({
         }),
       });
 
-      const data = await parseJsonResponse(res);
+      const data = await parseJsonResponse(response);
 
-      if (!res.ok) {
+      if (!response.ok) {
         console.error("Google autocomplete failed:", data);
         setMatches([]);
         setErrorMessage("Could not search Google businesses.");
         return;
       }
 
-      setMatches(data.places ?? []);
+      setMatches(getPlacesFromPayload(data));
     } catch (error) {
       console.error("Google autocomplete request failed:", error);
       setMatches([]);
@@ -114,42 +222,42 @@ export default function GoogleReviewsPicker({
     }
   }
 
-  async function handleSelectPlace(place: GooglePlaceMatch) {
+  async function handleSelectPlace(place: GooglePlaceMatch): Promise<void> {
     setIsSaving(true);
     setErrorMessage(null);
 
     try {
-      const detailsRes = await fetch("/api/google-places/details", {
+      const detailsResponse = await fetch("/api/google-places/details", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          placeId: place.name ?? place.id,
+          placeId: place.name || place.id,
         }),
       });
 
-      const detailsData = await parseJsonResponse(detailsRes);
+      const detailsData = await parseJsonResponse(detailsResponse);
 
-      if (!detailsRes.ok) {
+      if (!detailsResponse.ok) {
         console.error("Google details failed:", detailsData);
         throw new Error("Could not fetch Google rating.");
       }
 
-      const details = detailsData.place;
+      const details = getPlaceDetailsFromPayload(detailsData);
+
+      if (!details) {
+        throw new Error("Google place details response was invalid.");
+      }
 
       const payload = {
         googlePlaceId: details.id ?? place.id,
-        googleRating:
-          typeof details.rating === "number" ? details.rating : null,
-        googleReviewCount:
-          typeof details.userRatingCount === "number"
-            ? details.userRatingCount
-            : null,
-        googleMapsUri: details.googleMapsUri ?? null,
+        googleRating: details.rating,
+        googleReviewCount: details.userRatingCount,
+        googleMapsUri: details.googleMapsUri,
       };
 
-      const saveRes = await fetch("/api/doctor-profile", {
+      const saveResponse = await fetch("/api/doctor-profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -157,9 +265,9 @@ export default function GoogleReviewsPicker({
         body: JSON.stringify(payload),
       });
 
-      const saveData = await parseJsonResponse(saveRes);
+      const saveData = await parseJsonResponse(saveResponse);
 
-      if (!saveRes.ok) {
+      if (!saveResponse.ok) {
         console.error("Saving Google rating failed:", saveData);
         throw new Error("Could not save Google rating.");
       }
@@ -179,53 +287,104 @@ export default function GoogleReviewsPicker({
     }
   }
 
-  function openPicker() {
-    setIsOpen(true);
-    setQuery(clinicName ?? "");
+  function openPicker(): void {
+    const initialQuery = clinicName ?? "";
 
-    if (clinicName) {
-      handleSearch(clinicName);
+    setIsOpen(true);
+    setQuery(initialQuery);
+
+    if (initialQuery.trim()) {
+      void handleSearch(initialQuery);
     }
   }
-  const displayedRating = savedRating ?? googleRating;
-  const displayedReviewCount =
-    savedReviewCount ?? googleReviewCount;
+
   return (
     <>
       <button
         type="button"
         onClick={openPicker}
-        className="flex w-full mb-3 items-center justify-between rounded-full border border-[#F6C467] 
-        bg-[#283c5d] cursor-pointer px-4 py-2 text-sm text-white transition hover:opacity-90 active:scale-[0.98]"
+        className="group relative mb-4 flex w-full overflow-hidden rounded-[1.75rem] border border-[#d8bd8d]/70 bg-[#283C5D] p-[1px] shadow-[0_22px_55px_rgba(40,60,93,0.22)] transition-all duration-700 ease-out hover:border-[#F6C467]/90 hover:bg-[#d8bd8d] hover:shadow-[0_28px_70px_rgba(216,189,141,0.36)] active:scale-[0.99]"
       >
-        <span className="flex flex-row">
-          <Image
-            src={"/icons/googleIcon.svg"}
-            alt={"Google Icon"}
-            width={16}
-            height={16}
-            className="object-contain"
-          />
-          <div className="pl-2">
-            {displayedRating != null && displayedReviewCount != null
-              ? t("googleReviews.ratingSummary", {
-                  rating: displayedRating,
-                  count: displayedReviewCount,
-                })
-              : t("googleReviews.connect")}
-          </div>
+        <span className="relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-[1.70rem] bg-[linear-gradient(135deg,#283C5D_0%,#334B70_55%,#1F2F49_100%)] px-5 py-5 text-left text-white md:px-6 md:py-6">
+          <span className="absolute inset-0 bg-[linear-gradient(135deg,#F7E1AA_0%,#D8BD8D_50%,#B99045_100%)] opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100" />
+        
+          <span className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#d8bd8d]/20 blur-2xl transition-all duration-700 ease-out group-hover:bg-white/25" />
+          <span className="absolute -bottom-14 left-14 h-28 w-28 rounded-full bg-white/10 blur-2xl transition-all duration-700 ease-out group-hover:bg-[#283C5D]/10" />
+        
+          {displayedRating != null && displayedReviewCount != null ? (
+            <span className="relative z-10 flex w-full flex-col items-center justify-center py-3 text-center">
+              <span className="mb-8 flex w-full items-center justify-center gap-3 text-center">
+                <Star
+                  size={18}
+                  className="fill-[#D8BD8D] text-[#D8BD8D] transition-colors duration-700 ease-out group-hover:fill-[#283C5D] group-hover:text-[#283C5D]"
+                />
+      
+                <span className="text-xs font-bold uppercase tracking-[0.28em] text-white transition-colors duration-700 ease-out group-hover:text-[#283C5D]">
+                  {t("googleReviews.googleBusiness")}
+                </span>
+              </span>
+          
+              <GoogleRatingStars rating={displayedRating} />
+          
+              <span className="mt-5 flex items-end justify-center gap-1">
+                <span className="text-4xl font-bold leading-none text-white transition-colors duration-700 ease-out group-hover:text-[#283C5D]">
+                  {displayedRating.toFixed(1)}
+                </span>
+          
+                <span className="pb-1 text-base font-semibold text-white/55 transition-colors duration-700 ease-out group-hover:text-[#283C5D]/55">
+                  / 5
+                </span>
+              </span>
+          
+              <span className="mt-4 text-sm text-white/65 transition-colors duration-700 ease-out group-hover:text-[#283C5D]/65">
+                Basé sur {displayedReviewCount} avis Google
+              </span>
+            </span>
+          ) : (
+            <>
+              <span className="relative z-10 flex min-w-0 items-center gap-4">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-[0_14px_35px_rgba(0,0,0,0.18)] transition-all duration-700 ease-out group-hover:shadow-[0_14px_35px_rgba(40,60,93,0.18)]">
+                  <Image
+                    src="/icons/googleIcon.svg"
+                    alt="Google"
+                    width={28}
+                    height={28}
+                    className="object-contain"
+                  />
+                </span>
+          
+                <span className="min-w-0">
+                  <span className="block text-xs font-semibold uppercase tracking-[0.26em] text-[#F6C467] transition-colors duration-700 ease-out group-hover:text-[#283C5D]">
+                    {t("googleReviews.googleBusiness")}
+                  </span>
+          
+                  <span className="mt-1 block text-base font-semibold leading-snug text-white transition-colors duration-700 ease-out group-hover:text-black md:text-lg">
+                    {t("googleReviews.connect")}
+                  </span>
+          
+                  <span className="mt-1 block text-sm text-white/70 transition-colors duration-700 ease-out group-hover:text-black/60">
+                    {t("googleReviews.selectClinic")}
+                  </span>
+                </span>
+              </span>
+          
+              <span className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-inner transition-all duration-700 ease-out group-hover:border-[#283C5D]/15 group-hover:bg-white/70 group-hover:text-[#283C5D]">
+                <Search size={20} />
+              </span>
+            </>
+          )}
         </span>
-        {selectedPlaceId? "":<Search size={16} />}
       </button>
 
       {isOpen ? (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-2xl rounded-3xl bg-white shadow-2xl">
+          <div className="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-black/10 px-6 py-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#d8bd8d]">
                   {t("googleReviews.googleBusiness")}
                 </p>
+
                 <h2 className="mt-1 text-2xl font-semibold text-[#283C5D]">
                   {t("googleReviews.selectClinic")}
                 </h2>
@@ -234,7 +393,7 @@ export default function GoogleReviewsPicker({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white"
+                className="flex h-9 w-9 items-center cursor-pointer justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white"
               >
                 <X size={18} />
               </button>
@@ -248,7 +407,7 @@ export default function GoogleReviewsPicker({
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
                       event.preventDefault();
-                      handleSearch();
+                      void handleSearch();
                     }
                   }}
                   placeholder={t("googleReviews.searchPlaceholder")}
@@ -257,11 +416,13 @@ export default function GoogleReviewsPicker({
 
                 <button
                   type="button"
-                  onClick={() => handleSearch()}
+                  onClick={() => void handleSearch()}
                   disabled={isSearching}
-                  className="rounded-full bg-[#283C5D] px-5 py-3 text-sm text-white transition hover:opacity-90 disabled:opacity-50"
+                  className="rounded-full bg-[#283C5D] cursor-pointer px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#D8BD8D] hover:text-[#283C5D] disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {isSearching ? t("googleReviews.searching") : t("googleReviews.search")}
+                  {isSearching
+                    ? t("googleReviews.searching")
+                    : t("googleReviews.search")}
                 </button>
               </div>
 
@@ -273,18 +434,18 @@ export default function GoogleReviewsPicker({
 
               <div className="max-h-[420px] space-y-3 overflow-y-auto">
                 {matches.length > 0 ? (
-                  matches.map((place) => (
+                  matches.map((place: GooglePlaceMatch) => (
                     <button
-                      key={place.name ?? place.id}
+                      key={place.name || place.id}
                       type="button"
                       disabled={isSaving}
-                      onClick={() => handleSelectPlace(place)}
+                      onClick={() => void handleSelectPlace(place)}
                       className="w-full rounded-2xl border border-black/10 bg-white p-4 text-left transition hover:border-[#d8bd8d] hover:bg-[#fffaf1] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <h3 className="font-semibold text-[#283C5D]">
-                            {place.displayName?.text ?? t("googleReviews.unnamedBusiness")}
+                            {place.displayName.text}
                           </h3>
 
                           {place.formattedAddress ? (

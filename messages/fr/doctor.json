@@ -154,6 +154,13 @@
         "viewGoogle": "Voir sur Google",
         "notAllowed": "Le médecin n’a pas encore activé les avis Google."
       },
+      "googleReviewsList": {
+        "title": "Avis Google",
+        "subtitle": "Retours des patients",
+        "basedOnReviews": "Basé sur {count} avis Google",
+        "googleUser": "Utilisateur Google",
+        "viewMore": "Voir plus sur Google"
+      },
       "gallery": {
         "title": "Galerie de photo",
         "before": "Avant",

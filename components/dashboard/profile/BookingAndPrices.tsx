@@ -1,7 +1,7 @@
 import ConsultationPrices from "@/components/dashboard/profile/bookingConsultion/ConsultationPrices"
 import BookingLinks from "@/components/dashboard/profile/bookingConsultion/BookingLinks"
-import SocialLinks from "@/components/dashboard/profile/bookingConsultion/SocialLinks"
 import { DoctorProfileData } from "./types";
+import GoogleReviewsButton from "./UI/GoogleReviewsButton";
 
 type BookingAndPricesProps = {
   inClinicPrice?: number | null;
@@ -51,14 +51,14 @@ export default function BookingAndPrices({
         />
 
         <BookingLinks bookingLinks={bookingLinks} paidPlan={paidPlan} />
-        <SocialLinks
-          paidPlan={paidPlan}
+        
+        <GoogleReviewsButton
           clinicName={clinicName}
           workLatitude={workLatitude}
           workLongitude={workLongitude}
           googlePlaceId={googlePlaceId}
-          googleRating={googleRating}
           googleReviewCount={googleReviewCount}
+          googleRating={googleRating}
         />
       </div>
     </section>

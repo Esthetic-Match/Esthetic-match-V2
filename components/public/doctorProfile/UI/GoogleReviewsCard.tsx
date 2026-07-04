@@ -45,7 +45,7 @@ export default async function GoogleReviewsCard({
           itemProp="aggregateRating"
           itemScope
           itemType="https://schema.org/AggregateRating"
-          className="mt-14 text-center"
+          className="mt-20 text-center"
         >
           <div className="mb-5 flex items-center justify-center gap-1">
             {[1, 2, 3, 4, 5].map((star) => {
@@ -114,16 +114,6 @@ export default async function GoogleReviewsCard({
             content={String(googleReviewCount)}
           />
 
-          {googleMapsUri?.trim() ? (
-            <a
-              href={googleMapsUri}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-16 inline-flex w-full items-center justify-center rounded-full border border-[#d8bd8d]/60 px-6 py-2.5 text-sm font-semibold text-[#283C5D] transition hover:bg-[#53637d] hover:text-white"
-            >
-              {t("viewGoogle")}
-            </a>
-          ) : null}
         </div>
       ) : (
         <div className="mt-16 flex flex-col items-center justify-center text-center">
