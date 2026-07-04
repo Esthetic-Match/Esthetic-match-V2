@@ -1,13 +1,31 @@
 import { ApiError, apiSuccess } from "@/lib/api/error-handler";
 import { withApiHandler } from "@/lib/api/with-api-handler";
 
+type GoogleLocalizedText = {
+  text?: string;
+  languageCode?: string;
+};
+
+type GoogleAuthorAttribution = {
+  displayName?: string;
+  uri?: string;
+  photoUri?: string;
+};
+
+type GooglePlaceReview = {
+  name?: string;
+  relativePublishTimeDescription?: string;
+  rating?: number;
+  text?: GoogleLocalizedText;
+  originalText?: GoogleLocalizedText;
+  authorAttribution?: GoogleAuthorAttribution;
+  publishTime?: string;
+};
+
 type GooglePlaceDetails = {
   id?: string;
   name?: string;
-  displayName?: {
-    text?: string;
-    languageCode?: string;
-  };
+  displayName?: GoogleLocalizedText;
   formattedAddress?: string;
   rating?: number;
   userRatingCount?: number;
@@ -15,6 +33,7 @@ type GooglePlaceDetails = {
   types?: string[];
   primaryType?: string;
   businessStatus?: string;
+  reviews?: GooglePlaceReview[];
 };
 
 function normalizePlaceResource(placeId: string) {
@@ -25,6 +44,27 @@ function normalizePlaceResource(placeId: string) {
   }
 
   return `places/${trimmed}`;
+}
+
+function normalizeReviews(reviews?: GooglePlaceReview[]) {
+  if (!reviews) return [];
+
+  return reviews.map((review: GooglePlaceReview) => ({
+    name: review.name ?? null,
+    rating: typeof review.rating === "number" ? review.rating : null,
+    relativePublishTimeDescription:
+      review.relativePublishTimeDescription ?? null,
+    text: review.text?.text ?? null,
+    textLanguageCode: review.text?.languageCode ?? null,
+    originalText: review.originalText?.text ?? null,
+    originalTextLanguageCode: review.originalText?.languageCode ?? null,
+    publishTime: review.publishTime ?? null,
+    author: {
+      displayName: review.authorAttribution?.displayName ?? null,
+      uri: review.authorAttribution?.uri ?? null,
+      photoUri: review.authorAttribution?.photoUri ?? null,
+    },
+  }));
 }
 
 export const POST = withApiHandler(async (req: Request) => {
@@ -70,6 +110,7 @@ export const POST = withApiHandler(async (req: Request) => {
           "types",
           "primaryType",
           "businessStatus",
+          "reviews",
         ].join(","),
       },
     }
@@ -111,6 +152,7 @@ export const POST = withApiHandler(async (req: Request) => {
       types: place.types ?? [],
       primaryType: place.primaryType ?? null,
       businessStatus: place.businessStatus ?? null,
+      reviews: normalizeReviews(place.reviews),
     },
   });
 });

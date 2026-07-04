@@ -8,6 +8,7 @@ import type { DoctorProfileData } from "./types";
 import ExpertiseSection from "./ExpertiseSection";
 import BookingAndPrices from "./BookingAndPrices";
 import Gallery from "./patientGallery/Gallery";
+import GoogleReviewsList from "@/components/UI/GoogleReviewsList";
 
 const fallbackBanner = "/images/fallback/blue-bg.png";
 
@@ -118,8 +119,6 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         onUpdateProfile={updateDoctorProfile}
       />
 
-      <ExpertiseSection procedureIds={profile.procedureIds || []} />
-
       <BookingAndPrices
         inClinicPrice={profile.inClinicPrice}
         onlineConsulPrice={profile.onlineConsulPrice}
@@ -136,6 +135,10 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         paidPlan={profile.paidPlan}
         currency={profile.currency}
       />
+
+      <GoogleReviewsList googlePlaceId={profile.googlePlaceId} />
+
+      <ExpertiseSection procedureIds={profile.procedureIds || []} />
 
       <Gallery
         userId={user.id}

@@ -26,7 +26,7 @@
         "emptyTitle": "No surgical specialists found yet",
         "emptyText": "We could not find doctors matching these surgical specialties at the moment."
       },
-            "nonSurgicalSpecialists": {
+      "nonSurgicalSpecialists": {
         "eyebrow": "Non-surgical expertise",
         "title": "Find trusted non-surgical aesthetic doctors",
         "description": "Explore aesthetic doctors, dermatologists, ophthalmologists, dentists, orthodontists, general practitioners, and oculoplastic specialists on Esthetic Match.",
@@ -153,6 +153,13 @@
         "basedOn": "Based on {count} Google reviews",
         "viewGoogle": "View on Google",
         "notAllowed": "The doctor has not allowed Google reviews yet."
+      },
+      "googleReviewsList": {
+        "title": "Google Reviews",
+        "subtitle": "Patient feedback",
+        "basedOnReviews": "Based on {count} Google reviews",
+        "googleUser": "Google user",
+        "viewMore": "View more on Google"
       },
       "gallery": {
         "title": "Photo Gallery",
