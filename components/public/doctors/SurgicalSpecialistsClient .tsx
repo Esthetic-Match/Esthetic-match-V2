@@ -214,7 +214,7 @@ useEffect(() => {
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
       <section className="relative overflow-hidden border-b border-[#CEB591]/20 bg-white">
-<div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(40,60,93,0.72)_0%,rgba(40,60,93,0.42)_22%,rgba(250,249,247,0)_55%),radial-gradient(circle_at_top_left,rgba(206,181,145,0.28),transparent_34%),linear-gradient(135deg,#ffffff_0%,#FAF9F7_48%,rgba(241,225,198,0.55)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(40,60,93,0.72)_0%,rgba(40,60,93,0.42)_22%,rgba(250,249,247,0)_55%),radial-gradient(circle_at_top_left,rgba(206,181,145,0.28),transparent_34%),linear-gradient(135deg,#ffffff_0%,#FAF9F7_48%,rgba(241,225,198,0.55)_100%)]" />
 
         <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-20 md:px-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end lg:py-24">
           <div>
