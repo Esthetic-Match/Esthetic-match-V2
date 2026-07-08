@@ -1,8 +1,12 @@
-// components/dashboard/admin/DoctorProfilesPlanTable.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { Crown, Loader2, ShieldCheck } from "lucide-react";
+import {
+  Crown,
+  Loader2,
+  ShieldCheck,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type DoctorProfilePlan = {
   id: string;
@@ -15,22 +19,37 @@ type DoctorProfilePlan = {
   };
 };
 
+type BooleanToggleProps = {
+  checked: boolean;
+  disabled: boolean;
+  ariaLabel: string;
+  onChange: (checked: boolean) => void;
+};
+
+type StatusPillProps = {
+  active: boolean;
+  activeLabel: string;
+  inactiveLabel: string;
+};
+
 function BooleanToggle({
   checked,
   disabled,
+  ariaLabel,
   onChange,
-}: {
-  checked: boolean;
-  disabled: boolean;
-  onChange: (checked: boolean) => void;
-}) {
+}: BooleanToggleProps) {
   return (
     <button
       type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={ariaLabel}
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={`relative h-7 w-12 rounded-full transition disabled:cursor-not-allowed disabled:opacity-60 ${
-        checked ? "bg-[#d8bd8d]" : "bg-[#283C5D]/15"
+        checked
+          ? "bg-[#d8bd8d]"
+          : "bg-[#283C5D]/15"
       }`}
     >
       <span
@@ -46,11 +65,7 @@ function StatusPill({
   active,
   activeLabel,
   inactiveLabel,
-}: {
-  active: boolean;
-  activeLabel: string;
-  inactiveLabel: string;
-}) {
+}: StatusPillProps) {
   return (
     <span
       className={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] ${
@@ -65,18 +80,34 @@ function StatusPill({
 }
 
 export default function DoctorProfilesPlanTable() {
-  const [profiles, setProfiles] = useState<DoctorProfilePlan[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const t = useTranslations(
+    "admin.doctorProfilesPlanTable"
+  );
+
+  const [profiles, setProfiles] = useState<
+    DoctorProfilePlan[]
+  >([]);
+
+  const [isLoading, setIsLoading] =
+    useState(true);
+
+  const [updatingId, setUpdatingId] =
+    useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchProfiles() {
+    async function fetchProfiles(): Promise<void> {
       try {
-        const res = await fetch("/api/admin/doctor-plans/plans");
+        const res = await fetch(
+          "/api/admin/doctor-plans/plans"
+        );
+
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data?.error || "Could not load doctor profiles.");
+          throw new Error(
+            data?.error ||
+              "Could not load doctor profiles."
+          );
         }
 
         setProfiles(data.doctorProfiles);
@@ -87,18 +118,32 @@ export default function DoctorProfilesPlanTable() {
       }
     }
 
-    fetchProfiles();
+    void fetchProfiles();
   }, []);
 
-  async function updatePaidPlan(doctorProfileId: string, isStandard: boolean) {
+  async function updatePaidPlan(
+    doctorProfileId: string,
+    isStandard: boolean
+  ): Promise<void> {
     const previousProfiles = profiles;
 
-    setProfiles((currentProfiles) =>
-      currentProfiles.map((profile) =>
-        profile.id === doctorProfileId
-          ? { ...profile, paidPlan: isStandard ? "standard" : "free" }
-          : profile
-      )
+    setProfiles(
+      (
+        currentProfiles: DoctorProfilePlan[]
+      ): DoctorProfilePlan[] =>
+        currentProfiles.map(
+          (
+            profile: DoctorProfilePlan
+          ): DoctorProfilePlan =>
+            profile.id === doctorProfileId
+              ? {
+                  ...profile,
+                  paidPlan: isStandard
+                    ? "standard"
+                    : "free",
+                }
+              : profile
+        )
     );
 
     try {
@@ -109,25 +154,40 @@ export default function DoctorProfilesPlanTable() {
         {
           method: "PATCH",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
-          body: JSON.stringify({ isStandard }),
+          body: JSON.stringify({
+            isStandard,
+          }),
         }
       );
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data?.error || "Could not update paid plan.");
+        throw new Error(
+          data?.error ||
+            "Could not update paid plan."
+        );
       }
 
-      setProfiles((currentProfiles) =>
-        currentProfiles.map((profile) =>
-          profile.id === doctorProfileId ? data.doctorProfile : profile
-        )
+      setProfiles(
+        (
+          currentProfiles: DoctorProfilePlan[]
+        ): DoctorProfilePlan[] =>
+          currentProfiles.map(
+            (
+              profile: DoctorProfilePlan
+            ): DoctorProfilePlan =>
+              profile.id === doctorProfileId
+                ? data.doctorProfile
+                : profile
+          )
       );
     } catch (error) {
       console.error(error);
+
       setProfiles(previousProfiles);
     } finally {
       setUpdatingId(null);
@@ -139,15 +199,15 @@ export default function DoctorProfilesPlanTable() {
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
-            Doctor Plans
+            {t("eyebrow")}
           </p>
 
           <h2 className="mt-3 text-xl font-bold text-[#283C5D]">
-            Doctor Premium Plan Access
+            {t("title")}
           </h2>
 
           <p className="mt-2 text-sm leading-6 text-[#283C5D]/60">
-            Toggle between paid and free plan access. Subscription payment status is read-only.
+            {t("description")}
           </p>
         </div>
 
@@ -160,18 +220,37 @@ export default function DoctorProfilesPlanTable() {
         <table className="min-w-[950px] text-left text-sm">
           <thead className="sticky top-0 z-10 bg-[#FAF9F7] text-xs uppercase tracking-[0.18em] text-[#283C5D]/60">
             <tr>
-              <th className="px-5 py-4 font-bold">Clinic</th>
-              <th className="px-5 py-4 font-bold">Doctor Email</th>
-              <th className="px-5 py-4 font-bold">current Plan</th>
-              <th className="px-5 py-4 font-bold">Give Premium Access</th>
-              <th className="px-5 py-4 font-bold">Paid Subscription</th>
+              <th className="px-5 py-4 font-bold">
+                {t("columns.clinic")}
+              </th>
+
+              <th className="px-5 py-4 font-bold">
+                {t("columns.doctorEmail")}
+              </th>
+
+              <th className="px-5 py-4 font-bold">
+                {t("columns.currentPlan")}
+              </th>
+
+              <th className="px-5 py-4 font-bold">
+                {t("columns.premiumAccess")}
+              </th>
+
+              <th className="px-5 py-4 font-bold">
+                {t(
+                  "columns.paidSubscription"
+                )}
+              </th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-[#283C5D]/10">
             {isLoading ? (
               <tr>
-                <td colSpan={5} className="px-5 py-10">
+                <td
+                  colSpan={5}
+                  className="px-5 py-10"
+                >
                   <div className="flex items-center justify-center">
                     <Loader2 className="h-7 w-7 animate-spin text-[#d8bd8d]" />
                   </div>
@@ -183,71 +262,111 @@ export default function DoctorProfilesPlanTable() {
                   colSpan={5}
                   className="px-5 py-10 text-center text-[#283C5D]/60"
                 >
-                  No doctor profiles found.
+                  {t("empty")}
                 </td>
               </tr>
             ) : (
-              profiles.map((profile) => {
-                const isStandard = profile.paidPlan === "standard";
-                const hasPaidSubscription = profile.subscriptionPlan === "premium";
-                const isUpdating = updatingId === profile.id;
+              profiles.map(
+                (
+                  profile: DoctorProfilePlan
+                ) => {
+                  const isStandard =
+                    profile.paidPlan ===
+                    "standard";
 
-                return (
-                  <tr
-                    key={profile.id}
-                    className="bg-white transition hover:bg-[#FAF9F7]"
-                  >
-                    <td className="whitespace-nowrap px-5 py-4">
-                      <p className="font-semibold text-[#283C5D]">
-                        {profile.clinicName}
-                      </p>
-                      <p className="mt-1 text-xs text-[#283C5D]/50">
-                        {profile.user.name || "Unnamed doctor"}
-                      </p>
-                    </td>
+                  const hasPaidSubscription =
+                    profile.subscriptionPlan ===
+                    "premium";
 
-                    <td className="whitespace-nowrap px-5 py-4 text-[#283C5D]/65">
-                      {profile.user.email}
-                    </td>
+                  const isUpdating =
+                    updatingId === profile.id;
 
-                    <td className="whitespace-nowrap px-5 py-4">
-                      <StatusPill
-                        active={isStandard}
-                        activeLabel="premium"
-                        inactiveLabel="Free"
-                      />
-                    </td>
+                  return (
+                    <tr
+                      key={profile.id}
+                      className="bg-white transition hover:bg-[#FAF9F7]"
+                    >
+                      <td className="whitespace-nowrap px-5 py-4">
+                        <p className="font-semibold text-[#283C5D]">
+                          {profile.clinicName}
+                        </p>
 
-                    <td className="whitespace-nowrap px-5 py-4">
-                      <BooleanToggle
-                        checked={isStandard}
-                        disabled={isUpdating}
-                        onChange={(checked) =>
-                          updatePaidPlan(profile.id, checked)
-                        }
-                      />
-                    </td>
+                        <p className="mt-1 text-xs text-[#283C5D]/50">
+                          {profile.user.name ||
+                            t(
+                              "unnamedDoctor"
+                            )}
+                        </p>
+                      </td>
 
-                    <td className="whitespace-nowrap px-5 py-4">
-                      <span className="inline-flex items-center gap-2">
-                        <ShieldCheck
-                          size={15}
-                          className={
-                            hasPaidSubscription
-                              ? "text-[#d8bd8d]"
-                              : "text-[#283C5D]/30"
+                      <td className="whitespace-nowrap px-5 py-4 text-[#283C5D]/65">
+                        {profile.user.email}
+                      </td>
+
+                      <td className="whitespace-nowrap px-5 py-4">
+                        <StatusPill
+                          active={isStandard}
+                          activeLabel={t(
+                            "statuses.premium"
+                          )}
+                          inactiveLabel={t(
+                            "statuses.free"
+                          )}
+                        />
+                      </td>
+
+                      <td className="whitespace-nowrap px-5 py-4">
+                        <BooleanToggle
+                          checked={isStandard}
+                          disabled={isUpdating}
+                          ariaLabel={t(
+                            "premiumAccessToggleAriaLabel",
+                            {
+                              doctor:
+                                profile.user
+                                  .name ??
+                                profile.clinicName,
+                            }
+                          )}
+                          onChange={(
+                            checked: boolean
+                          ) =>
+                            void updatePaidPlan(
+                              profile.id,
+                              checked
+                            )
                           }
                         />
-                        <StatusPill
-                          active={hasPaidSubscription}
-                          activeLabel="Yes"
-                          inactiveLabel="No"
-                        />
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })
+                      </td>
+
+                      <td className="whitespace-nowrap px-5 py-4">
+                        <span className="inline-flex items-center gap-2">
+                          <ShieldCheck
+                            size={15}
+                            className={
+                              hasPaidSubscription
+                                ? "text-[#d8bd8d]"
+                                : "text-[#283C5D]/30"
+                            }
+                          />
+
+                          <StatusPill
+                            active={
+                              hasPaidSubscription
+                            }
+                            activeLabel={t(
+                              "statuses.yes"
+                            )}
+                            inactiveLabel={t(
+                              "statuses.no"
+                            )}
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                }
+              )
             )}
           </tbody>
         </table>

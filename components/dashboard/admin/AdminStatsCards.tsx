@@ -1,13 +1,27 @@
-// components/dashboard/admin/AdminStatsCards.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, Stethoscope, UserRound, UsersRound } from "lucide-react";
+import {
+  Loader2,
+  Stethoscope,
+  UserRound,
+  UsersRound,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type AdminStats = {
   totalUsers: number;
   totalPatients: number;
   totalDoctors: number;
+};
+
+type StatCardProps = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  value: number;
+  isLoading: boolean;
+  icon: React.ReactNode;
 };
 
 function StatCard({
@@ -17,14 +31,7 @@ function StatCard({
   value,
   isLoading,
   icon,
-}: {
-  eyebrow: string;
-  title: string;
-  description: string;
-  value: number;
-  isLoading: boolean;
-  icon: React.ReactNode;
-}) {
+}: StatCardProps) {
   return (
     <section className="rounded-3xl border border-[#d8bd8d]/30 bg-white p-6 shadow-xl shadow-[#283C5D]/5">
       <div className="flex items-center justify-between gap-5">
@@ -33,7 +40,9 @@ function StatCard({
             {eyebrow}
           </p>
 
-          <h2 className="mt-3 text-xl font-bold text-[#283C5D]">{title}</h2>
+          <h2 className="mt-3 text-xl font-bold text-[#283C5D]">
+            {title}
+          </h2>
 
           <p className="mt-2 text-sm leading-6 text-[#283C5D]/60">
             {description}
@@ -59,54 +68,89 @@ function StatCard({
 }
 
 export default function AdminStatsCards() {
-  const [stats, setStats] = useState<AdminStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations(
+    "admin.adminStatsCards"
+  );
+
+  const [stats, setStats] =
+    useState<AdminStats | null>(null);
+
+  const [isLoading, setIsLoading] =
+    useState(true);
 
   useEffect(() => {
-    async function fetchStats() {
+    async function fetchStats(): Promise<void> {
       try {
-        const res = await fetch("/api/admin/stats");
-        const data = await res.json();
+        const res = await fetch(
+          "/api/admin/stats"
+        );
+
+        const data: unknown = await res.json();
 
         if (!res.ok) {
-          throw new Error(data?.error || "Could not load admin stats.");
+          throw new Error(
+            "Could not load admin stats."
+          );
         }
 
-        setStats(data);
+        if (
+          typeof data === "object" &&
+          data !== null &&
+          "totalUsers" in data &&
+          "totalPatients" in data &&
+          "totalDoctors" in data &&
+          typeof data.totalUsers === "number" &&
+          typeof data.totalPatients === "number" &&
+          typeof data.totalDoctors === "number"
+        ) {
+          setStats({
+            totalUsers: data.totalUsers,
+            totalPatients:
+              data.totalPatients,
+            totalDoctors: data.totalDoctors,
+          });
+        }
       } catch (error) {
-        console.error(error);
+        console.error(
+          "Could not load admin stats:",
+          error
+        );
       } finally {
         setIsLoading(false);
       }
     }
 
-    fetchStats();
+    void fetchStats();
   }, []);
 
   return (
     <>
       <StatCard
-        eyebrow="Platform"
-        title="Total Users"
-        description="All registered patients, doctors, and admins."
+        eyebrow={t("users.eyebrow")}
+        title={t("users.title")}
+        description={t("users.description")}
         value={stats?.totalUsers ?? 0}
         isLoading={isLoading}
         icon={<UsersRound size={26} />}
       />
 
       <StatCard
-        eyebrow="Patients"
-        title="Total Patients"
-        description="Users registered with patient accounts."
+        eyebrow={t("patients.eyebrow")}
+        title={t("patients.title")}
+        description={t(
+          "patients.description"
+        )}
         value={stats?.totalPatients ?? 0}
         isLoading={isLoading}
         icon={<UserRound size={26} />}
       />
 
       <StatCard
-        eyebrow="Doctors"
-        title="Total Doctors"
-        description="Users registered with doctor accounts."
+        eyebrow={t("doctors.eyebrow")}
+        title={t("doctors.title")}
+        description={t(
+          "doctors.description"
+        )}
         value={stats?.totalDoctors ?? 0}
         isLoading={isLoading}
         icon={<Stethoscope size={26} />}
