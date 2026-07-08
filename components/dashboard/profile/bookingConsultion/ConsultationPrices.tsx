@@ -254,7 +254,7 @@ function ToggleSwitch({
         if (disabled) return;
         onChange(!checked);
       }}
-      className={`relative flex h-7 w-12 items-center rounded-full p-1 transition ${
+      className={`relative flex h-7 w-14 items-center rounded-full p-1 transition ${
         checked ? "bg-[#283C5D]" : "bg-gray-300"
       } ${
         disabled

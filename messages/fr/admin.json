@@ -1,0 +1,328 @@
+{
+  "adminUsersTable": {
+    "eyebrow": "Utilisateurs",
+    "title": "Inscriptions récentes",
+    "description": "Gérez le statut d’intégration et de vérification des e-mails.",
+    "columns": {
+      "name": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "onboarding": "Intégration",
+      "emailVerified": "E-mail vérifié"
+    },
+    "roles": {
+      "patient": "Patient",
+      "doctor": "Médecin",
+      "admin": "Administrateur"
+    },
+    "toggleAriaLabels": {
+      "onboarding": "Modifier le statut d’intégration de {user}",
+      "emailVerification": "Modifier le statut de vérification de l’e-mail de {user}"
+    },
+    "unnamedUser": "Utilisateur sans nom",
+    "empty": "Aucun utilisateur trouvé."
+  },
+  "refundRequestsManager": {
+    "eyebrow": "Remboursements administrateur",
+    "title": "Demandes de remboursement",
+    "description": "Examinez les demandes de remboursement des patients, approuvez les remboursements éligibles via Stripe ou refusez les demandes en ajoutant une note interne.",
+    "loading": "Chargement des demandes de remboursement...",
+    "requestedOn": "Demandée le {date}",
+    "summary": {
+      "pending": "En attente",
+      "refunded": "Remboursées",
+      "rejected": "Refusées"
+    },
+    "empty": {
+      "title": "Aucune demande de remboursement",
+      "description": "Les demandes de remboursement des patients apparaîtront ici dès qu’elles seront soumises."
+    },
+    "statuses": {
+      "pending": "En attente",
+      "approved": "Approuvée",
+      "refunded": "Remboursée",
+      "rejected": "Refusée",
+      "denied": "Refusée"
+    },
+    "bookingStatuses": {
+      "pending": "En attente",
+      "paid": "Payée",
+      "cancelled": "Annulée",
+      "refunded": "Remboursée",
+      "failed": "Échouée"
+    },
+    "consultationTypes": {
+      "inClinic": "Consultation en cabinet",
+      "online": "Consultation en ligne"
+    },
+    "cards": {
+      "patient": "Patient",
+      "doctor": "Médecin",
+      "patientReason": "Motif du patient",
+      "adminNote": "Note administrateur"
+    },
+    "booking": {
+      "amount": "Montant de la réservation",
+      "type": "Type",
+      "status": "Statut de la réservation",
+      "paidAt": "Payée le",
+      "reviewedAt": "Examinée le"
+    },
+    "actions": {
+      "refresh": "Actualiser",
+      "approveRefund": "Approuver le remboursement",
+      "denyRequest": "Refuser la demande",
+      "approveAndRefund": "Approuver et rembourser",
+      "cancel": "Annuler"
+    },
+    "modal": {
+      "adminNote": "Note administrateur",
+      "approve": {
+        "eyebrow": "Approuver le remboursement",
+        "title": "Approuver ce remboursement ?",
+        "description": "Cette action créera un remboursement Stripe, mettra à jour la réservation comme remboursée et enverra un e-mail au patient.",
+        "notePlaceholder": "Note interne facultative..."
+      },
+      "deny": {
+        "eyebrow": "Refuser le remboursement",
+        "title": "Refuser cette demande de remboursement ?",
+        "description": "Cette action marquera la demande comme refusée et enverra un e-mail au patient.",
+        "notePlaceholder": "Expliquez pourquoi la demande a été refusée..."
+      }
+    },
+    "fallbacks": {
+      "patient": "Patient",
+      "doctor": "Médecin",
+      "noEmail": "Aucun e-mail",
+      "noClinic": "Aucun nom de clinique"
+    },
+    "success": {
+      "approved": "Le remboursement a été approuvé et envoyé à Stripe.",
+      "denied": "La demande de remboursement a été refusée."
+    },
+    "errors": {
+      "load": "Impossible de charger les demandes de remboursement.",
+      "update": "Impossible de mettre à jour la demande de remboursement."
+    }
+  },
+  "consultationBookingsTable": {
+    "eyebrow": "Paiements",
+    "title": "Réservations de consultations",
+    "description": "Consultez les transactions de consultations payées, en attente ou remboursées.",
+    "columns": {
+      "patientUserId": "ID utilisateur du patient",
+      "doctorProfileId": "ID du profil médecin",
+      "amountPaid": "Montant payé",
+      "platformFee": "Commission de la plateforme",
+      "doctorAmount": "Montant du médecin",
+      "status": "Statut",
+      "currency": "Devise"
+    },
+    "statuses": {
+      "paid": "Payée",
+      "pending": "En attente",
+      "failed": "Échouée",
+      "cancelled": "Annulée",
+      "refunded": "Remboursée"
+    },
+    "empty": "Aucune réservation de consultation trouvée."
+  },
+  "consultationBookingsAnalytics": {
+    "eyebrow": "Réservations",
+    "title": "Analyse des réservations de consultations",
+    "description": "Suivez le volume quotidien des réservations et la répartition des paiements sur la plateforme.",
+    "chart": {
+      "bookings": "Réservations"
+    },
+    "metrics": {
+      "totalBookings": "Total des réservations",
+      "totalAmount": "Montant total",
+      "platformFee": "Commission de la plateforme",
+      "doctorAmount": "Montant du médecin"
+    }
+  },
+  "adminDoctorMediaManager": {
+    "eyebrow": "Médias des médecins",
+    "title": "Photos de profil et bannières",
+    "description": "Identifiez les visuels manquants et ajoutez des photos de profil ou des bannières pour les médecins.",
+    "columns": {
+      "doctor": "Médecin",
+      "profilePicture": "Photo de profil",
+      "bannerPicture": "Bannière",
+      "uploadProfile": "Ajouter une photo",
+      "uploadBanner": "Ajouter une bannière"
+    },
+    "status": {
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "actions": {
+      "profile": "Profil",
+      "banner": "Bannière"
+    },
+    "modal": {
+      "eyebrow": "Médias des médecins",
+      "uploadProfilePicture": "Ajouter une photo de profil",
+      "uploadBannerPicture": "Ajouter une bannière",
+      "closeAriaLabel": "Fermer la fenêtre de téléchargement",
+      "profileUploadLabel": "Ajouter la photo de profil du médecin",
+      "bannerUploadLabel": "Ajouter la bannière du médecin"
+    },
+    "imageAlt": {
+      "profile": "Photo de profil de {doctor}",
+      "banner": "Bannière de {clinic}"
+    },
+    "empty": "Aucun profil médecin trouvé.",
+    "unnamedDoctor": "Médecin sans nom",
+    "unnamedClinic": "Clinique"
+  },
+  "doctorProfilesPlanTable": {
+    "eyebrow": "Formules médecins",
+    "title": "Accès aux formules Premium",
+    "description": "Basculez entre l’accès Premium et l’accès gratuit. Le statut de paiement de l’abonnement est en lecture seule.",
+    "columns": {
+      "clinic": "Clinique",
+      "doctorEmail": "E-mail du médecin",
+      "currentPlan": "Formule actuelle",
+      "premiumAccess": "Accorder l’accès Premium",
+      "paidSubscription": "Abonnement payant"
+    },
+    "statuses": {
+      "premium": "Premium",
+      "free": "Gratuit",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "empty": "Aucun profil médecin trouvé.",
+    "unnamedDoctor": "Médecin sans nom",
+    "premiumAccessToggleAriaLabel": "Modifier l’accès Premium pour {doctor}"
+  },
+  "doctorPlansCard": {
+    "eyebrow": "Formules médecins",
+    "title": "Répartition des formules",
+    "description": "Comparez le nombre de médecins utilisant les formules gratuite et standard.",
+    "plans": {
+      "free": "Gratuite",
+      "standard": "Standard",
+      "total": "Total"
+    }
+  },
+  "instagramReelsAdmin": {
+    "eyebrow": "Contenu social",
+    "title": "Reels Instagram",
+    "description": "Gérez les Reels et associez-les aux profils des médecins.",
+    "reelCount": "{count, plural, =0 {Aucun Reel} =1 {1 Reel} other {# Reels}}",
+    "unnamedDoctor": "Médecin sans nom",
+    "emptyTitle": "Aucun Reel Instagram pour le moment",
+    "sortOrderAriaLabel": "Ordre d’affichage",
+    "generalReel": {
+      "title": "Reel général Esthetic Match",
+      "description": "Ne pas associer ce Reel au profil d’un médecin"
+    },
+    "create": {
+      "title": "Ajouter un Reel Instagram",
+      "description": "Collez l’URL du Reel et associez-le éventuellement à un médecin.",
+      "urlPlaceholder": "https://www.instagram.com/reel/...",
+      "connectDoctor": "Associer à un profil médecin",
+      "button": "Ajouter le Reel"
+    },
+    "doctorSelector": {
+      "eyebrow": "Profil médecin",
+      "title": "Associer le Reel à un médecin",
+      "closeAriaLabel": "Fermer le sélecteur de médecin",
+      "searchPlaceholder": "Rechercher un médecin, une clinique ou une ville...",
+      "loading": "Chargement des profils médecins...",
+      "loadError": "Impossible de charger les profils médecins.",
+      "emptyTitle": "Aucun médecin trouvé",
+      "emptyDescription": "Essayez un autre nom, une autre clinique ou une autre ville."
+    },
+    "actions": {
+      "save": "Enregistrer",
+      "deleteAriaLabel": "Supprimer le Reel"
+    },
+    "errors": {
+      "load": "Impossible de charger les Reels Instagram.",
+      "create": "Impossible d’ajouter le Reel Instagram.",
+      "update": "Impossible de mettre à jour le Reel Instagram.",
+      "delete": "Impossible de supprimer le Reel Instagram."
+    }
+  },
+  "adminPanelPage": {
+    "eyebrow": "Administration",
+    "title": "Panneau d’administration",
+    "tabs": {
+      "overview": {
+        "label": "Vue d’ensemble",
+        "description": "Suivez l’activité de la plateforme et les principales statistiques utilisateurs.",
+        "sectionDescription": "Suivez l’activité de la plateforme et les principales statistiques utilisateurs."
+      },
+      "doctors": {
+        "label": "Médecins",
+        "description": "Gérez les abonnements, les profils et les médias des médecins.",
+        "sectionDescription": "Gérez les abonnements, les formules de profil et les médias des médecins."
+      },
+      "bookings": {
+        "label": "Réservations",
+        "description": "Consultez les réservations, les statistiques et les demandes de remboursement.",
+        "sectionDescription": "Suivez les performances des réservations de consultation et gérez les demandes de remboursement."
+      },
+      "users": {
+        "label": "Utilisateurs",
+        "description": "Gérez les utilisateurs de la plateforme et leurs accès.",
+        "sectionDescription": "Consultez et gérez tous les comptes utilisateurs de la plateforme."
+      },
+      "catalogue": {
+        "label": "Catalogue",
+        "description": "Gérez le contenu du catalogue utilisé sur la plateforme.",
+        "sectionDescription": "Gérez les spécialités, les procédures, les catégories et les données du catalogue."
+      }
+    }
+  },
+  "adminStatsCards": {
+    "users": {
+      "eyebrow": "Plateforme",
+      "title": "Nombre total d’utilisateurs",
+      "description": "Tous les patients, médecins et administrateurs inscrits."
+    },
+    "patients": {
+      "eyebrow": "Patients",
+      "title": "Nombre total de patients",
+      "description": "Utilisateurs inscrits avec un compte patient."
+    },
+    "doctors": {
+      "eyebrow": "Médecins",
+      "title": "Nombre total de médecins",
+      "description": "Utilisateurs inscrits avec un compte médecin."
+    }
+  },
+  "beforeAfter": {
+    "eyebrow": "Gestion de la galerie médecin",
+    "title": "Galerie Avant & Après",
+    "description": "Ajoutez et gérez les cas avant et après pour le compte des médecins.",
+    "uploadCase": "Ajouter un nouveau cas",
+    "searchPlaceholder": "Rechercher un médecin...",
+    "noDoctors": "Aucun médecin trouvé.",
+    "loadError": "Nous n’avons pas pu charger la galerie avant et après.",
+    "retry": "Réessayer",
+    "selectDoctor": "Sélectionnez un médecin pour gérer sa galerie.",
+    "selectedDoctor": "Médecin sélectionné",
+    "caseCount": "{count, plural, =0 {Aucun cas} =1 {1 cas} other {# cas}}",
+    "emptyTitle": "Aucun cas avant et après",
+    "emptyDescription": "Ajoutez le premier cas avant et après du médecin avec un titre, une description, une procédure et les deux images.",
+    "uploadFirstCase": "Ajouter le premier cas",
+    "before": "Avant",
+    "after": "Après",
+    "missingImage": "Aucune image",
+    "untitledCase": "Cas sans titre",
+    "public": "Public",
+    "private": "Privé",
+    "delete": "Supprimer le cas",
+    "deleting": "Suppression...",
+    "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer définitivement ce cas avant et après ?",
+    "deleteError": "Nous n’avons pas pu supprimer ce cas. Veuillez réessayer.",
+    "beforeImageAlt": "Image avant pour {title}",
+    "afterImageAlt": "Image après pour {title}",
+    "visibilityToggleLabel": "Modifier la visibilité du cas",
+    "visibilityUpdateError": "Nous n’avons pas pu modifier la visibilité de ce cas. Veuillez réessayer."
+  }
+}

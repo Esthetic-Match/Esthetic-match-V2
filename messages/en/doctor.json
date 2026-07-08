@@ -196,6 +196,23 @@
         "subtitle": "Your medical advice is secured online",
         "free": "Free",
         "fromPrice": "from {price}"
+      },
+      "doctorInstagramReelsManagement": {
+        "eyebrow": "Personal interview",
+        "loading": "Loading your videos...",
+        "singleTitle": "Your interview video",
+        "singleDescription": "This interview video is currently linked to your public profile. You can remove it from your profile at any time.",
+        "watchTitle": "Featured on your profile",
+        "watchDescription": "Visitors can watch this video directly from your doctor profile.",
+        "multipleTitle": "Your interview videos",
+        "multipleDescription": "These interview videos are currently linked to your public profile. You can remove a video from your profile at any time.",
+        "emptyTitle": "Bring your profile to life",
+        "emptyDescription": "Contact our team to schedule a quick video interview, showcase your expertise and skills as a doctor, and have your story featured on your profile.",
+        "removeVideo": "Remove video",
+        "removing": "Removing...",
+        "removeError": "We couldn't remove this video. Please try again.",
+        "emailSubject": "Personal interview video for my Esthetic Match profile",
+        "iframeTitle": "Instagram video {shortcode}"
       }
     },
     "bookingConfirmation": {

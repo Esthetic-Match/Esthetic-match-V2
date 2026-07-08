@@ -1,0 +1,328 @@
+{
+  "adminUsersTable": {
+    "eyebrow": "Users",
+    "title": "Recent Sign Ups",
+    "description": "Manage onboarding and email verification status.",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "onboarding": "Onboarding",
+      "emailVerified": "Email Verified"
+    },
+    "roles": {
+      "patient": "Patient",
+      "doctor": "Doctor",
+      "admin": "Admin"
+    },
+    "toggleAriaLabels": {
+      "onboarding": "Change onboarding status for {user}",
+      "emailVerification": "Change email verification status for {user}"
+    },
+    "unnamedUser": "Unnamed User",
+    "empty": "No users found."
+  },
+  "refundRequestsManager": {
+    "eyebrow": "Admin refunds",
+    "title": "Refund requests",
+    "description": "Review patient refund requests, approve eligible refunds through Stripe, or reject requests with an internal note.",
+    "loading": "Loading refund requests...",
+    "requestedOn": "Requested on {date}",
+    "summary": {
+      "pending": "Pending",
+      "refunded": "Refunded",
+      "rejected": "Rejected"
+    },
+    "empty": {
+      "title": "No refund requests",
+      "description": "Patient refund requests will appear here once submitted."
+    },
+    "statuses": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "refunded": "Refunded",
+      "rejected": "Rejected",
+      "denied": "Denied"
+    },
+    "bookingStatuses": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded",
+      "failed": "Failed"
+    },
+    "consultationTypes": {
+      "inClinic": "In-clinic consultation",
+      "online": "Online consultation"
+    },
+    "cards": {
+      "patient": "Patient",
+      "doctor": "Doctor",
+      "patientReason": "Patient reason",
+      "adminNote": "Admin note"
+    },
+    "booking": {
+      "amount": "Booking amount",
+      "type": "Type",
+      "status": "Booking status",
+      "paidAt": "Paid at",
+      "reviewedAt": "Reviewed at"
+    },
+    "actions": {
+      "refresh": "Refresh",
+      "approveRefund": "Approve refund",
+      "denyRequest": "Deny request",
+      "approveAndRefund": "Approve and refund",
+      "cancel": "Cancel"
+    },
+    "modal": {
+      "adminNote": "Admin note",
+      "approve": {
+        "eyebrow": "Approve refund",
+        "title": "Approve this refund?",
+        "description": "This will create a Stripe refund, update the booking as refunded, and email the patient.",
+        "notePlaceholder": "Optional internal note..."
+      },
+      "deny": {
+        "eyebrow": "Deny refund",
+        "title": "Deny this refund request?",
+        "description": "This will mark the request as rejected and email the patient.",
+        "notePlaceholder": "Explain why the request was denied..."
+      }
+    },
+    "fallbacks": {
+      "patient": "Patient",
+      "doctor": "Doctor",
+      "noEmail": "No email",
+      "noClinic": "No clinic name"
+    },
+    "success": {
+      "approved": "Refund approved and sent to Stripe.",
+      "denied": "Refund request denied."
+    },
+    "errors": {
+      "load": "Could not load refund requests.",
+      "update": "Could not update refund request."
+    }
+  },
+  "consultationBookingsTable": {
+    "eyebrow": "Payments",
+    "title": "Consultation Bookings",
+    "description": "Review paid, pending, and refunded consultation transactions.",
+    "columns": {
+      "patientUserId": "Patient User ID",
+      "doctorProfileId": "Doctor Profile ID",
+      "amountPaid": "Amount Paid",
+      "platformFee": "Platform Fee",
+      "doctorAmount": "Doctor Amount",
+      "status": "Status",
+      "currency": "Currency"
+    },
+    "statuses": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "failed": "Failed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "empty": "No consultation bookings found."
+  },
+  "consultationBookingsAnalytics": {
+    "eyebrow": "Bookings",
+    "title": "Consultation Booking Analytics",
+    "description": "Daily booking volume and payment distribution across the platform.",
+    "chart": {
+      "bookings": "Bookings"
+    },
+    "metrics": {
+      "totalBookings": "Total Bookings",
+      "totalAmount": "Total Amount",
+      "platformFee": "Platform Fee",
+      "doctorAmount": "Doctor Amount"
+    }
+  },
+  "adminDoctorMediaManager": {
+    "eyebrow": "Doctor Media",
+    "title": "Profile & Banner Images",
+    "description": "Check missing doctor visuals and upload profile or banner images.",
+    "columns": {
+      "doctor": "Doctor",
+      "profilePicture": "Profile Picture",
+      "bannerPicture": "Banner Picture",
+      "uploadProfile": "Upload Profile",
+      "uploadBanner": "Upload Banner"
+    },
+    "status": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "actions": {
+      "profile": "Profile",
+      "banner": "Banner"
+    },
+    "modal": {
+      "eyebrow": "Doctor Media",
+      "uploadProfilePicture": "Upload Profile Picture",
+      "uploadBannerPicture": "Upload Banner Picture",
+      "closeAriaLabel": "Close upload modal",
+      "profileUploadLabel": "Upload doctor profile picture",
+      "bannerUploadLabel": "Upload doctor banner picture"
+    },
+    "imageAlt": {
+      "profile": "Profile picture of {doctor}",
+      "banner": "Banner image for {clinic}"
+    },
+    "empty": "No doctor profiles found.",
+    "unnamedDoctor": "Unnamed doctor",
+    "unnamedClinic": "Clinic"
+  },
+  "doctorProfilesPlanTable": {
+    "eyebrow": "Doctor Plans",
+    "title": "Doctor Premium Plan Access",
+    "description": "Toggle between premium and free plan access. Subscription payment status is read-only.",
+    "columns": {
+      "clinic": "Clinic",
+      "doctorEmail": "Doctor Email",
+      "currentPlan": "Current Plan",
+      "premiumAccess": "Give Premium Access",
+      "paidSubscription": "Paid Subscription"
+    },
+    "statuses": {
+      "premium": "Premium",
+      "free": "Free",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "empty": "No doctor profiles found.",
+    "unnamedDoctor": "Unnamed doctor",
+    "premiumAccessToggleAriaLabel": "Change premium access for {doctor}"
+  },
+  "doctorPlansCard": {
+    "eyebrow": "Doctor Plans",
+    "title": "Paid Plan Distribution",
+    "description": "Compare doctors using free and standard plans.",
+    "plans": {
+      "free": "Free",
+      "standard": "Standard",
+      "total": "Total"
+    }
+  },
+  "instagramReelsAdmin": {
+    "eyebrow": "Social content",
+    "title": "Instagram Reels",
+    "description": "Manage Reels and connect them to doctor profiles.",
+    "reelCount": "{count, plural, =0 {No Reels} =1 {1 Reel} other {# Reels}}",
+    "unnamedDoctor": "Unnamed doctor",
+    "emptyTitle": "No Instagram Reels yet",
+    "sortOrderAriaLabel": "Sort order",
+    "generalReel": {
+      "title": "General Esthetic Match Reel",
+      "description": "Do not connect this Reel to a doctor profile"
+    },
+    "create": {
+      "title": "Add Instagram Reel",
+      "description": "Paste the Reel URL and optionally connect it to a doctor.",
+      "urlPlaceholder": "https://www.instagram.com/reel/...",
+      "connectDoctor": "Connect to doctor profile",
+      "button": "Add Reel"
+    },
+    "doctorSelector": {
+      "eyebrow": "Doctor profile",
+      "title": "Connect Reel to a doctor",
+      "closeAriaLabel": "Close doctor selector",
+      "searchPlaceholder": "Search doctor, clinic or city...",
+      "loading": "Loading doctor profiles...",
+      "loadError": "Could not load doctor profiles.",
+      "emptyTitle": "No doctor found",
+      "emptyDescription": "Try a different name, clinic or city."
+    },
+    "actions": {
+      "save": "Save",
+      "deleteAriaLabel": "Delete Reel"
+    },
+    "errors": {
+      "load": "Could not load Instagram Reels.",
+      "create": "Could not add Instagram Reel.",
+      "update": "Could not update Instagram Reel.",
+      "delete": "Could not delete Instagram Reel."
+    }
+  },
+  "adminPanelPage": {
+    "eyebrow": "Admin",
+    "title": "Admin Panel",
+    "tabs": {
+      "overview": {
+        "label": "Overview",
+        "description": "Monitor platform activity and key user metrics.",
+        "sectionDescription": "Monitor platform activity and key user metrics."
+      },
+      "doctors": {
+        "label": "Doctors",
+        "description": "Manage doctor plans, profiles, and media.",
+        "sectionDescription": "Manage doctor subscriptions, profile plans, and doctor media."
+      },
+      "bookings": {
+        "label": "Bookings",
+        "description": "Review consultation bookings, analytics, and refund requests.",
+        "sectionDescription": "Track consultation booking performance and manage refund requests."
+      },
+      "users": {
+        "label": "Users",
+        "description": "Manage platform users and account access.",
+        "sectionDescription": "Review and manage all platform user accounts."
+      },
+      "catalogue": {
+        "label": "Catalogue",
+        "description": "Manage catalogue content used across the platform.",
+        "sectionDescription": "Manage specialties, procedures, categories, and catalogue data."
+      }
+    }
+  },
+  "adminStatsCards": {
+    "users": {
+      "eyebrow": "Platform",
+      "title": "Total Users",
+      "description": "All registered patients, doctors, and admins."
+    },
+    "patients": {
+      "eyebrow": "Patients",
+      "title": "Total Patients",
+      "description": "Users registered with patient accounts."
+    },
+    "doctors": {
+      "eyebrow": "Doctors",
+      "title": "Total Doctors",
+      "description": "Users registered with doctor accounts."
+    }
+  },
+  "beforeAfter": {
+    "eyebrow": "Doctor gallery management",
+    "title": "Before & After Gallery",
+    "description": "Upload and manage before and after cases on behalf of doctors.",
+    "uploadCase": "Upload new case",
+    "searchPlaceholder": "Search doctors...",
+    "noDoctors": "No doctors found.",
+    "loadError": "We couldn't load the before and after gallery.",
+    "retry": "Try again",
+    "selectDoctor": "Select a doctor to manage their gallery.",
+    "selectedDoctor": "Selected doctor",
+    "caseCount": "{count, plural, =0 {No cases} =1 {1 case} other {# cases}}",
+    "emptyTitle": "No before and after cases yet",
+    "emptyDescription": "Upload the doctor's first before and after case with a title, description, procedure and image pair.",
+    "uploadFirstCase": "Upload first case",
+    "before": "Before",
+    "after": "After",
+    "missingImage": "No image",
+    "untitledCase": "Untitled case",
+    "public": "Public",
+    "private": "Private",
+    "delete": "Delete case",
+    "deleting": "Deleting...",
+    "deleteConfirmation": "Are you sure you want to permanently delete this before and after case?",
+    "deleteError": "We couldn't delete this case. Please try again.",
+    "beforeImageAlt": "Before image for {title}",
+    "afterImageAlt": "After image for {title}",
+    "visibilityToggleLabel": "Change case visibility",
+    "visibilityUpdateError": "We couldn't update the visibility of this case. Please try again."
+  }
+}

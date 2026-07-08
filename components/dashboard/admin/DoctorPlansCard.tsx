@@ -1,8 +1,8 @@
-// components/dashboard/admin/DoctorPlansCard.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { Crown, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type DoctorPlanStats = {
   freeDoctors: number;
@@ -11,17 +11,30 @@ type DoctorPlanStats = {
 };
 
 export default function DoctorPlansCard() {
-  const [stats, setStats] = useState<DoctorPlanStats | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const t = useTranslations(
+    "admin.doctorPlansCard"
+  );
+
+  const [stats, setStats] =
+    useState<DoctorPlanStats | null>(null);
+
+  const [isLoading, setIsLoading] =
+    useState(true);
 
   useEffect(() => {
-    async function fetchStats() {
+    async function fetchStats(): Promise<void> {
       try {
-        const res = await fetch("/api/admin/doctor-plans");
+        const res = await fetch(
+          "/api/admin/doctor-plans"
+        );
+
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data?.error || "Could not load doctor plan stats.");
+          throw new Error(
+            data?.error ||
+              "Could not load doctor plan stats."
+          );
         }
 
         setStats(data);
@@ -32,7 +45,7 @@ export default function DoctorPlansCard() {
       }
     }
 
-    fetchStats();
+    void fetchStats();
   }, []);
 
   return (
@@ -40,15 +53,15 @@ export default function DoctorPlansCard() {
       <div className="mb-6 flex items-center justify-between gap-5">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
-            Doctor Plans
+            {t("eyebrow")}
           </p>
 
           <h2 className="mt-3 text-xl font-bold text-[#283C5D]">
-            Paid Plan Distribution
+            {t("title")}
           </h2>
 
           <p className="mt-2 text-sm leading-6 text-[#283C5D]/60">
-            Compare doctors using free and standard plans.
+            {t("description")}
           </p>
         </div>
 
@@ -65,8 +78,9 @@ export default function DoctorPlansCard() {
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl bg-[#FAF9F7] p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#283C5D]/50">
-              Free
+              {t("plans.free")}
             </p>
+
             <p className="mt-3 text-4xl font-bold text-[#283C5D]">
               {stats?.freeDoctors ?? 0}
             </p>
@@ -74,8 +88,9 @@ export default function DoctorPlansCard() {
 
           <div className="rounded-2xl bg-[#FAF2DE] p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#283C5D]/50">
-              Standard
+              {t("plans.standard")}
             </p>
+
             <p className="mt-3 text-4xl font-bold text-[#283C5D]">
               {stats?.standardDoctors ?? 0}
             </p>
@@ -83,8 +98,9 @@ export default function DoctorPlansCard() {
 
           <div className="rounded-2xl bg-[#283C5D] p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">
-              Total
+              {t("plans.total")}
             </p>
+
             <p className="mt-3 text-4xl font-bold text-white">
               {stats?.totalDoctors ?? 0}
             </p>

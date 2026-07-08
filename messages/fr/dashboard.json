@@ -63,13 +63,17 @@
   "booking": {
     "title": "Prendre rendez-vous en cabinet",
     "open": "Ouvrir le lien de réservation",
-    "hiddenTitle": "Les liens de réservation sont masqués",
-    "hiddenDescription": "Passez au forfait Premium pour les afficher",
     "linkPlaceholder": "https://lien-reservation-{number}.com",
-    "saving": "Enregistrement...",
-    "saveLinks": "Enregistrer les liens de réservation",
-    "saveSuccess": "Les liens de réservation ont été mis à jour avec succès.",
-    "saveError": "Échec de l’enregistrement des liens de réservation."
+    "sectionLabel": "Jusqu'à 3 liens de réservation",
+    "linkPlaceholder_1": "Collez le lien de réservation 1…",
+    "linkPlaceholder_2": "Collez le lien de réservation 2…",
+    "linkPlaceholder_3": "Collez le lien de réservation 3…",
+    "saving": "Enregistrement…",
+    "saveLinks": "Enregistrer les liens",
+    "saveSuccess": "Liens enregistrés avec succès.",
+    "saveError": "Une erreur est survenue. Veuillez réessayer.",
+    "hiddenTitle": "Liens de réservation",
+    "hiddenDescription": "Passez au plan Standard pour ajouter jusqu'à 3 liens de réservation externes à votre profil."
   },
   "social": {
     "title": "Avis/reviews",

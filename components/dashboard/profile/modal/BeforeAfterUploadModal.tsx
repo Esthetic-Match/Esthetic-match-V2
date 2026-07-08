@@ -169,7 +169,7 @@ export default function BeforeAfterUploadModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center esthetic-scrollbar justify-center bg-black/40 px-4 backdrop-blur-sm">
       <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl">
         <div className="mb-6 flex items-center justify-between">
           <div>

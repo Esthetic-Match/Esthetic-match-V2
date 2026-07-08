@@ -202,12 +202,12 @@ export default async function Profilepage({
         doctorProfileId={doctorProfile.id}
       />
 
-      <PublicExpertiseSection
-        doctorProfile={doctorProfile}
-      />
-
       <BookingLinksSection
         bookingLinks={doctorProfile.bookingLinks}
+      />
+
+      <PublicExpertiseSection
+        doctorProfile={doctorProfile}
       />
 
       <Gallery
