@@ -9,6 +9,7 @@ import ExpertiseSection from "./ExpertiseSection";
 import BookingAndPrices from "./BookingAndPrices";
 import Gallery from "./patientGallery/Gallery";
 import GoogleReviewsList from "@/components/UI/GoogleReviewsList";
+import DoctorInstagramReelsManager from "./DoctorInstagramReelsManager";
 
 const fallbackBanner = "/images/fallback/blue-bg.png";
 
@@ -135,9 +136,11 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         paidPlan={profile.paidPlan}
         currency={profile.currency}
       />
-
+      
       <GoogleReviewsList googlePlaceId={profile.googlePlaceId} />
 
+      <DoctorInstagramReelsManager doctorProfileId={profile.id} />
+      
       <ExpertiseSection procedureIds={profile.procedureIds || []} />
 
       <Gallery

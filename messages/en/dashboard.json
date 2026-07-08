@@ -63,13 +63,17 @@
   "booking": {
     "title": "Booking Links",
     "open": "Open booking link",
-    "hiddenTitle": "Booking links are hidden",
-    "hiddenDescription": "Upgrade to Premium to display",
     "linkPlaceholder": "https://booking-link-{number}.com",
-    "saving": "Saving...",
-    "saveLinks": "Save booking links",
-    "saveSuccess": "Booking links updated successfully.",
-    "saveError": "Failed to save booking links."
+    "sectionLabel": "Up to 3 booking links",
+    "linkPlaceholder_1": "Paste booking link 1…",
+    "linkPlaceholder_2": "Paste booking link 2…",
+    "linkPlaceholder_3": "Paste booking link 3…",
+    "saving": "Saving…",
+    "saveLinks": "Save links",
+    "saveSuccess": "Links saved successfully.",
+    "saveError": "Something went wrong. Please try again.",
+    "hiddenTitle": "Booking Links",
+    "hiddenDescription": "Upgrade to the Standard plan to add up to 3 external booking links to your profile."
   },
   "social": {
     "title": "Social Media",

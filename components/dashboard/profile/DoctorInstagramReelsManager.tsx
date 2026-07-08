@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import {
-  Camera ,
+  Camera,
   LoaderCircle,
+  Mail,
   Play,
   Sparkles,
+  Trash2,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 type InstagramReelRecord = {
   id: string;
@@ -15,7 +17,7 @@ type InstagramReelRecord = {
   sortOrder: number;
 };
 
-type DoctorInstagramReelsProps = {
+type DoctorInstagramReelsManagerProps = {
   doctorProfileId: string;
 };
 
@@ -24,7 +26,17 @@ type InstagramEmbedData = {
   embedUrl: string;
 };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+type ReelCardProps = {
+  reel: InstagramReelRecord;
+  isRemoving: boolean;
+  onRemove: (reelId: string) => Promise<void>;
+};
+
+const CONTACT_EMAIL = "deborah.leah.levy@gmail.com";
+
+function isRecord(
+  value: unknown
+): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
@@ -42,7 +54,9 @@ function getPayloadRecord(
   return payload;
 }
 
-function parseReels(payload: unknown): InstagramReelRecord[] {
+function parseReels(
+  payload: unknown
+): InstagramReelRecord[] {
   const record = getPayloadRecord(payload);
 
   if (!record || !Array.isArray(record.reels)) {
@@ -120,10 +134,12 @@ function getInstagramEmbedData(
 
 function ReelCard({
   reel,
-}: {
-  reel: InstagramReelRecord;
-}) {
-  const t = useTranslations("doctor.doctor.profile.doctorInstagramReels");
+  isRemoving,
+  onRemove,
+}: ReelCardProps) {
+  const t = useTranslations(
+    "doctor.doctor.profile.doctorInstagramReelsManagement"
+  );
 
   const embedData = getInstagramEmbedData(reel.url);
 
@@ -133,7 +149,6 @@ function ReelCard({
 
   return (
     <article className="group relative w-full max-w-[420px] overflow-hidden rounded-[2rem] border border-[#E7DDD0] bg-white p-2 shadow-[0_24px_70px_rgba(40,60,93,0.12)] transition duration-500 ease-out hover:border-[#D8BD8D] hover:shadow-[0_30px_90px_rgba(40,60,93,0.17)]">
-
       <div className="overflow-hidden rounded-[1.55rem] bg-[#FAF9F7]">
         <iframe
           src={embedData.embedUrl}
@@ -149,20 +164,55 @@ function ReelCard({
           })}
         />
       </div>
+
+      <div className="p-2 pt-4">
+        <button
+          type="button"
+          disabled={isRemoving}
+          onClick={() => {
+            void onRemove(reel.id);
+          }}
+          className="flex w-full items-center justify-center gap-2 rounded-full border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600 transition hover:border-red-300 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isRemoving ? (
+            <LoaderCircle
+              size={17}
+              className="animate-spin"
+            />
+          ) : (
+            <Trash2 size={17} />
+          )}
+
+          {isRemoving
+            ? t("removing")
+            : t("removeVideo")}
+        </button>
+      </div>
     </article>
   );
 }
 
-export default function DoctorInstagramReels({
+export default function DoctorInstagramReelsManager({
   doctorProfileId,
-}: DoctorInstagramReelsProps) {
-  const t = useTranslations("doctor.doctor.profile.doctorInstagramReels");
-
-  const [reels, setReels] = useState<InstagramReelRecord[]>(
-    []
+}: DoctorInstagramReelsManagerProps) {
+  const t = useTranslations(
+    "doctor.doctor.profile.doctorInstagramReelsManagement"
   );
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [reels, setReels] = useState<
+    InstagramReelRecord[]
+  >([]);
+
+  const [isLoading, setIsLoading] =
+    useState(true);
+
+  const [
+    removingReelId,
+    setRemovingReelId,
+  ] = useState<string | null>(null);
+
+  const [hasRemoveError, setHasRemoveError] =
+    useState(false);
 
   useEffect(() => {
     if (!doctorProfileId.trim()) {
@@ -185,7 +235,8 @@ export default function DoctorInstagramReels({
           }
         );
 
-        const payload = await parseJsonResponse(response);
+        const payload =
+          await parseJsonResponse(response);
 
         if (!response.ok) {
           console.error(
@@ -231,34 +282,131 @@ export default function DoctorInstagramReels({
     };
   }, [doctorProfileId]);
 
-  /*
-   * Avoid layout shifting while the request is running.
-   * Nothing is rendered until we know that the doctor has Reels.
-   */
-  if (isLoading) {
-    return null;
+  async function handleRemoveReel(
+    reelId: string
+  ): Promise<void> {
+    if (removingReelId) {
+      return;
+    }
+
+    setRemovingReelId(reelId);
+    setHasRemoveError(false);
+
+    try {
+      const response = await fetch(
+        "/api/instagram-reels/unlink",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            reelId,
+          }),
+        }
+      );
+
+      const payload =
+        await parseJsonResponse(response);
+
+      if (!response.ok) {
+        console.error(
+          "Remove Instagram Reel request failed:",
+          payload
+        );
+
+        throw new Error(
+          "Could not remove Instagram Reel."
+        );
+      }
+
+      setReels(
+        (
+          currentReels: InstagramReelRecord[]
+        ) =>
+          currentReels.filter(
+            (
+              reel: InstagramReelRecord
+            ) => reel.id !== reelId
+          )
+      );
+    } catch (error) {
+      console.error(
+        "Could not remove Instagram Reel:",
+        error
+      );
+
+      setHasRemoveError(true);
+    } finally {
+      setRemovingReelId(null);
+    }
   }
 
-  /*
-   * Doctor has no associated Reels:
-   * render absolutely nothing.
-   */
-  if (reels.length === 0) {
-    return null;
-  }
+  const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    t("emailSubject")
+  )}`;
 
   const hasSingleReel = reels.length === 1;
 
   return (
     <section className="relative mx-auto mt-8 w-full max-w-[1180px] overflow-hidden rounded-[2rem] border border-[#E7DDD0] bg-[#FAF9F7] px-5 py-7 shadow-[0_24px_70px_rgba(40,60,93,0.08)] md:px-8 md:py-10">
-      {/* Decorative elements */}
       <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#D8BD8D]/15 blur-3xl" />
 
       <div className="pointer-events-none absolute -bottom-28 -right-20 h-72 w-72 rounded-full bg-[#283C5D]/[0.06] blur-3xl" />
 
-      {hasSingleReel ? (
+      {isLoading ? (
+        <div className="relative flex min-h-[260px] flex-col items-center justify-center text-center">
+          <LoaderCircle
+            size={28}
+            className="animate-spin text-[#D8BD8D]"
+          />
+
+          <p className="mt-4 text-sm font-medium text-[#283C5D]/60">
+            {t("loading")}
+          </p>
+        </div>
+      ) : reels.length === 0 ? (
+        <div className="relative mx-auto flex max-w-2xl flex-col items-center py-8 text-center md:py-12">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[#D8BD8D]/40 bg-white shadow-sm">
+            <Camera
+              size={28}
+              className="text-[#D8BD8D]"
+            />
+          </div>
+
+          <div className="mt-6 flex w-fit items-center gap-2 rounded-full border border-[#D8BD8D]/50 bg-white px-4 py-2 shadow-sm">
+            <Sparkles
+              size={15}
+              className="text-[#D8BD8D]"
+            />
+
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#283C5D]">
+              {t("eyebrow")}
+            </span>
+          </div>
+
+          <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[#283C5D] md:text-4xl">
+            {t("emptyTitle")}
+          </h2>
+
+          <p className="mt-4 max-w-xl text-sm leading-7 text-[#283C5D]/60 md:text-base">
+            {t("emptyDescription")}
+          </p>
+
+          <a
+            href={mailtoHref}
+            className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#283C5D] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_14px_35px_rgba(40,60,93,0.2)] transition hover:-translate-y-0.5 hover:bg-[#1F304D]"
+          >
+            <Mail
+              size={17}
+              className="text-[#D8BD8D]"
+            />
+
+            {CONTACT_EMAIL}
+          </a>
+        </div>
+      ) : hasSingleReel ? (
         <div className="relative grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] md:gap-14">
-          {/* Editorial content */}
           <div className="mx-auto max-w-xl text-center md:mx-0 md:text-left">
             <div className="mx-auto flex w-fit items-center gap-2 rounded-full border border-[#D8BD8D]/50 bg-white px-4 py-2 shadow-sm md:mx-0">
               <Camera
@@ -297,16 +445,29 @@ export default function DoctorInstagramReels({
                 </p>
               </div>
             </div>
+
+            {hasRemoveError ? (
+              <p
+                className="mt-6 text-sm font-medium text-red-600"
+                role="alert"
+              >
+                {t("removeError")}
+              </p>
+            ) : null}
           </div>
 
-          {/* Single vertical Reel */}
           <div className="flex justify-center md:justify-end">
-            <ReelCard reel={reels[0]} />
+            <ReelCard
+              reel={reels[0]}
+              isRemoving={
+                removingReelId === reels[0].id
+              }
+              onRemove={handleRemoveReel}
+            />
           </div>
         </div>
       ) : (
         <>
-          {/* Two-Reel header */}
           <div className="relative mx-auto max-w-2xl text-center">
             <div className="mx-auto flex w-fit items-center gap-2 rounded-full border border-[#D8BD8D]/50 bg-white px-4 py-2 shadow-sm">
               <Sparkles
@@ -326,16 +487,32 @@ export default function DoctorInstagramReels({
             <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-[#283C5D]/60 md:text-base">
               {t("multipleDescription")}
             </p>
+
+            {hasRemoveError ? (
+              <p
+                className="mt-5 text-sm font-medium text-red-600"
+                role="alert"
+              >
+                {t("removeError")}
+              </p>
+            ) : null}
           </div>
 
-          {/* Two Reel grid */}
           <div className="relative mt-10 grid justify-items-center gap-6 md:grid-cols-2 md:gap-8">
-            {reels.map((reel: InstagramReelRecord) => (
-              <ReelCard
-                key={reel.id}
-                reel={reel}
-              />
-            ))}
+            {reels.map(
+              (
+                reel: InstagramReelRecord
+              ) => (
+                <ReelCard
+                  key={reel.id}
+                  reel={reel}
+                  isRemoving={
+                    removingReelId === reel.id
+                  }
+                  onRemove={handleRemoveReel}
+                />
+              )
+            )}
           </div>
         </>
       )}

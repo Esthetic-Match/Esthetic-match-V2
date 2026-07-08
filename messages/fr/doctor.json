@@ -196,6 +196,23 @@
           "subtitle": "Avis médical sécurisé en ligne",
           "free": "Gratuit",
           "fromPrice": "dès {price}"
+      },
+      "doctorInstagramReelsManagement": {
+        "eyebrow": "Entretien personnel",
+        "loading": "Chargement de vos vidéos...",
+        "singleTitle": "Votre vidéo d’entretien",
+        "singleDescription": "Cette vidéo d’entretien est actuellement liée à votre profil public. Vous pouvez la retirer de votre profil à tout moment.",
+        "watchTitle": "Mise en avant sur votre profil",
+        "watchDescription": "Les visiteurs peuvent regarder cette vidéo directement depuis votre profil médecin.",
+        "multipleTitle": "Vos vidéos d’entretien",
+        "multipleDescription": "Ces vidéos d’entretien sont actuellement liées à votre profil public. Vous pouvez retirer une vidéo de votre profil à tout moment.",
+        "emptyTitle": "Donnez vie à votre profil",
+        "emptyDescription": "Contactez notre équipe pour planifier une courte interview vidéo, mettre en valeur votre expertise et vos compétences en tant que médecin, et partager votre parcours sur votre profil.",
+        "removeVideo": "Retirer la vidéo",
+        "removing": "Suppression...",
+        "removeError": "Nous n’avons pas pu retirer cette vidéo. Veuillez réessayer.",
+        "emailSubject": "Vidéo d’entretien personnel pour mon profil Esthetic Match",
+        "iframeTitle": "Vidéo Instagram {shortcode}"
       }
     },
      "bookingConfirmation": {
