@@ -91,114 +91,60 @@ function createInfoWindowContent(doctor: NearbyDoctorMapItem) {
   const wrapper = document.createElement("div");
 
   applyStyles(wrapper, {
-    width: "280px",
-    overflow: "hidden",
-    borderRadius: "24px",
+    width: "260px",
+    padding: "18px",
+    borderRadius: "20px",
     fontFamily: "DM Sans, Arial, sans-serif",
     color: "#283C5D",
     background: "#ffffff",
-    boxShadow: "0 24px 70px rgba(40, 60, 93, 0.18)",
+    boxSizing: "border-box",
   });
 
-  const header = document.createElement("div");
-
-  applyStyles(header, {
-    position: "relative",
-    padding: "18px",
-    background:
-      "linear-gradient(135deg, rgba(241,225,198,0.95), #ffffff 58%, rgba(206,181,145,0.42))",
-    borderBottom: "1px solid rgba(206,181,145,0.25)",
-  });
-
-  const badge = document.createElement("div");
-  badge.textContent = "Nearby doctor";
-
-  applyStyles(badge, {
-    display: "inline-flex",
-    alignItems: "center",
-    width: "fit-content",
-    padding: "6px 10px",
-    borderRadius: "999px",
-    background: "rgba(255,255,255,0.88)",
-    color: "#283C5D",
-    fontSize: "10px",
-    fontWeight: "800",
-    letterSpacing: "0.12em",
-    textTransform: "uppercase",
-    boxShadow: "0 8px 18px rgba(40,60,93,0.08)",
-  });
-
-  const avatar = document.createElement("div");
-  avatar.textContent = doctor.name.charAt(0).toUpperCase();
-
-  applyStyles(avatar, {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "58px",
-    height: "58px",
-    marginTop: "14px",
-    borderRadius: "18px",
-    border: "3px solid #ffffff",
-    background: "#283C5D",
-    color: "#ffffff",
-    fontSize: "24px",
-    fontWeight: "900",
-    boxShadow: "0 14px 30px rgba(40,60,93,0.20)",
-  });
-
-  header.appendChild(badge);
-  header.appendChild(avatar);
-
-  const body = document.createElement("div");
-
-  applyStyles(body, {
-    padding: "16px 18px 18px",
-    background: "#ffffff",
-  });
-
+  // Doctor name
   const title = document.createElement("p");
   title.textContent = doctor.name;
 
   applyStyles(title, {
     margin: "0",
     fontSize: "17px",
-    lineHeight: "1.2",
-    fontWeight: "900",
+    lineHeight: "1.3",
+    fontWeight: "800",
     letterSpacing: "-0.02em",
     color: "#283C5D",
   });
 
-  body.appendChild(title);
+  wrapper.appendChild(title);
 
-  if (doctor.clinicName) {
-    const clinic = document.createElement("p");
-    clinic.textContent = doctor.clinicName;
+  // Distance
+  if (doctor.distanceKm !== null) {
+    const distance = document.createElement("p");
+    distance.textContent = `${doctor.distanceKm} km away`;
 
-    applyStyles(clinic, {
-      margin: "5px 0 0",
+    applyStyles(distance, {
+      margin: "7px 0 0",
       fontSize: "12px",
-      lineHeight: "1.35",
+      lineHeight: "1.4",
       fontWeight: "700",
-      color: "rgba(40,60,93,0.62)",
+      color: "#CEB591",
     });
 
-    body.appendChild(clinic);
+    wrapper.appendChild(distance);
   }
 
-  const locationText = [doctor.city, doctor.country].filter(Boolean).join(", ");
+  // Address
+  const locationText = [doctor.city, doctor.country]
+    .filter(Boolean)
+    .join(", ");
 
   if (locationText) {
-    const location = document.createElement("div");
+    const address = document.createElement("div");
 
-    applyStyles(location, {
+    applyStyles(address, {
       display: "flex",
-      alignItems: "center",
+      alignItems: "flex-start",
       gap: "7px",
-      marginTop: "12px",
-      fontSize: "12px",
-      fontWeight: "700",
-      color: "rgba(40,60,93,0.58)",
+      marginTop: "10px",
+      color: "rgba(40, 60, 93, 0.62)",
     });
 
     const dot = document.createElement("span");
@@ -206,61 +152,27 @@ function createInfoWindowContent(doctor: NearbyDoctorMapItem) {
     applyStyles(dot, {
       width: "7px",
       height: "7px",
+      marginTop: "5px",
       borderRadius: "999px",
       background: "#CEB591",
       flexShrink: "0",
     });
 
-    const locationLabel = document.createElement("span");
-    locationLabel.textContent = locationText;
+    const addressText = document.createElement("span");
+    addressText.textContent = locationText;
 
-    location.appendChild(dot);
-    location.appendChild(locationLabel);
-    body.appendChild(location);
-  }
-
-  const metaParts: string[] = [];
-
-  if (doctor.distanceKm !== null) {
-    metaParts.push(`${doctor.distanceKm} km away`);
-  }
-
-  if (doctor.googleRating !== null) {
-    metaParts.push(`★ ${doctor.googleRating.toFixed(1)}`);
-  }
-
-  if (metaParts.length > 0) {
-    const meta = document.createElement("div");
-
-    applyStyles(meta, {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: "8px",
-      marginTop: "14px",
+    applyStyles(addressText, {
+      fontSize: "12px",
+      lineHeight: "1.5",
+      fontWeight: "600",
     });
 
-    metaParts.forEach((part) => {
-      const pill = document.createElement("span");
-      pill.textContent = part;
-
-      applyStyles(pill, {
-        display: "inline-flex",
-        alignItems: "center",
-        width: "fit-content",
-        padding: "7px 10px",
-        borderRadius: "999px",
-        background: "#F8F3EA",
-        color: "#283C5D",
-        fontSize: "11px",
-        fontWeight: "800",
-      });
-
-      meta.appendChild(pill);
-    });
-
-    body.appendChild(meta);
+    address.appendChild(dot);
+    address.appendChild(addressText);
+    wrapper.appendChild(address);
   }
 
+  // View profile button
   const link = document.createElement("a");
   link.href = getDoctorProfileHref(doctor.slug);
   link.textContent = "View profile";
@@ -271,21 +183,17 @@ function createInfoWindowContent(doctor: NearbyDoctorMapItem) {
     justifyContent: "center",
     width: "100%",
     marginTop: "16px",
-    padding: "12px 14px",
+    padding: "10px 14px",
     borderRadius: "999px",
     background: "#283C5D",
     color: "#ffffff",
     fontSize: "12px",
-    fontWeight: "900",
-    letterSpacing: "0.02em",
+    fontWeight: "800",
     textDecoration: "none",
     boxSizing: "border-box",
   });
 
-  body.appendChild(link);
-
-  wrapper.appendChild(header);
-  wrapper.appendChild(body);
+  wrapper.appendChild(link);
 
   return wrapper;
 }
