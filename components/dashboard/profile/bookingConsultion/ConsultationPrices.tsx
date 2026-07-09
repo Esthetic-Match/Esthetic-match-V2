@@ -94,7 +94,8 @@ function handleCancel() {
             <button
               type="button"
               onClick={handleSave}
-              className="flex h-8 w-24 cursor-pointer items-center justify-center rounded-full border border-black/10 bg-[#283c5d] text-white transition hover:bg-[#283C5D]/80 active:scale-[0.98]"
+              className="flex h-8 w-26 cursor-pointer items-center justify-center rounded-full 
+              border border-black/10 bg-[#283c5d] text-white transition hover:bg-[#D8BD8D] hover:text-[#283c5d] active:scale-[0.98]"
             >
               <p>{t("common.save")}</p>
             </button>
@@ -102,7 +103,7 @@ function handleCancel() {
             <button
               type="button"
               onClick={handleCancel}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-red-500 transition hover:bg-gray-200 active:scale-[0.98]"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center border border-1 rounded-full text-red-500 transition hover:bg-gray-200 active:scale-[0.98]"
             >
               <X size={16} />
             </button>
@@ -111,7 +112,8 @@ function handleCancel() {
           <button
             type="button"
             onClick={handleEdit}
-            className="flex h-8 w-10 cursor-pointer items-center justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.98]"
+            className="flex h-8 w-10 cursor-pointer items-center justify-center rounded-full 
+            border border-black/10 text-white bg-[#283c5d] transition hover:bg-[#D8BD8D] hover:text-[#283c5d] active:scale-[0.98]"
           >
             <Pencil size={15} />
           </button>

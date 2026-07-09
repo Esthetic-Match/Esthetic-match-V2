@@ -293,21 +293,21 @@ export default function InstagramReelsSection() {
                       const embedUrl = buildEmbedUrl(shortcode);
 
                       return (
-<article className="overflow-hidden rounded-[1rem] border border-[#E7DDD0] bg-white shadow-[0_22px_60px_rgba(40,60,93,0.10)]">
-  <div className="h-[460px] overflow-hidden">
-    <iframe
-      src={embedUrl}
-      className="-ml-[80px] -mt-[150px] block h-[610px] w-[calc(100%+160px)] max-w-none border-0"
-      scrolling="no"
-      allowFullScreen
-      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-      loading="lazy"
-      title={t("iframeTitle", {
-        shortcode,
-      })}
-    />
-  </div>
-</article>
+                        <article className="overflow-hidden rounded-[1rem] border border-[#E7DDD0] bg-white shadow-[0_22px_60px_rgba(40,60,93,0.10)]">
+                          <div className="h-[460px] overflow-hidden">
+                            <iframe
+                              src={embedUrl}
+                              className="-ml-[80px] -mt-[150px] block h-[610px] w-[calc(100%+160px)] max-w-none border-0"
+                              scrolling="no"
+                              allowFullScreen
+                              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                              loading="lazy"
+                              title={t("iframeTitle", {
+                                shortcode,
+                              })}
+                            />
+                          </div>
+                        </article>
                       );
                     })}
                   </div>

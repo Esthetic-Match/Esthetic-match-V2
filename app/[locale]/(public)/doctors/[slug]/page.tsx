@@ -10,6 +10,7 @@ import BookingLinksSection from "@/components/public/doctorProfile/UI/BookingLin
 import DoctorQuestionStickyBanner from "@/components/public/doctorProfile/UI/DoctorQuestionStickyBanner";
 import GoogleReviewsList from "@/components/UI/GoogleReviewsList";
 import DoctorInstagramReels from "@/components/public/doctorProfile/DoctorInstagramReels";
+import PublicTopThreeProceduresSection from "@/components/public/doctorProfile/UI/PublicTopThreeProceduresSection";
 
 type ProfilePageProps = {
   params: Promise<{
@@ -190,6 +191,10 @@ export default async function Profilepage({
 
       <PublicProfileHeader
         doctorProfile={doctorProfile}
+      />
+
+      <PublicTopThreeProceduresSection
+        topThree={doctorProfile.topThree}
       />
 
       <PublicContactActionsSection
