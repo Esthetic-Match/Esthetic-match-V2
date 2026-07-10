@@ -304,7 +304,15 @@ export default function DoctorsNearMeClient() {
     }, [data]);
 
   return (
-    <main className="min-h-screen bg-white">
+    <main
+      className={
+        loadState === "success" &&
+        data &&
+        data.doctors.length === 0
+          ? "bg-white"
+          : "min-h-screen bg-white"
+      }
+    >
       <section className="mx-auto max-w-7xl px-6 py-10 md:px-10 md:py-12">
         {loadState === "denied" && (
           <div className="rounded-[2rem] border border-[#CEB591]/25 bg-white p-8 text-center shadow-[0_24px_70px_rgba(40,60,93,0.08)]">
