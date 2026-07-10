@@ -178,7 +178,9 @@ export default function DoctorEditProfile({
             )}
             value={name}
             onChange={setName}
+            disabled
             icon={<User size={16} />}
+            styleChange="bg-gray-400"
           />
 
           <InputField

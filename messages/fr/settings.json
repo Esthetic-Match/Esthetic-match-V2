@@ -106,7 +106,7 @@
   "doctorEditProfile": {
     "doctorProfile": "Profil du médecin",
     "title": "Modifier le profil",
-    "fullName": "Nom complet",
+    "fullName": "Nom complet (ne peut pas être modifié)",
     "doctorNamePlaceholder": "Nom du médecin",
     "emailCannotEdit": "E-mail (ne peut pas être modifié)",
     "emailPlaceholder": "E-mail",

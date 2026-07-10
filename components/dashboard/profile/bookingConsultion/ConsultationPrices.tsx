@@ -112,7 +112,7 @@ function handleCancel() {
           <button
             type="button"
             onClick={handleEdit}
-            className="flex h-8 w-10 cursor-pointer items-center justify-center rounded-full 
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full 
             border border-black/10 text-white bg-[#283c5d] transition hover:bg-[#D8BD8D] hover:text-[#283c5d] active:scale-[0.98]"
           >
             <Pencil size={15} />
