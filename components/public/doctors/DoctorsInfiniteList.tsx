@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import DoctorCards from "../UI/DoctorCards";
 import type { SpecialtyTranslations, DoctorCardData } from "../UI/DoctorCards";
 import { Check } from "lucide-react";
+import DoctorCardsHorizontal from "../UI/DoctorCardsHorizontal";
 
 type DoctorFilters = {
   q?: string;
@@ -95,9 +95,9 @@ export default function DoctorsInfiniteList({
 
   return (
     <>
-      <div className="grid gap-5 p-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-5 p-4 sm:grid-cols-1">
         {doctors.map((doctor) => (
-          <DoctorCards
+          <DoctorCardsHorizontal
             key={doctor.id}
             doctor={doctor}
             specialtyT={specialtyT}

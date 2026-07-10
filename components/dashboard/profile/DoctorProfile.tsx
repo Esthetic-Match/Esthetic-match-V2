@@ -10,6 +10,7 @@ import BookingAndPrices from "./BookingAndPrices";
 import Gallery from "./patientGallery/Gallery";
 import GoogleReviewsList from "@/components/UI/GoogleReviewsList";
 import DoctorInstagramReelsManager from "./DoctorInstagramReelsManager";
+import TopThreeProceduresSection from "./TopThreeProceduresSection";
 
 const fallbackBanner = "/images/fallback/blue-bg.png";
 
@@ -116,8 +117,12 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         RPPS={profile.RPPS}
         workAddress={profile.workAddress}
         yearsOfExperience={profile.yearsOfExperience}
-        topThree={profile.topThree}
         onUpdateProfile={updateDoctorProfile}
+      />
+
+      <TopThreeProceduresSection
+        procedureIds={profile.procedureIds}
+        topThree={profile.topThree}
       />
 
       <BookingAndPrices
@@ -141,7 +146,12 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
 
       <DoctorInstagramReelsManager doctorProfileId={profile.id} />
       
-      <ExpertiseSection procedureIds={profile.procedureIds || []} />
+      <ExpertiseSection
+        userId={user.id}
+        specialtyIds={profile.specialtyIds}
+        subcategoryIds={profile.subcategoryIds}
+        procedureIds={profile.procedureIds}
+      />
 
       <Gallery
         userId={user.id}
