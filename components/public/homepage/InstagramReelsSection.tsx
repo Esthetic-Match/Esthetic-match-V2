@@ -266,7 +266,7 @@ export default function InstagramReelsSection() {
             </div>
           </div>
         ) : (
-          <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-6 py-16 lg:grid-cols-3 lg:gap-7 lg:py-24">
+          <div className="mx-auto grid max-w-[1180px] grid-cols-1 sm:grid-cols-2 gap-6 py-16 lg:grid-cols-3 lg:gap-7 lg:py-24">
             {columns.map(
               (
                 column: InstagramReelRecord[],
