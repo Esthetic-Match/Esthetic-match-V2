@@ -12,7 +12,6 @@ type BookingAndPricesProps = {
   googlePlaceId?: string | null;
   googleRating?: number | null;
   googleReviewCount?: number | null;
-  paidPlan?:  string| null;
   stripeConnectOnboardingComplete?: boolean | null;
   bookingLinks?: []|null;
   currency?: string | null;
@@ -32,7 +31,6 @@ export default function BookingAndPrices({
   googlePlaceId,
   googleReviewCount,
   googleRating,
-  paidPlan,
   bookingLinks,
   stripeConnectOnboardingComplete,
   onlineActive,
@@ -49,8 +47,8 @@ export default function BookingAndPrices({
           stripeConnectOnboardingComplete={stripeConnectOnboardingComplete}
           currency={currency}
         />
-
-        <BookingLinks bookingLinks={bookingLinks} paidPlan={paidPlan} />
+        
+        <BookingLinks bookingLinks={bookingLinks} />
         
         <GoogleReviewsButton
           clinicName={clinicName}

@@ -273,7 +273,6 @@ async function syncDoctorSubscription(subscription: Stripe.Subscription) {
   await prisma.doctorProfile.update({
     where: { id: doctorProfileId },
     data: {
-      paidPlan: isPremium ? "standard" : "free",
       subscriptionPlan: isPremium ? "premium" : "free",
       stripeSubscriptionId: subscription.id,
       stripeSubscriptionStatus: subscription.status,
@@ -570,7 +569,6 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   await prisma.doctorProfile.update({
     where: { id: doctorProfileId },
     data: {
-      paidPlan: "free",
       subscriptionPlan: "free",
       stripeSubscriptionId: subscription.id,
       stripeSubscriptionStatus: subscription.status,

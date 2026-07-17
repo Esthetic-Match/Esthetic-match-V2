@@ -11,7 +11,6 @@ import CatalogueAdminManager from "@/components/dashboard/admin/CatalogueAdminMa
 import ConsultationBookingsAnalytics from "@/components/dashboard/admin/ConsultationBookingsAnalytics";
 import ConsultationBookingsTable from "@/components/dashboard/admin/ConsultationBookingsTable";
 import DoctorPlansCard from "@/components/dashboard/admin/DoctorPlansCard";
-import DoctorProfilesPlanTable from "@/components/dashboard/admin/DoctorProfilesPlanTable";
 import RefundRequestsManager from "@/components/dashboard/admin/RefundRequestsManager";
 import InstagramReelsAdmin from "@/components/dashboard/admin/InstagramReelsAdmin";
 import AdminBeforeAfterPanel from "@/components/dashboard/admin/AdminBeforeAfterPanel";
@@ -104,10 +103,6 @@ function TabPanel({
         />
 
         <div className="space-y-8">
-          <DoctorPlansCard />
-
-          <DoctorProfilesPlanTable />
-
           <AdminDoctorMediaManager />
 
           <AdminBeforeAfterPanel />

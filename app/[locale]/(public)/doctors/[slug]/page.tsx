@@ -217,7 +217,6 @@ export default async function Profilepage({
 
       <Gallery
         doctorId={doctorProfile.userId}
-        paidPlan={doctorProfile.paidPlan}
       />
 
       <DoctorQuestionStickyBanner

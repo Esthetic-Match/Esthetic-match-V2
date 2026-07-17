@@ -61,7 +61,6 @@ export type DoctorProfileMinAggregateOutputType = {
   workLatitude: number | null
   workLongitude: number | null
   googlePlaceId: string | null
-  paidPlan: string | null
   currency: string | null
   RPPS: string | null
   inClinicPrice: number | null
@@ -101,7 +100,6 @@ export type DoctorProfileMaxAggregateOutputType = {
   workLatitude: number | null
   workLongitude: number | null
   googlePlaceId: string | null
-  paidPlan: string | null
   currency: string | null
   RPPS: string | null
   inClinicPrice: number | null
@@ -146,7 +144,6 @@ export type DoctorProfileCountAggregateOutputType = {
   workLatitude: number
   workLongitude: number
   googlePlaceId: number
-  paidPlan: number
   currency: number
   RPPS: number
   inClinicPrice: number
@@ -209,7 +206,6 @@ export type DoctorProfileMinAggregateInputType = {
   workLatitude?: true
   workLongitude?: true
   googlePlaceId?: true
-  paidPlan?: true
   currency?: true
   RPPS?: true
   inClinicPrice?: true
@@ -249,7 +245,6 @@ export type DoctorProfileMaxAggregateInputType = {
   workLatitude?: true
   workLongitude?: true
   googlePlaceId?: true
-  paidPlan?: true
   currency?: true
   RPPS?: true
   inClinicPrice?: true
@@ -294,7 +289,6 @@ export type DoctorProfileCountAggregateInputType = {
   workLatitude?: true
   workLongitude?: true
   googlePlaceId?: true
-  paidPlan?: true
   currency?: true
   RPPS?: true
   inClinicPrice?: true
@@ -427,7 +421,6 @@ export type DoctorProfileGroupByOutputType = {
   workLatitude: number | null
   workLongitude: number | null
   googlePlaceId: string | null
-  paidPlan: string | null
   currency: string
   RPPS: string | null
   inClinicPrice: number | null
@@ -496,7 +489,6 @@ export type DoctorProfileWhereInput = {
   workLatitude?: Prisma.FloatNullableFilter<"DoctorProfile"> | number | null
   workLongitude?: Prisma.FloatNullableFilter<"DoctorProfile"> | number | null
   googlePlaceId?: Prisma.StringNullableFilter<"DoctorProfile"> | string | null
-  paidPlan?: Prisma.StringNullableFilter<"DoctorProfile"> | string | null
   currency?: Prisma.StringFilter<"DoctorProfile"> | string
   RPPS?: Prisma.StringNullableFilter<"DoctorProfile"> | string | null
   inClinicPrice?: Prisma.FloatNullableFilter<"DoctorProfile"> | number | null
@@ -549,7 +541,6 @@ export type DoctorProfileOrderByWithRelationInput = {
   workLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
   workLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
   googlePlaceId?: Prisma.SortOrderInput | Prisma.SortOrder
-  paidPlan?: Prisma.SortOrderInput | Prisma.SortOrder
   currency?: Prisma.SortOrder
   RPPS?: Prisma.SortOrderInput | Prisma.SortOrder
   inClinicPrice?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -605,7 +596,6 @@ export type DoctorProfileWhereUniqueInput = Prisma.AtLeast<{
   workLatitude?: Prisma.FloatNullableFilter<"DoctorProfile"> | number | null
   workLongitude?: Prisma.FloatNullableFilter<"DoctorProfile"> | number | null
   googlePlaceId?: Prisma.StringNullableFilter<"DoctorProfile"> | string | null
-  paidPlan?: Prisma.StringNullableFilter<"DoctorProfile"> | string | null
   currency?: Prisma.StringFilter<"DoctorProfile"> | string
   RPPS?: Prisma.StringNullableFilter<"DoctorProfile"> | string | null
   inClinicPrice?: Prisma.FloatNullableFilter<"DoctorProfile"> | number | null
@@ -658,7 +648,6 @@ export type DoctorProfileOrderByWithAggregationInput = {
   workLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
   workLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
   googlePlaceId?: Prisma.SortOrderInput | Prisma.SortOrder
-  paidPlan?: Prisma.SortOrderInput | Prisma.SortOrder
   currency?: Prisma.SortOrder
   RPPS?: Prisma.SortOrderInput | Prisma.SortOrder
   inClinicPrice?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -712,7 +701,6 @@ export type DoctorProfileScalarWhereWithAggregatesInput = {
   workLatitude?: Prisma.FloatNullableWithAggregatesFilter<"DoctorProfile"> | number | null
   workLongitude?: Prisma.FloatNullableWithAggregatesFilter<"DoctorProfile"> | number | null
   googlePlaceId?: Prisma.StringNullableWithAggregatesFilter<"DoctorProfile"> | string | null
-  paidPlan?: Prisma.StringNullableWithAggregatesFilter<"DoctorProfile"> | string | null
   currency?: Prisma.StringWithAggregatesFilter<"DoctorProfile"> | string
   RPPS?: Prisma.StringNullableWithAggregatesFilter<"DoctorProfile"> | string | null
   inClinicPrice?: Prisma.FloatNullableWithAggregatesFilter<"DoctorProfile"> | number | null
@@ -757,7 +745,6 @@ export type DoctorProfileCreateInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -810,7 +797,6 @@ export type DoctorProfileUncheckedCreateInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -861,7 +847,6 @@ export type DoctorProfileUpdateInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -914,7 +899,6 @@ export type DoctorProfileUncheckedUpdateInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -966,7 +950,6 @@ export type DoctorProfileCreateManyInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -1011,7 +994,6 @@ export type DoctorProfileUpdateManyMutationInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1057,7 +1039,6 @@ export type DoctorProfileUncheckedUpdateManyInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1116,7 +1097,6 @@ export type DoctorProfileCountOrderByAggregateInput = {
   workLatitude?: Prisma.SortOrder
   workLongitude?: Prisma.SortOrder
   googlePlaceId?: Prisma.SortOrder
-  paidPlan?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   RPPS?: Prisma.SortOrder
   inClinicPrice?: Prisma.SortOrder
@@ -1167,7 +1147,6 @@ export type DoctorProfileMaxOrderByAggregateInput = {
   workLatitude?: Prisma.SortOrder
   workLongitude?: Prisma.SortOrder
   googlePlaceId?: Prisma.SortOrder
-  paidPlan?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   RPPS?: Prisma.SortOrder
   inClinicPrice?: Prisma.SortOrder
@@ -1207,7 +1186,6 @@ export type DoctorProfileMinOrderByAggregateInput = {
   workLatitude?: Prisma.SortOrder
   workLongitude?: Prisma.SortOrder
   googlePlaceId?: Prisma.SortOrder
-  paidPlan?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   RPPS?: Prisma.SortOrder
   inClinicPrice?: Prisma.SortOrder
@@ -1458,7 +1436,6 @@ export type DoctorProfileCreateWithoutUserInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -1509,7 +1486,6 @@ export type DoctorProfileUncheckedCreateWithoutUserInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -1576,7 +1552,6 @@ export type DoctorProfileUpdateWithoutUserInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1627,7 +1602,6 @@ export type DoctorProfileUncheckedUpdateWithoutUserInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1678,7 +1652,6 @@ export type DoctorProfileCreateWithoutConsultationBookingsInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -1730,7 +1703,6 @@ export type DoctorProfileUncheckedCreateWithoutConsultationBookingsInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -1796,7 +1768,6 @@ export type DoctorProfileUpdateWithoutConsultationBookingsInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1848,7 +1819,6 @@ export type DoctorProfileUncheckedUpdateWithoutConsultationBookingsInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1898,7 +1868,6 @@ export type DoctorProfileCreateWithoutConsultationRefundRequestsInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -1950,7 +1919,6 @@ export type DoctorProfileUncheckedCreateWithoutConsultationRefundRequestsInput =
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2016,7 +1984,6 @@ export type DoctorProfileUpdateWithoutConsultationRefundRequestsInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2068,7 +2035,6 @@ export type DoctorProfileUncheckedUpdateWithoutConsultationRefundRequestsInput =
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2118,7 +2084,6 @@ export type DoctorProfileCreateWithoutInClinicConsultationAccessesInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2170,7 +2135,6 @@ export type DoctorProfileUncheckedCreateWithoutInClinicConsultationAccessesInput
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2236,7 +2200,6 @@ export type DoctorProfileUpdateWithoutInClinicConsultationAccessesInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2288,7 +2251,6 @@ export type DoctorProfileUncheckedUpdateWithoutInClinicConsultationAccessesInput
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2338,7 +2300,6 @@ export type DoctorProfileCreateWithoutOnlineConsultationAccessesInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2390,7 +2351,6 @@ export type DoctorProfileUncheckedCreateWithoutOnlineConsultationAccessesInput =
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2456,7 +2416,6 @@ export type DoctorProfileUpdateWithoutOnlineConsultationAccessesInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2508,7 +2467,6 @@ export type DoctorProfileUncheckedUpdateWithoutOnlineConsultationAccessesInput =
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2558,7 +2516,6 @@ export type DoctorProfileCreateWithoutConversationsInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2610,7 +2567,6 @@ export type DoctorProfileUncheckedCreateWithoutConversationsInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2676,7 +2632,6 @@ export type DoctorProfileUpdateWithoutConversationsInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2728,7 +2683,6 @@ export type DoctorProfileUncheckedUpdateWithoutConversationsInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2778,7 +2732,6 @@ export type DoctorProfileCreateWithoutInstagramReelsInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2830,7 +2783,6 @@ export type DoctorProfileUncheckedCreateWithoutInstagramReelsInput = {
   workLatitude?: number | null
   workLongitude?: number | null
   googlePlaceId?: string | null
-  paidPlan?: string | null
   currency?: string
   RPPS?: string | null
   inClinicPrice?: number | null
@@ -2896,7 +2848,6 @@ export type DoctorProfileUpdateWithoutInstagramReelsInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -2948,7 +2899,6 @@ export type DoctorProfileUncheckedUpdateWithoutInstagramReelsInput = {
   workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paidPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -3075,7 +3025,6 @@ export type DoctorProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   workLatitude?: boolean
   workLongitude?: boolean
   googlePlaceId?: boolean
-  paidPlan?: boolean
   currency?: boolean
   RPPS?: boolean
   inClinicPrice?: boolean
@@ -3129,7 +3078,6 @@ export type DoctorProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   workLatitude?: boolean
   workLongitude?: boolean
   googlePlaceId?: boolean
-  paidPlan?: boolean
   currency?: boolean
   RPPS?: boolean
   inClinicPrice?: boolean
@@ -3176,7 +3124,6 @@ export type DoctorProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   workLatitude?: boolean
   workLongitude?: boolean
   googlePlaceId?: boolean
-  paidPlan?: boolean
   currency?: boolean
   RPPS?: boolean
   inClinicPrice?: boolean
@@ -3223,7 +3170,6 @@ export type DoctorProfileSelectScalar = {
   workLatitude?: boolean
   workLongitude?: boolean
   googlePlaceId?: boolean
-  paidPlan?: boolean
   currency?: boolean
   RPPS?: boolean
   inClinicPrice?: boolean
@@ -3249,7 +3195,7 @@ export type DoctorProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type DoctorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "avatar" | "yearsOfExperience" | "clinicName" | "clinicBanner" | "specialtyIds" | "subcategoryIds" | "procedureIds" | "subzoneIds" | "topThree" | "workAddress" | "city" | "country" | "zipCode" | "workLatitude" | "workLongitude" | "googlePlaceId" | "paidPlan" | "currency" | "RPPS" | "inClinicPrice" | "onlineConsulPrice" | "onlineActive" | "inClinicLink" | "stripeSubscriptionId" | "stripeSubscriptionStatus" | "stripeCustomerId" | "subscriptionCurrentPeriodEnd" | "subscriptionPlan" | "stripeConnectAccountId" | "stripeConnectOnboardingComplete" | "stripeConnectChargesEnabled" | "stripeConnectPayoutsEnabled" | "socialMediaLink" | "bookingLinks" | "googleRating" | "googleReviewCount" | "googleMapsUri" | "otherSpecialtyText" | "createdAt" | "updatedAt", ExtArgs["result"]["doctorProfile"]>
+export type DoctorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "avatar" | "yearsOfExperience" | "clinicName" | "clinicBanner" | "specialtyIds" | "subcategoryIds" | "procedureIds" | "subzoneIds" | "topThree" | "workAddress" | "city" | "country" | "zipCode" | "workLatitude" | "workLongitude" | "googlePlaceId" | "currency" | "RPPS" | "inClinicPrice" | "onlineConsulPrice" | "onlineActive" | "inClinicLink" | "stripeSubscriptionId" | "stripeSubscriptionStatus" | "stripeCustomerId" | "subscriptionCurrentPeriodEnd" | "subscriptionPlan" | "stripeConnectAccountId" | "stripeConnectOnboardingComplete" | "stripeConnectChargesEnabled" | "stripeConnectPayoutsEnabled" | "socialMediaLink" | "bookingLinks" | "googleRating" | "googleReviewCount" | "googleMapsUri" | "otherSpecialtyText" | "createdAt" | "updatedAt", ExtArgs["result"]["doctorProfile"]>
 export type DoctorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   consultationBookings?: boolean | Prisma.DoctorProfile$consultationBookingsArgs<ExtArgs>
@@ -3298,7 +3244,6 @@ export type $DoctorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
     workLatitude: number | null
     workLongitude: number | null
     googlePlaceId: string | null
-    paidPlan: string | null
     currency: string
     RPPS: string | null
     inClinicPrice: number | null
@@ -3771,7 +3716,6 @@ export interface DoctorProfileFieldRefs {
   readonly workLatitude: Prisma.FieldRef<"DoctorProfile", 'Float'>
   readonly workLongitude: Prisma.FieldRef<"DoctorProfile", 'Float'>
   readonly googlePlaceId: Prisma.FieldRef<"DoctorProfile", 'String'>
-  readonly paidPlan: Prisma.FieldRef<"DoctorProfile", 'String'>
   readonly currency: Prisma.FieldRef<"DoctorProfile", 'String'>
   readonly RPPS: Prisma.FieldRef<"DoctorProfile", 'String'>
   readonly inClinicPrice: Prisma.FieldRef<"DoctorProfile", 'Float'>

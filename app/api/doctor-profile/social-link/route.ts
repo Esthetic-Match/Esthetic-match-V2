@@ -25,7 +25,6 @@ export const GET = withApiHandler(async (req: Request) => {
     select: {
       id: true,
       slug: true,
-      paidPlan: true,
       socialMediaLink: true,
     },
   });
@@ -35,14 +34,6 @@ export const GET = withApiHandler(async (req: Request) => {
       "Doctor profile not found",
       404,
       "DOCTOR_PROFILE_NOT_FOUND"
-    );
-  }
-
-  if (doctorProfile.paidPlan !== "standard") {
-    throw new ApiError(
-      "Social profile link is only available on the standard plan",
-      403,
-      "STANDARD_PLAN_REQUIRED"
     );
   }
 
