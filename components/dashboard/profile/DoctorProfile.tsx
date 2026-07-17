@@ -138,7 +138,6 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         stripeConnectOnboardingComplete={profile.stripeConnectOnboardingComplete}
         googleReviewCount={profile.googleReviewCount}
         googleRating={profile.googleRating}
-        paidPlan={profile.paidPlan}
         currency={profile.currency}
       />
       
@@ -155,7 +154,6 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
 
       <Gallery
         userId={user.id}
-        paidPlan={profile.paidPlan}
         procedureIds={profile.procedureIds}
       />
     </div>

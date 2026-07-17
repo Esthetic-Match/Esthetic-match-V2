@@ -38,14 +38,6 @@ export const PATCH = withApiHandler(async (req: Request) => {
     );
   }
 
-  if (doctorProfile.paidPlan !== "standard") {
-    throw new ApiError(
-      "Booking links are only available on the standard plan",
-      403,
-      "STANDARD_PLAN_REQUIRED"
-    );
-  }
-
   const updatedDoctorProfile = await prisma.doctorProfile.update({
     where: {
       id: doctorProfile.id,

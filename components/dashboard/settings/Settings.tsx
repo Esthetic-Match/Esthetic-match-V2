@@ -11,7 +11,6 @@ import {
   AlertCircle,
   ShieldCheck,
   Trash2,
-  Gem,
   Landmark,
   X,
   ClipboardList,
@@ -22,7 +21,6 @@ import ReportProblem from "./ReportProblem";
 import ChangePassword from "./ChangePassword";
 import PatientEditProfile from "./PatientEditProfile";
 import DoctorEditProfile from "./DoctorEditProfile";
-import SubscriptionPlans from "./SubscriptionPlans";
 import PaymentDetails from "./PaymentDetails";
 import DeleteAccount from "./DeleteAccount";
 import { useSearchParams } from "next/navigation";
@@ -74,7 +72,7 @@ type DoctorProfile = {
   workLongitude: number | null;
   googlePlaceId: string | null;
 
-  paidPlan: string | null;
+
   currency: string;
   RPPS: string | null;
 
@@ -83,11 +81,7 @@ type DoctorProfile = {
   onlineActive: boolean;
   inClinicLink: string | null;
 
-  stripeSubscriptionId: string | null;
-  stripeSubscriptionStatus: string | null;
   stripeCustomerId: string | null;
-  subscriptionCurrentPeriodEnd: Date | null;
-  subscriptionPlan: string | null;
 
   stripeConnectAccountId: string | null;
   stripeConnectOnboardingComplete: boolean;
@@ -132,7 +126,6 @@ type SettingsPage =
   | "Language"
   | "Report a Problem"
   | "Terms & Conditions"
-  | "Subscription"
   | "Delete Account";
 
 const settingsGroups = [
@@ -140,7 +133,6 @@ const settingsGroups = [
     { label: "Edit Profile", icon: Edit3, danger: false },
     { label: "Change Password", icon: Lock, danger: false },
     { label: "Payment Details", icon: Landmark, danger: false },
-    { label: "Subscription", icon: Gem, danger: false },
   ],
   [
     { label: "Language", icon: Globe, danger: false },
@@ -285,9 +277,6 @@ function SettingsSidebar({
             >
               {group
                 .filter((item) => {
-                  if (item.label === "Subscription" && user.role === "PATIENT") {
-                    return false;
-                  }
                   if (item.label === "Payment Details" && user.role === "PATIENT") {
                     return false;
                   }
@@ -319,9 +308,6 @@ const tab = searchParams.get("tab");
 
 function getInitialPage(): SettingsPage {
   switch (tab) {
-    case "subscription":
-      return "Subscription";
-
     case "payment":
       return "Payment Details";
 
@@ -387,7 +373,6 @@ const [activePage, setActivePage] =
 
           {activePage === "Change Password" && <ChangePassword />}
           {activePage === "Payment Details" && <PaymentDetails doctorProfile={user.doctorProfile!}/>}
-          {activePage === "Subscription" && <SubscriptionPlans />}
           {activePage === "Language" && <LanguageSelector />}
           {activePage === "Report a Problem" && <ReportProblem />}
           {activePage === "Terms & Conditions" && <TermsAndConditions />}

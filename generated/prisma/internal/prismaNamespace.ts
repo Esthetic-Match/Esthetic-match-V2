@@ -1603,7 +1603,6 @@ export const DoctorProfileScalarFieldEnum = {
   workLatitude: 'workLatitude',
   workLongitude: 'workLongitude',
   googlePlaceId: 'googlePlaceId',
-  paidPlan: 'paidPlan',
   currency: 'currency',
   RPPS: 'RPPS',
   inClinicPrice: 'inClinicPrice',
