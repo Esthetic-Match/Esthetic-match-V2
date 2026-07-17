@@ -78,11 +78,11 @@ export function PublicExpertiseTabs({
               id={`expertise-tab-${category.categoryId}`}
               onClick={() => setActiveCategoryId(category.categoryId)}
               className={[
-                "relative shrink-0 pb-4 text-sm font-bold uppercase tracking-[0.16em] transition-colors duration-300",
+                "relative shrink-0 cursor-pointer pb-4 text-sm font-bold uppercase tracking-[0.16em] transition-colors duration-300",
                 "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-center after:transition-transform after:duration-300",
                 isActive
-                  ? "text-[#283C5D] after:scale-x-100 after:bg-[#d8bd8d]"
-                  : "text-[#283C5D]/45 after:scale-x-0 after:bg-[#d8bd8d] hover:text-[#283C5D]/75 hover:after:scale-x-100",
+                  ? "text-white after:scale-x-100 after:bg-[#d8bd8d]"
+                  : "text-white after:scale-x-0 after:bg-[#d8bd8d] hover:text-white hover:after:scale-x-100",
               ].join(" ")}
             >
               {category.label}
@@ -95,7 +95,7 @@ export function PublicExpertiseTabs({
         role="tabpanel"
         id={`expertise-panel-${activeCategory.categoryId}`}
         aria-labelledby={`expertise-tab-${activeCategory.categoryId}`}
-        className="rounded-[1.5rem] border border-[#283C5D]/10 bg-[#f9fafb] p-5 md:p-7"
+        className="rounded-[1.5rem] border border-[#283C5D]/10 bg-white p-5 md:p-7"
       >
         <div className="mb-6 flex items-center justify-center gap-3">
           <div className="h-px w-8 bg-[#d8bd8d]" />

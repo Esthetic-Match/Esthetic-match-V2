@@ -103,14 +103,14 @@ export default function ExpertiseSection({
   return (
     <>
       <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
-        <section className="relative mt-6 rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8">
+        <section className="relative mt-6 rounded-3xl border border-gray-100 bg-[#283C5D] p-6 shadow-lg md:p-8">
           {/* Edit button */}
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
             aria-label={t("title")}
             className="absolute right-4 top-4 flex h-8 w-8 cursor-pointer items-center justify-center 
-            rounded-full border border-[#283C5D]/10 bg-[#283C5D] text-white shadow-sm transition 
+            rounded-full cursor-pointer border border-[#283C5D]/10 bg-white text-black shadow-sm transition 
             hover:border-[#D8BD8D] hover:bg-[#D8BD8D] hover:text-[#283C5D] active:scale-[0.97] md:right-5 md:top-5"
           >
             <Pencil size={14} />
@@ -123,7 +123,7 @@ export default function ExpertiseSection({
               className="shrink-0 text-[#d8bd8d]"
             />
 
-            <h2 className="text-sm font-bold uppercase tracking-[0.22em] text-[#283C5D]">
+            <h2 className="text-sm font-bold uppercase tracking-[0.22em] text-white">
               {t("title")}
             </h2>
           </div>
