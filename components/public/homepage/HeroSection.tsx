@@ -8,7 +8,14 @@ export default async function HomeSection() {
   <section className="relative min-h-[720px] overflow-hidden bg-[#07182A] text-white">
     <div className="pointer-events-none absolute inset-0">
       <video
-        className="h-full w-full object-cover object-start"
+        className="
+          pointer-events-none h-full w-full object-cover object-start
+          [&::-webkit-media-controls]:hidden
+          [&::-webkit-media-controls-enclosure]:hidden
+          [&::-webkit-media-controls-panel]:hidden
+          [&::-webkit-media-controls-play-button]:hidden
+          [&::-webkit-media-controls-start-playback-button]:hidden
+        "
         src="/videos/hero-video.mp4"
         poster="/images/hero-bg.png"
         autoPlay
@@ -17,6 +24,7 @@ export default async function HomeSection() {
         playsInline
         preload="metadata"
         controls={false}
+        disablePictureInPicture
         tabIndex={-1}
         aria-hidden="true"
       />

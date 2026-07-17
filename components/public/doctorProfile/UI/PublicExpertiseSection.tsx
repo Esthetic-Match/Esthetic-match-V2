@@ -70,14 +70,14 @@ export default async function PublicExpertiseSection({
     <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
       <section
         aria-labelledby="doctor-expertise-title"
-        className="mt-6 rounded-3xl border border-gray-300/10 bg-white p-6 shadow-lg md:p-8"
+        className="mt-6 rounded-3xl border border-gray-300/10 bg-[#283C5D] p-6 shadow-lg md:p-8"
       >
         <div className="mb-7 flex items-center gap-3">
           <Sparkle size={20} className="text-[#d8bd8d]" />
 
           <h2
             id="doctor-expertise-title"
-            className="text-sm font-bold uppercase tracking-[0.22em] text-[#283C5D]"
+            className="text-sm font-bold uppercase tracking-[0.22em] text-white"
           >
             {t("expertise.title")}
           </h2>
