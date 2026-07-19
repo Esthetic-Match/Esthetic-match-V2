@@ -1,0 +1,53 @@
+{
+  "privateInvitation": "Private review invitation",
+  "eyebrow": "Share your experience",
+  "heroTitle": "Help future patients feel more confident.",
+  "heroDescription": "Your honest feedback helps Esthetic Match patients better understand the quality of care, communication, and experience they can expect.",
+  "reviewing": "You are reviewing",
+  "security": {
+    "private": "This invitation is private and linked to your patient account.",
+    "oneTime": "The link can be used once and cannot be transferred to another account."
+  },
+  "loading": "Verifying your private invitation...",
+  "retry": "Try again",
+  "successTitle": "Thank you for sharing your experience",
+  "successDescription": "Your review has been submitted securely and is now connected to the correct doctor profile.",
+  "formEyebrow": "Esthetic Match review",
+  "formTitle": "Tell us about your experience",
+  "expires": "Link expires {date}",
+  "ratingLabel": "How would you rate your overall experience?",
+  "ratingOption": "Select {rating} out of 5 stars",
+  "chooseRating": "Choose a rating from 1 to 5 stars.",
+  "ratingDescriptions": {
+    "1": "Very disappointing",
+    "2": "Below expectations",
+    "3": "Good overall",
+    "4": "Very good experience",
+    "5": "Exceptional experience"
+  },
+  "titleLabel": "Review title",
+  "titlePlaceholder": "Summarize your experience",
+  "reviewLabel": "Your review",
+  "reviewPlaceholder": "Share clear, respectful details about your consultation, treatment, communication, and overall experience...",
+  "validationError": "Add a title, write at least 10 characters, and choose a rating.",
+  "submissionError": "Your review could not be submitted. Please try again.",
+  "submitting": "Submitting review...",
+  "submit": "Submit private review",
+  "submissionNotice": "By submitting, you confirm that this review reflects your genuine experience with this doctor.",
+  "errors": {
+    "unauthorizedTitle": "Sign in to continue",
+    "unauthorizedDescription": "Sign in to Esthetic Match using the exact email address that received this invitation, then reopen this private link.",
+    "wrongAccountTitle": "This invitation belongs to another account",
+    "wrongAccountDescription": "You are signed in with a different account. Use the patient account connected to the email address that received this invitation.",
+    "expiredTitle": "This invitation has expired",
+    "expiredDescription": "For security, private review links are available for a limited time. Ask the doctor to send you a new invitation.",
+    "revokedTitle": "This invitation is no longer active",
+    "revokedDescription": "The doctor has replaced or cancelled this link. Ask for a new private review invitation.",
+    "usedTitle": "Your review has already been submitted",
+    "usedDescription": "This private link can only be used once and is no longer available.",
+    "notFoundTitle": "Review invitation not found",
+    "notFoundDescription": "The link may be incomplete or invalid. Open the full link from the invitation email.",
+    "genericTitle": "We could not open this invitation",
+    "genericDescription": "A temporary issue prevented us from validating the link. Please try again."
+  }
+}

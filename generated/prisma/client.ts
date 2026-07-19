@@ -116,3 +116,13 @@ export type MessageAttachment = Prisma.MessageAttachmentModel
  * 
  */
 export type InstagramReel = Prisma.InstagramReelModel
+/**
+ * Model Review
+ * 
+ */
+export type Review = Prisma.ReviewModel
+/**
+ * Model ReviewInvitation
+ * 
+ */
+export type ReviewInvitation = Prisma.ReviewInvitationModel

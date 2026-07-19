@@ -17,7 +17,7 @@ export default async function PublicTopThreeProceduresSection({
   );
 
   return (
-    <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
+    <div className="mx-auto mt-4 w-[calc(100%-2rem)] max-w-6xl">
       <section className="relative overflow-hidden rounded-3xl border border-[#CEB591]/20 bg-white px-6 py-8 shadow-[0_18px_55px_rgba(40,60,93,0.08)] md:px-10 md:py-10">
         {/* Decorative glow */}
         <div className="pointer-events-none absolute left-1/2 top-0 h-32 w-72 -translate-x-1/2 rounded-full bg-[#F1E1C6]/35 blur-3xl" />

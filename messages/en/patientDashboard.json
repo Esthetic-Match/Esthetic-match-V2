@@ -1,0 +1,23 @@
+{
+  "eyebrow": "Your aesthetic journey",
+  "title": "Welcome to your patient dashboard",
+  "description": "Discover trusted aesthetic doctors, explore their expertise, and find the right professional for your needs.",
+  "findDoctor": "Find a doctor",
+  "findDoctorHint": "Browse verified doctor profiles and treatments.",
+  "confidence": {
+    "title": "Find care with confidence",
+    "description": "Compare doctors, review their specialties, and choose the professional who best matches your expectations."
+  },
+  "trustedProfiles": {
+    "title": "Trusted profiles",
+    "description": "Explore detailed doctor information."
+  },
+  "easyDiscovery": {
+    "title": "Easy discovery",
+    "description": "Search by location, specialty, or procedure."
+  },
+  "nextStep": {
+    "title": "Your next step",
+    "description": "Start exploring doctors"
+  }
+}

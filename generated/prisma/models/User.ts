@@ -233,6 +233,8 @@ export type UserWhereInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestListRelationFilter
   patientConversations?: Prisma.ConversationListRelationFilter
   sentMessages?: Prisma.MessageListRelationFilter
+  doctorReviews?: Prisma.ReviewListRelationFilter
+  reviewInvitations?: Prisma.ReviewInvitationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -257,6 +259,8 @@ export type UserOrderByWithRelationInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestOrderByRelationAggregateInput
   patientConversations?: Prisma.ConversationOrderByRelationAggregateInput
   sentMessages?: Prisma.MessageOrderByRelationAggregateInput
+  doctorReviews?: Prisma.ReviewOrderByRelationAggregateInput
+  reviewInvitations?: Prisma.ReviewInvitationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +288,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestListRelationFilter
   patientConversations?: Prisma.ConversationListRelationFilter
   sentMessages?: Prisma.MessageListRelationFilter
+  doctorReviews?: Prisma.ReviewListRelationFilter
+  reviewInvitations?: Prisma.ReviewInvitationListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -340,6 +346,8 @@ export type UserCreateInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -364,6 +372,8 @@ export type UserUncheckedCreateInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUpdateInput = {
@@ -388,6 +398,8 @@ export type UserUpdateInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -412,6 +424,8 @@ export type UserUncheckedUpdateInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -495,6 +509,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -671,6 +690,36 @@ export type UserUpdateOneRequiredWithoutMessageAttachmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMessageAttachmentsInput, Prisma.UserUpdateWithoutMessageAttachmentsInput>, Prisma.UserUncheckedUpdateWithoutMessageAttachmentsInput>
 }
 
+export type UserCreateNestedOneWithoutDoctorReviewsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDoctorReviewsInput, Prisma.UserUncheckedCreateWithoutDoctorReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDoctorReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutDoctorReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutDoctorReviewsInput, Prisma.UserUncheckedCreateWithoutDoctorReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutDoctorReviewsInput
+  upsert?: Prisma.UserUpsertWithoutDoctorReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDoctorReviewsInput, Prisma.UserUpdateWithoutDoctorReviewsInput>, Prisma.UserUncheckedUpdateWithoutDoctorReviewsInput>
+}
+
+export type UserCreateNestedOneWithoutReviewInvitationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewInvitationsInput, Prisma.UserUncheckedCreateWithoutReviewInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewInvitationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutReviewInvitationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewInvitationsInput, Prisma.UserUncheckedCreateWithoutReviewInvitationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewInvitationsInput
+  upsert?: Prisma.UserUpsertWithoutReviewInvitationsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewInvitationsInput, Prisma.UserUpdateWithoutReviewInvitationsInput>, Prisma.UserUncheckedUpdateWithoutReviewInvitationsInput>
+}
+
 export type UserCreateWithoutDoctorProfileInput = {
   id?: string
   email: string
@@ -692,6 +741,8 @@ export type UserCreateWithoutDoctorProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutDoctorProfileInput = {
@@ -715,6 +766,8 @@ export type UserUncheckedCreateWithoutDoctorProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutDoctorProfileInput = {
@@ -754,6 +807,8 @@ export type UserUpdateWithoutDoctorProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDoctorProfileInput = {
@@ -777,6 +832,8 @@ export type UserUncheckedUpdateWithoutDoctorProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutPatientProfileInput = {
@@ -800,6 +857,8 @@ export type UserCreateWithoutPatientProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutPatientProfileInput = {
@@ -823,6 +882,8 @@ export type UserUncheckedCreateWithoutPatientProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutPatientProfileInput = {
@@ -862,6 +923,8 @@ export type UserUpdateWithoutPatientProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientProfileInput = {
@@ -885,6 +948,8 @@ export type UserUncheckedUpdateWithoutPatientProfileInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutPatientConsultationBookingsInput = {
@@ -908,6 +973,8 @@ export type UserCreateWithoutPatientConsultationBookingsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutPatientConsultationBookingsInput = {
@@ -931,6 +998,8 @@ export type UserUncheckedCreateWithoutPatientConsultationBookingsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutPatientConsultationBookingsInput = {
@@ -970,6 +1039,8 @@ export type UserUpdateWithoutPatientConsultationBookingsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientConsultationBookingsInput = {
@@ -993,6 +1064,8 @@ export type UserUncheckedUpdateWithoutPatientConsultationBookingsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutPatientConsultationRefundRequestsInput = {
@@ -1016,6 +1089,8 @@ export type UserCreateWithoutPatientConsultationRefundRequestsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutPatientConsultationRefundRequestsInput = {
@@ -1039,6 +1114,8 @@ export type UserUncheckedCreateWithoutPatientConsultationRefundRequestsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutPatientConsultationRefundRequestsInput = {
@@ -1078,6 +1155,8 @@ export type UserUpdateWithoutPatientConsultationRefundRequestsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientConsultationRefundRequestsInput = {
@@ -1101,6 +1180,8 @@ export type UserUncheckedUpdateWithoutPatientConsultationRefundRequestsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutInClinicConsultationAccessesInput = {
@@ -1124,6 +1205,8 @@ export type UserCreateWithoutInClinicConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutInClinicConsultationAccessesInput = {
@@ -1147,6 +1230,8 @@ export type UserUncheckedCreateWithoutInClinicConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutInClinicConsultationAccessesInput = {
@@ -1186,6 +1271,8 @@ export type UserUpdateWithoutInClinicConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInClinicConsultationAccessesInput = {
@@ -1209,6 +1296,8 @@ export type UserUncheckedUpdateWithoutInClinicConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutOnlineConsultationAccessesInput = {
@@ -1232,6 +1321,8 @@ export type UserCreateWithoutOnlineConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutOnlineConsultationAccessesInput = {
@@ -1255,6 +1346,8 @@ export type UserUncheckedCreateWithoutOnlineConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutOnlineConsultationAccessesInput = {
@@ -1294,6 +1387,8 @@ export type UserUpdateWithoutOnlineConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOnlineConsultationAccessesInput = {
@@ -1317,6 +1412,8 @@ export type UserUncheckedUpdateWithoutOnlineConsultationAccessesInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1340,6 +1437,8 @@ export type UserCreateWithoutSessionsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1363,6 +1462,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1402,6 +1503,8 @@ export type UserUpdateWithoutSessionsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1425,6 +1528,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -1448,6 +1553,8 @@ export type UserCreateWithoutAccountsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1471,6 +1578,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1510,6 +1619,8 @@ export type UserUpdateWithoutAccountsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1533,6 +1644,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutPatientConversationsInput = {
@@ -1556,6 +1669,8 @@ export type UserCreateWithoutPatientConversationsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutPatientUserInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutPatientConversationsInput = {
@@ -1579,6 +1694,8 @@ export type UserUncheckedCreateWithoutPatientConversationsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutPatientUserInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutPatientConversationsInput = {
@@ -1618,6 +1735,8 @@ export type UserUpdateWithoutPatientConversationsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutPatientUserNestedInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPatientConversationsInput = {
@@ -1641,6 +1760,8 @@ export type UserUncheckedUpdateWithoutPatientConversationsInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutSentMessagesInput = {
@@ -1664,6 +1785,8 @@ export type UserCreateWithoutSentMessagesInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutPatientUserInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -1687,6 +1810,8 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutPatientUserInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -1726,6 +1851,8 @@ export type UserUpdateWithoutSentMessagesInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutPatientUserNestedInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -1749,6 +1876,8 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserCreateWithoutMessageAttachmentsInput = {
@@ -1772,6 +1901,8 @@ export type UserCreateWithoutMessageAttachmentsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserUncheckedCreateWithoutMessageAttachmentsInput = {
@@ -1795,6 +1926,8 @@ export type UserUncheckedCreateWithoutMessageAttachmentsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
   patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
   sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
 }
 
 export type UserCreateOrConnectWithoutMessageAttachmentsInput = {
@@ -1834,6 +1967,8 @@ export type UserUpdateWithoutMessageAttachmentsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMessageAttachmentsInput = {
@@ -1857,6 +1992,240 @@ export type UserUncheckedUpdateWithoutMessageAttachmentsInput = {
   patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
   patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
   sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
+}
+
+export type UserCreateWithoutDoctorReviewsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  role?: $Enums.UserRole
+  dateOfBirth?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: boolean
+  onboardingCompleted?: boolean
+  image?: string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.MessageAttachmentCreateNestedManyWithoutUploadedByUserInput
+  patientProfile?: Prisma.PatientProfileCreateNestedOneWithoutUserInput
+  doctorProfile?: Prisma.DoctorProfileCreateNestedOneWithoutUserInput
+  patientConsultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutPatientUserInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutPatientUserInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutPatientUserInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
+  patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutPatientUserInput
+}
+
+export type UserUncheckedCreateWithoutDoctorReviewsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  role?: $Enums.UserRole
+  dateOfBirth?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: boolean
+  onboardingCompleted?: boolean
+  image?: string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutUploadedByUserInput
+  patientProfile?: Prisma.PatientProfileUncheckedCreateNestedOneWithoutUserInput
+  doctorProfile?: Prisma.DoctorProfileUncheckedCreateNestedOneWithoutUserInput
+  patientConsultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutPatientUserInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutPatientUserInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutPatientUserInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
+  patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutPatientUserInput
+}
+
+export type UserCreateOrConnectWithoutDoctorReviewsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutDoctorReviewsInput, Prisma.UserUncheckedCreateWithoutDoctorReviewsInput>
+}
+
+export type UserUpsertWithoutDoctorReviewsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutDoctorReviewsInput, Prisma.UserUncheckedUpdateWithoutDoctorReviewsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutDoctorReviewsInput, Prisma.UserUncheckedCreateWithoutDoctorReviewsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutDoctorReviewsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutDoctorReviewsInput, Prisma.UserUncheckedUpdateWithoutDoctorReviewsInput>
+}
+
+export type UserUpdateWithoutDoctorReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  dateOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.MessageAttachmentUpdateManyWithoutUploadedByUserNestedInput
+  patientProfile?: Prisma.PatientProfileUpdateOneWithoutUserNestedInput
+  doctorProfile?: Prisma.DoctorProfileUpdateOneWithoutUserNestedInput
+  patientConsultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutPatientUserNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutPatientUserNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutPatientUserNestedInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
+  patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutPatientUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutDoctorReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  dateOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutUploadedByUserNestedInput
+  patientProfile?: Prisma.PatientProfileUncheckedUpdateOneWithoutUserNestedInput
+  doctorProfile?: Prisma.DoctorProfileUncheckedUpdateOneWithoutUserNestedInput
+  patientConsultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutPatientUserNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutPatientUserNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutPatientUserNestedInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
+  patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutPatientUserNestedInput
+}
+
+export type UserCreateWithoutReviewInvitationsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  role?: $Enums.UserRole
+  dateOfBirth?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: boolean
+  onboardingCompleted?: boolean
+  image?: string | null
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.MessageAttachmentCreateNestedManyWithoutUploadedByUserInput
+  patientProfile?: Prisma.PatientProfileCreateNestedOneWithoutUserInput
+  doctorProfile?: Prisma.DoctorProfileCreateNestedOneWithoutUserInput
+  patientConsultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutPatientUserInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutPatientUserInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutPatientUserInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutPatientUserInput
+  patientConversations?: Prisma.ConversationCreateNestedManyWithoutPatientUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewCreateNestedManyWithoutPatientUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewInvitationsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  role?: $Enums.UserRole
+  dateOfBirth?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  emailVerified?: boolean
+  onboardingCompleted?: boolean
+  image?: string | null
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  messageAttachments?: Prisma.MessageAttachmentUncheckedCreateNestedManyWithoutUploadedByUserInput
+  patientProfile?: Prisma.PatientProfileUncheckedCreateNestedOneWithoutUserInput
+  doctorProfile?: Prisma.DoctorProfileUncheckedCreateNestedOneWithoutUserInput
+  patientConsultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutPatientUserInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutPatientUserInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutPatientUserInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutPatientUserInput
+  patientConversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutPatientUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderUserInput
+  doctorReviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutPatientUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewInvitationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewInvitationsInput, Prisma.UserUncheckedCreateWithoutReviewInvitationsInput>
+}
+
+export type UserUpsertWithoutReviewInvitationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewInvitationsInput, Prisma.UserUncheckedUpdateWithoutReviewInvitationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewInvitationsInput, Prisma.UserUncheckedCreateWithoutReviewInvitationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewInvitationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewInvitationsInput, Prisma.UserUncheckedUpdateWithoutReviewInvitationsInput>
+}
+
+export type UserUpdateWithoutReviewInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  dateOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.MessageAttachmentUpdateManyWithoutUploadedByUserNestedInput
+  patientProfile?: Prisma.PatientProfileUpdateOneWithoutUserNestedInput
+  doctorProfile?: Prisma.DoctorProfileUpdateOneWithoutUserNestedInput
+  patientConsultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutPatientUserNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutPatientUserNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutPatientUserNestedInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutPatientUserNestedInput
+  patientConversations?: Prisma.ConversationUpdateManyWithoutPatientUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUpdateManyWithoutPatientUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewInvitationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  dateOfBirth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  onboardingCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  messageAttachments?: Prisma.MessageAttachmentUncheckedUpdateManyWithoutUploadedByUserNestedInput
+  patientProfile?: Prisma.PatientProfileUncheckedUpdateOneWithoutUserNestedInput
+  doctorProfile?: Prisma.DoctorProfileUncheckedUpdateOneWithoutUserNestedInput
+  patientConsultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutPatientUserNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutPatientUserNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutPatientUserNestedInput
+  patientConsultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutPatientUserNestedInput
+  patientConversations?: Prisma.ConversationUncheckedUpdateManyWithoutPatientUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderUserNestedInput
+  doctorReviews?: Prisma.ReviewUncheckedUpdateManyWithoutPatientUserNestedInput
 }
 
 
@@ -1874,6 +2243,8 @@ export type UserCountOutputType = {
   patientConsultationRefundRequests: number
   patientConversations: number
   sentMessages: number
+  doctorReviews: number
+  reviewInvitations: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1886,6 +2257,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   patientConsultationRefundRequests?: boolean | UserCountOutputTypeCountPatientConsultationRefundRequestsArgs
   patientConversations?: boolean | UserCountOutputTypeCountPatientConversationsArgs
   sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
+  doctorReviews?: boolean | UserCountOutputTypeCountDoctorReviewsArgs
+  reviewInvitations?: boolean | UserCountOutputTypeCountReviewInvitationsArgs
 }
 
 /**
@@ -1961,6 +2334,20 @@ export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.MessageWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountDoctorReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReviewInvitationWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1984,6 +2371,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   patientConsultationRefundRequests?: boolean | Prisma.User$patientConsultationRefundRequestsArgs<ExtArgs>
   patientConversations?: boolean | Prisma.User$patientConversationsArgs<ExtArgs>
   sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  doctorReviews?: boolean | Prisma.User$doctorReviewsArgs<ExtArgs>
+  reviewInvitations?: boolean | Prisma.User$reviewInvitationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2039,6 +2428,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   patientConsultationRefundRequests?: boolean | Prisma.User$patientConsultationRefundRequestsArgs<ExtArgs>
   patientConversations?: boolean | Prisma.User$patientConversationsArgs<ExtArgs>
   sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  doctorReviews?: boolean | Prisma.User$doctorReviewsArgs<ExtArgs>
+  reviewInvitations?: boolean | Prisma.User$reviewInvitationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2058,6 +2449,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     patientConsultationRefundRequests: Prisma.$ConsultationRefundRequestPayload<ExtArgs>[]
     patientConversations: Prisma.$ConversationPayload<ExtArgs>[]
     sentMessages: Prisma.$MessagePayload<ExtArgs>[]
+    doctorReviews: Prisma.$ReviewPayload<ExtArgs>[]
+    reviewInvitations: Prisma.$ReviewInvitationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2475,6 +2868,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   patientConsultationRefundRequests<T extends Prisma.User$patientConsultationRefundRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$patientConsultationRefundRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConsultationRefundRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   patientConversations<T extends Prisma.User$patientConversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$patientConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  doctorReviews<T extends Prisma.User$doctorReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$doctorReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reviewInvitations<T extends Prisma.User$reviewInvitationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewInvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3158,6 +3553,54 @@ export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
+}
+
+/**
+ * User.doctorReviews
+ */
+export type User$doctorReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
+  orderBy?: Prisma.ReviewOrderByWithRelationInput | Prisma.ReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewScalarFieldEnum | Prisma.ReviewScalarFieldEnum[]
+}
+
+/**
+ * User.reviewInvitations
+ */
+export type User$reviewInvitationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ReviewInvitation
+   */
+  select?: Prisma.ReviewInvitationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ReviewInvitation
+   */
+  omit?: Prisma.ReviewInvitationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInvitationInclude<ExtArgs> | null
+  where?: Prisma.ReviewInvitationWhereInput
+  orderBy?: Prisma.ReviewInvitationOrderByWithRelationInput | Prisma.ReviewInvitationOrderByWithRelationInput[]
+  cursor?: Prisma.ReviewInvitationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReviewInvitationScalarFieldEnum | Prisma.ReviewInvitationScalarFieldEnum[]
 }
 
 /**
