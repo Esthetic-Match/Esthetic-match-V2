@@ -65,7 +65,9 @@ export const ModelName = {
   Conversation: 'Conversation',
   Message: 'Message',
   MessageAttachment: 'MessageAttachment',
-  InstagramReel: 'InstagramReel'
+  InstagramReel: 'InstagramReel',
+  Review: 'Review',
+  ReviewInvitation: 'ReviewInvitation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -368,6 +370,38 @@ export const InstagramReelScalarFieldEnum = {
 } as const
 
 export type InstagramReelScalarFieldEnum = (typeof InstagramReelScalarFieldEnum)[keyof typeof InstagramReelScalarFieldEnum]
+
+
+export const ReviewScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  review: 'review',
+  rating: 'rating',
+  patientUserId: 'patientUserId',
+  doctorProfileId: 'doctorProfileId',
+  invitationId: 'invitationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewScalarFieldEnum = (typeof ReviewScalarFieldEnum)[keyof typeof ReviewScalarFieldEnum]
+
+
+export const ReviewInvitationScalarFieldEnum = {
+  id: 'id',
+  doctorProfileId: 'doctorProfileId',
+  patientUserId: 'patientUserId',
+  recipientEmail: 'recipientEmail',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  sentAt: 'sentAt',
+  usedAt: 'usedAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReviewInvitationScalarFieldEnum = (typeof ReviewInvitationScalarFieldEnum)[keyof typeof ReviewInvitationScalarFieldEnum]
 
 
 export const SortOrder = {

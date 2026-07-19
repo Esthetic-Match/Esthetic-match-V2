@@ -61,6 +61,9 @@ model User {
   patientConversations Conversation[] @relation("PatientConversations")
   sentMessages          Message[]      @relation("MessageSender")
 
+  doctorReviews    Review[]           @relation("PatientDoctorReviews")
+  reviewInvitations ReviewInvitation[] @relation("PatientReviewInvitations")
+
   @@index([role])
   @@map("user")
 }
@@ -121,6 +124,9 @@ model DoctorProfile {
   conversations Conversation[] @relation("DoctorConversations")
 
   instagramReels InstagramReel[]
+
+  reviews           Review[]
+  reviewInvitations ReviewInvitation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -464,3 +470,63 @@ model InstagramReel {
 
   @@map("instagram_reel")
 }
+
+model Review {
+  id String @id @default(cuid())
+
+  title  String
+  review String
+  rating Int
+
+  patientUserId String
+  patientUser   User @relation("PatientDoctorReviews", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  invitationId String?           @unique
+  invitation   ReviewInvitation? @relation(fields: [invitationId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([doctorProfileId, createdAt])
+  @@index([rating])
+  @@map("review")
+}
+
+model ReviewInvitation {
+  id String @id @default(cuid())
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  // Nullable for a generic link generated without selecting a patient.
+  // The first authenticated PATIENT who submits through the link claims it.
+  patientUserId String?
+  patientUser   User? @relation("PatientReviewInvitations", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  // Nullable for the same generic-link flow.
+  recipientEmail String?
+  tokenHash      String @unique
+
+  expiresAt DateTime
+  sentAt    DateTime?
+  usedAt    DateTime?
+  revokedAt DateTime?
+
+  review Review?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([doctorProfileId])
+  @@index([patientUserId])
+  @@index([recipientEmail])
+  @@index([expiresAt])
+  @@index([doctorProfileId, patientUserId])
+  @@map("review_invitation")
+}
+

@@ -1127,7 +1127,7 @@ export default function InstagramReelsAdmin() {
 
   return (
     <>
-      <section className="rounded-[2rem] border border-[#E7DDD0] bg-white p-5 shadow-[0_24px_70px_rgba(40,60,93,0.10)] md:p-8">
+      <section className="rounded-[2rem] mt-4 border border-[#E7DDD0] bg-white p-5 shadow-[0_24px_70px_rgba(40,60,93,0.10)] md:p-8">
         <div className="flex flex-col gap-6 border-b border-[#E7DDD0] pb-6 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-4">
             <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#283C5D] text-[#D8BD8D] shadow-[0_12px_30px_rgba(40,60,93,0.20)]">

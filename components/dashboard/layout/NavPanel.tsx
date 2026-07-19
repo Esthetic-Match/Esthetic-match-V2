@@ -6,9 +6,10 @@ import { Sidebar, SidebarBody, SidebarLink } from "@/components/UI/sidebar";
 import {
   IconArrowLeft,
   IconBrandTabler,
+  IconLayoutDashboard,
   IconSettings,
-  IconUserBolt,
   IconShieldLock,
+  IconUserBolt,
 } from "@tabler/icons-react";
 import { History } from "lucide-react";
 import { motion } from "motion/react";
@@ -55,11 +56,23 @@ export function NavPanel({ children }: NavPanelProps) {
   }
 
   const links: SidebarItem[] = [
+    ...(userId
+      ? [
+          {
+            label: "Dashboard",
+            href: "/dashboard",
+            icon: (
+              <IconLayoutDashboard className="h-5 w-5 shrink-0 text-white" />
+            ),
+          },
+        ]
+      : []),
+
     ...(showUserDashboardLinks
       ? [
           {
             label: t("sidebar.messages"),
-            href: "/dashboard/messages",
+            href: "/dashboard/messenger",
             icon: <IconBrandTabler className="h-5 w-5 shrink-0 text-white" />,
           },
           {
@@ -80,16 +93,15 @@ export function NavPanel({ children }: NavPanelProps) {
         ]
       : []),
 
-
-        ...(isAdmin
-    ? [
-        {
-          label: t("sidebar.adminPanel"),
-          href: "/dashboard/adminPanel",
-          icon: <IconShieldLock className="h-5 w-5 shrink-0 text-white" />,
-        },
-      ]
-    : []),
+    ...(isAdmin
+      ? [
+          {
+            label: t("sidebar.adminPanel"),
+            href: "/dashboard/adminPanel",
+            icon: <IconShieldLock className="h-5 w-5 shrink-0 text-white" />,
+          },
+        ]
+      : []),
 
     {
       label: t("sidebar.settings"),
@@ -130,7 +142,7 @@ export function NavPanel({ children }: NavPanelProps) {
         </Sidebar>
       </aside>
 
-      <main className="min-h-screen flex-1 overflow-x-hidden md:rounded-tl-2xl bg-white">
+      <main className="min-h-screen flex-1 overflow-x-hidden bg-white md:rounded-tl-2xl">
         {children}
       </main>
     </div>

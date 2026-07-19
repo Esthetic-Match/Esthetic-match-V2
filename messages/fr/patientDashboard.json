@@ -1,0 +1,23 @@
+{
+  "eyebrow": "Votre parcours esthétique",
+  "title": "Bienvenue sur votre espace patient",
+  "description": "Découvrez des médecins esthétiques de confiance, explorez leur expertise et trouvez le professionnel adapté à vos besoins.",
+  "findDoctor": "Trouver un médecin",
+  "findDoctorHint": "Consultez les profils vérifiés des médecins et leurs traitements.",
+  "confidence": {
+    "title": "Choisissez vos soins en toute confiance",
+    "description": "Comparez les médecins, consultez leurs spécialités et choisissez le professionnel qui correspond le mieux à vos attentes."
+  },
+  "trustedProfiles": {
+    "title": "Profils de confiance",
+    "description": "Découvrez des informations détaillées sur chaque médecin."
+  },
+  "easyDiscovery": {
+    "title": "Recherche simplifiée",
+    "description": "Recherchez par localisation, spécialité ou intervention."
+  },
+  "nextStep": {
+    "title": "Votre prochaine étape",
+    "description": "Commencez à découvrir les médecins"
+  }
+}

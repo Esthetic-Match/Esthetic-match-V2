@@ -1,0 +1,53 @@
+{
+  "privateInvitation": "Invitation privée à laisser un avis",
+  "eyebrow": "Partagez votre expérience",
+  "heroTitle": "Aidez les futurs patients à choisir avec confiance.",
+  "heroDescription": "Votre avis sincère aide les patients Esthetic Match à mieux comprendre la qualité des soins, de la communication et de l’expérience proposée.",
+  "reviewing": "Vous évaluez",
+  "security": {
+    "private": "Cette invitation est privée et associée à votre compte patient.",
+    "oneTime": "Le lien ne peut être utilisé qu’une seule fois et ne peut pas être transféré à un autre compte."
+  },
+  "loading": "Vérification de votre invitation privée...",
+  "retry": "Réessayer",
+  "successTitle": "Merci d’avoir partagé votre expérience",
+  "successDescription": "Votre avis a été envoyé de manière sécurisée et associé au bon profil médecin.",
+  "formEyebrow": "Avis Esthetic Match",
+  "formTitle": "Parlez-nous de votre expérience",
+  "expires": "Le lien expire le {date}",
+  "ratingLabel": "Comment évaluez-vous votre expérience globale ?",
+  "ratingOption": "Sélectionner {rating} étoile(s) sur 5",
+  "chooseRating": "Choisissez une note de 1 à 5 étoiles.",
+  "ratingDescriptions": {
+    "1": "Très décevante",
+    "2": "En dessous des attentes",
+    "3": "Bonne dans l’ensemble",
+    "4": "Très bonne expérience",
+    "5": "Expérience exceptionnelle"
+  },
+  "titleLabel": "Titre de l’avis",
+  "titlePlaceholder": "Résumez votre expérience",
+  "reviewLabel": "Votre avis",
+  "reviewPlaceholder": "Partagez des détails clairs et respectueux sur votre consultation, votre traitement, la communication et votre expérience globale...",
+  "validationError": "Ajoutez un titre, rédigez au moins 10 caractères et choisissez une note.",
+  "submissionError": "Votre avis n’a pas pu être envoyé. Veuillez réessayer.",
+  "submitting": "Envoi de l’avis...",
+  "submit": "Envoyer l’avis privé",
+  "submissionNotice": "En envoyant cet avis, vous confirmez qu’il reflète votre expérience réelle avec ce médecin.",
+  "errors": {
+    "unauthorizedTitle": "Connectez-vous pour continuer",
+    "unauthorizedDescription": "Connectez-vous à Esthetic Match avec l’adresse e-mail exacte qui a reçu cette invitation, puis ouvrez à nouveau ce lien privé.",
+    "wrongAccountTitle": "Cette invitation appartient à un autre compte",
+    "wrongAccountDescription": "Vous êtes connecté avec un autre compte. Utilisez le compte patient associé à l’adresse e-mail qui a reçu cette invitation.",
+    "expiredTitle": "Cette invitation a expiré",
+    "expiredDescription": "Pour des raisons de sécurité, les liens privés sont disponibles pendant une durée limitée. Demandez au médecin de vous envoyer une nouvelle invitation.",
+    "revokedTitle": "Cette invitation n’est plus active",
+    "revokedDescription": "Le médecin a remplacé ou annulé ce lien. Demandez une nouvelle invitation privée.",
+    "usedTitle": "Votre avis a déjà été envoyé",
+    "usedDescription": "Ce lien privé ne peut être utilisé qu’une seule fois et n’est plus disponible.",
+    "notFoundTitle": "Invitation introuvable",
+    "notFoundDescription": "Le lien est peut-être incomplet ou invalide. Ouvrez le lien complet depuis l’e-mail d’invitation.",
+    "genericTitle": "Impossible d’ouvrir cette invitation",
+    "genericDescription": "Un problème temporaire a empêché la validation du lien. Veuillez réessayer."
+  }
+}

@@ -1,7 +1,8 @@
+import DoctorDashboard from "@/components/dashboard/DoctorDashboard";
+import PatientDashboard from "@/components/dashboard/PatientDashboard";
 import { auth } from "@/lib/auth/auth";
-import { headers } from "next/headers";
 import { redirect } from "@/i18n/navigation";
-import Messenger from "@/components/dashboard/messenger/Messenger";
+import { headers } from "next/headers";
 
 export default async function DashboardPage({
   params,
@@ -9,6 +10,7 @@ export default async function DashboardPage({
   params: Promise<{ locale: "en" | "fr" }>;
 }) {
   const { locale } = await params;
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -30,8 +32,16 @@ export default async function DashboardPage({
     });
   }
 
-  return (
-  <main>
-    <Messenger/>
-  </main>)
+  if (session?.user.role === "DOCTOR") {
+    return <DoctorDashboard />;
+  }
+
+  if (session?.user.role === "PATIENT") {
+    return <PatientDashboard />;
+  }
+
+  redirect({
+    href: "/dashboard/adminPanel",
+    locale,
+  });
 }

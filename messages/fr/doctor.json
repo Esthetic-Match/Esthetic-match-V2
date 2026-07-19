@@ -238,5 +238,14 @@
       "backToDoctor": "Retour au profil du médecin",
       "bookingIssue": "Problème de réservation"
     }
+  },
+    "publicDoctorReviews": {
+    "eyebrow": "Expériences de patients vérifiées",
+    "title": "Ce que disent les patients",
+    "description": "Avis partagés directement sur Esthetic Match par des patients invités à témoigner de leur expérience.",
+    "averageRating": "Note Esthetic Match",
+    "ratingLabel": "Note : {rating} sur 5",
+    "reviewCount": "{count, plural, one {Basé sur # avis} other {Basé sur # avis}}",
+    "anonymousPatient": "Patient Esthetic Match"
   }
 }
