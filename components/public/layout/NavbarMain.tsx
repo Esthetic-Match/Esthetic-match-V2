@@ -82,7 +82,7 @@ const navItems = [
                       type="button"
                       onClick={() => {
                         setIsUserMenuOpen(false);
-                        router.push(`/${locale}/dashboard`);
+                        router.push(`/${locale}/dashboard/messenger`);
                       }}
                       className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-[#283C5D] transition hover:bg-[#283C5D] cursor-pointer hover:text-white"
                     >

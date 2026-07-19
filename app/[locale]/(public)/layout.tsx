@@ -1,6 +1,5 @@
 import FooterVisibility from "@/components/public/layout/FooterVisibility";
 import Script from "next/script";
-import PageLoadGate from "@/components/UI/loaders/PageLoadGate";
 import PublicNavbarVisibility from "@/components/public/layout/NavBarVisibility";
 
 export default async function LocaleLayout({
