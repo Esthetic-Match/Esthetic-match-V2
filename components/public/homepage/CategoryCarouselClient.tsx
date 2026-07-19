@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
 export type HomeCategoryCarouselItem = {
@@ -23,93 +23,159 @@ export default function CategoryCarouselClient({
 }: CategoryCarouselProps) {
   const t = useTranslations("categoriesName");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [visibleCards, setVisibleCards] = useState<Set<string>>(new Set());
+  const cardRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+
+const hasInitialized = useRef(false);
+
+useEffect(() => {
+  const observers: IntersectionObserver[] = [];
+
+  cardRefs.current.forEach((el, id) => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Ignore any intersections that fire after the user has started scrolling
+        if (hasInitialized.current && !entry.isIntersecting) return;
+
+        if (entry.isIntersecting) {
+          setVisibleCards((prev) => new Set(prev).add(id));
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    observer.observe(el);
+    observers.push(observer);
+  });
+
+  // After ~600ms (longest stagger + animation duration), stop all remaining observers
+  // so cards scrolled in via the button appear instantly
+  const timer = setTimeout(() => {
+    hasInitialized.current = true;
+    observers.forEach((o) => o.disconnect());
+
+    // Mark all remaining cards as visible so they never animate in
+    setVisibleCards(new Set(categories.map((c) => c.id)));
+  }, 600 + categories.length * 60);
+
+  return () => {
+    clearTimeout(timer);
+    observers.forEach((o) => o.disconnect());
+  };
+}, [categories]);
 
   function scrollCarousel(direction: "left" | "right") {
     if (!scrollRef.current) return;
-
-    const scrollAmount = 360;
-
     scrollRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
+      left: direction === "left" ? -440 : 440,
       behavior: "smooth",
     });
   }
 
   return (
     <div className="relative">
-      <div className="pointer-events-none absolute -left-1 top-0 z-10 h-full w-10 bg-gradient-to-r from-[#FAF9F7] via-[#FAF9F7]/80 to-transparent backdrop-blur-[1px]" />
+      {/* Edge fade overlays */}
+      <div className="pointer-events-none absolute -left-1 top-0 z-10 h-full w-12 bg-gradient-to-r from-[#FAF9F7] via-[#FAF9F7]/70 to-transparent" />
+      <div className="pointer-events-none absolute -right-1 top-0 z-10 h-full w-12 bg-gradient-to-l from-[#FAF9F7] via-[#FAF9F7]/70 to-transparent" />
 
-      <div className="pointer-events-none absolute -right-1 top-0 z-10 h-full w-10 bg-gradient-to-l from-[#FAF9F7] via-[#FAF9F7]/80 to-transparent backdrop-blur-[1px]" />
-
+      {/* Nav buttons */}
       <button
         type="button"
         onClick={() => scrollCarousel("left")}
         aria-label="Scroll categories left"
-        className="absolute left-0 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#283C5D] shadow-md transition hover:bg-[#283C5D] hover:text-white active:scale-[0.95]"
+        className="absolute left-0 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#e8e2d9] bg-white text-[#283C5D] shadow-md transition-all duration-200 hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white active:scale-95"
       >
-        <ChevronLeft size={20} />
+        <ChevronLeft size={18} strokeWidth={2.5} />
       </button>
 
       <button
         type="button"
         onClick={() => scrollCarousel("right")}
         aria-label="Scroll categories right"
-        className="absolute right-0 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-white/90 text-[#283C5D] shadow-md transition hover:bg-[#283C5D] hover:text-white active:scale-[0.95]"
+        className="absolute right-0 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#e8e2d9] bg-white text-[#283C5D] shadow-md transition-all duration-200 hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white active:scale-95"
       >
-        <ChevronRight size={20} />
+        <ChevronRight size={18} strokeWidth={2.5} />
       </button>
 
+      {/* Scroll track */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth px-10 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-5 overflow-x-auto scroll-smooth px-10 pb-6 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {categories.map((category) => (
-          <Link
-            key={category.id}
-            href={category.href}
-            className="group relative h-[210px] min-w-[145px] overflow-hidden rounded-xl bg-[#283C5D] shadow-md sm:h-[290px] sm:min-w-[200px]"
-          >
-            <Image
-              src={category.homeImage}
-              alt={category.key}
-              fill
-              sizes="(max-width: 640px) 145px, 200px"
-              className="object-cover transition duration-500 group-hover:scale-105"
-            />
+        {categories.map((category, index) => {
+          const isVisible = visibleCards.has(category.id);
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/5" />
+          return (
+            <Link
+              key={category.id}
+              href={category.href}
+              ref={(el) => {
+                if (el) cardRefs.current.set(category.id, el);
+                else cardRefs.current.delete(category.id);
+              }}
+              style={{
+                transitionDelay: `${index * 60}ms`,
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible
+                  ? "translateY(0px) scale(1)"
+                  : "translateY(28px) scale(0.96)",
+              }}
+              className="group relative h-[300px] min-w-[160px] overflow-hidden rounded-2xl bg-[#283C5D] shadow-lg transition-all duration-700 ease-out sm:h-[420px] sm:min-w-[220px] hover:-translate-y-1.5 hover:shadow-[0_20px_48px_-8px_rgba(40,60,93,0.35)]"
+            >
+              {/* Background image */}
+              <Image
+                src={category.homeImage}
+                alt={category.key}
+                fill
+                sizes="(max-width: 640px) 160px, 220px"
+                className="object-cover transition duration-700 group-hover:scale-[1.07]"
+              />
 
-            <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/85 via-black/45 to-transparent backdrop-blur-[1.5px]" />
+              {/* Base darkening gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/10 transition duration-500 group-hover:from-black/85 group-hover:via-black/30" />
 
-            <div className="absolute bottom-4 right-4 z-10">
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-full">
-                <Image
-                  src={category.icon}
-                  alt={`${category.key} icon`}
-                  fill
-                  sizes="40px"
-                  className="scale-[2.2] object-contain transition duration-200 group-hover:scale-[2.6]"
-                />
+              {/* Strong bottom gradient for text legibility */}
+              <div className="absolute inset-x-0 bottom-0 h-[55%] bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+
+              {/* Subtle gloss sheen on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/0 opacity-0 transition duration-500 group-hover:via-white/[0.04] group-hover:opacity-100" />
+
+              {/* Top-right icon — restored original scaled SVG style */}
+              <div className="absolute bottom-4 right-4 z-10">
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-full">
+                  <Image
+                    src={category.icon}
+                    alt={`${category.key} icon`}
+                    fill
+                    sizes="40px"
+                    className="scale-[2.2] object-contain transition duration-300 group-hover:scale-[2.6]"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h3 className="max-w-[120px] text-md font-bold leading-tight text-white">
-                {t(category.id)}
-              </h3>
+              {/* Bottom-left: gold line + title + arrow */}
+              <div className="absolute bottom-4 left-4 right-4 z-10">
+                {/* Gold accent line */}
+                <div className="mb-2.5 h-px w-6 bg-[#d8bd8d] transition-all duration-300 group-hover:w-10" />
 
-              <span className="relative mt-3 flex h-8 w-8 items-center justify-center overflow-hidden">
-                <Image
-                  src="/icons/arrow.svg"
-                  alt=""
-                  fill
-                  sizes="32px"
-                  className="scale-[2.8] object-contain transition duration-200 group-hover:translate-x-1"
-                />
-              </span>
-            </div>
-          </Link>
-        ))}
+                <h3 className="max-w-[120px] text-sm font-bold leading-snug tracking-wide text-white sm:text-base">
+                  {t(category.id)}
+                </h3>
+
+                {/* Restored original arrow SVG */}
+                <span className="relative mt-3 flex h-8 w-8 items-center justify-center overflow-hidden">
+                  <Image
+                    src="/icons/arrow.svg"
+                    alt=""
+                    fill
+                    sizes="32px"
+                    className="scale-[2.8] object-contain transition duration-200 group-hover:translate-x-1"
+                  />
+                </span>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
