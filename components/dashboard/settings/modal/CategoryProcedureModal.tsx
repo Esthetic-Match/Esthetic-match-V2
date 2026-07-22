@@ -15,10 +15,12 @@ type CategoryProcedureModalProps = {
   selectedCategoryIds: string[];
   selectedProcedureIds: string[];
   onClose: () => void;
-  onSaved?: (data: {
+  onSaved?: (payload: {
     subcategoryIds: string[];
     procedureIds: string[];
   }) => void;
+
+  saveEndpoint?: string;
 };
 
 type CategoryItem = {
@@ -31,6 +33,8 @@ type CategoryItem = {
     }[];
   }[];
 };
+
+
 
 type SubcategoryItem = CategoryItem["subcategories"][number];
 
@@ -61,6 +65,7 @@ export default function CategoryProcedureModal({
   selectedProcedureIds,
   onClose,
   onSaved,
+  saveEndpoint = "/api/doctor-profile",
 }: CategoryProcedureModalProps) {
   const t = useTranslations("settings");
   const procedureT = useTranslations("proceduresName");
@@ -246,11 +251,13 @@ export default function CategoryProcedureModal({
         procedureIds: localProcedureIds,
       };
 
-      const res = await fetch("/api/doctor-profile", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+const res = await fetch(saveEndpoint, {
+  method: "PATCH",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(payload),
+});
 
       if (!res.ok) {
         throw new Error("Could not update doctor profile.");

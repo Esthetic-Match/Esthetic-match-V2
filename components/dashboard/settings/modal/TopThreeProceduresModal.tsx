@@ -12,6 +12,7 @@ type TopThreeProceduresModalProps = {
   selectedTopThree: string[];
   onClose: () => void;
   onSaved?: (updatedTopThree: string[]) => void;
+  saveEndpoint?: string;
 };
 
 export default function TopThreeProceduresModal({
@@ -20,6 +21,7 @@ export default function TopThreeProceduresModal({
   selectedTopThree,
   onClose,
   onSaved,
+  saveEndpoint = "/api/doctor-profile",
 }: TopThreeProceduresModalProps) {
   const t = useTranslations("settings");
   const procedureT = useTranslations("proceduresName");
@@ -59,7 +61,7 @@ export default function TopThreeProceduresModal({
     setIsSaving(true);
 
     try {
-      const res = await fetch("/api/doctor-profile", {
+      const res = await fetch(saveEndpoint, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
