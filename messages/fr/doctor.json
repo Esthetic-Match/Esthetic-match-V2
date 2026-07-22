@@ -247,5 +247,73 @@
     "ratingLabel": "Note : {rating} sur 5",
     "reviewCount": "{count, plural, one {Basé sur # avis} other {Basé sur # avis}}",
     "anonymousPatient": "Patient Esthetic Match"
-  }
+  },
+  "socialMedia": {
+    "eyebrow": "Profil public",
+    "title": "Réseaux sociaux",
+    "description": "Ajoutez les comptes que vous souhaitez montrer aux patients. Les liens masqués restent enregistrés, mais n’apparaissent pas sur votre profil public.",
+    "confirmDelete": "Supprimer {platform} de votre profil ?",
+    "loading": "Chargement des liens vers les réseaux sociaux…",
+    "actions": {
+      "add": "Ajouter un lien social",
+      "closeNewLink": "Fermer le formulaire d’ajout d’un lien social",
+      "saveLink": "Enregistrer le lien",
+      "retry": "Réessayer",
+      "preview": "Aperçu",
+      "delete": "Supprimer",
+      "saveChanges": "Enregistrer les modifications"
+    },
+    "newLink": {
+      "title": "Nouveau lien social",
+      "description": "Ajoutez un compte à la fois."
+    },
+    "empty": {
+      "title": "Aucun lien social pour le moment",
+      "description": "Ajoutez Instagram, TikTok, YouTube, LinkedIn ou un autre compte pour permettre aux patients de vous retrouver."
+    },
+    "visibility": {
+      "visible": "Visible sur votre profil public",
+      "hidden": "Masqué sur votre profil public"
+    },
+    "fields": {
+      "platform": "Plateforme",
+      "profileUrl": "URL du profil",
+      "username": "Nom d’utilisateur",
+      "displayLabel": "Libellé d’affichage",
+      "showOnProfile": "Afficher sur le profil public",
+      "visibilityHelp": "Vous pouvez masquer un lien sans le supprimer."
+    },
+    "placeholders": {
+      "username": "nomdudocteur",
+      "otherLabel": "Podcast, blog, clinique…",
+      "optional": "Facultatif"
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "linkedin": "LinkedIn",
+      "x": "X",
+      "snapchat": "Snapchat",
+      "website": "Site web",
+      "other": "Autre"
+    },
+    "errors": {
+      "load": "Impossible de charger vos liens vers les réseaux sociaux.",
+      "add": "Impossible d’ajouter ce lien social.",
+      "update": "Impossible de mettre à jour ce lien social.",
+      "delete": "Impossible de supprimer ce lien social."
+    },
+    "notices": {
+      "added": "Le lien social a été ajouté.",
+      "updated": "Le lien social a été mis à jour.",
+      "removed": "Le lien social a été supprimé."
+    }
+  },
+  "socialMediaDisplay": {
+      "eyebrow": "Suivre",
+      "title": "Réseaux sociaux",
+      "openPlatform": "Ouvrir le profil {platform}"
+    }
 }

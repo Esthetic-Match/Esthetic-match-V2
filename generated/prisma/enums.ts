@@ -49,3 +49,18 @@ export const MessageType = {
 } as const
 
 export type MessageType = (typeof MessageType)[keyof typeof MessageType]
+
+
+export const SocialMediaPlatform = {
+  INSTAGRAM: 'INSTAGRAM',
+  FACEBOOK: 'FACEBOOK',
+  TIKTOK: 'TIKTOK',
+  YOUTUBE: 'YOUTUBE',
+  LINKEDIN: 'LINKEDIN',
+  X: 'X',
+  SNAPCHAT: 'SNAPCHAT',
+  WEBSITE: 'WEBSITE',
+  OTHER: 'OTHER'
+} as const
+
+export type SocialMediaPlatform = (typeof SocialMediaPlatform)[keyof typeof SocialMediaPlatform]

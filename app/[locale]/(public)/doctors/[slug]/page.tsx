@@ -12,6 +12,7 @@ import GoogleReviewsList from "@/components/UI/GoogleReviewsList";
 import DoctorInstagramReels from "@/components/public/doctorProfile/DoctorInstagramReels";
 import PublicTopThreeProceduresSection from "@/components/public/doctorProfile/UI/PublicTopThreeProceduresSection";
 import EstheticMatchReviews from "@/components/public/doctorProfile/UI/EstheticMatchReviews";
+import DoctorSocialMediaLinks from "@/components/public/doctorProfile/DoctorSocialMediaLinks";
 
 type ProfilePageProps = {
   params: Promise<{
@@ -223,6 +224,8 @@ export default async function Profilepage({
       <Gallery
         doctorId={doctorProfile.userId}
       />
+
+      <DoctorSocialMediaLinks doctorId={doctorProfile.id} />
 
       <DoctorQuestionStickyBanner
         doctorProfileId={doctorProfile.id}

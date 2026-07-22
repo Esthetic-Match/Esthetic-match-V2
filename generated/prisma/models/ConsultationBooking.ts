@@ -841,14 +841,6 @@ export type EnumConsultationTypeFieldUpdateOperationsInput = {
   set?: $Enums.ConsultationType
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ConsultationBookingCreateNestedOneWithoutRefundRequestsInput = {
   create?: Prisma.XOR<Prisma.ConsultationBookingCreateWithoutRefundRequestsInput, Prisma.ConsultationBookingUncheckedCreateWithoutRefundRequestsInput>
   connectOrCreate?: Prisma.ConsultationBookingCreateOrConnectWithoutRefundRequestsInput

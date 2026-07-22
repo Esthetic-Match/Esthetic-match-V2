@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   DoctorProfile: 'DoctorProfile',
+  DoctorSocialMedia: 'DoctorSocialMedia',
   PatientProfile: 'PatientProfile',
   ConsultationBooking: 'ConsultationBooking',
   ConsultationRefundRequest: 'ConsultationRefundRequest',
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "doctorProfile" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation"
+    modelProps: "user" | "doctorProfile" | "doctorSocialMedia" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -565,6 +566,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.DoctorProfileCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.DoctorProfileCountAggregateOutputType> | number
+        }
+      }
+    }
+    DoctorSocialMedia: {
+      payload: Prisma.$DoctorSocialMediaPayload<ExtArgs>
+      fields: Prisma.DoctorSocialMediaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DoctorSocialMediaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DoctorSocialMediaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>
+        }
+        findFirst: {
+          args: Prisma.DoctorSocialMediaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DoctorSocialMediaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>
+        }
+        findMany: {
+          args: Prisma.DoctorSocialMediaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>[]
+        }
+        create: {
+          args: Prisma.DoctorSocialMediaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>
+        }
+        createMany: {
+          args: Prisma.DoctorSocialMediaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DoctorSocialMediaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>[]
+        }
+        delete: {
+          args: Prisma.DoctorSocialMediaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>
+        }
+        update: {
+          args: Prisma.DoctorSocialMediaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>
+        }
+        deleteMany: {
+          args: Prisma.DoctorSocialMediaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DoctorSocialMediaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DoctorSocialMediaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>[]
+        }
+        upsert: {
+          args: Prisma.DoctorSocialMediaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSocialMediaPayload>
+        }
+        aggregate: {
+          args: Prisma.DoctorSocialMediaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDoctorSocialMedia>
+        }
+        groupBy: {
+          args: Prisma.DoctorSocialMediaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DoctorSocialMediaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DoctorSocialMediaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DoctorSocialMediaCountAggregateOutputType> | number
         }
       }
     }
@@ -1768,7 +1843,6 @@ export const DoctorProfileScalarFieldEnum = {
   stripeConnectOnboardingComplete: 'stripeConnectOnboardingComplete',
   stripeConnectChargesEnabled: 'stripeConnectChargesEnabled',
   stripeConnectPayoutsEnabled: 'stripeConnectPayoutsEnabled',
-  socialMediaLink: 'socialMediaLink',
   bookingLinks: 'bookingLinks',
   googleRating: 'googleRating',
   googleReviewCount: 'googleReviewCount',
@@ -1779,6 +1853,22 @@ export const DoctorProfileScalarFieldEnum = {
 } as const
 
 export type DoctorProfileScalarFieldEnum = (typeof DoctorProfileScalarFieldEnum)[keyof typeof DoctorProfileScalarFieldEnum]
+
+
+export const DoctorSocialMediaScalarFieldEnum = {
+  id: 'id',
+  doctorProfileId: 'doctorProfileId',
+  platform: 'platform',
+  url: 'url',
+  username: 'username',
+  label: 'label',
+  isVisible: 'isVisible',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorSocialMediaScalarFieldEnum = (typeof DoctorSocialMediaScalarFieldEnum)[keyof typeof DoctorSocialMediaScalarFieldEnum]
 
 
 export const PatientProfileScalarFieldEnum = {
@@ -2143,6 +2233,20 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'SocialMediaPlatform'
+ */
+export type EnumSocialMediaPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialMediaPlatform'>
+    
+
+
+/**
+ * Reference to a field of type 'SocialMediaPlatform[]'
+ */
+export type ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialMediaPlatform[]'>
+    
+
+
+/**
  * Reference to a field of type 'ConsultationType'
  */
 export type EnumConsultationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsultationType'>
@@ -2309,6 +2413,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   doctorProfile?: Prisma.DoctorProfileOmit
+  doctorSocialMedia?: Prisma.DoctorSocialMediaOmit
   patientProfile?: Prisma.PatientProfileOmit
   consultationBooking?: Prisma.ConsultationBookingOmit
   consultationRefundRequest?: Prisma.ConsultationRefundRequestOmit
