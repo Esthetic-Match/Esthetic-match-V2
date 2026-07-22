@@ -314,13 +314,11 @@ export default function EstheticMatchReviews({
 
   return (
     <section
-      className={`py-10 md:py-14 ${className}`}
+      className={`py-10 md:py-6 ${className}`}
       aria-labelledby="esthetic-match-reviews-title"
     >
-      <div className="mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-12">
-        <div className="relative overflow-hidden rounded-[2rem] border border-[#283C5D]/10 bg-[#FAF9F7] shadow-[0_24px_70px_rgba(40,60,93,0.08)]">
-          <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#D8BD8D]/18 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-28 -left-20 h-64 w-64 rounded-full bg-[#283C5D]/5 blur-3xl" />
+      <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
+        <div className="relative overflow-hidden rounded-[2rem] border border-[#283C5D]/10 bg-white shadow-[0_24px_70px_rgba(40,60,93,0.08)]">
 
           <div className="relative z-10 border-b border-[#283C5D]/10 px-6 py-7 md:px-8 md:py-8 lg:px-10">
             <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
