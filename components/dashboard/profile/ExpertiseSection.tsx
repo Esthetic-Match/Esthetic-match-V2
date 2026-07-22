@@ -20,26 +20,14 @@ type ExpertiseSectionProps = {
   specialtyIds: string[];
   procedureIds: string[];
   subcategoryIds?: string[];
-  topThree?: string[];
 };
 
-function syncTopThreeWithProcedures(
-  topThree: string[],
-  procedureIds: string[]
-): string[] {
-  const allowedProcedures = new Set(procedureIds);
-
-  return topThree.filter((procedureId: string) =>
-    allowedProcedures.has(procedureId)
-  );
-}
 
 export default function ExpertiseSection({
   userId,
   specialtyIds,
   procedureIds,
   subcategoryIds = [],
-  topThree = [],
 }: ExpertiseSectionProps) {
   const t = useTranslations("dashboard.expertise");
 
@@ -55,8 +43,6 @@ export default function ExpertiseSection({
   const [selectedProcedureIds, setSelectedProcedureIds] =
     useState<string[]>(procedureIds);
 
-  const [selectedTopThree, setSelectedTopThree] =
-    useState<string[]>(topThree);
 
   const groupedProceduresByCategory: ExpertiseCategoryGroup[] =
     DoctorCatalog.categories

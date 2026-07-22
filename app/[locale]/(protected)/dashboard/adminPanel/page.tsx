@@ -10,11 +10,12 @@ import AdminUsersTable from "@/components/dashboard/admin/AdminUsersTable";
 import CatalogueAdminManager from "@/components/dashboard/admin/CatalogueAdminManager";
 import ConsultationBookingsAnalytics from "@/components/dashboard/admin/ConsultationBookingsAnalytics";
 import ConsultationBookingsTable from "@/components/dashboard/admin/ConsultationBookingsTable";
-import DoctorPlansCard from "@/components/dashboard/admin/DoctorPlansCard";
 import RefundRequestsManager from "@/components/dashboard/admin/RefundRequestsManager";
 import InstagramReelsAdmin from "@/components/dashboard/admin/InstagramReelsAdmin";
 import AdminBeforeAfterPanel from "@/components/dashboard/admin/AdminBeforeAfterPanel";
 import DoctorReviewInvitationManager from "@/components/dashboard/admin/DoctorReviewInvitationManager";
+import AdminDoctorProcedures from "@/components/dashboard/admin/AdminDoctorProcedures";
+import TopThreeAdmin from "@/components/dashboard/admin/TopThreeAdmin";
 
 const ADMIN_TAB_IDS = [
   "overview",
@@ -107,6 +108,10 @@ function TabPanel({
           <AdminDoctorMediaManager />
 
           <DoctorReviewInvitationManager />
+
+          <AdminDoctorProcedures />;
+
+          <TopThreeAdmin />
 
           <AdminBeforeAfterPanel />
         </div>
