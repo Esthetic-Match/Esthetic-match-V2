@@ -20,7 +20,7 @@ type PublicContactActionsSectionProps = {
     onlineConsulPrice: number | null;
     bookingLink: string | null;
     onlineActive: boolean;
-    socialMediaLink: string | null;
+    socialMediaLink?: string | null;
     googleReviewCount: number | null;
     googleRating: number | null;
     currency: string | null;

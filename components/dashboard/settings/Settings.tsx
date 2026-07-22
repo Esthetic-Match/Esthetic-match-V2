@@ -88,7 +88,7 @@ type DoctorProfile = {
   stripeConnectChargesEnabled: boolean;
   stripeConnectPayoutsEnabled: boolean;
 
-  socialMediaLink: string | null;
+  socialMediaLink?: string | null;
   bookingLinks: string[];
   googleRating: number | null;
   googleReviewCount: number | null;

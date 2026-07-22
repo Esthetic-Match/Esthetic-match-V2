@@ -61,7 +61,9 @@ function normalizeTopThree(value: unknown): NormalizedArrayResult {
   };
 }
 
-async function requireAdmin(request: NextRequest) {
+async function requireAdmin(
+  request: NextRequest,
+): Promise<NextResponse | null> {
   const session = await auth.api.getSession({
     headers: request.headers,
   });
@@ -133,17 +135,31 @@ function validateSelectedProcedures(
     : null;
 }
 
+type DoctorProfileRecord = NonNullable<
+  Awaited<ReturnType<typeof getDoctorProfile>>
+>;
+
+type ResolveDoctorProfileResult =
+  | {
+      success: true;
+      doctorProfile: DoctorProfileRecord;
+      doctorUserId: string;
+    }
+  | {
+      success: false;
+      response: NextResponse;
+    };
+
 async function resolveDoctorProfile(
   request: NextRequest,
   context: RouteContext,
-) {
+): Promise<ResolveDoctorProfileResult> {
   const authorizationError = await requireAdmin(request);
 
   if (authorizationError) {
     return {
+      success: false,
       response: authorizationError,
-      doctorProfile: null,
-      doctorUserId: null,
     };
   }
 
@@ -152,12 +168,11 @@ async function resolveDoctorProfile(
 
   if (!doctorUserId) {
     return {
+      success: false,
       response: NextResponse.json(
         { error: "Doctor user ID is required." },
         { status: 400 },
       ),
-      doctorProfile: null,
-      doctorUserId: null,
     };
   }
 
@@ -165,27 +180,29 @@ async function resolveDoctorProfile(
 
   if (!doctorProfile || doctorProfile.user.role !== "DOCTOR") {
     return {
+      success: false,
       response: NextResponse.json(
         { error: "Doctor profile not found." },
         { status: 404 },
       ),
-      doctorProfile: null,
-      doctorUserId: null,
     };
   }
 
   return {
-    response: null,
+    success: true,
     doctorProfile,
     doctorUserId,
   };
 }
 
-export async function GET(request: NextRequest, context: RouteContext) {
+export async function GET(
+  request: NextRequest,
+  context: RouteContext,
+): Promise<Response> {
   try {
     const resolved = await resolveDoctorProfile(request, context);
 
-    if (resolved.response || !resolved.doctorProfile) {
+    if (!resolved.success) {
       return resolved.response;
     }
 
@@ -201,15 +218,14 @@ export async function GET(request: NextRequest, context: RouteContext) {
 }
 
 /** Adds procedure IDs to the current topThree list. */
-export async function POST(request: NextRequest, context: RouteContext) {
+export async function POST(
+  request: NextRequest,
+  context: RouteContext,
+): Promise<Response> {
   try {
     const resolved = await resolveDoctorProfile(request, context);
 
-    if (
-      resolved.response ||
-      !resolved.doctorProfile ||
-      !resolved.doctorUserId
-    ) {
+    if (!resolved.success) {
       return resolved.response;
     }
 
@@ -292,15 +308,14 @@ export async function POST(request: NextRequest, context: RouteContext) {
 }
 
 /** Replaces the entire topThree list. An empty array removes all selections. */
-export async function PATCH(request: NextRequest, context: RouteContext) {
+export async function PATCH(
+  request: NextRequest,
+  context: RouteContext,
+): Promise<Response> {
   try {
     const resolved = await resolveDoctorProfile(request, context);
 
-    if (
-      resolved.response ||
-      !resolved.doctorProfile ||
-      !resolved.doctorUserId
-    ) {
+    if (!resolved.success) {
       return resolved.response;
     }
 
@@ -373,15 +388,14 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
  * With no JSON body, clears topThree completely.
  * With { topThree: [ids] }, removes only those IDs from the current list.
  */
-export async function DELETE(request: NextRequest, context: RouteContext) {
+export async function DELETE(
+  request: NextRequest,
+  context: RouteContext,
+): Promise<Response> {
   try {
     const resolved = await resolveDoctorProfile(request, context);
 
-    if (
-      resolved.response ||
-      !resolved.doctorProfile ||
-      !resolved.doctorUserId
-    ) {
+    if (!resolved.success) {
       return resolved.response;
     }
 

@@ -421,7 +421,6 @@ function DoctorProcedureEditor({ doctor }: DoctorProcedureEditorProps) {
           </button>
         ) : null}
       </div>
-
 {isModalOpen ? (
   <CategoryProcedureModal
     open

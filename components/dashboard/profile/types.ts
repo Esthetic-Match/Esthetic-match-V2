@@ -24,7 +24,7 @@ export type DoctorProfileData = {
   otherSpecialtyText: string | null;
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
-  SocialMediaLink: string | null;
+  SocialMediaLink?: string | null;
   bookingLink: string | null;
   onlineActive: boolean | null;
   googleRating?: number | null;
