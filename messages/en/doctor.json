@@ -247,5 +247,73 @@
     "ratingLabel": "Rating: {rating} out of 5",
     "reviewCount": "{count, plural, one {Based on # review} other {Based on # reviews}}",
     "anonymousPatient": "Esthetic Match patient"
-  }
+  },
+  "socialMedia": {
+    "eyebrow": "Public profile",
+    "title": "Social media",
+    "description": "Add the accounts you want patients to see. Hidden links remain saved but will not appear on your public profile.",
+    "confirmDelete": "Remove {platform} from your profile?",
+    "loading": "Loading social media links…",
+    "actions": {
+      "add": "Add social link",
+      "closeNewLink": "Close new social link form",
+      "saveLink": "Save link",
+      "retry": "Retry",
+      "preview": "Preview",
+      "delete": "Delete",
+      "saveChanges": "Save changes"
+    },
+    "newLink": {
+      "title": "New social link",
+      "description": "Add one account at a time."
+    },
+    "empty": {
+      "title": "No social links yet",
+      "description": "Add Instagram, TikTok, YouTube, LinkedIn, or another account to help patients connect with you."
+    },
+    "visibility": {
+      "visible": "Visible on your public profile",
+      "hidden": "Hidden from your public profile"
+    },
+    "fields": {
+      "platform": "Platform",
+      "profileUrl": "Profile URL",
+      "username": "Username",
+      "displayLabel": "Display label",
+      "showOnProfile": "Show on public profile",
+      "visibilityHelp": "You can hide a link without deleting it."
+    },
+    "placeholders": {
+      "username": "doctorname",
+      "otherLabel": "Podcast, blog, clinic…",
+      "optional": "Optional"
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "youtube": "YouTube",
+      "linkedin": "LinkedIn",
+      "x": "X",
+      "snapchat": "Snapchat",
+      "website": "Website",
+      "other": "Other"
+    },
+    "errors": {
+      "load": "Could not load your social media links.",
+      "add": "Could not add this social link.",
+      "update": "Could not update this social link.",
+      "delete": "Could not delete this social link."
+    },
+    "notices": {
+      "added": "Social media link added.",
+      "updated": "Social media link updated.",
+      "removed": "Social media link removed."
+    }
+  },
+    "socialMediaDisplay": {
+      "eyebrow": "Connect",
+      "title": "Social media",
+      "openPlatform": "Open {platform} profile"
+    }
 }

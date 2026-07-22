@@ -11,6 +11,7 @@ import Gallery from "./patientGallery/Gallery";
 import GoogleReviewsList from "@/components/UI/GoogleReviewsList";
 import DoctorInstagramReelsManager from "./DoctorInstagramReelsManager";
 import TopThreeProceduresSection from "./TopThreeProceduresSection";
+import DoctorSocialMediaManager from "./DoctorSocialMediaManager";
 
 const fallbackBanner = "/images/fallback/blue-bg.png";
 
@@ -156,6 +157,8 @@ export default function DoctorProfile({ user }: { user: { id: string } }) {
         userId={user.id}
         procedureIds={profile.procedureIds}
       />
+
+      <DoctorSocialMediaManager />
     </div>
   );
 }

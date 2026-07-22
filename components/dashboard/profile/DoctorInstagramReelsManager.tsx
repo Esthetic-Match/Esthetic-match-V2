@@ -195,79 +195,77 @@ function ReelCard({
 export default function DoctorInstagramReelsManager({
   doctorProfileId,
 }: DoctorInstagramReelsManagerProps) {
+  const normalizedDoctorProfileId = doctorProfileId.trim();
+
+  if (!normalizedDoctorProfileId) {
+    return null;
+  }
+
+  return (
+    <DoctorInstagramReelsContent
+      key={normalizedDoctorProfileId}
+      doctorProfileId={normalizedDoctorProfileId}
+    />
+  );
+}
+
+function DoctorInstagramReelsContent({
+  doctorProfileId,
+}: DoctorInstagramReelsManagerProps) {
   const t = useTranslations(
-    "doctor.doctor.profile.doctorInstagramReelsManagement"
+    "doctor.doctor.profile.doctorInstagramReelsManagement",
   );
 
-  const [reels, setReels] = useState<
-    InstagramReelRecord[]
-  >([]);
-
-  const [isLoading, setIsLoading] =
-    useState(true);
-
-  const [
-    removingReelId,
-    setRemovingReelId,
-  ] = useState<string | null>(null);
-
-  const [hasRemoveError, setHasRemoveError] =
-    useState(false);
+  const [reels, setReels] = useState<InstagramReelRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [removingReelId, setRemovingReelId] = useState<string | null>(null);
+  const [hasRemoveError, setHasRemoveError] = useState(false);
 
   useEffect(() => {
-    if (!doctorProfileId.trim()) {
-      setIsLoading(false);
-      return;
-    }
-
     const controller = new AbortController();
 
     async function loadDoctorReels(): Promise<void> {
       try {
         const response = await fetch(
           `/api/public-pages/doctor-instagram-reels?doctorProfileId=${encodeURIComponent(
-            doctorProfileId
+            doctorProfileId,
           )}`,
           {
             method: "GET",
             cache: "no-store",
             signal: controller.signal,
-          }
+          },
         );
 
-        const payload =
-          await parseJsonResponse(response);
+        const payload = await parseJsonResponse(response);
 
         if (!response.ok) {
           console.error(
             "Doctor Instagram Reel request failed:",
-            payload
+            payload,
           );
 
           throw new Error(
-            "Could not load doctor Instagram Reels."
+            "Could not load doctor Instagram Reels.",
           );
         }
 
-        if (!controller.signal.aborted) {
-          setReels(parseReels(payload));
+        if (controller.signal.aborted) {
+          return;
         }
+
+        setReels(parseReels(payload));
       } catch (error) {
-        if (
-          error instanceof DOMException &&
-          error.name === "AbortError"
-        ) {
+        if (controller.signal.aborted) {
           return;
         }
 
         console.error(
           "Could not load doctor Instagram Reels:",
-          error
+          error,
         );
 
-        if (!controller.signal.aborted) {
-          setReels([]);
-        }
+        setReels([]);
       } finally {
         if (!controller.signal.aborted) {
           setIsLoading(false);
@@ -349,7 +347,7 @@ export default function DoctorInstagramReelsManager({
   const hasSingleReel = reels.length === 1;
 
   return (
-    <section className="relative mx-auto mt-8 w-full max-w-[1180px] overflow-hidden rounded-[2rem] border border-[#E7DDD0] bg-[#FAF9F7] px-5 py-7 shadow-[0_24px_70px_rgba(40,60,93,0.08)] md:px-8 md:py-10">
+    <section className="relative mx-auto mt-4 w-full max-w-[1140px] overflow-hidden rounded-[2rem] bg-white px-5 py-7 shadow-[0_24px_70px_rgba(40,60,93,0.08)] md:px-8 md:py-10">
       <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#D8BD8D]/15 blur-3xl" />
 
       <div className="pointer-events-none absolute -bottom-28 -right-20 h-72 w-72 rounded-full bg-[#283C5D]/[0.06] blur-3xl" />
@@ -372,17 +370,6 @@ export default function DoctorInstagramReelsManager({
               size={28}
               className="text-[#D8BD8D]"
             />
-          </div>
-
-          <div className="mt-6 flex w-fit items-center gap-2 rounded-full border border-[#D8BD8D]/50 bg-white px-4 py-2 shadow-sm">
-            <Sparkles
-              size={15}
-              className="text-[#D8BD8D]"
-            />
-
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#283C5D]">
-              {t("eyebrow")}
-            </span>
           </div>
 
           <h2 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-[#283C5D] md:text-4xl">

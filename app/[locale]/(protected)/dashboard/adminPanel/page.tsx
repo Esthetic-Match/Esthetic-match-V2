@@ -16,6 +16,7 @@ import AdminBeforeAfterPanel from "@/components/dashboard/admin/AdminBeforeAfter
 import DoctorReviewInvitationManager from "@/components/dashboard/admin/DoctorReviewInvitationManager";
 import AdminDoctorProcedures from "@/components/dashboard/admin/AdminDoctorProcedures";
 import TopThreeAdmin from "@/components/dashboard/admin/TopThreeAdmin";
+import AdminDoctorSocialMedia from "@/components/dashboard/admin/AdminDoctorSocialMedia";
 
 const ADMIN_TAB_IDS = [
   "overview",
@@ -109,9 +110,11 @@ function TabPanel({
 
           <DoctorReviewInvitationManager />
 
-          <AdminDoctorProcedures />;
+          <AdminDoctorProcedures />
 
           <TopThreeAdmin />
+
+          <AdminDoctorSocialMedia />
 
           <AdminBeforeAfterPanel />
         </div>

@@ -219,11 +219,11 @@ export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
 }
 
-export type EnumConsultationTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel> | $Enums.ConsultationType
+export type EnumSocialMediaPlatformFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel> | $Enums.SocialMediaPlatform
 }
 
 export type IntFilter<$PrismaModel = never> = {
@@ -237,14 +237,14 @@ export type IntFilter<$PrismaModel = never> = {
   not?: Prisma.NestedIntFilter<$PrismaModel> | number
 }
 
-export type EnumConsultationTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumConsultationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConsultationType
+export type EnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel> | $Enums.SocialMediaPlatform
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
 }
 
 export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -261,6 +261,23 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedIntFilter<$PrismaModel>
   _max?: Prisma.NestedIntFilter<$PrismaModel>
+}
+
+export type EnumConsultationTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel> | $Enums.ConsultationType
+}
+
+export type EnumConsultationTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConsultationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConsultationType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
 }
 
 export type EnumConversationStatusFilter<$PrismaModel = never> = {
@@ -521,21 +538,21 @@ export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
 }
 
-export type NestedEnumConsultationTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel> | $Enums.ConsultationType
+export type NestedEnumSocialMediaPlatformFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel> | $Enums.SocialMediaPlatform
 }
 
-export type NestedEnumConsultationTypeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumConsultationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConsultationType
+export type NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel> | $Enums.SocialMediaPlatform
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
 }
 
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -563,6 +580,23 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type NestedEnumConsultationTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel> | $Enums.ConsultationType
+}
+
+export type NestedEnumConsultationTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ConsultationType | Prisma.EnumConsultationTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ConsultationType[] | Prisma.ListEnumConsultationTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConsultationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ConsultationType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumConsultationTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumConversationStatusFilter<$PrismaModel = never> = {

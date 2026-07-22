@@ -35,6 +35,18 @@ enum MessageType {
   MIXED
 }
 
+enum SocialMediaPlatform {
+  INSTAGRAM
+  FACEBOOK
+  TIKTOK
+  YOUTUBE
+  LINKEDIN
+  X
+  SNAPCHAT
+  WEBSITE
+  OTHER
+}
+
 model User {
   id             String          @id @default(cuid())
   email          String          @unique
@@ -98,17 +110,16 @@ model DoctorProfile {
   onlineActive      Boolean @default(true)
   inClinicLink      String?
 
-  stripeSubscriptionId             String?
-  stripeSubscriptionStatus         String?
-  stripeCustomerId                 String?
-  subscriptionCurrentPeriodEnd     DateTime?
-  subscriptionPlan                 String? @default("free")
-  stripeConnectAccountId           String?
-  stripeConnectOnboardingComplete  Boolean @default(false)
-  stripeConnectChargesEnabled      Boolean @default(false)
-  stripeConnectPayoutsEnabled      Boolean @default(false)
+  stripeSubscriptionId            String?
+  stripeSubscriptionStatus        String?
+  stripeCustomerId                String?
+  subscriptionCurrentPeriodEnd    DateTime?
+  subscriptionPlan                String? @default("free")
+  stripeConnectAccountId          String?
+  stripeConnectOnboardingComplete Boolean @default(false)
+  stripeConnectChargesEnabled     Boolean @default(false)
+  stripeConnectPayoutsEnabled     Boolean @default(false)
 
-  socialMediaLink   String?
   bookingLinks      String[]
   googleRating      Float?
   googleReviewCount Int?
@@ -116,10 +127,12 @@ model DoctorProfile {
 
   otherSpecialtyText String?
 
-  consultationBookings             ConsultationBooking[]
-  inClinicConsultationAccesses     InClinicConsultationAccess[]
-  onlineConsultationAccesses       OnlineConsultationAccess[]
-  consultationRefundRequests       ConsultationRefundRequest[]
+  socialMediaLinks DoctorSocialMedia[]
+
+  consultationBookings       ConsultationBooking[]
+  inClinicConsultationAccesses InClinicConsultationAccess[]
+  onlineConsultationAccesses   OnlineConsultationAccess[]
+  consultationRefundRequests   ConsultationRefundRequest[]
 
   conversations Conversation[] @relation("DoctorConversations")
 
@@ -135,6 +148,33 @@ model DoctorProfile {
   @@index([country, city])
   @@index([workLatitude, workLongitude])
   @@map("doctor_profile")
+}
+
+model DoctorSocialMedia {
+  id String @id @default(cuid())
+
+  doctorProfileId String
+  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  platform SocialMediaPlatform
+  url      String
+
+  /// Optional username such as @estheticdoctor.
+  username String?
+
+  /// Useful for OTHER or custom display names.
+  label String?
+
+  isVisible Boolean @default(true)
+  sortOrder  Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([doctorProfileId, platform, url])
+  @@index([doctorProfileId])
+  @@index([doctorProfileId, isVisible, sortOrder])
+  @@map("doctor_social_media")
 }
 
 model PatientProfile {

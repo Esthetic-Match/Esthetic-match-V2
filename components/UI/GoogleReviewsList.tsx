@@ -162,23 +162,39 @@ export default function GoogleReviewsList({
   googlePlaceId,
   limit = 4,
 }: GoogleReviewsListProps) {
+  const normalizedGooglePlaceId = googlePlaceId?.trim();
+
+  if (!normalizedGooglePlaceId) {
+    return null;
+  }
+
+  return (
+    <GoogleReviewsContent
+      key={normalizedGooglePlaceId}
+      googlePlaceId={normalizedGooglePlaceId}
+      limit={limit}
+    />
+  );
+}
+
+type GoogleReviewsContentProps = {
+  googlePlaceId: string;
+  limit: number;
+};
+
+function GoogleReviewsContent({
+  googlePlaceId,
+  limit,
+}: GoogleReviewsContentProps) {
   const t = useTranslations("doctor.doctor.profile");
   const [data, setData] = useState<GooglePlaceReviewsData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!googlePlaceId) {
-      setData(null);
-      return;
-    }
-
-    let isActive = true;
+    const controller = new AbortController();
 
     async function loadGoogleReviews(): Promise<void> {
-      setIsLoading(true);
-      setErrorMessage(null);
-
       try {
         const response = await fetch("/api/google-places/details", {
           method: "POST",
@@ -188,6 +204,7 @@ export default function GoogleReviewsList({
           body: JSON.stringify({
             placeId: googlePlaceId,
           }),
+          signal: controller.signal,
         });
 
         const payload = await parseJsonResponse(response);
@@ -202,7 +219,9 @@ export default function GoogleReviewsList({
           throw new Error("Invalid Google reviews response.");
         }
 
-        if (!isActive) return;
+        if (controller.signal.aborted) {
+          return;
+        }
 
         setData({
           googleRating: readNullableNumber(place.rating),
@@ -210,15 +229,17 @@ export default function GoogleReviewsList({
           googleMapsUri: readNullableString(place.googleMapsUri),
           reviews: readReviews(place.reviews),
         });
+        setErrorMessage(null);
       } catch (error) {
+        if (controller.signal.aborted) {
+          return;
+        }
+
         console.error("Google reviews request failed:", error);
-
-        if (!isActive) return;
-
         setData(null);
         setErrorMessage("Could not load Google reviews.");
       } finally {
-        if (isActive) {
+        if (!controller.signal.aborted) {
           setIsLoading(false);
         }
       }
@@ -227,17 +248,13 @@ export default function GoogleReviewsList({
     void loadGoogleReviews();
 
     return () => {
-      isActive = false;
+      controller.abort();
     };
   }, [googlePlaceId]);
 
-  if (!googlePlaceId) {
-    return null;
-  }
-
   if (isLoading) {
     return (
-      <section className="mx-auto w-full max-w-[1180px] rounded-[2rem] border border-[#E7DDD0] bg-white p-6 shadow-[0_24px_70px_rgba(40,60,93,0.10)]">
+      <section className="mx-auto w-full max-w-[1140px] rounded-[2rem] bg-white p-6 shadow-[0_24px_70px_rgba(40,60,93,0.10)]">
         <div className="h-5 w-36 animate-pulse rounded-full bg-[#E9E1D4]" />
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {[0, 1].map((item: number) => (
@@ -264,7 +281,7 @@ export default function GoogleReviewsList({
   }
 
   return (
-    <section className="mt-6 mx-auto w-full max-w-[1180px] rounded-[2rem] border border-[#E7DDD0] bg-white p-5 shadow-[0_24px_70px_rgba(40,60,93,0.10)] md:p-7">
+    <section className="mx-auto w-full max-w-[1150px] rounded-[2rem] bg-white p-5 shadow-[0_24px_70px_rgba(40,60,93,0.10)] md:p-7">
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FAF9F7] text-[#D8BD8D]">

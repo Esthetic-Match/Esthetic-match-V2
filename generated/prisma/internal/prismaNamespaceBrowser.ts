@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   DoctorProfile: 'DoctorProfile',
+  DoctorSocialMedia: 'DoctorSocialMedia',
   PatientProfile: 'PatientProfile',
   ConsultationBooking: 'ConsultationBooking',
   ConsultationRefundRequest: 'ConsultationRefundRequest',
@@ -137,7 +138,6 @@ export const DoctorProfileScalarFieldEnum = {
   stripeConnectOnboardingComplete: 'stripeConnectOnboardingComplete',
   stripeConnectChargesEnabled: 'stripeConnectChargesEnabled',
   stripeConnectPayoutsEnabled: 'stripeConnectPayoutsEnabled',
-  socialMediaLink: 'socialMediaLink',
   bookingLinks: 'bookingLinks',
   googleRating: 'googleRating',
   googleReviewCount: 'googleReviewCount',
@@ -148,6 +148,22 @@ export const DoctorProfileScalarFieldEnum = {
 } as const
 
 export type DoctorProfileScalarFieldEnum = (typeof DoctorProfileScalarFieldEnum)[keyof typeof DoctorProfileScalarFieldEnum]
+
+
+export const DoctorSocialMediaScalarFieldEnum = {
+  id: 'id',
+  doctorProfileId: 'doctorProfileId',
+  platform: 'platform',
+  url: 'url',
+  username: 'username',
+  label: 'label',
+  isVisible: 'isVisible',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorSocialMediaScalarFieldEnum = (typeof DoctorSocialMediaScalarFieldEnum)[keyof typeof DoctorSocialMediaScalarFieldEnum]
 
 
 export const PatientProfileScalarFieldEnum = {
