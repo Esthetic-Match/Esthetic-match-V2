@@ -569,3 +569,11 @@ model ReviewInvitation {
   @@index([doctorProfileId, patientUserId])
   @@map("review_invitation")
 }
+
+npx tsx scripts/import-doctor-catalogue.ts \
+  --catalogue lib/doctorCatalogue.ts \
+  --specialty-map lib/specialtyCategoryMap.ts \
+  --prisma-module lib/database/prisma.ts \
+  --messages-dir en:messages/en \
+  --messages-dir fr:messages/fr \
+  --dry-run
