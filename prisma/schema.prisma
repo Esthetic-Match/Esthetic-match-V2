@@ -48,32 +48,32 @@ enum SocialMediaPlatform {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  email          String          @unique
-  name           String?
-  role           UserRole        @default(PATIENT)
-  dateOfBirth    String?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  emailVerified  Boolean         @default(false)
-  onboardingCompleted Boolean    @default(false)
-  image          String?
-  sessions       Session[]
-  accounts       Account[]
-  messageAttachments MessageAttachment[]
+  id                  String              @id @default(cuid())
+  email               String              @unique
+  name                String?
+  role                UserRole            @default(PATIENT)
+  dateOfBirth         String?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  emailVerified       Boolean             @default(false)
+  onboardingCompleted Boolean             @default(false)
+  image               String?
+  sessions            Session[]
+  accounts            Account[]
+  messageAttachments  MessageAttachment[]
 
   patientProfile PatientProfile?
   doctorProfile  DoctorProfile?
 
-  patientConsultationBookings ConsultationBooking[] @relation("PatientConsultationBookings")
-  inClinicConsultationAccesses InClinicConsultationAccess[] @relation("PatientInClinicAccesses")
-  onlineConsultationAccesses   OnlineConsultationAccess[] @relation("PatientOnlineAccesses")
-  patientConsultationRefundRequests ConsultationRefundRequest[] @relation("PatientConsultationRefundRequests")
+  patientConsultationBookings       ConsultationBooking[]        @relation("PatientConsultationBookings")
+  inClinicConsultationAccesses      InClinicConsultationAccess[] @relation("PatientInClinicAccesses")
+  onlineConsultationAccesses        OnlineConsultationAccess[]   @relation("PatientOnlineAccesses")
+  patientConsultationRefundRequests ConsultationRefundRequest[]  @relation("PatientConsultationRefundRequests")
 
   patientConversations Conversation[] @relation("PatientConversations")
-  sentMessages          Message[]      @relation("MessageSender")
+  sentMessages         Message[]      @relation("MessageSender")
 
-  doctorReviews    Review[]           @relation("PatientDoctorReviews")
+  doctorReviews     Review[]           @relation("PatientDoctorReviews")
   reviewInvitations ReviewInvitation[] @relation("PatientReviewInvitations")
 
   @@index([role])
@@ -81,15 +81,17 @@ model User {
 }
 
 model DoctorProfile {
-  id     String @id @default(cuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String  @id @default(cuid())
+  userId String  @unique
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   slug   String? @unique
 
   avatar            String?
   yearsOfExperience Float?
   clinicName        String
   clinicBanner      String?
+  // Transitional legacy arrays. Keep these during the expand/backfill/dual-write
+  // migration and remove them only after relational-data parity is verified.
   specialtyIds      String[]
   subcategoryIds    String[]
   procedureIds      String[]
@@ -102,7 +104,7 @@ model DoctorProfile {
   workLatitude      Float?
   workLongitude     Float?
   googlePlaceId     String?
-  currency          String @default("eur")
+  currency          String   @default("eur")
   RPPS              String?
 
   inClinicPrice     Float?
@@ -114,11 +116,11 @@ model DoctorProfile {
   stripeSubscriptionStatus        String?
   stripeCustomerId                String?
   subscriptionCurrentPeriodEnd    DateTime?
-  subscriptionPlan                String? @default("free")
+  subscriptionPlan                String?   @default("free")
   stripeConnectAccountId          String?
-  stripeConnectOnboardingComplete Boolean @default(false)
-  stripeConnectChargesEnabled     Boolean @default(false)
-  stripeConnectPayoutsEnabled     Boolean @default(false)
+  stripeConnectOnboardingComplete Boolean   @default(false)
+  stripeConnectChargesEnabled     Boolean   @default(false)
+  stripeConnectPayoutsEnabled     Boolean   @default(false)
 
   bookingLinks      String[]
   googleRating      Float?
@@ -128,8 +130,11 @@ model DoctorProfile {
   otherSpecialtyText String?
 
   socialMediaLinks DoctorSocialMedia[]
+  specialties      DoctorSpecialty[]
+  subcategories    DoctorSubcategory[]
+  procedures       DoctorProcedure[]
 
-  consultationBookings       ConsultationBooking[]
+  consultationBookings         ConsultationBooking[]
   inClinicConsultationAccesses InClinicConsultationAccess[]
   onlineConsultationAccesses   OnlineConsultationAccess[]
   consultationRefundRequests   ConsultationRefundRequest[]
@@ -150,11 +155,293 @@ model DoctorProfile {
   @@map("doctor_profile")
 }
 
+/// Supported catalogue locales (for example "en" and "fr").
+/// Locale codes should be stored as lowercase BCP 47 language tags.
+model CatalogLocale {
+  code        String  @id @db.VarChar(35)
+  displayName String
+  isDefault   Boolean @default(false)
+  isActive    Boolean @default(true)
+  sortOrder   Int     @default(0)
+
+  specialtyGroupTranslations SpecialtyGroupTranslation[]
+  specialtyTranslations      SpecialtyTranslation[]
+  categoryTranslations       CategoryTranslation[]
+  subcategoryTranslations    SubcategoryTranslation[]
+  procedureTranslations      ProcedureTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, sortOrder])
+  @@map("catalog_locale")
+}
+
+/// Presentation grouping used by the doctor-onboarding specialty picker.
+model SpecialtyGroup {
+  id        String  @id
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  translations SpecialtyGroupTranslation[]
+  specialties  Specialty[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, sortOrder])
+  @@map("specialty_group")
+}
+
+model SpecialtyGroupTranslation {
+  specialtyGroupId String
+  localeCode       String @db.VarChar(35)
+  name             String
+
+  specialtyGroup SpecialtyGroup @relation(fields: [specialtyGroupId], references: [id], onDelete: Cascade)
+  locale         CatalogLocale  @relation(fields: [localeCode], references: [code], onDelete: Restrict)
+
+  @@id([specialtyGroupId, localeCode])
+  @@index([localeCode, name])
+  @@map("specialty_group_translation")
+}
+
+model Specialty {
+  /// Preserve the existing doctorCatalogue ID.
+  id               String  @id
+  specialtyGroupId String
+  icon             String?
+  sortOrder        Int     @default(0)
+  isActive         Boolean @default(true)
+
+  specialtyGroup SpecialtyGroup         @relation(fields: [specialtyGroupId], references: [id], onDelete: Restrict)
+  translations   SpecialtyTranslation[]
+  categoryLinks  SpecialtyCategory[]
+  doctors        DoctorSpecialty[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([specialtyGroupId, sortOrder])
+  @@index([isActive, sortOrder])
+  @@map("specialty")
+}
+
+model SpecialtyTranslation {
+  specialtyId String
+  localeCode  String  @db.VarChar(35)
+  name        String
+  description String?
+
+  specialty Specialty     @relation(fields: [specialtyId], references: [id], onDelete: Cascade)
+  locale    CatalogLocale @relation(fields: [localeCode], references: [code], onDelete: Restrict)
+
+  @@id([specialtyId, localeCode])
+  @@index([localeCode, name])
+  @@map("specialty_translation")
+}
+
+model Category {
+  /// Preserve the existing doctorCatalogue ID.
+  id             String  @id
+  slug           String  @unique
+  href           String?
+  homeImage      String?
+  dashboardImage String?
+  icon           String?
+  sortOrder      Int     @default(0)
+  isActive       Boolean @default(true)
+
+  translations   CategoryTranslation[]
+  specialtyLinks SpecialtyCategory[]
+  subcategories  Subcategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, sortOrder])
+  @@map("category")
+}
+
+model CategoryTranslation {
+  categoryId  String
+  localeCode  String  @db.VarChar(35)
+  name        String
+  description String?
+
+  category Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  locale   CatalogLocale @relation(fields: [localeCode], references: [code], onDelete: Restrict)
+
+  @@id([categoryId, localeCode])
+  @@index([localeCode, name])
+  @@map("category_translation")
+}
+
+/// Explicit many-to-many mapping imported from SPECIALTY_CATEGORY_MAP.
+model SpecialtyCategory {
+  specialtyId String
+  categoryId  String
+  sortOrder   Int     @default(0)
+  isActive    Boolean @default(true)
+
+  specialty Specialty @relation(fields: [specialtyId], references: [id], onDelete: Restrict)
+  category  Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([specialtyId, categoryId])
+  @@index([categoryId, specialtyId])
+  @@index([specialtyId, isActive, sortOrder])
+  @@map("specialty_category")
+}
+
+model Subcategory {
+  /// Preserve the existing doctorCatalogue ID.
+  id         String  @id
+  categoryId String
+  sortOrder  Int     @default(0)
+  isActive   Boolean @default(true)
+
+  category       Category                 @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  translations   SubcategoryTranslation[]
+  procedureLinks ProcedureSubcategory[]
+  doctors        DoctorSubcategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId, sortOrder])
+  @@index([isActive, sortOrder])
+  @@map("subcategory")
+}
+
+model SubcategoryTranslation {
+  subcategoryId String
+  localeCode    String  @db.VarChar(35)
+  name          String
+  description   String?
+
+  subcategory Subcategory   @relation(fields: [subcategoryId], references: [id], onDelete: Cascade)
+  locale      CatalogLocale @relation(fields: [localeCode], references: [code], onDelete: Restrict)
+
+  @@id([subcategoryId, localeCode])
+  @@index([localeCode, name])
+  @@map("subcategory_translation")
+}
+
+model Procedure {
+  /// Preserve the existing doctorCatalogue ID.
+  id       String  @id
+  isActive Boolean @default(true)
+
+  translations     ProcedureTranslation[]
+  subcategoryLinks ProcedureSubcategory[]
+  doctors          DoctorProcedure[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("procedure")
+}
+
+model ProcedureTranslation {
+  procedureId String
+  localeCode  String  @db.VarChar(35)
+  name        String
+  description String?
+
+  procedure Procedure     @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+  locale    CatalogLocale @relation(fields: [localeCode], references: [code], onDelete: Restrict)
+
+  @@id([procedureId, localeCode])
+  @@index([localeCode, name])
+  @@map("procedure_translation")
+}
+
+/// Procedures are many-to-many with subcategories because the current catalogue
+/// reuses bodytite, subcutaneous_rf, and sclerotherapy under multiple parents.
+model ProcedureSubcategory {
+  procedureId   String
+  subcategoryId String
+  sortOrder     Int     @default(0)
+  isActive      Boolean @default(true)
+
+  procedure   Procedure   @relation(fields: [procedureId], references: [id], onDelete: Restrict)
+  subcategory Subcategory @relation(fields: [subcategoryId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([subcategoryId, procedureId])
+  @@index([procedureId, subcategoryId])
+  @@index([subcategoryId, isActive, sortOrder])
+  @@map("procedure_subcategory")
+}
+
+model DoctorSpecialty {
+  doctorProfileId String
+  specialtyId     String
+  position        Int    @default(0)
+
+  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+  specialty     Specialty     @relation(fields: [specialtyId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([doctorProfileId, specialtyId])
+  @@index([specialtyId, doctorProfileId])
+  @@index([doctorProfileId, position])
+  @@map("doctor_specialty")
+}
+
+model DoctorSubcategory {
+  doctorProfileId String
+  subcategoryId   String
+  position        Int    @default(0)
+
+  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+  subcategory   Subcategory   @relation(fields: [subcategoryId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([doctorProfileId, subcategoryId])
+  @@index([subcategoryId, doctorProfileId])
+  @@index([doctorProfileId, position])
+  @@map("doctor_subcategory")
+}
+
+model DoctorProcedure {
+  doctorProfileId String
+  procedureId     String
+  position        Int    @default(0)
+  topRank         Int?
+
+  /// Doctor-specific price. Decimal avoids floating-point errors for money.
+  /// A null value means that this doctor has not published a price.
+  price Decimal? @db.Decimal(12, 2)
+
+  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+  procedure     Procedure     @relation(fields: [procedureId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([doctorProfileId, procedureId])
+  @@unique([doctorProfileId, topRank])
+  @@index([procedureId, doctorProfileId])
+  @@index([doctorProfileId, position])
+  @@map("doctor_procedure")
+}
+
 model DoctorSocialMedia {
   id String @id @default(cuid())
 
   doctorProfileId String
-  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
 
   platform SocialMediaPlatform
   url      String
@@ -166,7 +453,7 @@ model DoctorSocialMedia {
   label String?
 
   isVisible Boolean @default(true)
-  sortOrder  Int     @default(0)
+  sortOrder Int     @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -182,9 +469,9 @@ model PatientProfile {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  avatar        String?
-  gender        String?
-  phoneNumber   String?
+  avatar      String?
+  gender      String?
+  phoneNumber String?
 
   city          String?
   country       String?
@@ -210,32 +497,32 @@ model ConsultationBooking {
   id String @id @default(cuid())
 
   patientUserId String
-  patientUser   User @relation("PatientConsultationBookings", fields: [patientUserId], references: [id], onDelete: Cascade)
+  patientUser   User   @relation("PatientConsultationBookings", fields: [patientUserId], references: [id], onDelete: Cascade)
 
   doctorProfileId String
   doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
 
   consultationType ConsultationType
 
-  amount Int
-  platformFee Int
+  amount       Int
+  platformFee  Int
   doctorAmount Int
-  currency String @default("eur")
+  currency     String @default("eur")
 
   stripeCheckoutSessionId String? @unique
   stripePaymentIntentId   String? @unique
   stripeChargeId          String?
   stripeTransferId        String?
 
-  paymentConfirmedEmailSentAt DateTime?
+  paymentConfirmedEmailSentAt  DateTime?
   paymentProcessingEmailSentAt DateTime?
-  paymentFailedEmailSentAt DateTime?
+  paymentFailedEmailSentAt     DateTime?
 
   status String @default("pending") // pending | paid | cancelled | refunded | failed
 
-  paidAt DateTime?
+  paidAt      DateTime?
   cancelledAt DateTime?
-  refundedAt DateTime?
+  refundedAt  DateTime?
 
   inClinicAccess InClinicConsultationAccess?
   onlineAccess   OnlineConsultationAccess?
@@ -259,13 +546,13 @@ model ConsultationRefundRequest {
   booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   patientUserId String
-  patientUser   User @relation("PatientConsultationRefundRequests", fields: [patientUserId], references: [id], onDelete: Cascade)
+  patientUser   User   @relation("PatientConsultationRefundRequests", fields: [patientUserId], references: [id], onDelete: Cascade)
 
   doctorProfileId String
   doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
 
   reason    String
-  status    String @default("pending") // pending | approved | rejected | refunded
+  status    String  @default("pending") // pending | approved | rejected | refunded
   adminNote String?
 
   createdAt  DateTime  @default(now())
@@ -282,18 +569,18 @@ model ConsultationRefundRequest {
 model InClinicConsultationAccess {
   id String @id @default(cuid())
 
-  bookingId String @unique
+  bookingId String              @unique
   booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   patientUserId String
-  patientUser   User @relation("PatientInClinicAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
+  patientUser   User   @relation("PatientInClinicAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
 
   doctorProfileId String
   doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
 
   approvedToView Boolean @default(false)
 
-  purchasedAt DateTime @default(now())
+  purchasedAt DateTime  @default(now())
   approvedAt  DateTime?
 
   createdAt DateTime @default(now())
@@ -308,11 +595,11 @@ model InClinicConsultationAccess {
 model OnlineConsultationAccess {
   id String @id @default(cuid())
 
-  bookingId String @unique
+  bookingId String              @unique
   booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   patientUserId String
-  patientUser   User @relation("PatientOnlineAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
+  patientUser   User   @relation("PatientOnlineAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
 
   doctorProfileId String
   doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
@@ -321,7 +608,7 @@ model OnlineConsultationAccess {
 
   conversation Conversation?
 
-  purchasedAt DateTime @default(now())
+  purchasedAt DateTime  @default(now())
   activatedAt DateTime?
   closedAt    DateTime?
 
@@ -383,22 +670,22 @@ model Verification {
 }
 
 model BeforeAfterCase {
-  id          String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  doctorId    String
-  patientId   String?
+  doctorId  String
+  patientId String?
 
-  procedure   String?
-  notes       String?
+  procedure String?
+  notes     String?
 
-  title       String?
-  isPublic    Boolean  @default(false)
+  title    String?
+  isPublic Boolean @default(false)
 
   beforeImage String?
   afterImage  String?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([doctorId])
   @@index([patientId])
@@ -407,11 +694,11 @@ model BeforeAfterCase {
 model Conversation {
   id String @id @default(cuid())
 
-  onlineAccessId String @unique
+  onlineAccessId String                   @unique
   onlineAccess   OnlineConsultationAccess @relation(fields: [onlineAccessId], references: [id], onDelete: Cascade)
 
   patientUserId String
-  patientUser   User @relation("PatientConversations", fields: [patientUserId], references: [id], onDelete: Cascade)
+  patientUser   User   @relation("PatientConversations", fields: [patientUserId], references: [id], onDelete: Cascade)
 
   doctorProfileId String
   doctorProfile   DoctorProfile @relation("DoctorConversations", fields: [doctorProfileId], references: [id], onDelete: Cascade)
@@ -421,7 +708,7 @@ model Conversation {
   lastMessageAt DateTime?
   closedAt      DateTime?
 
-  messages Message[]
+  messages    Message[]
   attachments MessageAttachment[]
 
   createdAt DateTime @default(now())
@@ -441,7 +728,7 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   senderUserId String
-  senderUser   User @relation("MessageSender", fields: [senderUserId], references: [id], onDelete: Cascade)
+  senderUser   User   @relation("MessageSender", fields: [senderUserId], references: [id], onDelete: Cascade)
 
   senderRole MessageSenderRole
 
@@ -451,7 +738,7 @@ model Message {
   ciphertext String?
   iv         String?
   authTag    String?
-  keyVersion Int @default(1)
+  keyVersion Int     @default(1)
 
   attachments MessageAttachment[]
 
@@ -478,10 +765,10 @@ model MessageAttachment {
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   uploadedByUserId String
-  uploadedByUser   User @relation(fields: [uploadedByUserId], references: [id], onDelete: Cascade)
+  uploadedByUser   User   @relation(fields: [uploadedByUserId], references: [id], onDelete: Cascade)
 
-  objectPath String
-  fileName   String?
+  objectPath  String
+  fileName    String?
   contentType String
   sizeBytes   Int?
 
@@ -507,7 +794,6 @@ model InstagramReel {
   @@index([sortOrder])
   @@index([doctorProfileId])
   @@index([doctorProfileId, sortOrder])
-
   @@map("instagram_reel")
 }
 
@@ -519,7 +805,7 @@ model Review {
   rating Int
 
   patientUserId String
-  patientUser   User @relation("PatientDoctorReviews", fields: [patientUserId], references: [id], onDelete: Cascade)
+  patientUser   User   @relation("PatientDoctorReviews", fields: [patientUserId], references: [id], onDelete: Cascade)
 
   doctorProfileId String
   doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
@@ -546,11 +832,11 @@ model ReviewInvitation {
   // Nullable for a generic link generated without selecting a patient.
   // The first authenticated PATIENT who submits through the link claims it.
   patientUserId String?
-  patientUser   User? @relation("PatientReviewInvitations", fields: [patientUserId], references: [id], onDelete: Cascade)
+  patientUser   User?   @relation("PatientReviewInvitations", fields: [patientUserId], references: [id], onDelete: Cascade)
 
   // Nullable for the same generic-link flow.
   recipientEmail String?
-  tokenHash      String @unique
+  tokenHash      String  @unique
 
   expiresAt DateTime
   sentAt    DateTime?
@@ -569,4 +855,3 @@ model ReviewInvitation {
   @@index([doctorProfileId, patientUserId])
   @@map("review_invitation")
 }
-

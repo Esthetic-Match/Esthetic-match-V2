@@ -53,6 +53,22 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   DoctorProfile: 'DoctorProfile',
+  CatalogLocale: 'CatalogLocale',
+  SpecialtyGroup: 'SpecialtyGroup',
+  SpecialtyGroupTranslation: 'SpecialtyGroupTranslation',
+  Specialty: 'Specialty',
+  SpecialtyTranslation: 'SpecialtyTranslation',
+  Category: 'Category',
+  CategoryTranslation: 'CategoryTranslation',
+  SpecialtyCategory: 'SpecialtyCategory',
+  Subcategory: 'Subcategory',
+  SubcategoryTranslation: 'SubcategoryTranslation',
+  Procedure: 'Procedure',
+  ProcedureTranslation: 'ProcedureTranslation',
+  ProcedureSubcategory: 'ProcedureSubcategory',
+  DoctorSpecialty: 'DoctorSpecialty',
+  DoctorSubcategory: 'DoctorSubcategory',
+  DoctorProcedure: 'DoctorProcedure',
   DoctorSocialMedia: 'DoctorSocialMedia',
   PatientProfile: 'PatientProfile',
   ConsultationBooking: 'ConsultationBooking',
@@ -148,6 +164,189 @@ export const DoctorProfileScalarFieldEnum = {
 } as const
 
 export type DoctorProfileScalarFieldEnum = (typeof DoctorProfileScalarFieldEnum)[keyof typeof DoctorProfileScalarFieldEnum]
+
+
+export const CatalogLocaleScalarFieldEnum = {
+  code: 'code',
+  displayName: 'displayName',
+  isDefault: 'isDefault',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CatalogLocaleScalarFieldEnum = (typeof CatalogLocaleScalarFieldEnum)[keyof typeof CatalogLocaleScalarFieldEnum]
+
+
+export const SpecialtyGroupScalarFieldEnum = {
+  id: 'id',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SpecialtyGroupScalarFieldEnum = (typeof SpecialtyGroupScalarFieldEnum)[keyof typeof SpecialtyGroupScalarFieldEnum]
+
+
+export const SpecialtyGroupTranslationScalarFieldEnum = {
+  specialtyGroupId: 'specialtyGroupId',
+  localeCode: 'localeCode',
+  name: 'name'
+} as const
+
+export type SpecialtyGroupTranslationScalarFieldEnum = (typeof SpecialtyGroupTranslationScalarFieldEnum)[keyof typeof SpecialtyGroupTranslationScalarFieldEnum]
+
+
+export const SpecialtyScalarFieldEnum = {
+  id: 'id',
+  specialtyGroupId: 'specialtyGroupId',
+  icon: 'icon',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SpecialtyScalarFieldEnum = (typeof SpecialtyScalarFieldEnum)[keyof typeof SpecialtyScalarFieldEnum]
+
+
+export const SpecialtyTranslationScalarFieldEnum = {
+  specialtyId: 'specialtyId',
+  localeCode: 'localeCode',
+  name: 'name',
+  description: 'description'
+} as const
+
+export type SpecialtyTranslationScalarFieldEnum = (typeof SpecialtyTranslationScalarFieldEnum)[keyof typeof SpecialtyTranslationScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  href: 'href',
+  homeImage: 'homeImage',
+  dashboardImage: 'dashboardImage',
+  icon: 'icon',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const CategoryTranslationScalarFieldEnum = {
+  categoryId: 'categoryId',
+  localeCode: 'localeCode',
+  name: 'name',
+  description: 'description'
+} as const
+
+export type CategoryTranslationScalarFieldEnum = (typeof CategoryTranslationScalarFieldEnum)[keyof typeof CategoryTranslationScalarFieldEnum]
+
+
+export const SpecialtyCategoryScalarFieldEnum = {
+  specialtyId: 'specialtyId',
+  categoryId: 'categoryId',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SpecialtyCategoryScalarFieldEnum = (typeof SpecialtyCategoryScalarFieldEnum)[keyof typeof SpecialtyCategoryScalarFieldEnum]
+
+
+export const SubcategoryScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SubcategoryScalarFieldEnum = (typeof SubcategoryScalarFieldEnum)[keyof typeof SubcategoryScalarFieldEnum]
+
+
+export const SubcategoryTranslationScalarFieldEnum = {
+  subcategoryId: 'subcategoryId',
+  localeCode: 'localeCode',
+  name: 'name',
+  description: 'description'
+} as const
+
+export type SubcategoryTranslationScalarFieldEnum = (typeof SubcategoryTranslationScalarFieldEnum)[keyof typeof SubcategoryTranslationScalarFieldEnum]
+
+
+export const ProcedureScalarFieldEnum = {
+  id: 'id',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProcedureScalarFieldEnum = (typeof ProcedureScalarFieldEnum)[keyof typeof ProcedureScalarFieldEnum]
+
+
+export const ProcedureTranslationScalarFieldEnum = {
+  procedureId: 'procedureId',
+  localeCode: 'localeCode',
+  name: 'name',
+  description: 'description'
+} as const
+
+export type ProcedureTranslationScalarFieldEnum = (typeof ProcedureTranslationScalarFieldEnum)[keyof typeof ProcedureTranslationScalarFieldEnum]
+
+
+export const ProcedureSubcategoryScalarFieldEnum = {
+  procedureId: 'procedureId',
+  subcategoryId: 'subcategoryId',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProcedureSubcategoryScalarFieldEnum = (typeof ProcedureSubcategoryScalarFieldEnum)[keyof typeof ProcedureSubcategoryScalarFieldEnum]
+
+
+export const DoctorSpecialtyScalarFieldEnum = {
+  doctorProfileId: 'doctorProfileId',
+  specialtyId: 'specialtyId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorSpecialtyScalarFieldEnum = (typeof DoctorSpecialtyScalarFieldEnum)[keyof typeof DoctorSpecialtyScalarFieldEnum]
+
+
+export const DoctorSubcategoryScalarFieldEnum = {
+  doctorProfileId: 'doctorProfileId',
+  subcategoryId: 'subcategoryId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorSubcategoryScalarFieldEnum = (typeof DoctorSubcategoryScalarFieldEnum)[keyof typeof DoctorSubcategoryScalarFieldEnum]
+
+
+export const DoctorProcedureScalarFieldEnum = {
+  doctorProfileId: 'doctorProfileId',
+  procedureId: 'procedureId',
+  position: 'position',
+  topRank: 'topRank',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorProcedureScalarFieldEnum = (typeof DoctorProcedureScalarFieldEnum)[keyof typeof DoctorProcedureScalarFieldEnum]
 
 
 export const DoctorSocialMediaScalarFieldEnum = {

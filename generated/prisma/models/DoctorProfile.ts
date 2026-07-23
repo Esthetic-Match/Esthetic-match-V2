@@ -506,6 +506,9 @@ export type DoctorProfileWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"DoctorProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   socialMediaLinks?: Prisma.DoctorSocialMediaListRelationFilter
+  specialties?: Prisma.DoctorSpecialtyListRelationFilter
+  subcategories?: Prisma.DoctorSubcategoryListRelationFilter
+  procedures?: Prisma.DoctorProcedureListRelationFilter
   consultationBookings?: Prisma.ConsultationBookingListRelationFilter
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessListRelationFilter
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessListRelationFilter
@@ -560,6 +563,9 @@ export type DoctorProfileOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   socialMediaLinks?: Prisma.DoctorSocialMediaOrderByRelationAggregateInput
+  specialties?: Prisma.DoctorSpecialtyOrderByRelationAggregateInput
+  subcategories?: Prisma.DoctorSubcategoryOrderByRelationAggregateInput
+  procedures?: Prisma.DoctorProcedureOrderByRelationAggregateInput
   consultationBookings?: Prisma.ConsultationBookingOrderByRelationAggregateInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessOrderByRelationAggregateInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessOrderByRelationAggregateInput
@@ -617,6 +623,9 @@ export type DoctorProfileWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"DoctorProfile"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   socialMediaLinks?: Prisma.DoctorSocialMediaListRelationFilter
+  specialties?: Prisma.DoctorSpecialtyListRelationFilter
+  subcategories?: Prisma.DoctorSubcategoryListRelationFilter
+  procedures?: Prisma.DoctorProcedureListRelationFilter
   consultationBookings?: Prisma.ConsultationBookingListRelationFilter
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessListRelationFilter
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessListRelationFilter
@@ -766,6 +775,9 @@ export type DoctorProfileCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -819,6 +831,9 @@ export type DoctorProfileUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -872,6 +887,9 @@ export type DoctorProfileUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -925,6 +943,9 @@ export type DoctorProfileUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -1330,6 +1351,48 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type DoctorProfileCreateNestedOneWithoutSpecialtiesInput = {
+  create?: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSpecialtiesInput, Prisma.DoctorProfileUncheckedCreateWithoutSpecialtiesInput>
+  connectOrCreate?: Prisma.DoctorProfileCreateOrConnectWithoutSpecialtiesInput
+  connect?: Prisma.DoctorProfileWhereUniqueInput
+}
+
+export type DoctorProfileUpdateOneRequiredWithoutSpecialtiesNestedInput = {
+  create?: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSpecialtiesInput, Prisma.DoctorProfileUncheckedCreateWithoutSpecialtiesInput>
+  connectOrCreate?: Prisma.DoctorProfileCreateOrConnectWithoutSpecialtiesInput
+  upsert?: Prisma.DoctorProfileUpsertWithoutSpecialtiesInput
+  connect?: Prisma.DoctorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DoctorProfileUpdateToOneWithWhereWithoutSpecialtiesInput, Prisma.DoctorProfileUpdateWithoutSpecialtiesInput>, Prisma.DoctorProfileUncheckedUpdateWithoutSpecialtiesInput>
+}
+
+export type DoctorProfileCreateNestedOneWithoutSubcategoriesInput = {
+  create?: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSubcategoriesInput, Prisma.DoctorProfileUncheckedCreateWithoutSubcategoriesInput>
+  connectOrCreate?: Prisma.DoctorProfileCreateOrConnectWithoutSubcategoriesInput
+  connect?: Prisma.DoctorProfileWhereUniqueInput
+}
+
+export type DoctorProfileUpdateOneRequiredWithoutSubcategoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSubcategoriesInput, Prisma.DoctorProfileUncheckedCreateWithoutSubcategoriesInput>
+  connectOrCreate?: Prisma.DoctorProfileCreateOrConnectWithoutSubcategoriesInput
+  upsert?: Prisma.DoctorProfileUpsertWithoutSubcategoriesInput
+  connect?: Prisma.DoctorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DoctorProfileUpdateToOneWithWhereWithoutSubcategoriesInput, Prisma.DoctorProfileUpdateWithoutSubcategoriesInput>, Prisma.DoctorProfileUncheckedUpdateWithoutSubcategoriesInput>
+}
+
+export type DoctorProfileCreateNestedOneWithoutProceduresInput = {
+  create?: Prisma.XOR<Prisma.DoctorProfileCreateWithoutProceduresInput, Prisma.DoctorProfileUncheckedCreateWithoutProceduresInput>
+  connectOrCreate?: Prisma.DoctorProfileCreateOrConnectWithoutProceduresInput
+  connect?: Prisma.DoctorProfileWhereUniqueInput
+}
+
+export type DoctorProfileUpdateOneRequiredWithoutProceduresNestedInput = {
+  create?: Prisma.XOR<Prisma.DoctorProfileCreateWithoutProceduresInput, Prisma.DoctorProfileUncheckedCreateWithoutProceduresInput>
+  connectOrCreate?: Prisma.DoctorProfileCreateOrConnectWithoutProceduresInput
+  upsert?: Prisma.DoctorProfileUpsertWithoutProceduresInput
+  connect?: Prisma.DoctorProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DoctorProfileUpdateToOneWithWhereWithoutProceduresInput, Prisma.DoctorProfileUpdateWithoutProceduresInput>, Prisma.DoctorProfileUncheckedUpdateWithoutProceduresInput>
+}
+
 export type DoctorProfileCreateNestedOneWithoutSocialMediaLinksInput = {
   create?: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSocialMediaLinksInput, Prisma.DoctorProfileUncheckedCreateWithoutSocialMediaLinksInput>
   connectOrCreate?: Prisma.DoctorProfileCreateOrConnectWithoutSocialMediaLinksInput
@@ -1500,6 +1563,9 @@ export type DoctorProfileCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -1552,6 +1618,9 @@ export type DoctorProfileUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -1620,6 +1689,9 @@ export type DoctorProfileUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -1672,6 +1744,717 @@ export type DoctorProfileUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  instagramReels?: Prisma.InstagramReelUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutDoctorProfileNestedInput
+}
+
+export type DoctorProfileCreateWithoutSpecialtiesInput = {
+  id?: string
+  slug?: string | null
+  avatar?: string | null
+  yearsOfExperience?: number | null
+  clinicName: string
+  clinicBanner?: string | null
+  specialtyIds?: Prisma.DoctorProfileCreatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileCreatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileCreateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileCreatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileCreatetopThreeInput | string[]
+  workAddress: string
+  city?: string | null
+  country?: string | null
+  zipCode?: string | null
+  workLatitude?: number | null
+  workLongitude?: number | null
+  googlePlaceId?: string | null
+  currency?: string
+  RPPS?: string | null
+  inClinicPrice?: number | null
+  onlineConsulPrice?: number | null
+  onlineActive?: boolean
+  inClinicLink?: string | null
+  stripeSubscriptionId?: string | null
+  stripeSubscriptionStatus?: string | null
+  stripeCustomerId?: string | null
+  subscriptionCurrentPeriodEnd?: Date | string | null
+  subscriptionPlan?: string | null
+  stripeConnectAccountId?: string | null
+  stripeConnectOnboardingComplete?: boolean
+  stripeConnectChargesEnabled?: boolean
+  stripeConnectPayoutsEnabled?: boolean
+  bookingLinks?: Prisma.DoctorProfileCreatebookingLinksInput | string[]
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  googleMapsUri?: string | null
+  otherSpecialtyText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
+  socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
+  consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutDoctorProfileInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutDoctorProfileInput
+  instagramReels?: Prisma.InstagramReelCreateNestedManyWithoutDoctorProfileInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDoctorProfileInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutDoctorProfileInput
+}
+
+export type DoctorProfileUncheckedCreateWithoutSpecialtiesInput = {
+  id?: string
+  userId: string
+  slug?: string | null
+  avatar?: string | null
+  yearsOfExperience?: number | null
+  clinicName: string
+  clinicBanner?: string | null
+  specialtyIds?: Prisma.DoctorProfileCreatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileCreatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileCreateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileCreatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileCreatetopThreeInput | string[]
+  workAddress: string
+  city?: string | null
+  country?: string | null
+  zipCode?: string | null
+  workLatitude?: number | null
+  workLongitude?: number | null
+  googlePlaceId?: string | null
+  currency?: string
+  RPPS?: string | null
+  inClinicPrice?: number | null
+  onlineConsulPrice?: number | null
+  onlineActive?: boolean
+  inClinicLink?: string | null
+  stripeSubscriptionId?: string | null
+  stripeSubscriptionStatus?: string | null
+  stripeCustomerId?: string | null
+  subscriptionCurrentPeriodEnd?: Date | string | null
+  subscriptionPlan?: string | null
+  stripeConnectAccountId?: string | null
+  stripeConnectOnboardingComplete?: boolean
+  stripeConnectChargesEnabled?: boolean
+  stripeConnectPayoutsEnabled?: boolean
+  bookingLinks?: Prisma.DoctorProfileCreatebookingLinksInput | string[]
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  googleMapsUri?: string | null
+  otherSpecialtyText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
+  consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutDoctorProfileInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutDoctorProfileInput
+  instagramReels?: Prisma.InstagramReelUncheckedCreateNestedManyWithoutDoctorProfileInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDoctorProfileInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutDoctorProfileInput
+}
+
+export type DoctorProfileCreateOrConnectWithoutSpecialtiesInput = {
+  where: Prisma.DoctorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSpecialtiesInput, Prisma.DoctorProfileUncheckedCreateWithoutSpecialtiesInput>
+}
+
+export type DoctorProfileUpsertWithoutSpecialtiesInput = {
+  update: Prisma.XOR<Prisma.DoctorProfileUpdateWithoutSpecialtiesInput, Prisma.DoctorProfileUncheckedUpdateWithoutSpecialtiesInput>
+  create: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSpecialtiesInput, Prisma.DoctorProfileUncheckedCreateWithoutSpecialtiesInput>
+  where?: Prisma.DoctorProfileWhereInput
+}
+
+export type DoctorProfileUpdateToOneWithWhereWithoutSpecialtiesInput = {
+  where?: Prisma.DoctorProfileWhereInput
+  data: Prisma.XOR<Prisma.DoctorProfileUpdateWithoutSpecialtiesInput, Prisma.DoctorProfileUncheckedUpdateWithoutSpecialtiesInput>
+}
+
+export type DoctorProfileUpdateWithoutSpecialtiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsOfExperience?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialtyIds?: Prisma.DoctorProfileUpdatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileUpdatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileUpdateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileUpdatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileUpdatetopThreeInput | string[]
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineConsulPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inClinicLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionCurrentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectOnboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingLinks?: Prisma.DoctorProfileUpdatebookingLinksInput | string[]
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  googleMapsUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otherSpecialtyText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
+  socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
+  consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutDoctorProfileNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutDoctorProfileNestedInput
+  instagramReels?: Prisma.InstagramReelUpdateManyWithoutDoctorProfileNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDoctorProfileNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutDoctorProfileNestedInput
+}
+
+export type DoctorProfileUncheckedUpdateWithoutSpecialtiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsOfExperience?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialtyIds?: Prisma.DoctorProfileUpdatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileUpdatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileUpdateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileUpdatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileUpdatetopThreeInput | string[]
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineConsulPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inClinicLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionCurrentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectOnboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingLinks?: Prisma.DoctorProfileUpdatebookingLinksInput | string[]
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  googleMapsUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otherSpecialtyText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  instagramReels?: Prisma.InstagramReelUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutDoctorProfileNestedInput
+}
+
+export type DoctorProfileCreateWithoutSubcategoriesInput = {
+  id?: string
+  slug?: string | null
+  avatar?: string | null
+  yearsOfExperience?: number | null
+  clinicName: string
+  clinicBanner?: string | null
+  specialtyIds?: Prisma.DoctorProfileCreatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileCreatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileCreateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileCreatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileCreatetopThreeInput | string[]
+  workAddress: string
+  city?: string | null
+  country?: string | null
+  zipCode?: string | null
+  workLatitude?: number | null
+  workLongitude?: number | null
+  googlePlaceId?: string | null
+  currency?: string
+  RPPS?: string | null
+  inClinicPrice?: number | null
+  onlineConsulPrice?: number | null
+  onlineActive?: boolean
+  inClinicLink?: string | null
+  stripeSubscriptionId?: string | null
+  stripeSubscriptionStatus?: string | null
+  stripeCustomerId?: string | null
+  subscriptionCurrentPeriodEnd?: Date | string | null
+  subscriptionPlan?: string | null
+  stripeConnectAccountId?: string | null
+  stripeConnectOnboardingComplete?: boolean
+  stripeConnectChargesEnabled?: boolean
+  stripeConnectPayoutsEnabled?: boolean
+  bookingLinks?: Prisma.DoctorProfileCreatebookingLinksInput | string[]
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  googleMapsUri?: string | null
+  otherSpecialtyText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
+  socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
+  consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutDoctorProfileInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutDoctorProfileInput
+  instagramReels?: Prisma.InstagramReelCreateNestedManyWithoutDoctorProfileInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDoctorProfileInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutDoctorProfileInput
+}
+
+export type DoctorProfileUncheckedCreateWithoutSubcategoriesInput = {
+  id?: string
+  userId: string
+  slug?: string | null
+  avatar?: string | null
+  yearsOfExperience?: number | null
+  clinicName: string
+  clinicBanner?: string | null
+  specialtyIds?: Prisma.DoctorProfileCreatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileCreatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileCreateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileCreatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileCreatetopThreeInput | string[]
+  workAddress: string
+  city?: string | null
+  country?: string | null
+  zipCode?: string | null
+  workLatitude?: number | null
+  workLongitude?: number | null
+  googlePlaceId?: string | null
+  currency?: string
+  RPPS?: string | null
+  inClinicPrice?: number | null
+  onlineConsulPrice?: number | null
+  onlineActive?: boolean
+  inClinicLink?: string | null
+  stripeSubscriptionId?: string | null
+  stripeSubscriptionStatus?: string | null
+  stripeCustomerId?: string | null
+  subscriptionCurrentPeriodEnd?: Date | string | null
+  subscriptionPlan?: string | null
+  stripeConnectAccountId?: string | null
+  stripeConnectOnboardingComplete?: boolean
+  stripeConnectChargesEnabled?: boolean
+  stripeConnectPayoutsEnabled?: boolean
+  bookingLinks?: Prisma.DoctorProfileCreatebookingLinksInput | string[]
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  googleMapsUri?: string | null
+  otherSpecialtyText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
+  consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutDoctorProfileInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutDoctorProfileInput
+  instagramReels?: Prisma.InstagramReelUncheckedCreateNestedManyWithoutDoctorProfileInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDoctorProfileInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutDoctorProfileInput
+}
+
+export type DoctorProfileCreateOrConnectWithoutSubcategoriesInput = {
+  where: Prisma.DoctorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSubcategoriesInput, Prisma.DoctorProfileUncheckedCreateWithoutSubcategoriesInput>
+}
+
+export type DoctorProfileUpsertWithoutSubcategoriesInput = {
+  update: Prisma.XOR<Prisma.DoctorProfileUpdateWithoutSubcategoriesInput, Prisma.DoctorProfileUncheckedUpdateWithoutSubcategoriesInput>
+  create: Prisma.XOR<Prisma.DoctorProfileCreateWithoutSubcategoriesInput, Prisma.DoctorProfileUncheckedCreateWithoutSubcategoriesInput>
+  where?: Prisma.DoctorProfileWhereInput
+}
+
+export type DoctorProfileUpdateToOneWithWhereWithoutSubcategoriesInput = {
+  where?: Prisma.DoctorProfileWhereInput
+  data: Prisma.XOR<Prisma.DoctorProfileUpdateWithoutSubcategoriesInput, Prisma.DoctorProfileUncheckedUpdateWithoutSubcategoriesInput>
+}
+
+export type DoctorProfileUpdateWithoutSubcategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsOfExperience?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialtyIds?: Prisma.DoctorProfileUpdatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileUpdatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileUpdateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileUpdatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileUpdatetopThreeInput | string[]
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineConsulPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inClinicLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionCurrentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectOnboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingLinks?: Prisma.DoctorProfileUpdatebookingLinksInput | string[]
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  googleMapsUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otherSpecialtyText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
+  socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
+  consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutDoctorProfileNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutDoctorProfileNestedInput
+  instagramReels?: Prisma.InstagramReelUpdateManyWithoutDoctorProfileNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDoctorProfileNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutDoctorProfileNestedInput
+}
+
+export type DoctorProfileUncheckedUpdateWithoutSubcategoriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsOfExperience?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialtyIds?: Prisma.DoctorProfileUpdatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileUpdatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileUpdateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileUpdatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileUpdatetopThreeInput | string[]
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineConsulPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inClinicLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionCurrentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectOnboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingLinks?: Prisma.DoctorProfileUpdatebookingLinksInput | string[]
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  googleMapsUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otherSpecialtyText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  instagramReels?: Prisma.InstagramReelUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedUpdateManyWithoutDoctorProfileNestedInput
+}
+
+export type DoctorProfileCreateWithoutProceduresInput = {
+  id?: string
+  slug?: string | null
+  avatar?: string | null
+  yearsOfExperience?: number | null
+  clinicName: string
+  clinicBanner?: string | null
+  specialtyIds?: Prisma.DoctorProfileCreatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileCreatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileCreateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileCreatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileCreatetopThreeInput | string[]
+  workAddress: string
+  city?: string | null
+  country?: string | null
+  zipCode?: string | null
+  workLatitude?: number | null
+  workLongitude?: number | null
+  googlePlaceId?: string | null
+  currency?: string
+  RPPS?: string | null
+  inClinicPrice?: number | null
+  onlineConsulPrice?: number | null
+  onlineActive?: boolean
+  inClinicLink?: string | null
+  stripeSubscriptionId?: string | null
+  stripeSubscriptionStatus?: string | null
+  stripeCustomerId?: string | null
+  subscriptionCurrentPeriodEnd?: Date | string | null
+  subscriptionPlan?: string | null
+  stripeConnectAccountId?: string | null
+  stripeConnectOnboardingComplete?: boolean
+  stripeConnectChargesEnabled?: boolean
+  stripeConnectPayoutsEnabled?: boolean
+  bookingLinks?: Prisma.DoctorProfileCreatebookingLinksInput | string[]
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  googleMapsUri?: string | null
+  otherSpecialtyText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
+  socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutDoctorProfileInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutDoctorProfileInput
+  instagramReels?: Prisma.InstagramReelCreateNestedManyWithoutDoctorProfileInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutDoctorProfileInput
+  reviewInvitations?: Prisma.ReviewInvitationCreateNestedManyWithoutDoctorProfileInput
+}
+
+export type DoctorProfileUncheckedCreateWithoutProceduresInput = {
+  id?: string
+  userId: string
+  slug?: string | null
+  avatar?: string | null
+  yearsOfExperience?: number | null
+  clinicName: string
+  clinicBanner?: string | null
+  specialtyIds?: Prisma.DoctorProfileCreatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileCreatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileCreateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileCreatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileCreatetopThreeInput | string[]
+  workAddress: string
+  city?: string | null
+  country?: string | null
+  zipCode?: string | null
+  workLatitude?: number | null
+  workLongitude?: number | null
+  googlePlaceId?: string | null
+  currency?: string
+  RPPS?: string | null
+  inClinicPrice?: number | null
+  onlineConsulPrice?: number | null
+  onlineActive?: boolean
+  inClinicLink?: string | null
+  stripeSubscriptionId?: string | null
+  stripeSubscriptionStatus?: string | null
+  stripeCustomerId?: string | null
+  subscriptionCurrentPeriodEnd?: Date | string | null
+  subscriptionPlan?: string | null
+  stripeConnectAccountId?: string | null
+  stripeConnectOnboardingComplete?: boolean
+  stripeConnectChargesEnabled?: boolean
+  stripeConnectPayoutsEnabled?: boolean
+  bookingLinks?: Prisma.DoctorProfileCreatebookingLinksInput | string[]
+  googleRating?: number | null
+  googleReviewCount?: number | null
+  googleMapsUri?: string | null
+  otherSpecialtyText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutDoctorProfileInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutDoctorProfileInput
+  instagramReels?: Prisma.InstagramReelUncheckedCreateNestedManyWithoutDoctorProfileInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutDoctorProfileInput
+  reviewInvitations?: Prisma.ReviewInvitationUncheckedCreateNestedManyWithoutDoctorProfileInput
+}
+
+export type DoctorProfileCreateOrConnectWithoutProceduresInput = {
+  where: Prisma.DoctorProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.DoctorProfileCreateWithoutProceduresInput, Prisma.DoctorProfileUncheckedCreateWithoutProceduresInput>
+}
+
+export type DoctorProfileUpsertWithoutProceduresInput = {
+  update: Prisma.XOR<Prisma.DoctorProfileUpdateWithoutProceduresInput, Prisma.DoctorProfileUncheckedUpdateWithoutProceduresInput>
+  create: Prisma.XOR<Prisma.DoctorProfileCreateWithoutProceduresInput, Prisma.DoctorProfileUncheckedCreateWithoutProceduresInput>
+  where?: Prisma.DoctorProfileWhereInput
+}
+
+export type DoctorProfileUpdateToOneWithWhereWithoutProceduresInput = {
+  where?: Prisma.DoctorProfileWhereInput
+  data: Prisma.XOR<Prisma.DoctorProfileUpdateWithoutProceduresInput, Prisma.DoctorProfileUncheckedUpdateWithoutProceduresInput>
+}
+
+export type DoctorProfileUpdateWithoutProceduresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsOfExperience?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialtyIds?: Prisma.DoctorProfileUpdatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileUpdatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileUpdateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileUpdatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileUpdatetopThreeInput | string[]
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineConsulPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inClinicLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionCurrentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectOnboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingLinks?: Prisma.DoctorProfileUpdatebookingLinksInput | string[]
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  googleMapsUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otherSpecialtyText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
+  socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
+  inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
+  onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
+  consultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutDoctorProfileNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutDoctorProfileNestedInput
+  instagramReels?: Prisma.InstagramReelUpdateManyWithoutDoctorProfileNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutDoctorProfileNestedInput
+  reviewInvitations?: Prisma.ReviewInvitationUpdateManyWithoutDoctorProfileNestedInput
+}
+
+export type DoctorProfileUncheckedUpdateWithoutProceduresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsOfExperience?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  clinicName?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicBanner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialtyIds?: Prisma.DoctorProfileUpdatespecialtyIdsInput | string[]
+  subcategoryIds?: Prisma.DoctorProfileUpdatesubcategoryIdsInput | string[]
+  procedureIds?: Prisma.DoctorProfileUpdateprocedureIdsInput | string[]
+  subzoneIds?: Prisma.DoctorProfileUpdatesubzoneIdsInput | string[]
+  topThree?: Prisma.DoctorProfileUpdatetopThreeInput | string[]
+  workAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  workLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  workLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googlePlaceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  RPPS?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  inClinicPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineConsulPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  onlineActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  inClinicLink?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionCurrentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionPlan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeConnectOnboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectChargesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  stripeConnectPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingLinks?: Prisma.DoctorProfileUpdatebookingLinksInput | string[]
+  googleRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  googleReviewCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  googleMapsUri?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  otherSpecialtyText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -1724,6 +2507,9 @@ export type DoctorProfileCreateWithoutSocialMediaLinksInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -1776,6 +2562,9 @@ export type DoctorProfileUncheckedCreateWithoutSocialMediaLinksInput = {
   otherSpecialtyText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -1844,6 +2633,9 @@ export type DoctorProfileUpdateWithoutSocialMediaLinksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -1896,6 +2688,9 @@ export type DoctorProfileUncheckedUpdateWithoutSocialMediaLinksInput = {
   otherSpecialtyText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -1949,6 +2744,9 @@ export type DoctorProfileCreateWithoutConsultationBookingsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutDoctorProfileInput
@@ -2001,6 +2799,9 @@ export type DoctorProfileUncheckedCreateWithoutConsultationBookingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -2069,6 +2870,9 @@ export type DoctorProfileUpdateWithoutConsultationBookingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutDoctorProfileNestedInput
@@ -2121,6 +2925,9 @@ export type DoctorProfileUncheckedUpdateWithoutConsultationBookingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -2173,6 +2980,9 @@ export type DoctorProfileCreateWithoutConsultationRefundRequestsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -2225,6 +3035,9 @@ export type DoctorProfileUncheckedCreateWithoutConsultationRefundRequestsInput =
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -2293,6 +3106,9 @@ export type DoctorProfileUpdateWithoutConsultationRefundRequestsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -2345,6 +3161,9 @@ export type DoctorProfileUncheckedUpdateWithoutConsultationRefundRequestsInput =
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -2397,6 +3216,9 @@ export type DoctorProfileCreateWithoutInClinicConsultationAccessesInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutDoctorProfileInput
@@ -2449,6 +3271,9 @@ export type DoctorProfileUncheckedCreateWithoutInClinicConsultationAccessesInput
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -2517,6 +3342,9 @@ export type DoctorProfileUpdateWithoutInClinicConsultationAccessesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutDoctorProfileNestedInput
@@ -2569,6 +3397,9 @@ export type DoctorProfileUncheckedUpdateWithoutInClinicConsultationAccessesInput
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -2621,6 +3452,9 @@ export type DoctorProfileCreateWithoutOnlineConsultationAccessesInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestCreateNestedManyWithoutDoctorProfileInput
@@ -2673,6 +3507,9 @@ export type DoctorProfileUncheckedCreateWithoutOnlineConsultationAccessesInput =
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -2741,6 +3578,9 @@ export type DoctorProfileUpdateWithoutOnlineConsultationAccessesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUpdateManyWithoutDoctorProfileNestedInput
@@ -2793,6 +3633,9 @@ export type DoctorProfileUncheckedUpdateWithoutOnlineConsultationAccessesInput =
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationRefundRequests?: Prisma.ConsultationRefundRequestUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -2845,6 +3688,9 @@ export type DoctorProfileCreateWithoutConversationsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -2897,6 +3743,9 @@ export type DoctorProfileUncheckedCreateWithoutConversationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -2965,6 +3814,9 @@ export type DoctorProfileUpdateWithoutConversationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -3017,6 +3869,9 @@ export type DoctorProfileUncheckedUpdateWithoutConversationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -3069,6 +3924,9 @@ export type DoctorProfileCreateWithoutInstagramReelsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -3121,6 +3979,9 @@ export type DoctorProfileUncheckedCreateWithoutInstagramReelsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -3189,6 +4050,9 @@ export type DoctorProfileUpdateWithoutInstagramReelsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -3241,6 +4105,9 @@ export type DoctorProfileUncheckedUpdateWithoutInstagramReelsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -3293,6 +4160,9 @@ export type DoctorProfileCreateWithoutReviewsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -3345,6 +4215,9 @@ export type DoctorProfileUncheckedCreateWithoutReviewsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -3413,6 +4286,9 @@ export type DoctorProfileUpdateWithoutReviewsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -3465,6 +4341,9 @@ export type DoctorProfileUncheckedUpdateWithoutReviewsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -3517,6 +4396,9 @@ export type DoctorProfileCreateWithoutReviewInvitationsInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDoctorProfileInput
   socialMediaLinks?: Prisma.DoctorSocialMediaCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessCreateNestedManyWithoutDoctorProfileInput
@@ -3569,6 +4451,9 @@ export type DoctorProfileUncheckedCreateWithoutReviewInvitationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedCreateNestedManyWithoutDoctorProfileInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedCreateNestedManyWithoutDoctorProfileInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedCreateNestedManyWithoutDoctorProfileInput
+  procedures?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutDoctorProfileInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedCreateNestedManyWithoutDoctorProfileInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedCreateNestedManyWithoutDoctorProfileInput
@@ -3637,6 +4522,9 @@ export type DoctorProfileUpdateWithoutReviewInvitationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDoctorProfileNestedInput
   socialMediaLinks?: Prisma.DoctorSocialMediaUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUpdateManyWithoutDoctorProfileNestedInput
@@ -3689,6 +4577,9 @@ export type DoctorProfileUncheckedUpdateWithoutReviewInvitationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   socialMediaLinks?: Prisma.DoctorSocialMediaUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  specialties?: Prisma.DoctorSpecialtyUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  subcategories?: Prisma.DoctorSubcategoryUncheckedUpdateManyWithoutDoctorProfileNestedInput
+  procedures?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileNestedInput
   consultationBookings?: Prisma.ConsultationBookingUncheckedUpdateManyWithoutDoctorProfileNestedInput
   inClinicConsultationAccesses?: Prisma.InClinicConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
   onlineConsultationAccesses?: Prisma.OnlineConsultationAccessUncheckedUpdateManyWithoutDoctorProfileNestedInput
@@ -3705,6 +4596,9 @@ export type DoctorProfileUncheckedUpdateWithoutReviewInvitationsInput = {
 
 export type DoctorProfileCountOutputType = {
   socialMediaLinks: number
+  specialties: number
+  subcategories: number
+  procedures: number
   consultationBookings: number
   inClinicConsultationAccesses: number
   onlineConsultationAccesses: number
@@ -3717,6 +4611,9 @@ export type DoctorProfileCountOutputType = {
 
 export type DoctorProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   socialMediaLinks?: boolean | DoctorProfileCountOutputTypeCountSocialMediaLinksArgs
+  specialties?: boolean | DoctorProfileCountOutputTypeCountSpecialtiesArgs
+  subcategories?: boolean | DoctorProfileCountOutputTypeCountSubcategoriesArgs
+  procedures?: boolean | DoctorProfileCountOutputTypeCountProceduresArgs
   consultationBookings?: boolean | DoctorProfileCountOutputTypeCountConsultationBookingsArgs
   inClinicConsultationAccesses?: boolean | DoctorProfileCountOutputTypeCountInClinicConsultationAccessesArgs
   onlineConsultationAccesses?: boolean | DoctorProfileCountOutputTypeCountOnlineConsultationAccessesArgs
@@ -3742,6 +4639,27 @@ export type DoctorProfileCountOutputTypeDefaultArgs<ExtArgs extends runtime.Type
  */
 export type DoctorProfileCountOutputTypeCountSocialMediaLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DoctorSocialMediaWhereInput
+}
+
+/**
+ * DoctorProfileCountOutputType without action
+ */
+export type DoctorProfileCountOutputTypeCountSpecialtiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DoctorSpecialtyWhereInput
+}
+
+/**
+ * DoctorProfileCountOutputType without action
+ */
+export type DoctorProfileCountOutputTypeCountSubcategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DoctorSubcategoryWhereInput
+}
+
+/**
+ * DoctorProfileCountOutputType without action
+ */
+export type DoctorProfileCountOutputTypeCountProceduresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DoctorProcedureWhereInput
 }
 
 /**
@@ -3845,6 +4763,9 @@ export type DoctorProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   socialMediaLinks?: boolean | Prisma.DoctorProfile$socialMediaLinksArgs<ExtArgs>
+  specialties?: boolean | Prisma.DoctorProfile$specialtiesArgs<ExtArgs>
+  subcategories?: boolean | Prisma.DoctorProfile$subcategoriesArgs<ExtArgs>
+  procedures?: boolean | Prisma.DoctorProfile$proceduresArgs<ExtArgs>
   consultationBookings?: boolean | Prisma.DoctorProfile$consultationBookingsArgs<ExtArgs>
   inClinicConsultationAccesses?: boolean | Prisma.DoctorProfile$inClinicConsultationAccessesArgs<ExtArgs>
   onlineConsultationAccesses?: boolean | Prisma.DoctorProfile$onlineConsultationAccessesArgs<ExtArgs>
@@ -3994,6 +4915,9 @@ export type DoctorProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalA
 export type DoctorProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   socialMediaLinks?: boolean | Prisma.DoctorProfile$socialMediaLinksArgs<ExtArgs>
+  specialties?: boolean | Prisma.DoctorProfile$specialtiesArgs<ExtArgs>
+  subcategories?: boolean | Prisma.DoctorProfile$subcategoriesArgs<ExtArgs>
+  procedures?: boolean | Prisma.DoctorProfile$proceduresArgs<ExtArgs>
   consultationBookings?: boolean | Prisma.DoctorProfile$consultationBookingsArgs<ExtArgs>
   inClinicConsultationAccesses?: boolean | Prisma.DoctorProfile$inClinicConsultationAccessesArgs<ExtArgs>
   onlineConsultationAccesses?: boolean | Prisma.DoctorProfile$onlineConsultationAccessesArgs<ExtArgs>
@@ -4016,6 +4940,9 @@ export type $DoctorProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     socialMediaLinks: Prisma.$DoctorSocialMediaPayload<ExtArgs>[]
+    specialties: Prisma.$DoctorSpecialtyPayload<ExtArgs>[]
+    subcategories: Prisma.$DoctorSubcategoryPayload<ExtArgs>[]
+    procedures: Prisma.$DoctorProcedurePayload<ExtArgs>[]
     consultationBookings: Prisma.$ConsultationBookingPayload<ExtArgs>[]
     inClinicConsultationAccesses: Prisma.$InClinicConsultationAccessPayload<ExtArgs>[]
     onlineConsultationAccesses: Prisma.$OnlineConsultationAccessPayload<ExtArgs>[]
@@ -4463,6 +5390,9 @@ export interface Prisma__DoctorProfileClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   socialMediaLinks<T extends Prisma.DoctorProfile$socialMediaLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfile$socialMediaLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DoctorSocialMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  specialties<T extends Prisma.DoctorProfile$specialtiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfile$specialtiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DoctorSpecialtyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subcategories<T extends Prisma.DoctorProfile$subcategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfile$subcategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DoctorSubcategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  procedures<T extends Prisma.DoctorProfile$proceduresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfile$proceduresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DoctorProcedurePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   consultationBookings<T extends Prisma.DoctorProfile$consultationBookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfile$consultationBookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConsultationBookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inClinicConsultationAccesses<T extends Prisma.DoctorProfile$inClinicConsultationAccessesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfile$inClinicConsultationAccessesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InClinicConsultationAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   onlineConsultationAccesses<T extends Prisma.DoctorProfile$onlineConsultationAccessesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DoctorProfile$onlineConsultationAccessesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OnlineConsultationAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4963,6 +5893,78 @@ export type DoctorProfile$socialMediaLinksArgs<ExtArgs extends runtime.Types.Ext
   take?: number
   skip?: number
   distinct?: Prisma.DoctorSocialMediaScalarFieldEnum | Prisma.DoctorSocialMediaScalarFieldEnum[]
+}
+
+/**
+ * DoctorProfile.specialties
+ */
+export type DoctorProfile$specialtiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DoctorSpecialty
+   */
+  select?: Prisma.DoctorSpecialtySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DoctorSpecialty
+   */
+  omit?: Prisma.DoctorSpecialtyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DoctorSpecialtyInclude<ExtArgs> | null
+  where?: Prisma.DoctorSpecialtyWhereInput
+  orderBy?: Prisma.DoctorSpecialtyOrderByWithRelationInput | Prisma.DoctorSpecialtyOrderByWithRelationInput[]
+  cursor?: Prisma.DoctorSpecialtyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DoctorSpecialtyScalarFieldEnum | Prisma.DoctorSpecialtyScalarFieldEnum[]
+}
+
+/**
+ * DoctorProfile.subcategories
+ */
+export type DoctorProfile$subcategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DoctorSubcategory
+   */
+  select?: Prisma.DoctorSubcategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DoctorSubcategory
+   */
+  omit?: Prisma.DoctorSubcategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DoctorSubcategoryInclude<ExtArgs> | null
+  where?: Prisma.DoctorSubcategoryWhereInput
+  orderBy?: Prisma.DoctorSubcategoryOrderByWithRelationInput | Prisma.DoctorSubcategoryOrderByWithRelationInput[]
+  cursor?: Prisma.DoctorSubcategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DoctorSubcategoryScalarFieldEnum | Prisma.DoctorSubcategoryScalarFieldEnum[]
+}
+
+/**
+ * DoctorProfile.procedures
+ */
+export type DoctorProfile$proceduresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DoctorProcedure
+   */
+  select?: Prisma.DoctorProcedureSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DoctorProcedure
+   */
+  omit?: Prisma.DoctorProcedureOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DoctorProcedureInclude<ExtArgs> | null
+  where?: Prisma.DoctorProcedureWhereInput
+  orderBy?: Prisma.DoctorProcedureOrderByWithRelationInput | Prisma.DoctorProcedureOrderByWithRelationInput[]
+  cursor?: Prisma.DoctorProcedureWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DoctorProcedureScalarFieldEnum | Prisma.DoctorProcedureScalarFieldEnum[]
 }
 
 /**
