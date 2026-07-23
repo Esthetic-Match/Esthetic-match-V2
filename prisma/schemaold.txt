@@ -1,0 +1,571 @@
+generator client {
+  provider   = "prisma-client"
+  output     = "../generated/prisma"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum ConsultationType {
+  IN_CLINIC
+  ONLINE
+}
+
+enum ConversationStatus {
+  ACTIVE
+  CLOSED
+}
+
+enum MessageSenderRole {
+  PATIENT
+  DOCTOR
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  MIXED
+}
+
+enum SocialMediaPlatform {
+  INSTAGRAM
+  FACEBOOK
+  TIKTOK
+  YOUTUBE
+  LINKEDIN
+  X
+  SNAPCHAT
+  WEBSITE
+  OTHER
+}
+
+model User {
+  id             String          @id @default(cuid())
+  email          String          @unique
+  name           String?
+  role           UserRole        @default(PATIENT)
+  dateOfBirth    String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  emailVerified  Boolean         @default(false)
+  onboardingCompleted Boolean    @default(false)
+  image          String?
+  sessions       Session[]
+  accounts       Account[]
+  messageAttachments MessageAttachment[]
+
+  patientProfile PatientProfile?
+  doctorProfile  DoctorProfile?
+
+  patientConsultationBookings ConsultationBooking[] @relation("PatientConsultationBookings")
+  inClinicConsultationAccesses InClinicConsultationAccess[] @relation("PatientInClinicAccesses")
+  onlineConsultationAccesses   OnlineConsultationAccess[] @relation("PatientOnlineAccesses")
+  patientConsultationRefundRequests ConsultationRefundRequest[] @relation("PatientConsultationRefundRequests")
+
+  patientConversations Conversation[] @relation("PatientConversations")
+  sentMessages          Message[]      @relation("MessageSender")
+
+  doctorReviews    Review[]           @relation("PatientDoctorReviews")
+  reviewInvitations ReviewInvitation[] @relation("PatientReviewInvitations")
+
+  @@index([role])
+  @@map("user")
+}
+
+model DoctorProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  slug   String? @unique
+
+  avatar            String?
+  yearsOfExperience Float?
+  clinicName        String
+  clinicBanner      String?
+  specialtyIds      String[]
+  subcategoryIds    String[]
+  procedureIds      String[]
+  subzoneIds        String[]
+  topThree          String[]
+  workAddress       String
+  city              String?
+  country           String?
+  zipCode           String?
+  workLatitude      Float?
+  workLongitude     Float?
+  googlePlaceId     String?
+  currency          String @default("eur")
+  RPPS              String?
+
+  inClinicPrice     Float?
+  onlineConsulPrice Float?
+  onlineActive      Boolean @default(true)
+  inClinicLink      String?
+
+  stripeSubscriptionId            String?
+  stripeSubscriptionStatus        String?
+  stripeCustomerId                String?
+  subscriptionCurrentPeriodEnd    DateTime?
+  subscriptionPlan                String? @default("free")
+  stripeConnectAccountId          String?
+  stripeConnectOnboardingComplete Boolean @default(false)
+  stripeConnectChargesEnabled     Boolean @default(false)
+  stripeConnectPayoutsEnabled     Boolean @default(false)
+
+  bookingLinks      String[]
+  googleRating      Float?
+  googleReviewCount Int?
+  googleMapsUri     String?
+
+  otherSpecialtyText String?
+
+  socialMediaLinks DoctorSocialMedia[]
+
+  consultationBookings       ConsultationBooking[]
+  inClinicConsultationAccesses InClinicConsultationAccess[]
+  onlineConsultationAccesses   OnlineConsultationAccess[]
+  consultationRefundRequests   ConsultationRefundRequest[]
+
+  conversations Conversation[] @relation("DoctorConversations")
+
+  instagramReels InstagramReel[]
+
+  reviews           Review[]
+  reviewInvitations ReviewInvitation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([city])
+  @@index([country, city])
+  @@index([workLatitude, workLongitude])
+  @@map("doctor_profile")
+}
+
+model DoctorSocialMedia {
+  id String @id @default(cuid())
+
+  doctorProfileId String
+  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  platform SocialMediaPlatform
+  url      String
+
+  /// Optional username such as @estheticdoctor.
+  username String?
+
+  /// Useful for OTHER or custom display names.
+  label String?
+
+  isVisible Boolean @default(true)
+  sortOrder  Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([doctorProfileId, platform, url])
+  @@index([doctorProfileId])
+  @@index([doctorProfileId, isVisible, sortOrder])
+  @@map("doctor_social_media")
+}
+
+model PatientProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  avatar        String?
+  gender        String?
+  phoneNumber   String?
+
+  city          String?
+  country       String?
+  zipCode       String?
+  address       String?
+  latitude      Float?
+  longitude     Float?
+  googlePlaceId String?
+  favorite      String[]
+
+  preferredConsultationType String? // "in_clinic" | "online"
+  preferredLanguage         String?
+
+  stripeCustomerId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("patient_profile")
+}
+
+model ConsultationBooking {
+  id String @id @default(cuid())
+
+  patientUserId String
+  patientUser   User @relation("PatientConsultationBookings", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  consultationType ConsultationType
+
+  amount Int
+  platformFee Int
+  doctorAmount Int
+  currency String @default("eur")
+
+  stripeCheckoutSessionId String? @unique
+  stripePaymentIntentId   String? @unique
+  stripeChargeId          String?
+  stripeTransferId        String?
+
+  paymentConfirmedEmailSentAt DateTime?
+  paymentProcessingEmailSentAt DateTime?
+  paymentFailedEmailSentAt DateTime?
+
+  status String @default("pending") // pending | paid | cancelled | refunded | failed
+
+  paidAt DateTime?
+  cancelledAt DateTime?
+  refundedAt DateTime?
+
+  inClinicAccess InClinicConsultationAccess?
+  onlineAccess   OnlineConsultationAccess?
+
+  refundRequests ConsultationRefundRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([consultationType])
+  @@index([status])
+  @@map("consultation_booking")
+}
+
+model ConsultationRefundRequest {
+  id String @id @default(cuid())
+
+  bookingId String
+  booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  patientUserId String
+  patientUser   User @relation("PatientConsultationRefundRequests", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  reason    String
+  status    String @default("pending") // pending | approved | rejected | refunded
+  adminNote String?
+
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime?
+  refundedAt DateTime?
+
+  @@index([bookingId])
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([status])
+  @@map("consultation_refund_request")
+}
+
+model InClinicConsultationAccess {
+  id String @id @default(cuid())
+
+  bookingId String @unique
+  booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  patientUserId String
+  patientUser   User @relation("PatientInClinicAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  approvedToView Boolean @default(false)
+
+  purchasedAt DateTime @default(now())
+  approvedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([approvedToView])
+  @@map("in_clinic_consultation_access")
+}
+
+model OnlineConsultationAccess {
+  id String @id @default(cuid())
+
+  bookingId String @unique
+  booking   ConsultationBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  patientUserId String
+  patientUser   User @relation("PatientOnlineAccesses", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  activeChat Boolean @default(false)
+
+  conversation Conversation?
+
+  purchasedAt DateTime @default(now())
+  activatedAt DateTime?
+  closedAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([activeChat])
+  @@map("online_consultation_access")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model BeforeAfterCase {
+  id          String   @id @default(cuid())
+
+  doctorId    String
+  patientId   String?
+
+  procedure   String?
+  notes       String?
+
+  title       String?
+  isPublic    Boolean  @default(false)
+
+  beforeImage String?
+  afterImage  String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([doctorId])
+  @@index([patientId])
+}
+
+model Conversation {
+  id String @id @default(cuid())
+
+  onlineAccessId String @unique
+  onlineAccess   OnlineConsultationAccess @relation(fields: [onlineAccessId], references: [id], onDelete: Cascade)
+
+  patientUserId String
+  patientUser   User @relation("PatientConversations", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation("DoctorConversations", fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  status ConversationStatus @default(ACTIVE)
+
+  lastMessageAt DateTime?
+  closedAt      DateTime?
+
+  messages Message[]
+  attachments MessageAttachment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([status])
+  @@index([lastMessageAt])
+  @@map("conversation")
+}
+
+model Message {
+  id String @id @default(cuid())
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderUserId String
+  senderUser   User @relation("MessageSender", fields: [senderUserId], references: [id], onDelete: Cascade)
+
+  senderRole MessageSenderRole
+
+  messageType MessageType @default(TEXT)
+
+  // Keep nullable now because image-only messages may not have text
+  ciphertext String?
+  iv         String?
+  authTag    String?
+  keyVersion Int @default(1)
+
+  attachments MessageAttachment[]
+
+  readAt    DateTime?
+  editedAt  DateTime?
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([conversationId])
+  @@index([senderUserId])
+  @@index([createdAt])
+  @@map("message")
+}
+
+model MessageAttachment {
+  id String @id @default(cuid())
+
+  messageId String
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  uploadedByUserId String
+  uploadedByUser   User @relation(fields: [uploadedByUserId], references: [id], onDelete: Cascade)
+
+  objectPath String
+  fileName   String?
+  contentType String
+  sizeBytes   Int?
+
+  createdAt DateTime @default(now())
+
+  @@index([messageId])
+  @@index([conversationId])
+  @@index([uploadedByUserId])
+  @@map("message_attachment")
+}
+
+model InstagramReel {
+  id        String @id @default(cuid())
+  url       String @unique
+  sortOrder Int    @default(0)
+
+  doctorProfileId String?
+  doctorProfile   DoctorProfile? @relation(fields: [doctorProfileId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+  @@index([doctorProfileId])
+  @@index([doctorProfileId, sortOrder])
+
+  @@map("instagram_reel")
+}
+
+model Review {
+  id String @id @default(cuid())
+
+  title  String
+  review String
+  rating Int
+
+  patientUserId String
+  patientUser   User @relation("PatientDoctorReviews", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  invitationId String?           @unique
+  invitation   ReviewInvitation? @relation(fields: [invitationId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([doctorProfileId])
+  @@index([doctorProfileId, createdAt])
+  @@index([rating])
+  @@map("review")
+}
+
+model ReviewInvitation {
+  id String @id @default(cuid())
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  // Nullable for a generic link generated without selecting a patient.
+  // The first authenticated PATIENT who submits through the link claims it.
+  patientUserId String?
+  patientUser   User? @relation("PatientReviewInvitations", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  // Nullable for the same generic-link flow.
+  recipientEmail String?
+  tokenHash      String @unique
+
+  expiresAt DateTime
+  sentAt    DateTime?
+  usedAt    DateTime?
+  revokedAt DateTime?
+
+  review Review?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([doctorProfileId])
+  @@index([patientUserId])
+  @@index([recipientEmail])
+  @@index([expiresAt])
+  @@index([doctorProfileId, patientUserId])
+  @@map("review_invitation")
+}

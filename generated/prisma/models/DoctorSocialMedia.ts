@@ -524,14 +524,6 @@ export type EnumSocialMediaPlatformFieldUpdateOperationsInput = {
   set?: $Enums.SocialMediaPlatform
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type DoctorSocialMediaCreateWithoutDoctorProfileInput = {
   id?: string
   platform: $Enums.SocialMediaPlatform

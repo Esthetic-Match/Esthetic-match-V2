@@ -219,13 +219,6 @@ export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
 }
 
-export type EnumSocialMediaPlatformFilter<$PrismaModel = never> = {
-  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel> | $Enums.SocialMediaPlatform
-}
-
 export type IntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -235,16 +228,6 @@ export type IntFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntFilter<$PrismaModel> | number
-}
-
-export type EnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel> | $Enums.SocialMediaPlatform
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
 }
 
 export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -261,6 +244,50 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedIntFilter<$PrismaModel>
   _max?: Prisma.NestedIntFilter<$PrismaModel>
+}
+
+export type DecimalNullableFilter<$PrismaModel = never> = {
+  equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel> | null
+  in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  notIn?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  lt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  lte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedDecimalNullableFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel> | null
+  in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  notIn?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  lt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  lte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _avg?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+  _sum?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+}
+
+export type EnumSocialMediaPlatformFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel> | $Enums.SocialMediaPlatform
+}
+
+export type EnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel> | $Enums.SocialMediaPlatform
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
 }
 
 export type EnumConsultationTypeFilter<$PrismaModel = never> = {
@@ -538,23 +565,6 @@ export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntNullableFilter<$PrismaModel>
 }
 
-export type NestedEnumSocialMediaPlatformFilter<$PrismaModel = never> = {
-  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel> | $Enums.SocialMediaPlatform
-}
-
-export type NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel> | $Enums.SocialMediaPlatform
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
-}
-
 export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
@@ -580,6 +590,50 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+  equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel> | null
+  in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  notIn?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  lt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  lte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedDecimalNullableFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+}
+
+export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel> | null
+  in?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  notIn?: runtime.Decimal[] | runtime.DecimalJsLike[] | number[] | string[] | Prisma.ListDecimalFieldRefInput<$PrismaModel> | null
+  lt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  lte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gt?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  gte?: runtime.Decimal | runtime.DecimalJsLike | number | string | Prisma.DecimalFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _avg?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+  _sum?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedDecimalNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumSocialMediaPlatformFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel> | $Enums.SocialMediaPlatform
+}
+
+export type NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SocialMediaPlatform | Prisma.EnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  in?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SocialMediaPlatform[] | Prisma.ListEnumSocialMediaPlatformFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSocialMediaPlatformWithAggregatesFilter<$PrismaModel> | $Enums.SocialMediaPlatform
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSocialMediaPlatformFilter<$PrismaModel>
 }
 
 export type NestedEnumConsultationTypeFilter<$PrismaModel = never> = {

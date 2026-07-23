@@ -28,6 +28,88 @@ export type User = Prisma.UserModel
  */
 export type DoctorProfile = Prisma.DoctorProfileModel
 /**
+ * Model CatalogLocale
+ * Supported catalogue locales (for example "en" and "fr").
+ * Locale codes should be stored as lowercase BCP 47 language tags.
+ */
+export type CatalogLocale = Prisma.CatalogLocaleModel
+/**
+ * Model SpecialtyGroup
+ * Presentation grouping used by the doctor-onboarding specialty picker.
+ */
+export type SpecialtyGroup = Prisma.SpecialtyGroupModel
+/**
+ * Model SpecialtyGroupTranslation
+ * 
+ */
+export type SpecialtyGroupTranslation = Prisma.SpecialtyGroupTranslationModel
+/**
+ * Model Specialty
+ * 
+ */
+export type Specialty = Prisma.SpecialtyModel
+/**
+ * Model SpecialtyTranslation
+ * 
+ */
+export type SpecialtyTranslation = Prisma.SpecialtyTranslationModel
+/**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
+ * Model CategoryTranslation
+ * 
+ */
+export type CategoryTranslation = Prisma.CategoryTranslationModel
+/**
+ * Model SpecialtyCategory
+ * Explicit many-to-many mapping imported from SPECIALTY_CATEGORY_MAP.
+ */
+export type SpecialtyCategory = Prisma.SpecialtyCategoryModel
+/**
+ * Model Subcategory
+ * 
+ */
+export type Subcategory = Prisma.SubcategoryModel
+/**
+ * Model SubcategoryTranslation
+ * 
+ */
+export type SubcategoryTranslation = Prisma.SubcategoryTranslationModel
+/**
+ * Model Procedure
+ * 
+ */
+export type Procedure = Prisma.ProcedureModel
+/**
+ * Model ProcedureTranslation
+ * 
+ */
+export type ProcedureTranslation = Prisma.ProcedureTranslationModel
+/**
+ * Model ProcedureSubcategory
+ * Procedures are many-to-many with subcategories because the current catalogue
+ * reuses bodytite, subcutaneous_rf, and sclerotherapy under multiple parents.
+ */
+export type ProcedureSubcategory = Prisma.ProcedureSubcategoryModel
+/**
+ * Model DoctorSpecialty
+ * 
+ */
+export type DoctorSpecialty = Prisma.DoctorSpecialtyModel
+/**
+ * Model DoctorSubcategory
+ * 
+ */
+export type DoctorSubcategory = Prisma.DoctorSubcategoryModel
+/**
+ * Model DoctorProcedure
+ * 
+ */
+export type DoctorProcedure = Prisma.DoctorProcedureModel
+/**
  * Model DoctorSocialMedia
  * 
  */
