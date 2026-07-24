@@ -259,6 +259,7 @@ export type CategoryWhereInput = {
   translations?: Prisma.CategoryTranslationListRelationFilter
   specialtyLinks?: Prisma.SpecialtyCategoryListRelationFilter
   subcategories?: Prisma.SubcategoryListRelationFilter
+  doctors?: Prisma.DoctorCategoryListRelationFilter
 }
 
 export type CategoryOrderByWithRelationInput = {
@@ -275,6 +276,7 @@ export type CategoryOrderByWithRelationInput = {
   translations?: Prisma.CategoryTranslationOrderByRelationAggregateInput
   specialtyLinks?: Prisma.SpecialtyCategoryOrderByRelationAggregateInput
   subcategories?: Prisma.SubcategoryOrderByRelationAggregateInput
+  doctors?: Prisma.DoctorCategoryOrderByRelationAggregateInput
 }
 
 export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -294,6 +296,7 @@ export type CategoryWhereUniqueInput = Prisma.AtLeast<{
   translations?: Prisma.CategoryTranslationListRelationFilter
   specialtyLinks?: Prisma.SpecialtyCategoryListRelationFilter
   subcategories?: Prisma.SubcategoryListRelationFilter
+  doctors?: Prisma.DoctorCategoryListRelationFilter
 }, "id" | "slug">
 
 export type CategoryOrderByWithAggregationInput = {
@@ -344,6 +347,7 @@ export type CategoryCreateInput = {
   translations?: Prisma.CategoryTranslationCreateNestedManyWithoutCategoryInput
   specialtyLinks?: Prisma.SpecialtyCategoryCreateNestedManyWithoutCategoryInput
   subcategories?: Prisma.SubcategoryCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateInput = {
@@ -360,6 +364,7 @@ export type CategoryUncheckedCreateInput = {
   translations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
   specialtyLinks?: Prisma.SpecialtyCategoryUncheckedCreateNestedManyWithoutCategoryInput
   subcategories?: Prisma.SubcategoryUncheckedCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUpdateInput = {
@@ -376,6 +381,7 @@ export type CategoryUpdateInput = {
   translations?: Prisma.CategoryTranslationUpdateManyWithoutCategoryNestedInput
   specialtyLinks?: Prisma.SpecialtyCategoryUpdateManyWithoutCategoryNestedInput
   subcategories?: Prisma.SubcategoryUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateInput = {
@@ -392,6 +398,7 @@ export type CategoryUncheckedUpdateInput = {
   translations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
   specialtyLinks?: Prisma.SpecialtyCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   subcategories?: Prisma.SubcategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateManyInput = {
@@ -527,6 +534,20 @@ export type CategoryUpdateOneRequiredWithoutSubcategoriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutSubcategoriesInput, Prisma.CategoryUpdateWithoutSubcategoriesInput>, Prisma.CategoryUncheckedUpdateWithoutSubcategoriesInput>
 }
 
+export type CategoryCreateNestedOneWithoutDoctorsInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutDoctorsInput, Prisma.CategoryUncheckedCreateWithoutDoctorsInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutDoctorsInput
+  connect?: Prisma.CategoryWhereUniqueInput
+}
+
+export type CategoryUpdateOneRequiredWithoutDoctorsNestedInput = {
+  create?: Prisma.XOR<Prisma.CategoryCreateWithoutDoctorsInput, Prisma.CategoryUncheckedCreateWithoutDoctorsInput>
+  connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutDoctorsInput
+  upsert?: Prisma.CategoryUpsertWithoutDoctorsInput
+  connect?: Prisma.CategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CategoryUpdateToOneWithWhereWithoutDoctorsInput, Prisma.CategoryUpdateWithoutDoctorsInput>, Prisma.CategoryUncheckedUpdateWithoutDoctorsInput>
+}
+
 export type CategoryCreateWithoutTranslationsInput = {
   id: string
   slug: string
@@ -540,6 +561,7 @@ export type CategoryCreateWithoutTranslationsInput = {
   updatedAt?: Date | string
   specialtyLinks?: Prisma.SpecialtyCategoryCreateNestedManyWithoutCategoryInput
   subcategories?: Prisma.SubcategoryCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutTranslationsInput = {
@@ -555,6 +577,7 @@ export type CategoryUncheckedCreateWithoutTranslationsInput = {
   updatedAt?: Date | string
   specialtyLinks?: Prisma.SpecialtyCategoryUncheckedCreateNestedManyWithoutCategoryInput
   subcategories?: Prisma.SubcategoryUncheckedCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutTranslationsInput = {
@@ -586,6 +609,7 @@ export type CategoryUpdateWithoutTranslationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   specialtyLinks?: Prisma.SpecialtyCategoryUpdateManyWithoutCategoryNestedInput
   subcategories?: Prisma.SubcategoryUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutTranslationsInput = {
@@ -601,6 +625,7 @@ export type CategoryUncheckedUpdateWithoutTranslationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   specialtyLinks?: Prisma.SpecialtyCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   subcategories?: Prisma.SubcategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateWithoutSpecialtyLinksInput = {
@@ -616,6 +641,7 @@ export type CategoryCreateWithoutSpecialtyLinksInput = {
   updatedAt?: Date | string
   translations?: Prisma.CategoryTranslationCreateNestedManyWithoutCategoryInput
   subcategories?: Prisma.SubcategoryCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutSpecialtyLinksInput = {
@@ -631,6 +657,7 @@ export type CategoryUncheckedCreateWithoutSpecialtyLinksInput = {
   updatedAt?: Date | string
   translations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
   subcategories?: Prisma.SubcategoryUncheckedCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutSpecialtyLinksInput = {
@@ -662,6 +689,7 @@ export type CategoryUpdateWithoutSpecialtyLinksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.CategoryTranslationUpdateManyWithoutCategoryNestedInput
   subcategories?: Prisma.SubcategoryUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutSpecialtyLinksInput = {
@@ -677,6 +705,7 @@ export type CategoryUncheckedUpdateWithoutSpecialtyLinksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
   subcategories?: Prisma.SubcategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryCreateWithoutSubcategoriesInput = {
@@ -692,6 +721,7 @@ export type CategoryCreateWithoutSubcategoriesInput = {
   updatedAt?: Date | string
   translations?: Prisma.CategoryTranslationCreateNestedManyWithoutCategoryInput
   specialtyLinks?: Prisma.SpecialtyCategoryCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryUncheckedCreateWithoutSubcategoriesInput = {
@@ -707,6 +737,7 @@ export type CategoryUncheckedCreateWithoutSubcategoriesInput = {
   updatedAt?: Date | string
   translations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
   specialtyLinks?: Prisma.SpecialtyCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  doctors?: Prisma.DoctorCategoryUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type CategoryCreateOrConnectWithoutSubcategoriesInput = {
@@ -738,6 +769,7 @@ export type CategoryUpdateWithoutSubcategoriesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.CategoryTranslationUpdateManyWithoutCategoryNestedInput
   specialtyLinks?: Prisma.SpecialtyCategoryUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUpdateManyWithoutCategoryNestedInput
 }
 
 export type CategoryUncheckedUpdateWithoutSubcategoriesInput = {
@@ -753,6 +785,87 @@ export type CategoryUncheckedUpdateWithoutSubcategoriesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
   specialtyLinks?: Prisma.SpecialtyCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  doctors?: Prisma.DoctorCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+}
+
+export type CategoryCreateWithoutDoctorsInput = {
+  id: string
+  slug: string
+  href?: string | null
+  homeImage?: string | null
+  dashboardImage?: string | null
+  icon?: string | null
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.CategoryTranslationCreateNestedManyWithoutCategoryInput
+  specialtyLinks?: Prisma.SpecialtyCategoryCreateNestedManyWithoutCategoryInput
+  subcategories?: Prisma.SubcategoryCreateNestedManyWithoutCategoryInput
+}
+
+export type CategoryUncheckedCreateWithoutDoctorsInput = {
+  id: string
+  slug: string
+  href?: string | null
+  homeImage?: string | null
+  dashboardImage?: string | null
+  icon?: string | null
+  sortOrder?: number
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutCategoryInput
+  specialtyLinks?: Prisma.SpecialtyCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  subcategories?: Prisma.SubcategoryUncheckedCreateNestedManyWithoutCategoryInput
+}
+
+export type CategoryCreateOrConnectWithoutDoctorsInput = {
+  where: Prisma.CategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutDoctorsInput, Prisma.CategoryUncheckedCreateWithoutDoctorsInput>
+}
+
+export type CategoryUpsertWithoutDoctorsInput = {
+  update: Prisma.XOR<Prisma.CategoryUpdateWithoutDoctorsInput, Prisma.CategoryUncheckedUpdateWithoutDoctorsInput>
+  create: Prisma.XOR<Prisma.CategoryCreateWithoutDoctorsInput, Prisma.CategoryUncheckedCreateWithoutDoctorsInput>
+  where?: Prisma.CategoryWhereInput
+}
+
+export type CategoryUpdateToOneWithWhereWithoutDoctorsInput = {
+  where?: Prisma.CategoryWhereInput
+  data: Prisma.XOR<Prisma.CategoryUpdateWithoutDoctorsInput, Prisma.CategoryUncheckedUpdateWithoutDoctorsInput>
+}
+
+export type CategoryUpdateWithoutDoctorsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dashboardImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.CategoryTranslationUpdateManyWithoutCategoryNestedInput
+  specialtyLinks?: Prisma.SpecialtyCategoryUpdateManyWithoutCategoryNestedInput
+  subcategories?: Prisma.SubcategoryUpdateManyWithoutCategoryNestedInput
+}
+
+export type CategoryUncheckedUpdateWithoutDoctorsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  href?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  homeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dashboardImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutCategoryNestedInput
+  specialtyLinks?: Prisma.SpecialtyCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  subcategories?: Prisma.SubcategoryUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 
@@ -764,12 +877,14 @@ export type CategoryCountOutputType = {
   translations: number
   specialtyLinks: number
   subcategories: number
+  doctors: number
 }
 
 export type CategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | CategoryCountOutputTypeCountTranslationsArgs
   specialtyLinks?: boolean | CategoryCountOutputTypeCountSpecialtyLinksArgs
   subcategories?: boolean | CategoryCountOutputTypeCountSubcategoriesArgs
+  doctors?: boolean | CategoryCountOutputTypeCountDoctorsArgs
 }
 
 /**
@@ -803,6 +918,13 @@ export type CategoryCountOutputTypeCountSubcategoriesArgs<ExtArgs extends runtim
   where?: Prisma.SubcategoryWhereInput
 }
 
+/**
+ * CategoryCountOutputType without action
+ */
+export type CategoryCountOutputTypeCountDoctorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DoctorCategoryWhereInput
+}
+
 
 export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -818,6 +940,7 @@ export type CategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   translations?: boolean | Prisma.Category$translationsArgs<ExtArgs>
   specialtyLinks?: boolean | Prisma.Category$specialtyLinksArgs<ExtArgs>
   subcategories?: boolean | Prisma.Category$subcategoriesArgs<ExtArgs>
+  doctors?: boolean | Prisma.Category$doctorsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["category"]>
 
@@ -865,6 +988,7 @@ export type CategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   translations?: boolean | Prisma.Category$translationsArgs<ExtArgs>
   specialtyLinks?: boolean | Prisma.Category$specialtyLinksArgs<ExtArgs>
   subcategories?: boolean | Prisma.Category$subcategoriesArgs<ExtArgs>
+  doctors?: boolean | Prisma.Category$doctorsArgs<ExtArgs>
   _count?: boolean | Prisma.CategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -876,6 +1000,7 @@ export type $CategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     translations: Prisma.$CategoryTranslationPayload<ExtArgs>[]
     specialtyLinks: Prisma.$SpecialtyCategoryPayload<ExtArgs>[]
     subcategories: Prisma.$SubcategoryPayload<ExtArgs>[]
+    doctors: Prisma.$DoctorCategoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     /**
@@ -1288,6 +1413,7 @@ export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends runtime
   translations<T extends Prisma.Category$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   specialtyLinks<T extends Prisma.Category$specialtyLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$specialtyLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SpecialtyCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subcategories<T extends Prisma.Category$subcategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$subcategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubcategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  doctors<T extends Prisma.Category$doctorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Category$doctorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DoctorCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1789,6 +1915,30 @@ export type Category$subcategoriesArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.SubcategoryScalarFieldEnum | Prisma.SubcategoryScalarFieldEnum[]
+}
+
+/**
+ * Category.doctors
+ */
+export type Category$doctorsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DoctorCategory
+   */
+  select?: Prisma.DoctorCategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DoctorCategory
+   */
+  omit?: Prisma.DoctorCategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DoctorCategoryInclude<ExtArgs> | null
+  where?: Prisma.DoctorCategoryWhereInput
+  orderBy?: Prisma.DoctorCategoryOrderByWithRelationInput | Prisma.DoctorCategoryOrderByWithRelationInput[]
+  cursor?: Prisma.DoctorCategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DoctorCategoryScalarFieldEnum | Prisma.DoctorCategoryScalarFieldEnum[]
 }
 
 /**

@@ -398,6 +398,7 @@ export const ModelName = {
   SubcategoryTranslation: 'SubcategoryTranslation',
   Procedure: 'Procedure',
   ProcedureTranslation: 'ProcedureTranslation',
+  DoctorCategory: 'DoctorCategory',
   ProcedureSubcategory: 'ProcedureSubcategory',
   DoctorSpecialty: 'DoctorSpecialty',
   DoctorSubcategory: 'DoctorSubcategory',
@@ -433,7 +434,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "doctorProfile" | "catalogLocale" | "specialtyGroup" | "specialtyGroupTranslation" | "specialty" | "specialtyTranslation" | "category" | "categoryTranslation" | "specialtyCategory" | "subcategory" | "subcategoryTranslation" | "procedure" | "procedureTranslation" | "procedureSubcategory" | "doctorSpecialty" | "doctorSubcategory" | "doctorProcedure" | "doctorSocialMedia" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation"
+    modelProps: "user" | "doctorProfile" | "catalogLocale" | "specialtyGroup" | "specialtyGroupTranslation" | "specialty" | "specialtyTranslation" | "category" | "categoryTranslation" | "specialtyCategory" | "subcategory" | "subcategoryTranslation" | "procedure" | "procedureTranslation" | "doctorCategory" | "procedureSubcategory" | "doctorSpecialty" | "doctorSubcategory" | "doctorProcedure" | "doctorSocialMedia" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1470,6 +1471,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProcedureTranslationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProcedureTranslationCountAggregateOutputType> | number
+        }
+      }
+    }
+    DoctorCategory: {
+      payload: Prisma.$DoctorCategoryPayload<ExtArgs>
+      fields: Prisma.DoctorCategoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DoctorCategoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DoctorCategoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>
+        }
+        findFirst: {
+          args: Prisma.DoctorCategoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DoctorCategoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>
+        }
+        findMany: {
+          args: Prisma.DoctorCategoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>[]
+        }
+        create: {
+          args: Prisma.DoctorCategoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>
+        }
+        createMany: {
+          args: Prisma.DoctorCategoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DoctorCategoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>[]
+        }
+        delete: {
+          args: Prisma.DoctorCategoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>
+        }
+        update: {
+          args: Prisma.DoctorCategoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.DoctorCategoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DoctorCategoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DoctorCategoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.DoctorCategoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorCategoryPayload>
+        }
+        aggregate: {
+          args: Prisma.DoctorCategoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDoctorCategory>
+        }
+        groupBy: {
+          args: Prisma.DoctorCategoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DoctorCategoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DoctorCategoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DoctorCategoryCountAggregateOutputType> | number
         }
       }
     }
@@ -3191,6 +3266,17 @@ export const ProcedureTranslationScalarFieldEnum = {
 export type ProcedureTranslationScalarFieldEnum = (typeof ProcedureTranslationScalarFieldEnum)[keyof typeof ProcedureTranslationScalarFieldEnum]
 
 
+export const DoctorCategoryScalarFieldEnum = {
+  doctorProfileId: 'doctorProfileId',
+  categoryId: 'categoryId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorCategoryScalarFieldEnum = (typeof DoctorCategoryScalarFieldEnum)[keyof typeof DoctorCategoryScalarFieldEnum]
+
+
 export const ProcedureSubcategoryScalarFieldEnum = {
   procedureId: 'procedureId',
   subcategoryId: 'subcategoryId',
@@ -3822,6 +3908,7 @@ export type GlobalOmitConfig = {
   subcategoryTranslation?: Prisma.SubcategoryTranslationOmit
   procedure?: Prisma.ProcedureOmit
   procedureTranslation?: Prisma.ProcedureTranslationOmit
+  doctorCategory?: Prisma.DoctorCategoryOmit
   procedureSubcategory?: Prisma.ProcedureSubcategoryOmit
   doctorSpecialty?: Prisma.DoctorSpecialtyOmit
   doctorSubcategory?: Prisma.DoctorSubcategoryOmit

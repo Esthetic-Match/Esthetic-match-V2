@@ -113,6 +113,11 @@ export type Procedure = Prisma.ProcedureModel
  */
 export type ProcedureTranslation = Prisma.ProcedureTranslationModel
 /**
+ * Model DoctorCategory
+ * 
+ */
+export type DoctorCategory = Prisma.DoctorCategoryModel
+/**
  * Model ProcedureSubcategory
  * Procedures are many-to-many with subcategories because the current catalogue
  * reuses bodytite, subcutaneous_rf, and sclerotherapy under multiple parents.
