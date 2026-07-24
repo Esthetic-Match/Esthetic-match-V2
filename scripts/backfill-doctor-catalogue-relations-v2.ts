@@ -57,9 +57,20 @@ type MultiParentProcedure = {
   subcategoryIds: string[];
 };
 
+type LegacyCategoryMapping = {
+  legacyId: string;
+  canonicalId: string;
+};
+
 type PreparedDoctor = DoctorProfileRow & {
+  categoryIds: string[];
+  legacyCategoryMappings: LegacyCategoryMapping[];
   derivedSubcategoryIds: string[];
   multiParentProcedures: MultiParentProcedure[];
+};
+
+const LEGACY_CATEGORY_ID_ALIASES: Readonly<Record<string, string>> = {
+  wellness_and_drainage: "wellness_and_postoperative",
 };
 
 type FindManyDelegate<T> = {
@@ -163,7 +174,7 @@ function printUsage(): void {
 Backfill normalized doctor catalogue relations from DoctorProfile arrays.
 
 Usage:
-  npx tsx scripts/backfill-doctor-catalogue-relations.ts \\
+  npx tsx scripts/backfill-doctor-catalogue-relations-v2.ts \\
     --prisma-module lib/database/prisma.ts \\
     --dry-run
 
@@ -174,20 +185,22 @@ Options:
 
 Behavior:
   - specialtyIds                  -> DoctorSpecialty
-  - legacy subcategoryIds         -> DoctorCategory
+  - canonicalized legacy
+    subcategoryIds                -> DoctorCategory
   - subcategories derived from
     selected procedure relations  -> DoctorSubcategory
   - procedureIds                  -> DoctorProcedure
-  - source/derived order          -> position
   - topThree index                -> DoctorProcedure.topRank (1, 2, or 3)
+  - source/derived order          -> position
   - existing DoctorProcedure.price values are never updated
   - legacy DoctorProfile arrays are never changed
+  - known renamed category IDs are canonicalized only for relational writes
 
 Safety:
   The script stops before writing if it finds an unknown or duplicate catalogue
-  ID, a procedure with no linked subcategory in a selected category, an invalid
-  topThree entry, or an existing relational selection absent from its expected
-  source or derived selection.
+  ID, an invalid topThree entry, a procedure with no linked subcategory in a
+  selected category, or an existing relational selection absent from its
+  expected source or derived selection.
 `.trim(),
   );
 }
@@ -344,6 +357,30 @@ function normalizeDoctors(
   }));
 }
 
+function normalizeLegacyCategoryIds(doctor: DoctorProfileRow): {
+  categoryIds: string[];
+  legacyCategoryMappings: LegacyCategoryMapping[];
+} {
+  const legacyCategoryMappings: LegacyCategoryMapping[] = [];
+  const categoryIds = doctor.subcategoryIds.map((legacyId) => {
+    const canonicalId = LEGACY_CATEGORY_ID_ALIASES[legacyId] ?? legacyId;
+
+    if (canonicalId !== legacyId) {
+      legacyCategoryMappings.push({
+        legacyId,
+        canonicalId,
+      });
+    }
+
+    return canonicalId;
+  });
+
+  return {
+    categoryIds,
+    legacyCategoryMappings,
+  };
+}
+
 async function loadState(prisma: BackfillTransaction): Promise<DatabaseState> {
   const [
     doctors,
@@ -433,7 +470,7 @@ async function loadState(prisma: BackfillTransaction): Promise<DatabaseState> {
 }
 
 function deriveSubcategories(
-  doctor: DoctorProfileRow,
+  doctor: DoctorProfileRow & { categoryIds: string[] },
   state: DatabaseState,
   errors: string[],
 ): {
@@ -442,7 +479,7 @@ function deriveSubcategories(
 } {
   const label = doctorLabel(doctor);
   const selectedCategoryOrder = new Map(
-    doctor.subcategoryIds.map((categoryId, index) => [categoryId, index]),
+    doctor.categoryIds.map((categoryId, index) => [categoryId, index]),
   );
   const subcategoryById = new Map(
     state.subcategories.map((subcategory) => [subcategory.id, subcategory]),
@@ -496,7 +533,7 @@ function deriveSubcategories(
       ];
 
       errors.push(
-        `${label} procedure "${procedureId}" has no linked subcategory in its selected categories [${doctor.subcategoryIds.join(", ")}]. Catalogue categories for this procedure: [${availableCategoryIds.join(", ") || "none"}].`,
+        `${label} procedure "${procedureId}" has no linked subcategory in its canonical selected categories [${doctor.categoryIds.join(", ")}]. Catalogue categories for this procedure: [${availableCategoryIds.join(", ") || "none"}].`,
       );
       continue;
     }
@@ -530,7 +567,10 @@ function deriveSubcategories(
 
 function validateSource(state: DatabaseState): PreparedDoctor[] {
   const errors: string[] = [];
-  const doctors = normalizeDoctors(state.doctors, errors);
+  const doctors = normalizeDoctors(state.doctors, errors).map((doctor) => ({
+    ...doctor,
+    ...normalizeLegacyCategoryIds(doctor),
+  }));
   const existingSpecialties = groupByDoctor(state.doctorSpecialties);
   const existingCategories = groupByDoctor(state.doctorCategories);
   const existingSubcategories = groupByDoctor(state.doctorSubcategories);
@@ -569,8 +609,8 @@ function validateSource(state: DatabaseState): PreparedDoctor[] {
         catalogueIds: state.specialtyIds,
       },
       {
-        name: "subcategoryIds",
-        values: doctor.subcategoryIds,
+        name: "canonical category IDs from legacy subcategoryIds",
+        values: doctor.categoryIds,
         catalogueIds: state.categoryIds,
       },
       {
@@ -599,12 +639,8 @@ function validateSource(state: DatabaseState): PreparedDoctor[] {
       );
 
       if (unknown.length > 0) {
-        const description =
-          collection.name === "subcategoryIds"
-            ? "category IDs in legacy subcategoryIds"
-            : collection.name;
         errors.push(
-          `${label} has unknown ${description}: ${unknown.join(", ")}.`,
+          `${label} has unknown ${collection.name}: ${unknown.join(", ")}.`,
         );
       }
     }
@@ -648,14 +684,14 @@ function validateSource(state: DatabaseState): PreparedDoctor[] {
 
   for (const doctor of preparedDoctors) {
     const label = doctorLabel(doctor);
-    const sourceCategories = new Set(doctor.subcategoryIds);
+    const sourceCategories = new Set(doctor.categoryIds);
     const extraCategories = (existingCategories.get(doctor.id) ?? [])
       .map(({ categoryId }) => categoryId)
       .filter((id) => !sourceCategories.has(id));
 
     if (extraCategories.length > 0) {
       errors.push(
-        `${label} already has DoctorCategory rows absent from legacy subcategoryIds: ${extraCategories.join(", ")}.`,
+        `${label} already has DoctorCategory rows absent from canonicalized legacy subcategoryIds: ${extraCategories.join(", ")}.`,
       );
     }
 
@@ -756,7 +792,7 @@ function summarize(
 
   for (const doctor of doctors) {
     specialties += doctor.specialtyIds.length;
-    categories += doctor.subcategoryIds.length;
+    categories += doctor.categoryIds.length;
     subcategories += doctor.derivedSubcategoryIds.length;
     procedures += doctor.procedureIds.length;
     topThree += doctor.topThree.length;
@@ -765,7 +801,7 @@ function summarize(
     specialtyRowsToCreate += doctor.specialtyIds.filter(
       (id) => !existingSpecialties.has(relationKey(doctor.id, id)),
     ).length;
-    categoryRowsToCreate += doctor.subcategoryIds.filter(
+    categoryRowsToCreate += doctor.categoryIds.filter(
       (id) => !existingCategories.has(relationKey(doctor.id, id)),
     ).length;
     subcategoryRowsToCreate += doctor.derivedSubcategoryIds.filter(
@@ -832,6 +868,26 @@ function printMultiParentProcedures(doctors: PreparedDoctor[]): void {
   console.table(rows);
 }
 
+function printLegacyCategoryMappings(doctors: PreparedDoctor[]): void {
+  const rows = doctors.flatMap((doctor) =>
+    doctor.legacyCategoryMappings.map(({ legacyId, canonicalId }) => ({
+      doctor: doctor.clinicName || "Unnamed clinic",
+      doctorProfileId: doctor.id,
+      legacyId,
+      canonicalId,
+    })),
+  );
+
+  if (rows.length === 0) {
+    return;
+  }
+
+  console.log(
+    "Known legacy category IDs canonicalized for relational writes (legacy arrays remain unchanged):",
+  );
+  console.table(rows);
+}
+
 function priceSnapshot(rows: DoctorProcedureRow[]): Map<string, string | null> {
   return new Map(
     rows.map(
@@ -885,8 +941,8 @@ function verifyParity(
     const comparisons: Array<[string, string[], string[]]> = [
       ["specialtyIds", doctor.specialtyIds, actualSpecialties],
       [
-        "legacy subcategoryIds -> DoctorCategory",
-        doctor.subcategoryIds,
+        "canonicalized legacy subcategoryIds -> DoctorCategory",
+        doctor.categoryIds,
         actualCategories,
       ],
       [
@@ -959,7 +1015,7 @@ async function backfill(
           });
         }
 
-        for (const [position, categoryId] of doctor.subcategoryIds.entries()) {
+        for (const [position, categoryId] of doctor.categoryIds.entries()) {
           await transaction.doctorCategory.upsert({
             where: {
               doctorProfileId_categoryId: {
@@ -1082,6 +1138,7 @@ async function main(): Promise<void> {
     const pricesBefore = priceSnapshot(state.doctorProcedures);
 
     printSummary("Doctor relation backfill validation passed.", summary);
+    printLegacyCategoryMappings(doctors);
     printMultiParentProcedures(doctors);
 
     if (options.dryRun) {
