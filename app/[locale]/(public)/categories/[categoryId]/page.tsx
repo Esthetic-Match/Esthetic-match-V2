@@ -1,10 +1,11 @@
-"use client";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
+import { getLocale, getTranslations } from "next-intl/server";
 
-import { use } from "react";
-import { useTranslations } from "next-intl";
-import { DoctorCatalog } from "@/lib/doctorCatalogue";
 import CategoryHero from "@/components/public/categories/CategoryHero";
 import CategorySubcategories from "@/components/public/categories/CategorySubcategories";
+
+export const dynamic = "force-dynamic";
 
 type CategoryPageProps = {
   params: Promise<{
@@ -12,122 +13,166 @@ type CategoryPageProps = {
   }>;
 };
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const { categoryId } = use(params);
+type PublicProcedure = {
+  id: string;
+  name: string;
+  description: string | null;
+};
 
-  const t = useTranslations("categoriesPage.categoriesPage");
-  const procedureT = useTranslations("proceduresName");
-  const categoryT = useTranslations("categoriesName");
+type PublicSubcategory = {
+  id: string;
+  name: string;
+  description: string | null;
+  procedures: PublicProcedure[];
+};
 
-  const category = DoctorCatalog.categories.find((item) => item.slug === categoryId);
+type PublicCategory = {
+  id: string;
+  slug: string;
+  href: string;
+  name: string;
+  description: string | null;
+  homeImage: string | null;
+  icon: string | null;
+  subcategories: PublicSubcategory[];
+};
 
-  if (!category) {
-    return null;
+type PublicCategoryResponse = {
+  category: PublicCategory;
+};
+
+async function getPublicCategory(categoryId: string, locale: string) {
+  const requestHeaders = await headers();
+  const host =
+    requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host");
+
+  if (!host) {
+    throw new Error("Could not determine the application host.");
   }
 
-  const catalogCategory = DoctorCatalog.categories.find(
-    (item) => item.category === category.id
+  const protocol =
+    requestHeaders.get("x-forwarded-proto") ??
+    (host.includes("localhost") ? "http" : "https");
+
+  const response = await fetch(
+    `${protocol}://${host}/api/public-pages/categories/${encodeURIComponent(
+      categoryId
+    )}?locale=${encodeURIComponent(locale)}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
   );
 
-  if (!catalogCategory) {
+  if (response.status === 404) {
     return null;
   }
 
-  const safeT = (
-    translator: ReturnType<typeof useTranslations>,
-    key: string,
-    fallback: string
-  ) => {
-    return translator.has(key) ? translator(key) : fallback;
+  if (!response.ok) {
+    throw new Error(`Could not load category: ${response.status}`);
+  }
+
+  const data = (await response.json()) as PublicCategoryResponse;
+
+  if (!data.category || !Array.isArray(data.category.subcategories)) {
+    throw new Error("The category response is invalid.");
+  }
+
+  return data.category;
+}
+
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const [{ categoryId }, locale, t] = await Promise.all([
+    params,
+    getLocale(),
+    getTranslations("categoriesPage.categoriesPage"),
+  ]);
+
+  const category = await getPublicCategory(categoryId, locale);
+
+  if (!category) {
+    notFound();
+  }
+
+  const safeT = (key: string, fallback: string) => {
+    return t.has(key) ? t(key) : fallback;
   };
 
-  const jsonLd = {
+  const subcategories = category.subcategories.map((subcategory) => ({
+    id: subcategory.id,
+    title: subcategory.name,
+    description: subcategory.description ?? "",
+    procedures: subcategory.procedures.map((procedure) => ({
+      id: procedure.id,
+      name: procedure.name,
+    })),
+    procedureCountLabel: t.has("proceduresCount")
+      ? t("proceduresCount", {
+          count: subcategory.procedures.length,
+        })
+      : `${subcategory.procedures.length} procedures`,
+  }));
+
+  const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "MedicalSpecialty",
-    name: safeT(t, `categories.${category.id}.title`, category.id),
-    description: safeT(t, `categories.${category.id}.description`, ""),
-    image: category.homeImage,
-    hasPart: catalogCategory.subcategories.map((subcategory) => ({
+    name: category.name,
+    description: category.description ?? undefined,
+    image: category.homeImage ?? undefined,
+    hasPart: category.subcategories.map((subcategory) => ({
       "@type": "MedicalProcedure",
-      name: safeT(
-        t,
-        `subcategories.${subcategory.subcategory}.title`,
-        subcategory.subcategory
-      ),
-      description: safeT(
-        t,
-        `subcategories.${subcategory.subcategory}.description`,
-        ""
-      ),
+      name: subcategory.name,
+      description: subcategory.description ?? undefined,
+      hasPart: subcategory.procedures.map((procedure) => ({
+        "@type": "MedicalProcedure",
+        name: procedure.name,
+        description: procedure.description ?? undefined,
+      })),
     })),
-  };
+  }).replace(/</g, "\\u003c");
 
   return (
     <main className="min-h-screen bg-[#FAF9F7]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
 
       <CategoryHero
-        title={
-          categoryT.has(category.id)
-            ? categoryT(category.id)
-            : category.id
-        }
-        description={safeT(t, `categories.${category.id}.description`, "")}
+        title={category.name}
+        description={category.description ?? ""}
         image={category.homeImage}
         icon={category.icon}
         categoryId={category.id}
-        findDoctorsLabel={safeT(t, "findDoctors", "Find doctors")}
+        findDoctorsLabel={safeT("findDoctors", "Find doctors")}
       />
 
       <section className="mx-auto grid max-w-7xl gap-6 px-6 py-14 md:px-12 lg:px-16">
         <CategorySubcategories
-          title={safeT(t, "subcategoriesTitle", "Procedures")}
-          subcategories={catalogCategory.subcategories.map((subcategory) => ({
-            subcategory: subcategory.subcategory,
-            title: safeT(
-              t,
-              `subcategories.${subcategory.subcategory}.title`,
-              subcategory.subcategory
-            ),
-            description: safeT(
-              t,
-              `subcategories.${subcategory.subcategory}.description`,
-              ""
-            ),
-            procedures: subcategory.procedures.map((procedure) => ({
-              id: procedure.id,
-              name: procedure.name,
-              label: procedureT.has(procedure.id)
-                ? procedureT(procedure.id)
-                : procedure.name,
-            })),
-          }))}
+          title={safeT("subcategoriesTitle", "Procedures")}
+          subcategories={subcategories}
           selectedProceduresTitle={safeT(
-            t,
             "selectedProceduresTitle",
             "Selected procedures"
           )}
           selectedProceduresDescription={
             t.has("selectedProceduresDescription")
-              ? t.raw("selectedProceduresDescription")
+              ? String(t.raw("selectedProceduresDescription"))
               : "{count} procedures selected"
           }
           chooseProceduresTitle={safeT(
-            t,
             "chooseProceduresTitle",
             "Choose procedures"
           )}
           chooseProceduresDescription={safeT(
-            t,
             "chooseProceduresDescription",
             "Select up to 3 procedures."
           )}
-          findBestDoctors={safeT(t, "findBestDoctors", "Find best doctors")}
+          findBestDoctors={safeT(
+            "findBestDoctors",
+            "Find best doctors"
+          )}
           chooseProceduresButton={safeT(
-            t,
             "chooseProceduresButton",
             "Choose procedures"
           )}
