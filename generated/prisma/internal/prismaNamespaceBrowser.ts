@@ -65,6 +65,7 @@ export const ModelName = {
   SubcategoryTranslation: 'SubcategoryTranslation',
   Procedure: 'Procedure',
   ProcedureTranslation: 'ProcedureTranslation',
+  DoctorCategory: 'DoctorCategory',
   ProcedureSubcategory: 'ProcedureSubcategory',
   DoctorSpecialty: 'DoctorSpecialty',
   DoctorSubcategory: 'DoctorSubcategory',
@@ -300,6 +301,17 @@ export const ProcedureTranslationScalarFieldEnum = {
 } as const
 
 export type ProcedureTranslationScalarFieldEnum = (typeof ProcedureTranslationScalarFieldEnum)[keyof typeof ProcedureTranslationScalarFieldEnum]
+
+
+export const DoctorCategoryScalarFieldEnum = {
+  doctorProfileId: 'doctorProfileId',
+  categoryId: 'categoryId',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DoctorCategoryScalarFieldEnum = (typeof DoctorCategoryScalarFieldEnum)[keyof typeof DoctorCategoryScalarFieldEnum]
 
 
 export const ProcedureSubcategoryScalarFieldEnum = {

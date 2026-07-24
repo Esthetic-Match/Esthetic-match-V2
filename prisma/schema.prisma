@@ -131,6 +131,7 @@ model DoctorProfile {
 
   socialMediaLinks DoctorSocialMedia[]
   specialties      DoctorSpecialty[]
+  categories       DoctorCategory[]
   subcategories    DoctorSubcategory[]
   procedures       DoctorProcedure[]
 
@@ -255,6 +256,7 @@ model Category {
   translations   CategoryTranslation[]
   specialtyLinks SpecialtyCategory[]
   subcategories  Subcategory[]
+  doctors        DoctorCategory[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -358,6 +360,23 @@ model ProcedureTranslation {
   @@id([procedureId, localeCode])
   @@index([localeCode, name])
   @@map("procedure_translation")
+}
+
+model DoctorCategory {
+  doctorProfileId String
+  categoryId      String
+  position        Int @default(0)
+
+  doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+  category      Category      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([doctorProfileId, categoryId])
+  @@index([categoryId, doctorProfileId])
+  @@index([doctorProfileId, position])
+  @@map("doctor_category")
 }
 
 /// Procedures are many-to-many with subcategories because the current catalogue
