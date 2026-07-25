@@ -12,11 +12,17 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+export type DoctorCatalogueItem = {
+  id: string;
+  name: string;
+};
+
 export type DoctorCardData = {
   id: string;
   slug: string;
   name: string;
   specialtyIds: string[];
+  specialties?: DoctorCatalogueItem[];
   avatar: string;
   city: string | null;
   country: string | null;
@@ -30,6 +36,7 @@ export type DoctorCardData = {
   currency: string;
   clinicName?: string | null;
   topThree?: string[];
+  topThreeProcedures?: DoctorCatalogueItem[];
   clinicBanner?: string | null;
 };
 
@@ -37,7 +44,7 @@ export type SpecialtyTranslations = Record<string, string>;
 
 type DoctorCardProps = {
   doctor: DoctorCardData;
-  specialtyT: SpecialtyTranslations;
+  specialtyT?: SpecialtyTranslations;
   showDetails?: boolean;
   showSpecialties?: boolean;
 };
@@ -56,23 +63,41 @@ function formatCurrency({
 const FALLBACK_BANNER_CLASS =
   "bg-gradient-to-br from-[#F1E1C6] via-white to-[#CEB591]/35";
 
+  function createLegacyTags(
+  ids: string[],
+  translations: SpecialtyTranslations
+): DoctorCatalogueItem[] {
+  return ids.map((id) => ({
+    id,
+    name: translations[id] ?? id,
+  }));
+}
+
 export default function DoctorCards({
   doctor,
-  specialtyT,
+  specialtyT = {},
   showDetails = true,
   showSpecialties = true,
 }: DoctorCardProps) {
   const t = useTranslations("home.Home");
 
-  const specialties = doctor.specialtyIds;
+  const specialties =
+    doctor.specialties && doctor.specialties.length > 0
+      ? doctor.specialties
+      : createLegacyTags(doctor.specialtyIds, specialtyT);
 
   const mainTags =
-    doctor.topThree && doctor.topThree.length > 0
-      ? doctor.topThree
-      : specialties;
+    doctor.topThreeProcedures && doctor.topThreeProcedures.length > 0
+      ? doctor.topThreeProcedures
+      : doctor.topThree && doctor.topThree.length > 0
+        ? createLegacyTags(doctor.topThree, specialtyT)
+        : specialties;
 
   const visibleTags = mainTags.slice(0, 3);
-  const remainingTagCount = Math.max(mainTags.length - visibleTags.length, 0);
+  const remainingTagCount = Math.max(
+    mainTags.length - visibleTags.length,
+    0
+  );
 
   const inClinicPrice = formatCurrency({
     amount: doctor.inClinicPrice,
@@ -143,9 +168,11 @@ export default function DoctorCards({
         <div className="absolute -bottom-12 left-6 h-24 w-24 overflow-hidden rounded-3xl border-4 border-white bg-[#283C5D] shadow-xl">
           <Image
             src={doctor.avatar || "/images/default-doctor.png"}
-            alt={`${doctor.name}, ${specialties
-              .map((id: string) => specialtyT[id] ?? id)
-              .join(", ")}`}
+            alt={`${doctor.name}${
+  specialties.length > 0
+    ? `, ${specialties.map((specialty) => specialty.name).join(", ")}`
+    : ""
+}`}
             fill
             sizes="96px"
             className="object-cover"
@@ -201,15 +228,15 @@ export default function DoctorCards({
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-2">
-              {visibleTags.map((id: string) => (
-                <span
-                  key={id}
-                  itemProp="medicalSpecialty"
-                  className="rounded-full border border-[#CEB591]/40 bg-[#F1E1C6]/40 px-3.5 py-1 text-xs font-semibold text-[#283C5D] transition-colors hover:bg-[#F1E1C6]/70"
-                >
-                  {specialtyT[id] ?? id}
-                </span>
-              ))}
+{visibleTags.map((tag) => (
+  <span
+    key={tag.id}
+    itemProp="medicalSpecialty"
+    className="rounded-full border border-[#CEB591]/40 bg-[#F1E1C6]/40 px-3.5 py-1 text-xs font-semibold text-[#283C5D] transition-colors hover:bg-[#F1E1C6]/70"
+  >
+    {tag.name}
+  </span>
+))}
 
               {remainingTagCount > 0 ? (
                 <span className="rounded-full border border-[#CEB591]/30 bg-white px-3 py-1 text-xs font-semibold text-[#283C5D]/55">
