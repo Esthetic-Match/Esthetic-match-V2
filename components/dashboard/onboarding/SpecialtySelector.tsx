@@ -1,22 +1,23 @@
 "use client";
 
+import Image from "next/image";
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
-import { DoctorCatalog } from "@/lib/doctorCatalogue";
+
+import type { OnboardingSpecialtyGroup } from "@/components/public/signup/util/utils";
 
 type SpecialtySelectorProps = {
+  specialtyGroups: readonly OnboardingSpecialtyGroup[];
   selectedSpecialties: string[];
   onToggleSpecialty: (id: string) => void;
 };
 
 export default function SpecialtySelector({
+  specialtyGroups,
   selectedSpecialties,
   onToggleSpecialty,
 }: SpecialtySelectorProps) {
   const t = useTranslations("onboarding.specialtySelector");
-  const specialityT = useTranslations("specialitiesName");
-  const specialtyGroups = DoctorCatalog.specialties.groups;
 
   return (
     <div className="w-full space-y-8">
@@ -37,59 +38,68 @@ export default function SpecialtySelector({
         </div>
       </div>
 
-      {specialtyGroups.map((group) => (
-        <section key={group.titleKey} className="space-y-3">
-          <h3 className="text-sm font-semibold text-[#283C5D]">
-            {t(group.titleKey)}
-          </h3>
+      {specialtyGroups.length > 0 ? (
+        specialtyGroups.map((group) => (
+          <section key={group.id} className="space-y-3">
+            <h3 className="text-sm font-semibold text-[#283C5D]">
+              {group.name}
+            </h3>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {group.items.map((specialty) => {
-              const selected = selectedSpecialties.includes(specialty.id);
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {group.specialties.map((specialty) => {
+                const selected = selectedSpecialties.includes(specialty.id);
 
-              return (
-                <button
-                  key={specialty.id}
-                  type="button"
-                  onClick={() => onToggleSpecialty(specialty.id)}
-                  aria-pressed={selected}
-                  className={`group relative flex min-h-[150px] flex-col items-center justify-center rounded-xl border px-4 py-5 text-center shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
-                    selected
-                      ? "border-[#2563EB]/20 bg-[#EFF6FF]/40 shadow-[0_0_0_1px_rgba(37,99,235,0.25)]"
-                      : "border-black/5 bg-white hover:border-[#2563EB]/40"
-                  }`}
-                >
-                  <span
-                    className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition ${
+                return (
+                  <button
+                    key={specialty.id}
+                    type="button"
+                    onClick={() => onToggleSpecialty(specialty.id)}
+                    aria-pressed={selected}
+                    className={`group relative flex min-h-[150px] flex-col items-center justify-center rounded-xl border px-4 py-5 text-center shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
                       selected
-                        ? "border-[#2563EB] bg-[#2563EB] text-white"
-                        : "border-black/15 bg-white text-transparent"
+                        ? "border-[#2563EB]/20 bg-[#EFF6FF]/40 shadow-[0_0_0_1px_rgba(37,99,235,0.25)]"
+                        : "border-black/5 bg-white hover:border-[#2563EB]/40"
                     }`}
                   >
-                    <Check size={13} strokeWidth={3} />
-                  </span>
+                    <span
+                      className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition ${
+                        selected
+                          ? "border-[#2563EB] bg-[#2563EB] text-white"
+                          : "border-black/15 bg-white text-transparent"
+                      }`}
+                    >
+                      <Check size={13} strokeWidth={3} />
+                    </span>
 
-                  <Image
-                    src={`/images/dashboard/specialties/${specialty.icon}`}
-                    alt={specialityT(specialty.id)}
-                    width={44}
-                    height={44}
-                    className={`mb-3 h-11 w-11 object-contain transition ${
-                      selected
-                        ? "opacity-100"
-                        : "opacity-80 group-hover:opacity-100"
-                    }`}
-                  />
+                    {specialty.icon ? (
+                      <Image
+                        src={specialty.icon}
+                        alt=""
+                        width={44}
+                        height={44}
+                        className={`mb-3 h-11 w-11 object-contain transition ${
+                          selected
+                            ? "opacity-100"
+                            : "opacity-80 group-hover:opacity-100"
+                        }`}
+                        aria-hidden="true"
+                      />
+                    ) : null}
 
-                  <span className="text-sm font-semibold text-[#283C5D]">
-                    {specialityT(specialty.id)}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-      ))}
+                    <span className="text-sm font-semibold text-[#283C5D]">
+                      {specialty.name}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        ))
+      ) : (
+        <p className="rounded-2xl border border-black/10 bg-white p-4 text-center text-sm text-black/40">
+          No specialties are currently available.
+        </p>
+      )}
     </div>
   );
 }

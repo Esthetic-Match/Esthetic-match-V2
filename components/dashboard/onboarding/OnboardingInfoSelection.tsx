@@ -1,12 +1,15 @@
 "use client";
 
 import TextInput from "@/components/UI/TextInput";
+import {
+  getVisibleCategories,
+  type OnboardingCatalogue,
+} from "@/components/public/signup/util/utils";
 
-import SpecialtySelector from "./SpecialtySelector";
-import ChosenProceduresSection from "./ChosenProceduresSection";
 import CategoryAndProcedureSelector from "./CategoryAndProcedureSelector";
-import SpecialtyStepper from "./SpecialtyStepper"
-import { getVisibleCategories } from "../../public/signup/util/utils";
+import ChosenProceduresSection from "./ChosenProceduresSection";
+import SpecialtySelector from "./SpecialtySelector";
+import SpecialtyStepper from "./SpecialtyStepper";
 import TopProceduresSelector from "./TopProceduresSelector";
 
 type DoctorSpecialtySubStep =
@@ -15,14 +18,13 @@ type DoctorSpecialtySubStep =
   | "topProcedures";
 
 type OnboardingInfoSelectionProps = {
+  catalogue: OnboardingCatalogue;
   subStep: DoctorSpecialtySubStep;
-
   selectedSpecialties: string[];
   selectedCategories: string[];
   selectedProcedures: string[];
   otherSpecialtyText: string;
   selectedTopProcedures: string[];
-  
   onToggleTopProcedure: (value: string) => void;
   onToggleSpecialty: (value: string) => void;
   onToggleCategory: (value: string) => void;
@@ -33,6 +35,7 @@ type OnboardingInfoSelectionProps = {
 };
 
 export default function OnboardingInfoSelection({
+  catalogue,
   subStep,
   selectedSpecialties,
   selectedCategories,
@@ -47,12 +50,15 @@ export default function OnboardingInfoSelection({
   selectedTopProcedures,
   onToggleTopProcedure,
 }: OnboardingInfoSelectionProps) {
-  const hasOtherSpecialty =
-    selectedSpecialties.includes("Other specialty") ||
-    selectedSpecialties.includes("other specialty") ||
-    selectedSpecialties.includes("other_specialty");
-
-  const visibleCategories = getVisibleCategories(selectedSpecialties);
+  const hasOtherSpecialty = selectedSpecialties.includes("other_specialty");
+  const visibleCategories = getVisibleCategories(
+    catalogue.categories,
+    selectedSpecialties,
+  );
+  const selectedCategoryIds = new Set(selectedCategories);
+  const selectedVisibleCategories = visibleCategories.filter((category) =>
+    selectedCategoryIds.has(category.id),
+  );
 
   const isSelectingSpecialties = subStep === "specialties";
   const isSelectingCategories = subStep === "categories";
@@ -65,6 +71,7 @@ export default function OnboardingInfoSelection({
       {isSelectingSpecialties ? (
         <>
           <SpecialtySelector
+            specialtyGroups={catalogue.specialtyGroups}
             selectedSpecialties={selectedSpecialties}
             onToggleSpecialty={onToggleSpecialty}
           />
@@ -90,17 +97,20 @@ export default function OnboardingInfoSelection({
             onSelectAllProcedures={onSelectAllProcedures}
             onDeselectAllProcedures={onDeselectAllProcedures}
           />
+
           <ChosenProceduresSection
             selectedSpecialties={selectedSpecialties}
             selectedProcedures={selectedProcedures}
-            visibleCategories={visibleCategories}
+            visibleCategories={selectedVisibleCategories}
             onToggleProcedure={onToggleProcedure}
             onDeselectAllProcedures={onDeselectAllProcedures}
           />
         </>
       ) : null}
+
       {isSelectingTopProcedures ? (
         <TopProceduresSelector
+          visibleCategories={selectedVisibleCategories}
           selectedProcedures={selectedProcedures}
           selectedTopProcedures={selectedTopProcedures}
           onToggleTopProcedure={onToggleTopProcedure}

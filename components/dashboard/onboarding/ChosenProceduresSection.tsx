@@ -1,12 +1,15 @@
-import ChosenProcedures from "./ChosenProcedures";
-import { getSelectedProcedureLabels } from "@/components/public/signup/util/utils";
-import type { Category } from "@/app/[locale]/(public)/sign-up/types";
+"use client";
+
 import { useTranslations } from "next-intl";
+
+import type { OnboardingCategory } from "@/components/public/signup/util/utils";
+
+import ChosenProcedures from "./ChosenProcedures";
 
 type ChosenProceduresSectionProps = {
   selectedSpecialties: string[];
   selectedProcedures: string[];
-  visibleCategories: readonly Category[];
+  visibleCategories: readonly OnboardingCategory[];
   onToggleProcedure: (id: string) => void;
   onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
@@ -19,16 +22,11 @@ export default function ChosenProceduresSection({
   onDeselectAllProcedures,
 }: ChosenProceduresSectionProps) {
   const t = useTranslations("onboarding.procedure");
-  
+
   if (selectedSpecialties.length === 0) {
     return null;
   }
 
-  const chosenProcedures = getSelectedProcedureLabels(
-    visibleCategories,
-    selectedProcedures
-  );
-  
   return (
     <div className="mt-6 rounded-xl border border-black/5 bg-white p-4 shadow-md">
       <div className="mb-4">
@@ -40,8 +38,10 @@ export default function ChosenProceduresSection({
           {t("pro selected")}
         </p>
       </div>
+
       <ChosenProcedures
-        chosenProcedures={chosenProcedures}
+        categories={visibleCategories}
+        selectedProcedureIds={selectedProcedures}
         onRemoveProcedure={onToggleProcedure}
         onDeselectAllProcedures={onDeselectAllProcedures}
       />

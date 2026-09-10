@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react";
-import type { Category } from "@/app/[locale]/(public)/sign-up/types";
-import { useTranslations } from "next-intl";
-import ProcedureSelectionModal from "./modal/ProcedureSelectionModel";
 import Image from "next/image";
+import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import type { OnboardingCategory } from "@/components/public/signup/util/utils";
+
+import ProcedureSelectionModal from "./modal/ProcedureSelectionModel";
 
 type CategoryAndProcedureSelectorProps = {
-  visibleCategories: readonly Category[];
+  visibleCategories: readonly OnboardingCategory[];
   selectedCategories: string[];
   selectedProcedures: string[];
   onToggleCategory: (value: string) => void;
@@ -16,10 +18,6 @@ type CategoryAndProcedureSelectorProps = {
   onSelectAllProcedures: (procedureIds: string[]) => void;
   onDeselectAllProcedures: (procedureIds: string[]) => void;
 };
-
-function getCategoryImagePath(category: string) {
-  return `/images/dashboard/categories/${category}.svg`;
-}
 
 export default function CategoryAndProcedureSelector({
   visibleCategories,
@@ -31,37 +29,25 @@ export default function CategoryAndProcedureSelector({
   onDeselectAllProcedures,
 }: CategoryAndProcedureSelectorProps) {
   const t = useTranslations("onboarding.category");
-  const categoryT = useTranslations("categoriesName");
+  const [activeCategory, setActiveCategory] =
+    useState<OnboardingCategory | null>(null);
 
-  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-
-  function openCategory(categoryItem: Category) {
-    const isAlreadySelected = selectedCategories.includes(
-      categoryItem.category
-    );
-
-    if (!isAlreadySelected) {
-      onToggleCategory(categoryItem.category);
+  function openCategory(category: OnboardingCategory) {
+    if (!selectedCategories.includes(category.id)) {
+      onToggleCategory(category.id);
     }
 
-    setActiveCategory(categoryItem);
+    setActiveCategory(category);
   }
 
-  function deselectCategory(
-    e: React.MouseEvent<HTMLSpanElement>,
-    categoryItem: Category
-  ) {
-    e.stopPropagation();
-
-    if (selectedCategories.includes(categoryItem.category)) {
-      onToggleCategory(categoryItem.category);
+  function deselectCategory(category: OnboardingCategory) {
+    if (selectedCategories.includes(category.id)) {
+      onToggleCategory(category.id);
     }
 
-    setActiveCategory(null);
-  }
-
-  function closePopup() {
-    setActiveCategory(null);
+    if (activeCategory?.id === category.id) {
+      setActiveCategory(null);
+    }
   }
 
   if (visibleCategories.length === 0) {
@@ -75,67 +61,70 @@ export default function CategoryAndProcedureSelector({
   return (
     <>
       <div className="space-y-3">
-      <div className="flex flex-col my-6 items-center text-center">
-        <h2 className="text-2xl font-bold tracking-tight text-[#283C5D] md:text-3xl">
-          {t("title")}
-        </h2>
+        <div className="my-6 flex flex-col items-center text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-[#283C5D] md:text-3xl">
+            {t("title")}
+          </h2>
 
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#283C5D]/45">
-          {t("subtitle")}
-        </p>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-[#283C5D]/45">
+            {t("subtitle")}
+          </p>
 
-        <div className="mt-5 flex items-center gap-2 rounded-lg bg-[#EFF6FF] px-4 py-2 text-xs font-medium text-[#283C5D]/60">
-          <span className="flex h-4 w-4 items-center justify-center rounded-full border border-[#2563EB] text-[10px] font-bold text-[#2563EB]">
-            i
-          </span>
-          <span>{t("note")}</span>
+          <div className="mt-5 flex items-center gap-2 rounded-lg bg-[#EFF6FF] px-4 py-2 text-xs font-medium text-[#283C5D]/60">
+            <span className="flex h-4 w-4 items-center justify-center rounded-full border border-[#2563EB] text-[10px] font-bold text-[#2563EB]">
+              i
+            </span>
+            <span>{t("note")}</span>
+          </div>
         </div>
-      </div>
+
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-          {visibleCategories.map((categoryItem) => {
-            const selected = selectedCategories.includes(
-              categoryItem.category
-            );
+          {visibleCategories.map((category) => {
+            const selected = selectedCategories.includes(category.id);
 
             return (
-              <button
-                key={categoryItem.category}
-                type="button"
-                onClick={() => openCategory(categoryItem)}
-                aria-pressed={selected}
-                className={`group relative flex min-h-[150px] flex-col items-center justify-center rounded-xl border px-4 py-5 text-center shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
-                  selected
-                    ? "border-[#2563EB]/20 bg-[#EFF6FF]/40 shadow-[0_0_0_1px_rgba(37,99,235,0.25)]"
-                    : "border-black/5 bg-white hover:border-[#2563EB]/40"
-                }`}
-              >
-                <span
-                  onClick={(e) => selected && deselectCategory(e, categoryItem)}
-                  className={`absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full border transition ${
+              <div key={category.id} className="group relative">
+                <button
+                  type="button"
+                  onClick={() => openCategory(category)}
+                  aria-pressed={selected}
+                  className={`flex min-h-[150px] w-full flex-col items-center justify-center rounded-xl border px-4 py-5 text-center shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
                     selected
-                      ? "border-gray-200 bg-gray-300 text-black"
-                      : "border-black/15 bg-white text-transparent"
+                      ? "border-[#2563EB]/20 bg-[#EFF6FF]/40 shadow-[0_0_0_1px_rgba(37,99,235,0.25)]"
+                      : "border-black/5 bg-white hover:border-[#2563EB]/40"
                   }`}
                 >
-                  <X size={13} strokeWidth={4} />
-                </span>
+                  {category.dashboardImage ? (
+                    <Image
+                      src={category.dashboardImage}
+                      alt=""
+                      width={44}
+                      height={44}
+                      className={`mb-3 h-11 w-11 object-contain transition ${
+                        selected
+                          ? "opacity-100"
+                          : "opacity-80 group-hover:opacity-100"
+                      }`}
+                      aria-hidden="true"
+                    />
+                  ) : null}
 
-                <Image
-                  src={getCategoryImagePath(categoryItem.category)}
-                  alt={categoryT(categoryItem.category)}
-                  width={44}
-                  height={44}
-                  className={`mb-3 h-11 w-11 object-contain transition ${
-                    selected
-                      ? "opacity-100"
-                      : "opacity-80 group-hover:opacity-100"
-                  }`}
-                />
+                  <span className="text-sm font-semibold text-[#283C5D]">
+                    {category.name}
+                  </span>
+                </button>
 
-                <span className="text-sm font-semibold text-[#283C5D]">
-                 {categoryT(categoryItem.category)}
-                </span>
-              </button>
+                {selected ? (
+                  <button
+                    type="button"
+                    onClick={() => deselectCategory(category)}
+                    aria-label={`Remove ${category.name}`}
+                    className="absolute right-3 top-3 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-gray-300 text-black transition hover:border-red-200 hover:bg-red-100 hover:text-red-600"
+                  >
+                    <X size={13} strokeWidth={3} />
+                  </button>
+                ) : null}
+              </div>
             );
           })}
         </div>
@@ -143,10 +132,11 @@ export default function CategoryAndProcedureSelector({
 
       {activeCategory ? (
         <ProcedureSelectionModal
+          key={activeCategory.id}
           activeCategory={activeCategory}
           selectedProcedures={selectedProcedures}
           onToggleProcedure={onToggleProcedure}
-          onClose={closePopup}
+          onClose={() => setActiveCategory(null)}
           onSelectAllProcedures={onSelectAllProcedures}
           onDeselectAllProcedures={onDeselectAllProcedures}
         />
