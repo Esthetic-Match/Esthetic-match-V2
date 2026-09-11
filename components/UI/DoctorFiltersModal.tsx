@@ -1,59 +1,124 @@
 "use client";
 
 import {
-  X,
-  Star,
-  MapPin,
-  SlidersHorizontal,
-  ChevronDown,
-  ChevronUp,
+  AlertCircle,
   Award,
   CheckCheck,
-  XCircle,
-  Stethoscope,
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  MapPin,
   Monitor,
+  RefreshCw,
+  SlidersHorizontal,
+  Star,
+  Stethoscope,
+  X,
+  XCircle,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
-import { DoctorCatalog } from "@/lib/doctorCatalogue";
+
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import {
+  useLocale,
+  useTranslations,
+} from "next-intl";
+
 import { createPortal } from "react-dom";
+
+import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils/utils";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
+/* ═════════════════════════════════════
+   TYPES
+═════════════════════════════════════ */
 
 type DoctorFiltersModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-type Procedure = {
+type CatalogueProcedure = {
   id: string;
   name: string;
+  description: string | null;
+  sortOrder: number;
 };
 
-type Subcategory = {
-  subcategory: string;
-  procedures: readonly Procedure[];
+type CatalogueSubcategory = {
+  id: string;
+  name: string;
+  description: string | null;
+  sortOrder: number;
+  procedures: CatalogueProcedure[];
 };
 
-type Category = {
-  category: string;
-  subcategories: readonly Subcategory[];
+type CatalogueCategory = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  href: string | null;
+  homeImage: string | null;
+  dashboardImage: string | null;
+  icon: string | null;
+  sortOrder: number;
+  specialtyIds: string[];
+  subcategories: CatalogueSubcategory[];
 };
 
-// ---------------------------------------------------------------------------
-// Price range constants  (adjust to match your real data range)
-// ---------------------------------------------------------------------------
+type DoctorCatalogueResponse = {
+  success: boolean;
+  locale?: string;
+  categories?: CatalogueCategory[];
+  error?: string;
+};
+
+/* ═════════════════════════════════════
+   PRICE
+═════════════════════════════════════ */
 
 const PRICE_MIN = 0;
 const PRICE_MAX = 1000;
 
-// ---------------------------------------------------------------------------
-// PriceRangeSlider  – single max-price slider, fully accessible, no external lib
-// ---------------------------------------------------------------------------
+/* ═════════════════════════════════════
+   HELPERS
+═════════════════════════════════════ */
+
+function getProcedureIdsForCategory(
+  category: CatalogueCategory,
+): string[] {
+  return Array.from(
+    new Set(
+      category.subcategories.flatMap(
+        (subcategory) =>
+          subcategory.procedures.map(
+            (procedure) => procedure.id,
+          ),
+      ),
+    ),
+  );
+}
+
+function getProcedureIdsForCategories(
+  categories: CatalogueCategory[],
+): string[] {
+  return Array.from(
+    new Set(
+      categories.flatMap(
+        getProcedureIdsForCategory,
+      ),
+    ),
+  );
+}
+
+/* ═════════════════════════════════════
+   PRICE SLIDER
+═════════════════════════════════════ */
 
 function PriceRangeSlider({
   label,
@@ -68,12 +133,13 @@ function PriceRangeSlider({
   icon: React.ReactNode;
   min: number;
   max: number;
-  /** Single upper-bound value */
   value: number;
   onChange: (value: number) => void;
   currencySymbol?: string;
 }) {
-  const percent = ((value - min) / (max - min)) * 100;
+  const percent =
+    ((value - min) / (max - min)) *
+    100;
 
   return (
     <div>
@@ -82,19 +148,22 @@ function PriceRangeSlider({
           {icon}
           {label}
         </label>
+
         <span className="text-xs font-semibold text-[#d8bd8d]">
-          {value >= max ? `${currencySymbol}${max}+` : `${currencySymbol}${value}`}
+          {value >= max
+            ? `${currencySymbol}${max}+`
+            : `${currencySymbol}${value}`}
         </span>
       </div>
 
-      <div className="relative mx-1 h-5 flex items-center">
-        {/* Base track */}
+      <div className="relative mx-1 flex h-5 items-center">
         <div className="absolute inset-x-0 h-1.5 rounded-full bg-black/10" />
 
-        {/* Filled range */}
         <div
           className="absolute left-0 h-1.5 rounded-full bg-[#d8bd8d]"
-          style={{ width: `${percent}%` }}
+          style={{
+            width: `${percent}%`,
+          }}
         />
 
         <input
@@ -102,24 +171,36 @@ function PriceRangeSlider({
           min={min}
           max={max}
           value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(event) =>
+            onChange(
+              Number(
+                event.target.value,
+              ),
+            )
+          }
           className="price-range-thumb absolute inset-x-0 h-1.5 w-full appearance-none bg-transparent"
           aria-label={label}
         />
       </div>
 
-      {/* Min/Max labels */}
       <div className="mt-1 flex justify-between text-[10px] text-[#283C5D]/40">
-        <span>{currencySymbol}{min}</span>
-        <span>{currencySymbol}{max}+</span>
+        <span>
+          {currencySymbol}
+          {min}
+        </span>
+
+        <span>
+          {currencySymbol}
+          {max}+
+        </span>
       </div>
     </div>
   );
 }
 
-// ---------------------------------------------------------------------------
-// TopProceduresToggle – pill toggle button
-// ---------------------------------------------------------------------------
+/* ═════════════════════════════════════
+   TOP PROCEDURES TOGGLE
+═════════════════════════════════════ */
 
 function TopProceduresToggle({
   label,
@@ -128,35 +209,44 @@ function TopProceduresToggle({
 }: {
   label: string;
   value: boolean;
-  onChange: (v: boolean) => void;
+  onChange: (value: boolean) => void;
 }) {
   return (
     <button
       type="button"
-      onClick={() => onChange(!value)}
+      onClick={() =>
+        onChange(!value)
+      }
       className={cn(
-        "flex w-full items-center justify-between gap-3 rounded-full border px-4 py-3 text-sm font-semibold transition active:scale-[0.97] cursor-pointer",
+        "flex w-full cursor-pointer items-center justify-between gap-3 rounded-full border px-4 py-3 text-sm font-semibold transition active:scale-[0.97]",
         value
           ? "border-[#283C5D] bg-[#283C5D] text-white"
-          : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D]"
+          : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D]",
       )}
     >
       <span className="flex items-center gap-2 text-left">
-        <Award size={15} className="shrink-0" />
+        <Award
+          size={15}
+          className="shrink-0"
+        />
+
         {label}
       </span>
 
-      {/* Visual toggle pill */}
       <span
         className={cn(
           "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
-          value ? "bg-[#d8bd8d]" : "bg-black/15"
+          value
+            ? "bg-[#d8bd8d]"
+            : "bg-black/15",
         )}
       >
         <span
           className={cn(
             "absolute h-3.5 w-3.5 rounded-full bg-white shadow transition-transform",
-            value ? "translate-x-[18px]" : "translate-x-1"
+            value
+              ? "translate-x-[18px]"
+              : "translate-x-1",
           )}
         />
       </span>
@@ -164,225 +254,576 @@ function TopProceduresToggle({
   );
 }
 
-// ---------------------------------------------------------------------------
-// Main component
-// ---------------------------------------------------------------------------
+/* ═════════════════════════════════════
+   COMPONENT
+═════════════════════════════════════ */
 
 export default function DoctorFiltersModal({
   isOpen,
   onClose,
 }: DoctorFiltersModalProps) {
-  const t = useTranslations("home.doctors.filters");
-  const categoryT = useTranslations("categoriesName");
-  const subcategoryT = useTranslations("subcategoriesName");
-  const procedureT = useTranslations("proceduresName");
-  const router = useRouter();
-
-  // ── Existing filter state ──────────────────────────────────────────────
-  const [location, setLocation] = useState("");
-  const [minRating, setMinRating] = useState("");
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
-  const [selectedProcedureIds, setSelectedProcedureIds] = useState<string[]>([]);
-  const [isQuickFiltersOpen, setIsQuickFiltersOpen] = useState(false);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
-
-  // ── New filter state ───────────────────────────────────────────────────
-  const [showOnlyTopProcedures, setShowOnlyTopProcedures] = useState(false);
-  const [maxInClinicPrice, setMaxInClinicPrice] = useState(PRICE_MAX);
-  const [maxOnlinePrice, setMaxOnlinePrice] = useState(PRICE_MAX);
-
-  // ── Derived state ──────────────────────────────────────────────────────
-
-  const selectedCategories = useMemo<Category[]>(() => {
-    return DoctorCatalog.categories.filter((category) =>
-      selectedCategoryIds.includes(category.category)
-    ) as Category[];
-  }, [selectedCategoryIds]);
-
-  const selectedProcedures = useMemo<Procedure[]>(() => {
-    const procedures: Procedure[] = [];
-    DoctorCatalog.categories.forEach((category) => {
-      category.subcategories.forEach((subcategory) => {
-        subcategory.procedures.forEach((procedure) => {
-          if (selectedProcedureIds.includes(procedure.id)) {
-            procedures.push({ id: procedure.id, name: procedure.name });
-          }
-        });
-      });
-    });
-    return procedures;
-  }, [selectedProcedureIds]);
-
-  /** All procedure ids visible in the currently selected categories */
-  const allVisibleProcedureIds = useMemo<string[]>(() => {
-    const ids: string[] = [];
-    selectedCategories.forEach((category) => {
-      category.subcategories.forEach((subcategory) => {
-        subcategory.procedures.forEach((procedure) => {
-          ids.push(procedure.id);
-        });
-      });
-    });
-    return ids;
-  }, [selectedCategories]);
-
-  const allVisibleSelected =
-    allVisibleProcedureIds.length > 0 &&
-    allVisibleProcedureIds.every((id) => selectedProcedureIds.includes(id));
-
-  const anyVisibleSelected = allVisibleProcedureIds.some((id) =>
-    selectedProcedureIds.includes(id)
+  const t = useTranslations(
+    "home.doctors.filters",
   );
 
-  // ── Scroll lock ────────────────────────────────────────────────────────
+  const locale = useLocale();
+  const router = useRouter();
+
+  /* ═══════════════════════════════════
+     CATALOGUE STATE
+  ═══════════════════════════════════ */
+
+  const [
+    categories,
+    setCategories,
+  ] = useState<
+    CatalogueCategory[]
+  >([]);
+
+  const [
+    isLoadingCatalogue,
+    setIsLoadingCatalogue,
+  ] = useState(false);
+
+  const [
+    catalogueError,
+    setCatalogueError,
+  ] = useState<string | null>(
+    null,
+  );
+
+  const [
+    reloadKey,
+    setReloadKey,
+  ] = useState(0);
+
+  /* ═══════════════════════════════════
+     FILTER STATE
+  ═══════════════════════════════════ */
+
+  const [
+    location,
+    setLocation,
+  ] = useState("");
+
+  const [
+    minRating,
+    setMinRating,
+  ] = useState("");
+
+  const [
+    selectedCategoryIds,
+    setSelectedCategoryIds,
+  ] = useState<string[]>([]);
+
+  const [
+    selectedProcedureIds,
+    setSelectedProcedureIds,
+  ] = useState<string[]>([]);
+
+  const [
+    isQuickFiltersOpen,
+    setIsQuickFiltersOpen,
+  ] = useState(false);
+
+  const [
+    isCategoriesOpen,
+    setIsCategoriesOpen,
+  ] = useState(true);
+
+  const [
+    showOnlyTopProcedures,
+    setShowOnlyTopProcedures,
+  ] = useState(false);
+
+  const [
+    maxInClinicPrice,
+    setMaxInClinicPrice,
+  ] = useState(PRICE_MAX);
+
+  const [
+    maxOnlinePrice,
+    setMaxOnlinePrice,
+  ] = useState(PRICE_MAX);
+
+  /* ═══════════════════════════════════
+     LOAD CATALOGUE
+  ═══════════════════════════════════ */
 
   useEffect(() => {
-    if (!isOpen) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    if (!isOpen) {
+      return;
+    }
+
+    const controller =
+      new AbortController();
+
+    async function loadCatalogue() {
+      try {
+        setIsLoadingCatalogue(
+          true,
+        );
+
+        setCatalogueError(null);
+
+        const response =
+          await fetch(
+            `/api/doctor-catalogue?locale=${encodeURIComponent(
+              locale,
+            )}`,
+            {
+              method: "GET",
+              cache: "no-store",
+              signal:
+                controller.signal,
+            },
+          );
+
+        const data =
+          (await response
+            .json()
+            .catch(() => null)) as
+            | DoctorCatalogueResponse
+            | null;
+
+        if (!response.ok) {
+          throw new Error(
+            data?.error ||
+              "Could not load doctor catalogue.",
+          );
+        }
+
+        if (
+          !data ||
+          !Array.isArray(
+            data.categories,
+          )
+        ) {
+          throw new Error(
+            "Invalid doctor catalogue response.",
+          );
+        }
+
+        if (
+          controller.signal.aborted
+        ) {
+          return;
+        }
+
+        setCategories(
+          data.categories,
+        );
+      } catch (error) {
+        if (
+          error instanceof DOMException &&
+          error.name ===
+            "AbortError"
+        ) {
+          return;
+        }
+
+        if (
+          controller.signal.aborted
+        ) {
+          return;
+        }
+
+        console.error(
+          "Could not load filter catalogue:",
+          error,
+        );
+
+        setCategories([]);
+
+        setCatalogueError(
+          error instanceof Error
+            ? error.message
+            : "Could not load doctor catalogue.",
+        );
+      } finally {
+        if (
+          !controller.signal.aborted
+        ) {
+          setIsLoadingCatalogue(
+            false,
+          );
+        }
+      }
+    }
+
+    void loadCatalogue();
+
     return () => {
-      document.body.style.overflow = originalOverflow;
+      controller.abort();
+    };
+  }, [
+    isOpen,
+    locale,
+    reloadKey,
+  ]);
+
+  /* ═══════════════════════════════════
+     DERIVED STATE
+  ═══════════════════════════════════ */
+
+  const selectedCategories =
+    useMemo(() => {
+      const selectedIds =
+        new Set(
+          selectedCategoryIds,
+        );
+
+      return categories.filter(
+        (category) =>
+          selectedIds.has(
+            category.id,
+          ),
+      );
+    }, [
+      categories,
+      selectedCategoryIds,
+    ]);
+
+  const selectedProcedures =
+    useMemo(() => {
+      const selectedIds =
+        new Set(
+          selectedProcedureIds,
+        );
+
+      const procedures =
+        new Map<
+          string,
+          CatalogueProcedure
+        >();
+
+      for (
+        const category of categories
+      ) {
+        for (
+          const subcategory of category.subcategories
+        ) {
+          for (
+            const procedure of subcategory.procedures
+          ) {
+            if (
+              selectedIds.has(
+                procedure.id,
+              )
+            ) {
+              procedures.set(
+                procedure.id,
+                procedure,
+              );
+            }
+          }
+        }
+      }
+
+      return Array.from(
+        procedures.values(),
+      );
+    }, [
+      categories,
+      selectedProcedureIds,
+    ]);
+
+  const allVisibleProcedureIds =
+    useMemo(() => {
+      return getProcedureIdsForCategories(
+        selectedCategories,
+      );
+    }, [selectedCategories]);
+
+  const allVisibleSelected =
+    allVisibleProcedureIds.length >
+      0 &&
+    allVisibleProcedureIds.every(
+      (id) =>
+        selectedProcedureIds.includes(
+          id,
+        ),
+    );
+
+  const anyVisibleSelected =
+    allVisibleProcedureIds.some(
+      (id) =>
+        selectedProcedureIds.includes(
+          id,
+        ),
+    );
+
+  /* ═══════════════════════════════════
+     SCROLL LOCK
+  ═══════════════════════════════════ */
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const originalOverflow =
+      document.body.style.overflow;
+
+    document.body.style.overflow =
+      "hidden";
+
+    return () => {
+      document.body.style.overflow =
+        originalOverflow;
     };
   }, [isOpen]);
 
-  if (!isOpen || typeof document === "undefined") return null;
+  /* ═══════════════════════════════════
+     HANDLERS
+  ═══════════════════════════════════ */
 
-  // ── Handlers ───────────────────────────────────────────────────────────
+  function toggleCategory(
+    categoryId: string,
+  ) {
+    const isSelected =
+      selectedCategoryIds.includes(
+        categoryId,
+      );
 
-  function toggleCategory(categoryId: string) {
-    setSelectedCategoryIds((prev) =>
-      prev.includes(categoryId)
-        ? prev.filter((item) => item !== categoryId)
-        : [...prev, categoryId]
+    if (!isSelected) {
+      setSelectedCategoryIds(
+        (previous) => [
+          ...previous,
+          categoryId,
+        ],
+      );
+
+      return;
+    }
+
+    const nextCategoryIds =
+      selectedCategoryIds.filter(
+        (id) =>
+          id !== categoryId,
+      );
+
+    setSelectedCategoryIds(
+      nextCategoryIds,
+    );
+
+    /*
+     * Remove procedures that are no longer
+     * visible through ANY selected category.
+     *
+     * This is important because a procedure
+     * can belong to multiple subcategories.
+     */
+    const remainingCategories =
+      categories.filter(
+        (category) =>
+          nextCategoryIds.includes(
+            category.id,
+          ),
+      );
+
+    const allowedProcedureIds =
+      new Set(
+        getProcedureIdsForCategories(
+          remainingCategories,
+        ),
+      );
+
+    setSelectedProcedureIds(
+      (previous) =>
+        previous.filter(
+          (procedureId) =>
+            allowedProcedureIds.has(
+              procedureId,
+            ),
+        ),
     );
   }
 
-  function toggleProcedure(procedureId: string) {
-    setSelectedProcedureIds((prev) =>
-      prev.includes(procedureId)
-        ? prev.filter((item) => item !== procedureId)
-        : [...prev, procedureId]
+  function toggleProcedure(
+    procedureId: string,
+  ) {
+    setSelectedProcedureIds(
+      (previous) =>
+        previous.includes(
+          procedureId,
+        )
+          ? previous.filter(
+              (item) =>
+                item !==
+                procedureId,
+            )
+          : [
+              ...previous,
+              procedureId,
+            ],
     );
   }
 
   function selectAllProcedures() {
-    setSelectedProcedureIds((prev) => {
-      const next = new Set(prev);
-      allVisibleProcedureIds.forEach((id) => next.add(id));
-      return Array.from(next);
-    });
+    setSelectedProcedureIds(
+      (previous) => {
+        const next =
+          new Set(previous);
+
+        for (
+          const id of allVisibleProcedureIds
+        ) {
+          next.add(id);
+        }
+
+        return Array.from(
+          next,
+        );
+      },
+    );
   }
 
   function deselectAllProcedures() {
-    setSelectedProcedureIds((prev) =>
-      prev.filter((id) => !allVisibleProcedureIds.includes(id))
+    const visibleIds =
+      new Set(
+        allVisibleProcedureIds,
+      );
+
+    setSelectedProcedureIds(
+      (previous) =>
+        previous.filter(
+          (id) =>
+            !visibleIds.has(id),
+        ),
     );
   }
 
   function applyFilters() {
-    const params = new URLSearchParams();
+    const params =
+      new URLSearchParams();
 
-    if (location.trim()) params.set("location", location.trim());
-    if (minRating) params.set("minRating", minRating);
-
-    if (selectedCategoryIds.length > 0) {
-      params.set("category", selectedCategoryIds.join(","));
+    if (location.trim()) {
+      params.set(
+        "location",
+        location.trim(),
+      );
     }
 
-    if (selectedProcedureIds.length > 0) {
-      params.set("procedures", selectedProcedureIds.join(","));
+    if (minRating) {
+      params.set(
+        "minRating",
+        minRating,
+      );
     }
 
-    if (showOnlyTopProcedures) {
-      params.set("topThreeOnly", "true");
-    }
-    if (maxInClinicPrice < PRICE_MAX) {
-      params.set("maxInClinicPrice", String(maxInClinicPrice));
-    }
-    if (maxOnlinePrice < PRICE_MAX) {
-      params.set("maxOnlineConsultationPrice", String(maxOnlinePrice));
+    if (
+      selectedCategoryIds.length >
+      0
+    ) {
+      params.set(
+        "category",
+        selectedCategoryIds.join(
+          ",",
+        ),
+      );
     }
 
-    router.push(`/doctors?${params.toString()}`);
+    if (
+      selectedProcedureIds.length >
+      0
+    ) {
+      params.set(
+        "procedures",
+        selectedProcedureIds.join(
+          ",",
+        ),
+      );
+    }
+
+    if (
+      showOnlyTopProcedures
+    ) {
+      params.set(
+        "topThreeOnly",
+        "true",
+      );
+    }
+
+    if (
+      maxInClinicPrice <
+      PRICE_MAX
+    ) {
+      params.set(
+        "maxInClinicPrice",
+        String(
+          maxInClinicPrice,
+        ),
+      );
+    }
+
+    if (
+      maxOnlinePrice <
+      PRICE_MAX
+    ) {
+      params.set(
+        "maxOnlineConsultationPrice",
+        String(
+          maxOnlinePrice,
+        ),
+      );
+    }
+
+    const query =
+      params.toString();
+
+    router.push(
+      query
+        ? `/doctors?${query}`
+        : "/doctors",
+    );
+
     onClose();
   }
 
   function clearFilters() {
     setLocation("");
     setMinRating("");
-    setSelectedCategoryIds([]);
-    setSelectedProcedureIds([]);
-    setShowOnlyTopProcedures(false);
-    setMaxInClinicPrice(PRICE_MAX);
-    setMaxOnlinePrice(PRICE_MAX);
+
+    setSelectedCategoryIds(
+      [],
+    );
+
+    setSelectedProcedureIds(
+      [],
+    );
+
+    setShowOnlyTopProcedures(
+      false,
+    );
+
+    setMaxInClinicPrice(
+      PRICE_MAX,
+    );
+
+    setMaxOnlinePrice(
+      PRICE_MAX,
+    );
   }
 
-  // ── Shared quick-filter content (mobile + desktop reuse) ───────────────
+  /* ═══════════════════════════════════
+     CLOSED
+  ═══════════════════════════════════ */
 
-  const quickFilterContent = (
-    <div className="space-y-4">
-      {/* Location */}
-      <div>
-        <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#283C5D]">
-          <MapPin size={16} />
-          {t("location")}
-        </label>
-        <input
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder={t("locationPlaceholder")}
-          className="w-full rounded-full border border-black/10 bg-white px-4 py-3 text-sm text-[#283C5D] outline-none transition focus:border-[#d8bd8d]"
-        />
-      </div>
+  if (
+    !isOpen ||
+    typeof document ===
+      "undefined"
+  ) {
+    return null;
+  }
 
-      {/* Rating */}
-      <FilterSelect
-        icon={<Star size={16} />}
-        label={t("minimumRating")}
-        value={minRating}
-        onChange={setMinRating}
-        placeholder={t("anyRating")}
-        options={[
-          { label: "4.5+", value: "4.5" },
-          { label: "4.0+", value: "4" },
-          { label: "3.5+", value: "3.5" },
-        ]}
-      />
-
-      {/* Top procedures toggle */}
-      <TopProceduresToggle
-        label={t("topThreeOnly")}
-        value={showOnlyTopProcedures}
-        onChange={setShowOnlyTopProcedures}
-      />
-
-      {/* In-clinic price slider */}
-      <PriceRangeSlider
-        label={t("maxInClinicPrice")}
-        icon={<Stethoscope size={15} />}
-        min={PRICE_MIN}
-        max={PRICE_MAX}
-        value={maxInClinicPrice}
-        onChange={setMaxInClinicPrice}
-      />
-
-      {/* Online price slider */}
-      <PriceRangeSlider
-        label={t("maxOnlineConsultationPrice")}
-        icon={<Monitor size={15} />}
-        min={PRICE_MIN}
-        max={PRICE_MAX}
-        value={maxOnlinePrice}
-        onChange={setMaxOnlinePrice}
-      />
-    </div>
-  );
-
-  // ── Render ─────────────────────────────────────────────────────────────
+  /* ═══════════════════════════════════
+     RENDER
+  ═══════════════════════════════════ */
 
   return createPortal(
     <>
-      {/* Slider thumb global styles */}
       <style>{`
         .price-range-thumb::-webkit-slider-thumb {
           -webkit-appearance: none;
@@ -397,6 +838,7 @@ export default function DoctorFiltersModal({
           pointer-events: all;
           position: relative;
         }
+
         .price-range-thumb::-moz-range-thumb {
           height: 18px;
           width: 18px;
@@ -407,107 +849,229 @@ export default function DoctorFiltersModal({
           cursor: pointer;
           pointer-events: all;
         }
-        .price-range-thumb { pointer-events: none; }
+
+        .price-range-thumb {
+          pointer-events: none;
+        }
       `}</style>
 
       <div className="fixed inset-0 z-[9999] flex h-dvh w-dvw items-center justify-center bg-black/50 px-3 py-4 backdrop-blur-sm md:px-4 md:py-6">
         <div className="relative flex h-[calc(100dvh-2rem)] w-full max-w-6xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl md:max-h-[88vh]">
 
-          {/* ── Header ── */}
+          {/* ═══════════════════════════
+              HEADER
+          ═══════════════════════════ */}
+
           <div className="shrink-0 border-b border-black/10 px-4 py-4 md:px-6 md:py-5">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d] md:tracking-[0.35em]">
                   {t("eyebrow")}
                 </p>
+
                 <h2 className="mt-1 text-xl font-semibold text-[#283C5D] md:text-2xl">
                   {t("title")}
                 </h2>
+
                 <p className="mt-1 hidden text-sm text-[#283C5D]/60 md:block">
-                  {t("description")}
+                  {t(
+                    "description",
+                  )}
                 </p>
               </div>
 
               <button
                 type="button"
                 onClick={onClose}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97] cursor-pointer"
+                className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-black/10 text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
               >
                 <X size={18} />
               </button>
             </div>
 
-            {/* ── Collapsible quick filters — shared across mobile and desktop ── */}
+            {/* Quick filters */}
+
             <div className="mt-4">
               <button
                 type="button"
-                onClick={() => setIsQuickFiltersOpen((prev) => !prev)}
-                className="flex w-full items-center justify-between rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-3 cursor-pointer text-sm font-semibold text-[#283C5D] transition active:scale-[0.98]"
+                onClick={() =>
+                  setIsQuickFiltersOpen(
+                    (previous) =>
+                      !previous,
+                  )
+                }
+                className="flex w-full cursor-pointer items-center justify-between rounded-full border border-black/10 bg-[#FAF9F7] px-4 py-3 text-sm font-semibold text-[#283C5D] transition active:scale-[0.98]"
               >
                 <span className="flex items-center gap-2">
-                  <SlidersHorizontal size={16} />
+                  <SlidersHorizontal
+                    size={16}
+                  />
+
                   {t("filters")}
                 </span>
-                {isQuickFiltersOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+
+                {isQuickFiltersOpen ? (
+                  <ChevronUp
+                    size={16}
+                  />
+                ) : (
+                  <ChevronDown
+                    size={16}
+                  />
+                )}
               </button>
 
               {isQuickFiltersOpen ? (
                 <div className="mt-3 rounded-2xl border border-black/10 bg-[#FAF9F7] p-4 md:p-5">
-                  <div className="md:grid md:grid-cols-2 md:gap-5 space-y-4 md:space-y-0">
+                  <div className="space-y-4 md:grid md:grid-cols-2 md:gap-5 md:space-y-0">
+
                     {/* Location */}
+
                     <div>
                       <label className="mb-2 flex items-center gap-2 text-sm font-medium text-[#283C5D]">
-                        <MapPin size={16} />
-                        {t("location")}
+                        <MapPin
+                          size={
+                            16
+                          }
+                        />
+
+                        {t(
+                          "location",
+                        )}
                       </label>
+
                       <input
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                        placeholder={t("locationPlaceholder")}
+                        value={
+                          location
+                        }
+                        onChange={(
+                          event,
+                        ) =>
+                          setLocation(
+                            event
+                              .target
+                              .value,
+                          )
+                        }
+                        placeholder={t(
+                          "locationPlaceholder",
+                        )}
                         className="w-full rounded-full border border-black/10 bg-white px-4 py-3 text-sm text-[#283C5D] outline-none transition focus:border-[#d8bd8d]"
                       />
                     </div>
 
                     {/* Rating */}
+
                     <FilterSelect
-                      icon={<Star size={16} />}
-                      label={t("minimumRating")}
-                      value={minRating}
-                      onChange={setMinRating}
-                      placeholder={t("anyRating")}
+                      icon={
+                        <Star
+                          size={
+                            16
+                          }
+                        />
+                      }
+                      label={t(
+                        "minimumRating",
+                      )}
+                      value={
+                        minRating
+                      }
+                      onChange={
+                        setMinRating
+                      }
+                      placeholder={t(
+                        "anyRating",
+                      )}
                       options={[
-                        { label: "4.5+", value: "4.5" },
-                        { label: "4.0+", value: "4" },
-                        { label: "3.5+", value: "3.5" },
+                        {
+                          label:
+                            "4.5+",
+                          value:
+                            "4.5",
+                        },
+                        {
+                          label:
+                            "4.0+",
+                          value:
+                            "4",
+                        },
+                        {
+                          label:
+                            "3.5+",
+                          value:
+                            "3.5",
+                        },
                       ]}
                     />
 
-                    {/* Top procedures toggle – full width */}
+                    {/* Top procedure */}
+
                     <div className="md:col-span-2">
                       <TopProceduresToggle
-                        label={t("topThreeOnly")}
-                        value={showOnlyTopProcedures}
-                        onChange={setShowOnlyTopProcedures}
+                        label={t(
+                          "topThreeOnly",
+                        )}
+                        value={
+                          showOnlyTopProcedures
+                        }
+                        onChange={
+                          setShowOnlyTopProcedures
+                        }
                       />
                     </div>
 
-                    {/* Price sliders – one per column */}
-                    <PriceRangeSlider
-                      label={t("maxInClinicPrice")}
-                      icon={<Stethoscope size={15} />}
-                      min={PRICE_MIN}
-                      max={PRICE_MAX}
-                      value={maxInClinicPrice}
-                      onChange={setMaxInClinicPrice}
-                    />
+                    {/* Clinic price */}
 
                     <PriceRangeSlider
-                      label={t("maxOnlineConsultationPrice")}
-                      icon={<Monitor size={15} />}
-                      min={PRICE_MIN}
-                      max={PRICE_MAX}
-                      value={maxOnlinePrice}
-                      onChange={setMaxOnlinePrice}
+                      label={t(
+                        "maxInClinicPrice",
+                      )}
+                      icon={
+                        <Stethoscope
+                          size={
+                            15
+                          }
+                        />
+                      }
+                      min={
+                        PRICE_MIN
+                      }
+                      max={
+                        PRICE_MAX
+                      }
+                      value={
+                        maxInClinicPrice
+                      }
+                      onChange={
+                        setMaxInClinicPrice
+                      }
+                    />
+
+                    {/* Online price */}
+
+                    <PriceRangeSlider
+                      label={t(
+                        "maxOnlineConsultationPrice",
+                      )}
+                      icon={
+                        <Monitor
+                          size={
+                            15
+                          }
+                        />
+                      }
+                      min={
+                        PRICE_MIN
+                      }
+                      max={
+                        PRICE_MAX
+                      }
+                      value={
+                        maxOnlinePrice
+                      }
+                      onChange={
+                        setMaxOnlinePrice
+                      }
                     />
                   </div>
                 </div>
@@ -515,194 +1079,387 @@ export default function DoctorFiltersModal({
             </div>
           </div>
 
-          {/* ── Category + Procedure grid ── */}
-          <div className="min-h-0 flex-1 overflow-y-auto md:grid md:overflow-hidden md:grid-cols-[0.85fr_1.4fr]">
+          {/* ═══════════════════════════
+              BODY
+          ═══════════════════════════ */}
 
-            {/* Left: Category selector */}
-            <div className="border-b border-black/10 bg-[#FAF9F7] p-4 md:h-[52vh] md:overflow-y-auto md:border-b-0 md:border-r md:p-6">
-              <div className="mb-4 flex items-center justify-between gap-4">
-                <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
-                  {t("category")}
-                </h3>
+          {isLoadingCatalogue ? (
+            <div className="flex min-h-0 flex-1 items-center justify-center">
+              <div className="flex flex-col items-center gap-3 text-[#283C5D]/60">
+                <Loader2 className="h-7 w-7 animate-spin text-[#d8bd8d]" />
+
+                <p className="text-sm font-medium">
+                  Loading procedures…
+                </p>
+              </div>
+            </div>
+          ) : catalogueError ? (
+            <div className="flex min-h-0 flex-1 items-center justify-center p-6">
+              <div className="w-full max-w-md rounded-3xl border border-red-200 bg-red-50 p-6 text-center">
+                <AlertCircle className="mx-auto h-8 w-8 text-red-500" />
+
+                <p className="mt-4 text-sm font-semibold text-red-700">
+                  {
+                    catalogueError
+                  }
+                </p>
 
                 <button
                   type="button"
-                  onClick={() => setIsCategoriesOpen((prev) => !prev)}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97] cursor-pointer"
-                  aria-label={isCategoriesOpen ? "Collapse categories" : "Open categories"}
+                  onClick={() =>
+                    setReloadKey(
+                      (
+                        previous,
+                      ) =>
+                        previous +
+                        1,
+                    )
+                  }
+                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#283C5D] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1f304c]"
                 >
-                  {isCategoriesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  <RefreshCw
+                    size={15}
+                  />
+
+                  Retry
                 </button>
               </div>
-
-              {isCategoriesOpen ? (
-                <>
-                  <div className="flex flex-wrap gap-2">
-                    {DoctorCatalog.categories.map((category) => {
-                      const selected = selectedCategoryIds.includes(category.category);
-                      return (
-                        <button
-                          key={category.category}
-                          type="button"
-                          onClick={() => toggleCategory(category.category)}
-                          className={cn(
-                            "rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.97] cursor-pointer",
-                            selected
-                              ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-red-500 hover:bg-[#A74848]"
-                              : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
-                          )}
-                        >
-                          {categoryT(category.category)}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {selectedProcedures.length > 0 ? (
-                    <div className="mt-6 border-t border-black/10 pt-5">
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#283C5D]/45">
-                        {t("selectedProcedures")}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProcedures.map((procedure) => (
-                          <button
-                            key={procedure.id}
-                            type="button"
-                            onClick={() => toggleProcedure(procedure.id)}
-                            className="rounded-full border border-[#283C5D] bg-[#283C5D] px-4 py-2 text-xs font-medium text-white transition hover:border-red-500 hover:bg-[#A74848] active:scale-[0.97] cursor-pointer"
-                          >
-                            {procedureT(procedure.id)}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
-                </>
-              ) : null}
             </div>
+          ) : (
+            <div className="min-h-0 flex-1 overflow-y-auto md:grid md:grid-cols-[0.85fr_1.4fr] md:overflow-hidden">
 
-            {/* Right: Procedure selector */}
-            <div className="bg-white p-4 md:h-[52vh] md:overflow-y-auto md:p-6">
-              <div className="sticky -top-19 z-10 mb-4 bg-white pb-4 pt-2 md:-top-6 md:pt-5">
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
-                      {t("procedures")}
-                    </h3>
-                    <p className="mt-1 text-xs text-[#283C5D]/55">
-                      {selectedCategories.length > 0
-                        ? t("selectProcedures")
-                        : t("chooseCategoryFirst")}
-                    </p>
-                  </div>
+              {/* ═══════════════════════
+                  CATEGORIES
+              ═══════════════════════ */}
 
-                  <p className="shrink-0 text-xs font-medium text-[#d8bd8d]">
-                    {selectedProcedureIds.length} selected
-                  </p>
+              <div className="border-b border-black/10 bg-[#FAF9F7] p-4 md:h-[52vh] md:overflow-y-auto md:border-b-0 md:border-r md:p-6">
+                <div className="mb-4 flex items-center justify-between gap-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
+                    {t("category")}
+                  </h3>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setIsCategoriesOpen(
+                        (
+                          previous,
+                        ) =>
+                          !previous,
+                      )
+                    }
+                    className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97]"
+                    aria-label={
+                      isCategoriesOpen
+                        ? "Collapse categories"
+                        : "Open categories"
+                    }
+                  >
+                    {isCategoriesOpen ? (
+                      <ChevronUp
+                        size={
+                          16
+                        }
+                      />
+                    ) : (
+                      <ChevronDown
+                        size={
+                          16
+                        }
+                      />
+                    )}
+                  </button>
                 </div>
 
-                {/* Select All / Deselect All */}
-                {allVisibleProcedureIds.length > 0 ? (
-                  <div className="mt-4 flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={selectAllProcedures}
-                      disabled={allVisibleSelected}
-                      className={cn(
-                        "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] cursor-pointer",
-                        allVisibleSelected
-                          ? "cursor-not-allowed border-black/5 bg-[#FAF9F7] text-[#283C5D]/30"
-                          : "border-[#283C5D]/20 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
-                      )}
-                    >
-                      <CheckCheck size={13} />
-                      {t("selectAllProcedures")}
-                    </button>
+                {isCategoriesOpen ? (
+                  <>
+                    <div className="flex flex-wrap gap-2">
+                      {categories.map(
+                        (
+                          category,
+                        ) => {
+                          const selected =
+                            selectedCategoryIds.includes(
+                              category.id,
+                            );
 
-                    <button
-                      type="button"
-                      onClick={deselectAllProcedures}
-                      disabled={!anyVisibleSelected}
-                      className={cn(
-                        "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97] cursor-pointer",
-                        !anyVisibleSelected
-                          ? "cursor-not-allowed border-black/5 bg-[#FAF9F7] text-[#283C5D]/30"
-                          : "border-red-200 bg-white text-[#A74848] hover:border-red-500 hover:bg-[#A74848] hover:text-white"
+                          return (
+                            <button
+                              key={
+                                category.id
+                              }
+                              type="button"
+                              onClick={() =>
+                                toggleCategory(
+                                  category.id,
+                                )
+                              }
+                              className={cn(
+                                "cursor-pointer rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.97]",
+
+                                selected
+                                  ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-red-500 hover:bg-[#A74848]"
+                                  : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white",
+                              )}
+                            >
+                              {
+                                category.name
+                              }
+                            </button>
+                          );
+                        },
                       )}
-                    >
-                      <XCircle size={13} />
-                      {t("deselectAllProcedures")}
-                    </button>
-                  </div>
+                    </div>
+
+                    {/* Selected procedures */}
+
+                    {selectedProcedures.length >
+                    0 ? (
+                      <div className="mt-6 border-t border-black/10 pt-5">
+                        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#283C5D]/45">
+                          {t(
+                            "selectedProcedures",
+                          )}
+                        </p>
+
+                        <div className="flex flex-wrap gap-2">
+                          {selectedProcedures.map(
+                            (
+                              procedure,
+                            ) => (
+                              <button
+                                key={
+                                  procedure.id
+                                }
+                                type="button"
+                                onClick={() =>
+                                  toggleProcedure(
+                                    procedure.id,
+                                  )
+                                }
+                                className="cursor-pointer rounded-full border border-[#283C5D] bg-[#283C5D] px-4 py-2 text-xs font-medium text-white transition hover:border-red-500 hover:bg-[#A74848] active:scale-[0.97]"
+                              >
+                                {
+                                  procedure.name
+                                }
+                              </button>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
                 ) : null}
               </div>
 
-              {selectedCategories.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-black/10 bg-[#FAF9F7] p-6 text-sm text-[#283C5D]/60">
-                  {t("chooseCategoryFirst")}
-                </div>
-              ) : (
-                <div className="space-y-6 pb-6">
-                  {selectedCategories.map((category) => (
-                    <div key={category.category} className="space-y-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
-                        {categoryT(category.category)}
+              {/* ═══════════════════════
+                  PROCEDURES
+              ═══════════════════════ */}
+
+              <div className="bg-white p-4 md:h-[52vh] md:overflow-y-auto md:p-6">
+                <div className="sticky -top-19 z-10 mb-4 bg-white pb-4 pt-2 md:-top-6 md:pt-5">
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <h3 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#283C5D]">
+                        {t(
+                          "procedures",
+                        )}
+                      </h3>
+
+                      <p className="mt-1 text-xs text-[#283C5D]/55">
+                        {selectedCategories.length >
+                        0
+                          ? t(
+                              "selectProcedures",
+                            )
+                          : t(
+                              "chooseCategoryFirst",
+                            )}
                       </p>
-
-                      {category.subcategories.map((subcategory) => (
-                        <div
-                          key={subcategory.subcategory}
-                          className="rounded-2xl bg-[#FAF9F7] p-4"
-                        >
-                          <h4 className="mb-3 text-sm font-semibold text-[#283C5D]">
-                            {subcategoryT(subcategory.subcategory)}
-                          </h4>
-
-                          <div className="flex flex-wrap gap-2">
-                            {subcategory.procedures.map((procedure) => {
-                              const selected = selectedProcedureIds.includes(procedure.id);
-                              return (
-                                <button
-                                  key={procedure.id}
-                                  type="button"
-                                  onClick={() => toggleProcedure(procedure.id)}
-                                  className={cn(
-                                    "rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.97] cursor-pointer",
-                                    selected
-                                      ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-[#94604C] hover:bg-[#A74848]"
-                                      : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white"
-                                  )}
-                                >
-                                  {procedureT(procedure.id)}
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      ))}
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
 
-          {/* ── Footer ── */}
-          <div className="shrink-0 flex items-center justify-between gap-3 border-t border-black/10 bg-white px-4 py-4 md:px-6 md:py-5">
+                    <p className="shrink-0 text-xs font-medium text-[#d8bd8d]">
+                      {
+                        selectedProcedureIds.length
+                      }{" "}
+                      selected
+                    </p>
+                  </div>
+
+                  {allVisibleProcedureIds.length >
+                  0 ? (
+                    <div className="mt-4 flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={
+                          selectAllProcedures
+                        }
+                        disabled={
+                          allVisibleSelected
+                        }
+                        className={cn(
+                          "flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97]",
+
+                          allVisibleSelected
+                            ? "cursor-not-allowed border-black/5 bg-[#FAF9F7] text-[#283C5D]/30"
+                            : "border-[#283C5D]/20 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white",
+                        )}
+                      >
+                        <CheckCheck
+                          size={
+                            13
+                          }
+                        />
+
+                        {t(
+                          "selectAllProcedures",
+                        )}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={
+                          deselectAllProcedures
+                        }
+                        disabled={
+                          !anyVisibleSelected
+                        }
+                        className={cn(
+                          "flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition active:scale-[0.97]",
+
+                          !anyVisibleSelected
+                            ? "cursor-not-allowed border-black/5 bg-[#FAF9F7] text-[#283C5D]/30"
+                            : "border-red-200 bg-white text-[#A74848] hover:border-red-500 hover:bg-[#A74848] hover:text-white",
+                        )}
+                      >
+                        <XCircle
+                          size={
+                            13
+                          }
+                        />
+
+                        {t(
+                          "deselectAllProcedures",
+                        )}
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+
+                {selectedCategories.length ===
+                0 ? (
+                  <div className="rounded-2xl border border-dashed border-black/10 bg-[#FAF9F7] p-6 text-sm text-[#283C5D]/60">
+                    {t(
+                      "chooseCategoryFirst",
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-6 pb-6">
+                    {selectedCategories.map(
+                      (
+                        category,
+                      ) => (
+                        <div
+                          key={
+                            category.id
+                          }
+                          className="space-y-4"
+                        >
+                          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#d8bd8d]">
+                            {
+                              category.name
+                            }
+                          </p>
+
+                          {category.subcategories.map(
+                            (
+                              subcategory,
+                            ) => (
+                              <div
+                                key={
+                                  subcategory.id
+                                }
+                                className="rounded-2xl bg-[#FAF9F7] p-4"
+                              >
+                                <h4 className="mb-3 text-sm font-semibold text-[#283C5D]">
+                                  {
+                                    subcategory.name
+                                  }
+                                </h4>
+
+                                <div className="flex flex-wrap gap-2">
+                                  {subcategory.procedures.map(
+                                    (
+                                      procedure,
+                                    ) => {
+                                      const selected =
+                                        selectedProcedureIds.includes(
+                                          procedure.id,
+                                        );
+
+                                      return (
+                                        <button
+                                          key={
+                                            procedure.id
+                                          }
+                                          type="button"
+                                          onClick={() =>
+                                            toggleProcedure(
+                                              procedure.id,
+                                            )
+                                          }
+                                          className={cn(
+                                            "cursor-pointer rounded-full border px-4 py-2 text-xs font-medium transition active:scale-[0.97]",
+
+                                            selected
+                                              ? "border-[#283C5D] bg-[#283C5D] text-white hover:border-[#94604C] hover:bg-[#A74848]"
+                                              : "border-black/10 bg-white text-[#283C5D] hover:border-[#283C5D] hover:bg-[#283C5D] hover:text-white",
+                                          )}
+                                        >
+                                          {
+                                            procedure.name
+                                          }
+                                        </button>
+                                      );
+                                    },
+                                  )}
+                                </div>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      ),
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ═══════════════════════════
+              FOOTER
+          ═══════════════════════════ */}
+
+          <div className="flex shrink-0 items-center justify-between gap-3 border-t border-black/10 bg-white px-4 py-4 md:px-6 md:py-5">
             <button
               type="button"
-              onClick={clearFilters}
-              className="rounded-full border border-black/10 px-5 py-3 text-[9px] sm:text-sm font-semibold 
-              text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97] md:px-6 cursor-pointer"
+              onClick={
+                clearFilters
+              }
+              className="cursor-pointer rounded-full border border-black/10 px-5 py-3 text-[9px] font-semibold text-[#283C5D] transition hover:bg-[#283C5D] hover:text-white active:scale-[0.97] sm:text-sm md:px-6"
             >
               {t("clear")}
             </button>
 
             <button
               type="button"
-              onClick={applyFilters}
-              className="rounded-full bg-[#d8bd8d] px-6 py-3 text-[9px] sm:text-sm font-semibold 
-              text-[#061A2D] transition hover:bg-[#f4e4c6] active:scale-[0.97] md:px-7 cursor-pointer"
+              onClick={
+                applyFilters
+              }
+              disabled={
+                isLoadingCatalogue
+              }
+              className="cursor-pointer rounded-full bg-[#d8bd8d] px-6 py-3 text-[9px] font-semibold text-[#061A2D] transition hover:bg-[#f4e4c6] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm md:px-7"
             >
               {t("apply")}
             </button>
@@ -710,13 +1467,13 @@ export default function DoctorFiltersModal({
         </div>
       </div>
     </>,
-    document.body
+    document.body,
   );
 }
 
-// ---------------------------------------------------------------------------
-// FilterSelect (unchanged)
-// ---------------------------------------------------------------------------
+/* ═════════════════════════════════════
+   SELECT
+═════════════════════════════════════ */
 
 function FilterSelect({
   icon,
@@ -731,7 +1488,10 @@ function FilterSelect({
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
-  options: { label: string; value: string }[];
+  options: {
+    label: string;
+    value: string;
+  }[];
 }) {
   return (
     <div>
@@ -742,15 +1502,31 @@ function FilterSelect({
 
       <select
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(event) =>
+          onChange(
+            event.target.value,
+          )
+        }
         className="w-full rounded-full border border-black/10 bg-white px-4 py-3 text-sm text-[#283C5D] outline-none transition focus:border-[#d8bd8d]"
       >
-        <option value="">{placeholder}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        <option value="">
+          {placeholder}
+        </option>
+
+        {options.map(
+          (option) => (
+            <option
+              key={
+                option.value
+              }
+              value={
+                option.value
+              }
+            >
+              {option.label}
+            </option>
+          ),
+        )}
       </select>
     </div>
   );
