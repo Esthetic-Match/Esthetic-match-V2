@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import type { SpecialtyTranslations, DoctorCardData } from "../UI/DoctorCards";
+import type {DoctorCardData } from "../UI/DoctorCards";
 import { Check } from "lucide-react";
 import DoctorCardsHorizontal from "../UI/DoctorCardsHorizontal";
 
@@ -22,7 +22,6 @@ type Props = {
   initialHasMore: boolean;
   filters?: DoctorFilters;
   limit: number;
-  specialtyT: SpecialtyTranslations;
 };
 
 export default function DoctorsInfiniteList({
@@ -30,7 +29,6 @@ export default function DoctorsInfiniteList({
   initialHasMore,
   filters,
   limit,
-  specialtyT,
 }: Props) {
   const [doctors, setDoctors] = useState<DoctorCardData[]>(initialDoctors);
   const [page, setPage] = useState(2);
@@ -100,7 +98,6 @@ export default function DoctorsInfiniteList({
           <DoctorCardsHorizontal
             key={doctor.id}
             doctor={doctor}
-            specialtyT={specialtyT}
           />
         ))}
       </div>

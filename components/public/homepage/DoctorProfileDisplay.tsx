@@ -1,12 +1,22 @@
-import { getTranslations } from "next-intl/server";
+import Script from "next/script";
 import { headers } from "next/headers";
+import { getLocale, getTranslations } from "next-intl/server";
+
 import DoctorCards from "@/components/public/UI/DoctorCards";
+
+type LocalizedCatalogueItem = {
+  id: string;
+  name: string;
+};
 
 type PublicDoctor = {
   id: string;
   slug: string;
   name: string;
   specialtyIds: string[];
+  specialties: LocalizedCatalogueItem[];
+  topThree: string[];
+  topThreeProcedures: LocalizedCatalogueItem[];
   avatar: string;
   city: string | null;
   country: string | null;
@@ -15,44 +25,60 @@ type PublicDoctor = {
   yearsOfExperience: number | null;
   inClinicPrice: number | null;
   onlineConsulPrice: number | null;
+  stripeConnectOnboardingComplete?: boolean;
+  onlineActive?: boolean;
   currency: string;
   clinicBanner?: string | null;
 };
 
-async function getMostRecentDoctors(): Promise<PublicDoctor[]> {
+async function getMostRecentDoctors(
+  locale: string
+): Promise<PublicDoctor[]> {
   const headersList = await headers();
-  const host = headersList.get("host");
-  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const host =
+    headersList.get("x-forwarded-host") ?? headersList.get("host");
 
-  const res = await fetch(
-    `${protocol}://${host}/api/public-pages/doctor-profile/recent`,
-    { next: { revalidate: 60 } }
+  if (!host) {
+    return [];
+  }
+
+  const protocol =
+    headersList.get("x-forwarded-proto") ??
+    (host.includes("localhost") ? "http" : "https");
+
+  const response = await fetch(
+    `${protocol}://${host}/api/public-pages/doctor-profile/recent?locale=${encodeURIComponent(
+      locale
+    )}`,
+    {
+      next: {
+        revalidate: 60,
+      },
+    }
   );
 
-  if (!res.ok) return [];
+  if (!response.ok) {
+    return [];
+  }
 
-  const data = await res.json();
+  const data = await response.json();
+
   return Array.isArray(data) ? data : [];
 }
 
 export default async function ProfileDisplay() {
-  const t          = await getTranslations("home.Home");
-  const specialtyT = await getTranslations("specialitiesName");
-  const doctors    = await getMostRecentDoctors();
+  const [t, locale] = await Promise.all([
+    getTranslations("home.Home"),
+    getLocale(),
+  ]);
 
-  if (doctors.length === 0) return null;
+  const doctors = await getMostRecentDoctors(locale);
 
-  // Collect only the specialty IDs actually used by these doctors
-  const allSpecialtyIds = [...new Set(doctors.flatMap((d) => d.specialtyIds))];
+  if (doctors.length === 0) {
+    return null;
+  }
 
-  const specialtyTranslations = Object.fromEntries(
-    allSpecialtyIds.map((id) => {
-      try   { return [id, specialtyT(id)]; }
-      catch { return [id, id]; }           
-    })
-  );
-
-  const jsonLd = {
+  const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: t("nearbyDoctors"),
@@ -61,17 +87,22 @@ export default async function ProfileDisplay() {
         doctor.googleRating !== null &&
         doctor.googleReviewCount !== null &&
         doctor.googleReviewCount > 0;
+
       return {
         "@type": "ListItem",
         position: index + 1,
         item: {
           "@type": "Physician",
           name: doctor.name,
-          medicalSpecialty: doctor.specialtyIds.map((id) => specialtyTranslations[id] ?? id),
+          medicalSpecialty: doctor.specialties.map(
+            (specialty) => specialty.name
+          ),
           image: doctor.avatar,
+          url: `/doctors/${doctor.slug}`,
           address: {
             "@type": "PostalAddress",
-            addressLocality: doctor.country,
+            addressLocality: doctor.city ?? undefined,
+            addressCountry: doctor.country ?? undefined,
           },
           ...(hasRating
             ? {
@@ -85,16 +116,17 @@ export default async function ProfileDisplay() {
         },
       };
     }),
-  };
+  }).replace(/</g, "\\u003c");
 
   return (
     <section
       aria-labelledby="nearby-doctors-title"
       className="relative z-10 mx-auto w-full max-w-7xl px-6 py-10 md:px-12 lg:px-16"
     >
-      <script
+      <Script
+        id="recent-doctors-json-ld"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
 
       <div className="mb-5 flex items-center justify-between">
@@ -105,6 +137,7 @@ export default async function ProfileDisplay() {
           >
             {t("nearbyDoctors")}
           </h2>
+
           <div className="mt-2 h-px w-16 bg-[#d8bd8d]" />
         </div>
       </div>
@@ -114,8 +147,7 @@ export default async function ProfileDisplay() {
           <DoctorCards
             key={doctor.id}
             doctor={doctor}
-            specialtyT={specialtyTranslations}
-            showDetails={true}
+            showDetails
           />
         ))}
       </div>
