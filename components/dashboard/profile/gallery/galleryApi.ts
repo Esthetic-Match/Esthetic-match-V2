@@ -5,7 +5,7 @@ type DoctorGalleryApiItem = {
   beforeImage: string | null;
   afterImage: string | null;
   title: string | null;
-  procedure: string | null;
+  procedureId: string | null;
   notes: string | null;
   isPublic: boolean | null;
 };
@@ -29,7 +29,7 @@ export async function fetchDoctorGallery(
     beforeImage: item.beforeImage ?? null,
     afterImage: item.afterImage ?? null,
     title: item.title ?? "",
-    procedure: item.procedure ?? "",
+    procedureId: item.procedureId ?? "",
     notes: item.notes ?? "",
     isPublic: Boolean(item.isPublic),
   }));
@@ -43,7 +43,7 @@ export async function updateDoctorGalleryCase(item: GalleryCase) {
     },
     body: JSON.stringify({
       title: item.title,
-      procedure: item.procedure,
+      procedureId: item.procedureId,
       notes: item.notes,
     }),
   });
