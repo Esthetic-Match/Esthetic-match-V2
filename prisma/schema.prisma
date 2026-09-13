@@ -340,6 +340,7 @@ model Procedure {
   translations     ProcedureTranslation[]
   subcategoryLinks ProcedureSubcategory[]
   doctors          DoctorProcedure[]
+  beforeAfterCases BeforeAfterCase[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -694,8 +695,10 @@ model BeforeAfterCase {
   doctorId  String
   patientId String?
 
-  procedure String?
-  notes     String?
+  procedureId String?
+  procedure   Procedure? @relation(fields: [procedureId], references: [id], onDelete: SetNull)
+
+  notes String?
 
   title    String?
   isPublic Boolean @default(false)
@@ -708,6 +711,7 @@ model BeforeAfterCase {
 
   @@index([doctorId])
   @@index([patientId])
+  @@index([procedureId])
 }
 
 model Conversation {

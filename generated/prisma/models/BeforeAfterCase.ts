@@ -28,7 +28,7 @@ export type BeforeAfterCaseMinAggregateOutputType = {
   id: string | null
   doctorId: string | null
   patientId: string | null
-  procedure: string | null
+  procedureId: string | null
   notes: string | null
   title: string | null
   isPublic: boolean | null
@@ -42,7 +42,7 @@ export type BeforeAfterCaseMaxAggregateOutputType = {
   id: string | null
   doctorId: string | null
   patientId: string | null
-  procedure: string | null
+  procedureId: string | null
   notes: string | null
   title: string | null
   isPublic: boolean | null
@@ -56,7 +56,7 @@ export type BeforeAfterCaseCountAggregateOutputType = {
   id: number
   doctorId: number
   patientId: number
-  procedure: number
+  procedureId: number
   notes: number
   title: number
   isPublic: number
@@ -72,7 +72,7 @@ export type BeforeAfterCaseMinAggregateInputType = {
   id?: true
   doctorId?: true
   patientId?: true
-  procedure?: true
+  procedureId?: true
   notes?: true
   title?: true
   isPublic?: true
@@ -86,7 +86,7 @@ export type BeforeAfterCaseMaxAggregateInputType = {
   id?: true
   doctorId?: true
   patientId?: true
-  procedure?: true
+  procedureId?: true
   notes?: true
   title?: true
   isPublic?: true
@@ -100,7 +100,7 @@ export type BeforeAfterCaseCountAggregateInputType = {
   id?: true
   doctorId?: true
   patientId?: true
-  procedure?: true
+  procedureId?: true
   notes?: true
   title?: true
   isPublic?: true
@@ -187,7 +187,7 @@ export type BeforeAfterCaseGroupByOutputType = {
   id: string
   doctorId: string
   patientId: string | null
-  procedure: string | null
+  procedureId: string | null
   notes: string | null
   title: string | null
   isPublic: boolean
@@ -222,7 +222,7 @@ export type BeforeAfterCaseWhereInput = {
   id?: Prisma.StringFilter<"BeforeAfterCase"> | string
   doctorId?: Prisma.StringFilter<"BeforeAfterCase"> | string
   patientId?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
-  procedure?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  procedureId?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   notes?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   title?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   isPublic?: Prisma.BoolFilter<"BeforeAfterCase"> | boolean
@@ -230,13 +230,14 @@ export type BeforeAfterCaseWhereInput = {
   afterImage?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BeforeAfterCase"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BeforeAfterCase"> | Date | string
+  procedure?: Prisma.XOR<Prisma.ProcedureNullableScalarRelationFilter, Prisma.ProcedureWhereInput> | null
 }
 
 export type BeforeAfterCaseOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrderInput | Prisma.SortOrder
-  procedure?: Prisma.SortOrderInput | Prisma.SortOrder
+  procedureId?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublic?: Prisma.SortOrder
@@ -244,6 +245,7 @@ export type BeforeAfterCaseOrderByWithRelationInput = {
   afterImage?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  procedure?: Prisma.ProcedureOrderByWithRelationInput
 }
 
 export type BeforeAfterCaseWhereUniqueInput = Prisma.AtLeast<{
@@ -253,7 +255,7 @@ export type BeforeAfterCaseWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BeforeAfterCaseWhereInput | Prisma.BeforeAfterCaseWhereInput[]
   doctorId?: Prisma.StringFilter<"BeforeAfterCase"> | string
   patientId?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
-  procedure?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  procedureId?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   notes?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   title?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   isPublic?: Prisma.BoolFilter<"BeforeAfterCase"> | boolean
@@ -261,13 +263,14 @@ export type BeforeAfterCaseWhereUniqueInput = Prisma.AtLeast<{
   afterImage?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BeforeAfterCase"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BeforeAfterCase"> | Date | string
+  procedure?: Prisma.XOR<Prisma.ProcedureNullableScalarRelationFilter, Prisma.ProcedureWhereInput> | null
 }, "id">
 
 export type BeforeAfterCaseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrderInput | Prisma.SortOrder
-  procedure?: Prisma.SortOrderInput | Prisma.SortOrder
+  procedureId?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublic?: Prisma.SortOrder
@@ -287,7 +290,7 @@ export type BeforeAfterCaseScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"BeforeAfterCase"> | string
   doctorId?: Prisma.StringWithAggregatesFilter<"BeforeAfterCase"> | string
   patientId?: Prisma.StringNullableWithAggregatesFilter<"BeforeAfterCase"> | string | null
-  procedure?: Prisma.StringNullableWithAggregatesFilter<"BeforeAfterCase"> | string | null
+  procedureId?: Prisma.StringNullableWithAggregatesFilter<"BeforeAfterCase"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"BeforeAfterCase"> | string | null
   title?: Prisma.StringNullableWithAggregatesFilter<"BeforeAfterCase"> | string | null
   isPublic?: Prisma.BoolWithAggregatesFilter<"BeforeAfterCase"> | boolean
@@ -301,7 +304,6 @@ export type BeforeAfterCaseCreateInput = {
   id?: string
   doctorId: string
   patientId?: string | null
-  procedure?: string | null
   notes?: string | null
   title?: string | null
   isPublic?: boolean
@@ -309,13 +311,14 @@ export type BeforeAfterCaseCreateInput = {
   afterImage?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  procedure?: Prisma.ProcedureCreateNestedOneWithoutBeforeAfterCasesInput
 }
 
 export type BeforeAfterCaseUncheckedCreateInput = {
   id?: string
   doctorId: string
   patientId?: string | null
-  procedure?: string | null
+  procedureId?: string | null
   notes?: string | null
   title?: string | null
   isPublic?: boolean
@@ -329,7 +332,6 @@ export type BeforeAfterCaseUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  procedure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -337,13 +339,14 @@ export type BeforeAfterCaseUpdateInput = {
   afterImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  procedure?: Prisma.ProcedureUpdateOneWithoutBeforeAfterCasesNestedInput
 }
 
 export type BeforeAfterCaseUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  procedure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procedureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -357,7 +360,7 @@ export type BeforeAfterCaseCreateManyInput = {
   id?: string
   doctorId: string
   patientId?: string | null
-  procedure?: string | null
+  procedureId?: string | null
   notes?: string | null
   title?: string | null
   isPublic?: boolean
@@ -371,7 +374,6 @@ export type BeforeAfterCaseUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  procedure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -385,7 +387,7 @@ export type BeforeAfterCaseUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  procedure?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procedureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -395,11 +397,21 @@ export type BeforeAfterCaseUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type BeforeAfterCaseListRelationFilter = {
+  every?: Prisma.BeforeAfterCaseWhereInput
+  some?: Prisma.BeforeAfterCaseWhereInput
+  none?: Prisma.BeforeAfterCaseWhereInput
+}
+
+export type BeforeAfterCaseOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type BeforeAfterCaseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
-  procedure?: Prisma.SortOrder
+  procedureId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   title?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
@@ -413,7 +425,7 @@ export type BeforeAfterCaseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
-  procedure?: Prisma.SortOrder
+  procedureId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   title?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
@@ -427,7 +439,7 @@ export type BeforeAfterCaseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
-  procedure?: Prisma.SortOrder
+  procedureId?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   title?: Prisma.SortOrder
   isPublic?: Prisma.SortOrder
@@ -437,13 +449,176 @@ export type BeforeAfterCaseMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type BeforeAfterCaseCreateNestedManyWithoutProcedureInput = {
+  create?: Prisma.XOR<Prisma.BeforeAfterCaseCreateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput> | Prisma.BeforeAfterCaseCreateWithoutProcedureInput[] | Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput[]
+  connectOrCreate?: Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput | Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput[]
+  createMany?: Prisma.BeforeAfterCaseCreateManyProcedureInputEnvelope
+  connect?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+}
+
+export type BeforeAfterCaseUncheckedCreateNestedManyWithoutProcedureInput = {
+  create?: Prisma.XOR<Prisma.BeforeAfterCaseCreateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput> | Prisma.BeforeAfterCaseCreateWithoutProcedureInput[] | Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput[]
+  connectOrCreate?: Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput | Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput[]
+  createMany?: Prisma.BeforeAfterCaseCreateManyProcedureInputEnvelope
+  connect?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+}
+
+export type BeforeAfterCaseUpdateManyWithoutProcedureNestedInput = {
+  create?: Prisma.XOR<Prisma.BeforeAfterCaseCreateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput> | Prisma.BeforeAfterCaseCreateWithoutProcedureInput[] | Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput[]
+  connectOrCreate?: Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput | Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput[]
+  upsert?: Prisma.BeforeAfterCaseUpsertWithWhereUniqueWithoutProcedureInput | Prisma.BeforeAfterCaseUpsertWithWhereUniqueWithoutProcedureInput[]
+  createMany?: Prisma.BeforeAfterCaseCreateManyProcedureInputEnvelope
+  set?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  disconnect?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  delete?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  connect?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  update?: Prisma.BeforeAfterCaseUpdateWithWhereUniqueWithoutProcedureInput | Prisma.BeforeAfterCaseUpdateWithWhereUniqueWithoutProcedureInput[]
+  updateMany?: Prisma.BeforeAfterCaseUpdateManyWithWhereWithoutProcedureInput | Prisma.BeforeAfterCaseUpdateManyWithWhereWithoutProcedureInput[]
+  deleteMany?: Prisma.BeforeAfterCaseScalarWhereInput | Prisma.BeforeAfterCaseScalarWhereInput[]
+}
+
+export type BeforeAfterCaseUncheckedUpdateManyWithoutProcedureNestedInput = {
+  create?: Prisma.XOR<Prisma.BeforeAfterCaseCreateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput> | Prisma.BeforeAfterCaseCreateWithoutProcedureInput[] | Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput[]
+  connectOrCreate?: Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput | Prisma.BeforeAfterCaseCreateOrConnectWithoutProcedureInput[]
+  upsert?: Prisma.BeforeAfterCaseUpsertWithWhereUniqueWithoutProcedureInput | Prisma.BeforeAfterCaseUpsertWithWhereUniqueWithoutProcedureInput[]
+  createMany?: Prisma.BeforeAfterCaseCreateManyProcedureInputEnvelope
+  set?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  disconnect?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  delete?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  connect?: Prisma.BeforeAfterCaseWhereUniqueInput | Prisma.BeforeAfterCaseWhereUniqueInput[]
+  update?: Prisma.BeforeAfterCaseUpdateWithWhereUniqueWithoutProcedureInput | Prisma.BeforeAfterCaseUpdateWithWhereUniqueWithoutProcedureInput[]
+  updateMany?: Prisma.BeforeAfterCaseUpdateManyWithWhereWithoutProcedureInput | Prisma.BeforeAfterCaseUpdateManyWithWhereWithoutProcedureInput[]
+  deleteMany?: Prisma.BeforeAfterCaseScalarWhereInput | Prisma.BeforeAfterCaseScalarWhereInput[]
+}
+
+export type BeforeAfterCaseCreateWithoutProcedureInput = {
+  id?: string
+  doctorId: string
+  patientId?: string | null
+  notes?: string | null
+  title?: string | null
+  isPublic?: boolean
+  beforeImage?: string | null
+  afterImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type BeforeAfterCaseUncheckedCreateWithoutProcedureInput = {
+  id?: string
+  doctorId: string
+  patientId?: string | null
+  notes?: string | null
+  title?: string | null
+  isPublic?: boolean
+  beforeImage?: string | null
+  afterImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type BeforeAfterCaseCreateOrConnectWithoutProcedureInput = {
+  where: Prisma.BeforeAfterCaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.BeforeAfterCaseCreateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput>
+}
+
+export type BeforeAfterCaseCreateManyProcedureInputEnvelope = {
+  data: Prisma.BeforeAfterCaseCreateManyProcedureInput | Prisma.BeforeAfterCaseCreateManyProcedureInput[]
+  skipDuplicates?: boolean
+}
+
+export type BeforeAfterCaseUpsertWithWhereUniqueWithoutProcedureInput = {
+  where: Prisma.BeforeAfterCaseWhereUniqueInput
+  update: Prisma.XOR<Prisma.BeforeAfterCaseUpdateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedUpdateWithoutProcedureInput>
+  create: Prisma.XOR<Prisma.BeforeAfterCaseCreateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedCreateWithoutProcedureInput>
+}
+
+export type BeforeAfterCaseUpdateWithWhereUniqueWithoutProcedureInput = {
+  where: Prisma.BeforeAfterCaseWhereUniqueInput
+  data: Prisma.XOR<Prisma.BeforeAfterCaseUpdateWithoutProcedureInput, Prisma.BeforeAfterCaseUncheckedUpdateWithoutProcedureInput>
+}
+
+export type BeforeAfterCaseUpdateManyWithWhereWithoutProcedureInput = {
+  where: Prisma.BeforeAfterCaseScalarWhereInput
+  data: Prisma.XOR<Prisma.BeforeAfterCaseUpdateManyMutationInput, Prisma.BeforeAfterCaseUncheckedUpdateManyWithoutProcedureInput>
+}
+
+export type BeforeAfterCaseScalarWhereInput = {
+  AND?: Prisma.BeforeAfterCaseScalarWhereInput | Prisma.BeforeAfterCaseScalarWhereInput[]
+  OR?: Prisma.BeforeAfterCaseScalarWhereInput[]
+  NOT?: Prisma.BeforeAfterCaseScalarWhereInput | Prisma.BeforeAfterCaseScalarWhereInput[]
+  id?: Prisma.StringFilter<"BeforeAfterCase"> | string
+  doctorId?: Prisma.StringFilter<"BeforeAfterCase"> | string
+  patientId?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  procedureId?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  notes?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  title?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  isPublic?: Prisma.BoolFilter<"BeforeAfterCase"> | boolean
+  beforeImage?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  afterImage?: Prisma.StringNullableFilter<"BeforeAfterCase"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"BeforeAfterCase"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BeforeAfterCase"> | Date | string
+}
+
+export type BeforeAfterCaseCreateManyProcedureInput = {
+  id?: string
+  doctorId: string
+  patientId?: string | null
+  notes?: string | null
+  title?: string | null
+  isPublic?: boolean
+  beforeImage?: string | null
+  afterImage?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type BeforeAfterCaseUpdateWithoutProcedureInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  patientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  beforeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  afterImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BeforeAfterCaseUncheckedUpdateWithoutProcedureInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  patientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  beforeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  afterImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BeforeAfterCaseUncheckedUpdateManyWithoutProcedureInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  patientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  beforeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  afterImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type BeforeAfterCaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   doctorId?: boolean
   patientId?: boolean
-  procedure?: boolean
+  procedureId?: boolean
   notes?: boolean
   title?: boolean
   isPublic?: boolean
@@ -451,13 +626,14 @@ export type BeforeAfterCaseSelect<ExtArgs extends runtime.Types.Extensions.Inter
   afterImage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  procedure?: boolean | Prisma.BeforeAfterCase$procedureArgs<ExtArgs>
 }, ExtArgs["result"]["beforeAfterCase"]>
 
 export type BeforeAfterCaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   doctorId?: boolean
   patientId?: boolean
-  procedure?: boolean
+  procedureId?: boolean
   notes?: boolean
   title?: boolean
   isPublic?: boolean
@@ -465,13 +641,14 @@ export type BeforeAfterCaseSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   afterImage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  procedure?: boolean | Prisma.BeforeAfterCase$procedureArgs<ExtArgs>
 }, ExtArgs["result"]["beforeAfterCase"]>
 
 export type BeforeAfterCaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   doctorId?: boolean
   patientId?: boolean
-  procedure?: boolean
+  procedureId?: boolean
   notes?: boolean
   title?: boolean
   isPublic?: boolean
@@ -479,13 +656,14 @@ export type BeforeAfterCaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   afterImage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  procedure?: boolean | Prisma.BeforeAfterCase$procedureArgs<ExtArgs>
 }, ExtArgs["result"]["beforeAfterCase"]>
 
 export type BeforeAfterCaseSelectScalar = {
   id?: boolean
   doctorId?: boolean
   patientId?: boolean
-  procedure?: boolean
+  procedureId?: boolean
   notes?: boolean
   title?: boolean
   isPublic?: boolean
@@ -495,16 +673,27 @@ export type BeforeAfterCaseSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BeforeAfterCaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "doctorId" | "patientId" | "procedure" | "notes" | "title" | "isPublic" | "beforeImage" | "afterImage" | "createdAt" | "updatedAt", ExtArgs["result"]["beforeAfterCase"]>
+export type BeforeAfterCaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "doctorId" | "patientId" | "procedureId" | "notes" | "title" | "isPublic" | "beforeImage" | "afterImage" | "createdAt" | "updatedAt", ExtArgs["result"]["beforeAfterCase"]>
+export type BeforeAfterCaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  procedure?: boolean | Prisma.BeforeAfterCase$procedureArgs<ExtArgs>
+}
+export type BeforeAfterCaseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  procedure?: boolean | Prisma.BeforeAfterCase$procedureArgs<ExtArgs>
+}
+export type BeforeAfterCaseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  procedure?: boolean | Prisma.BeforeAfterCase$procedureArgs<ExtArgs>
+}
 
 export type $BeforeAfterCasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "BeforeAfterCase"
-  objects: {}
+  objects: {
+    procedure: Prisma.$ProcedurePayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     doctorId: string
     patientId: string | null
-    procedure: string | null
+    procedureId: string | null
     notes: string | null
     title: string | null
     isPublic: boolean
@@ -906,6 +1095,7 @@ readonly fields: BeforeAfterCaseFieldRefs;
  */
 export interface Prisma__BeforeAfterCaseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  procedure<T extends Prisma.BeforeAfterCase$procedureArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BeforeAfterCase$procedureArgs<ExtArgs>>): Prisma.Prisma__ProcedureClient<runtime.Types.Result.GetResult<Prisma.$ProcedurePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -938,7 +1128,7 @@ export interface BeforeAfterCaseFieldRefs {
   readonly id: Prisma.FieldRef<"BeforeAfterCase", 'String'>
   readonly doctorId: Prisma.FieldRef<"BeforeAfterCase", 'String'>
   readonly patientId: Prisma.FieldRef<"BeforeAfterCase", 'String'>
-  readonly procedure: Prisma.FieldRef<"BeforeAfterCase", 'String'>
+  readonly procedureId: Prisma.FieldRef<"BeforeAfterCase", 'String'>
   readonly notes: Prisma.FieldRef<"BeforeAfterCase", 'String'>
   readonly title: Prisma.FieldRef<"BeforeAfterCase", 'String'>
   readonly isPublic: Prisma.FieldRef<"BeforeAfterCase", 'Boolean'>
@@ -963,6 +1153,10 @@ export type BeforeAfterCaseFindUniqueArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
+  /**
    * Filter, which BeforeAfterCase to fetch.
    */
   where: Prisma.BeforeAfterCaseWhereUniqueInput
@@ -981,6 +1175,10 @@ export type BeforeAfterCaseFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
+  /**
    * Filter, which BeforeAfterCase to fetch.
    */
   where: Prisma.BeforeAfterCaseWhereUniqueInput
@@ -998,6 +1196,10 @@ export type BeforeAfterCaseFindFirstArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the BeforeAfterCase
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
   /**
    * Filter, which BeforeAfterCase to fetch.
    */
@@ -1047,6 +1249,10 @@ export type BeforeAfterCaseFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
+  /**
    * Filter, which BeforeAfterCase to fetch.
    */
   where?: Prisma.BeforeAfterCaseWhereInput
@@ -1094,6 +1300,10 @@ export type BeforeAfterCaseFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the BeforeAfterCase
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
   /**
    * Filter, which BeforeAfterCases to fetch.
    */
@@ -1143,6 +1353,10 @@ export type BeforeAfterCaseCreateArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
+  /**
    * The data needed to create a BeforeAfterCase.
    */
   data: Prisma.XOR<Prisma.BeforeAfterCaseCreateInput, Prisma.BeforeAfterCaseUncheckedCreateInput>
@@ -1176,6 +1390,10 @@ export type BeforeAfterCaseCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.BeforeAfterCaseCreateManyInput | Prisma.BeforeAfterCaseCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1190,6 +1408,10 @@ export type BeforeAfterCaseUpdateArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the BeforeAfterCase
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
   /**
    * The data needed to update a BeforeAfterCase.
    */
@@ -1242,6 +1464,10 @@ export type BeforeAfterCaseUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many BeforeAfterCases to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1256,6 +1482,10 @@ export type BeforeAfterCaseUpsertArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the BeforeAfterCase
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
   /**
    * The filter to search for the BeforeAfterCase to update in case it exists.
    */
@@ -1283,6 +1513,10 @@ export type BeforeAfterCaseDeleteArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
+  /**
    * Filter which BeforeAfterCase to delete.
    */
   where: Prisma.BeforeAfterCaseWhereUniqueInput
@@ -1303,6 +1537,25 @@ export type BeforeAfterCaseDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * BeforeAfterCase.procedure
+ */
+export type BeforeAfterCase$procedureArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Procedure
+   */
+  select?: Prisma.ProcedureSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Procedure
+   */
+  omit?: Prisma.ProcedureOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProcedureInclude<ExtArgs> | null
+  where?: Prisma.ProcedureWhereInput
+}
+
+/**
  * BeforeAfterCase without action
  */
 export type BeforeAfterCaseDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1314,4 +1567,8 @@ export type BeforeAfterCaseDefaultArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the BeforeAfterCase
    */
   omit?: Prisma.BeforeAfterCaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BeforeAfterCaseInclude<ExtArgs> | null
 }

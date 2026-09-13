@@ -524,7 +524,7 @@ export const BeforeAfterCaseScalarFieldEnum = {
   id: 'id',
   doctorId: 'doctorId',
   patientId: 'patientId',
-  procedure: 'procedure',
+  procedureId: 'procedureId',
   notes: 'notes',
   title: 'title',
   isPublic: 'isPublic',
