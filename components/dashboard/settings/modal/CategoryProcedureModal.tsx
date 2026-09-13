@@ -83,7 +83,7 @@ type CategoryProcedureModalProps = {
   onClose: () => void;
 
   onSaved?: (payload: {
-    subcategoryIds: string[];
+    categoryIds: string[];
     procedureIds: string[];
   }) => void;
 
@@ -779,9 +779,9 @@ export default function CategoryProcedureModal({
        * are migrated to categoryIds.
        */
       const payload = {
-        subcategoryIds:
+        categoryIds:
           validCategoryIds,
-
+      
         procedureIds:
           validProcedureIds,
       };

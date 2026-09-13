@@ -26,7 +26,7 @@ type BeforeAfterCaseRecord = {
   id: string;
   doctorId: string;
   patientId: string | null;
-  procedure: string | null;
+  procedureId: string | null;
   notes: string | null;
   title: string | null;
   isPublic: boolean;
@@ -761,9 +761,9 @@ export default function AdminBeforeAfterPanel() {
                                         )}
                                     </h3>
 
-                                    {item.procedure ? (
+                                    {item.procedureId ? (
                                       <p className="mt-1 text-sm font-medium text-[#D8BD8D]">
-                                          {procedureT(item.procedure)}
+                                        {procedureT(item.procedureId)}
                                       </p>
                                     ) : null}
                                   </div>
@@ -892,9 +892,7 @@ export default function AdminBeforeAfterPanel() {
         <BeforeAfterUploadModal
           isOpen={isUploadModalOpen}
           doctorId={selectedDoctor.doctorId}
-          procedureIds={
-            selectedDoctor.procedureIds
-          }
+          fetchAdminProcedures
           onClose={() =>
             setIsUploadModalOpen(false)
           }

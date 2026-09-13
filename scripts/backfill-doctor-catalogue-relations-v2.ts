@@ -14,24 +14,6 @@ type DoctorProfileRow = {
   topThree: string[];
 };
 
-type DoctorSpecialtyRow = {
-  doctorProfileId: string;
-  specialtyId: string;
-  position: number;
-};
-
-type DoctorCategoryRow = {
-  doctorProfileId: string;
-  categoryId: string;
-  position: number;
-};
-
-type DoctorSubcategoryRow = {
-  doctorProfileId: string;
-  subcategoryId: string;
-  position: number;
-};
-
 type DoctorProcedureRow = {
   doctorProfileId: string;
   procedureId: string;
@@ -40,7 +22,7 @@ type DoctorProcedureRow = {
   price: unknown;
 };
 
-type SubcategoryCatalogueRow = {
+type SubcategoryRow = {
   id: string;
   categoryId: string;
   sortOrder: number;
@@ -52,114 +34,9 @@ type ProcedureSubcategoryRow = {
   sortOrder: number;
 };
 
-type MultiParentProcedure = {
-  procedureId: string;
-  subcategoryIds: string[];
-};
-
-type LegacyCategoryMapping = {
-  legacyId: string;
-  canonicalId: string;
-};
-
 type PreparedDoctor = DoctorProfileRow & {
   categoryIds: string[];
-  legacyCategoryMappings: LegacyCategoryMapping[];
   derivedSubcategoryIds: string[];
-  multiParentProcedures: MultiParentProcedure[];
-};
-
-const LEGACY_CATEGORY_ID_ALIASES: Readonly<Record<string, string>> = {
-  wellness_and_drainage: "wellness_and_postoperative",
-};
-
-type FindManyDelegate<T> = {
-  findMany(args?: Record<string, unknown>): Promise<T[]>;
-};
-
-type UpsertDelegate = {
-  upsert(args: {
-    where: Record<string, unknown>;
-    update: Record<string, unknown>;
-    create: Record<string, unknown>;
-  }): Promise<unknown>;
-};
-
-type UpdateDelegate = {
-  update(args: {
-    where: Record<string, unknown>;
-    data: Record<string, unknown>;
-  }): Promise<unknown>;
-};
-
-type UpdateManyDelegate = {
-  updateMany(args: {
-    where: Record<string, unknown>;
-    data: Record<string, unknown>;
-  }): Promise<unknown>;
-};
-
-type DoctorSpecialtyDelegate = FindManyDelegate<DoctorSpecialtyRow> &
-  UpsertDelegate;
-
-type DoctorCategoryDelegate = FindManyDelegate<DoctorCategoryRow> &
-  UpsertDelegate;
-
-type DoctorSubcategoryDelegate = FindManyDelegate<DoctorSubcategoryRow> &
-  UpsertDelegate;
-
-type DoctorProcedureDelegate = FindManyDelegate<DoctorProcedureRow> &
-  UpsertDelegate &
-  UpdateDelegate &
-  UpdateManyDelegate;
-
-type BackfillTransaction = {
-  doctorProfile: FindManyDelegate<DoctorProfileRow>;
-  specialty: FindManyDelegate<{ id: string }>;
-  category: FindManyDelegate<{ id: string }>;
-  subcategory: FindManyDelegate<SubcategoryCatalogueRow>;
-  procedure: FindManyDelegate<{ id: string }>;
-  procedureSubcategory: FindManyDelegate<ProcedureSubcategoryRow>;
-  doctorSpecialty: DoctorSpecialtyDelegate;
-  doctorCategory: DoctorCategoryDelegate;
-  doctorSubcategory: DoctorSubcategoryDelegate;
-  doctorProcedure: DoctorProcedureDelegate;
-};
-
-type PrismaClientLike = BackfillTransaction & {
-  $transaction<T>(
-    callback: (transaction: BackfillTransaction) => Promise<T>,
-    options?: { maxWait?: number; timeout?: number },
-  ): Promise<T>;
-  $disconnect(): Promise<void>;
-};
-
-type DatabaseState = {
-  doctors: DoctorProfileRow[];
-  specialtyIds: Set<string>;
-  categoryIds: Set<string>;
-  subcategories: SubcategoryCatalogueRow[];
-  procedureIds: Set<string>;
-  procedureSubcategoryLinks: ProcedureSubcategoryRow[];
-  doctorSpecialties: DoctorSpecialtyRow[];
-  doctorCategories: DoctorCategoryRow[];
-  doctorSubcategories: DoctorSubcategoryRow[];
-  doctorProcedures: DoctorProcedureRow[];
-};
-
-type BackfillSummary = {
-  doctors: number;
-  specialties: number;
-  categories: number;
-  subcategories: number;
-  procedures: number;
-  topThree: number;
-  specialtyRowsToCreate: number;
-  categoryRowsToCreate: number;
-  subcategoryRowsToCreate: number;
-  procedureRowsToCreate: number;
-  multiParentProcedureSelections: number;
-  existingProcedurePricesPreserved: number;
 };
 
 type CliOptions = {
@@ -168,48 +45,36 @@ type CliOptions = {
   help: boolean;
 };
 
-function printUsage(): void {
-  console.log(
-    `
-Backfill normalized doctor catalogue relations from DoctorProfile arrays.
+const LEGACY_CATEGORY_ID_ALIASES: Readonly<Record<string, string>> = {
+  wellness_and_drainage: "wellness_and_postoperative",
+};
+
+function printUsage() {
+  console.log(`
+Backfill normalized doctor catalogue relations from legacy DoctorProfile arrays.
 
 Usage:
   npx tsx scripts/backfill-doctor-catalogue-relations-v2.ts \\
     --prisma-module lib/database/prisma.ts \\
     --dry-run
 
-Options:
-  --prisma-module  Module exporting the configured Prisma client as "prisma"
-  --dry-run        Validate and report the planned backfill without writing
-  --help           Show this help
-
 Behavior:
-  - specialtyIds                  -> DoctorSpecialty
-  - canonicalized legacy
-    subcategoryIds                -> DoctorCategory
-  - subcategories derived from
-    selected procedure relations  -> DoctorSubcategory
-  - procedureIds                  -> DoctorProcedure
-  - topThree index                -> DoctorProcedure.topRank (1, 2, or 3)
-  - source/derived order          -> position
-  - existing DoctorProcedure.price values are never updated
-  - legacy DoctorProfile arrays are never changed
-  - known renamed category IDs are canonicalized only for relational writes
+  - specialtyIds           -> DoctorSpecialty
+  - legacy subcategoryIds  -> DoctorCategory
+  - procedure-derived rows -> DoctorSubcategory
+  - procedureIds           -> DoctorProcedure
+  - topThree               -> DoctorProcedure.topRank when safe
+  - existing relational rows are preserved
+  - existing DoctorProcedure.price values are preserved
+  - legacy arrays are never changed
 
-Safety:
-  The script stops before writing if it finds an unknown or duplicate catalogue
-  ID, an invalid topThree entry, a procedure with no linked subcategory in a
-  selected category, or an existing relational selection absent from its
-  expected source or derived selection.
-`.trim(),
-  );
+IMPORTANT:
+  Legacy DoctorProfile.subcategoryIds intentionally contains CATEGORY IDs.
+`.trim());
 }
 
 function parseArgs(argv: string[]): CliOptions {
-  const options: CliOptions = {
-    dryRun: false,
-    help: false,
-  };
+  const options: CliOptions = { dryRun: false, help: false };
 
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
@@ -231,9 +96,7 @@ function parseArgs(argv: string[]): CliOptions {
         ? argv[++index]
         : undefined);
 
-    if (!value) {
-      throw new Error(`Missing value for ${flag}.`);
-    }
+    if (!value) throw new Error(`Missing value for ${flag}.`);
 
     if (flag === "--prisma-module") {
       options.prismaModulePath = value;
@@ -246,7 +109,7 @@ function parseArgs(argv: string[]): CliOptions {
   return options;
 }
 
-function absolutePath(path: string): string {
+function absolutePath(path: string) {
   return isAbsolute(path) ? path : resolve(process.cwd(), path);
 }
 
@@ -254,134 +117,33 @@ async function importModule(path: string): Promise<JsonObject> {
   return (await import(pathToFileURL(absolutePath(path)).href)) as JsonObject;
 }
 
-function databaseTarget(): string {
+function databaseTarget() {
   const databaseUrl = process.env.DATABASE_URL;
-
-  if (!databaseUrl) {
-    return "DATABASE_URL is not set";
-  }
+  if (!databaseUrl) return "DATABASE_URL is not set";
 
   try {
     const url = new URL(databaseUrl);
-    const database = decodeURIComponent(url.pathname.replace(/^\//, ""));
-    const schema = url.searchParams.get("schema") ?? "public";
-    return `host=${url.hostname}, database=${database}, schema=${schema}`;
+    return `host=${url.hostname}, database=${decodeURIComponent(
+      url.pathname.replace(/^\//, ""),
+    )}, schema=${url.searchParams.get("schema") ?? "public"}`;
   } catch {
     return "DATABASE_URL is set but could not be parsed";
   }
 }
 
-function requireStringArray(
-  value: unknown,
-  label: string,
-  errors: string[],
-): string[] {
-  if (!Array.isArray(value)) {
-    errors.push(`${label} is not an array.`);
-    return [];
-  }
-
-  const result: string[] = [];
-
-  for (const [index, item] of value.entries()) {
-    if (typeof item !== "string" || item.trim() === "") {
-      errors.push(`${label}[${index}] must be a non-empty string.`);
-      continue;
-    }
-
-    result.push(item.trim());
-  }
-
-  return result;
+function unique(values: string[]) {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
 }
 
-function duplicateValues(values: string[]): string[] {
-  const seen = new Set<string>();
-  const duplicates = new Set<string>();
-
-  for (const value of values) {
-    if (seen.has(value)) {
-      duplicates.add(value);
-    }
-
-    seen.add(value);
-  }
-
-  return [...duplicates];
-}
-
-function doctorLabel(doctor: DoctorProfileRow): string {
+function label(doctor: DoctorProfileRow) {
   return `${doctor.clinicName || "Unnamed clinic"} (profile ${doctor.id}, user ${doctor.userId})`;
 }
 
-function groupByDoctor<T extends { doctorProfileId: string }>(
-  rows: T[],
-): Map<string, T[]> {
-  const result = new Map<string, T[]>();
-
-  for (const row of rows) {
-    const doctorRows = result.get(row.doctorProfileId) ?? [];
-    doctorRows.push(row);
-    result.set(row.doctorProfileId, doctorRows);
-  }
-
-  return result;
+function relationKey(doctorProfileId: string, id: string) {
+  return `${doctorProfileId}\u0000${id}`;
 }
 
-function normalizeDoctors(
-  doctors: DoctorProfileRow[],
-  errors: string[],
-): DoctorProfileRow[] {
-  return doctors.map((doctor) => ({
-    ...doctor,
-    specialtyIds: requireStringArray(
-      doctor.specialtyIds,
-      `${doctorLabel(doctor)} specialtyIds`,
-      errors,
-    ),
-    subcategoryIds: requireStringArray(
-      doctor.subcategoryIds,
-      `${doctorLabel(doctor)} subcategoryIds`,
-      errors,
-    ),
-    procedureIds: requireStringArray(
-      doctor.procedureIds,
-      `${doctorLabel(doctor)} procedureIds`,
-      errors,
-    ),
-    topThree: requireStringArray(
-      doctor.topThree,
-      `${doctorLabel(doctor)} topThree`,
-      errors,
-    ),
-  }));
-}
-
-function normalizeLegacyCategoryIds(doctor: DoctorProfileRow): {
-  categoryIds: string[];
-  legacyCategoryMappings: LegacyCategoryMapping[];
-} {
-  const legacyCategoryMappings: LegacyCategoryMapping[] = [];
-  const categoryIds = doctor.subcategoryIds.map((legacyId) => {
-    const canonicalId = LEGACY_CATEGORY_ID_ALIASES[legacyId] ?? legacyId;
-
-    if (canonicalId !== legacyId) {
-      legacyCategoryMappings.push({
-        legacyId,
-        canonicalId,
-      });
-    }
-
-    return canonicalId;
-  });
-
-  return {
-    categoryIds,
-    legacyCategoryMappings,
-  };
-}
-
-async function loadState(prisma: BackfillTransaction): Promise<DatabaseState> {
+async function loadState(prisma: any) {
   const [
     doctors,
     specialties,
@@ -409,40 +171,20 @@ async function loadState(prisma: BackfillTransaction): Promise<DatabaseState> {
     prisma.specialty.findMany({ select: { id: true } }),
     prisma.category.findMany({ select: { id: true } }),
     prisma.subcategory.findMany({
-      select: {
-        id: true,
-        categoryId: true,
-        sortOrder: true,
-      },
+      select: { id: true, categoryId: true, sortOrder: true },
     }),
     prisma.procedure.findMany({ select: { id: true } }),
     prisma.procedureSubcategory.findMany({
-      select: {
-        procedureId: true,
-        subcategoryId: true,
-        sortOrder: true,
-      },
+      select: { procedureId: true, subcategoryId: true, sortOrder: true },
     }),
     prisma.doctorSpecialty.findMany({
-      select: {
-        doctorProfileId: true,
-        specialtyId: true,
-        position: true,
-      },
+      select: { doctorProfileId: true, specialtyId: true, position: true },
     }),
     prisma.doctorCategory.findMany({
-      select: {
-        doctorProfileId: true,
-        categoryId: true,
-        position: true,
-      },
+      select: { doctorProfileId: true, categoryId: true, position: true },
     }),
     prisma.doctorSubcategory.findMany({
-      select: {
-        doctorProfileId: true,
-        subcategoryId: true,
-        position: true,
-      },
+      select: { doctorProfileId: true, subcategoryId: true, position: true },
     }),
     prisma.doctorProcedure.findMany({
       select: {
@@ -456,348 +198,283 @@ async function loadState(prisma: BackfillTransaction): Promise<DatabaseState> {
   ]);
 
   return {
-    doctors,
-    specialtyIds: new Set(specialties.map(({ id }) => id)),
-    categoryIds: new Set(categories.map(({ id }) => id)),
-    subcategories,
-    procedureIds: new Set(procedures.map(({ id }) => id)),
-    procedureSubcategoryLinks,
+    doctors: doctors as DoctorProfileRow[],
+    specialtyIds: new Set<string>(specialties.map((row: { id: string }) => row.id)),
+    categoryIds: new Set<string>(categories.map((row: { id: string }) => row.id)),
+    subcategories: subcategories as SubcategoryRow[],
+    procedureIds: new Set<string>(procedures.map((row: { id: string }) => row.id)),
+    procedureSubcategoryLinks:
+      procedureSubcategoryLinks as ProcedureSubcategoryRow[],
     doctorSpecialties,
     doctorCategories,
     doctorSubcategories,
-    doctorProcedures,
+    doctorProcedures: doctorProcedures as DoctorProcedureRow[],
   };
 }
 
-function deriveSubcategories(
-  doctor: DoctorProfileRow & { categoryIds: string[] },
-  state: DatabaseState,
-  errors: string[],
-): {
-  derivedSubcategoryIds: string[];
-  multiParentProcedures: MultiParentProcedure[];
-} {
-  const label = doctorLabel(doctor);
-  const selectedCategoryOrder = new Map(
-    doctor.categoryIds.map((categoryId, index) => [categoryId, index]),
-  );
+function prepareDoctors(state: Awaited<ReturnType<typeof loadState>>) {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
   const subcategoryById = new Map(
     state.subcategories.map((subcategory) => [subcategory.id, subcategory]),
   );
+
   const linksByProcedure = new Map<string, ProcedureSubcategoryRow[]>();
 
   for (const link of state.procedureSubcategoryLinks) {
-    const links = linksByProcedure.get(link.procedureId) ?? [];
-    links.push(link);
-    linksByProcedure.set(link.procedureId, links);
+    const rows = linksByProcedure.get(link.procedureId) ?? [];
+    rows.push(link);
+    linksByProcedure.set(link.procedureId, rows);
   }
 
-  const derivedSubcategoryIds: string[] = [];
-  const seenSubcategoryIds = new Set<string>();
-  const multiParentProcedures: MultiParentProcedure[] = [];
+  const doctors: PreparedDoctor[] = state.doctors.map((source) => {
+    const sourceDoctor: DoctorProfileRow = {
+      ...source,
+      specialtyIds: unique(source.specialtyIds),
+      subcategoryIds: unique(source.subcategoryIds),
+      procedureIds: unique(source.procedureIds),
+      topThree: unique(source.topThree),
+    };
 
-  for (const procedureId of doctor.procedureIds) {
-    if (!state.procedureIds.has(procedureId)) {
-      continue;
-    }
+    const doctorName = label(sourceDoctor);
 
-    const allLinks = linksByProcedure.get(procedureId) ?? [];
-    const validLinks = allLinks
-      .filter((link) => {
-        const subcategory = subcategoryById.get(link.subcategoryId);
-        return (
-          subcategory !== undefined &&
-          selectedCategoryOrder.has(subcategory.categoryId)
-        );
-      })
-      .sort((left, right) => {
-        const leftSubcategory = subcategoryById.get(left.subcategoryId)!;
-        const rightSubcategory = subcategoryById.get(right.subcategoryId)!;
+    // IMPORTANT: legacy subcategoryIds are CATEGORY IDs.
+    const categoryIds = sourceDoctor.subcategoryIds.map(
+      (id) => LEGACY_CATEGORY_ID_ALIASES[id] ?? id,
+    );
 
-        return (
-          selectedCategoryOrder.get(leftSubcategory.categoryId)! -
-            selectedCategoryOrder.get(rightSubcategory.categoryId)! ||
-          left.sortOrder - right.sortOrder ||
-          leftSubcategory.sortOrder - rightSubcategory.sortOrder ||
-          left.subcategoryId.localeCompare(right.subcategoryId)
-        );
-      });
+    const unknownSpecialties = sourceDoctor.specialtyIds.filter(
+      (id) => !state.specialtyIds.has(id),
+    );
 
-    if (validLinks.length === 0) {
-      const availableCategoryIds = [
-        ...new Set(
-          allLinks
-            .map((link) => subcategoryById.get(link.subcategoryId)?.categoryId)
-            .filter((id): id is string => id !== undefined),
-        ),
-      ];
+    const unknownCategories = categoryIds.filter(
+      (id) => !state.categoryIds.has(id),
+    );
 
+    if (unknownSpecialties.length) {
       errors.push(
-        `${label} procedure "${procedureId}" has no linked subcategory in its canonical selected categories [${doctor.categoryIds.join(", ")}]. Catalogue categories for this procedure: [${availableCategoryIds.join(", ") || "none"}].`,
+        `${doctorName} has unknown specialtyIds: ${unknownSpecialties.join(", ")}.`,
       );
-      continue;
     }
 
-    const validSubcategoryIds = [
-      ...new Set(validLinks.map(({ subcategoryId }) => subcategoryId)),
-    ];
-
-    if (validSubcategoryIds.length > 1) {
-      multiParentProcedures.push({
-        procedureId,
-        subcategoryIds: validSubcategoryIds,
-      });
+    if (unknownCategories.length) {
+      errors.push(
+        `${doctorName} has unknown legacy category IDs: ${unknownCategories.join(", ")}.`,
+      );
     }
 
-    for (const subcategoryId of validSubcategoryIds) {
-      if (seenSubcategoryIds.has(subcategoryId)) {
+    /*
+     * Legacy procedure arrays can contain IDs that no longer exist in the
+     * normalized Procedure catalogue. Production data should not be blocked by
+     * those stale values: skip them and continue migrating everything valid.
+     */
+    const knownProcedureIds = sourceDoctor.procedureIds.filter((procedureId) => {
+      if (state.procedureIds.has(procedureId)) {
+        return true;
+      }
+
+      warnings.push(
+        `${doctorName} skipped unknown legacy procedureId "${procedureId}".`,
+      );
+
+      return false;
+    });
+
+    const selectedCategoryOrder = new Map(
+      categoryIds.map((categoryId, index) => [categoryId, index]),
+    );
+
+    const derivedSubcategoryIds: string[] = [];
+    const seenSubcategories = new Set<string>();
+    const migratableProcedureIds: string[] = [];
+
+    for (const procedureId of knownProcedureIds) {
+      const links = (linksByProcedure.get(procedureId) ?? [])
+        .filter((link) => {
+          const subcategory = subcategoryById.get(link.subcategoryId);
+
+          return Boolean(
+            subcategory && selectedCategoryOrder.has(subcategory.categoryId),
+          );
+        })
+        .sort((a, b) => {
+          const aSub = subcategoryById.get(a.subcategoryId)!;
+          const bSub = subcategoryById.get(b.subcategoryId)!;
+
+          return (
+            selectedCategoryOrder.get(aSub.categoryId)! -
+              selectedCategoryOrder.get(bSub.categoryId)! ||
+            a.sortOrder - b.sortOrder ||
+            aSub.sortOrder - bSub.sortOrder ||
+            a.subcategoryId.localeCompare(b.subcategoryId)
+          );
+        });
+
+      /*
+       * A procedure may still exist in Procedure but no longer have a usable
+       * ProcedureSubcategory link for this doctor's legacy categories. Treat
+       * that stale selection the same way as an unknown procedure: skip it.
+       */
+      if (links.length === 0) {
+        warnings.push(
+          `${doctorName} skipped legacy procedure "${procedureId}" because it has no ProcedureSubcategory link inside selected legacy categories [${categoryIds.join(", ")}].`,
+        );
+
         continue;
       }
 
-      seenSubcategoryIds.add(subcategoryId);
-      derivedSubcategoryIds.push(subcategoryId);
-    }
-  }
+      migratableProcedureIds.push(procedureId);
 
-  return {
-    derivedSubcategoryIds,
-    multiParentProcedures,
-  };
-}
-
-function validateSource(state: DatabaseState): PreparedDoctor[] {
-  const errors: string[] = [];
-  const doctors = normalizeDoctors(state.doctors, errors).map((doctor) => ({
-    ...doctor,
-    ...normalizeLegacyCategoryIds(doctor),
-  }));
-  const existingSpecialties = groupByDoctor(state.doctorSpecialties);
-  const existingCategories = groupByDoctor(state.doctorCategories);
-  const existingSubcategories = groupByDoctor(state.doctorSubcategories);
-  const existingProcedures = groupByDoctor(state.doctorProcedures);
-
-  if (state.specialtyIds.size === 0) {
-    errors.push(
-      "The Specialty catalogue is empty. Import the catalogue before running this backfill.",
-    );
-  }
-
-  if (state.categoryIds.size === 0) {
-    errors.push(
-      "The Category catalogue is empty. Import the catalogue before running this backfill.",
-    );
-  }
-
-  if (state.subcategories.length === 0) {
-    errors.push(
-      "The Subcategory catalogue is empty. Import the catalogue before running this backfill.",
-    );
-  }
-
-  if (state.procedureIds.size === 0) {
-    errors.push(
-      "The Procedure catalogue is empty. Import the catalogue before running this backfill.",
-    );
-  }
-
-  for (const doctor of doctors) {
-    const label = doctorLabel(doctor);
-    const collections = [
-      {
-        name: "specialtyIds",
-        values: doctor.specialtyIds,
-        catalogueIds: state.specialtyIds,
-      },
-      {
-        name: "canonical category IDs from legacy subcategoryIds",
-        values: doctor.categoryIds,
-        catalogueIds: state.categoryIds,
-      },
-      {
-        name: "procedureIds",
-        values: doctor.procedureIds,
-        catalogueIds: state.procedureIds,
-      },
-      {
-        name: "topThree",
-        values: doctor.topThree,
-        catalogueIds: state.procedureIds,
-      },
-    ];
-
-    for (const collection of collections) {
-      const duplicates = duplicateValues(collection.values);
-
-      if (duplicates.length > 0) {
-        errors.push(
-          `${label} has duplicate ${collection.name}: ${duplicates.join(", ")}.`,
-        );
-      }
-
-      const unknown = collection.values.filter(
-        (id) => !collection.catalogueIds.has(id),
-      );
-
-      if (unknown.length > 0) {
-        errors.push(
-          `${label} has unknown ${collection.name}: ${unknown.join(", ")}.`,
-        );
+      for (const link of links) {
+        if (!seenSubcategories.has(link.subcategoryId)) {
+          seenSubcategories.add(link.subcategoryId);
+          derivedSubcategoryIds.push(link.subcategoryId);
+        }
       }
     }
 
-    if (doctor.topThree.length > 3) {
-      errors.push(
-        `${label} has ${doctor.topThree.length} topThree values; at most 3 are allowed.`,
+    const migratableProcedureSet = new Set(migratableProcedureIds);
+
+    const filteredTopThree = sourceDoctor.topThree.filter((procedureId) => {
+      if (migratableProcedureSet.has(procedureId)) {
+        return true;
+      }
+
+      warnings.push(
+        `${doctorName} skipped legacy topThree procedure "${procedureId}" because it is not being migrated as a valid DoctorProcedure.`,
       );
+
+      return false;
+    });
+
+    if (filteredTopThree.length > 3) {
+      errors.push(`${doctorName} has more than 3 valid topThree values.`);
     }
 
-    const selectedProcedureIds = new Set(doctor.procedureIds);
-    const unselectedTopThree = doctor.topThree.filter(
-      (procedureId) => !selectedProcedureIds.has(procedureId),
-    );
-
-    if (unselectedTopThree.length > 0) {
-      errors.push(
-        `${label} has topThree procedures missing from procedureIds: ${unselectedTopThree.join(", ")}.`,
-      );
-    }
-
-    const sourceSpecialties = new Set(doctor.specialtyIds);
-    const extraSpecialties = (existingSpecialties.get(doctor.id) ?? [])
-      .map(({ specialtyId }) => specialtyId)
-      .filter((id) => !sourceSpecialties.has(id));
-
-    if (extraSpecialties.length > 0) {
-      errors.push(
-        `${label} already has DoctorSpecialty rows absent from specialtyIds: ${extraSpecialties.join(", ")}.`,
-      );
-    }
-  }
-
-  const preparedDoctors = doctors.map((doctor) => {
-    const derived = deriveSubcategories(doctor, state, errors);
     return {
-      ...doctor,
-      ...derived,
+      ...sourceDoctor,
+      categoryIds,
+      procedureIds: migratableProcedureIds,
+      topThree: filteredTopThree.slice(0, 3),
+      derivedSubcategoryIds,
     };
   });
 
-  for (const doctor of preparedDoctors) {
-    const label = doctorLabel(doctor);
-    const sourceCategories = new Set(doctor.categoryIds);
-    const extraCategories = (existingCategories.get(doctor.id) ?? [])
-      .map(({ categoryId }) => categoryId)
-      .filter((id) => !sourceCategories.has(id));
+  if (warnings.length > 0) {
+    console.log(
+      `Legacy catalogue warnings (${warnings.length}) — these values will be skipped:`,
+    );
 
-    if (extraCategories.length > 0) {
-      errors.push(
-        `${label} already has DoctorCategory rows absent from canonicalized legacy subcategoryIds: ${extraCategories.join(", ")}.`,
-      );
-    }
-
-    const expectedSubcategories = new Set(doctor.derivedSubcategoryIds);
-    const extraSubcategories = (existingSubcategories.get(doctor.id) ?? [])
-      .map(({ subcategoryId }) => subcategoryId)
-      .filter((id) => !expectedSubcategories.has(id));
-
-    if (extraSubcategories.length > 0) {
-      errors.push(
-        `${label} already has DoctorSubcategory rows not derived from procedureIds and the selected categories: ${extraSubcategories.join(", ")}.`,
-      );
-    }
-
-    const selectedProcedureIds = new Set(doctor.procedureIds);
-    const extraProcedures = (existingProcedures.get(doctor.id) ?? [])
-      .map(({ procedureId }) => procedureId)
-      .filter((id) => !selectedProcedureIds.has(id));
-
-    if (extraProcedures.length > 0) {
-      errors.push(
-        `${label} already has DoctorProcedure rows absent from procedureIds: ${extraProcedures.join(", ")}.`,
-      );
+    for (const warning of warnings) {
+      console.warn(`- ${warning}`);
     }
   }
 
-  const doctorIds = new Set(doctors.map(({ id }) => id));
-
-  for (const [relationName, rows] of [
-    ["DoctorSpecialty", state.doctorSpecialties],
-    ["DoctorCategory", state.doctorCategories],
-    ["DoctorSubcategory", state.doctorSubcategories],
-    ["DoctorProcedure", state.doctorProcedures],
-  ] as const) {
-    const orphanDoctorIds = [
-      ...new Set(
-        rows
-          .map(({ doctorProfileId }) => doctorProfileId)
-          .filter((id) => !doctorIds.has(id)),
-      ),
-    ];
-
-    if (orphanDoctorIds.length > 0) {
-      errors.push(
-        `${relationName} contains rows for missing doctor profiles: ${orphanDoctorIds.join(", ")}.`,
-      );
-    }
-  }
-
-  if (errors.length > 0) {
+  if (errors.length) {
     throw new Error(
       `Backfill validation failed with ${errors.length} issue(s):\n- ${errors.join("\n- ")}`,
     );
   }
 
-  return preparedDoctors;
+  return doctors;
 }
 
-function relationKey(doctorProfileId: string, catalogueId: string): string {
-  return `${doctorProfileId}\u0000${catalogueId}`;
-}
-
-function summarize(
+function planTopRanks(
   doctors: PreparedDoctor[],
-  state: DatabaseState,
-): BackfillSummary {
+  existingRows: DoctorProcedureRow[],
+) {
+  const assignments = new Map<string, number>();
+  const conflicts: Array<{
+    doctor: string;
+    procedureId: string;
+    desiredRank: number;
+    reason: string;
+  }> = [];
+
+  const byDoctor = new Map<string, DoctorProcedureRow[]>();
+
+  for (const row of existingRows) {
+    const rows = byDoctor.get(row.doctorProfileId) ?? [];
+    rows.push(row);
+    byDoctor.set(row.doctorProfileId, rows);
+  }
+
+  for (const doctor of doctors) {
+    const rows = byDoctor.get(doctor.id) ?? [];
+    const byProcedure = new Map(rows.map((row) => [row.procedureId, row]));
+    const rankOwners = new Map<number, string>();
+
+    for (const row of rows) {
+      if (row.topRank !== null) rankOwners.set(row.topRank, row.procedureId);
+    }
+
+    doctor.topThree.forEach((procedureId, index) => {
+      const desiredRank = index + 1;
+      const existing = byProcedure.get(procedureId);
+
+      if (existing?.topRank !== null && existing?.topRank !== undefined) {
+        if (existing.topRank !== desiredRank) {
+          conflicts.push({
+            doctor: doctor.clinicName || doctor.userId,
+            procedureId,
+            desiredRank,
+            reason: `Already has relational topRank ${existing.topRank}; preserved.`,
+          });
+        }
+        return;
+      }
+
+      const owner = rankOwners.get(desiredRank);
+      if (owner && owner !== procedureId) {
+        conflicts.push({
+          doctor: doctor.clinicName || doctor.userId,
+          procedureId,
+          desiredRank,
+          reason: `Rank ${desiredRank} already belongs to relational procedure "${owner}"; preserved.`,
+        });
+        return;
+      }
+
+      assignments.set(relationKey(doctor.id, procedureId), desiredRank);
+      rankOwners.set(desiredRank, procedureId);
+    });
+  }
+
+  return { assignments, conflicts };
+}
+
+function printSummary(
+  doctors: PreparedDoctor[],
+  state: Awaited<ReturnType<typeof loadState>>,
+) {
   const existingSpecialties = new Set(
-    state.doctorSpecialties.map(({ doctorProfileId, specialtyId }) =>
-      relationKey(doctorProfileId, specialtyId),
+    state.doctorSpecialties.map((row: any) =>
+      relationKey(row.doctorProfileId, row.specialtyId),
     ),
   );
   const existingCategories = new Set(
-    state.doctorCategories.map(({ doctorProfileId, categoryId }) =>
-      relationKey(doctorProfileId, categoryId),
+    state.doctorCategories.map((row: any) =>
+      relationKey(row.doctorProfileId, row.categoryId),
     ),
   );
   const existingSubcategories = new Set(
-    state.doctorSubcategories.map(({ doctorProfileId, subcategoryId }) =>
-      relationKey(doctorProfileId, subcategoryId),
+    state.doctorSubcategories.map((row: any) =>
+      relationKey(row.doctorProfileId, row.subcategoryId),
     ),
   );
   const existingProcedures = new Set(
-    state.doctorProcedures.map(({ doctorProfileId, procedureId }) =>
-      relationKey(doctorProfileId, procedureId),
+    state.doctorProcedures.map((row) =>
+      relationKey(row.doctorProfileId, row.procedureId),
     ),
   );
 
-  let specialties = 0;
-  let categories = 0;
-  let subcategories = 0;
-  let procedures = 0;
-  let topThree = 0;
   let specialtyRowsToCreate = 0;
   let categoryRowsToCreate = 0;
   let subcategoryRowsToCreate = 0;
   let procedureRowsToCreate = 0;
-  let multiParentProcedureSelections = 0;
 
   for (const doctor of doctors) {
-    specialties += doctor.specialtyIds.length;
-    categories += doctor.categoryIds.length;
-    subcategories += doctor.derivedSubcategoryIds.length;
-    procedures += doctor.procedureIds.length;
-    topThree += doctor.topThree.length;
-    multiParentProcedureSelections += doctor.multiParentProcedures.length;
-
     specialtyRowsToCreate += doctor.specialtyIds.filter(
       (id) => !existingSpecialties.has(relationKey(doctor.id, id)),
     ).length;
@@ -812,194 +489,125 @@ function summarize(
     ).length;
   }
 
-  return {
+  console.table({
     doctors: doctors.length,
-    specialties,
-    categories,
-    subcategories,
-    procedures,
-    topThree,
     specialtyRowsToCreate,
     categoryRowsToCreate,
     subcategoryRowsToCreate,
     procedureRowsToCreate,
-    multiParentProcedureSelections,
+    existingSpecialtyRowsPreserved: state.doctorSpecialties.length,
+    existingCategoryRowsPreserved: state.doctorCategories.length,
+    existingSubcategoryRowsPreserved: state.doctorSubcategories.length,
+    existingProcedureRowsPreserved: state.doctorProcedures.length,
     existingProcedurePricesPreserved: state.doctorProcedures.filter(
-      ({ price }) => price !== null,
+      (row) => row.price !== null,
     ).length,
-  };
-}
-
-function printSummary(title: string, summary: BackfillSummary): void {
-  console.log(title);
-  console.table({
-    doctors: summary.doctors,
-    specialtySelections: summary.specialties,
-    categorySelectionsFromLegacySubcategoryIds: summary.categories,
-    derivedSubcategorySelections: summary.subcategories,
-    procedureSelections: summary.procedures,
-    topThreeSelections: summary.topThree,
-    specialtyRowsToCreate: summary.specialtyRowsToCreate,
-    categoryRowsToCreate: summary.categoryRowsToCreate,
-    subcategoryRowsToCreate: summary.subcategoryRowsToCreate,
-    procedureRowsToCreate: summary.procedureRowsToCreate,
-    multiParentProcedureSelections: summary.multiParentProcedureSelections,
-    existingProcedurePricesPreserved: summary.existingProcedurePricesPreserved,
   });
 }
 
-function printMultiParentProcedures(doctors: PreparedDoctor[]): void {
-  const rows = doctors.flatMap((doctor) =>
-    doctor.multiParentProcedures.map(({ procedureId, subcategoryIds }) => ({
-      doctor: doctor.clinicName || "Unnamed clinic",
-      doctorProfileId: doctor.id,
-      procedureId,
-      derivedSubcategoryIds: subcategoryIds.join(", "),
-    })),
-  );
-
-  if (rows.length === 0) {
-    return;
-  }
-
-  console.log(
-    "Multi-parent procedure selections (all listed subcategories will be linked):",
-  );
-  console.table(rows);
-}
-
-function printLegacyCategoryMappings(doctors: PreparedDoctor[]): void {
-  const rows = doctors.flatMap((doctor) =>
-    doctor.legacyCategoryMappings.map(({ legacyId, canonicalId }) => ({
-      doctor: doctor.clinicName || "Unnamed clinic",
-      doctorProfileId: doctor.id,
-      legacyId,
-      canonicalId,
-    })),
-  );
-
-  if (rows.length === 0) {
-    return;
-  }
-
-  console.log(
-    "Known legacy category IDs canonicalized for relational writes (legacy arrays remain unchanged):",
-  );
-  console.table(rows);
-}
-
-function priceSnapshot(rows: DoctorProcedureRow[]): Map<string, string | null> {
+function priceSnapshot(rows: DoctorProcedureRow[]) {
   return new Map(
-    rows.map(
-      ({ doctorProfileId, procedureId, price }) =>
-        [
-          relationKey(doctorProfileId, procedureId),
-          price === null ? null : String(price),
-        ] as const,
+    rows.map((row) => [
+      relationKey(row.doctorProfileId, row.procedureId),
+      row.price === null ? null : String(row.price),
+    ]),
+  );
+}
+
+async function verify(
+  prisma: any,
+  doctors: PreparedDoctor[],
+  pricesBefore: Map<string, string | null>,
+  topRankAssignments: Map<string, number>,
+) {
+  const state = await loadState(prisma);
+  const errors: string[] = [];
+
+  const specialtyKeys = new Set(
+    state.doctorSpecialties.map((row: any) =>
+      relationKey(row.doctorProfileId, row.specialtyId),
     ),
   );
-}
-
-function verifyParity(
-  doctors: PreparedDoctor[],
-  state: DatabaseState,
-  pricesBefore: Map<string, string | null>,
-): void {
-  const errors: string[] = [];
-  const specialtiesByDoctor = groupByDoctor(state.doctorSpecialties);
-  const categoriesByDoctor = groupByDoctor(state.doctorCategories);
-  const subcategoriesByDoctor = groupByDoctor(state.doctorSubcategories);
-  const proceduresByDoctor = groupByDoctor(state.doctorProcedures);
+  const categoryKeys = new Set(
+    state.doctorCategories.map((row: any) =>
+      relationKey(row.doctorProfileId, row.categoryId),
+    ),
+  );
+  const subcategoryKeys = new Set(
+    state.doctorSubcategories.map((row: any) =>
+      relationKey(row.doctorProfileId, row.subcategoryId),
+    ),
+  );
+  const procedureMap = new Map(
+    state.doctorProcedures.map((row) => [
+      relationKey(row.doctorProfileId, row.procedureId),
+      row,
+    ]),
+  );
 
   for (const doctor of doctors) {
-    const label = doctorLabel(doctor);
-    const specialtyRows = specialtiesByDoctor.get(doctor.id) ?? [];
-    const categoryRows = categoriesByDoctor.get(doctor.id) ?? [];
-    const subcategoryRows = subcategoriesByDoctor.get(doctor.id) ?? [];
-    const procedureRows = proceduresByDoctor.get(doctor.id) ?? [];
-
-    const actualSpecialties = [...specialtyRows]
-      .sort((a, b) => a.position - b.position)
-      .map(({ specialtyId }) => specialtyId);
-    const actualCategories = [...categoryRows]
-      .sort((a, b) => a.position - b.position)
-      .map(({ categoryId }) => categoryId);
-    const actualSubcategories = [...subcategoryRows]
-      .sort((a, b) => a.position - b.position)
-      .map(({ subcategoryId }) => subcategoryId);
-    const actualProcedures = [...procedureRows]
-      .sort((a, b) => a.position - b.position)
-      .map(({ procedureId }) => procedureId);
-    const actualTopThree = procedureRows
-      .filter(
-        (row): row is DoctorProcedureRow & { topRank: number } =>
-          row.topRank !== null,
-      )
-      .sort((a, b) => a.topRank - b.topRank)
-      .map(({ procedureId }) => procedureId);
-
-    const comparisons: Array<[string, string[], string[]]> = [
-      ["specialtyIds", doctor.specialtyIds, actualSpecialties],
-      [
-        "canonicalized legacy subcategoryIds -> DoctorCategory",
-        doctor.categoryIds,
-        actualCategories,
-      ],
-      [
-        "procedure-derived DoctorSubcategory",
-        doctor.derivedSubcategoryIds,
-        actualSubcategories,
-      ],
-      ["procedureIds", doctor.procedureIds, actualProcedures],
-      ["topThree", doctor.topThree, actualTopThree],
-    ];
-
-    for (const [name, expected, actual] of comparisons) {
-      if (
-        expected.length !== actual.length ||
-        expected.some((value, index) => value !== actual[index])
-      ) {
-        errors.push(
-          `${label} ${name} parity mismatch. Expected [${expected.join(", ")}], got [${actual.join(", ")}].`,
-        );
+    for (const id of doctor.specialtyIds) {
+      if (!specialtyKeys.has(relationKey(doctor.id, id))) {
+        errors.push(`${label(doctor)} missing DoctorSpecialty "${id}".`);
       }
     }
-
-    for (const row of procedureRows) {
-      const key = relationKey(row.doctorProfileId, row.procedureId);
-
-      if (!pricesBefore.has(key)) {
-        continue;
+    for (const id of doctor.categoryIds) {
+      if (!categoryKeys.has(relationKey(doctor.id, id))) {
+        errors.push(`${label(doctor)} missing DoctorCategory "${id}".`);
       }
-
-      const before = pricesBefore.get(key);
-      const after = row.price === null ? null : String(row.price);
-
-      if (before !== after) {
-        errors.push(
-          `${label} price changed unexpectedly for procedure "${row.procedureId}".`,
-        );
+    }
+    for (const id of doctor.derivedSubcategoryIds) {
+      if (!subcategoryKeys.has(relationKey(doctor.id, id))) {
+        errors.push(`${label(doctor)} missing DoctorSubcategory "${id}".`);
+      }
+    }
+    for (const id of doctor.procedureIds) {
+      if (!procedureMap.has(relationKey(doctor.id, id))) {
+        errors.push(`${label(doctor)} missing DoctorProcedure "${id}".`);
       }
     }
   }
 
-  if (errors.length > 0) {
+  for (const [key, beforePrice] of pricesBefore) {
+    const row = procedureMap.get(key);
+    if (!row) {
+      errors.push(`Existing DoctorProcedure ${key} disappeared.`);
+      continue;
+    }
+
+    const afterPrice = row.price === null ? null : String(row.price);
+    if (beforePrice !== afterPrice) {
+      errors.push(`Existing DoctorProcedure price changed for ${key}.`);
+    }
+  }
+
+  for (const [key, expectedRank] of topRankAssignments) {
+    const row = procedureMap.get(key);
+    if (!row || row.topRank !== expectedRank) {
+      errors.push(
+        `Expected ${key} to have topRank ${expectedRank}, got ${row?.topRank ?? "missing"}.`,
+      );
+    }
+  }
+
+  if (errors.length) {
     throw new Error(
-      `Parity verification failed with ${errors.length} issue(s):\n- ${errors.join("\n- ")}`,
+      `Backfill verification failed with ${errors.length} issue(s):\n- ${errors.join("\n- ")}`,
     );
   }
 }
 
 async function backfill(
-  prisma: PrismaClientLike,
+  prisma: any,
   doctors: PreparedDoctor[],
   pricesBefore: Map<string, string | null>,
-): Promise<void> {
+  topRankAssignments: Map<string, number>,
+) {
   await prisma.$transaction(
-    async (transaction) => {
+    async (tx: any) => {
       for (const doctor of doctors) {
         for (const [position, specialtyId] of doctor.specialtyIds.entries()) {
-          await transaction.doctorSpecialty.upsert({
+          await tx.doctorSpecialty.upsert({
             where: {
               doctorProfileId_specialtyId: {
                 doctorProfileId: doctor.id,
@@ -1007,16 +615,13 @@ async function backfill(
               },
             },
             update: { position },
-            create: {
-              doctorProfileId: doctor.id,
-              specialtyId,
-              position,
-            },
+            create: { doctorProfileId: doctor.id, specialtyId, position },
           });
         }
 
+        // Legacy subcategoryIds -> DoctorCategory (intentional).
         for (const [position, categoryId] of doctor.categoryIds.entries()) {
-          await transaction.doctorCategory.upsert({
+          await tx.doctorCategory.upsert({
             where: {
               doctorProfileId_categoryId: {
                 doctorProfileId: doctor.id,
@@ -1024,19 +629,12 @@ async function backfill(
               },
             },
             update: { position },
-            create: {
-              doctorProfileId: doctor.id,
-              categoryId,
-              position,
-            },
+            create: { doctorProfileId: doctor.id, categoryId, position },
           });
         }
 
-        for (const [
-          position,
-          subcategoryId,
-        ] of doctor.derivedSubcategoryIds.entries()) {
-          await transaction.doctorSubcategory.upsert({
+        for (const [position, subcategoryId] of doctor.derivedSubcategoryIds.entries()) {
+          await tx.doctorSubcategory.upsert({
             where: {
               doctorProfileId_subcategoryId: {
                 doctorProfileId: doctor.id,
@@ -1044,30 +642,19 @@ async function backfill(
               },
             },
             update: { position },
-            create: {
-              doctorProfileId: doctor.id,
-              subcategoryId,
-              position,
-            },
+            create: { doctorProfileId: doctor.id, subcategoryId, position },
           });
         }
 
-        // Clear ranks first so swapped top-three positions cannot violate the
-        // unique (doctorProfileId, topRank) constraint during a rerun.
-        await transaction.doctorProcedure.updateMany({
-          where: { doctorProfileId: doctor.id },
-          data: { topRank: null },
-        });
-
         for (const [position, procedureId] of doctor.procedureIds.entries()) {
-          await transaction.doctorProcedure.upsert({
+          await tx.doctorProcedure.upsert({
             where: {
               doctorProfileId_procedureId: {
                 doctorProfileId: doctor.id,
                 procedureId,
               },
             },
-            // Deliberately omit price so a rerun preserves doctor pricing.
+            // Preserve existing price and topRank.
             update: { position },
             create: {
               doctorProfileId: doctor.id,
@@ -1079,30 +666,32 @@ async function backfill(
           });
         }
 
-        for (const [index, procedureId] of doctor.topThree.entries()) {
-          await transaction.doctorProcedure.update({
+        for (const procedureId of doctor.topThree) {
+          const desiredRank = topRankAssignments.get(
+            relationKey(doctor.id, procedureId),
+          );
+
+          if (desiredRank === undefined) continue;
+
+          await tx.doctorProcedure.update({
             where: {
               doctorProfileId_procedureId: {
                 doctorProfileId: doctor.id,
                 procedureId,
               },
             },
-            data: { topRank: index + 1 },
+            data: { topRank: desiredRank },
           });
         }
       }
 
-      const stateAfter = await loadState(transaction);
-      verifyParity(doctors, stateAfter, pricesBefore);
+      await verify(tx, doctors, pricesBefore, topRankAssignments);
     },
-    {
-      maxWait: 30_000,
-      timeout: 300_000,
-    },
+    { maxWait: 30_000, timeout: 300_000 },
   );
 }
 
-async function main(): Promise<void> {
+async function main() {
   const options = parseArgs(process.argv.slice(2));
 
   if (options.help) {
@@ -1115,17 +704,12 @@ async function main(): Promise<void> {
   }
 
   loadEnvConfig(process.cwd(), process.env.NODE_ENV !== "production");
-
   console.log(`Database target: ${databaseTarget()}`);
 
   const prismaModule = await importModule(options.prismaModulePath);
-  const prisma = prismaModule.prisma as PrismaClientLike | undefined;
+  const prisma = prismaModule.prisma as any;
 
-  if (
-    !prisma ||
-    typeof prisma.$transaction !== "function" ||
-    typeof prisma.$disconnect !== "function"
-  ) {
+  if (!prisma?.$transaction || !prisma?.$disconnect) {
     throw new Error(
       `The Prisma module "${options.prismaModulePath}" must export the configured client as "prisma".`,
     );
@@ -1133,22 +717,33 @@ async function main(): Promise<void> {
 
   try {
     const state = await loadState(prisma);
-    const doctors = validateSource(state);
-    const summary = summarize(doctors, state);
+    const doctors = prepareDoctors(state);
     const pricesBefore = priceSnapshot(state.doctorProcedures);
+    const { assignments, conflicts } = planTopRanks(
+      doctors,
+      state.doctorProcedures,
+    );
 
-    printSummary("Doctor relation backfill validation passed.", summary);
-    printLegacyCategoryMappings(doctors);
-    printMultiParentProcedures(doctors);
+    printSummary(doctors, state);
+
+    if (conflicts.length) {
+      console.log(
+        "Legacy topThree values not applied because newer relational topRank data already exists:",
+      );
+      console.table(conflicts);
+    }
+
+    console.log(`Safe legacy topThree ranks to migrate: ${assignments.size}`);
 
     if (options.dryRun) {
       console.log("Dry run complete. The database was not changed.");
       return;
     }
 
-    await backfill(prisma, doctors, pricesBefore);
+    await backfill(prisma, doctors, pricesBefore, assignments);
+
     console.log(
-      `Doctor relation backfill completed with exact parity for ${doctors.length} doctor profile(s).`,
+      `Additive doctor catalogue backfill completed for ${doctors.length} doctor profile(s). Existing relational selections and prices were preserved.`,
     );
   } finally {
     await prisma.$disconnect();

@@ -19,13 +19,8 @@ function readOptionalString(
   value: unknown,
   fieldName: string
 ): string | null | undefined {
-  if (value === undefined) {
-    return undefined;
-  }
-
-  if (value === null) {
-    return null;
-  }
+  if (value === undefined) return undefined;
+  if (value === null) return null;
 
   if (typeof value !== "string") {
     throw new ApiError(
@@ -64,93 +59,95 @@ async function requireAdminSession(): Promise<void> {
 
 /*
  * GET
- * Returns every doctor, including doctors with no cases.
  */
-export const GET = withApiHandler(
-  async () => {
-    await requireAdminSession();
+export const GET = withApiHandler(async () => {
+  await requireAdminSession();
 
-    const [doctorProfiles, cases] =
-      await Promise.all([
-        prisma.doctorProfile.findMany({
-          select: {
-            id: true,
-            userId: true,
-            clinicName: true,
-            avatar: true,
-            procedureIds: true,
+  const [doctorProfiles, cases] =
+    await Promise.all([
+      prisma.doctorProfile.findMany({
+        select: {
+          id: true,
+          userId: true,
+          clinicName: true,
+          avatar: true,
 
-            user: {
-              select: {
-                name: true,
-                email: true,
-              },
+          procedures: {
+            select: {
+              procedureId: true,
+            },
+            orderBy: {
+              position: "asc",
             },
           },
 
-          orderBy: {
-            createdAt: "desc",
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
           },
-        }),
+        },
 
-        prisma.beforeAfterCase.findMany({
-          orderBy: {
-            createdAt: "desc",
-          },
-        }),
-      ]);
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
 
-    const casesByDoctorId = new Map<
-      string,
-      typeof cases
-    >();
+      prisma.beforeAfterCase.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+    ]);
 
-    for (const beforeAfterCase of cases) {
-      const currentCases =
-        casesByDoctorId.get(
-          beforeAfterCase.doctorId
-        ) ?? [];
+  const casesByDoctorId = new Map<
+    string,
+    typeof cases
+  >();
 
-      currentCases.push(beforeAfterCase);
+  for (const beforeAfterCase of cases) {
+    const currentCases =
+      casesByDoctorId.get(
+        beforeAfterCase.doctorId
+      ) ?? [];
 
-      casesByDoctorId.set(
-        beforeAfterCase.doctorId,
-        currentCases
-      );
-    }
+    currentCases.push(beforeAfterCase);
 
-    const doctors = doctorProfiles.map(
-      (doctorProfile) => {
-        return {
-          doctorProfileId: doctorProfile.id,
-
-          /*
-           * This is the value the existing
-           * BeforeAfterUploadModal expects.
-           */
-          doctorId: doctorProfile.userId,
-
-          name: doctorProfile.user.name,
-          email: doctorProfile.user.email,
-          clinicName:
-            doctorProfile.clinicName,
-          avatar: doctorProfile.avatar,
-          procedureIds:
-            doctorProfile.procedureIds,
-
-          cases:
-            casesByDoctorId.get(
-              doctorProfile.userId
-            ) ?? [],
-        };
-      }
+    casesByDoctorId.set(
+      beforeAfterCase.doctorId,
+      currentCases
     );
-
-    return apiSuccess({
-      doctors,
-    });
   }
-);
+
+  const doctors = doctorProfiles.map(
+    (doctorProfile) => ({
+      doctorProfileId: doctorProfile.id,
+
+      // Existing gallery system still uses User.id here.
+      doctorId: doctorProfile.userId,
+
+      name: doctorProfile.user.name,
+      email: doctorProfile.user.email,
+      clinicName: doctorProfile.clinicName,
+      avatar: doctorProfile.avatar,
+
+      procedureIds:
+        doctorProfile.procedures.map(
+          (item) => item.procedureId
+        ),
+
+      cases:
+        casesByDoctorId.get(
+          doctorProfile.userId
+        ) ?? [],
+    })
+  );
+
+  return apiSuccess({
+    doctors,
+  });
+});
 
 /*
  * POST
@@ -190,7 +187,12 @@ export const POST = withApiHandler(
 
         select: {
           userId: true,
-          procedureIds: true,
+
+          procedures: {
+            select: {
+              procedureId: true,
+            },
+          },
         },
       });
 
@@ -207,17 +209,13 @@ export const POST = withApiHandler(
       "Title"
     );
 
-    /*
-     * The UI can call this Description,
-     * but the schema stores it as notes.
-     */
     const notes = readOptionalString(
       body.notes ?? body.description,
       "Description"
     );
 
-    const procedure = readOptionalString(
-      body.procedure,
+    const procedureId = readOptionalString(
+      body.procedureId,
       "Procedure"
     );
 
@@ -231,11 +229,14 @@ export const POST = withApiHandler(
       "After image"
     );
 
+    const doctorProcedureIds =
+      doctorProfile.procedures.map(
+        (item) => item.procedureId
+      );
+
     if (
-      procedure &&
-      !doctorProfile.procedureIds.includes(
-        procedure
-      )
+      procedureId &&
+      !doctorProcedureIds.includes(procedureId)
     ) {
       throw new ApiError(
         "The selected procedure is not associated with this doctor.",
@@ -260,11 +261,14 @@ export const POST = withApiHandler(
         data: {
           doctorId,
           patientId: null,
+
           title: title ?? null,
           notes: notes ?? null,
-          procedure: procedure ?? null,
+          procedureId: procedureId ?? null,
+
           beforeImage: beforeImage ?? null,
           afterImage: afterImage ?? null,
+
           isPublic:
             typeof body.isPublic === "boolean"
               ? body.isPublic
@@ -279,7 +283,7 @@ export const POST = withApiHandler(
 );
 
 /*
- * DELETE /api/admin/before-after?id=CASE_ID
+ * DELETE
  */
 export const DELETE = withApiHandler(
   async (req: Request) => {
@@ -339,24 +343,19 @@ export const DELETE = withApiHandler(
       ].filter(
         (
           objectPath: string | null
-        ): objectPath is string => {
-          return (
-            typeof objectPath === "string" &&
-            objectPath.length > 0
-          );
-        }
+        ): objectPath is string =>
+          typeof objectPath === "string" &&
+          objectPath.length > 0
       );
 
       const deleteResults =
         await Promise.allSettled(
-          objectPaths.map(
-            (objectPath: string) => {
-              return bucket
-                .file(objectPath)
-                .delete({
-                  ignoreNotFound: true,
-                });
-            }
+          objectPaths.map((objectPath) =>
+            bucket
+              .file(objectPath)
+              .delete({
+                ignoreNotFound: true,
+              })
           )
         );
 
@@ -404,14 +403,6 @@ export const PATCH = withApiHandler(
       );
     }
 
-    if (typeof body.isPublic !== "boolean") {
-      throw new ApiError(
-        "isPublic must be a boolean.",
-        400,
-        "INVALID_PUBLIC_STATUS"
-      );
-    }
-
     const caseId = body.id.trim();
 
     const existingCase =
@@ -433,6 +424,52 @@ export const PATCH = withApiHandler(
       );
     }
 
+    const title = readOptionalString(
+      body.title,
+      "Title"
+    );
+
+    const notes = readOptionalString(
+      body.notes ?? body.description,
+      "Description"
+    );
+
+    const procedureId = readOptionalString(
+      body.procedureId,
+      "Procedure"
+    );
+
+    if (procedureId) {
+      const procedureExists =
+        await prisma.procedure.findUnique({
+          where: {
+            id: procedureId,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+      if (!procedureExists) {
+        throw new ApiError(
+          "Procedure not found.",
+          404,
+          "PROCEDURE_NOT_FOUND"
+        );
+      }
+    }
+
+    if (
+      body.isPublic !== undefined &&
+      typeof body.isPublic !== "boolean"
+    ) {
+      throw new ApiError(
+        "isPublic must be a boolean.",
+        400,
+        "INVALID_PUBLIC_STATUS"
+      );
+    }
+
     const beforeAfterCase =
       await prisma.beforeAfterCase.update({
         where: {
@@ -440,14 +477,28 @@ export const PATCH = withApiHandler(
         },
 
         data: {
-          isPublic: body.isPublic,
+          ...(title !== undefined && {
+            title,
+          }),
+
+          ...(notes !== undefined && {
+            notes,
+          }),
+
+          ...(procedureId !== undefined && {
+            procedureId,
+          }),
+
+          ...(body.isPublic !== undefined && {
+            isPublic: body.isPublic,
+          }),
         },
 
         select: {
           id: true,
           doctorId: true,
           patientId: true,
-          procedure: true,
+          procedureId: true,
           notes: true,
           title: true,
           isPublic: true,
