@@ -487,7 +487,7 @@ export default function ExpertiseSection({
             setIsModalOpen(false)
           }
           onSaved={({
-            subcategoryIds: updatedCategoryIds,
+            categoryIds: updatedCategoryIds,
             procedureIds: updatedProcedureIds,
           }) => {
             setSelectedCategoryIds(
