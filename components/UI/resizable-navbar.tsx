@@ -75,16 +75,30 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   );
 };
 
-export const NavBody = ({ children, className, visible }: NavBodyProps) => {
+export const NavBody = ({
+  children,
+  className,
+  visible,
+}: NavBodyProps) => {
   return (
     <motion.div
       animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
+        backdropFilter: visible
+          ? "blur(10px)"
+          : "none",
+
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
-        width: visible ? "40%" : "100%",
-        y: visible ? 20 : 0,
+
+        // Was 40%
+        width: visible
+          ? "75%"
+          : "100%",
+
+        y: visible
+          ? 20
+          : 0,
       }}
       transition={{
         type: "spring",
@@ -92,11 +106,13 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         damping: 50,
       }}
       style={{
-        minWidth: "800px",
+        // Gives the center nav more room
+        minWidth: "900px",
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex",
-        visible && "bg-[#283C5D]/70",
+        "relative z-[60] mx-auto hidden w-full max-w-[90rem] flex-row items-center justify-between self-start rounded-full bg-transparent px-3 py-2 lg:flex",
+        visible &&
+          "bg-[#283C5D]/70",
         className,
       )}
     >
@@ -116,7 +132,7 @@ export const NavItems = ({ items, className, onItemClick, visible }: NavItemsPro
         setDropdownOpen(null);
       }}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium transition duration-200 lg:flex lg:space-x-2",
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center gap-1 text-sm font-medium transition duration-200 lg:flex xl:gap-2",
         className,
       )}
     >
@@ -134,7 +150,7 @@ export const NavItems = ({ items, className, onItemClick, visible }: NavItemsPro
             <button
               type="button"
               className={cn(
-                "relative px-4 py-2 cursor-pointer flex items-center gap-1 transition-colors duration-300",
+                "relative px-3 py-2 cursor-pointer flex items-center gap-1 whitespace-nowrap transition-colors duration-300 xl:px-4",
                 visible ? "text-white" : "text-white"
               )}
             >
@@ -192,7 +208,7 @@ export const NavItems = ({ items, className, onItemClick, visible }: NavItemsPro
             }}
             onClick={onItemClick}
             className={cn(
-              "relative px-4 py-2 cursor-pointer flex items-center gap-1 transition-colors duration-300",
+              "relative px-3 py-2 cursor-pointer flex items-center gap-1 whitespace-nowrap transition-colors duration-300 xl:px-4",
               visible ? "text-[#283C5D]" : "text-white"
             )}
             href={item.link}

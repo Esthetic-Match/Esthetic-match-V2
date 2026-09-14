@@ -13,6 +13,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     messages: {
       admin: (await import(`../messages/${locale}/admin.json`)).default,
       home: (await import(`../messages/${locale}/home.json`)).default,
+      lumi: (await import(`../messages/${locale}/lumi.json`)).default,
       signIn: (await import(`../messages/${locale}/signin.json`)).default,
       signUp: (await import(`../messages/${locale}/signup.json`)).default,
       onboarding: (await import(`../messages/${locale}/onboarding.json`)).default,

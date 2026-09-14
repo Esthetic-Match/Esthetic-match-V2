@@ -39,8 +39,8 @@ const navItems = [
       { name: t("doctorsNearMe"), link: `/doctors/nearme` },
     ],
   },
+  { name: t("lumi"), link: "/lumi" },
   { name: t("categories"), link: "/categories" },
-  { name: t("contact"), link: "/contact" },
   { name: t("faq"), link: "/faq" },
 ];
 
@@ -63,7 +63,7 @@ const navItems = [
           <NavbarLogo />
           <NavItems items={navItems} />
 
-          <div className="flex items-center gap-4">
+          <div className="flex shrink-0 items-center gap-2 xl:gap-3">
             <LanguageSwitcher />
 
             {!isPending && session ? (
@@ -117,7 +117,7 @@ const navItems = [
               <NavbarButton
                 href={authHref}
                 variant="secondary"
-                className="bg-white hover:bg-[#283C5D] cursor-pointer hover:text-white active:scale-[0.97]"
+                className="bg-white hover:bg-[#283C5D] border border-black/10 cursor-pointer hover:text-white active:scale-[0.97]"
               >
                 {t("signIn")}
               </NavbarButton>

@@ -574,21 +574,34 @@ export async function POST(
         doctors,
       );
 
-    let answer:
-      | string
-      | null = null;
 
-    let generationWarning:
-      | string
-      | null = null;
+type GeneratedRecommendation = {
+  answer: string;
 
-    try {
-      const response =
-        await ai.models.generateContent({
-          model:
-            CHAT_MODEL,
+  procedureInsights: {
+    procedureId: string;
+    description: string;
+  }[];
+};
 
-          contents: `
+let answer: string | null =
+  null;
+
+let procedureInsights: {
+  procedureId: string;
+  description: string;
+}[] = [];
+
+let generationWarning:
+  | string
+  | null = null;
+
+try {
+  const response =
+    await ai.models.generateContent({
+      model: CHAT_MODEL,
+
+      contents: `
 PATIENT MESSAGE:
 
 ${query}
@@ -601,64 +614,134 @@ ${JSON.stringify(
   null,
   2,
 )}
-          `.trim(),
+      `.trim(),
 
-          config: {
-            systemInstruction: `
-You are the Esthetic Match educational assistant.
+      config: {
+        responseMimeType:
+          "application/json",
 
-Your job is to help a user understand which aesthetic procedures may be relevant to the concern they described and which doctors in the Esthetic Match database may be relevant.
+        responseSchema: {
+          type: "object",
 
-CRITICAL GROUNDING RULES:
+          properties: {
+            answer: {
+              type: "string",
+              description:
+                "A concise overall response to the patient's concern. Do not list doctors or procedures here in detail because they will be displayed separately.",
+            },
 
-- Use ONLY the procedures and doctors supplied in RETRIEVED ESTHETIC MATCH DATA.
-- Never invent a procedure.
-- Never invent a doctor.
-- Never invent doctor qualifications, prices, locations, ratings, experience, treatments, or availability.
-- Never claim that a procedure is definitely suitable for the patient.
-- Never diagnose a medical condition.
-- Never guarantee results.
-- Never state that a doctor is "the best".
-- Retrieval similarity is relevance evidence, not proof of medical suitability.
-- A doctor's presence in the results means they matched the catalogue data; it is not a medical endorsement.
-- If there are no doctors in the supplied data, clearly say that no matching doctors were found in the current Esthetic Match database.
-- Do not recommend procedures that are not present in the supplied procedure results.
-- Do not recommend doctors that are not present in the supplied doctor results.
+            procedureInsights: {
+              type: "array",
 
-RESPONSE STYLE:
+              items: {
+                type: "object",
 
-1. Briefly acknowledge the user's stated concern.
-2. Explain the 2-3 most relevant retrieved procedures in simple language.
-3. Explain why each may relate to the concern without presenting it as medical advice.
-4. Then mention up to 3 retrieved doctors who offer relevant matched procedures.
-5. Mention useful factual information when available, such as location, years of experience, ratings, or online consultation availability.
-6. Keep the answer concise and easy to understand.
-7. Finish by explaining that suitability needs to be confirmed through consultation with a qualified medical professional.
+                properties: {
+                  procedureId: {
+                    type: "string",
+                    description:
+                      "The exact procedure ID from the retrieved data.",
+                  },
 
-${getLanguageInstruction(
-  locale,
-)}
-            `.trim(),
+                  description: {
+                    type: "string",
+                    description:
+                      "A concise patient-friendly explanation, ideally 1-3 sentences, explaining why this specific procedure may be relevant to the concern.",
+                  },
+                },
+
+                required: [
+                  "procedureId",
+                  "description",
+                ],
+              },
+            },
           },
-        });
 
-      answer =
-        response.text?.trim() ??
-        null;
-    } catch (error) {
-      /*
-       * Don't throw away successful
-       * retrieval because Gemini happens
-       * to hit a rate limit.
-       */
-      console.error(
-        "Gemini recommendation generation failed:",
-        error,
-      );
+          required: [
+            "answer",
+            "procedureInsights",
+          ],
+        },
 
-      generationWarning =
-        "Procedure and doctor retrieval succeeded, but the AI explanation could not be generated.";
-    }
+        systemInstruction: `
+You are Lumi, the Esthetic Match educational assistant.
+
+Use ONLY the procedures and doctors supplied in the retrieved Esthetic Match data.
+
+The interface will separately display procedure cards and doctor cards.
+
+Therefore:
+
+- The "answer" should be a concise overall explanation of the user's concern and the general treatment direction.
+- Do not repeat a long list of procedures inside the answer.
+- Do not repeat a long list of doctors inside the answer.
+- Keep the answer clear, warm, elegant and useful.
+- Do not diagnose.
+- Do not guarantee results.
+- Do not claim a procedure is definitely suitable.
+- Never invent procedures or doctors.
+
+For "procedureInsights":
+
+- Return one item for each of the most relevant retrieved procedures.
+- procedureId MUST exactly match a procedure ID supplied in the retrieved data.
+- Each description should explain why that procedure may relate to THIS user's concern.
+- Keep each description concise: roughly 1-3 sentences.
+- Do not provide generic catalogue copy.
+- Do not claim medical suitability.
+- Do not invent benefits unsupported by the retrieved data.
+
+${getLanguageInstruction(locale)}
+        `.trim(),
+      },
+    });
+
+  if (!response.text) {
+    throw new Error(
+      "Gemini returned no response.",
+    );
+  }
+
+  const generated =
+    JSON.parse(
+      response.text,
+    ) as GeneratedRecommendation;
+
+  answer =
+    generated.answer?.trim() ||
+    null;
+
+  const validProcedureIds =
+    new Set(
+      procedures.map(
+        (procedure) =>
+          procedure.procedureId,
+      ),
+    );
+
+  procedureInsights =
+    (
+      generated.procedureInsights ??
+      []
+    ).filter(
+      (insight) =>
+        validProcedureIds.has(
+          insight.procedureId,
+        ) &&
+        Boolean(
+          insight.description?.trim(),
+        ),
+    );
+} catch (error) {
+  console.error(
+    "Gemini recommendation generation failed:",
+    error,
+  );
+
+  generationWarning =
+    "Procedure and doctor retrieval succeeded, but the AI explanation could not be generated.";
+}
 
     return NextResponse.json({
       success: true,
@@ -667,6 +750,7 @@ ${getLanguageInstruction(
       locale,
 
       answer,
+      procedureInsights,
 
       ...(generationWarning
         ? {
@@ -688,7 +772,6 @@ ${getLanguageInstruction(
       },
 
       procedures,
-
       doctors,
     });
   } catch (error) {
