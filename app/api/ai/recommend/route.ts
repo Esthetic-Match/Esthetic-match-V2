@@ -170,11 +170,35 @@ async function postInternal<T>(
   path: string,
   body: unknown,
 ): Promise<T> {
-  const url =
-    new URL(
-      path,
-      request.nextUrl.origin,
+  const forwardedHost =
+    request.headers.get(
+      "x-forwarded-host",
     );
+
+  const host =
+    forwardedHost ??
+    request.headers.get("host");
+
+  const forwardedProto =
+    request.headers.get(
+      "x-forwarded-proto",
+    );
+
+  const protocol =
+    forwardedProto ??
+    (process.env.NODE_ENV ===
+    "production"
+      ? "https"
+      : "http");
+
+  if (!host) {
+    throw new Error(
+      "Unable to determine application host.",
+    );
+  }
+
+  const url =
+    `${protocol}://${host}${path}`;
 
   const response =
     await fetch(url, {
