@@ -178,6 +178,7 @@ export type ProcedureWhereInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryListRelationFilter
   doctors?: Prisma.DoctorProcedureListRelationFilter
   beforeAfterCases?: Prisma.BeforeAfterCaseListRelationFilter
+  embedding?: Prisma.XOR<Prisma.ProcedureEmbeddingNullableScalarRelationFilter, Prisma.ProcedureEmbeddingWhereInput> | null
 }
 
 export type ProcedureOrderByWithRelationInput = {
@@ -189,6 +190,7 @@ export type ProcedureOrderByWithRelationInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryOrderByRelationAggregateInput
   doctors?: Prisma.DoctorProcedureOrderByRelationAggregateInput
   beforeAfterCases?: Prisma.BeforeAfterCaseOrderByRelationAggregateInput
+  embedding?: Prisma.ProcedureEmbeddingOrderByWithRelationInput
 }
 
 export type ProcedureWhereUniqueInput = Prisma.AtLeast<{
@@ -203,6 +205,7 @@ export type ProcedureWhereUniqueInput = Prisma.AtLeast<{
   subcategoryLinks?: Prisma.ProcedureSubcategoryListRelationFilter
   doctors?: Prisma.DoctorProcedureListRelationFilter
   beforeAfterCases?: Prisma.BeforeAfterCaseListRelationFilter
+  embedding?: Prisma.XOR<Prisma.ProcedureEmbeddingNullableScalarRelationFilter, Prisma.ProcedureEmbeddingWhereInput> | null
 }, "id">
 
 export type ProcedureOrderByWithAggregationInput = {
@@ -234,6 +237,7 @@ export type ProcedureCreateInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureUncheckedCreateInput = {
@@ -245,6 +249,7 @@ export type ProcedureUncheckedCreateInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureUpdateInput = {
@@ -256,6 +261,7 @@ export type ProcedureUpdateInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureUncheckedUpdateInput = {
@@ -267,6 +273,7 @@ export type ProcedureUncheckedUpdateInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureCreateManyInput = {
@@ -335,6 +342,14 @@ export type ProcedureUpdateOneRequiredWithoutTranslationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProcedureUpdateToOneWithWhereWithoutTranslationsInput, Prisma.ProcedureUpdateWithoutTranslationsInput>, Prisma.ProcedureUncheckedUpdateWithoutTranslationsInput>
 }
 
+export type ProcedureUpdateOneRequiredWithoutEmbeddingNestedInput = {
+  create?: Prisma.XOR<Prisma.ProcedureCreateWithoutEmbeddingInput, Prisma.ProcedureUncheckedCreateWithoutEmbeddingInput>
+  connectOrCreate?: Prisma.ProcedureCreateOrConnectWithoutEmbeddingInput
+  upsert?: Prisma.ProcedureUpsertWithoutEmbeddingInput
+  connect?: Prisma.ProcedureWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProcedureUpdateToOneWithWhereWithoutEmbeddingInput, Prisma.ProcedureUpdateWithoutEmbeddingInput>, Prisma.ProcedureUncheckedUpdateWithoutEmbeddingInput>
+}
+
 export type ProcedureCreateNestedOneWithoutSubcategoryLinksInput = {
   create?: Prisma.XOR<Prisma.ProcedureCreateWithoutSubcategoryLinksInput, Prisma.ProcedureUncheckedCreateWithoutSubcategoryLinksInput>
   connectOrCreate?: Prisma.ProcedureCreateOrConnectWithoutSubcategoryLinksInput
@@ -387,6 +402,7 @@ export type ProcedureCreateWithoutTranslationsInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureUncheckedCreateWithoutTranslationsInput = {
@@ -397,6 +413,7 @@ export type ProcedureUncheckedCreateWithoutTranslationsInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureCreateOrConnectWithoutTranslationsInput = {
@@ -423,6 +440,7 @@ export type ProcedureUpdateWithoutTranslationsInput = {
   subcategoryLinks?: Prisma.ProcedureSubcategoryUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureUncheckedUpdateWithoutTranslationsInput = {
@@ -430,6 +448,67 @@ export type ProcedureUncheckedUpdateWithoutTranslationsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedUpdateManyWithoutProcedureNestedInput
+  doctors?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutProcedureNestedInput
+  beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedUpdateOneWithoutProcedureNestedInput
+}
+
+export type ProcedureCreateWithoutEmbeddingInput = {
+  id: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.ProcedureTranslationCreateNestedManyWithoutProcedureInput
+  subcategoryLinks?: Prisma.ProcedureSubcategoryCreateNestedManyWithoutProcedureInput
+  doctors?: Prisma.DoctorProcedureCreateNestedManyWithoutProcedureInput
+  beforeAfterCases?: Prisma.BeforeAfterCaseCreateNestedManyWithoutProcedureInput
+}
+
+export type ProcedureUncheckedCreateWithoutEmbeddingInput = {
+  id: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  translations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutProcedureInput
+  subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedCreateNestedManyWithoutProcedureInput
+  doctors?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutProcedureInput
+  beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedCreateNestedManyWithoutProcedureInput
+}
+
+export type ProcedureCreateOrConnectWithoutEmbeddingInput = {
+  where: Prisma.ProcedureWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProcedureCreateWithoutEmbeddingInput, Prisma.ProcedureUncheckedCreateWithoutEmbeddingInput>
+}
+
+export type ProcedureUpsertWithoutEmbeddingInput = {
+  update: Prisma.XOR<Prisma.ProcedureUpdateWithoutEmbeddingInput, Prisma.ProcedureUncheckedUpdateWithoutEmbeddingInput>
+  create: Prisma.XOR<Prisma.ProcedureCreateWithoutEmbeddingInput, Prisma.ProcedureUncheckedCreateWithoutEmbeddingInput>
+  where?: Prisma.ProcedureWhereInput
+}
+
+export type ProcedureUpdateToOneWithWhereWithoutEmbeddingInput = {
+  where?: Prisma.ProcedureWhereInput
+  data: Prisma.XOR<Prisma.ProcedureUpdateWithoutEmbeddingInput, Prisma.ProcedureUncheckedUpdateWithoutEmbeddingInput>
+}
+
+export type ProcedureUpdateWithoutEmbeddingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.ProcedureTranslationUpdateManyWithoutProcedureNestedInput
+  subcategoryLinks?: Prisma.ProcedureSubcategoryUpdateManyWithoutProcedureNestedInput
+  doctors?: Prisma.DoctorProcedureUpdateManyWithoutProcedureNestedInput
+  beforeAfterCases?: Prisma.BeforeAfterCaseUpdateManyWithoutProcedureNestedInput
+}
+
+export type ProcedureUncheckedUpdateWithoutEmbeddingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutProcedureNestedInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedUpdateManyWithoutProcedureNestedInput
@@ -443,6 +522,7 @@ export type ProcedureCreateWithoutSubcategoryLinksInput = {
   translations?: Prisma.ProcedureTranslationCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureUncheckedCreateWithoutSubcategoryLinksInput = {
@@ -453,6 +533,7 @@ export type ProcedureUncheckedCreateWithoutSubcategoryLinksInput = {
   translations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureCreateOrConnectWithoutSubcategoryLinksInput = {
@@ -479,6 +560,7 @@ export type ProcedureUpdateWithoutSubcategoryLinksInput = {
   translations?: Prisma.ProcedureTranslationUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureUncheckedUpdateWithoutSubcategoryLinksInput = {
@@ -489,6 +571,7 @@ export type ProcedureUncheckedUpdateWithoutSubcategoryLinksInput = {
   translations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureCreateWithoutDoctorsInput = {
@@ -499,6 +582,7 @@ export type ProcedureCreateWithoutDoctorsInput = {
   translations?: Prisma.ProcedureTranslationCreateNestedManyWithoutProcedureInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureUncheckedCreateWithoutDoctorsInput = {
@@ -509,6 +593,7 @@ export type ProcedureUncheckedCreateWithoutDoctorsInput = {
   translations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutProcedureInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedCreateNestedManyWithoutProcedureInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureCreateOrConnectWithoutDoctorsInput = {
@@ -535,6 +620,7 @@ export type ProcedureUpdateWithoutDoctorsInput = {
   translations?: Prisma.ProcedureTranslationUpdateManyWithoutProcedureNestedInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureUncheckedUpdateWithoutDoctorsInput = {
@@ -545,6 +631,7 @@ export type ProcedureUncheckedUpdateWithoutDoctorsInput = {
   translations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutProcedureNestedInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedUpdateManyWithoutProcedureNestedInput
   beforeAfterCases?: Prisma.BeforeAfterCaseUncheckedUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureCreateWithoutBeforeAfterCasesInput = {
@@ -555,6 +642,7 @@ export type ProcedureCreateWithoutBeforeAfterCasesInput = {
   translations?: Prisma.ProcedureTranslationCreateNestedManyWithoutProcedureInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureUncheckedCreateWithoutBeforeAfterCasesInput = {
@@ -565,6 +653,7 @@ export type ProcedureUncheckedCreateWithoutBeforeAfterCasesInput = {
   translations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutProcedureInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedCreateNestedManyWithoutProcedureInput
   doctors?: Prisma.DoctorProcedureUncheckedCreateNestedManyWithoutProcedureInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedCreateNestedOneWithoutProcedureInput
 }
 
 export type ProcedureCreateOrConnectWithoutBeforeAfterCasesInput = {
@@ -591,6 +680,7 @@ export type ProcedureUpdateWithoutBeforeAfterCasesInput = {
   translations?: Prisma.ProcedureTranslationUpdateManyWithoutProcedureNestedInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUpdateOneWithoutProcedureNestedInput
 }
 
 export type ProcedureUncheckedUpdateWithoutBeforeAfterCasesInput = {
@@ -601,6 +691,7 @@ export type ProcedureUncheckedUpdateWithoutBeforeAfterCasesInput = {
   translations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutProcedureNestedInput
   subcategoryLinks?: Prisma.ProcedureSubcategoryUncheckedUpdateManyWithoutProcedureNestedInput
   doctors?: Prisma.DoctorProcedureUncheckedUpdateManyWithoutProcedureNestedInput
+  embedding?: Prisma.ProcedureEmbeddingUncheckedUpdateOneWithoutProcedureNestedInput
 }
 
 
@@ -670,6 +761,7 @@ export type ProcedureSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   subcategoryLinks?: boolean | Prisma.Procedure$subcategoryLinksArgs<ExtArgs>
   doctors?: boolean | Prisma.Procedure$doctorsArgs<ExtArgs>
   beforeAfterCases?: boolean | Prisma.Procedure$beforeAfterCasesArgs<ExtArgs>
+  embedding?: boolean | Prisma.Procedure$embeddingArgs<ExtArgs>
   _count?: boolean | Prisma.ProcedureCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["procedure"]>
 
@@ -700,6 +792,7 @@ export type ProcedureInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   subcategoryLinks?: boolean | Prisma.Procedure$subcategoryLinksArgs<ExtArgs>
   doctors?: boolean | Prisma.Procedure$doctorsArgs<ExtArgs>
   beforeAfterCases?: boolean | Prisma.Procedure$beforeAfterCasesArgs<ExtArgs>
+  embedding?: boolean | Prisma.Procedure$embeddingArgs<ExtArgs>
   _count?: boolean | Prisma.ProcedureCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProcedureIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -712,6 +805,7 @@ export type $ProcedurePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     subcategoryLinks: Prisma.$ProcedureSubcategoryPayload<ExtArgs>[]
     doctors: Prisma.$DoctorProcedurePayload<ExtArgs>[]
     beforeAfterCases: Prisma.$BeforeAfterCasePayload<ExtArgs>[]
+    embedding: Prisma.$ProcedureEmbeddingPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     /**
@@ -1119,6 +1213,7 @@ export interface Prisma__ProcedureClient<T, Null = never, ExtArgs extends runtim
   subcategoryLinks<T extends Prisma.Procedure$subcategoryLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Procedure$subcategoryLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProcedureSubcategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   doctors<T extends Prisma.Procedure$doctorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Procedure$doctorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DoctorProcedurePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   beforeAfterCases<T extends Prisma.Procedure$beforeAfterCasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Procedure$beforeAfterCasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BeforeAfterCasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  embedding<T extends Prisma.Procedure$embeddingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Procedure$embeddingArgs<ExtArgs>>): Prisma.Prisma__ProcedureEmbeddingClient<runtime.Types.Result.GetResult<Prisma.$ProcedureEmbeddingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1638,6 +1733,25 @@ export type Procedure$beforeAfterCasesArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.BeforeAfterCaseScalarFieldEnum | Prisma.BeforeAfterCaseScalarFieldEnum[]
+}
+
+/**
+ * Procedure.embedding
+ */
+export type Procedure$embeddingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProcedureEmbedding
+   */
+  select?: Prisma.ProcedureEmbeddingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProcedureEmbedding
+   */
+  omit?: Prisma.ProcedureEmbeddingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProcedureEmbeddingInclude<ExtArgs> | null
+  where?: Prisma.ProcedureEmbeddingWhereInput
 }
 
 /**

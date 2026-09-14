@@ -398,6 +398,7 @@ export const ModelName = {
   SubcategoryTranslation: 'SubcategoryTranslation',
   Procedure: 'Procedure',
   ProcedureTranslation: 'ProcedureTranslation',
+  ProcedureEmbedding: 'ProcedureEmbedding',
   DoctorCategory: 'DoctorCategory',
   ProcedureSubcategory: 'ProcedureSubcategory',
   DoctorSpecialty: 'DoctorSpecialty',
@@ -434,7 +435,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "doctorProfile" | "catalogLocale" | "specialtyGroup" | "specialtyGroupTranslation" | "specialty" | "specialtyTranslation" | "category" | "categoryTranslation" | "specialtyCategory" | "subcategory" | "subcategoryTranslation" | "procedure" | "procedureTranslation" | "doctorCategory" | "procedureSubcategory" | "doctorSpecialty" | "doctorSubcategory" | "doctorProcedure" | "doctorSocialMedia" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation"
+    modelProps: "user" | "doctorProfile" | "catalogLocale" | "specialtyGroup" | "specialtyGroupTranslation" | "specialty" | "specialtyTranslation" | "category" | "categoryTranslation" | "specialtyCategory" | "subcategory" | "subcategoryTranslation" | "procedure" | "procedureTranslation" | "procedureEmbedding" | "doctorCategory" | "procedureSubcategory" | "doctorSpecialty" | "doctorSubcategory" | "doctorProcedure" | "doctorSocialMedia" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1471,6 +1472,64 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProcedureTranslationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProcedureTranslationCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProcedureEmbedding: {
+      payload: Prisma.$ProcedureEmbeddingPayload<ExtArgs>
+      fields: Prisma.ProcedureEmbeddingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProcedureEmbeddingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProcedureEmbeddingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload>
+        }
+        findFirst: {
+          args: Prisma.ProcedureEmbeddingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProcedureEmbeddingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload>
+        }
+        findMany: {
+          args: Prisma.ProcedureEmbeddingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload>[]
+        }
+        delete: {
+          args: Prisma.ProcedureEmbeddingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload>
+        }
+        update: {
+          args: Prisma.ProcedureEmbeddingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProcedureEmbeddingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProcedureEmbeddingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProcedureEmbeddingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcedureEmbeddingPayload>[]
+        }
+        aggregate: {
+          args: Prisma.ProcedureEmbeddingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProcedureEmbedding>
+        }
+        groupBy: {
+          args: Prisma.ProcedureEmbeddingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcedureEmbeddingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProcedureEmbeddingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcedureEmbeddingCountAggregateOutputType> | number
         }
       }
     }
@@ -3266,6 +3325,18 @@ export const ProcedureTranslationScalarFieldEnum = {
 export type ProcedureTranslationScalarFieldEnum = (typeof ProcedureTranslationScalarFieldEnum)[keyof typeof ProcedureTranslationScalarFieldEnum]
 
 
+export const ProcedureEmbeddingScalarFieldEnum = {
+  procedureId: 'procedureId',
+  content: 'content',
+  contentHash: 'contentHash',
+  embeddingModel: 'embeddingModel',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProcedureEmbeddingScalarFieldEnum = (typeof ProcedureEmbeddingScalarFieldEnum)[keyof typeof ProcedureEmbeddingScalarFieldEnum]
+
+
 export const DoctorCategoryScalarFieldEnum = {
   doctorProfileId: 'doctorProfileId',
   categoryId: 'categoryId',
@@ -3908,6 +3979,7 @@ export type GlobalOmitConfig = {
   subcategoryTranslation?: Prisma.SubcategoryTranslationOmit
   procedure?: Prisma.ProcedureOmit
   procedureTranslation?: Prisma.ProcedureTranslationOmit
+  procedureEmbedding?: Prisma.ProcedureEmbeddingOmit
   doctorCategory?: Prisma.DoctorCategoryOmit
   procedureSubcategory?: Prisma.ProcedureSubcategoryOmit
   doctorSpecialty?: Prisma.DoctorSpecialtyOmit

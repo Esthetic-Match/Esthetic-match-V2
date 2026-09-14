@@ -342,6 +342,8 @@ model Procedure {
   doctors          DoctorProcedure[]
   beforeAfterCases BeforeAfterCase[]
 
+  embedding ProcedureEmbedding?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -361,6 +363,23 @@ model ProcedureTranslation {
   @@id([procedureId, localeCode])
   @@index([localeCode, name])
   @@map("procedure_translation")
+}
+
+model ProcedureEmbedding {
+  procedureId String @id
+
+  content        String @db.Text
+  contentHash    String
+  embeddingModel String
+
+  embedding Unsupported("vector")
+
+  procedure Procedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("procedure_embedding")
 }
 
 model DoctorCategory {
