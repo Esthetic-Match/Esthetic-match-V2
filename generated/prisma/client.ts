@@ -113,6 +113,11 @@ export type Procedure = Prisma.ProcedureModel
  */
 export type ProcedureTranslation = Prisma.ProcedureTranslationModel
 /**
+ * Model ProcedureEmbedding
+ * 
+ */
+export type ProcedureEmbedding = Prisma.ProcedureEmbeddingModel
+/**
  * Model DoctorCategory
  * 
  */

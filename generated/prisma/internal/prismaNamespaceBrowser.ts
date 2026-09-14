@@ -65,6 +65,7 @@ export const ModelName = {
   SubcategoryTranslation: 'SubcategoryTranslation',
   Procedure: 'Procedure',
   ProcedureTranslation: 'ProcedureTranslation',
+  ProcedureEmbedding: 'ProcedureEmbedding',
   DoctorCategory: 'DoctorCategory',
   ProcedureSubcategory: 'ProcedureSubcategory',
   DoctorSpecialty: 'DoctorSpecialty',
@@ -301,6 +302,18 @@ export const ProcedureTranslationScalarFieldEnum = {
 } as const
 
 export type ProcedureTranslationScalarFieldEnum = (typeof ProcedureTranslationScalarFieldEnum)[keyof typeof ProcedureTranslationScalarFieldEnum]
+
+
+export const ProcedureEmbeddingScalarFieldEnum = {
+  procedureId: 'procedureId',
+  content: 'content',
+  contentHash: 'contentHash',
+  embeddingModel: 'embeddingModel',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProcedureEmbeddingScalarFieldEnum = (typeof ProcedureEmbeddingScalarFieldEnum)[keyof typeof ProcedureEmbeddingScalarFieldEnum]
 
 
 export const DoctorCategoryScalarFieldEnum = {
