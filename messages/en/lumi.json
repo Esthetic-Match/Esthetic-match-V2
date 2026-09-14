@@ -1,0 +1,49 @@
+{
+  "LumiAssistantResponse": {
+    "treatmentsLabel": "Treatments",
+    "proceduresTitle": "Procedures to explore",
+    "doctorsLabel": "Doctors",
+    "doctorsTitle": "Doctors matching your needs",
+    "noDoctors": "Lumi found relevant procedures, but no matching doctors are currently available on Esthetic Match."
+  },
+    "LumiCarousel": {
+    "scrollLeft": "Scroll left",
+    "scrollRight": "Scroll right"
+  },
+    "LumiComposer": {
+    "placeholder": "Describe what you'd like to improve or ask Lumi a question...",
+    "sendMessage": "Send message"
+  },
+    "LumiConversation": {
+    "subtitle": "Your Esthetic Match assistant",
+    "newSearch": "New search",
+    "emptyTitle": "What would you like to explore?",
+    "emptyDescription": "Describe your concern or goal in your own words. Lumi can help you explore relevant procedures and doctors on Esthetic Match.",
+    "searchError": "Lumi could not complete your search.",
+    "genericError": "Something went wrong.",
+    "fallbackError": "Lumi couldn't complete that search. Please try again.",
+    "disclaimer": "Lumi provides educational guidance, not a diagnosis. Treatment suitability should be confirmed with a qualified medical professional."
+  },
+    "LumiDoctorCard": {
+    "doctorFallback": "Doctor",
+    "onlineAvailable": "Online available",
+    "yearsExperience": "{years} years experience",
+    "inClinic": "In clinic",
+    "online": "Online",
+    "viewProfile": "View profile"
+  },
+    "LumiProcedureCard": {
+    "fallbackDescription": "Lumi identified this as a treatment worth discussing based on your concern."
+  },
+    "AISearchBar": {
+    "aiSearchLabel": "Ask Lumi",
+    "search": "Ask Lumi",
+    "aiPlaceholders": [
+      "Ask me anything...",
+      "Tell me your concerns...",
+      "What would you like to improve?",
+      "Explain what you want to achieve...",
+      "Not sure which treatment is right for you?"
+    ]
+  }
+}
