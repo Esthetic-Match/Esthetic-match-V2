@@ -25,10 +25,7 @@ import {
 } from "./UI/ExpertiseTabs";
 
 import CategoryProcedureModal from "../settings/modal/CategoryProcedureModal";
-
-/* ═════════════════════════════════════
-   TYPES
-═════════════════════════════════════ */
+import ProcedureQuickEditModal from "@/components/dashboard/doctor/modal/ProcedureQuickEditModal";
 
 type CatalogueProcedure = {
   id: string;
@@ -69,23 +66,8 @@ type ExpertiseSectionProps = {
   userId: string;
   specialtyIds: string[];
   procedureIds: string[];
-
-  /**
-   * IMPORTANT:
-   *
-   * This legacy DoctorProfile property is named
-   * "subcategoryIds", but in the current profile
-   * flow it contains selected CATEGORY IDs.
-   *
-   * We keep the prop name for compatibility with
-   * the existing backend/profile shape.
-   */
   subcategoryIds?: string[];
 };
-
-/* ═════════════════════════════════════
-   COMPONENT
-═════════════════════════════════════ */
 
 export default function ExpertiseSection({
   userId,
@@ -95,23 +77,22 @@ export default function ExpertiseSection({
 }: ExpertiseSectionProps) {
   const t =
     useTranslations(
-      "dashboard.expertise",
+      "dashboard.expertise"
     );
 
   const locale = useLocale();
-
-  /* ═══════════════════════════════════
-     MODAL
-  ═══════════════════════════════════ */
 
   const [
     isModalOpen,
     setIsModalOpen,
   ] = useState(false);
 
-  /* ═══════════════════════════════════
-     CATALOGUE
-  ═══════════════════════════════════ */
+  const [
+    editingProcedureId,
+    setEditingProcedureId,
+  ] = useState<string | null>(
+    null
+  );
 
   const [
     categories,
@@ -129,46 +110,34 @@ export default function ExpertiseSection({
     catalogueError,
     setCatalogueError,
   ] = useState<string | null>(
-    null,
+    null
   );
-
-  /* ═══════════════════════════════════
-     LOCAL SELECTIONS
-  ═══════════════════════════════════ */
 
   const [
     selectedCategoryIds,
     setSelectedCategoryIds,
   ] = useState<string[]>(
-    subcategoryIds,
+    subcategoryIds
   );
 
   const [
     selectedProcedureIds,
     setSelectedProcedureIds,
   ] = useState<string[]>(
-    procedureIds,
+    procedureIds
   );
-
-  /* ═══════════════════════════════════
-     SYNC PROPS
-  ═══════════════════════════════════ */
 
   useEffect(() => {
     setSelectedCategoryIds(
-      subcategoryIds,
+      subcategoryIds
     );
   }, [subcategoryIds]);
 
   useEffect(() => {
     setSelectedProcedureIds(
-      procedureIds,
+      procedureIds
     );
   }, [procedureIds]);
-
-  /* ═══════════════════════════════════
-     LOAD CATALOGUE FROM DATABASE
-  ═══════════════════════════════════ */
 
   useEffect(() => {
     const controller =
@@ -177,7 +146,7 @@ export default function ExpertiseSection({
     async function loadCatalogue() {
       try {
         setIsLoadingCatalogue(
-          true,
+          true
         );
 
         setCatalogueError(null);
@@ -185,14 +154,14 @@ export default function ExpertiseSection({
         const response =
           await fetch(
             `/api/doctor-catalogue?locale=${encodeURIComponent(
-              locale,
+              locale
             )}`,
             {
               method: "GET",
               cache: "no-store",
               signal:
                 controller.signal,
-            },
+            }
           );
 
         const data =
@@ -205,18 +174,18 @@ export default function ExpertiseSection({
         if (!response.ok) {
           throw new Error(
             data?.error ||
-              "Could not load doctor catalogue.",
+              "Could not load doctor catalogue."
           );
         }
 
         if (
           !data ||
           !Array.isArray(
-            data.categories,
+            data.categories
           )
         ) {
           throw new Error(
-            "Invalid doctor catalogue response.",
+            "Invalid doctor catalogue response."
           );
         }
 
@@ -227,7 +196,7 @@ export default function ExpertiseSection({
         }
 
         setCategories(
-          data.categories,
+          data.categories
         );
       } catch (error) {
         if (
@@ -246,7 +215,7 @@ export default function ExpertiseSection({
 
         console.error(
           "Could not load expertise catalogue:",
-          error,
+          error
         );
 
         setCategories([]);
@@ -254,14 +223,14 @@ export default function ExpertiseSection({
         setCatalogueError(
           error instanceof Error
             ? error.message
-            : "Could not load doctor catalogue.",
+            : "Could not load doctor catalogue."
         );
       } finally {
         if (
           !controller.signal.aborted
         ) {
           setIsLoadingCatalogue(
-            false,
+            false
           );
         }
       }
@@ -274,55 +243,51 @@ export default function ExpertiseSection({
     };
   }, [locale]);
 
-  /* ═══════════════════════════════════
-     GROUP SELECTED PROCEDURES
-  ═══════════════════════════════════ */
-
   const groupedProceduresByCategory =
     useMemo<
       ExpertiseCategoryGroup[]
     >(() => {
       const selectedProcedureSet =
         new Set(
-          selectedProcedureIds,
+          selectedProcedureIds
         );
 
       const selectedCategorySet =
         new Set(
-          selectedCategoryIds,
+          selectedCategoryIds
         );
 
       return categories
         .map(
           (
-            category,
+            category
           ): ExpertiseCategoryGroup => {
             const subcategories: ExpertiseSubcategoryGroup[] =
               category.subcategories
                 .map(
                   (
-                    subcategory,
+                    subcategory
                   ): ExpertiseSubcategoryGroup => {
                     const procedures: ExpertiseProcedure[] =
                       subcategory.procedures
                         .filter(
                           (
-                            procedure,
+                            procedure
                           ) =>
                             selectedProcedureSet.has(
-                              procedure.id,
-                            ),
+                              procedure.id
+                            )
                         )
                         .map(
                           (
-                            procedure,
+                            procedure
                           ): ExpertiseProcedure => ({
                             id:
                               procedure.id,
 
                             label:
                               procedure.name,
-                          }),
+                          })
                         );
 
                     return {
@@ -334,21 +299,15 @@ export default function ExpertiseSection({
 
                       procedures,
                     };
-                  },
+                  }
                 )
-
-                /**
-                 * Only show subcategories that
-                 * actually contain one of the
-                 * doctor's selected procedures.
-                 */
                 .filter(
                   (
-                    subcategory,
+                    subcategory
                   ) =>
                     subcategory
                       .procedures
-                      .length > 0,
+                      .length > 0
                 );
 
             return {
@@ -360,27 +319,15 @@ export default function ExpertiseSection({
 
               subcategories,
             };
-          },
+          }
         )
-
-        /**
-         * A category is shown when:
-         *
-         * 1. It contains selected procedures, or
-         * 2. It is explicitly selected in the
-         *    legacy category selection array.
-         *
-         * The second condition allows ExpertiseTabs
-         * to display its no-procedures state for
-         * selected categories with zero procedures.
-         */
         .filter(
           (category) =>
             category.subcategories
               .length > 0 ||
             selectedCategorySet.has(
-              category.categoryId,
-            ),
+              category.categoryId
+            )
         );
     }, [
       categories,
@@ -388,18 +335,10 @@ export default function ExpertiseSection({
       selectedProcedureIds,
     ]);
 
-  /* ═══════════════════════════════════
-     RENDER
-  ═══════════════════════════════════ */
-
   return (
     <>
       <div className="mx-auto w-[calc(100%-2rem)] max-w-6xl">
         <section className="relative mt-6 rounded-3xl border border-gray-100 bg-[#283C5D] p-6 shadow-lg md:p-8">
-
-          {/* ═══════════════════════════
-              EDIT BUTTON
-          ═══════════════════════════ */}
 
           <button
             type="button"
@@ -412,10 +351,6 @@ export default function ExpertiseSection({
             <Pencil size={14} />
           </button>
 
-          {/* ═══════════════════════════
-              HEADER
-          ═══════════════════════════ */}
-
           <div className="mb-6 flex items-center gap-3 pl-2">
             <Sparkle
               size={20}
@@ -426,10 +361,6 @@ export default function ExpertiseSection({
               {t("title")}
             </h2>
           </div>
-
-          {/* ═══════════════════════════
-              LOADING
-          ═══════════════════════════ */}
 
           {isLoadingCatalogue ? (
             <div className="flex min-h-[140px] items-center justify-center">
@@ -442,34 +373,29 @@ export default function ExpertiseSection({
               </div>
             </div>
           ) : catalogueError ? (
-            /* ═════════════════════════
-               ERROR
-            ═════════════════════════ */
-
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/65">
               {catalogueError}
             </div>
           ) : (
-            /* ═════════════════════════
-               EXPERTISE
-            ═════════════════════════ */
-
             <ExpertiseTabs
               categories={
                 groupedProceduresByCategory
               }
               ariaLabel={t("title")}
               noProceduresLabel={t(
-                "noProcedures",
+                "noProcedures"
               )}
+              onProcedureClick={(
+                procedureId
+              ) =>
+                setEditingProcedureId(
+                  procedureId
+                )
+              }
             />
           )}
         </section>
       </div>
-
-      {/* ═════════════════════════════
-          EDIT MODAL
-      ═════════════════════════════ */}
 
       {isModalOpen ? (
         <CategoryProcedureModal
@@ -487,19 +413,35 @@ export default function ExpertiseSection({
             setIsModalOpen(false)
           }
           onSaved={({
-            categoryIds: updatedCategoryIds,
-            procedureIds: updatedProcedureIds,
+            categoryIds:
+              updatedCategoryIds,
+            procedureIds:
+              updatedProcedureIds,
           }) => {
             setSelectedCategoryIds(
-              updatedCategoryIds,
+              updatedCategoryIds
             );
-          
+
             setSelectedProcedureIds(
-              updatedProcedureIds,
+              updatedProcedureIds
             );
-          
+
             setIsModalOpen(false);
           }}
+        />
+      ) : null}
+
+      {editingProcedureId ? (
+        <ProcedureQuickEditModal
+          open
+          procedureId={
+            editingProcedureId
+          }
+          onClose={() =>
+            setEditingProcedureId(
+              null
+            )
+          }
         />
       ) : null}
     </>

@@ -21,9 +21,34 @@ type ProfilePageProps = {
   }>;
 };
 
-async function getDoctorProfile(slug: string) {
+type DoctorProcedure = {
+  procedureId: string;
+  position: number;
+  topRank: number | null;
+
+  name: string;
+
+  doctorPrice: string | null;
+  defaultPrice: string | null;
+
+  price: string | null;
+
+  customDescription: string | null;
+  defaultDescription: string | null;
+
+  description: string | null;
+};
+
+async function getDoctorProfile(
+  slug: string,
+  locale: string
+) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/public-pages/single-profile?slug=${slug}`,
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/public-pages/single-profile?slug=${encodeURIComponent(
+      slug
+    )}&locale=${encodeURIComponent(
+      locale
+    )}`,
     {
       next: {
         revalidate: 60,
@@ -41,18 +66,26 @@ async function getDoctorProfile(slug: string) {
 export async function generateMetadata({
   params,
 }: ProfilePageProps): Promise<Metadata> {
-  const { slug, locale } = await params;
+  const { slug, locale } =
+    await params;
 
-  const doctor = await getDoctorProfile(slug);
+  const doctor =
+    await getDoctorProfile(
+      slug,
+      locale
+    );
 
   if (!doctor) {
     return {
-      title: "Doctor Not Found | Esthetic Match",
+      title:
+        "Doctor Not Found | Esthetic Match",
     };
   }
 
   const doctorName =
-    doctor.user?.name || doctor.clinicName || "Doctor";
+    doctor.user?.name ||
+    doctor.clinicName ||
+    "Doctor";
 
   const location = [
     doctor.city,
@@ -64,7 +97,9 @@ export async function generateMetadata({
   const title = `${doctorName} | Esthetic Match`;
 
   const description = `${doctorName}${
-    location ? ` is an aesthetic doctor located in ${location}.` : "."
+    location
+      ? ` is an aesthetic doctor located in ${location}.`
+      : "."
   } Explore specialties, procedures, pricing, reviews, and booking options on Esthetic Match.`;
 
   const canonicalUrl = `https://www.estheticmatch.com/${locale}/doctors/${doctor.slug}`;
@@ -84,7 +119,8 @@ export async function generateMetadata({
     ].filter(Boolean) as string[],
 
     alternates: {
-      canonical: canonicalUrl,
+      canonical:
+        canonicalUrl,
     },
 
     openGraph: {
@@ -105,10 +141,15 @@ export async function generateMetadata({
     },
 
     twitter: {
-      card: "summary_large_image",
+      card:
+        "summary_large_image",
+
       title,
       description,
-      images: doctor.avatar ? [doctor.avatar] : [],
+
+      images: doctor.avatar
+        ? [doctor.avatar]
+        : [],
     },
 
     robots: {
@@ -118,36 +159,104 @@ export async function generateMetadata({
   };
 }
 
-export default async function Profilepage({
+export default async function ProfilePage({
   params,
 }: ProfilePageProps) {
-  const { slug, locale } = await params;
+  const { slug, locale } =
+    await params;
 
-  const doctorProfile = await getDoctorProfile(slug);
+  const doctorProfile =
+    await getDoctorProfile(
+      slug,
+      locale
+    );
 
   if (!doctorProfile) {
     notFound();
   }
 
+  /*
+   * The public profile route already
+   * resolves:
+   *
+   * name -> localized procedure name
+   * price -> doctor price OR default price
+   * description -> doctor description OR default description
+   */
+  const doctorProcedures: DoctorProcedure[] =
+    Array.isArray(
+      doctorProfile.procedures
+    )
+      ? doctorProfile.procedures
+      : [];
+
+  const topThreeIds: string[] =
+    Array.isArray(
+      doctorProfile.topThree
+    )
+      ? doctorProfile.topThree
+      : [];
+
+  const topThreeProcedures =
+    topThreeIds.map(
+      (procedureId) => {
+        const procedure =
+          doctorProcedures.find(
+            (item) =>
+              item.procedureId ===
+              procedureId
+          );
+
+        return {
+          id: procedureId,
+
+          label:
+            procedure?.name ??
+            procedureId
+              .replaceAll("_", " ")
+              .trim(),
+
+          price:
+            procedure?.price ??
+            null,
+
+          description:
+            procedure?.description ??
+            null,
+
+          currency:
+            doctorProfile.currency ??
+            "eur",
+        };
+      }
+    );
+
   const canonicalUrl = `https://www.estheticmatch.com/${locale}/doctors/${doctorProfile.slug}`;
 
   const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Physician",
+    "@context":
+      "https://schema.org",
+
+    "@type":
+      "Physician",
 
     name:
       doctorProfile.user?.name ||
       doctorProfile.clinicName,
 
-    image: doctorProfile.avatar,
+    image:
+      doctorProfile.avatar,
 
-    url: canonicalUrl,
+    url:
+      canonicalUrl,
 
     medicalSpecialty:
       doctorProfile.specialtyIds,
 
     address: {
-      "@type": "PostalAddress",
+      "@type":
+        "PostalAddress",
+
       streetAddress:
         doctorProfile.workAddress,
 
@@ -162,7 +271,9 @@ export default async function Profilepage({
       doctorProfile.googleRating &&
       doctorProfile.googleReviewCount
         ? {
-            "@type": "AggregateRating",
+            "@type":
+              "AggregateRating",
+
             ratingValue:
               doctorProfile.googleRating,
 
@@ -182,59 +293,100 @@ export default async function Profilepage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
+          __html:
+            JSON.stringify(
+              jsonLd
+            ),
         }}
       />
 
       <ClinicBanner
-        clinicBanner={doctorProfile.clinicBanner}
-        clinicName={doctorProfile.clinicName}
+        clinicBanner={
+          doctorProfile.clinicBanner
+        }
+        clinicName={
+          doctorProfile.clinicName
+        }
       />
 
       <PublicProfileHeader
-        doctorProfile={doctorProfile}
+        doctorProfile={
+          doctorProfile
+        }
       />
 
       <PublicTopThreeProceduresSection
-        topThree={doctorProfile.topThree}
+        procedures={
+          topThreeProcedures
+        }
       />
 
       <PublicContactActionsSection
-        doctorProfile={doctorProfile}
+        doctorProfile={
+          doctorProfile
+        }
       />
 
       <EstheticMatchReviews
-        doctorProfileId={doctorProfile.id}
+        doctorProfileId={
+          doctorProfile.id
+        }
       />
-      
-      <GoogleReviewsList googlePlaceId={doctorProfile.googlePlaceId} />
+
+      <GoogleReviewsList
+        googlePlaceId={
+          doctorProfile.googlePlaceId
+        }
+      />
 
       <DoctorInstagramReels
-        doctorProfileId={doctorProfile.id}
+        doctorProfileId={
+          doctorProfile.id
+        }
       />
 
       <BookingLinksSection
-        bookingLinks={doctorProfile.bookingLinks}
+        bookingLinks={
+          doctorProfile.bookingLinks
+        }
       />
 
       <PublicExpertiseSection
-        doctorProfile={doctorProfile}
+        doctorProfile={
+          doctorProfile
+        }
       />
 
       <Gallery
-        doctorId={doctorProfile.userId}
+        doctorId={
+          doctorProfile.userId
+        }
       />
 
-      <DoctorSocialMediaLinks doctorId={doctorProfile.id} />
+      <DoctorSocialMediaLinks
+        doctorId={
+          doctorProfile.id
+        }
+      />
 
       <DoctorQuestionStickyBanner
-        doctorProfileId={doctorProfile.id}
-        doctorName={doctorProfile.user.name}
+        doctorProfileId={
+          doctorProfile.id
+        }
+        doctorName={
+          doctorProfile.user?.name ??
+          doctorProfile.clinicName ??
+          "Doctor"
+        }
         onlineConsulPrice={
           doctorProfile.onlineConsulPrice
         }
-        currency={doctorProfile.currency}
-        onlineActive={doctorProfile.onlineActive}
+        currency={
+          doctorProfile.currency
+        }
+        onlineActive={
+          doctorProfile.onlineActive
+        }
         stripeConnectOnboardingComplete={
           doctorProfile.stripeConnectOnboardingComplete
         }

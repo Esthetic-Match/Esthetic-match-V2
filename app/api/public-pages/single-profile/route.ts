@@ -18,6 +18,12 @@ type TranslationRow = {
   name: string;
 };
 
+type ProcedureTranslationRow = {
+  localeCode: string;
+  name: string;
+  description: string | null;
+};
+
 /* ═════════════════════════════════════
    LEGACY CATEGORY ALIASES
 ═════════════════════════════════════ */
@@ -37,7 +43,7 @@ const CATEGORY_ID_ALIASES: Readonly<
 ═════════════════════════════════════ */
 
 function normalizeLocale(
-  value: string | null,
+  value: string | null
 ): string {
   const normalized = (
     value ?? "en"
@@ -48,7 +54,7 @@ function normalizeLocale(
 
   if (
     /^[a-z]{2}(?:-[a-z0-9]{2,8})*$/.test(
-      normalized,
+      normalized
     )
   ) {
     return normalized;
@@ -59,7 +65,7 @@ function normalizeLocale(
 
 function getLocaleCandidates(
   requestedLocale: string,
-  defaultLocaleCode: string | null,
+  defaultLocaleCode: string | null
 ): string[] {
   return Array.from(
     new Set(
@@ -67,7 +73,7 @@ function getLocaleCandidates(
         requestedLocale,
 
         requestedLocale.split(
-          "-",
+          "-"
         )[0],
 
         defaultLocaleCode
@@ -77,11 +83,11 @@ function getLocaleCandidates(
         "en",
       ].filter(
         (
-          locale,
+          locale
         ): locale is string =>
-          Boolean(locale),
-      ),
-    ),
+          Boolean(locale)
+      )
+    )
   );
 }
 
@@ -92,7 +98,7 @@ function getLocaleCandidates(
 function getTranslatedName(
   translations: TranslationRow[],
   localeCandidates: string[],
-  fallbackName: string,
+  fallbackName: string
 ): string {
   for (
     const localeCode of localeCandidates
@@ -101,7 +107,7 @@ function getTranslatedName(
       translations.find(
         (item) =>
           item.localeCode.toLowerCase() ===
-          localeCode.toLowerCase(),
+          localeCode.toLowerCase()
       );
 
     if (
@@ -114,7 +120,7 @@ function getTranslatedName(
   const fallback =
     translations.find(
       (item) =>
-        item.name?.trim(),
+        item.name?.trim()
     );
 
   return (
@@ -123,12 +129,34 @@ function getTranslatedName(
   );
 }
 
+function getTranslatedProcedure(
+  translations: ProcedureTranslationRow[],
+  localeCandidates: string[]
+): ProcedureTranslationRow | null {
+  for (
+    const localeCode of localeCandidates
+  ) {
+    const translation =
+      translations.find(
+        (item) =>
+          item.localeCode.toLowerCase() ===
+          localeCode.toLowerCase()
+      );
+
+    if (translation) {
+      return translation;
+    }
+  }
+
+  return translations[0] ?? null;
+}
+
 /* ═════════════════════════════════════
    CATEGORY NORMALIZATION
 ═════════════════════════════════════ */
 
 function normalizeCategoryIds(
-  categoryIds: string[],
+  categoryIds: string[]
 ): string[] {
   return Array.from(
     new Set(
@@ -136,9 +164,9 @@ function normalizeCategoryIds(
         (categoryId) =>
           CATEGORY_ID_ALIASES[
             categoryId
-          ] ?? categoryId,
-      ),
-    ),
+          ] ?? categoryId
+      )
+    )
   );
 }
 
@@ -157,21 +185,21 @@ export const GET =
 
     const slug =
       req.nextUrl.searchParams.get(
-        "slug",
+        "slug"
       );
 
     const requestedLocale =
       normalizeLocale(
         req.nextUrl.searchParams.get(
-          "locale",
-        ),
+          "locale"
+        )
       );
 
     if (!slug) {
       throw new ApiError(
         "Missing doctor profile slug",
         400,
-        "DOCTOR_PROFILE_SLUG_REQUIRED",
+        "DOCTOR_PROFILE_SLUG_REQUIRED"
       );
     }
 
@@ -204,7 +232,7 @@ export const GET =
       getLocaleCandidates(
         requestedLocale,
         defaultLocale?.code ??
-          null,
+          null
       );
 
     /* ═══════════════════════════════════
@@ -227,9 +255,6 @@ export const GET =
             },
           },
 
-          /*
-           * Normalized selected categories.
-           */
           categories: {
             orderBy: {
               position: "asc",
@@ -241,9 +266,6 @@ export const GET =
             },
           },
 
-          /*
-           * Real normalized subcategories.
-           */
           subcategories: {
             orderBy: {
               position: "asc",
@@ -256,7 +278,8 @@ export const GET =
           },
 
           /*
-           * Normalized selected procedures.
+           * Doctor-specific procedure data
+           * + catalogue defaults/translations.
            */
           procedures: {
             orderBy: {
@@ -267,12 +290,27 @@ export const GET =
               procedureId: true,
               position: true,
               topRank: true,
+
+              // Doctor overrides
+              price: true,
+              description: true,
+
+              procedure: {
+                select: {
+                  defaultPrice: true,
+
+                  translations: {
+                    select: {
+                      localeCode: true,
+                      name: true,
+                      description: true,
+                    },
+                  },
+                },
+              },
             },
           },
 
-          /*
-           * Normalized specialties.
-           */
           specialties: {
             orderBy: {
               position: "asc",
@@ -290,17 +328,12 @@ export const GET =
       throw new ApiError(
         "Doctor profile not found",
         404,
-        "DOCTOR_PROFILE_NOT_FOUND",
+        "DOCTOR_PROFILE_NOT_FOUND"
       );
     }
 
     /* ═══════════════════════════════════
        RESOLVE SELECTED IDS
-
-       Prefer normalized relations.
-
-       Fall back to legacy arrays for doctors
-       that have not been backfilled yet.
     ═══════════════════════════════════ */
 
     const selectedCategoryIds =
@@ -308,11 +341,11 @@ export const GET =
       0
         ? doctorProfile.categories.map(
             (item) =>
-              item.categoryId,
+              item.categoryId
           )
         : normalizeCategoryIds(
             doctorProfile.subcategoryIds ??
-              [],
+              []
           );
 
     const selectedProcedureIds =
@@ -320,7 +353,7 @@ export const GET =
       0
         ? doctorProfile.procedures.map(
             (item) =>
-              item.procedureId,
+              item.procedureId
           )
         : doctorProfile.procedureIds ??
           [];
@@ -330,7 +363,7 @@ export const GET =
       0
         ? doctorProfile.specialties.map(
             (item) =>
-              item.specialtyId,
+              item.specialtyId
           )
         : doctorProfile.specialtyIds ??
           [];
@@ -338,7 +371,7 @@ export const GET =
     const selectedSubcategoryIds =
       doctorProfile.subcategories.map(
         (item) =>
-          item.subcategoryId,
+          item.subcategoryId
       );
 
     /* ═══════════════════════════════════
@@ -389,14 +422,6 @@ export const GET =
                 where: {
                   isActive: true,
 
-                  /*
-                   * If this doctor has normalized
-                   * DoctorSubcategory rows, only
-                   * retrieve those.
-                   *
-                   * Otherwise procedures below
-                   * determine which ones appear.
-                   */
                   ...(selectedSubcategoryIds.length >
                   0
                     ? {
@@ -503,12 +528,12 @@ export const GET =
         selectedCategoryIds.map(
           (
             categoryId,
-            index,
+            index
           ) => [
             categoryId,
             index,
-          ],
-        ),
+          ]
+        )
       );
 
     const sortedCategories = [
@@ -517,13 +542,13 @@ export const GET =
       (left, right) => {
         const leftPosition =
           categoryPosition.get(
-            left.id,
+            left.id
           ) ??
           Number.MAX_SAFE_INTEGER;
 
         const rightPosition =
           categoryPosition.get(
-            right.id,
+            right.id
           ) ??
           Number.MAX_SAFE_INTEGER;
 
@@ -533,7 +558,7 @@ export const GET =
           left.sortOrder -
             right.sortOrder
         );
-      },
+      }
     );
 
     /* ═══════════════════════════════════
@@ -547,7 +572,7 @@ export const GET =
             getTranslatedName(
               category.translations,
               localeCandidates,
-              category.id,
+              category.id
             );
 
           const subcategories =
@@ -558,7 +583,7 @@ export const GET =
                     getTranslatedName(
                       subcategory.translations,
                       localeCandidates,
-                      subcategory.id,
+                      subcategory.id
                     );
 
                   const procedures =
@@ -573,9 +598,9 @@ export const GET =
                           getTranslatedName(
                             procedure.translations,
                             localeCandidates,
-                            procedure.id,
+                            procedure.id
                           ),
-                      }),
+                      })
                     );
 
                   return {
@@ -587,18 +612,13 @@ export const GET =
 
                     procedures,
                   };
-                },
+                }
               )
-
-              /*
-               * Public page should not display
-               * empty subcategory cards.
-               */
               .filter(
                 (subcategory) =>
                   subcategory
                     .procedures
-                    .length > 0,
+                    .length > 0
               );
 
           return {
@@ -611,16 +631,97 @@ export const GET =
             subcategories,
           };
         })
-
-        /*
-         * Public page should not show an
-         * empty category tab.
-         */
         .filter(
           (category) =>
             category.subcategories
-              .length > 0,
+              .length > 0
         );
+
+    /* ═══════════════════════════════════
+       NORMALIZED PUBLIC PROCEDURES
+    ═══════════════════════════════════ */
+
+    const publicProcedures =
+      doctorProfile.procedures.map(
+        (item) => {
+          const translation =
+            getTranslatedProcedure(
+              item.procedure.translations,
+              localeCandidates
+            );
+
+          const doctorPrice =
+            item.price?.toString() ??
+            null;
+
+          const defaultPrice =
+            item.procedure.defaultPrice?.toString() ??
+            null;
+
+          const effectivePrice =
+            doctorPrice ??
+            defaultPrice;
+
+          const customDescription =
+            item.description ??
+            null;
+
+          const defaultDescription =
+            translation?.description ??
+            null;
+
+          const effectiveDescription =
+            customDescription ??
+            defaultDescription;
+
+          return {
+            procedureId:
+              item.procedureId,
+
+            position:
+              item.position,
+
+            topRank:
+              item.topRank,
+
+            /*
+             * Resolved localized title.
+             * This is the important fix for
+             * temporal_lift -> Temporal Lift.
+             */
+            name:
+              translation?.name?.trim() ||
+              item.procedureId
+                .replaceAll("_", " ")
+                .trim(),
+
+            /*
+             * Keep raw values in case the
+             * frontend needs to know whether
+             * the doctor customized them.
+             */
+            doctorPrice,
+
+            defaultPrice,
+
+            /*
+             * Public effective value.
+             */
+            price:
+              effectivePrice,
+
+            customDescription,
+
+            defaultDescription,
+
+            /*
+             * Public effective value.
+             */
+            description:
+              effectiveDescription,
+          };
+        }
+      );
 
     /* ═══════════════════════════════════
        NORMALIZED TOP THREE
@@ -630,20 +731,20 @@ export const GET =
       doctorProfile.procedures
         .filter(
           (
-            item,
+            item
           ): item is typeof item & {
             topRank: number;
           } =>
-            item.topRank !== null,
+            item.topRank !== null
         )
         .sort(
           (left, right) =>
             left.topRank -
-            right.topRank,
+            right.topRank
         )
         .map(
           (item) =>
-            item.procedureId,
+            item.procedureId
         );
 
     const topThree =
@@ -655,7 +756,6 @@ export const GET =
 
     /* ═══════════════════════════════════
        REMOVE INTERNAL RELATION ARRAYS
-       FROM PUBLIC RESPONSE
     ═══════════════════════════════════ */
 
     const {
@@ -681,12 +781,6 @@ export const GET =
     return apiSuccess({
       ...publicDoctorProfile,
 
-      /*
-       * Keep these properties because other
-       * existing public components may still
-       * consume them.
-       */
-
       specialtyIds:
         selectedSpecialtyIds,
 
@@ -695,8 +789,8 @@ export const GET =
 
       /*
        * LEGACY:
-       * subcategoryIds historically contains
-       * category IDs.
+       * subcategoryIds historically
+       * contains category IDs.
        */
       subcategoryIds:
         selectedCategoryIds,
@@ -709,10 +803,18 @@ export const GET =
 
       topThree,
 
-      /*
-       * This is what your new
-       * PublicExpertiseSection consumes.
-       */
       expertise,
+
+      /*
+       * Public doctor procedure data.
+       *
+       * Includes:
+       * - translated name
+       * - effective price
+       * - effective description
+       * - doctor/default values
+       */
+      procedures:
+        publicProcedures,
     });
   });

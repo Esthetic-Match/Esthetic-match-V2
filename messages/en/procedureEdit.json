@@ -52,5 +52,11 @@
     "usingDefaultDescription": "Editing the text creates a custom description for your profile.",
     "reset": "Reset to default description",
     "noDefault": "No default description is currently available."
+  },
+    "modal": {
+    "eyebrow": "Procedure",
+    "close": "Close",
+    "notFound": "Procedure not found.",
+    "loadErrorTitle": "Could not load procedure"
   }
 }
