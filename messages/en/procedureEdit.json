@@ -1,0 +1,56 @@
+{
+  "eyebrow": "Treatments",
+  "title": "Procedures & pricing",
+  "subtitle": "Select a procedure and update the pricing or description patients see on your profile.",
+  "backToDashboard": "Back to dashboard",
+
+  "search": {
+    "placeholder": "Find a procedure..."
+  },
+
+  "filters": {
+    "all": "All",
+    "customPrice": "Custom price",
+    "defaultPrice": "Default price",
+    "customDescription": "Custom description"
+  },
+
+  "states": {
+    "loading": "Loading procedures...",
+    "noProcedures": "No procedures found.",
+    "selectProcedure": "Select a procedure to edit.",
+    "loadError": "Failed to load procedures.",
+    "saveError": "Failed to save procedure."
+  },
+
+  "editor": {
+    "subtitle": "Update how this procedure appears on your profile.",
+    "top": "Top {rank}",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "saved": "Saved"
+  },
+
+  "pricing": {
+    "title": "Pricing",
+    "description": "Set a custom price or use the Esthetic Match default.",
+    "label": "Your price",
+    "placeholder": "0.00",
+    "usingDefault": "Using default price",
+    "usingDefaultDescription": "This price automatically follows the Esthetic Match default.",
+    "customPriceDescription": "Your custom price overrides the default price.",
+    "reset": "Reset to default price",
+    "noDefault": "No default price is currently available."
+  },
+
+  "description": {
+    "title": "Description",
+    "subtitle": "Explain your specific approach to this treatment.",
+    "label": "Your procedure description",
+    "placeholder": "Describe your approach, technology, consultation process, or anything patients should know...",
+    "usingDefault": "Using default description",
+    "usingDefaultDescription": "Editing the text creates a custom description for your profile.",
+    "reset": "Reset to default description",
+    "noDefault": "No default description is currently available."
+  }
+}

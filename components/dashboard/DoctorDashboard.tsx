@@ -1,6 +1,7 @@
 import DoctorDashboardHeader from "@/components/dashboard/doctor/DoctorDashboardHeader";
 import DoctorLikeDash from "./doctor/DoctorLikeDash";
 import DoctorReviewDash from "./doctor/DoctorReviewDash";
+import DoctorProceduresOverview from "./doctor/DoctorProceduresOverview";
 
 export default function DoctorDashboard() {
   return (
@@ -9,6 +10,8 @@ export default function DoctorDashboard() {
         <DoctorDashboardHeader />
 
         <DoctorLikeDash />
+
+        <DoctorProceduresOverview/>
 
         <DoctorReviewDash />
       </div>

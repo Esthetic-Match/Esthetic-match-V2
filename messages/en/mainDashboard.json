@@ -119,5 +119,27 @@
     "generating": "Generating link...",
     "sendInvitation": "Send invitation email",
     "generateLink": "Generate private link"
+  },
+   "procedureOverview": {
+    "eyebrow": "Treatments",
+    "title": "Your procedures",
+    "description": "Keep your treatment pricing and details up to date.",
+    "manageProcedures": "Manage procedures",
+
+    "stats": {
+      "selected": "Selected procedures",
+      "priced": "With pricing",
+      "missingPrice": "Missing pricing",
+      "customDescriptions": "Custom descriptions"
+    },
+
+    "pricingCoverage": {
+      "title": "Pricing coverage",
+      "description": "{priced} of {total} procedures currently have a price."
+    },
+
+    "errors": {
+      "load": "Failed to load procedures."
+    }
   }
 }

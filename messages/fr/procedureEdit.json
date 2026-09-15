@@ -1,0 +1,56 @@
+{
+  "eyebrow": "Traitements",
+  "title": "Procédures et tarifs",
+  "subtitle": "Sélectionnez une procédure et modifiez le tarif ou la description que les patients voient sur votre profil.",
+  "backToDashboard": "Retour au tableau de bord",
+
+  "search": {
+    "placeholder": "Rechercher une procédure..."
+  },
+
+  "filters": {
+    "all": "Toutes",
+    "customPrice": "Tarif personnalisé",
+    "defaultPrice": "Tarif par défaut",
+    "customDescription": "Description personnalisée"
+  },
+
+  "states": {
+    "loading": "Chargement des procédures...",
+    "noProcedures": "Aucune procédure trouvée.",
+    "selectProcedure": "Sélectionnez une procédure à modifier.",
+    "loadError": "Impossible de charger les procédures.",
+    "saveError": "Impossible d’enregistrer la procédure."
+  },
+
+  "editor": {
+    "subtitle": "Modifiez la façon dont cette procédure apparaît sur votre profil.",
+    "top": "Top {rank}",
+    "save": "Enregistrer",
+    "saving": "Enregistrement...",
+    "saved": "Enregistré"
+  },
+
+  "pricing": {
+    "title": "Tarification",
+    "description": "Définissez votre propre tarif ou utilisez le tarif par défaut d’Esthetic Match.",
+    "label": "Votre tarif",
+    "placeholder": "0.00",
+    "usingDefault": "Tarif par défaut utilisé",
+    "usingDefaultDescription": "Ce tarif suit automatiquement le tarif par défaut d’Esthetic Match.",
+    "customPriceDescription": "Votre tarif personnalisé remplace le tarif par défaut.",
+    "reset": "Rétablir le tarif par défaut",
+    "noDefault": "Aucun tarif par défaut n’est actuellement disponible."
+  },
+
+  "description": {
+    "title": "Description",
+    "subtitle": "Expliquez votre approche spécifique pour ce traitement.",
+    "label": "Votre description de la procédure",
+    "placeholder": "Décrivez votre approche, les technologies utilisées, le processus de consultation ou toute information utile aux patients...",
+    "usingDefault": "Description par défaut utilisée",
+    "usingDefaultDescription": "Modifier ce texte créera une description personnalisée pour votre profil.",
+    "reset": "Rétablir la description par défaut",
+    "noDefault": "Aucune description par défaut n’est actuellement disponible."
+  }
+}

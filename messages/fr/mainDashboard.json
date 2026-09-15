@@ -119,5 +119,27 @@
     "generating": "Création du lien...",
     "sendInvitation": "Envoyer l’invitation",
     "generateLink": "Générer le lien privé"
+  },
+   "procedureOverview": {
+    "eyebrow": "Traitements",
+    "title": "Vos procédures",
+    "description": "Maintenez à jour les tarifs et les informations de vos traitements.",
+    "manageProcedures": "Gérer les procédures",
+
+    "stats": {
+      "selected": "Procédures sélectionnées",
+      "priced": "Avec un tarif",
+      "missingPrice": "Tarifs manquants",
+      "customDescriptions": "Descriptions personnalisées"
+    },
+
+    "pricingCoverage": {
+      "title": "Couverture des tarifs",
+      "description": "{priced} procédures sur {total} disposent actuellement d’un tarif."
+    },
+
+    "errors": {
+      "load": "Impossible de charger les procédures."
+    }
   }
 }

@@ -334,8 +334,9 @@ model SubcategoryTranslation {
 
 model Procedure {
   /// Preserve the existing doctorCatalogue ID.
-  id       String  @id
-  isActive Boolean @default(true)
+  id           String   @id
+  isActive     Boolean  @default(true)
+  defaultPrice Decimal? @db.Decimal(12, 2)
 
   translations     ProcedureTranslation[]
   subcategoryLinks ProcedureSubcategory[]
@@ -459,9 +460,12 @@ model DoctorProcedure {
   position        Int    @default(0)
   topRank         Int?
 
-  /// Doctor-specific price. Decimal avoids floating-point errors for money.
-  /// A null value means that this doctor has not published a price.
+  /// Doctor-specific price.
   price Decimal? @db.Decimal(12, 2)
+
+  /// Doctor-specific explanation/details for this procedure.
+  /// Does not modify the catalogue description.
+  description String? @db.Text
 
   doctorProfile DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
   procedure     Procedure     @relation(fields: [procedureId], references: [id], onDelete: Restrict)
