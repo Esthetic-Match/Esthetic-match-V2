@@ -44,6 +44,7 @@ export type DoctorProcedureMinAggregateOutputType = {
   position: number | null
   topRank: number | null
   price: runtime.Decimal | null
+  description: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +55,7 @@ export type DoctorProcedureMaxAggregateOutputType = {
   position: number | null
   topRank: number | null
   price: runtime.Decimal | null
+  description: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +66,7 @@ export type DoctorProcedureCountAggregateOutputType = {
   position: number
   topRank: number
   price: number
+  description: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -88,6 +91,7 @@ export type DoctorProcedureMinAggregateInputType = {
   position?: true
   topRank?: true
   price?: true
+  description?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -98,6 +102,7 @@ export type DoctorProcedureMaxAggregateInputType = {
   position?: true
   topRank?: true
   price?: true
+  description?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -108,6 +113,7 @@ export type DoctorProcedureCountAggregateInputType = {
   position?: true
   topRank?: true
   price?: true
+  description?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -205,6 +211,7 @@ export type DoctorProcedureGroupByOutputType = {
   position: number
   topRank: number | null
   price: runtime.Decimal | null
+  description: string | null
   createdAt: Date
   updatedAt: Date
   _count: DoctorProcedureCountAggregateOutputType | null
@@ -238,6 +245,7 @@ export type DoctorProcedureWhereInput = {
   position?: Prisma.IntFilter<"DoctorProcedure"> | number
   topRank?: Prisma.IntNullableFilter<"DoctorProcedure"> | number | null
   price?: Prisma.DecimalNullableFilter<"DoctorProcedure"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.StringNullableFilter<"DoctorProcedure"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DoctorProcedure"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DoctorProcedure"> | Date | string
   doctorProfile?: Prisma.XOR<Prisma.DoctorProfileScalarRelationFilter, Prisma.DoctorProfileWhereInput>
@@ -250,6 +258,7 @@ export type DoctorProcedureOrderByWithRelationInput = {
   position?: Prisma.SortOrder
   topRank?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   doctorProfile?: Prisma.DoctorProfileOrderByWithRelationInput
@@ -267,6 +276,7 @@ export type DoctorProcedureWhereUniqueInput = Prisma.AtLeast<{
   position?: Prisma.IntFilter<"DoctorProcedure"> | number
   topRank?: Prisma.IntNullableFilter<"DoctorProcedure"> | number | null
   price?: Prisma.DecimalNullableFilter<"DoctorProcedure"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.StringNullableFilter<"DoctorProcedure"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DoctorProcedure"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DoctorProcedure"> | Date | string
   doctorProfile?: Prisma.XOR<Prisma.DoctorProfileScalarRelationFilter, Prisma.DoctorProfileWhereInput>
@@ -279,6 +289,7 @@ export type DoctorProcedureOrderByWithAggregationInput = {
   position?: Prisma.SortOrder
   topRank?: Prisma.SortOrderInput | Prisma.SortOrder
   price?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DoctorProcedureCountOrderByAggregateInput
@@ -297,6 +308,7 @@ export type DoctorProcedureScalarWhereWithAggregatesInput = {
   position?: Prisma.IntWithAggregatesFilter<"DoctorProcedure"> | number
   topRank?: Prisma.IntNullableWithAggregatesFilter<"DoctorProcedure"> | number | null
   price?: Prisma.DecimalNullableWithAggregatesFilter<"DoctorProcedure"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.StringNullableWithAggregatesFilter<"DoctorProcedure"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DoctorProcedure"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DoctorProcedure"> | Date | string
 }
@@ -305,6 +317,7 @@ export type DoctorProcedureCreateInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile: Prisma.DoctorProfileCreateNestedOneWithoutProceduresInput
@@ -317,6 +330,7 @@ export type DoctorProcedureUncheckedCreateInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -325,6 +339,7 @@ export type DoctorProcedureUpdateInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorProfileUpdateOneRequiredWithoutProceduresNestedInput
@@ -337,6 +352,7 @@ export type DoctorProcedureUncheckedUpdateInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -347,6 +363,7 @@ export type DoctorProcedureCreateManyInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -355,6 +372,7 @@ export type DoctorProcedureUpdateManyMutationInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -365,6 +383,7 @@ export type DoctorProcedureUncheckedUpdateManyInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -395,6 +414,7 @@ export type DoctorProcedureCountOrderByAggregateInput = {
   position?: Prisma.SortOrder
   topRank?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -411,6 +431,7 @@ export type DoctorProcedureMaxOrderByAggregateInput = {
   position?: Prisma.SortOrder
   topRank?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -421,6 +442,7 @@ export type DoctorProcedureMinOrderByAggregateInput = {
   position?: Prisma.SortOrder
   topRank?: Prisma.SortOrder
   price?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -515,18 +537,11 @@ export type DoctorProcedureUncheckedUpdateManyWithoutProcedureNestedInput = {
   deleteMany?: Prisma.DoctorProcedureScalarWhereInput | Prisma.DoctorProcedureScalarWhereInput[]
 }
 
-export type NullableDecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type DoctorProcedureCreateWithoutDoctorProfileInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   procedure: Prisma.ProcedureCreateNestedOneWithoutDoctorsInput
@@ -537,6 +552,7 @@ export type DoctorProcedureUncheckedCreateWithoutDoctorProfileInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -576,6 +592,7 @@ export type DoctorProcedureScalarWhereInput = {
   position?: Prisma.IntFilter<"DoctorProcedure"> | number
   topRank?: Prisma.IntNullableFilter<"DoctorProcedure"> | number | null
   price?: Prisma.DecimalNullableFilter<"DoctorProcedure"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.StringNullableFilter<"DoctorProcedure"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DoctorProcedure"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DoctorProcedure"> | Date | string
 }
@@ -584,6 +601,7 @@ export type DoctorProcedureCreateWithoutProcedureInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   doctorProfile: Prisma.DoctorProfileCreateNestedOneWithoutProceduresInput
@@ -594,6 +612,7 @@ export type DoctorProcedureUncheckedCreateWithoutProcedureInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -629,6 +648,7 @@ export type DoctorProcedureCreateManyDoctorProfileInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -637,6 +657,7 @@ export type DoctorProcedureUpdateWithoutDoctorProfileInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   procedure?: Prisma.ProcedureUpdateOneRequiredWithoutDoctorsNestedInput
@@ -647,6 +668,7 @@ export type DoctorProcedureUncheckedUpdateWithoutDoctorProfileInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -656,6 +678,7 @@ export type DoctorProcedureUncheckedUpdateManyWithoutDoctorProfileInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -665,6 +688,7 @@ export type DoctorProcedureCreateManyProcedureInput = {
   position?: number
   topRank?: number | null
   price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -673,6 +697,7 @@ export type DoctorProcedureUpdateWithoutProcedureInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctorProfile?: Prisma.DoctorProfileUpdateOneRequiredWithoutProceduresNestedInput
@@ -683,6 +708,7 @@ export type DoctorProcedureUncheckedUpdateWithoutProcedureInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -692,6 +718,7 @@ export type DoctorProcedureUncheckedUpdateManyWithoutProcedureInput = {
   position?: Prisma.IntFieldUpdateOperationsInput | number
   topRank?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -704,6 +731,7 @@ export type DoctorProcedureSelect<ExtArgs extends runtime.Types.Extensions.Inter
   position?: boolean
   topRank?: boolean
   price?: boolean
+  description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   doctorProfile?: boolean | Prisma.DoctorProfileDefaultArgs<ExtArgs>
@@ -716,6 +744,7 @@ export type DoctorProcedureSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   position?: boolean
   topRank?: boolean
   price?: boolean
+  description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   doctorProfile?: boolean | Prisma.DoctorProfileDefaultArgs<ExtArgs>
@@ -728,6 +757,7 @@ export type DoctorProcedureSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   position?: boolean
   topRank?: boolean
   price?: boolean
+  description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   doctorProfile?: boolean | Prisma.DoctorProfileDefaultArgs<ExtArgs>
@@ -740,11 +770,12 @@ export type DoctorProcedureSelectScalar = {
   position?: boolean
   topRank?: boolean
   price?: boolean
+  description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DoctorProcedureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"doctorProfileId" | "procedureId" | "position" | "topRank" | "price" | "createdAt" | "updatedAt", ExtArgs["result"]["doctorProcedure"]>
+export type DoctorProcedureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"doctorProfileId" | "procedureId" | "position" | "topRank" | "price" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["doctorProcedure"]>
 export type DoctorProcedureInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   doctorProfile?: boolean | Prisma.DoctorProfileDefaultArgs<ExtArgs>
   procedure?: boolean | Prisma.ProcedureDefaultArgs<ExtArgs>
@@ -770,10 +801,14 @@ export type $DoctorProcedurePayload<ExtArgs extends runtime.Types.Extensions.Int
     position: number
     topRank: number | null
     /**
-     * Doctor-specific price. Decimal avoids floating-point errors for money.
-     * A null value means that this doctor has not published a price.
+     * Doctor-specific price.
      */
     price: runtime.Decimal | null
+    /**
+     * Doctor-specific explanation/details for this procedure.
+     * Does not modify the catalogue description.
+     */
+    description: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["doctorProcedure"]>
@@ -1206,6 +1241,7 @@ export interface DoctorProcedureFieldRefs {
   readonly position: Prisma.FieldRef<"DoctorProcedure", 'Int'>
   readonly topRank: Prisma.FieldRef<"DoctorProcedure", 'Int'>
   readonly price: Prisma.FieldRef<"DoctorProcedure", 'Decimal'>
+  readonly description: Prisma.FieldRef<"DoctorProcedure", 'String'>
   readonly createdAt: Prisma.FieldRef<"DoctorProcedure", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DoctorProcedure", 'DateTime'>
 }

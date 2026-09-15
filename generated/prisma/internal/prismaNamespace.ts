@@ -3308,6 +3308,7 @@ export type SubcategoryTranslationScalarFieldEnum = (typeof SubcategoryTranslati
 export const ProcedureScalarFieldEnum = {
   id: 'id',
   isActive: 'isActive',
+  defaultPrice: 'defaultPrice',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3388,6 +3389,7 @@ export const DoctorProcedureScalarFieldEnum = {
   position: 'position',
   topRank: 'topRank',
   price: 'price',
+  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

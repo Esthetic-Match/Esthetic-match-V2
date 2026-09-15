@@ -21,6 +21,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       doctor: (await import(`../messages/${locale}/doctor.json`)).default,
       proceduresName: (await import(`../messages/${locale}/proceduresName.json`)).default,
       dashboard: (await import(`../messages/${locale}/dashboard.json`)).default,
+      procedureEdit: (await import(`../messages/${locale}/procedureEdit.json`)).default,
       mainDashboard: (await import(`../messages/${locale}/mainDashboard.json`)).default,
       reviewInvitation: (await import(`../messages/${locale}/reviewInvitation.json`)).default,
       patientDashboard: (await import(`../messages/${locale}/patientDashboard.json`)).default,

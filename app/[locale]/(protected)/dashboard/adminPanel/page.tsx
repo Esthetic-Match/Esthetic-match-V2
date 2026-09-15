@@ -17,6 +17,7 @@ import DoctorReviewInvitationManager from "@/components/dashboard/admin/DoctorRe
 import AdminDoctorProcedures from "@/components/dashboard/admin/AdminDoctorProcedures";
 import TopThreeAdmin from "@/components/dashboard/admin/TopThreeAdmin";
 import AdminDoctorSocialMedia from "@/components/dashboard/admin/AdminDoctorSocialMedia";
+import AdminProcedureDefaults from "@/components/dashboard/admin/AdminProcedureDefaults";
 
 const ADMIN_TAB_IDS = [
   "overview",
@@ -26,7 +27,8 @@ const ADMIN_TAB_IDS = [
   "catalogue",
 ] as const;
 
-type AdminTabId = (typeof ADMIN_TAB_IDS)[number];
+type AdminTabId =
+  (typeof ADMIN_TAB_IDS)[number];
 
 type AdminTab = {
   id: AdminTabId;
@@ -167,7 +169,25 @@ function TabPanel({
         )}
       />
 
-      <CatalogueAdminManager />
+      <div className="space-y-10">
+        <CatalogueAdminManager />
+
+        <div>
+          <div className="mb-5">
+            <h3 className="text-lg font-bold text-[#283C5D]">
+              Procedure details
+            </h3>
+
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-[#283C5D]/60">
+              Manage default procedure prices and
+              descriptions displayed across the
+              platform.
+            </p>
+          </div>
+
+          <AdminProcedureDefaults />
+        </div>
+      </div>
     </section>
   );
 }
