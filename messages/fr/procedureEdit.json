@@ -52,5 +52,11 @@
     "usingDefaultDescription": "Modifier ce texte créera une description personnalisée pour votre profil.",
     "reset": "Rétablir la description par défaut",
     "noDefault": "Aucune description par défaut n’est actuellement disponible."
+  },
+    "modal": {
+    "eyebrow": "Procédure",
+    "close": "Fermer",
+    "notFound": "Procédure introuvable.",
+    "loadErrorTitle": "Impossible de charger la procédure"
   }
 }

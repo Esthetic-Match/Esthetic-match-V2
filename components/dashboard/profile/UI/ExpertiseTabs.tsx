@@ -1,6 +1,7 @@
 "use client";
 
 import { JSX, useMemo, useState } from "react";
+import { Pencil } from "lucide-react";
 
 export type ExpertiseProcedure = {
   id: string;
@@ -23,29 +24,45 @@ type ExpertiseTabsProps = {
   categories: ExpertiseCategoryGroup[];
   ariaLabel: string;
   noProceduresLabel: string;
+
+  onProcedureClick?: (
+    procedureId: string
+  ) => void;
 };
 
 export function ExpertiseTabs({
   categories,
   ariaLabel,
   noProceduresLabel,
+  onProcedureClick,
 }: ExpertiseTabsProps) {
-  const [activeCategoryId, setActiveCategoryId] = useState<string>(
-    categories[0]?.categoryId ?? ""
-  );
-
-  const activeCategory = useMemo<ExpertiseCategoryGroup | null>(() => {
-    return (
-      categories.find(
-        (category): boolean => category.categoryId === activeCategoryId
-      ) ??
-      categories[0] ??
-      null
+  const [activeCategoryId, setActiveCategoryId] =
+    useState<string>(
+      categories[0]?.categoryId ?? ""
     );
-  }, [activeCategoryId, categories]);
 
-  if (categories.length === 0 || activeCategory === null) {
-    return <p className="text-sm text-[#283C5D]/55">{noProceduresLabel}</p>;
+  const activeCategory =
+    useMemo<ExpertiseCategoryGroup | null>(() => {
+      return (
+        categories.find(
+          (category): boolean =>
+            category.categoryId ===
+            activeCategoryId
+        ) ??
+        categories[0] ??
+        null
+      );
+    }, [activeCategoryId, categories]);
+
+  if (
+    categories.length === 0 ||
+    activeCategory === null
+  ) {
+    return (
+      <p className="text-sm text-[#283C5D]/55">
+        {noProceduresLabel}
+      </p>
+    );
   }
 
   return (
@@ -65,30 +82,44 @@ export function ExpertiseTabs({
           "[&::-webkit-scrollbar-thumb:hover]:bg-[#d8bd8d]",
         ].join(" ")}
       >
-        {categories.map((category): JSX.Element => {
-          const isActive = category.categoryId === activeCategory.categoryId;
+        {categories.map(
+          (
+            category
+          ): JSX.Element => {
+            const isActive =
+              category.categoryId ===
+              activeCategory.categoryId;
 
-          return (
-            <button
-              key={category.categoryId}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              aria-controls={`expertise-panel-${category.categoryId}`}
-              id={`expertise-tab-${category.categoryId}`}
-              onClick={() => setActiveCategoryId(category.categoryId)}
-              className={[
-                "relative shrink-0 pb-4 text-sm font-bold uppercase tracking-[0.16em] transition-colors duration-300",
-                "after:absolute after:bottom-0 cursor-pointer after:left-0 after:h-[2px] after:w-full after:origin-center after:transition-transform after:duration-300",
-                isActive
-                  ? "text-white after:scale-x-100 after:bg-[#d8bd8d]"
-                  : "text-white after:scale-x-0 after:bg-[#d8bd8d] hover:after:scale-x-100",
-              ].join(" ")}
-            >
-              {category.label}
-            </button>
-          );
-        })}
+            return (
+              <button
+                key={
+                  category.categoryId
+                }
+                type="button"
+                role="tab"
+                aria-selected={
+                  isActive
+                }
+                aria-controls={`expertise-panel-${category.categoryId}`}
+                id={`expertise-tab-${category.categoryId}`}
+                onClick={() =>
+                  setActiveCategoryId(
+                    category.categoryId
+                  )
+                }
+                className={[
+                  "relative shrink-0 pb-4 text-sm font-bold uppercase tracking-[0.16em] transition-colors duration-300",
+                  "after:absolute after:bottom-0 cursor-pointer after:left-0 after:h-[2px] after:w-full after:origin-center after:transition-transform after:duration-300",
+                  isActive
+                    ? "text-white after:scale-x-100 after:bg-[#d8bd8d]"
+                    : "text-white after:scale-x-0 after:bg-[#d8bd8d] hover:after:scale-x-100",
+                ].join(" ")}
+              >
+                {category.label}
+              </button>
+            );
+          }
+        )}
       </div>
 
       <div
@@ -109,28 +140,55 @@ export function ExpertiseTabs({
 
         <div className="space-y-6 text-center">
           {activeCategory.subcategories.map(
-            (subcategory): JSX.Element => (
-              <div key={subcategory.subcategoryId}>
+            (
+              subcategory
+            ): JSX.Element => (
+              <div
+                key={
+                  subcategory.subcategoryId
+                }
+              >
                 <h4 className="mb-3 text-sm font-semibold text-[#283C5D]/80">
                   {subcategory.label}
                 </h4>
 
-                {subcategory.procedures.length > 0 ? (
+                {subcategory.procedures
+                  .length > 0 ? (
                   <div className="flex flex-wrap justify-center gap-3">
                     {subcategory.procedures.map(
-                      (procedure): JSX.Element => (
-                        <span
-                          key={procedure.id}
-                          className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#283C5D] shadow-sm"
+                      (
+                        procedure
+                      ): JSX.Element => (
+                        <button
+                          key={
+                            procedure.id
+                          }
+                          type="button"
+                          onClick={() =>
+                            onProcedureClick?.(
+                              procedure.id
+                            )
+                          }
+                          className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-medium text-[#283C5D] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#D8BD8D] hover:bg-[#F8F3EA] hover:shadow-md active:translate-y-0"
                         >
-                          {procedure.label}
-                        </span>
+                          <span>
+                            {
+                              procedure.label
+                            }
+                          </span>
+
+                          {onProcedureClick && (
+                            <Pencil className="h-3.5 w-3.5 text-[#283C5D]/25 transition-colors group-hover:text-[#D8BD8D]" />
+                          )}
+                        </button>
                       )
                     )}
                   </div>
                 ) : (
                   <p className="text-sm text-[#283C5D]/45">
-                    {noProceduresLabel}
+                    {
+                      noProceduresLabel
+                    }
                   </p>
                 )}
               </div>

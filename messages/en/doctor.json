@@ -98,7 +98,8 @@
         "yearsOfExperience": "Years of experience",
         "years": "years",
         "noTopProcedures": "No top procedures selected",
-        "RPPS": "N° identification RPPS"
+        "RPPS": "N° identification RPPS",
+        "clickProcedureToView": "Select a procedure to learn more"
       },
       "expertise": {
         "title": "Procedures",
@@ -213,6 +214,15 @@
         "removeError": "We couldn't remove this video. Please try again.",
         "emailSubject": "Personal interview video for my Esthetic Match profile",
         "iframeTitle": "Instagram video {shortcode}"
+      },
+      "procedureView": {
+        "eyebrow": "Procedure",
+        "price": "Treatment price",
+        "priceOnRequest": "Price available on request",
+        "about": "About this procedure",
+        "noDescription": "More information about this procedure is available during your consultation.",
+        "close": "Close",
+        "disclaimer": "Treatment suitability, final pricing and expected results are confirmed individually during consultation."
       }
     },
     "bookingConfirmation": {

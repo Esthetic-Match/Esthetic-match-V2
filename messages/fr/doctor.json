@@ -98,7 +98,8 @@
         "yearsOfExperience": "Années d’expérience",
         "years": "ans",
         "noTopProcedures": "Aucune procédure principale sélectionnée",
-        "RPPS": "RPPS identification N°"
+        "RPPS": "RPPS identification N°",
+        "clickProcedureToView": "Sélectionnez une procédure pour en savoir plus"
       },
       "expertise": {
         "title": "procédures",
@@ -213,6 +214,15 @@
         "removeError": "Nous n’avons pas pu retirer cette vidéo. Veuillez réessayer.",
         "emailSubject": "Vidéo d’entretien personnel pour mon profil Esthetic Match",
         "iframeTitle": "Vidéo Instagram {shortcode}"
+      },
+      "procedureView": {
+        "eyebrow": "Procédure",
+        "price": "Tarif du traitement",
+        "priceOnRequest": "Tarif disponible sur demande",
+        "about": "À propos de cette procédure",
+        "noDescription": "Des informations supplémentaires sur cette procédure sont disponibles lors de votre consultation.",
+        "close": "Fermer",
+        "disclaimer": "L’adéquation du traitement, le tarif final et les résultats attendus sont confirmés individuellement lors de la consultation."
       }
     },
      "bookingConfirmation": {
