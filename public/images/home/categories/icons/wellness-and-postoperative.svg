@@ -1,9 +1,9 @@
 <svg width="557" height="570" viewBox="0 0 557 570" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<mask id="mask0_198_93" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="-28" width="557" height="598">
+<mask id="mask0_198_93" style="mask-type:Eminance" maskUnits="userSpaceOnUse" x="0" y="-28" width="557" height="598">
 <path d="M0 -28H556.207V569.773H0V-28Z" fill="white"/>
 </mask>
 <g mask="url(#mask0_198_93)">
-<mask id="mask1_198_93" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-132" y="-57" width="689" height="689">
+<mask id="mask1_198_93" style="mask-type:Eminance" maskUnits="userSpaceOnUse" x="-132" y="-57" width="689" height="689">
 <rect x="-131.201" y="-56.304" width="687.835" height="687.835" fill="url(#pattern0_198_93)"/>
 </mask>
 <g mask="url(#mask1_198_93)">

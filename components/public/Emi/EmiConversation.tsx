@@ -15,20 +15,20 @@ import {
 } from "next-intl";
 import Image from "next/image";
 
-import LumiAssistantResponse from "./LumiAssistantResponse";
-import LumiComposer from "./LumiComposer";
-import LumiLoadingDots from "./LumiLoadingDots";
+import EmiAssistantResponse from "./EmiAssistantResponse";
+import EmiComposer from "./EmiComposer";
+import EmiLoadingDots from "./EmiLoadingDots";
 
 import type {
-  LumiConversationTurn,
-  LumiRecommendResponse,
+  EmiConversationTurn,
+  EmiRecommendResponse,
 } from "./types";
 
 const PENDING_QUERY_KEY =
-  "lumi:pending-query";
+  "Emi:pending-query";
 
 const CONVERSATION_KEY =
-  "lumi:conversation";
+  "Emi:conversation";
 
 function createId() {
   return `${Date.now()}-${Math.random()
@@ -36,19 +36,19 @@ function createId() {
     .slice(2)}`;
 }
 
-export default function LumiConversation() {
+export default function EmiConversation() {
   const locale =
     useLocale();
 
   const t = useTranslations(
-    "lumi.LumiConversation",
+    "Emi.EmiConversation",
   );
 
   const [
     turns,
     setTurns,
   ] = useState<
-    LumiConversationTurn[]
+    EmiConversationTurn[]
   >([]);
 
   const [
@@ -79,7 +79,7 @@ export default function LumiConversation() {
         const id =
           createId();
 
-        const newTurn: LumiConversationTurn =
+        const newTurn: EmiConversationTurn =
           {
             id,
             query,
@@ -126,7 +126,7 @@ export default function LumiConversation() {
             );
 
           const data =
-            (await response.json()) as LumiRecommendResponse;
+            (await response.json()) as EmiRecommendResponse;
 
           if (
             !response.ok ||
@@ -165,7 +165,7 @@ export default function LumiConversation() {
           error
         ) {
           console.error(
-            "Lumi request failed:",
+            "Emi request failed:",
             error,
           );
 
@@ -218,7 +218,7 @@ export default function LumiConversation() {
     initializedRef.current =
       true;
 
-    let restoredTurns: LumiConversationTurn[] =
+    let restoredTurns: EmiConversationTurn[] =
       [];
 
     try {
@@ -342,7 +342,7 @@ export default function LumiConversation() {
     return (
       <main className="min-h-screen bg-[#FAF9F7]">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <LumiLoadingDots />
+          <EmiLoadingDots />
         </div>
       </main>
     );
@@ -355,7 +355,7 @@ export default function LumiConversation() {
           <div className="flex items-center gap-3">
             <div>
               <h1 className="text-lg font-semibold text-[#061A2D]">
-                Lumi
+                Emi
               </h1>
 
               <p className="text-xs text-[#283C5D]/55">
@@ -397,8 +397,8 @@ export default function LumiConversation() {
             <div className="mx-auto flex max-w-2xl flex-col items-center py-16 text-center sm:py-24">
               <div className="relative h-16 w-16 overflow-hidden rounded-[1.25rem] shadow-lg shadow-[#283C5D]/15">
                 <Image
-                  src="/images/lumi.png"
-                  alt="Lumi"
+                  src="/images/Emi.png"
+                  alt="Emi"
                   fill
                   className="object-cover"
                   sizes="64px"
@@ -438,13 +438,13 @@ export default function LumiConversation() {
 
                     {turn.status ===
                       "loading" && (
-                      <LumiLoadingDots />
+                      <EmiLoadingDots />
                     )}
 
                     {turn.status ===
                       "complete" &&
                       turn.response && (
-                        <LumiAssistantResponse
+                        <EmiAssistantResponse
                           response={
                             turn.response
                           }
@@ -456,8 +456,8 @@ export default function LumiConversation() {
                       <div className="flex items-start gap-3">
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full shadow-sm">
                           <Image
-                            src="/images/lumi.png"
-                            alt="Lumi"
+                            src="/images/Emi.png"
+                            alt="Emi"
                             fill
                             className="object-cover"
                             sizes="36px"
@@ -487,7 +487,7 @@ export default function LumiConversation() {
 
         <div className="sticky bottom-0 bg-gradient-to-t from-[#FAF9F7] via-[#FAF9F7] to-transparent pb-5 pt-6 sm:pb-7">
           <div className="mx-auto max-w-3xl">
-            <LumiComposer
+            <EmiComposer
               disabled={
                 isLoading
               }

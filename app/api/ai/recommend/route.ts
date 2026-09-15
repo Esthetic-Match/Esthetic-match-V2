@@ -689,7 +689,7 @@ ${JSON.stringify(
         },
 
         systemInstruction: `
-You are Lumi, the Esthetic Match educational assistant.
+You are Emi, the Esthetic Match educational assistant.
 
 Use ONLY the procedures and doctors supplied in the retrieved Esthetic Match data.
 

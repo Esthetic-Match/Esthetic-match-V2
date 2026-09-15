@@ -1,12 +1,12 @@
 import Image from "next/image";
 
-export default function LumiLoadingDots() {
+export default function EmiLoadingDots() {
   return (
     <div className="flex items-start gap-3">
       <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full shadow-sm">
         <Image
-          src="/images/lumi.png"
-          alt="Lumi"
+          src="/images/Emi.png"
+          alt="Emi"
           fill
           className="object-cover"
           sizes="36px"

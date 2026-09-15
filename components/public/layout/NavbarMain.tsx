@@ -39,7 +39,7 @@ const navItems = [
       { name: t("doctorsNearMe"), link: `/doctors/nearme` },
     ],
   },
-  { name: t("lumi"), link: "/lumi" },
+  { name: t("Emi"), link: "/Emi" },
   { name: t("categories"), link: "/categories" },
   { name: t("faq"), link: "/faq" },
 ];

@@ -7,23 +7,23 @@ import {
 import { useTranslations } from "next-intl";
 
 import type {
-  LumiProcedure,
+  EmiProcedure,
 } from "./types";
 
 type Props = {
-  procedure: LumiProcedure;
+  procedure: EmiProcedure;
 
   aiDescription:
     | string
     | null;
 };
 
-export default function LumiProcedureCard({
+export default function EmiProcedureCard({
   procedure,
   aiDescription,
 }: Props) {
   const t = useTranslations(
-    "lumi.LumiProcedureCard",
+    "Emi.EmiProcedureCard",
   );
 
   return (

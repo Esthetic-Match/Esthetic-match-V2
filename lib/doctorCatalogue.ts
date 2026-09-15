@@ -533,8 +533,8 @@ export const DoctorCatalog = {
 "id": "cheek_filler"
 },
 {
-"name": "Midface Volumization",
-"id": "midface_volumization"
+"name": "Midface VoEmization",
+"id": "midface_voEmization"
 },
 {
 "name": "Non-Surgical Rhinoplasty (Nose Filler)",

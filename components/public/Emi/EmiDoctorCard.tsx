@@ -16,11 +16,11 @@ import {
 import { Link } from "@/i18n/navigation";
 
 import type {
-  LumiDoctor,
+  EmiDoctor,
 } from "./types";
 
 type Props = {
-  doctor: LumiDoctor;
+  doctor: EmiDoctor;
 };
 
 function formatPrice(
@@ -64,11 +64,11 @@ function formatPrice(
   }
 }
 
-export default function LumiDoctorCard({
+export default function EmiDoctorCard({
   doctor,
 }: Props) {
   const t = useTranslations(
-    "lumi.LumiDoctorCard",
+    "Emi.EmiDoctorCard",
   );
 
   const locale =

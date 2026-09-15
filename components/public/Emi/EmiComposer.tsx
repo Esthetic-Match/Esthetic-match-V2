@@ -17,12 +17,12 @@ type Props = {
   ) => void;
 };
 
-export default function LumiComposer({
+export default function EmiComposer({
   disabled = false,
   onSubmit,
 }: Props) {
   const t = useTranslations(
-    "lumi.LumiComposer",
+    "Emi.EmiComposer",
   );
 
   const [value, setValue] =
@@ -48,8 +48,8 @@ export default function LumiComposer({
       <div className="flex items-center gap-3">
         <div className="relative ml-1 h-9 w-9 shrink-0 overflow-hidden rounded-full">
           <Image
-            src="/images/lumi.png"
-            alt="Lumi"
+            src="/images/Emi.png"
+            alt="Emi"
             fill
             className="object-cover"
             sizes="36px"

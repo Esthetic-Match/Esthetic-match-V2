@@ -6,24 +6,24 @@ import {
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-import LumiCarousel from "./LumiCarousel";
-import LumiDoctorCard from "./LumiDoctorCard";
-import LumiProcedureCard from "./LumiProcedureCard";
+import EmiCarousel from "./EmiCarousel";
+import EmiDoctorCard from "./EmiDoctorCard";
+import EmiProcedureCard from "./EmiProcedureCard";
 
 import type {
-  LumiRecommendResponse,
+  EmiRecommendResponse,
 } from "./types";
 
 type Props = {
   response:
-    LumiRecommendResponse;
+    EmiRecommendResponse;
 };
 
-export default function LumiAssistantResponse({
+export default function EmiAssistantResponse({
   response,
 }: Props) {
   const t = useTranslations(
-    "lumi.LumiAssistantResponse",
+    "Emi.EmiAssistantResponse",
   );
 
   const insightMap =
@@ -43,8 +43,8 @@ export default function LumiAssistantResponse({
     <div className="flex items-start gap-3">
       <div className="relative hidden h-9 w-9 shrink-0 overflow-hidden rounded-full shadow-sm sm:block">
         <Image
-          src="/images/lumi.png"
-          alt="Lumi"
+          src="/images/Emi.png"
+          alt="Emi"
           fill
           className="object-cover"
           sizes="36px"
@@ -58,8 +58,8 @@ export default function LumiAssistantResponse({
             <div className="mb-3 flex items-center gap-2">
               <div className="relative h-5 w-5 overflow-hidden rounded-full">
                 <Image
-                  src="/images/lumi.png"
-                  alt="Lumi"
+                  src="/images/Emi.png"
+                  alt="Emi"
                   fill
                   className="object-cover"
                   sizes="20px"
@@ -67,7 +67,7 @@ export default function LumiAssistantResponse({
               </div>
 
               <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#D8BD8D]">
-                Lumi
+                Emi
               </span>
             </div>
 
@@ -95,12 +95,12 @@ export default function LumiAssistantResponse({
               </h2>
             </div>
 
-            <LumiCarousel>
+            <EmiCarousel>
               {response.procedures.map(
                 (
                   procedure,
                 ) => (
-                  <LumiProcedureCard
+                  <EmiProcedureCard
                     key={
                       procedure.procedureId
                     }
@@ -116,7 +116,7 @@ export default function LumiAssistantResponse({
                   />
                 ),
               )}
-            </LumiCarousel>
+            </EmiCarousel>
           </section>
         )}
 
@@ -142,12 +142,12 @@ export default function LumiAssistantResponse({
               </h2>
             </div>
 
-            <LumiCarousel>
+            <EmiCarousel>
               {response.doctors.map(
                 (
                   doctor,
                 ) => (
-                  <LumiDoctorCard
+                  <EmiDoctorCard
                     key={
                       doctor.doctorProfileId
                     }
@@ -157,7 +157,7 @@ export default function LumiAssistantResponse({
                   />
                 ),
               )}
-            </LumiCarousel>
+            </EmiCarousel>
           </section>
         )}
 
