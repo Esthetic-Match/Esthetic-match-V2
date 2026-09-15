@@ -4,7 +4,7 @@
     "proceduresTitle": "Procédures à découvrir",
     "doctorsLabel": "Médecins",
     "doctorsTitle": "Médecins correspondant à vos besoins",
-    "noDoctors": "Emi a identifié des procédures pertinentes, mais aucun médecin correspondant n’est actuellement disponible sur Esthetic Match."
+    "noDoctors": "EMi a identifié des procédures pertinentes, mais aucun médecin correspondant n’est actuellement disponible sur Esthetic Match."
   },
     "EmiCarousel": {
     "scrollLeft": "Faire défiler vers la gauche",
@@ -19,10 +19,10 @@
     "newSearch": "Nouvelle recherche",
     "emptyTitle": "Que souhaitez-vous explorer ?",
     "emptyDescription": "Décrivez votre préoccupation ou votre objectif avec vos propres mots. Emi peut vous aider à découvrir des procédures et des médecins pertinents sur Esthetic Match.",
-    "searchError": "Emi n’a pas pu effectuer votre recherche.",
+    "searchError": "EMi n’a pas pu effectuer votre recherche.",
     "genericError": "Une erreur s’est produite.",
-    "fallbackError": "Emi n’a pas pu effectuer cette recherche. Veuillez réessayer.",
-    "disclaimer": "Emi fournit des informations à titre éducatif et ne pose pas de diagnostic. L’adéquation d’un traitement doit être confirmée avec un professionnel de santé qualifié."
+    "fallbackError": "EMi n’a pas pu effectuer cette recherche. Veuillez réessayer.",
+    "disclaimer": "EMi fournit des informations à titre éducatif et ne pose pas de diagnostic. L’adéquation d’un traitement doit être confirmée avec un professionnel de santé qualifié."
   },
     "EmiDoctorCard": {
     "doctorFallback": "Médecin",
@@ -33,11 +33,11 @@
     "viewProfile": "Voir le profil"
   },
     "EmiProcedureCard": {
-    "fallbackDescription": "Emi a identifié ce traitement comme une option qui pourrait être pertinente à discuter en fonction de votre préoccupation."
+    "fallbackDescription": "EMi a identifié ce traitement comme une option qui pourrait être pertinente à discuter en fonction de votre préoccupation."
   },
     "AISearchBar": {
-    "aiSearchLabel": "Demander à Emi",
-    "search": "Demander à Emi",
+    "aiSearchLabel": "Demander à EMi",
+    "search": "Demander à EMi",
     "aiPlaceholders": [
       "quel est votre préoccupation esthétique?",
       "Parlez-moi de vos préoccupations...",

@@ -4,25 +4,25 @@
     "proceduresTitle": "Procedures to explore",
     "doctorsLabel": "Doctors",
     "doctorsTitle": "Doctors matching your needs",
-    "noDoctors": "Emi found relevant procedures, but no matching doctors are currently available on Esthetic Match."
+    "noDoctors": "EMi found relevant procedures, but no matching doctors are currently available on Esthetic Match."
   },
     "EmiCarousel": {
     "scrollLeft": "Scroll left",
     "scrollRight": "Scroll right"
   },
     "EmiComposer": {
-    "placeholder": "Describe what you'd like to improve or ask Emi a question...",
+    "placeholder": "Describe what you'd like to improve or ask EMi a question...",
     "sendMessage": "Send message"
   },
     "EmiConversation": {
     "subtitle": "Your Esthetic Match assistant",
     "newSearch": "New search",
     "emptyTitle": "What would you like to explore?",
-    "emptyDescription": "Describe your concern or goal in your own words. Emi can help you explore relevant procedures and doctors on Esthetic Match.",
-    "searchError": "Emi could not complete your search.",
+    "emptyDescription": "Describe your concern or goal in your own words. EMi can help you explore relevant procedures and doctors on Esthetic Match.",
+    "searchError": "EMi could not complete your search.",
     "genericError": "Something went wrong.",
-    "fallbackError": "Emi couldn't complete that search. Please try again.",
-    "disclaimer": "Emi provides educational guidance, not a diagnosis. Treatment suitability should be confirmed with a qualified medical professional."
+    "fallbackError": "EMi couldn't complete that search. Please try again.",
+    "disclaimer": "EMi provides educational guidance, not a diagnosis. Treatment suitability should be confirmed with a qualified medical professional."
   },
     "EmiDoctorCard": {
     "doctorFallback": "Doctor",
@@ -33,11 +33,11 @@
     "viewProfile": "View profile"
   },
     "EmiProcedureCard": {
-    "fallbackDescription": "Emi identified this as a treatment worth discussing based on your concern."
+    "fallbackDescription": "EMi identified this as a treatment worth discussing based on your concern."
   },
     "AISearchBar": {
-    "aiSearchLabel": "Ask Emi",
-    "search": "Ask Emi",
+    "aiSearchLabel": "Ask EMi",
+    "search": "Ask EMi",
     "aiPlaceholders": [
       "Ask me anything...",
       "Tell me your concerns...",
