@@ -1,4 +1,4 @@
-export type LumiProcedure = {
+export type EmiProcedure = {
   procedureId: string;
   name: string;
   description: string | null;
@@ -15,12 +15,12 @@ export type LumiProcedure = {
   }[];
 };
 
-export type LumiProcedureInsight = {
+export type EmiProcedureInsight = {
   procedureId: string;
   description: string;
 };
 
-export type LumiMatchedProcedure = {
+export type EmiMatchedProcedure = {
   procedureId: string;
   name: string;
   similarity: number;
@@ -28,7 +28,7 @@ export type LumiMatchedProcedure = {
   price: number | string | null;
 };
 
-export type LumiDoctor = {
+export type EmiDoctor = {
   doctorProfileId: string;
   userId: string;
 
@@ -67,12 +67,12 @@ export type LumiDoctor = {
   matchedProcedureCount: number;
 
   matchedProcedures:
-    LumiMatchedProcedure[];
+    EmiMatchedProcedure[];
 
   score: number;
 };
 
-export type LumiRecommendResponse = {
+export type EmiRecommendResponse = {
   success: boolean;
 
   query: string;
@@ -81,12 +81,12 @@ export type LumiRecommendResponse = {
   answer: string | null;
 
   procedureInsights:
-    LumiProcedureInsight[];
+    EmiProcedureInsight[];
 
   warning?: string;
 
-  procedures: LumiProcedure[];
-  doctors: LumiDoctor[];
+  procedures: EmiProcedure[];
+  doctors: EmiDoctor[];
 
   retrieval?: {
     procedureCount: number;
@@ -97,7 +97,7 @@ export type LumiRecommendResponse = {
   error?: string;
 };
 
-export type LumiConversationTurn = {
+export type EmiConversationTurn = {
   id: string;
   query: string;
 
@@ -107,7 +107,7 @@ export type LumiConversationTurn = {
     | "error";
 
   response:
-    | LumiRecommendResponse
+    | EmiRecommendResponse
     | null;
 
   error: string | null;

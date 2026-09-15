@@ -18,10 +18,10 @@ import {
 import { useRouter } from "@/i18n/navigation";
 
 const PENDING_QUERY_KEY =
-  "lumi:pending-query";
+  "Emi:pending-query";
 
 export default function AISearchBar() {
-  const t = useTranslations("lumi.AISearchBar")
+  const t = useTranslations("Emi.AISearchBar")
 
   const locale = useLocale();
   const router = useRouter();
@@ -84,7 +84,7 @@ export default function AISearchBar() {
       }),
     );
 
-    router.push("/lumi");
+    router.push("/Emi");
   }
 
   return (

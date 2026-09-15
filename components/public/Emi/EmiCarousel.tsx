@@ -14,11 +14,11 @@ type Props = {
   children: ReactNode;
 };
 
-export default function LumiCarousel({
+export default function EmiCarousel({
   children,
 }: Props) {
   const t = useTranslations(
-    "lumi.LumiCarousel",
+    "Emi.EmiCarousel",
   );
 
   const containerRef =
