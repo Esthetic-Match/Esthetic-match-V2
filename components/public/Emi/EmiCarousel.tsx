@@ -48,13 +48,27 @@ export default function EmiCarousel({
 
   return (
     <div className="relative">
-      <div
-        ref={containerRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {children}
+      {/* CAROUSEL VIEWPORT */}
+      <div className="px-0 md:px-12">
+        <div
+          ref={containerRef}
+          className="
+            flex
+            snap-x
+            snap-mandatory
+            gap-4
+            overflow-x-auto
+            scroll-smooth
+            pb-2
+            [scrollbar-width:none]
+            [&::-webkit-scrollbar]:hidden
+          "
+        >
+          {children}
+        </div>
       </div>
 
+      {/* LEFT */}
       <button
         type="button"
         onClick={() =>
@@ -63,11 +77,38 @@ export default function EmiCarousel({
         aria-label={t(
           "scrollLeft",
         )}
-        className="absolute -left-3 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#283C5D]/10 bg-white text-[#283C5D] shadow-md transition hover:bg-[#283C5D] hover:text-white md:flex"
+        className="
+          absolute
+          left-1
+          top-1/2
+          z-20
+          hidden
+          h-9
+          w-9
+          -translate-y-1/2
+          cursor-pointer
+          items-center
+          justify-center
+          rounded-full
+          border
+          border-[#283C5D]/10
+          bg-white
+          text-[#283C5D]
+          shadow-[0_8px_24px_rgba(4,15,30,0.16)]
+          transition
+
+          hover:bg-[#283C5D]
+          hover:text-white
+
+          md:flex
+        "
       >
-        <ChevronLeft size={17} />
+        <ChevronLeft
+          size={17}
+        />
       </button>
 
+      {/* RIGHT */}
       <button
         type="button"
         onClick={() =>
@@ -76,9 +117,35 @@ export default function EmiCarousel({
         aria-label={t(
           "scrollRight",
         )}
-        className="absolute -right-3 top-1/2 z-10 hidden h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#283C5D]/10 bg-white text-[#283C5D] shadow-md transition hover:bg-[#283C5D] hover:text-white md:flex"
+        className="
+          absolute
+          right-1
+          top-1/2
+          z-20
+          hidden
+          h-9
+          w-9
+          -translate-y-1/2
+          cursor-pointer
+          items-center
+          justify-center
+          rounded-full
+          border
+          border-[#283C5D]/10
+          bg-white
+          text-[#283C5D]
+          shadow-[0_8px_24px_rgba(4,15,30,0.16)]
+          transition
+
+          hover:bg-[#283C5D]
+          hover:text-white
+
+          md:flex
+        "
       >
-        <ChevronRight size={17} />
+        <ChevronRight
+          size={17}
+        />
       </button>
     </div>
   );

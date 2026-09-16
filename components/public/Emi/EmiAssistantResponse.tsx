@@ -56,18 +56,8 @@ export default function EmiAssistantResponse({
         {response.answer && (
           <div className="rounded-[1.6rem] rounded-tl-md border border-[#283C5D]/8 bg-white px-5 py-5 shadow-sm sm:px-6">
             <div className="mb-3 flex items-center gap-2">
-              <div className="relative h-5 w-5 overflow-hidden rounded-full">
-                <Image
-                  src="/images/Emi.png"
-                  alt="Emi"
-                  fill
-                  className="object-cover"
-                  sizes="20px"
-                />
-              </div>
-
               <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#D8BD8D]">
-                Emi
+                EMi
               </span>
             </div>
 
