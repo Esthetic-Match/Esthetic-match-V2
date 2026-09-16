@@ -195,3 +195,15 @@
   background: rgba(216, 189, 141, 0.9);
   background-clip: content-box;
 }
+
+/* Emi chat — scroll normally without showing the scrollbar */
+.emi-scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.emi-scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
