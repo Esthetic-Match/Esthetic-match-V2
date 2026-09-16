@@ -199,3 +199,63 @@ export type Review = Prisma.ReviewModel
  * 
  */
 export type ReviewInvitation = Prisma.ReviewInvitationModel
+/**
+ * Model PostOpTemplate
+ * 
+ */
+export type PostOpTemplate = Prisma.PostOpTemplateModel
+/**
+ * Model PostOpTemplateStep
+ * 
+ */
+export type PostOpTemplateStep = Prisma.PostOpTemplateStepModel
+/**
+ * Model PostOpTemplateBlock
+ * 
+ */
+export type PostOpTemplateBlock = Prisma.PostOpTemplateBlockModel
+/**
+ * Model PostOpTemplateReminder
+ * 
+ */
+export type PostOpTemplateReminder = Prisma.PostOpTemplateReminderModel
+/**
+ * Model PostOpCase
+ * 
+ */
+export type PostOpCase = Prisma.PostOpCaseModel
+/**
+ * Model PostOpCaseStep
+ * 
+ */
+export type PostOpCaseStep = Prisma.PostOpCaseStepModel
+/**
+ * Model PostOpCaseBlock
+ * 
+ */
+export type PostOpCaseBlock = Prisma.PostOpCaseBlockModel
+/**
+ * Model PostOpCaseReminder
+ * 
+ */
+export type PostOpCaseReminder = Prisma.PostOpCaseReminderModel
+/**
+ * Model PostOpInvitation
+ * 
+ */
+export type PostOpInvitation = Prisma.PostOpInvitationModel
+/**
+ * Model PostOpPatientNote
+ * 
+ */
+export type PostOpPatientNote = Prisma.PostOpPatientNoteModel
+/**
+ * Model PostOpPatientNoteAttachment
+ * 
+ */
+export type PostOpPatientNoteAttachment = Prisma.PostOpPatientNoteAttachmentModel
+/**
+ * Model PostOpAlert
+ * 
+ */
+export type PostOpAlert = Prisma.PostOpAlertModel

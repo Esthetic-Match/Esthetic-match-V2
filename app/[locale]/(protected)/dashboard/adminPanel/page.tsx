@@ -18,6 +18,7 @@ import AdminDoctorProcedures from "@/components/dashboard/admin/AdminDoctorProce
 import TopThreeAdmin from "@/components/dashboard/admin/TopThreeAdmin";
 import AdminDoctorSocialMedia from "@/components/dashboard/admin/AdminDoctorSocialMedia";
 import AdminProcedureDefaults from "@/components/dashboard/admin/AdminProcedureDefaults";
+import PostOpAdminOverview from "@/components/dashboard/admin/PostOpAdminOverview";
 
 const ADMIN_TAB_IDS = [
   "overview",
@@ -25,6 +26,7 @@ const ADMIN_TAB_IDS = [
   "bookings",
   "users",
   "catalogue",
+  "post-op",
 ] as const;
 
 type AdminTabId =
@@ -90,6 +92,10 @@ function TabPanel({
 
         <div className="grid gap-5 md:grid-cols-3">
           <AdminStatsCards />
+        </div>
+
+        <div className="mt-8">
+          <PostOpAdminOverview />
         </div>
 
         <InstagramReelsAdmin />
@@ -160,36 +166,55 @@ function TabPanel({
     );
   }
 
-  return (
-    <section className="mt-8">
-      <SectionHeader
-        title={t("tabs.catalogue.label")}
-        description={t(
-          "tabs.catalogue.sectionDescription"
-        )}
-      />
+  if (activeTab === "catalogue") {
+    return (
+      <section className="mt-8">
+        <SectionHeader
+          title={t("tabs.catalogue.label")}
+          description={t(
+            "tabs.catalogue.sectionDescription"
+          )}
+        />
 
-      <div className="space-y-10">
-        <CatalogueAdminManager />
+        <div className="space-y-10">
+          <CatalogueAdminManager />
 
-        <div>
-          <div className="mb-5">
-            <h3 className="text-lg font-bold text-[#283C5D]">
-              Procedure details
-            </h3>
+          <div>
+            <div className="mb-5">
+              <h3 className="text-lg font-bold text-[#283C5D]">
+                Procedure details
+              </h3>
 
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-[#283C5D]/60">
-              Manage default procedure prices and
-              descriptions displayed across the
-              platform.
-            </p>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-[#283C5D]/60">
+                Manage default procedure prices and
+                descriptions displayed across the
+                platform.
+              </p>
+            </div>
+
+            <AdminProcedureDefaults />
           </div>
-
-          <AdminProcedureDefaults />
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  }
+
+  if (activeTab === "post-op") {
+    return (
+      <section className="mt-8">
+        <SectionHeader
+          title={t("tabs.postOp.label")}
+          description={t(
+            "tabs.postOp.sectionDescription"
+          )}
+        />
+
+        <PostOpAdminOverview />
+      </section>
+    );
+  }
+
+  return null;
 }
 
 export default function AdminPanelPage() {
@@ -234,6 +259,13 @@ export default function AdminPanelPage() {
       label: t("tabs.catalogue.label"),
       description: t(
         "tabs.catalogue.description"
+      ),
+    },
+    {
+      id: "post-op",
+      label: t("tabs.postOp.label"),
+      description: t(
+        "tabs.postOp.description"
       ),
     },
   ];

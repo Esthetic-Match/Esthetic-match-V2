@@ -358,6 +358,142 @@ export type EnumMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumMessageTypeFilter<$PrismaModel>
 }
 
+export type EnumPostOpTemplateScopeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpTemplateScope | Prisma.EnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpTemplateScopeFilter<$PrismaModel> | $Enums.PostOpTemplateScope
+}
+
+export type EnumPostOpTemplateScopeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpTemplateScope | Prisma.EnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpTemplateScopeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpTemplateScope
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpTemplateScopeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpTemplateScopeFilter<$PrismaModel>
+}
+
+export type EnumPostOpStepCompletionModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpStepCompletionMode | Prisma.EnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpStepCompletionModeFilter<$PrismaModel> | $Enums.PostOpStepCompletionMode
+}
+
+export type EnumPostOpStepCompletionModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpStepCompletionMode | Prisma.EnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpStepCompletionModeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpStepCompletionMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpStepCompletionModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpStepCompletionModeFilter<$PrismaModel>
+}
+
+export type EnumPostOpContentTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpContentType | Prisma.EnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpContentTypeFilter<$PrismaModel> | $Enums.PostOpContentType
+}
+
+export type EnumPostOpBookingTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpBookingType | Prisma.EnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPostOpBookingTypeNullableFilter<$PrismaModel> | $Enums.PostOpBookingType | null
+}
+
+export type EnumPostOpContentTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpContentType | Prisma.EnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpContentTypeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpContentType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpContentTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpContentTypeFilter<$PrismaModel>
+}
+
+export type EnumPostOpBookingTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpBookingType | Prisma.EnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPostOpBookingTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.PostOpBookingType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpBookingTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpBookingTypeNullableFilter<$PrismaModel>
+}
+
+export type EnumPostOpReminderTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpReminderType | Prisma.EnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpReminderTypeFilter<$PrismaModel> | $Enums.PostOpReminderType
+}
+
+export type EnumPostOpReminderTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpReminderType | Prisma.EnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpReminderTypeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpReminderType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpReminderTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpReminderTypeFilter<$PrismaModel>
+}
+
+export type EnumPostOpCaseStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpCaseStatus | Prisma.EnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpCaseStatusFilter<$PrismaModel> | $Enums.PostOpCaseStatus
+}
+
+export type EnumPostOpCaseStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpCaseStatus | Prisma.EnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpCaseStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostOpCaseStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpCaseStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpCaseStatusFilter<$PrismaModel>
+}
+
+export type EnumPostOpAlertSeverityFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertSeverity | Prisma.EnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertSeverityFilter<$PrismaModel> | $Enums.PostOpAlertSeverity
+}
+
+export type EnumPostOpAlertStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertStatus | Prisma.EnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertStatusFilter<$PrismaModel> | $Enums.PostOpAlertStatus
+}
+
+export type EnumPostOpAlertSeverityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertSeverity | Prisma.EnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertSeverityWithAggregatesFilter<$PrismaModel> | $Enums.PostOpAlertSeverity
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpAlertSeverityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpAlertSeverityFilter<$PrismaModel>
+}
+
+export type EnumPostOpAlertStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertStatus | Prisma.EnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostOpAlertStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpAlertStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpAlertStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -702,6 +838,142 @@ export type NestedEnumMessageTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumMessageTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumMessageTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpTemplateScopeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpTemplateScope | Prisma.EnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpTemplateScopeFilter<$PrismaModel> | $Enums.PostOpTemplateScope
+}
+
+export type NestedEnumPostOpTemplateScopeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpTemplateScope | Prisma.EnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpTemplateScope[] | Prisma.ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpTemplateScopeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpTemplateScope
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpTemplateScopeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpTemplateScopeFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpStepCompletionModeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpStepCompletionMode | Prisma.EnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpStepCompletionModeFilter<$PrismaModel> | $Enums.PostOpStepCompletionMode
+}
+
+export type NestedEnumPostOpStepCompletionModeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpStepCompletionMode | Prisma.EnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpStepCompletionMode[] | Prisma.ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpStepCompletionModeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpStepCompletionMode
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpStepCompletionModeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpStepCompletionModeFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpContentTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpContentType | Prisma.EnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpContentTypeFilter<$PrismaModel> | $Enums.PostOpContentType
+}
+
+export type NestedEnumPostOpBookingTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpBookingType | Prisma.EnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPostOpBookingTypeNullableFilter<$PrismaModel> | $Enums.PostOpBookingType | null
+}
+
+export type NestedEnumPostOpContentTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpContentType | Prisma.EnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpContentType[] | Prisma.ListEnumPostOpContentTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpContentTypeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpContentType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpContentTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpContentTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpBookingTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpBookingType | Prisma.EnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.PostOpBookingType[] | Prisma.ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumPostOpBookingTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.PostOpBookingType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpBookingTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpBookingTypeNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpReminderTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpReminderType | Prisma.EnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpReminderTypeFilter<$PrismaModel> | $Enums.PostOpReminderType
+}
+
+export type NestedEnumPostOpReminderTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpReminderType | Prisma.EnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpReminderType[] | Prisma.ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpReminderTypeWithAggregatesFilter<$PrismaModel> | $Enums.PostOpReminderType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpReminderTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpReminderTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpCaseStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpCaseStatus | Prisma.EnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpCaseStatusFilter<$PrismaModel> | $Enums.PostOpCaseStatus
+}
+
+export type NestedEnumPostOpCaseStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpCaseStatus | Prisma.EnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpCaseStatus[] | Prisma.ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpCaseStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostOpCaseStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpCaseStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpCaseStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpAlertSeverityFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertSeverity | Prisma.EnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertSeverityFilter<$PrismaModel> | $Enums.PostOpAlertSeverity
+}
+
+export type NestedEnumPostOpAlertStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertStatus | Prisma.EnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertStatusFilter<$PrismaModel> | $Enums.PostOpAlertStatus
+}
+
+export type NestedEnumPostOpAlertSeverityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertSeverity | Prisma.EnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertSeverity[] | Prisma.ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertSeverityWithAggregatesFilter<$PrismaModel> | $Enums.PostOpAlertSeverity
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpAlertSeverityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpAlertSeverityFilter<$PrismaModel>
+}
+
+export type NestedEnumPostOpAlertStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PostOpAlertStatus | Prisma.EnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PostOpAlertStatus[] | Prisma.ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPostOpAlertStatusWithAggregatesFilter<$PrismaModel> | $Enums.PostOpAlertStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPostOpAlertStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPostOpAlertStatusFilter<$PrismaModel>
 }
 
 

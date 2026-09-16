@@ -275,6 +275,11 @@
         "label": "Catalogue",
         "description": "Gérez le contenu du catalogue utilisé sur la plateforme.",
         "sectionDescription": "Gérez les spécialités, les procédures, les catégories et les données du catalogue."
+      },
+      "postOp": {
+        "label": "Post-op",
+        "description": "Gérez les modèles de récupération et l’expérience post-opératoire.",
+        "sectionDescription": "Configurez et gérez les parcours de récupération post-opératoire par défaut disponibles sur Esthetic Match."
       }
     }
   },
@@ -324,5 +329,22 @@
     "afterImageAlt": "Image après pour {title}",
     "visibilityToggleLabel": "Modifier la visibilité du cas",
     "visibilityUpdateError": "Nous n’avons pas pu modifier la visibilité de ce cas. Veuillez réessayer."
-  }
+  },
+    "postOpOverview": {
+      "eyebrow": "Post-op",
+      "title": "Gestion de la récupération",
+      "description": "Créez et gérez les modèles post-opératoires spécifiques aux procédures, les instructions, les rappels et les étapes de suivi.",
+      "templates": {
+        "title": "Modèles",
+        "description": "Créez les parcours de récupération."
+      },
+      "procedures": {
+        "title": "Procédures",
+        "description": "Configurez le suivi par procédure."
+      },
+      "recovery": {
+        "title": "Récupération",
+        "description": "Gérez les étapes et rappels."
+      }
+    }
 }

@@ -47,6 +47,54 @@ enum SocialMediaPlatform {
   OTHER
 }
 
+enum PostOpTemplateScope {
+  DEFAULT
+  DOCTOR
+}
+
+enum PostOpCaseStatus {
+  INVITED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum PostOpContentType {
+  TEXT
+  IMAGE
+  VIDEO
+  BOOKING
+}
+
+enum PostOpBookingType {
+  IN_CLINIC
+  ONLINE
+  EITHER
+}
+
+enum PostOpReminderType {
+  DO
+  DONT
+  GENERAL
+}
+
+enum PostOpStepCompletionMode {
+  TIME_BASED
+  MANUAL
+}
+
+enum PostOpAlertSeverity {
+  CONCERN
+  URGENT
+  EMERGENCY
+}
+
+enum PostOpAlertStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+}
+
 model User {
   id                  String              @id @default(cuid())
   email               String              @unique
@@ -76,9 +124,17 @@ model User {
   doctorReviews     Review[]           @relation("PatientDoctorReviews")
   reviewInvitations ReviewInvitation[] @relation("PatientReviewInvitations")
 
+  postOpCases PostOpCase[] @relation("PatientPostOpCases")
+
+  postOpInvitations PostOpInvitation[] @relation( "PatientPostOpInvitations")
+
+  postOpNotes PostOpPatientNote[] @relation( "PostOpNoteAuthor")
+
+  postOpAlerts PostOpAlert[] @relation("PostOpAlertReporter")
+
   @@index([role])
   @@map("user")
-}
+  }
 
 model DoctorProfile {
   id     String  @id @default(cuid())
@@ -147,6 +203,9 @@ model DoctorProfile {
   reviews           Review[]
   reviewInvitations ReviewInvitation[]
 
+  postOpTemplates PostOpTemplate[]
+  postOpCases     PostOpCase[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -170,6 +229,7 @@ model CatalogLocale {
   categoryTranslations       CategoryTranslation[]
   subcategoryTranslations    SubcategoryTranslation[]
   procedureTranslations      ProcedureTranslation[]
+  postOpTemplates            PostOpTemplate[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -344,6 +404,9 @@ model Procedure {
   beforeAfterCases BeforeAfterCase[]
 
   embedding ProcedureEmbedding?
+
+  postOpTemplates PostOpTemplate[]
+  postOpCases     PostOpCase[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -900,4 +963,488 @@ model ReviewInvitation {
   @@index([expiresAt])
   @@index([doctorProfileId, patientUserId])
   @@map("review_invitation")
+}
+
+
+// POST OPP/////////////////////////////////////////////////////////////////////////////////////////
+model PostOpTemplate {
+  id String @id @default(cuid())
+
+  /*
+   * Used to guarantee one template for each scope.
+   *
+   * Examples:
+   * default:rhinoplasty:en
+   * doctor:doctorProfileId:rhinoplasty:en
+   */
+  templateKey String @unique
+
+  procedureId String
+  procedure   Procedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  localeCode String @db.VarChar(35)
+  locale     CatalogLocale @relation(fields: [localeCode], references: [code], onDelete: Restrict)
+
+  scope PostOpTemplateScope
+
+  /*
+   * Null = Esthetic Match default template.
+   * Populated = doctor-specific customized template.
+   */
+  doctorProfileId String?
+  doctorProfile   DoctorProfile? @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  /*
+   * If this is a customized doctor template,
+   * keep track of which default it originated from.
+   */
+  sourceTemplateId String?
+
+  sourceTemplate PostOpTemplate? @relation("PostOpTemplateSource", fields: [sourceTemplateId], references: [id], onDelete: SetNull)
+
+  derivedTemplates PostOpTemplate[] @relation("PostOpTemplateSource")
+
+  title       String
+  description String?
+
+  version  Int     @default(1)
+  isActive Boolean @default(true)
+
+  steps     PostOpTemplateStep[]
+  reminders PostOpTemplateReminder[]
+
+  patientCases PostOpCase[] @relation("PostOpCaseSourceTemplate")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([procedureId])
+  @@index([doctorProfileId])
+  @@index([procedureId, localeCode])
+  @@index([doctorProfileId, procedureId])
+  @@index([scope, isActive])
+  @@map("post_op_template")
+}
+
+model PostOpTemplateStep {
+  id String @id @default(cuid())
+
+  templateId String
+  template   PostOpTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String?
+
+  /*
+   * Example:
+   *
+   * Step 1:
+   * startsAfterHours = 0
+   * completesAfterHours = 168
+   *
+   * Step 2:
+   * startsAfterHours = 168
+   */
+  startsAfterHours    Int @default(0)
+  completesAfterHours Int?
+
+  completionMode PostOpStepCompletionMode @default(TIME_BASED)
+
+  sortOrder Int @default(0)
+
+  blocks    PostOpTemplateBlock[]
+  reminders PostOpTemplateReminder[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([templateId, sortOrder])
+  @@map("post_op_template_step")
+}
+
+model PostOpTemplateBlock {
+  id String @id @default(cuid())
+
+  stepId String
+  step   PostOpTemplateStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  type PostOpContentType
+
+  /*
+   * TEXT
+   */
+  text String?
+
+  /*
+   * IMAGE / VIDEO stored in file storage.
+   */
+  objectPath String?
+
+  /*
+   * Optional external video:
+   * YouTube / Vimeo / etc.
+   */
+  externalUrl String?
+
+  mediaAlt String?
+
+  /*
+   * BOOKING
+   */
+  bookingType PostOpBookingType?
+  bookingUrl  String?
+  buttonLabel String?
+
+  sortOrder Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([stepId, sortOrder])
+  @@map("post_op_template_block")
+}
+
+model PostOpTemplateReminder {
+  id String @id @default(cuid())
+
+  templateId String
+  template   PostOpTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  /*
+   * Null means it applies to the whole PostOp,
+   * rather than a single step.
+   */
+  stepId String?
+  step   PostOpTemplateStep? @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  type PostOpReminderType
+
+  text String
+
+  /*
+   * Example:
+   * "Do not get wound wet"
+   * starts immediately and disappears after 72 hours.
+   */
+  startsAfterHours Int @default(0)
+  endsAfterHours   Int?
+
+  /*
+   * If notifications are enabled:
+   * e.g. every 24 hours.
+   */
+  notificationsEnabled Boolean @default(false)
+  repeatEveryHours     Int?
+
+  /*
+   * Keep prominently displayed in the UI.
+   */
+  isPinned Boolean @default(true)
+
+  sortOrder Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([templateId])
+  @@index([stepId])
+  @@map("post_op_template_reminder")
+}
+
+// PATIENT POST OPP /////////////////////////////////////////////////////////////////////////////////
+model PostOpCase {
+  id String @id @default(cuid())
+
+  doctorProfileId String
+  doctorProfile   DoctorProfile @relation(fields: [doctorProfileId], references: [id], onDelete: Cascade)
+
+  procedureId String
+  procedure   Procedure @relation(fields: [procedureId], references: [id], onDelete: Restrict)
+
+  /*
+   * Nullable until an invited patient has
+   * created/claimed their account.
+   */
+  patientUserId String?
+
+  patientUser User? @relation("PatientPostOpCases", fields: [patientUserId], references: [id], onDelete: SetNull)
+
+  /*
+   * Always snapshot these, including for
+   * registered patients.
+   */
+  patientName  String
+  patientEmail String
+
+  localeCode String @db.VarChar(35)
+
+  /*
+   * Template this PostOp was generated from.
+   * Case still survives if template changes/deletes.
+   */
+  sourceTemplateId String?
+
+  sourceTemplate PostOpTemplate? @relation("PostOpCaseSourceTemplate", fields: [sourceTemplateId], references: [id], onDelete: SetNull)
+
+  sourceTemplateVersion Int?
+
+  /*
+   * Actual operation date/time.
+   * All timeline calculations originate here.
+   */
+  procedurePerformedAt DateTime
+
+  status PostOpCaseStatus @default(INVITED)
+
+  activatedAt DateTime?
+  completedAt DateTime?
+  cancelledAt DateTime?
+
+  steps     PostOpCaseStep[]
+  reminders PostOpCaseReminder[]
+
+  notes  PostOpPatientNote[]
+  alerts PostOpAlert[]
+
+  invitation PostOpInvitation?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([doctorProfileId])
+  @@index([patientUserId])
+  @@index([procedureId])
+  @@index([status])
+  @@index([doctorProfileId, status])
+  @@index([patientUserId, status])
+  @@index([patientEmail])
+  @@map("post_op_case")
+}
+
+model PostOpCaseStep {
+  id String @id @default(cuid())
+
+  caseId String
+  case   PostOpCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  /*
+   * Traceability only.
+   */
+  sourceTemplateStepId String?
+
+  title       String
+  description String?
+
+  sortOrder Int @default(0)
+
+  completionMode PostOpStepCompletionMode
+
+  startsAt   DateTime
+  completesAt DateTime?
+
+  /*
+   * Used for manually completed steps
+   * or when we persist a time-based completion.
+   */
+  completedAt DateTime?
+
+  skippedAt DateTime?
+
+  blocks    PostOpCaseBlock[]
+  reminders PostOpCaseReminder[]
+
+  notes  PostOpPatientNote[]
+  alerts PostOpAlert[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([caseId, sortOrder])
+  @@index([startsAt])
+  @@map("post_op_case_step")
+}
+
+model PostOpCaseBlock {
+  id String @id @default(cuid())
+
+  stepId String
+  step   PostOpCaseStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  type PostOpContentType
+
+  text String?
+
+  objectPath String?
+  externalUrl String?
+  mediaAlt String?
+
+  bookingType PostOpBookingType?
+  bookingUrl  String?
+  buttonLabel String?
+
+  sortOrder Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([stepId, sortOrder])
+  @@map("post_op_case_block")
+}
+
+model PostOpCaseReminder {
+  id String @id @default(cuid())
+
+  caseId String
+  case   PostOpCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  stepId String?
+  step   PostOpCaseStep? @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  type PostOpReminderType
+
+  text String
+
+  startsAt DateTime
+  endsAt   DateTime?
+
+  notificationsEnabled Boolean @default(false)
+  repeatEveryHours     Int?
+
+  nextNotificationAt DateTime?
+  lastNotificationAt DateTime?
+
+  isPinned Boolean @default(true)
+  isActive Boolean @default(true)
+
+  sortOrder Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([caseId])
+  @@index([stepId])
+  @@index([nextNotificationAt])
+  @@map("post_op_case_reminder")
+}
+
+// POST OPP INVITATIONS ///////////////////////////////////////////////////////////////////////////////////////
+model PostOpInvitation {
+  id String @id @default(cuid())
+
+  caseId String @unique
+
+  case PostOpCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  /*
+   * Already registered patient = populated immediately.
+   * New patient = populated when invitation is claimed.
+   */
+  patientUserId String?
+
+  patientUser User? @relation("PatientPostOpInvitations", fields: [patientUserId], references: [id], onDelete: SetNull)
+
+  recipientName  String
+  recipientEmail String
+
+  /*
+   * NEVER store the raw token.
+   */
+  tokenHash String @unique
+
+  expiresAt DateTime
+
+  sentAt    DateTime?
+  openedAt  DateTime?
+  usedAt    DateTime?
+  revokedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientUserId])
+  @@index([recipientEmail])
+  @@index([expiresAt])
+  @@map("post_op_invitation")
+}
+
+// POST OPP COMMUNICATION //////////////////////////////////////////////////////////////////////////////////////////////
+model PostOpPatientNote {
+  id String @id @default(cuid())
+
+  caseId String
+  case   PostOpCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  stepId String?
+  step   PostOpCaseStep? @relation(fields: [stepId], references: [id], onDelete: SetNull)
+
+  patientUserId String
+  patientUser   User @relation("PostOpNoteAuthor", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  text String
+
+  attachments PostOpPatientNoteAttachment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([caseId, createdAt])
+  @@index([stepId])
+  @@index([patientUserId])
+  @@map("post_op_patient_note")
+}
+
+model PostOpPatientNoteAttachment {
+  id String @id @default(cuid())
+
+  noteId String
+  note   PostOpPatientNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+
+  objectPath  String
+  fileName    String?
+  contentType String
+  sizeBytes   Int?
+
+  createdAt DateTime @default(now())
+
+  @@index([noteId])
+  @@map("post_op_patient_note_attachment")
+}
+
+model PostOpAlert {
+  id String @id @default(cuid())
+
+  caseId String
+  case   PostOpCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  stepId String?
+  step   PostOpCaseStep? @relation(fields: [stepId], references: [id], onDelete: SetNull)
+
+  patientUserId String
+  patientUser   User @relation("PostOpAlertReporter", fields: [patientUserId], references: [id], onDelete: Cascade)
+
+  severity PostOpAlertSeverity
+  status   PostOpAlertStatus @default(OPEN)
+
+  message String
+
+  /*
+   * Lets us retry notifications safely
+   * without losing the alert itself.
+   */
+  doctorNotifiedAt DateTime?
+
+  acknowledgedAt DateTime?
+  resolvedAt     DateTime?
+
+  doctorResponse String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([caseId])
+  @@index([stepId])
+  @@index([status])
+  @@index([severity])
+  @@index([caseId, status])
+  @@map("post_op_alert")
 }

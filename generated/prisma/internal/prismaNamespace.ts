@@ -419,7 +419,19 @@ export const ModelName = {
   MessageAttachment: 'MessageAttachment',
   InstagramReel: 'InstagramReel',
   Review: 'Review',
-  ReviewInvitation: 'ReviewInvitation'
+  ReviewInvitation: 'ReviewInvitation',
+  PostOpTemplate: 'PostOpTemplate',
+  PostOpTemplateStep: 'PostOpTemplateStep',
+  PostOpTemplateBlock: 'PostOpTemplateBlock',
+  PostOpTemplateReminder: 'PostOpTemplateReminder',
+  PostOpCase: 'PostOpCase',
+  PostOpCaseStep: 'PostOpCaseStep',
+  PostOpCaseBlock: 'PostOpCaseBlock',
+  PostOpCaseReminder: 'PostOpCaseReminder',
+  PostOpInvitation: 'PostOpInvitation',
+  PostOpPatientNote: 'PostOpPatientNote',
+  PostOpPatientNoteAttachment: 'PostOpPatientNoteAttachment',
+  PostOpAlert: 'PostOpAlert'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -435,7 +447,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "doctorProfile" | "catalogLocale" | "specialtyGroup" | "specialtyGroupTranslation" | "specialty" | "specialtyTranslation" | "category" | "categoryTranslation" | "specialtyCategory" | "subcategory" | "subcategoryTranslation" | "procedure" | "procedureTranslation" | "procedureEmbedding" | "doctorCategory" | "procedureSubcategory" | "doctorSpecialty" | "doctorSubcategory" | "doctorProcedure" | "doctorSocialMedia" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation"
+    modelProps: "user" | "doctorProfile" | "catalogLocale" | "specialtyGroup" | "specialtyGroupTranslation" | "specialty" | "specialtyTranslation" | "category" | "categoryTranslation" | "specialtyCategory" | "subcategory" | "subcategoryTranslation" | "procedure" | "procedureTranslation" | "procedureEmbedding" | "doctorCategory" | "procedureSubcategory" | "doctorSpecialty" | "doctorSubcategory" | "doctorProcedure" | "doctorSocialMedia" | "patientProfile" | "consultationBooking" | "consultationRefundRequest" | "inClinicConsultationAccess" | "onlineConsultationAccess" | "session" | "account" | "verification" | "beforeAfterCase" | "conversation" | "message" | "messageAttachment" | "instagramReel" | "review" | "reviewInvitation" | "postOpTemplate" | "postOpTemplateStep" | "postOpTemplateBlock" | "postOpTemplateReminder" | "postOpCase" | "postOpCaseStep" | "postOpCaseBlock" | "postOpCaseReminder" | "postOpInvitation" | "postOpPatientNote" | "postOpPatientNoteAttachment" | "postOpAlert"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3087,6 +3099,894 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PostOpTemplate: {
+      payload: Prisma.$PostOpTemplatePayload<ExtArgs>
+      fields: Prisma.PostOpTemplateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpTemplateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpTemplateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpTemplateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpTemplateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>
+        }
+        findMany: {
+          args: Prisma.PostOpTemplateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>[]
+        }
+        create: {
+          args: Prisma.PostOpTemplateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>
+        }
+        createMany: {
+          args: Prisma.PostOpTemplateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpTemplateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpTemplateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>
+        }
+        update: {
+          args: Prisma.PostOpTemplateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpTemplateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpTemplateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpTemplateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpTemplateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplatePayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpTemplateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpTemplate>
+        }
+        groupBy: {
+          args: Prisma.PostOpTemplateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpTemplateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpTemplateStep: {
+      payload: Prisma.$PostOpTemplateStepPayload<ExtArgs>
+      fields: Prisma.PostOpTemplateStepFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpTemplateStepFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpTemplateStepFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpTemplateStepFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpTemplateStepFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpTemplateStepFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpTemplateStepCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpTemplateStepCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpTemplateStepCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpTemplateStepDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>
+        }
+        update: {
+          args: Prisma.PostOpTemplateStepUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpTemplateStepDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpTemplateStepUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpTemplateStepUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpTemplateStepUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateStepPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpTemplateStepAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpTemplateStep>
+        }
+        groupBy: {
+          args: Prisma.PostOpTemplateStepGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateStepGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpTemplateStepCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateStepCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpTemplateBlock: {
+      payload: Prisma.$PostOpTemplateBlockPayload<ExtArgs>
+      fields: Prisma.PostOpTemplateBlockFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpTemplateBlockFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpTemplateBlockFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpTemplateBlockFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpTemplateBlockFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpTemplateBlockFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpTemplateBlockCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpTemplateBlockCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpTemplateBlockCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpTemplateBlockDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>
+        }
+        update: {
+          args: Prisma.PostOpTemplateBlockUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpTemplateBlockDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpTemplateBlockUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpTemplateBlockUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpTemplateBlockUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateBlockPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpTemplateBlockAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpTemplateBlock>
+        }
+        groupBy: {
+          args: Prisma.PostOpTemplateBlockGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateBlockGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpTemplateBlockCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateBlockCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpTemplateReminder: {
+      payload: Prisma.$PostOpTemplateReminderPayload<ExtArgs>
+      fields: Prisma.PostOpTemplateReminderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpTemplateReminderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpTemplateReminderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpTemplateReminderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpTemplateReminderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpTemplateReminderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpTemplateReminderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpTemplateReminderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpTemplateReminderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpTemplateReminderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>
+        }
+        update: {
+          args: Prisma.PostOpTemplateReminderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpTemplateReminderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpTemplateReminderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpTemplateReminderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpTemplateReminderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpTemplateReminderPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpTemplateReminderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpTemplateReminder>
+        }
+        groupBy: {
+          args: Prisma.PostOpTemplateReminderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateReminderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpTemplateReminderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpTemplateReminderCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpCase: {
+      payload: Prisma.$PostOpCasePayload<ExtArgs>
+      fields: Prisma.PostOpCaseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpCaseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpCaseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpCaseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpCaseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>
+        }
+        findMany: {
+          args: Prisma.PostOpCaseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>[]
+        }
+        create: {
+          args: Prisma.PostOpCaseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>
+        }
+        createMany: {
+          args: Prisma.PostOpCaseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpCaseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpCaseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>
+        }
+        update: {
+          args: Prisma.PostOpCaseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpCaseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpCaseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpCaseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpCaseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCasePayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpCaseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpCase>
+        }
+        groupBy: {
+          args: Prisma.PostOpCaseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpCaseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpCaseStep: {
+      payload: Prisma.$PostOpCaseStepPayload<ExtArgs>
+      fields: Prisma.PostOpCaseStepFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpCaseStepFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpCaseStepFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpCaseStepFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpCaseStepFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpCaseStepFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpCaseStepCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpCaseStepCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpCaseStepCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpCaseStepDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>
+        }
+        update: {
+          args: Prisma.PostOpCaseStepUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpCaseStepDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpCaseStepUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpCaseStepUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpCaseStepUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseStepPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpCaseStepAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpCaseStep>
+        }
+        groupBy: {
+          args: Prisma.PostOpCaseStepGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseStepGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpCaseStepCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseStepCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpCaseBlock: {
+      payload: Prisma.$PostOpCaseBlockPayload<ExtArgs>
+      fields: Prisma.PostOpCaseBlockFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpCaseBlockFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpCaseBlockFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpCaseBlockFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpCaseBlockFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpCaseBlockFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpCaseBlockCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpCaseBlockCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpCaseBlockCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpCaseBlockDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>
+        }
+        update: {
+          args: Prisma.PostOpCaseBlockUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpCaseBlockDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpCaseBlockUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpCaseBlockUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpCaseBlockUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseBlockPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpCaseBlockAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpCaseBlock>
+        }
+        groupBy: {
+          args: Prisma.PostOpCaseBlockGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseBlockGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpCaseBlockCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseBlockCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpCaseReminder: {
+      payload: Prisma.$PostOpCaseReminderPayload<ExtArgs>
+      fields: Prisma.PostOpCaseReminderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpCaseReminderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpCaseReminderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpCaseReminderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpCaseReminderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpCaseReminderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpCaseReminderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpCaseReminderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpCaseReminderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpCaseReminderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>
+        }
+        update: {
+          args: Prisma.PostOpCaseReminderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpCaseReminderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpCaseReminderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpCaseReminderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpCaseReminderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpCaseReminderPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpCaseReminderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpCaseReminder>
+        }
+        groupBy: {
+          args: Prisma.PostOpCaseReminderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseReminderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpCaseReminderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpCaseReminderCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpInvitation: {
+      payload: Prisma.$PostOpInvitationPayload<ExtArgs>
+      fields: Prisma.PostOpInvitationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpInvitationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpInvitationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpInvitationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpInvitationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpInvitationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpInvitationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpInvitationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpInvitationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpInvitationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>
+        }
+        update: {
+          args: Prisma.PostOpInvitationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpInvitationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpInvitationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpInvitationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpInvitationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpInvitationPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpInvitationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpInvitation>
+        }
+        groupBy: {
+          args: Prisma.PostOpInvitationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpInvitationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpInvitationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpInvitationCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpPatientNote: {
+      payload: Prisma.$PostOpPatientNotePayload<ExtArgs>
+      fields: Prisma.PostOpPatientNoteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpPatientNoteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpPatientNoteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpPatientNoteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpPatientNoteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>
+        }
+        findMany: {
+          args: Prisma.PostOpPatientNoteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>[]
+        }
+        create: {
+          args: Prisma.PostOpPatientNoteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>
+        }
+        createMany: {
+          args: Prisma.PostOpPatientNoteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpPatientNoteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpPatientNoteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>
+        }
+        update: {
+          args: Prisma.PostOpPatientNoteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpPatientNoteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpPatientNoteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpPatientNoteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpPatientNoteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNotePayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpPatientNoteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpPatientNote>
+        }
+        groupBy: {
+          args: Prisma.PostOpPatientNoteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpPatientNoteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpPatientNoteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpPatientNoteCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpPatientNoteAttachment: {
+      payload: Prisma.$PostOpPatientNoteAttachmentPayload<ExtArgs>
+      fields: Prisma.PostOpPatientNoteAttachmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpPatientNoteAttachmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpPatientNoteAttachmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpPatientNoteAttachmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpPatientNoteAttachmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpPatientNoteAttachmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpPatientNoteAttachmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpPatientNoteAttachmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpPatientNoteAttachmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpPatientNoteAttachmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>
+        }
+        update: {
+          args: Prisma.PostOpPatientNoteAttachmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpPatientNoteAttachmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpPatientNoteAttachmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpPatientNoteAttachmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpPatientNoteAttachmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpPatientNoteAttachmentPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpPatientNoteAttachmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpPatientNoteAttachment>
+        }
+        groupBy: {
+          args: Prisma.PostOpPatientNoteAttachmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpPatientNoteAttachmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpPatientNoteAttachmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpPatientNoteAttachmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    PostOpAlert: {
+      payload: Prisma.$PostOpAlertPayload<ExtArgs>
+      fields: Prisma.PostOpAlertFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PostOpAlertFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PostOpAlertFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>
+        }
+        findFirst: {
+          args: Prisma.PostOpAlertFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PostOpAlertFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>
+        }
+        findMany: {
+          args: Prisma.PostOpAlertFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>[]
+        }
+        create: {
+          args: Prisma.PostOpAlertCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>
+        }
+        createMany: {
+          args: Prisma.PostOpAlertCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PostOpAlertCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>[]
+        }
+        delete: {
+          args: Prisma.PostOpAlertDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>
+        }
+        update: {
+          args: Prisma.PostOpAlertUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>
+        }
+        deleteMany: {
+          args: Prisma.PostOpAlertDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PostOpAlertUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PostOpAlertUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>[]
+        }
+        upsert: {
+          args: Prisma.PostOpAlertUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PostOpAlertPayload>
+        }
+        aggregate: {
+          args: Prisma.PostOpAlertAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePostOpAlert>
+        }
+        groupBy: {
+          args: Prisma.PostOpAlertGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpAlertGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PostOpAlertCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PostOpAlertCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3667,6 +4567,225 @@ export const ReviewInvitationScalarFieldEnum = {
 export type ReviewInvitationScalarFieldEnum = (typeof ReviewInvitationScalarFieldEnum)[keyof typeof ReviewInvitationScalarFieldEnum]
 
 
+export const PostOpTemplateScalarFieldEnum = {
+  id: 'id',
+  templateKey: 'templateKey',
+  procedureId: 'procedureId',
+  localeCode: 'localeCode',
+  scope: 'scope',
+  doctorProfileId: 'doctorProfileId',
+  sourceTemplateId: 'sourceTemplateId',
+  title: 'title',
+  description: 'description',
+  version: 'version',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateScalarFieldEnum = (typeof PostOpTemplateScalarFieldEnum)[keyof typeof PostOpTemplateScalarFieldEnum]
+
+
+export const PostOpTemplateStepScalarFieldEnum = {
+  id: 'id',
+  templateId: 'templateId',
+  title: 'title',
+  description: 'description',
+  startsAfterHours: 'startsAfterHours',
+  completesAfterHours: 'completesAfterHours',
+  completionMode: 'completionMode',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateStepScalarFieldEnum = (typeof PostOpTemplateStepScalarFieldEnum)[keyof typeof PostOpTemplateStepScalarFieldEnum]
+
+
+export const PostOpTemplateBlockScalarFieldEnum = {
+  id: 'id',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  objectPath: 'objectPath',
+  externalUrl: 'externalUrl',
+  mediaAlt: 'mediaAlt',
+  bookingType: 'bookingType',
+  bookingUrl: 'bookingUrl',
+  buttonLabel: 'buttonLabel',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateBlockScalarFieldEnum = (typeof PostOpTemplateBlockScalarFieldEnum)[keyof typeof PostOpTemplateBlockScalarFieldEnum]
+
+
+export const PostOpTemplateReminderScalarFieldEnum = {
+  id: 'id',
+  templateId: 'templateId',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  startsAfterHours: 'startsAfterHours',
+  endsAfterHours: 'endsAfterHours',
+  notificationsEnabled: 'notificationsEnabled',
+  repeatEveryHours: 'repeatEveryHours',
+  isPinned: 'isPinned',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateReminderScalarFieldEnum = (typeof PostOpTemplateReminderScalarFieldEnum)[keyof typeof PostOpTemplateReminderScalarFieldEnum]
+
+
+export const PostOpCaseScalarFieldEnum = {
+  id: 'id',
+  doctorProfileId: 'doctorProfileId',
+  procedureId: 'procedureId',
+  patientUserId: 'patientUserId',
+  patientName: 'patientName',
+  patientEmail: 'patientEmail',
+  localeCode: 'localeCode',
+  sourceTemplateId: 'sourceTemplateId',
+  sourceTemplateVersion: 'sourceTemplateVersion',
+  procedurePerformedAt: 'procedurePerformedAt',
+  status: 'status',
+  activatedAt: 'activatedAt',
+  completedAt: 'completedAt',
+  cancelledAt: 'cancelledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseScalarFieldEnum = (typeof PostOpCaseScalarFieldEnum)[keyof typeof PostOpCaseScalarFieldEnum]
+
+
+export const PostOpCaseStepScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  sourceTemplateStepId: 'sourceTemplateStepId',
+  title: 'title',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  completionMode: 'completionMode',
+  startsAt: 'startsAt',
+  completesAt: 'completesAt',
+  completedAt: 'completedAt',
+  skippedAt: 'skippedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseStepScalarFieldEnum = (typeof PostOpCaseStepScalarFieldEnum)[keyof typeof PostOpCaseStepScalarFieldEnum]
+
+
+export const PostOpCaseBlockScalarFieldEnum = {
+  id: 'id',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  objectPath: 'objectPath',
+  externalUrl: 'externalUrl',
+  mediaAlt: 'mediaAlt',
+  bookingType: 'bookingType',
+  bookingUrl: 'bookingUrl',
+  buttonLabel: 'buttonLabel',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseBlockScalarFieldEnum = (typeof PostOpCaseBlockScalarFieldEnum)[keyof typeof PostOpCaseBlockScalarFieldEnum]
+
+
+export const PostOpCaseReminderScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  notificationsEnabled: 'notificationsEnabled',
+  repeatEveryHours: 'repeatEveryHours',
+  nextNotificationAt: 'nextNotificationAt',
+  lastNotificationAt: 'lastNotificationAt',
+  isPinned: 'isPinned',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseReminderScalarFieldEnum = (typeof PostOpCaseReminderScalarFieldEnum)[keyof typeof PostOpCaseReminderScalarFieldEnum]
+
+
+export const PostOpInvitationScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  patientUserId: 'patientUserId',
+  recipientName: 'recipientName',
+  recipientEmail: 'recipientEmail',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  sentAt: 'sentAt',
+  openedAt: 'openedAt',
+  usedAt: 'usedAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpInvitationScalarFieldEnum = (typeof PostOpInvitationScalarFieldEnum)[keyof typeof PostOpInvitationScalarFieldEnum]
+
+
+export const PostOpPatientNoteScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  stepId: 'stepId',
+  patientUserId: 'patientUserId',
+  text: 'text',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpPatientNoteScalarFieldEnum = (typeof PostOpPatientNoteScalarFieldEnum)[keyof typeof PostOpPatientNoteScalarFieldEnum]
+
+
+export const PostOpPatientNoteAttachmentScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  objectPath: 'objectPath',
+  fileName: 'fileName',
+  contentType: 'contentType',
+  sizeBytes: 'sizeBytes',
+  createdAt: 'createdAt'
+} as const
+
+export type PostOpPatientNoteAttachmentScalarFieldEnum = (typeof PostOpPatientNoteAttachmentScalarFieldEnum)[keyof typeof PostOpPatientNoteAttachmentScalarFieldEnum]
+
+
+export const PostOpAlertScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  stepId: 'stepId',
+  patientUserId: 'patientUserId',
+  severity: 'severity',
+  status: 'status',
+  message: 'message',
+  doctorNotifiedAt: 'doctorNotifiedAt',
+  acknowledgedAt: 'acknowledgedAt',
+  resolvedAt: 'resolvedAt',
+  doctorResponse: 'doctorResponse',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpAlertScalarFieldEnum = (typeof PostOpAlertScalarFieldEnum)[keyof typeof PostOpAlertScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3857,6 +4976,118 @@ export type EnumMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
 export type ListEnumMessageTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MessageType[]'>
     
 
+
+/**
+ * Reference to a field of type 'PostOpTemplateScope'
+ */
+export type EnumPostOpTemplateScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpTemplateScope'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpTemplateScope[]'
+ */
+export type ListEnumPostOpTemplateScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpTemplateScope[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpStepCompletionMode'
+ */
+export type EnumPostOpStepCompletionModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpStepCompletionMode'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpStepCompletionMode[]'
+ */
+export type ListEnumPostOpStepCompletionModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpStepCompletionMode[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpContentType'
+ */
+export type EnumPostOpContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpContentType'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpContentType[]'
+ */
+export type ListEnumPostOpContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpContentType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpBookingType'
+ */
+export type EnumPostOpBookingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpBookingType'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpBookingType[]'
+ */
+export type ListEnumPostOpBookingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpBookingType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpReminderType'
+ */
+export type EnumPostOpReminderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpReminderType'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpReminderType[]'
+ */
+export type ListEnumPostOpReminderTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpReminderType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpCaseStatus'
+ */
+export type EnumPostOpCaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpCaseStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpCaseStatus[]'
+ */
+export type ListEnumPostOpCaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpCaseStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpAlertSeverity'
+ */
+export type EnumPostOpAlertSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpAlertSeverity'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpAlertSeverity[]'
+ */
+export type ListEnumPostOpAlertSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpAlertSeverity[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpAlertStatus'
+ */
+export type EnumPostOpAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpAlertStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PostOpAlertStatus[]'
+ */
+export type ListEnumPostOpAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PostOpAlertStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -4003,6 +5234,18 @@ export type GlobalOmitConfig = {
   instagramReel?: Prisma.InstagramReelOmit
   review?: Prisma.ReviewOmit
   reviewInvitation?: Prisma.ReviewInvitationOmit
+  postOpTemplate?: Prisma.PostOpTemplateOmit
+  postOpTemplateStep?: Prisma.PostOpTemplateStepOmit
+  postOpTemplateBlock?: Prisma.PostOpTemplateBlockOmit
+  postOpTemplateReminder?: Prisma.PostOpTemplateReminderOmit
+  postOpCase?: Prisma.PostOpCaseOmit
+  postOpCaseStep?: Prisma.PostOpCaseStepOmit
+  postOpCaseBlock?: Prisma.PostOpCaseBlockOmit
+  postOpCaseReminder?: Prisma.PostOpCaseReminderOmit
+  postOpInvitation?: Prisma.PostOpInvitationOmit
+  postOpPatientNote?: Prisma.PostOpPatientNoteOmit
+  postOpPatientNoteAttachment?: Prisma.PostOpPatientNoteAttachmentOmit
+  postOpAlert?: Prisma.PostOpAlertOmit
 }
 
 /* Types for Logging */

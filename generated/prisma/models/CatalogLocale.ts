@@ -238,6 +238,7 @@ export type CatalogLocaleWhereInput = {
   categoryTranslations?: Prisma.CategoryTranslationListRelationFilter
   subcategoryTranslations?: Prisma.SubcategoryTranslationListRelationFilter
   procedureTranslations?: Prisma.ProcedureTranslationListRelationFilter
+  postOpTemplates?: Prisma.PostOpTemplateListRelationFilter
 }
 
 export type CatalogLocaleOrderByWithRelationInput = {
@@ -253,6 +254,7 @@ export type CatalogLocaleOrderByWithRelationInput = {
   categoryTranslations?: Prisma.CategoryTranslationOrderByRelationAggregateInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationOrderByRelationAggregateInput
   procedureTranslations?: Prisma.ProcedureTranslationOrderByRelationAggregateInput
+  postOpTemplates?: Prisma.PostOpTemplateOrderByRelationAggregateInput
 }
 
 export type CatalogLocaleWhereUniqueInput = Prisma.AtLeast<{
@@ -271,6 +273,7 @@ export type CatalogLocaleWhereUniqueInput = Prisma.AtLeast<{
   categoryTranslations?: Prisma.CategoryTranslationListRelationFilter
   subcategoryTranslations?: Prisma.SubcategoryTranslationListRelationFilter
   procedureTranslations?: Prisma.ProcedureTranslationListRelationFilter
+  postOpTemplates?: Prisma.PostOpTemplateListRelationFilter
 }, "code">
 
 export type CatalogLocaleOrderByWithAggregationInput = {
@@ -314,6 +317,7 @@ export type CatalogLocaleCreateInput = {
   categoryTranslations?: Prisma.CategoryTranslationCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleUncheckedCreateInput = {
@@ -329,6 +333,7 @@ export type CatalogLocaleUncheckedCreateInput = {
   categoryTranslations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleUpdateInput = {
@@ -344,6 +349,7 @@ export type CatalogLocaleUpdateInput = {
   categoryTranslations?: Prisma.CategoryTranslationUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleUncheckedUpdateInput = {
@@ -359,6 +365,7 @@ export type CatalogLocaleUncheckedUpdateInput = {
   categoryTranslations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleCreateManyInput = {
@@ -512,6 +519,20 @@ export type CatalogLocaleUpdateOneRequiredWithoutProcedureTranslationsNestedInpu
   update?: Prisma.XOR<Prisma.XOR<Prisma.CatalogLocaleUpdateToOneWithWhereWithoutProcedureTranslationsInput, Prisma.CatalogLocaleUpdateWithoutProcedureTranslationsInput>, Prisma.CatalogLocaleUncheckedUpdateWithoutProcedureTranslationsInput>
 }
 
+export type CatalogLocaleCreateNestedOneWithoutPostOpTemplatesInput = {
+  create?: Prisma.XOR<Prisma.CatalogLocaleCreateWithoutPostOpTemplatesInput, Prisma.CatalogLocaleUncheckedCreateWithoutPostOpTemplatesInput>
+  connectOrCreate?: Prisma.CatalogLocaleCreateOrConnectWithoutPostOpTemplatesInput
+  connect?: Prisma.CatalogLocaleWhereUniqueInput
+}
+
+export type CatalogLocaleUpdateOneRequiredWithoutPostOpTemplatesNestedInput = {
+  create?: Prisma.XOR<Prisma.CatalogLocaleCreateWithoutPostOpTemplatesInput, Prisma.CatalogLocaleUncheckedCreateWithoutPostOpTemplatesInput>
+  connectOrCreate?: Prisma.CatalogLocaleCreateOrConnectWithoutPostOpTemplatesInput
+  upsert?: Prisma.CatalogLocaleUpsertWithoutPostOpTemplatesInput
+  connect?: Prisma.CatalogLocaleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CatalogLocaleUpdateToOneWithWhereWithoutPostOpTemplatesInput, Prisma.CatalogLocaleUpdateWithoutPostOpTemplatesInput>, Prisma.CatalogLocaleUncheckedUpdateWithoutPostOpTemplatesInput>
+}
+
 export type CatalogLocaleCreateWithoutSpecialtyGroupTranslationsInput = {
   code: string
   displayName: string
@@ -524,6 +545,7 @@ export type CatalogLocaleCreateWithoutSpecialtyGroupTranslationsInput = {
   categoryTranslations?: Prisma.CategoryTranslationCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleUncheckedCreateWithoutSpecialtyGroupTranslationsInput = {
@@ -538,6 +560,7 @@ export type CatalogLocaleUncheckedCreateWithoutSpecialtyGroupTranslationsInput =
   categoryTranslations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleCreateOrConnectWithoutSpecialtyGroupTranslationsInput = {
@@ -568,6 +591,7 @@ export type CatalogLocaleUpdateWithoutSpecialtyGroupTranslationsInput = {
   categoryTranslations?: Prisma.CategoryTranslationUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleUncheckedUpdateWithoutSpecialtyGroupTranslationsInput = {
@@ -582,6 +606,7 @@ export type CatalogLocaleUncheckedUpdateWithoutSpecialtyGroupTranslationsInput =
   categoryTranslations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleCreateWithoutSpecialtyTranslationsInput = {
@@ -596,6 +621,7 @@ export type CatalogLocaleCreateWithoutSpecialtyTranslationsInput = {
   categoryTranslations?: Prisma.CategoryTranslationCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleUncheckedCreateWithoutSpecialtyTranslationsInput = {
@@ -610,6 +636,7 @@ export type CatalogLocaleUncheckedCreateWithoutSpecialtyTranslationsInput = {
   categoryTranslations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleCreateOrConnectWithoutSpecialtyTranslationsInput = {
@@ -640,6 +667,7 @@ export type CatalogLocaleUpdateWithoutSpecialtyTranslationsInput = {
   categoryTranslations?: Prisma.CategoryTranslationUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleUncheckedUpdateWithoutSpecialtyTranslationsInput = {
@@ -654,6 +682,7 @@ export type CatalogLocaleUncheckedUpdateWithoutSpecialtyTranslationsInput = {
   categoryTranslations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleCreateWithoutCategoryTranslationsInput = {
@@ -668,6 +697,7 @@ export type CatalogLocaleCreateWithoutCategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleUncheckedCreateWithoutCategoryTranslationsInput = {
@@ -682,6 +712,7 @@ export type CatalogLocaleUncheckedCreateWithoutCategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleCreateOrConnectWithoutCategoryTranslationsInput = {
@@ -712,6 +743,7 @@ export type CatalogLocaleUpdateWithoutCategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleUncheckedUpdateWithoutCategoryTranslationsInput = {
@@ -726,6 +758,7 @@ export type CatalogLocaleUncheckedUpdateWithoutCategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleCreateWithoutSubcategoryTranslationsInput = {
@@ -740,6 +773,7 @@ export type CatalogLocaleCreateWithoutSubcategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationCreateNestedManyWithoutLocaleInput
   categoryTranslations?: Prisma.CategoryTranslationCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleUncheckedCreateWithoutSubcategoryTranslationsInput = {
@@ -754,6 +788,7 @@ export type CatalogLocaleUncheckedCreateWithoutSubcategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedCreateNestedManyWithoutLocaleInput
   categoryTranslations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleCreateOrConnectWithoutSubcategoryTranslationsInput = {
@@ -784,6 +819,7 @@ export type CatalogLocaleUpdateWithoutSubcategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUpdateManyWithoutLocaleNestedInput
   categoryTranslations?: Prisma.CategoryTranslationUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleUncheckedUpdateWithoutSubcategoryTranslationsInput = {
@@ -798,6 +834,7 @@ export type CatalogLocaleUncheckedUpdateWithoutSubcategoryTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   categoryTranslations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   procedureTranslations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleCreateWithoutProcedureTranslationsInput = {
@@ -812,6 +849,7 @@ export type CatalogLocaleCreateWithoutProcedureTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationCreateNestedManyWithoutLocaleInput
   categoryTranslations?: Prisma.CategoryTranslationCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleUncheckedCreateWithoutProcedureTranslationsInput = {
@@ -826,6 +864,7 @@ export type CatalogLocaleUncheckedCreateWithoutProcedureTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedCreateNestedManyWithoutLocaleInput
   categoryTranslations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedCreateNestedManyWithoutLocaleInput
 }
 
 export type CatalogLocaleCreateOrConnectWithoutProcedureTranslationsInput = {
@@ -856,6 +895,7 @@ export type CatalogLocaleUpdateWithoutProcedureTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUpdateManyWithoutLocaleNestedInput
   categoryTranslations?: Prisma.CategoryTranslationUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUpdateManyWithoutLocaleNestedInput
 }
 
 export type CatalogLocaleUncheckedUpdateWithoutProcedureTranslationsInput = {
@@ -870,6 +910,83 @@ export type CatalogLocaleUncheckedUpdateWithoutProcedureTranslationsInput = {
   specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   categoryTranslations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
   subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  postOpTemplates?: Prisma.PostOpTemplateUncheckedUpdateManyWithoutLocaleNestedInput
+}
+
+export type CatalogLocaleCreateWithoutPostOpTemplatesInput = {
+  code: string
+  displayName: string
+  isDefault?: boolean
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  specialtyGroupTranslations?: Prisma.SpecialtyGroupTranslationCreateNestedManyWithoutLocaleInput
+  specialtyTranslations?: Prisma.SpecialtyTranslationCreateNestedManyWithoutLocaleInput
+  categoryTranslations?: Prisma.CategoryTranslationCreateNestedManyWithoutLocaleInput
+  subcategoryTranslations?: Prisma.SubcategoryTranslationCreateNestedManyWithoutLocaleInput
+  procedureTranslations?: Prisma.ProcedureTranslationCreateNestedManyWithoutLocaleInput
+}
+
+export type CatalogLocaleUncheckedCreateWithoutPostOpTemplatesInput = {
+  code: string
+  displayName: string
+  isDefault?: boolean
+  isActive?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  specialtyGroupTranslations?: Prisma.SpecialtyGroupTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  categoryTranslations?: Prisma.CategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedCreateNestedManyWithoutLocaleInput
+  procedureTranslations?: Prisma.ProcedureTranslationUncheckedCreateNestedManyWithoutLocaleInput
+}
+
+export type CatalogLocaleCreateOrConnectWithoutPostOpTemplatesInput = {
+  where: Prisma.CatalogLocaleWhereUniqueInput
+  create: Prisma.XOR<Prisma.CatalogLocaleCreateWithoutPostOpTemplatesInput, Prisma.CatalogLocaleUncheckedCreateWithoutPostOpTemplatesInput>
+}
+
+export type CatalogLocaleUpsertWithoutPostOpTemplatesInput = {
+  update: Prisma.XOR<Prisma.CatalogLocaleUpdateWithoutPostOpTemplatesInput, Prisma.CatalogLocaleUncheckedUpdateWithoutPostOpTemplatesInput>
+  create: Prisma.XOR<Prisma.CatalogLocaleCreateWithoutPostOpTemplatesInput, Prisma.CatalogLocaleUncheckedCreateWithoutPostOpTemplatesInput>
+  where?: Prisma.CatalogLocaleWhereInput
+}
+
+export type CatalogLocaleUpdateToOneWithWhereWithoutPostOpTemplatesInput = {
+  where?: Prisma.CatalogLocaleWhereInput
+  data: Prisma.XOR<Prisma.CatalogLocaleUpdateWithoutPostOpTemplatesInput, Prisma.CatalogLocaleUncheckedUpdateWithoutPostOpTemplatesInput>
+}
+
+export type CatalogLocaleUpdateWithoutPostOpTemplatesInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  specialtyGroupTranslations?: Prisma.SpecialtyGroupTranslationUpdateManyWithoutLocaleNestedInput
+  specialtyTranslations?: Prisma.SpecialtyTranslationUpdateManyWithoutLocaleNestedInput
+  categoryTranslations?: Prisma.CategoryTranslationUpdateManyWithoutLocaleNestedInput
+  subcategoryTranslations?: Prisma.SubcategoryTranslationUpdateManyWithoutLocaleNestedInput
+  procedureTranslations?: Prisma.ProcedureTranslationUpdateManyWithoutLocaleNestedInput
+}
+
+export type CatalogLocaleUncheckedUpdateWithoutPostOpTemplatesInput = {
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  specialtyGroupTranslations?: Prisma.SpecialtyGroupTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  specialtyTranslations?: Prisma.SpecialtyTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  categoryTranslations?: Prisma.CategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  subcategoryTranslations?: Prisma.SubcategoryTranslationUncheckedUpdateManyWithoutLocaleNestedInput
+  procedureTranslations?: Prisma.ProcedureTranslationUncheckedUpdateManyWithoutLocaleNestedInput
 }
 
 
@@ -883,6 +1000,7 @@ export type CatalogLocaleCountOutputType = {
   categoryTranslations: number
   subcategoryTranslations: number
   procedureTranslations: number
+  postOpTemplates: number
 }
 
 export type CatalogLocaleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -891,6 +1009,7 @@ export type CatalogLocaleCountOutputTypeSelect<ExtArgs extends runtime.Types.Ext
   categoryTranslations?: boolean | CatalogLocaleCountOutputTypeCountCategoryTranslationsArgs
   subcategoryTranslations?: boolean | CatalogLocaleCountOutputTypeCountSubcategoryTranslationsArgs
   procedureTranslations?: boolean | CatalogLocaleCountOutputTypeCountProcedureTranslationsArgs
+  postOpTemplates?: boolean | CatalogLocaleCountOutputTypeCountPostOpTemplatesArgs
 }
 
 /**
@@ -938,6 +1057,13 @@ export type CatalogLocaleCountOutputTypeCountProcedureTranslationsArgs<ExtArgs e
   where?: Prisma.ProcedureTranslationWhereInput
 }
 
+/**
+ * CatalogLocaleCountOutputType without action
+ */
+export type CatalogLocaleCountOutputTypeCountPostOpTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PostOpTemplateWhereInput
+}
+
 
 export type CatalogLocaleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   code?: boolean
@@ -952,6 +1078,7 @@ export type CatalogLocaleSelect<ExtArgs extends runtime.Types.Extensions.Interna
   categoryTranslations?: boolean | Prisma.CatalogLocale$categoryTranslationsArgs<ExtArgs>
   subcategoryTranslations?: boolean | Prisma.CatalogLocale$subcategoryTranslationsArgs<ExtArgs>
   procedureTranslations?: boolean | Prisma.CatalogLocale$procedureTranslationsArgs<ExtArgs>
+  postOpTemplates?: boolean | Prisma.CatalogLocale$postOpTemplatesArgs<ExtArgs>
   _count?: boolean | Prisma.CatalogLocaleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["catalogLocale"]>
 
@@ -992,6 +1119,7 @@ export type CatalogLocaleInclude<ExtArgs extends runtime.Types.Extensions.Intern
   categoryTranslations?: boolean | Prisma.CatalogLocale$categoryTranslationsArgs<ExtArgs>
   subcategoryTranslations?: boolean | Prisma.CatalogLocale$subcategoryTranslationsArgs<ExtArgs>
   procedureTranslations?: boolean | Prisma.CatalogLocale$procedureTranslationsArgs<ExtArgs>
+  postOpTemplates?: boolean | Prisma.CatalogLocale$postOpTemplatesArgs<ExtArgs>
   _count?: boolean | Prisma.CatalogLocaleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CatalogLocaleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1005,6 +1133,7 @@ export type $CatalogLocalePayload<ExtArgs extends runtime.Types.Extensions.Inter
     categoryTranslations: Prisma.$CategoryTranslationPayload<ExtArgs>[]
     subcategoryTranslations: Prisma.$SubcategoryTranslationPayload<ExtArgs>[]
     procedureTranslations: Prisma.$ProcedureTranslationPayload<ExtArgs>[]
+    postOpTemplates: Prisma.$PostOpTemplatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     code: string
@@ -1413,6 +1542,7 @@ export interface Prisma__CatalogLocaleClient<T, Null = never, ExtArgs extends ru
   categoryTranslations<T extends Prisma.CatalogLocale$categoryTranslationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CatalogLocale$categoryTranslationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subcategoryTranslations<T extends Prisma.CatalogLocale$subcategoryTranslationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CatalogLocale$subcategoryTranslationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubcategoryTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   procedureTranslations<T extends Prisma.CatalogLocale$procedureTranslationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CatalogLocale$procedureTranslationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProcedureTranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  postOpTemplates<T extends Prisma.CatalogLocale$postOpTemplatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CatalogLocale$postOpTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostOpTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1959,6 +2089,30 @@ export type CatalogLocale$procedureTranslationsArgs<ExtArgs extends runtime.Type
   take?: number
   skip?: number
   distinct?: Prisma.ProcedureTranslationScalarFieldEnum | Prisma.ProcedureTranslationScalarFieldEnum[]
+}
+
+/**
+ * CatalogLocale.postOpTemplates
+ */
+export type CatalogLocale$postOpTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PostOpTemplate
+   */
+  select?: Prisma.PostOpTemplateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PostOpTemplate
+   */
+  omit?: Prisma.PostOpTemplateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostOpTemplateInclude<ExtArgs> | null
+  where?: Prisma.PostOpTemplateWhereInput
+  orderBy?: Prisma.PostOpTemplateOrderByWithRelationInput | Prisma.PostOpTemplateOrderByWithRelationInput[]
+  cursor?: Prisma.PostOpTemplateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PostOpTemplateScalarFieldEnum | Prisma.PostOpTemplateScalarFieldEnum[]
 }
 
 /**

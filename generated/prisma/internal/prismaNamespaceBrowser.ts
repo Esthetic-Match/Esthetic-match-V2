@@ -86,7 +86,19 @@ export const ModelName = {
   MessageAttachment: 'MessageAttachment',
   InstagramReel: 'InstagramReel',
   Review: 'Review',
-  ReviewInvitation: 'ReviewInvitation'
+  ReviewInvitation: 'ReviewInvitation',
+  PostOpTemplate: 'PostOpTemplate',
+  PostOpTemplateStep: 'PostOpTemplateStep',
+  PostOpTemplateBlock: 'PostOpTemplateBlock',
+  PostOpTemplateReminder: 'PostOpTemplateReminder',
+  PostOpCase: 'PostOpCase',
+  PostOpCaseStep: 'PostOpCaseStep',
+  PostOpCaseBlock: 'PostOpCaseBlock',
+  PostOpCaseReminder: 'PostOpCaseReminder',
+  PostOpInvitation: 'PostOpInvitation',
+  PostOpPatientNote: 'PostOpPatientNote',
+  PostOpPatientNoteAttachment: 'PostOpPatientNoteAttachment',
+  PostOpAlert: 'PostOpAlert'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -644,6 +656,225 @@ export const ReviewInvitationScalarFieldEnum = {
 } as const
 
 export type ReviewInvitationScalarFieldEnum = (typeof ReviewInvitationScalarFieldEnum)[keyof typeof ReviewInvitationScalarFieldEnum]
+
+
+export const PostOpTemplateScalarFieldEnum = {
+  id: 'id',
+  templateKey: 'templateKey',
+  procedureId: 'procedureId',
+  localeCode: 'localeCode',
+  scope: 'scope',
+  doctorProfileId: 'doctorProfileId',
+  sourceTemplateId: 'sourceTemplateId',
+  title: 'title',
+  description: 'description',
+  version: 'version',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateScalarFieldEnum = (typeof PostOpTemplateScalarFieldEnum)[keyof typeof PostOpTemplateScalarFieldEnum]
+
+
+export const PostOpTemplateStepScalarFieldEnum = {
+  id: 'id',
+  templateId: 'templateId',
+  title: 'title',
+  description: 'description',
+  startsAfterHours: 'startsAfterHours',
+  completesAfterHours: 'completesAfterHours',
+  completionMode: 'completionMode',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateStepScalarFieldEnum = (typeof PostOpTemplateStepScalarFieldEnum)[keyof typeof PostOpTemplateStepScalarFieldEnum]
+
+
+export const PostOpTemplateBlockScalarFieldEnum = {
+  id: 'id',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  objectPath: 'objectPath',
+  externalUrl: 'externalUrl',
+  mediaAlt: 'mediaAlt',
+  bookingType: 'bookingType',
+  bookingUrl: 'bookingUrl',
+  buttonLabel: 'buttonLabel',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateBlockScalarFieldEnum = (typeof PostOpTemplateBlockScalarFieldEnum)[keyof typeof PostOpTemplateBlockScalarFieldEnum]
+
+
+export const PostOpTemplateReminderScalarFieldEnum = {
+  id: 'id',
+  templateId: 'templateId',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  startsAfterHours: 'startsAfterHours',
+  endsAfterHours: 'endsAfterHours',
+  notificationsEnabled: 'notificationsEnabled',
+  repeatEveryHours: 'repeatEveryHours',
+  isPinned: 'isPinned',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpTemplateReminderScalarFieldEnum = (typeof PostOpTemplateReminderScalarFieldEnum)[keyof typeof PostOpTemplateReminderScalarFieldEnum]
+
+
+export const PostOpCaseScalarFieldEnum = {
+  id: 'id',
+  doctorProfileId: 'doctorProfileId',
+  procedureId: 'procedureId',
+  patientUserId: 'patientUserId',
+  patientName: 'patientName',
+  patientEmail: 'patientEmail',
+  localeCode: 'localeCode',
+  sourceTemplateId: 'sourceTemplateId',
+  sourceTemplateVersion: 'sourceTemplateVersion',
+  procedurePerformedAt: 'procedurePerformedAt',
+  status: 'status',
+  activatedAt: 'activatedAt',
+  completedAt: 'completedAt',
+  cancelledAt: 'cancelledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseScalarFieldEnum = (typeof PostOpCaseScalarFieldEnum)[keyof typeof PostOpCaseScalarFieldEnum]
+
+
+export const PostOpCaseStepScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  sourceTemplateStepId: 'sourceTemplateStepId',
+  title: 'title',
+  description: 'description',
+  sortOrder: 'sortOrder',
+  completionMode: 'completionMode',
+  startsAt: 'startsAt',
+  completesAt: 'completesAt',
+  completedAt: 'completedAt',
+  skippedAt: 'skippedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseStepScalarFieldEnum = (typeof PostOpCaseStepScalarFieldEnum)[keyof typeof PostOpCaseStepScalarFieldEnum]
+
+
+export const PostOpCaseBlockScalarFieldEnum = {
+  id: 'id',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  objectPath: 'objectPath',
+  externalUrl: 'externalUrl',
+  mediaAlt: 'mediaAlt',
+  bookingType: 'bookingType',
+  bookingUrl: 'bookingUrl',
+  buttonLabel: 'buttonLabel',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseBlockScalarFieldEnum = (typeof PostOpCaseBlockScalarFieldEnum)[keyof typeof PostOpCaseBlockScalarFieldEnum]
+
+
+export const PostOpCaseReminderScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  stepId: 'stepId',
+  type: 'type',
+  text: 'text',
+  startsAt: 'startsAt',
+  endsAt: 'endsAt',
+  notificationsEnabled: 'notificationsEnabled',
+  repeatEveryHours: 'repeatEveryHours',
+  nextNotificationAt: 'nextNotificationAt',
+  lastNotificationAt: 'lastNotificationAt',
+  isPinned: 'isPinned',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpCaseReminderScalarFieldEnum = (typeof PostOpCaseReminderScalarFieldEnum)[keyof typeof PostOpCaseReminderScalarFieldEnum]
+
+
+export const PostOpInvitationScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  patientUserId: 'patientUserId',
+  recipientName: 'recipientName',
+  recipientEmail: 'recipientEmail',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  sentAt: 'sentAt',
+  openedAt: 'openedAt',
+  usedAt: 'usedAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpInvitationScalarFieldEnum = (typeof PostOpInvitationScalarFieldEnum)[keyof typeof PostOpInvitationScalarFieldEnum]
+
+
+export const PostOpPatientNoteScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  stepId: 'stepId',
+  patientUserId: 'patientUserId',
+  text: 'text',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpPatientNoteScalarFieldEnum = (typeof PostOpPatientNoteScalarFieldEnum)[keyof typeof PostOpPatientNoteScalarFieldEnum]
+
+
+export const PostOpPatientNoteAttachmentScalarFieldEnum = {
+  id: 'id',
+  noteId: 'noteId',
+  objectPath: 'objectPath',
+  fileName: 'fileName',
+  contentType: 'contentType',
+  sizeBytes: 'sizeBytes',
+  createdAt: 'createdAt'
+} as const
+
+export type PostOpPatientNoteAttachmentScalarFieldEnum = (typeof PostOpPatientNoteAttachmentScalarFieldEnum)[keyof typeof PostOpPatientNoteAttachmentScalarFieldEnum]
+
+
+export const PostOpAlertScalarFieldEnum = {
+  id: 'id',
+  caseId: 'caseId',
+  stepId: 'stepId',
+  patientUserId: 'patientUserId',
+  severity: 'severity',
+  status: 'status',
+  message: 'message',
+  doctorNotifiedAt: 'doctorNotifiedAt',
+  acknowledgedAt: 'acknowledgedAt',
+  resolvedAt: 'resolvedAt',
+  doctorResponse: 'doctorResponse',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PostOpAlertScalarFieldEnum = (typeof PostOpAlertScalarFieldEnum)[keyof typeof PostOpAlertScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -275,6 +275,11 @@
         "label": "Catalogue",
         "description": "Manage catalogue content used across the platform.",
         "sectionDescription": "Manage specialties, procedures, categories, and catalogue data."
+      },
+      "postOp": {
+        "label": "Post-Op",
+        "description": "Manage procedure recovery templates and the Post-Op experience.",
+        "sectionDescription": "Configure and manage the default Post-Op recovery journeys available across Esthetic Match."
       }
     }
   },
@@ -324,5 +329,22 @@
     "afterImageAlt": "After image for {title}",
     "visibilityToggleLabel": "Change case visibility",
     "visibilityUpdateError": "We couldn't update the visibility of this case. Please try again."
+  },
+  "postOpOverview": {
+    "eyebrow": "Post-Op",
+    "title": "Recovery management",
+    "description": "Create and manage procedure-specific Post-Op templates, recovery instructions, reminders and follow-up steps.",
+    "templates": {
+      "title": "Templates",
+      "description": "Build default recovery journeys."
+    },
+    "procedures": {
+      "title": "Procedures",
+      "description": "Configure Post-Op per procedure."
+    },
+    "recovery": {
+      "title": "Recovery",
+      "description": "Manage steps and reminders."
+    }
   }
 }

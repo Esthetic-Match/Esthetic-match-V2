@@ -64,3 +64,75 @@ export const SocialMediaPlatform = {
 } as const
 
 export type SocialMediaPlatform = (typeof SocialMediaPlatform)[keyof typeof SocialMediaPlatform]
+
+
+export const PostOpTemplateScope = {
+  DEFAULT: 'DEFAULT',
+  DOCTOR: 'DOCTOR'
+} as const
+
+export type PostOpTemplateScope = (typeof PostOpTemplateScope)[keyof typeof PostOpTemplateScope]
+
+
+export const PostOpCaseStatus = {
+  INVITED: 'INVITED',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type PostOpCaseStatus = (typeof PostOpCaseStatus)[keyof typeof PostOpCaseStatus]
+
+
+export const PostOpContentType = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO',
+  BOOKING: 'BOOKING'
+} as const
+
+export type PostOpContentType = (typeof PostOpContentType)[keyof typeof PostOpContentType]
+
+
+export const PostOpBookingType = {
+  IN_CLINIC: 'IN_CLINIC',
+  ONLINE: 'ONLINE',
+  EITHER: 'EITHER'
+} as const
+
+export type PostOpBookingType = (typeof PostOpBookingType)[keyof typeof PostOpBookingType]
+
+
+export const PostOpReminderType = {
+  DO: 'DO',
+  DONT: 'DONT',
+  GENERAL: 'GENERAL'
+} as const
+
+export type PostOpReminderType = (typeof PostOpReminderType)[keyof typeof PostOpReminderType]
+
+
+export const PostOpStepCompletionMode = {
+  TIME_BASED: 'TIME_BASED',
+  MANUAL: 'MANUAL'
+} as const
+
+export type PostOpStepCompletionMode = (typeof PostOpStepCompletionMode)[keyof typeof PostOpStepCompletionMode]
+
+
+export const PostOpAlertSeverity = {
+  CONCERN: 'CONCERN',
+  URGENT: 'URGENT',
+  EMERGENCY: 'EMERGENCY'
+} as const
+
+export type PostOpAlertSeverity = (typeof PostOpAlertSeverity)[keyof typeof PostOpAlertSeverity]
+
+
+export const PostOpAlertStatus = {
+  OPEN: 'OPEN',
+  ACKNOWLEDGED: 'ACKNOWLEDGED',
+  RESOLVED: 'RESOLVED'
+} as const
+
+export type PostOpAlertStatus = (typeof PostOpAlertStatus)[keyof typeof PostOpAlertStatus]
