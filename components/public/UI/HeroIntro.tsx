@@ -21,16 +21,23 @@ export default function HeroIntro({
         initial={{
           opacity: 0,
           y: 14,
-          filter: "blur(6px)",
+          filter:
+            "blur(6px)",
         }}
         animate={{
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
+          filter:
+            "blur(0px)",
         }}
         transition={{
           duration: 0.7,
-          ease: [0.22, 1, 0.36, 1],
+          ease: [
+            0.22,
+            1,
+            0.36,
+            1,
+          ],
           delay: 0.15,
         }}
         className="mb-4 text-sm font-light uppercase tracking-[0.25em] text-[#d8bd8d]"
@@ -48,16 +55,25 @@ export default function HeroIntro({
             hidden: {
               opacity: 0,
               y: 24,
-              filter: "blur(8px)",
+              filter:
+                "blur(8px)",
             },
             visible: {
               opacity: 1,
               y: 0,
-              filter: "blur(0px)",
+              filter:
+                "blur(0px)",
               transition: {
-                duration: 0.8,
-                delay: 0.45,
-                ease: [0.22, 1, 0.36, 1],
+                duration:
+                  0.8,
+                delay:
+                  0.45,
+                ease: [
+                  0.22,
+                  1,
+                  0.36,
+                  1,
+                ],
               },
             },
           }}
@@ -71,16 +87,25 @@ export default function HeroIntro({
             hidden: {
               opacity: 0,
               y: 24,
-              filter: "blur(8px)",
+              filter:
+                "blur(8px)",
             },
             visible: {
               opacity: 1,
               y: 0,
-              filter: "blur(0px)",
+              filter:
+                "blur(0px)",
               transition: {
-                duration: 0.8,
-                delay: 0.62,
-                ease: [0.22, 1, 0.36, 1],
+                duration:
+                  0.8,
+                delay:
+                  0.62,
+                ease: [
+                  0.22,
+                  1,
+                  0.36,
+                  1,
+                ],
               },
             },
           }}
@@ -94,16 +119,25 @@ export default function HeroIntro({
             hidden: {
               opacity: 0,
               y: 24,
-              filter: "blur(8px)",
+              filter:
+                "blur(8px)",
             },
             visible: {
               opacity: 1,
               y: 0,
-              filter: "blur(0px)",
+              filter:
+                "blur(0px)",
               transition: {
-                duration: 0.8,
-                delay: 0.79,
-                ease: [0.22, 1, 0.36, 1],
+                duration:
+                  0.8,
+                delay:
+                  0.79,
+                ease: [
+                  0.22,
+                  1,
+                  0.36,
+                  1,
+                ],
               },
             },
           }}
