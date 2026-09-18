@@ -7,7 +7,6 @@ import {
   Check,
   Eye,
   FilePlus2,
-  Image as ImageIcon,
   Loader2,
   Plus,
   Save,
@@ -29,6 +28,7 @@ import PostOpTemplatePreview, {
   type PostOpStepDto,
   type PostOpTemplateDto,
 } from "@/components/dashboard/post-op/PostOpTemplatePreview";
+import PostOpMediaUploader from "@/components/dashboard/post-op/PostOpMediaUploader";
 
 type Locale = "en" | "fr";
 
@@ -1299,7 +1299,20 @@ function BlockSection({
       "TEXT",
     );
 
+  const [
+    showMediaUploader,
+    setShowMediaUploader,
+  ] = useState(false);
+
   async function addBlock() {
+    if (
+      newType === "IMAGE" ||
+      newType === "VIDEO"
+    ) {
+      setShowMediaUploader(true);
+      return;
+    }
+
     try {
       const body: Record<
         string,
@@ -1313,28 +1326,12 @@ function BlockSection({
           "New recovery instruction";
       }
 
-      if (newType === "VIDEO") {
-        body.externalUrl =
-          "https://www.youtube.com/watch?v=";
-
-        body.mediaAlt =
-          "Recovery video";
-      }
-
       if (newType === "BOOKING") {
         body.bookingType =
           "EITHER";
 
         body.buttonLabel =
           "Book your follow-up";
-      }
-
-      /*
-       * IMAGE blocks are created through
-       * the upload UI below instead.
-       */
-      if (newType === "IMAGE") {
-        return;
       }
 
       await api(
@@ -1361,6 +1358,67 @@ function BlockSection({
     }
   }
 
+  async function handleMediaUploaded(
+    media: {
+      objectPath: string;
+      publicUrl: string | null;
+      contentType: string;
+      sizeBytes: number;
+    },
+  ) {
+    try {
+      if (
+        newType !== "IMAGE" &&
+        newType !== "VIDEO"
+      ) {
+        return;
+      }
+
+      await api(
+        `/api/admin/post-op/templates/${templateId}/steps/${step.id}/blocks`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            type: newType,
+
+            objectPath:
+              media.objectPath,
+
+            /*
+             * Default template media is public,
+             * so keep the public GCS URL for
+             * rendering while Prisma stores the
+             * objectPath as the source reference.
+             */
+            externalUrl:
+              media.publicUrl,
+
+            mediaAlt:
+              newType === "IMAGE"
+                ? "PostOp instruction"
+                : "PostOp recovery video",
+          }),
+        },
+      );
+
+      setShowMediaUploader(false);
+
+      await refresh();
+    } catch (err) {
+      reportError(
+        err instanceof Error
+          ? err.message
+          : "Failed to create media block.",
+      );
+    }
+  }
+
   return (
     <div className="border-t border-neutral-100 pt-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -1378,12 +1436,16 @@ function BlockSection({
         <div className="flex gap-2">
           <select
             value={newType}
-            onChange={(event) =>
+            onChange={(event) => {
               setNewType(
                 event.target
                   .value as PostOpBlockDto["type"],
-              )
-            }
+              );
+
+              setShowMediaUploader(
+                false,
+              );
+            }}
             className="rounded-xl border border-neutral-200 bg-white px-3 text-sm"
           >
             <option value="TEXT">
@@ -1403,28 +1465,62 @@ function BlockSection({
             </option>
           </select>
 
-          {newType === "IMAGE" ? (
-            <ImageUploadButton
-              templateId={
-                templateId
-              }
-              stepId={step.id}
-              refresh={refresh}
-              reportError={
-                reportError
-              }
-            />
-          ) : (
-            <Button
-              variant="secondary"
-              onClick={addBlock}
-            >
-              <Plus className="size-4" />
-              Add
-            </Button>
-          )}
+          <Button
+            variant="secondary"
+            onClick={addBlock}
+          >
+            <Plus className="size-4" />
+            Add
+          </Button>
         </div>
       </div>
+
+      {showMediaUploader &&
+        (newType === "IMAGE" ||
+          newType === "VIDEO") && (
+          <div className="mt-4 rounded-2xl border border-[#283C5D]/10 bg-[#FAF9F7] p-4">
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-semibold text-[#283C5D]">
+                  {newType === "IMAGE"
+                    ? "Upload image"
+                    : "Upload video"}
+                </p>
+
+                <p className="mt-1 text-xs leading-5 text-neutral-500">
+                  {newType === "IMAGE"
+                    ? "Upload an image for this recovery step."
+                    : "Upload a video for this recovery step."}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setShowMediaUploader(
+                    false,
+                  )
+                }
+                className="rounded-full p-2 text-neutral-400 transition hover:bg-white hover:text-[#283C5D]"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
+            <PostOpMediaUploader
+              purpose="TEMPLATE"
+              templateId={templateId}
+              accept={
+                newType === "IMAGE"
+                  ? "image"
+                  : "video"
+              }
+              onUploaded={
+                handleMediaUploaded
+              }
+            />
+          </div>
+        )}
 
       <div className="mt-4 space-y-3">
         {step.blocks.map(
@@ -1489,8 +1585,14 @@ function BlockEditor({
   const [form, setForm] =
     useState(block);
 
+  const [
+    replacingMedia,
+    setReplacingMedia,
+  ] = useState(false);
+
   useEffect(() => {
     setForm(block);
+    setReplacingMedia(false);
   }, [block]);
 
   const endpoint =
@@ -1540,6 +1642,59 @@ function BlockEditor({
         err instanceof Error
           ? err.message
           : "Failed to save block.",
+      );
+    }
+  }
+
+  async function replaceMedia(
+    media: {
+      objectPath: string;
+      publicUrl: string | null;
+      contentType: string;
+      sizeBytes: number;
+    },
+  ) {
+    try {
+      if (
+        block.type !== "IMAGE" &&
+        block.type !== "VIDEO"
+      ) {
+        return;
+      }
+
+      await api(endpoint, {
+        method: "PATCH",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+
+        body: JSON.stringify({
+          type: block.type,
+
+          objectPath:
+            media.objectPath,
+
+          externalUrl:
+            media.publicUrl,
+
+          mediaAlt:
+            form.mediaAlt,
+
+          sortOrder:
+            form.sortOrder,
+        }),
+      });
+
+      setReplacingMedia(false);
+
+      await refresh();
+    } catch (err) {
+      reportError(
+        err instanceof Error
+          ? err.message
+          : "Failed to replace media.",
       );
     }
   }
@@ -1663,7 +1818,23 @@ function BlockEditor({
       )}
 
       {block.type === "IMAGE" && (
-        <>
+        <div className="space-y-3">
+          {form.externalUrl && (
+            <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={
+                  form.externalUrl
+                }
+                alt={
+                  form.mediaAlt ??
+                  "PostOp image"
+                }
+                className="max-h-64 w-full object-contain"
+              />
+            </div>
+          )}
+
           <input
             value={
               form.mediaAlt ?? ""
@@ -1680,30 +1851,79 @@ function BlockEditor({
             className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm"
           />
 
-          <p className="mt-2 truncate text-xs text-neutral-400">
-            {form.objectPath}
-          </p>
-        </>
+          {form.objectPath && (
+            <p className="truncate text-xs text-neutral-400">
+              {form.objectPath}
+            </p>
+          )}
+
+          {!replacingMedia ? (
+            <Button
+              variant="secondary"
+              onClick={() =>
+                setReplacingMedia(
+                  true,
+                )
+              }
+            >
+              Replace image
+            </Button>
+          ) : (
+            <div className="rounded-xl border border-neutral-200 bg-white p-4">
+              <PostOpMediaUploader
+                purpose="TEMPLATE"
+                templateId={
+                  templateId
+                }
+                accept="image"
+                onUploaded={
+                  replaceMedia
+                }
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setReplacingMedia(
+                    false,
+                  )
+                }
+                className="mt-3 text-xs font-medium text-neutral-500 hover:text-[#283C5D]"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </div>
       )}
 
       {block.type === "VIDEO" && (
-        <div className="space-y-2">
-          <input
-            value={
-              form.externalUrl ??
-              ""
-            }
-            onChange={(event) =>
-              setForm({
-                ...form,
+        <div className="space-y-3">
+          {form.externalUrl &&
+            form.objectPath && (
+              <div className="overflow-hidden rounded-xl border border-neutral-200 bg-black">
+                <video
+                  src={
+                    form.externalUrl
+                  }
+                  controls
+                  className="max-h-72 w-full"
+                />
+              </div>
+            )}
 
-                externalUrl:
-                  event.target.value,
-              })
-            }
-            placeholder="Video URL"
-            className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm"
-          />
+          {form.externalUrl &&
+            !form.objectPath && (
+              <div className="rounded-xl border border-neutral-200 bg-white p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+                  External video
+                </p>
+
+                <p className="mt-2 break-all text-sm text-[#283C5D]">
+                  {form.externalUrl}
+                </p>
+              </div>
+            )}
 
           <input
             value={
@@ -1720,6 +1940,50 @@ function BlockEditor({
             placeholder="Video title"
             className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm"
           />
+
+          {form.objectPath && (
+            <p className="truncate text-xs text-neutral-400">
+              {form.objectPath}
+            </p>
+          )}
+
+          {!replacingMedia ? (
+            <Button
+              variant="secondary"
+              onClick={() =>
+                setReplacingMedia(
+                  true,
+                )
+              }
+            >
+              Replace video
+            </Button>
+          ) : (
+            <div className="rounded-xl border border-neutral-200 bg-white p-4">
+              <PostOpMediaUploader
+                purpose="TEMPLATE"
+                templateId={
+                  templateId
+                }
+                accept="video"
+                onUploaded={
+                  replaceMedia
+                }
+              />
+
+              <button
+                type="button"
+                onClick={() =>
+                  setReplacingMedia(
+                    false,
+                  )
+                }
+                className="mt-3 text-xs font-medium text-neutral-500 hover:text-[#283C5D]"
+              >
+                Cancel
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -1806,147 +2070,6 @@ function BlockEditor({
   );
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   IMAGE UPLOAD
-═══════════════════════════════════════════════════════════════ */
-
-function ImageUploadButton({
-  templateId,
-  stepId,
-  refresh,
-  reportError,
-}: {
-  templateId: string;
-  stepId: string;
-
-  refresh: () => Promise<void>;
-
-  reportError: (
-    message: string | null,
-  ) => void;
-}) {
-  const [uploading, setUploading] =
-    useState(false);
-
-  async function upload(
-    file: File,
-  ) {
-    setUploading(true);
-
-    try {
-      const signed = await api<{
-        uploadUrl: string;
-        objectPath: string;
-        publicUrl: string | null;
-      }>("/images/upload-url", {
-        method: "POST",
-
-        headers: {
-          "Content-Type":
-            "application/json",
-        },
-
-        body: JSON.stringify({
-          contentType:
-            file.type,
-
-          access: "public",
-
-          folder: `post-op/templates/${templateId}`,
-        }),
-      });
-
-      const uploadResponse =
-        await fetch(
-          signed.uploadUrl,
-          {
-            method: "PUT",
-
-            headers: {
-              "Content-Type":
-                file.type,
-            },
-
-            body: file,
-          },
-        );
-
-      if (!uploadResponse.ok) {
-        throw new Error(
-          "Image upload failed.",
-        );
-      }
-
-      await api(
-        `/api/admin/post-op/templates/${templateId}/steps/${stepId}/blocks`,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-
-          body: JSON.stringify({
-            type: "IMAGE",
-
-            objectPath:
-              signed.objectPath,
-
-            /*
-             * Store the public instruction
-             * asset URL for rendering.
-             */
-            externalUrl:
-              signed.publicUrl,
-
-            mediaAlt:
-              file.name,
-          }),
-        },
-      );
-
-      await refresh();
-    } catch (err) {
-      reportError(
-        err instanceof Error
-          ? err.message
-          : "Image upload failed.",
-      );
-    } finally {
-      setUploading(false);
-    }
-  }
-
-  return (
-    <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl border border-[#283C5D]/10 bg-white px-3.5 py-2.5 text-sm font-medium text-[#283C5D]">
-      {uploading ? (
-        <Loader2 className="size-4 animate-spin" />
-      ) : (
-        <ImageIcon className="size-4" />
-      )}
-
-      Add image
-
-      <input
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        disabled={uploading}
-        className="hidden"
-        onChange={(event) => {
-          const file =
-            event.target.files?.[0];
-
-          if (file) {
-            void upload(file);
-          }
-
-          event.target.value = "";
-        }}
-      />
-    </label>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════════════
    REMINDERS

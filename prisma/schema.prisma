@@ -999,6 +999,7 @@ model PostOpTemplate {
    * keep track of which default it originated from.
    */
   sourceTemplateId String?
+  sourceTemplateVersion Int?
 
   sourceTemplate PostOpTemplate? @relation("PostOpTemplateSource", fields: [sourceTemplateId], references: [id], onDelete: SetNull)
 

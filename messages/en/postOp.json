@@ -1,0 +1,387 @@
+{
+  "doctor": {
+    "postOpTemplates": {
+      "eyebrow": "PostOp",
+      "title": "Recovery templates",
+      "description": "Manage the recovery experience your patients receive after each procedure.",
+      "customizedCount": "Customized",
+      "procedures": "Your procedures",
+      "searchPlaceholder": "Search procedures...",
+      "noSearchResults": "No procedures found.",
+      "selectProcedure": "Select a procedure to manage its recovery template.",
+      "default": "Esthetic Match default",
+      "customized": "Customized",
+      "unavailable": "No template",
+      "version": "Version {version}",
+      "overview": "Overview",
+      "preview": "Preview",
+      "patientPreview": "Patient view",
+      "customize": "Customize",
+      "edit": "Edit",
+      "editCustomization": "Edit customization",
+      "save": "Save",
+      "reset": "Reset to default",
+      "cancel": "Cancel",
+      "defaultOverviewTitle": "You're using the Esthetic Match recovery plan",
+      "defaultOverviewDescription": "Your patients currently receive the platform recovery template. Customize it if you want to adapt the instructions, timing, media or reminders to your own practice.",
+      "customOverviewTitle": "Your customized recovery plan",
+      "customOverviewDescription": "This procedure uses your own recovery template instead of the Esthetic Match default.",
+      "steps": "Recovery steps",
+      "blocks": "content blocks",
+      "contentBlocks": "Content blocks",
+      "globalReminders": "Global reminders",
+      "noTemplateTitle": "No recovery template yet",
+      "noTemplateDescription": "There is currently no PostOp template available for {procedure} in this language.",
+      "messages": {
+        "customized": "Recovery template customized.",
+        "saved": "Changes saved.",
+        "reset": "Template reset to the Esthetic Match default."
+      },
+      "errors": {
+        "load": "Failed to load the recovery template.",
+        "customize": "Failed to customize the template.",
+        "save": "Failed to save the template.",
+        "reset": "Failed to reset the template."
+      },
+      "resetDialog": {
+        "title": "Reset to default?",
+        "description": "Your customization for {procedure} will be removed and future patients will use the current Esthetic Match default template. Existing patient recovery plans will not change.",
+        "confirm": "Reset template"
+      },
+      "editor": {
+          "journeyTitle": "Recovery journey",
+          "journeySubtitle": "{count, plural, one {# recovery step} other {# recovery steps}}",
+          "details": "Plan details",
+          "detailsSubtitle": "Title and description",
+          "globalReminders": "Global reminders",
+          "reminderCount": "{count, plural, one {# reminder} other {# reminders}}",
+          "recoverySteps": "Recovery steps",
+          "addStep": "Add step",
+          "newStepTitle": "Recovery step {number}",
+          "stepSummary": "{blocks, plural, one {# block} other {# blocks}} • {reminders, plural, one {# reminder} other {# reminders}}",
+
+          "planDetails": "Plan details",
+          "planDetailsTitle": "Recovery plan information",
+          "planDetailsDescription": "Manage the title and description patients will see for this recovery plan.",
+          "steps": "Steps",
+          "contentBlocks": "Content blocks",
+          "templateTitle": "Plan title",
+          "templateTitleHelp": "This title will be displayed to patients throughout their recovery journey.",
+          "description": "Description",
+          "descriptionHelp": "Provide a short overview of the recovery plan and what the patient should expect.",
+          "saveChanges": "Save changes",
+
+          "recoveryStep": "Recovery step {number}",
+          "blocks": "blocks",
+          "reminders": "reminders",
+          "moveUp": "Move up",
+          "moveDown": "Move down",
+          "deleteStep": "Delete step",
+          "cancel": "Cancel",
+          "delete": "Delete",
+
+          "stepDetails": "Step details",
+          "stepDetailsDescription": "Define when this stage begins, how it progresses and what the patient should do.",
+          "stepTitle": "Step title",
+          "patientInstructions": "Patient instructions",
+          "progression": "Step progression",
+          "automatic": "Automatic",
+          "automaticDescription": "The step is completed automatically after the defined period.",
+          "manual": "Manual",
+          "manualDescription": "The patient manually marks this step as completed.",
+          "startsAfter": "Starts after",
+          "completesAfter": "Completes after",
+          "hours": "hours",
+          "manualCompletion": "Manual completion",
+          "saveStep": "Save step",
+
+          "patientContent": "Patient content",
+          "patientContentDescription": "Add instructions, images, videos and booking actions for this recovery step.",
+          "items": "items",
+          "text": "Text",
+          "image": "Image",
+          "video": "Video",
+          "booking": "Booking",
+
+          "newInstruction": "Add your instructions here.",
+          "defaultBookingButton": "Book an appointment",
+          "recoveryImage": "Recovery image",
+          "recoveryVideo": "Recovery video",
+
+          "uploadImage": "Upload image",
+          "uploadImageHelp": "Upload an image to help explain the patient's recovery instructions.",
+          "uploadVideo": "Add recovery video",
+          "uploadVideoHelp": "Upload a video or add an external video link.",
+          "or": "or",
+          "videoUrlPlaceholder": "Paste a video URL...",
+          "addVideo": "Add video",
+
+          "noContent": "No content yet",
+          "noContentDescription": "Add text, images, videos or a booking action to this recovery step.",
+
+          "textInstruction": "Text instruction",
+          "imageInstruction": "Image instruction",
+          "videoInstruction": "Video instruction",
+          "bookingAction": "Booking action",
+
+          "instruction": "Instruction",
+          "mediaDescription": "Image description",
+          "replaceImage": "Replace image",
+          "videoUrl": "Video URL",
+          "videoTitle": "Video title",
+          "bookingType": "Appointment type",
+          "either": "In clinic or online",
+          "inClinic": "In clinic",
+          "online": "Online",
+          "buttonLabel": "Button label",
+          "bookingUrl": "Booking URL",
+          "remove": "Remove",
+          "confirmRemove": "Delete this content?",
+          "save": "Save",
+
+          "stepReminders": "Step reminders",
+          "stepRemindersDescription": "Add important instructions or reminders that apply during this recovery step.",
+          "globalRemindersDescription": "Create reminders that remain relevant throughout the patient's recovery journey.",
+          "addReminder": "Add reminder",
+          "newReminder": "Add your reminder here.",
+
+          "noReminders": "No reminders yet",
+          "noGlobalRemindersDescription": "Add reminders that should apply throughout the entire recovery journey.",
+          "noStepRemindersDescription": "Add reminders or important instructions for this recovery step.",
+
+          "notificationsOn": "Notifications on",
+          "reminderType": "Reminder type",
+          "do": "Do",
+          "dont": "Don't",
+          "general": "General",
+          "reminderText": "Reminder",
+          "endsAfter": "Ends after",
+          "keepVisible": "Keep visible",
+          "keepVisibleDescription": "Keep this reminder visible to the patient while it is active.",
+          "notifications": "Notifications",
+          "notificationsDescription": "Send the patient notifications for this reminder.",
+          "repeatEvery": "Repeat every",
+
+          "immediately": "Immediately",
+          "afterDays": "{count, plural, one {After # day} other {After # days}}",
+          "afterHours": "{count, plural, one {After # hour} other {After # hours}}",
+
+          "messages": {
+            "stepAdded": "Recovery step added.",
+            "detailsSaved": "Plan details saved.",
+            "stepSaved": "Recovery step saved.",
+            "stepDeleted": "Recovery step deleted.",
+            "contentAdded": "Content added.",
+            "mediaAdded": "Media added.",
+            "contentSaved": "Content saved.",
+            "contentDeleted": "Content deleted.",
+            "mediaReplaced": "Media replaced.",
+            "reminderAdded": "Reminder added.",
+            "reminderSaved": "Reminder saved.",
+            "reminderDeleted": "Reminder deleted."
+          },
+      
+          "errors": {
+            "addStep": "Unable to add the recovery step.",
+            "saveDetails": "Unable to save the plan details.",
+            "saveStep": "Unable to save the recovery step.",
+            "reorderStep": "Unable to reorder the recovery steps.",
+            "deleteStep": "Unable to delete the recovery step.",
+            "addContent": "Unable to add the content.",
+            "saveContent": "Unable to save the content.",
+            "deleteContent": "Unable to delete the content.",
+            "reorderContent": "Unable to reorder the content.",
+            "replaceMedia": "Unable to replace the media.",
+            "addReminder": "Unable to add the reminder.",
+            "saveReminder": "Unable to save the reminder.",
+            "deleteReminder": "Unable to delete the reminder.",
+            "reorderReminder": "Unable to reorder the reminders."
+          }
+        }
+    },
+     "newPostOp": {
+    "title": "Create a PostOp journey",
+    "description": "Set up a personalised recovery journey for your patient by selecting the procedure, patient, procedure date and recovery plan.",
+
+    "back": "Back",
+    "continue": "Continue",
+    "createJourney": "Create journey",
+
+    "progress": {
+      "procedure": "Procedure",
+      "patient": "Patient",
+      "schedule": "Schedule",
+      "confirm": "Confirm"
+    },
+
+    "procedure": {
+      "title": "Select the procedure",
+      "description": "Choose the procedure performed for this patient. Your available procedures are based on your doctor profile.",
+      "loadingPlan": "Loading recovery plan...",
+      "customPlan": "Your custom recovery plan",
+      "defaultPlan": "Default recovery plan",
+      "planSummary": "{steps, plural, one {# step} other {# steps}} • {reminders, plural, one {# reminder} other {# reminders}}",
+      "buildPlan": "Build recovery plan",
+      "noPlan": "No recovery plan available",
+      "noPlanDescription": "There is currently no recovery plan for this procedure. Create a new custom plan before starting the patient's PostOp journey.",
+      "createPlan": "Create recovery plan"
+    },
+
+    "patient": {
+      "title": "Select the patient",
+      "description": "Choose an existing Esthetic Match patient or enter the details of a patient who is not registered.",
+      "registered": "Registered patient",
+      "notRegistered": "Patient not registered",
+      "search": "Search by patient name or email...",
+      "name": "Patient name",
+      "email": "Patient email"
+    },
+
+    "schedule": {
+      "title": "Procedure date and time",
+      "description": "Enter when the procedure was performed. The recovery journey will be scheduled from this date and time.",
+      "date": "Procedure date",
+      "time": "Procedure time"
+    },
+
+    "confirm": {
+      "title": "Confirm the recovery journey",
+      "description": "Review the patient, procedure and recovery plan before creating the PostOp journey.",
+      "patient": "Patient",
+      "procedure": "Procedure",
+      "customPlan": "Custom recovery plan",
+      "defaultPlan": "Default recovery plan",
+      "steps": "Steps"
+    },
+
+    "success": {
+      "title": "PostOp journey created",
+      "description": "The patient's recovery journey has been created successfully and the recovery plan is ready.",
+      "viewCases": "View PostOp cases",
+      "createAnother": "Create another"
+    },
+
+    "errors": {
+      "template": "Unable to load the recovery plan.",
+      "createTemplate": "Unable to create a recovery plan.",
+      "selectProcedure": "Please select a procedure before continuing.",
+      "noTemplate": "This procedure does not have a recovery plan yet.",
+      "emptyTemplate": "The recovery plan must contain at least one step before you can continue.",
+      "patient": "Please select a patient or enter the patient's details.",
+      "date": "Please enter a valid procedure date and time.",
+      "create": "Unable to create the PostOp journey."
+    }
+  }
+  },
+    "postOp": {
+    "invitation": {
+      "loading": "Securing your recovery journey...",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "dateOfBirth": "Date of birth",
+      "security": "Your recovery information is private and can only be accessed by the patient this invitation was sent to.",
+
+      "summary": {
+        "title": "Your recovery journey, prepared for you.",
+        "description": "Follow your doctor's guidance, recovery milestones and reminders in one secure place.",
+        "procedure": "Procedure",
+        "date": "Procedure date",
+        "plan": "Recovery plan",
+        "steps": "{count, plural, one {# recovery step} other {# recovery steps}}",
+        "preparedBy": "Prepared by"
+      },
+
+      "ready": {
+        "eyebrow": "You're verified",
+        "title": "Welcome, {name}",
+        "description": "You're signed in with the account this recovery invitation belongs to. Activate your plan to continue.",
+        "button": "Activate my recovery plan"
+      },
+
+      "signIn": {
+        "eyebrow": "Welcome back",
+        "title": "Sign in to continue",
+        "description": "A patient account already exists for this email. Sign in to securely access your recovery plan.",
+        "button": "Sign in and continue"
+      },
+
+      "signUp": {
+        "eyebrow": "Your patient account",
+        "title": "Welcome, {name}",
+        "description": "Create your secure Esthetic Match patient account to access your recovery journey.",
+        "privacy": "Your email is locked to this invitation so your recovery plan cannot be claimed by another account.",
+        "button": "Create my account"
+      },
+
+      "verify": {
+        "eyebrow": "One last step",
+        "title": "Verify your email",
+        "description": "Enter the six-digit code we sent to {email}.",
+        "expires": "The verification code expires after 5 minutes.",
+        "button": "Verify and continue",
+        "resend": "Send a new code",
+        "resent": "A new verification code has been sent."
+      },
+
+      "wrongAccount": {
+        "eyebrow": "Account mismatch",
+        "title": "This invitation belongs to another email",
+        "description": "For your privacy, recovery plans can only be activated by the account they were originally sent to.",
+        "invited": "Invitation sent to",
+        "current": "Currently signed in as",
+        "button": "Sign out and use the correct account"
+      },
+
+      "used": {
+        "eyebrow": "Already activated",
+        "title": "Your recovery journey is already active",
+        "description": "You've already claimed this invitation. Your recovery plan is available from your patient dashboard.",
+        "button": "Go to my dashboard",
+        "signInTitle": "Your recovery plan is already active",
+        "signInDescription": "Sign in with the patient account this invitation was claimed with to continue.",
+        "otherTitle": "This invitation has already been used",
+        "otherDescription": "This recovery invitation has already been claimed and cannot be activated again."
+      },
+
+      "expired": {
+        "eyebrow": "Invitation expired",
+        "title": "This link has expired",
+        "description": "For security, recovery invitations are only valid for a limited time. Please ask your doctor to send you a new invitation."
+      },
+
+      "revoked": {
+        "eyebrow": "Invitation unavailable",
+        "title": "This invitation has been revoked",
+        "description": "This recovery invitation is no longer active. Please contact your doctor if you believe you still need access."
+      },
+
+      "invalid": {
+        "eyebrow": "Invalid invitation",
+        "title": "We couldn't find this recovery invitation",
+        "description": "The link may be incomplete or no longer valid. Please check the invitation email or contact your doctor."
+      },
+
+      "success": {
+        "title": "You're all set",
+        "description": "Your recovery journey is now securely connected to your Esthetic Match patient account.",
+        "continue": "Continue to my dashboard"
+      },
+
+      "errors": {
+        "load": "We couldn't load this recovery invitation.",
+        "claim": "We couldn't activate your recovery plan.",
+        "passwordRequired": "Please enter your password.",
+        "signIn": "We couldn't sign you in.",
+        "signUp": "We couldn't create your patient account.",
+        "dateOfBirth": "Please enter your date of birth.",
+        "passwordLength": "Your password must contain at least 8 characters.",
+        "passwordMismatch": "The passwords do not match.",
+        "invalidOtp": "The verification code is invalid or has expired.",
+        "resendOtp": "We couldn't send another verification code.",
+        "signInAfterVerification": "Your email was verified, but we couldn't sign you in.",
+        "signOut": "We couldn't sign out of the current account."
+      }
+    }
+  }
+}

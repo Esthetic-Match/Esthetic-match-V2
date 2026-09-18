@@ -1,0 +1,387 @@
+{
+  "doctor": {
+    "postOpTemplates": {
+      "eyebrow": "PostOp",
+      "title": "Protocoles de récupération",
+      "description": "Gérez l'expérience de récupération que vos patients reçoivent après chaque procédure.",
+      "customizedCount": "Personnalisés",
+      "procedures": "Vos procédures",
+      "searchPlaceholder": "Rechercher une procédure...",
+      "noSearchResults": "Aucune procédure trouvée.",
+      "selectProcedure": "Sélectionnez une procédure pour gérer son protocole de récupération.",
+      "default": "Modèle Esthetic Match",
+      "customized": "Personnalisé",
+      "unavailable": "Aucun modèle",
+      "version": "Version {version}",
+      "overview": "Aperçu",
+      "preview": "Aperçu",
+      "patientPreview": "Vue patient",
+      "customize": "Personnaliser",
+      "edit": "Modifier",
+      "editCustomization": "Modifier la personnalisation",
+      "save": "Enregistrer",
+      "reset": "Réinitialiser",
+      "cancel": "Annuler",
+      "defaultOverviewTitle": "Vous utilisez le protocole de récupération Esthetic Match",
+      "defaultOverviewDescription": "Vos patients reçoivent actuellement le protocole par défaut de la plateforme. Personnalisez-le pour adapter les instructions, le calendrier, les médias ou les rappels à votre pratique.",
+      "customOverviewTitle": "Votre protocole personnalisé",
+      "customOverviewDescription": "Cette procédure utilise votre propre protocole de récupération à la place du modèle Esthetic Match.",
+      "steps": "Étapes",
+      "blocks": "blocs de contenu",
+      "contentBlocks": "Blocs de contenu",
+      "globalReminders": "Rappels globaux",
+      "noTemplateTitle": "Aucun protocole disponible",
+      "noTemplateDescription": "Aucun protocole PostOp n'est actuellement disponible pour {procedure} dans cette langue.",
+      "messages": {
+        "customized": "Protocole personnalisé.",
+        "saved": "Modifications enregistrées.",
+        "reset": "Le protocole Esthetic Match par défaut a été restauré."
+      },
+      "errors": {
+        "load": "Impossible de charger le protocole.",
+        "customize": "Impossible de personnaliser le protocole.",
+        "save": "Impossible d'enregistrer le protocole.",
+        "reset": "Impossible de réinitialiser le protocole."
+      },
+      "resetDialog": {
+        "title": "Revenir au modèle par défaut ?",
+        "description": "Votre personnalisation pour {procedure} sera supprimée et les futurs patients utiliseront le modèle Esthetic Match actuel. Les parcours de récupération déjà attribués aux patients ne seront pas modifiés.",
+        "confirm": "Réinitialiser"
+      },
+      "editor": {
+          "journeyTitle": "Parcours de récupération",
+          "journeySubtitle": "{count, plural, one {# étape de récupération} other {# étapes de récupération}}",
+          "details": "Détails du protocole",
+          "detailsSubtitle": "Titre et description",
+          "globalReminders": "Rappels globaux",
+          "reminderCount": "{count, plural, one {# rappel} other {# rappels}}",
+          "recoverySteps": "Étapes de récupération",
+          "addStep": "Ajouter une étape",
+          "newStepTitle": "Étape de récupération {number}",
+          "stepSummary": "{blocks, plural, one {# bloc} other {# blocs}} • {reminders, plural, one {# rappel} other {# rappels}}",
+
+          "planDetails": "Détails du protocole",
+          "planDetailsTitle": "Informations du protocole de récupération",
+          "planDetailsDescription": "Gérez le titre et la description que les patients verront pour ce protocole de récupération.",
+          "steps": "Étapes",
+          "contentBlocks": "Blocs de contenu",
+          "templateTitle": "Titre du protocole",
+          "templateTitleHelp": "Ce titre sera affiché aux patients tout au long de leur parcours de récupération.",
+          "description": "Description",
+          "descriptionHelp": "Présentez brièvement le protocole de récupération et ce à quoi le patient doit s'attendre.",
+          "saveChanges": "Enregistrer les modifications",
+
+          "recoveryStep": "Étape de récupération {number}",
+          "blocks": "blocs",
+          "reminders": "rappels",
+          "moveUp": "Déplacer vers le haut",
+          "moveDown": "Déplacer vers le bas",
+          "deleteStep": "Supprimer l'étape",
+          "cancel": "Annuler",
+          "delete": "Supprimer",
+
+          "stepDetails": "Détails de l'étape",
+          "stepDetailsDescription": "Définissez quand cette étape commence, comment elle progresse et ce que le patient doit faire.",
+          "stepTitle": "Titre de l'étape",
+          "patientInstructions": "Instructions pour le patient",
+          "progression": "Progression de l'étape",
+          "automatic": "Automatique",
+          "automaticDescription": "L'étape est automatiquement terminée après la période définie.",
+          "manual": "Manuelle",
+          "manualDescription": "Le patient marque lui-même cette étape comme terminée.",
+          "startsAfter": "Commence après",
+          "completesAfter": "Se termine après",
+          "hours": "heures",
+          "manualCompletion": "Validation manuelle",
+          "saveStep": "Enregistrer l'étape",
+
+          "patientContent": "Contenu pour le patient",
+          "patientContentDescription": "Ajoutez des instructions, images, vidéos et actions de prise de rendez-vous pour cette étape.",
+          "items": "éléments",
+          "text": "Texte",
+          "image": "Image",
+          "video": "Vidéo",
+          "booking": "Rendez-vous",
+
+          "newInstruction": "Ajoutez vos instructions ici.",
+          "defaultBookingButton": "Prendre rendez-vous",
+          "recoveryImage": "Image de récupération",
+          "recoveryVideo": "Vidéo de récupération",
+
+          "uploadImage": "Importer une image",
+          "uploadImageHelp": "Ajoutez une image pour illustrer les instructions de récupération du patient.",
+          "uploadVideo": "Ajouter une vidéo de récupération",
+          "uploadVideoHelp": "Importez une vidéo ou ajoutez un lien vers une vidéo externe.",
+          "or": "ou",
+          "videoUrlPlaceholder": "Collez l'URL d'une vidéo...",
+          "addVideo": "Ajouter la vidéo",
+
+          "noContent": "Aucun contenu",
+          "noContentDescription": "Ajoutez du texte, des images, des vidéos ou une action de prise de rendez-vous à cette étape.",
+
+          "textInstruction": "Instruction textuelle",
+          "imageInstruction": "Instruction avec image",
+          "videoInstruction": "Instruction vidéo",
+          "bookingAction": "Prise de rendez-vous",
+
+          "instruction": "Instruction",
+          "mediaDescription": "Description de l'image",
+          "replaceImage": "Remplacer l'image",
+          "videoUrl": "URL de la vidéo",
+          "videoTitle": "Titre de la vidéo",
+          "bookingType": "Type de rendez-vous",
+          "either": "En cabinet ou en ligne",
+          "inClinic": "En cabinet",
+          "online": "En ligne",
+          "buttonLabel": "Libellé du bouton",
+          "bookingUrl": "URL de réservation",
+          "remove": "Supprimer",
+          "confirmRemove": "Supprimer ce contenu ?",
+          "save": "Enregistrer",
+
+          "stepReminders": "Rappels de l'étape",
+          "stepRemindersDescription": "Ajoutez des instructions ou rappels importants applicables pendant cette étape de récupération.",
+          "globalRemindersDescription": "Créez des rappels qui restent pertinents tout au long du parcours de récupération du patient.",
+          "addReminder": "Ajouter un rappel",
+          "newReminder": "Ajoutez votre rappel ici.",
+
+          "noReminders": "Aucun rappel",
+          "noGlobalRemindersDescription": "Ajoutez des rappels qui s'appliquent à l'ensemble du parcours de récupération.",
+          "noStepRemindersDescription": "Ajoutez des rappels ou des instructions importantes pour cette étape de récupération.",
+
+          "notificationsOn": "Notifications activées",
+          "reminderType": "Type de rappel",
+          "do": "À faire",
+          "dont": "À éviter",
+          "general": "Général",
+          "reminderText": "Rappel",
+          "endsAfter": "Se termine après",
+          "keepVisible": "Garder visible",
+          "keepVisibleDescription": "Gardez ce rappel visible pour le patient pendant toute sa période d'activité.",
+          "notifications": "Notifications",
+          "notificationsDescription": "Envoyez des notifications au patient pour ce rappel.",
+          "repeatEvery": "Répéter toutes les",
+
+          "immediately": "Immédiatement",
+          "afterDays": "{count, plural, one {Après # jour} other {Après # jours}}",
+          "afterHours": "{count, plural, one {Après # heure} other {Après # heures}}",
+
+          "messages": {
+            "stepAdded": "Étape de récupération ajoutée.",
+            "detailsSaved": "Détails du protocole enregistrés.",
+            "stepSaved": "Étape de récupération enregistrée.",
+            "stepDeleted": "Étape de récupération supprimée.",
+            "contentAdded": "Contenu ajouté.",
+            "mediaAdded": "Média ajouté.",
+            "contentSaved": "Contenu enregistré.",
+            "contentDeleted": "Contenu supprimé.",
+            "mediaReplaced": "Média remplacé.",
+            "reminderAdded": "Rappel ajouté.",
+            "reminderSaved": "Rappel enregistré.",
+            "reminderDeleted": "Rappel supprimé."
+          },
+      
+          "errors": {
+            "addStep": "Impossible d'ajouter l'étape de récupération.",
+            "saveDetails": "Impossible d'enregistrer les détails du protocole.",
+            "saveStep": "Impossible d'enregistrer l'étape de récupération.",
+            "reorderStep": "Impossible de réorganiser les étapes de récupération.",
+            "deleteStep": "Impossible de supprimer l'étape de récupération.",
+            "addContent": "Impossible d'ajouter le contenu.",
+            "saveContent": "Impossible d'enregistrer le contenu.",
+            "deleteContent": "Impossible de supprimer le contenu.",
+            "reorderContent": "Impossible de réorganiser le contenu.",
+            "replaceMedia": "Impossible de remplacer le média.",
+            "addReminder": "Impossible d'ajouter le rappel.",
+            "saveReminder": "Impossible d'enregistrer le rappel.",
+            "deleteReminder": "Impossible de supprimer le rappel.",
+            "reorderReminder": "Impossible de réorganiser les rappels."
+          }
+        }
+    },
+      "newPostOp": {
+    "title": "Créer un parcours PostOp",
+    "description": "Configurez un parcours de récupération personnalisé pour votre patient en sélectionnant l’intervention, le patient, la date de l’intervention et le plan de suivi.",
+
+    "back": "Retour",
+    "continue": "Continuer",
+    "createJourney": "Créer le parcours",
+
+    "progress": {
+      "procedure": "Intervention",
+      "patient": "Patient",
+      "schedule": "Planification",
+      "confirm": "Confirmation"
+    },
+
+    "procedure": {
+      "title": "Sélectionner l’intervention",
+      "description": "Choisissez l’intervention réalisée pour ce patient. Les interventions disponibles correspondent à celles renseignées sur votre profil médecin.",
+      "loadingPlan": "Chargement du plan de récupération...",
+      "customPlan": "Votre plan de récupération personnalisé",
+      "defaultPlan": "Plan de récupération par défaut",
+      "planSummary": "{steps, plural, one {# étape} other {# étapes}} • {reminders, plural, one {# rappel} other {# rappels}}",
+      "buildPlan": "Créer le plan de récupération",
+      "noPlan": "Aucun plan de récupération disponible",
+      "noPlanDescription": "Aucun plan de récupération n'est actuellement disponible pour cette intervention. Créez un nouveau plan personnalisé avant de démarrer le parcours PostOp du patient.",
+      "createPlan": "Créer un plan de récupération"
+    },
+
+    "patient": {
+      "title": "Sélectionner le patient",
+      "description": "Choisissez un patient Esthetic Match existant ou saisissez les informations d'un patient qui n'est pas encore inscrit.",
+      "registered": "Patient inscrit",
+      "notRegistered": "Patient non inscrit",
+      "search": "Rechercher par nom ou adresse e-mail...",
+      "name": "Nom du patient",
+      "email": "E-mail du patient"
+    },
+
+    "schedule": {
+      "title": "Date et heure de l’intervention",
+      "description": "Indiquez la date et l'heure auxquelles l'intervention a été réalisée. Le parcours de récupération sera planifié à partir de ce moment.",
+      "date": "Date de l’intervention",
+      "time": "Heure de l’intervention"
+    },
+
+    "confirm": {
+      "title": "Confirmer le parcours de récupération",
+      "description": "Vérifiez le patient, l’intervention et le plan de récupération avant de créer le parcours PostOp.",
+      "patient": "Patient",
+      "procedure": "Intervention",
+      "customPlan": "Plan de récupération personnalisé",
+      "defaultPlan": "Plan de récupération par défaut",
+      "steps": "Étapes"
+    },
+
+    "success": {
+      "title": "Parcours PostOp créé",
+      "description": "Le parcours de récupération du patient a été créé avec succès et son plan de suivi est prêt.",
+      "viewCases": "Voir les dossiers PostOp",
+      "createAnother": "En créer un autre"
+    },
+
+    "errors": {
+      "template": "Impossible de charger le plan de récupération.",
+      "createTemplate": "Impossible de créer le plan de récupération.",
+      "selectProcedure": "Veuillez sélectionner une intervention avant de continuer.",
+      "noTemplate": "Cette intervention ne possède pas encore de plan de récupération.",
+      "emptyTemplate": "Le plan de récupération doit contenir au moins une étape avant de pouvoir continuer.",
+      "patient": "Veuillez sélectionner un patient ou saisir ses informations.",
+      "date": "Veuillez saisir une date et une heure d'intervention valides.",
+      "create": "Impossible de créer le parcours PostOp."
+    }
+  }
+  },
+   "postOp": {
+    "invitation": {
+      "loading": "Sécurisation de votre parcours de récupération...",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "dateOfBirth": "Date de naissance",
+      "security": "Vos informations de récupération sont privées et accessibles uniquement au patient auquel cette invitation a été envoyée.",
+
+      "summary": {
+        "title": "Votre parcours de récupération, préparé pour vous.",
+        "description": "Suivez les recommandations de votre médecin, vos étapes de récupération et vos rappels dans un espace sécurisé.",
+        "procedure": "Procédure",
+        "date": "Date de l'intervention",
+        "plan": "Protocole de récupération",
+        "steps": "{count, plural, one {# étape de récupération} other {# étapes de récupération}}",
+        "preparedBy": "Préparé par"
+      },
+
+      "ready": {
+        "eyebrow": "Identité vérifiée",
+        "title": "Bienvenue, {name}",
+        "description": "Vous êtes connecté avec le compte associé à cette invitation. Activez votre protocole pour continuer.",
+        "button": "Activer mon protocole"
+      },
+
+      "signIn": {
+        "eyebrow": "Bon retour",
+        "title": "Connectez-vous pour continuer",
+        "description": "Un compte patient existe déjà pour cette adresse e-mail. Connectez-vous pour accéder à votre protocole de récupération.",
+        "button": "Se connecter et continuer"
+      },
+
+      "signUp": {
+        "eyebrow": "Votre compte patient",
+        "title": "Bienvenue, {name}",
+        "description": "Créez votre compte patient Esthetic Match sécurisé pour accéder à votre parcours de récupération.",
+        "privacy": "Votre adresse e-mail est liée à cette invitation afin qu'aucun autre compte ne puisse récupérer votre protocole.",
+        "button": "Créer mon compte"
+      },
+
+      "verify": {
+        "eyebrow": "Une dernière étape",
+        "title": "Vérifiez votre adresse e-mail",
+        "description": "Saisissez le code à six chiffres envoyé à {email}.",
+        "expires": "Le code de vérification expire après 5 minutes.",
+        "button": "Vérifier et continuer",
+        "resend": "Envoyer un nouveau code",
+        "resent": "Un nouveau code de vérification a été envoyé."
+      },
+
+      "wrongAccount": {
+        "eyebrow": "Compte différent",
+        "title": "Cette invitation appartient à une autre adresse e-mail",
+        "description": "Pour protéger vos informations, un protocole ne peut être activé que par le compte auquel l'invitation a été envoyée.",
+        "invited": "Invitation envoyée à",
+        "current": "Actuellement connecté avec",
+        "button": "Se déconnecter et utiliser le bon compte"
+      },
+
+      "used": {
+        "eyebrow": "Déjà activé",
+        "title": "Votre parcours de récupération est déjà actif",
+        "description": "Vous avez déjà utilisé cette invitation. Votre protocole est disponible depuis votre espace patient.",
+        "button": "Accéder à mon espace",
+        "signInTitle": "Votre protocole est déjà actif",
+        "signInDescription": "Connectez-vous avec le compte patient ayant utilisé cette invitation pour continuer.",
+        "otherTitle": "Cette invitation a déjà été utilisée",
+        "otherDescription": "Cette invitation de récupération a déjà été utilisée et ne peut pas être activée une seconde fois."
+      },
+
+      "expired": {
+        "eyebrow": "Invitation expirée",
+        "title": "Ce lien a expiré",
+        "description": "Pour des raisons de sécurité, les invitations de récupération ont une durée limitée. Demandez à votre médecin de vous envoyer une nouvelle invitation."
+      },
+
+      "revoked": {
+        "eyebrow": "Invitation indisponible",
+        "title": "Cette invitation a été révoquée",
+        "description": "Cette invitation n'est plus active. Contactez votre médecin si vous pensez toujours avoir besoin d'un accès."
+      },
+
+      "invalid": {
+        "eyebrow": "Invitation invalide",
+        "title": "Cette invitation est introuvable",
+        "description": "Le lien est peut-être incomplet ou n'est plus valide. Vérifiez l'e-mail reçu ou contactez votre médecin."
+      },
+
+      "success": {
+        "title": "Tout est prêt",
+        "description": "Votre parcours de récupération est maintenant associé en toute sécurité à votre compte patient Esthetic Match.",
+        "continue": "Accéder à mon espace"
+      },
+
+      "errors": {
+        "load": "Impossible de charger cette invitation.",
+        "claim": "Impossible d'activer votre protocole de récupération.",
+        "passwordRequired": "Veuillez saisir votre mot de passe.",
+        "signIn": "Impossible de vous connecter.",
+        "signUp": "Impossible de créer votre compte patient.",
+        "dateOfBirth": "Veuillez saisir votre date de naissance.",
+        "passwordLength": "Votre mot de passe doit contenir au moins 8 caractères.",
+        "passwordMismatch": "Les mots de passe ne correspondent pas.",
+        "invalidOtp": "Le code de vérification est invalide ou a expiré.",
+        "resendOtp": "Impossible d'envoyer un nouveau code de vérification.",
+        "signInAfterVerification": "Votre adresse e-mail a été vérifiée, mais la connexion a échoué.",
+        "signOut": "Impossible de vous déconnecter du compte actuel."
+      }
+    }
+  }
+}

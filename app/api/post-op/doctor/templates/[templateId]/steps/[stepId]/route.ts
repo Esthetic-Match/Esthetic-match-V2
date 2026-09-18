@@ -6,12 +6,14 @@ import {
 import { prisma } from "@/lib/database/prisma";
 
 import {
-  requirePostOpAdmin,
-} from "@/lib/post-op/authorization";
-
-import {
   handlePostOpAuthorizationError,
 } from "@/lib/post-op/authorization-response";
+
+import {
+  requireDoctorOffersProcedure,
+  requireDoctorOwnedPostOpTemplate,
+  requirePostOpDoctorActor,
+} from "@/lib/post-op/doctor-templates";
 
 import {
   validatePostOpCompletionConfig,
@@ -32,32 +34,49 @@ type RouteContext = {
   }>;
 };
 
-/* ═══════════════════════════════════════════════════════════════
-   PATCH
-═══════════════════════════════════════════════════════════════ */
+async function requireTemplateAccess(
+  templateId: string,
+) {
+  const {
+    doctorProfile,
+  } =
+    await requirePostOpDoctorActor();
+
+  const template =
+    await requireDoctorOwnedPostOpTemplate({
+      doctorProfileId:
+        doctorProfile.id,
+
+      templateId,
+    });
+
+  await requireDoctorOffersProcedure(
+    doctorProfile.id,
+    template.procedureId,
+  );
+
+  return template;
+}
 
 export async function PATCH(
   request: NextRequest,
   context: RouteContext,
 ) {
   try {
-    await requirePostOpAdmin();
-
     const {
       templateId,
       stepId,
     } = await context.params;
+
+    await requireTemplateAccess(
+      templateId,
+    );
 
     const existing =
       await prisma.postOpTemplateStep.findFirst({
         where: {
           id: stepId,
           templateId,
-
-          template: {
-            scope: "DEFAULT",
-            doctorProfileId: null,
-          },
         },
 
         select: {
@@ -90,13 +109,10 @@ export async function PATCH(
     const body =
       await request.json();
 
-    /* ─────────────────────────────────────
-       TITLE
-    ───────────────────────────────────── */
-
     const title =
       body.title !== undefined
-        ? typeof body.title === "string"
+        ? typeof body.title ===
+          "string"
           ? body.title.trim()
           : ""
         : existing.title;
@@ -113,10 +129,6 @@ export async function PATCH(
       );
     }
 
-    /* ─────────────────────────────────────
-       DESCRIPTION
-    ───────────────────────────────────── */
-
     const description =
       body.description !== undefined
         ? body.description === null
@@ -127,17 +139,15 @@ export async function PATCH(
             : null
         : existing.description;
 
-    /* ─────────────────────────────────────
-       COMPLETION MODE
-    ───────────────────────────────────── */
-
     const completionMode =
-      body.completionMode !== undefined
+      body.completionMode !==
+      undefined
         ? body.completionMode
         : existing.completionMode;
 
     if (
-      completionMode !== "TIME_BASED" &&
+      completionMode !==
+        "TIME_BASED" &&
       completionMode !== "MANUAL"
     ) {
       return NextResponse.json(
@@ -151,28 +161,23 @@ export async function PATCH(
       );
     }
 
-    /* ─────────────────────────────────────
-       TIMING
-    ───────────────────────────────────── */
-
     const startsAfterHours =
-      body.startsAfterHours !== undefined
+      body.startsAfterHours !==
+      undefined
         ? body.startsAfterHours
         : existing.startsAfterHours;
 
     let completesAfterHours =
-      body.completesAfterHours !== undefined
+      body.completesAfterHours !==
+      undefined
         ? body.completesAfterHours
         : existing.completesAfterHours;
 
-    /*
-     * When switching to MANUAL, clear
-     * automatic completion timing unless
-     * explicitly supplied.
-     */
     if (
-      body.completionMode === "MANUAL" &&
-      body.completesAfterHours === undefined
+      body.completionMode ===
+        "MANUAL" &&
+      body.completesAfterHours ===
+        undefined
     ) {
       completesAfterHours = null;
     }
@@ -196,10 +201,6 @@ export async function PATCH(
       );
     }
 
-    /* ─────────────────────────────────────
-       SORT ORDER
-    ───────────────────────────────────── */
-
     const sortOrder =
       body.sortOrder !== undefined
         ? body.sortOrder
@@ -219,10 +220,6 @@ export async function PATCH(
         },
       );
     }
-
-    /* ─────────────────────────────────────
-       UPDATE
-    ───────────────────────────────────── */
 
     const step =
       await prisma.$transaction(
@@ -272,14 +269,14 @@ export async function PATCH(
     }
 
     console.error(
-      "Failed to update PostOp template step:",
+      "Failed to update doctor PostOp step:",
       error,
     );
 
     return NextResponse.json(
       {
         error:
-          "Failed to update PostOp template step.",
+          "Failed to update PostOp step.",
       },
       {
         status: 500,
@@ -288,32 +285,25 @@ export async function PATCH(
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   DELETE
-═══════════════════════════════════════════════════════════════ */
-
 export async function DELETE(
   _request: NextRequest,
   context: RouteContext,
 ) {
   try {
-    await requirePostOpAdmin();
-
     const {
       templateId,
       stepId,
     } = await context.params;
 
-    const existing =
+    await requireTemplateAccess(
+      templateId,
+    );
+
+    const step =
       await prisma.postOpTemplateStep.findFirst({
         where: {
           id: stepId,
           templateId,
-
-          template: {
-            scope: "DEFAULT",
-            doctorProfileId: null,
-          },
         },
 
         select: {
@@ -321,7 +311,7 @@ export async function DELETE(
         },
       });
 
-    if (!existing) {
+    if (!step) {
       return NextResponse.json(
         {
           error:
@@ -362,14 +352,14 @@ export async function DELETE(
     }
 
     console.error(
-      "Failed to delete PostOp template step:",
+      "Failed to delete doctor PostOp step:",
       error,
     );
 
     return NextResponse.json(
       {
         error:
-          "Failed to delete PostOp template step.",
+          "Failed to delete PostOp step.",
       },
       {
         status: 500,

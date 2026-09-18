@@ -19,6 +19,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       onboarding: (await import(`../messages/${locale}/onboarding.json`)).default,
       payment: (await import(`../messages/${locale}/payment.json`)).default,
       doctor: (await import(`../messages/${locale}/doctor.json`)).default,
+      postOp: (await import(`../messages/${locale}/postOp.json`)).default,
       proceduresName: (await import(`../messages/${locale}/proceduresName.json`)).default,
       dashboard: (await import(`../messages/${locale}/dashboard.json`)).default,
       procedureEdit: (await import(`../messages/${locale}/procedureEdit.json`)).default,

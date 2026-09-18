@@ -6,35 +6,46 @@ import {
 import { prisma } from "@/lib/database/prisma";
 
 import {
-  requirePostOpAdmin,
+  requireDoctorPostOpCaseAccess,
+  requirePatientPostOpCaseAccess,
 } from "@/lib/post-op/authorization";
 
 import {
   handlePostOpAuthorizationError,
 } from "@/lib/post-op/authorization-response";
 
-import {
-  validatePostOpCompletionConfig,
-} from "@/lib/post-op/completion";
-
-import {
-  postOpTemplateStepSelect,
-} from "@/lib/post-op/selects";
-
-import {
-  incrementPostOpTemplateVersion,
-} from "@/lib/post-op/template-version";
-
 type RouteContext = {
   params: Promise<{
-    templateId: string;
+    caseId: string;
     stepId: string;
   }>;
 };
 
+type StepAction =
+  | "COMPLETE"
+  | "REOPEN";
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESS
+═══════════════════════════════════════════════════════════════ */
+
+async function requireCaseAccess(
+  caseId: string,
+) {
+  try {
+    return await requireDoctorPostOpCaseAccess(
+      caseId,
+    );
+  } catch {
+    return await requirePatientPostOpCaseAccess(
+      caseId,
+    );
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════
    PATCH
-   Update template step
+   Complete or reopen a case step
 ═══════════════════════════════════════════════════════════════ */
 
 export async function PATCH(
@@ -42,38 +53,45 @@ export async function PATCH(
   context: RouteContext,
 ) {
   try {
-    await requirePostOpAdmin();
-
     const {
-      templateId,
+      caseId,
       stepId,
     } = await context.params;
 
+    await requireCaseAccess(
+      caseId,
+    );
+
+    /* ─────────────────────────────────────
+       FIND STEP
+    ───────────────────────────────────── */
+
     const existing =
-      await prisma.postOpTemplateStep.findFirst({
+      await prisma.postOpCaseStep.findFirst({
         where: {
           id: stepId,
-
-          templateId,
-
-          template: {
-            scope: "DEFAULT",
-            doctorProfileId: null,
-          },
+          caseId,
         },
 
         select: {
           id: true,
+          caseId: true,
+
+          sourceTemplateStepId:
+            true,
 
           title: true,
           description: true,
 
-          startsAfterHours: true,
-          completesAfterHours: true,
+          sortOrder: true,
 
           completionMode: true,
 
-          sortOrder: true,
+          startsAt: true,
+          completesAt: true,
+
+          completedAt: true,
+          skippedAt: true,
         },
       });
 
@@ -81,7 +99,7 @@ export async function PATCH(
       return NextResponse.json(
         {
           error:
-            "PostOp template step not found.",
+            "PostOp case step not found.",
         },
         {
           status: 404,
@@ -89,25 +107,26 @@ export async function PATCH(
       );
     }
 
+    /* ─────────────────────────────────────
+       BODY
+    ───────────────────────────────────── */
+
     const body =
       await request.json();
 
-    /* ─────────────────────────────────────
-       TITLE
-    ───────────────────────────────────── */
+    const action =
+      body.action as
+        | StepAction
+        | undefined;
 
-    const title =
-      body.title !== undefined
-        ? typeof body.title === "string"
-          ? body.title.trim()
-          : ""
-        : existing.title;
-
-    if (!title) {
+    if (
+      action !== "COMPLETE" &&
+      action !== "REOPEN"
+    ) {
       return NextResponse.json(
         {
           error:
-            "title is required.",
+            "action must be COMPLETE or REOPEN.",
         },
         {
           status: 400,
@@ -116,156 +135,120 @@ export async function PATCH(
     }
 
     /* ─────────────────────────────────────
-       DESCRIPTION
+       COMPLETE
     ───────────────────────────────────── */
-
-    const description =
-      body.description !== undefined
-        ? body.description === null
-          ? null
-          : typeof body.description ===
-              "string"
-            ? body.description.trim()
-            : null
-        : existing.description;
-
-    /* ─────────────────────────────────────
-       COMPLETION MODE
-    ───────────────────────────────────── */
-
-    const completionMode =
-      body.completionMode !== undefined
-        ? body.completionMode
-        : existing.completionMode;
 
     if (
-      completionMode !==
-        "TIME_BASED" &&
-      completionMode !== "MANUAL"
+      action === "COMPLETE"
     ) {
-      return NextResponse.json(
-        {
-          error:
-            "completionMode must be TIME_BASED or MANUAL.",
-        },
-        {
-          status: 400,
-        },
-      );
-    }
+      const step =
+        await prisma.postOpCaseStep.update({
+          where: {
+            id: stepId,
+          },
 
-    /* ─────────────────────────────────────
-       TIMING
-    ───────────────────────────────────── */
+          data: {
+            completedAt:
+              new Date(),
 
-    const startsAfterHours =
-      body.startsAfterHours !==
-      undefined
-        ? body.startsAfterHours
-        : existing.startsAfterHours;
+            skippedAt:
+              null,
+          },
 
-    let completesAfterHours =
-      body.completesAfterHours !==
-      undefined
-        ? body.completesAfterHours
-        : existing.completesAfterHours;
+          select: {
+            id: true,
+            caseId: true,
 
-    /*
-     * When switching from TIME_BASED
-     * to MANUAL, null completion is valid.
-     */
-    if (
-      completionMode === "MANUAL" &&
-      body.completesAfterHours ===
-        undefined &&
-      body.completionMode ===
-        "MANUAL"
-    ) {
-      completesAfterHours = null;
-    }
+            sourceTemplateStepId:
+              true,
 
-    const timingValidation =
-      validatePostOpCompletionConfig({
-        completionMode,
+            title: true,
+            description: true,
 
-        startsAfterHours,
+            sortOrder: true,
 
-        completesAfterHours,
+            completionMode: true,
+
+            startsAt: true,
+            completesAt: true,
+
+            completedAt: true,
+            skippedAt: true,
+
+            blocks: {
+              orderBy: {
+                sortOrder:
+                  "asc",
+              },
+            },
+
+            reminders: {
+              orderBy: {
+                sortOrder:
+                  "asc",
+              },
+            },
+          },
+        });
+
+      return NextResponse.json({
+        step,
       });
-
-    if (!timingValidation.valid) {
-      return NextResponse.json(
-        {
-          error:
-            timingValidation.error,
-        },
-        {
-          status: 400,
-        },
-      );
     }
 
     /* ─────────────────────────────────────
-       SORT ORDER
-    ───────────────────────────────────── */
-
-    const sortOrder =
-      body.sortOrder !== undefined
-        ? body.sortOrder
-        : existing.sortOrder;
-
-    if (
-      !Number.isInteger(sortOrder) ||
-      sortOrder < 0
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "sortOrder must be a non-negative integer.",
-        },
-        {
-          status: 400,
-        },
-      );
-    }
-
-    /* ─────────────────────────────────────
-       UPDATE
+       REOPEN
     ───────────────────────────────────── */
 
     const step =
-      await prisma.$transaction(
-        async (tx) => {
-          const updated =
-            await tx.postOpTemplateStep.update({
-              where: {
-                id: stepId,
-              },
-
-              data: {
-                title,
-                description,
-
-                startsAfterHours,
-                completesAfterHours,
-
-                completionMode,
-
-                sortOrder,
-              },
-
-              select:
-                postOpTemplateStepSelect,
-            });
-
-          await incrementPostOpTemplateVersion(
-            tx,
-            templateId,
-          );
-
-          return updated;
+      await prisma.postOpCaseStep.update({
+        where: {
+          id: stepId,
         },
-      );
+
+        data: {
+          completedAt:
+            null,
+
+          skippedAt:
+            null,
+        },
+
+        select: {
+          id: true,
+          caseId: true,
+
+          sourceTemplateStepId:
+            true,
+
+          title: true,
+          description: true,
+
+          sortOrder: true,
+
+          completionMode: true,
+
+          startsAt: true,
+          completesAt: true,
+
+          completedAt: true,
+          skippedAt: true,
+
+          blocks: {
+            orderBy: {
+              sortOrder:
+                "asc",
+            },
+          },
+
+          reminders: {
+            orderBy: {
+              sortOrder:
+                "asc",
+            },
+          },
+        },
+      });
 
     return NextResponse.json({
       step,
@@ -281,111 +264,14 @@ export async function PATCH(
     }
 
     console.error(
-      "Failed to update PostOp template step:",
+      "Failed to update PostOp case step:",
       error,
     );
 
     return NextResponse.json(
       {
         error:
-          "Failed to update PostOp template step.",
-      },
-      {
-        status: 500,
-      },
-    );
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   DELETE
-   Delete template step
-═══════════════════════════════════════════════════════════════ */
-
-export async function DELETE(
-  _request: NextRequest,
-  context: RouteContext,
-) {
-  try {
-    await requirePostOpAdmin();
-
-    const {
-      templateId,
-      stepId,
-    } = await context.params;
-
-    const existing =
-      await prisma.postOpTemplateStep.findFirst({
-        where: {
-          id: stepId,
-
-          templateId,
-
-          template: {
-            scope: "DEFAULT",
-            doctorProfileId: null,
-          },
-        },
-
-        select: {
-          id: true,
-        },
-      });
-
-    if (!existing) {
-      return NextResponse.json(
-        {
-          error:
-            "PostOp template step not found.",
-        },
-        {
-          status: 404,
-        },
-      );
-    }
-
-    await prisma.$transaction(
-      async (tx) => {
-        /*
-         * Blocks + step reminders should
-         * cascade from this step based on
-         * the schema we created.
-         */
-        await tx.postOpTemplateStep.delete({
-          where: {
-            id: stepId,
-          },
-        });
-
-        await incrementPostOpTemplateVersion(
-          tx,
-          templateId,
-        );
-      },
-    );
-
-    return NextResponse.json({
-      success: true,
-    });
-  } catch (error) {
-    const authResponse =
-      handlePostOpAuthorizationError(
-        error,
-      );
-
-    if (authResponse) {
-      return authResponse;
-    }
-
-    console.error(
-      "Failed to delete PostOp template step:",
-      error,
-    );
-
-    return NextResponse.json(
-      {
-        error:
-          "Failed to delete PostOp template step.",
+          "Failed to update PostOp case step.",
       },
       {
         status: 500,
